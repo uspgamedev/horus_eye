@@ -12,8 +12,7 @@ namespace framework {
 
 // Vetores de 2 dimensoes.
 // As entradas do vetor sao valores float.
-class Vector2D
-{
+class Vector2D {
   public:
     // Construtores e destrutores
     Vector2D() : x_(0.0), y_(0.0) { }
@@ -40,14 +39,13 @@ class Vector2D
     float x_, y_;
 };
 
+// Overload de operadores
 Vector2D operator+(const Vector2D& left_value,
                    const Vector2D& right_value);
 Vector2D operator-(const Vector2D& left_value,
                    const Vector2D& right_value);
 Vector2D operator*(const Vector2D& left_value,
                    const float& scalar);
-
-
 
 }  // namespace framework
 

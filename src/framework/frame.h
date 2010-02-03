@@ -23,8 +23,7 @@ namespace framework {
 //        |                  |
 //        +------------------+
 //                        (right,bottom)
-class Frame
-{
+class Frame {
   public:
     // Construtores e destrutores
     Frame() : left_(0), top_(0), right_(0), bottom_(0) { }

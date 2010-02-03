@@ -11,8 +11,7 @@
 namespace framework {
 
 // TODO(HenriqueG): descricao de como a classe TimeHandler foi(sera) implementada
-class TimeHandler
-{
+class TimeHandler {
   public:
     // Construtores e destrutores
     TimeHandler() { 
