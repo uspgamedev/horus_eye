@@ -40,6 +40,15 @@ class Vector2D
     float x_, y_;
 };
 
+Vector2D operator+(const Vector2D& left_value,
+                   const Vector2D& right_value);
+Vector2D operator-(const Vector2D& left_value,
+                   const Vector2D& right_value);
+Vector2D operator*(const Vector2D& left_value,
+                   const float& scalar);
+
+
+
 }  // namespace framework
 
 #endif  // HORUSEYE_FRAMEWORK_VECTOR2D_H_

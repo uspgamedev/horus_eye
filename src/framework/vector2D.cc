@@ -15,7 +15,6 @@ namespace framework {
 // Devolve a norma do vetor
 float Vector2D::length() const
 {
-//    return sqrt(Vector2D::InnerProduct(this, this));
     return sqrt((x_ * x_) + (y_ * y_));
 }
 
@@ -24,27 +23,27 @@ float Vector2D::length() const
 // Devolve a + b
 Vector2D Vector2D::Add(Vector2D a, Vector2D b)
 {
-    Vector2D c;
-    c.set_x(a.x() + b.x());
-    c.set_y(a.y() + b.y());
-    return c;
+    Vector2D ret;
+    ret.set_x(a.x() + b.x());
+    ret.set_y(a.y() + b.y());
+    return ret;
 }
 // Devolve a - b
 Vector2D Vector2D::Subtract(Vector2D a, Vector2D b)
 {
-    Vector2D c;
-    c.set_x(a.x() - b.x());
-    c.set_y(a.y() - b.y());
+    Vector2D ret;
+    ret.set_x(a.x() - b.x());
+    ret.set_y(a.y() - b.y());
 
-    return c;
+    return ret;
 }
 // Devolve scalar . a
 Vector2D Vector2D::Multiply(Vector2D a, float scalar)
 {
-    Vector2D c;
-    c.set_x(a.x() * scalar);
-    c.set_y(a.y() * scalar);
-    return c;
+    Vector2D ret;
+    ret.set_x(a.x() * scalar);
+    ret.set_y(a.y() * scalar);
+    return ret;
 }
 // Devolve <a,b>
 float Vector2D::InnerProduct(Vector2D a, Vector2D b)
@@ -54,10 +53,29 @@ float Vector2D::InnerProduct(Vector2D a, Vector2D b)
 // Devolve o vetor a normalizado
 Vector2D Vector2D::Normalized(Vector2D a)
 {
-    Vector2D c;
-    c.set_x(a.x() / a.length());
-    c.set_y(a.y() / a.length());
-    return c;
+    Vector2D ret;
+    ret.set_x(a.x() / a.length());
+    ret.set_y(a.y() / a.length());
+    return ret;
 }
+
+Vector2D operator+(const Vector2D& left_value,
+                   const Vector2D& right_value) {
+    return Vector2D::Add(left_value, right_value);
+}
+
+Vector2D operator-(const Vector2D& left_value,
+                   const Vector2D& right_value) {
+    return Vector2D::Subtract(left_value, right_value);
+}
+
+Vector2D operator*(const Vector2D& left_value,
+                   const float& scalar) {
+    return Vector2D::Multiply(left_value, scalar);
+}
+
+
+
+
 
 }  // namespace framework
