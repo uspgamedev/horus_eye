@@ -67,6 +67,7 @@ Vector2D operator-(const Vector2D& left_value,
     return Vector2D::Subtract(left_value, right_value);
 }
 
+
 Vector2D operator*(const Vector2D& left_value,
                    const float& scalar) {
     return Vector2D::Multiply(left_value, scalar);
