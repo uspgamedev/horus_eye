@@ -1,9 +1,10 @@
-/*
- * Scene.h
- *
- *  Created on: 04/02/2010
- *      Author: Kazuo
- */
+//
+// Horus Eye - Framework
+// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
+//
+// framework/scene.h
+// Definicao da classe Scene.
+//
 
 #ifndef HORUSEYE_FRAMEWORK_SCENE_H_
 #define HORUSEYE_FRAMEWORK_SCENE_H_
@@ -13,6 +14,10 @@
 
 namespace framework {
 
+// Classe Scene
+// Representa uma CENA, que contem varias camadas de graficos.
+// Uma cena e uma "tela" inteira do jogo, como por exemplo o main menu,
+// ou o jogo em si (onde ocorre a acao).
 class Scene {
   public:
     // The Evil Constructor!
