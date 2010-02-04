@@ -20,7 +20,7 @@ float Vector2D::length() const {
 // Metodos estaticos
 
 // Devolve a + b
-Vector2D Vector2D::Add(Vector2D a, Vector2D b) 
+Vector2D Vector2D::Add(Vector2D a, Vector2D b) {
     Vector2D ret;
     ret.set_x(a.x() + b.x());
     ret.set_y(a.y() + b.y());
