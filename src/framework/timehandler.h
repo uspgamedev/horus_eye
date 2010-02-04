@@ -14,22 +14,31 @@ namespace framework {
 class TimeHandler {
   public:
     // Construtores e destrutores
-    TimeHandler() { 
-        initial_time = SDL_GetTicks();
-    }
+    TimeHandler();
     ~TimeHandler() { }
     
     // TODO(HenriqueG): implementar todas as seguintes funcoes
+    
+    // Informa ao TimeHandler que uma nova iteracao iniciou
     void Update();
-    Uint32 ElapsedTime();
+    
+    // Devolve quanto tempo se passou desde a inicializacao, em milisegundos
+    Uint32 TimeElapsed();
+    
+    // Devolve quanto tempo se passou desde a iteracao anterior, em milisegundos
     Uint32 TimeDifference();
+    
+    // Devolve quanto tempo se passou desde um ponto no tempo
     Uint32 TimeSince(Uint32 t0);
+    
+    
     void Pause();
     void Resume();
     bool IsPaused();
     
    private:
-    Uint32 initial_time, last_update;
+    Uint32 initial_time_, current_time_, last_update_, time_paused_;
+    bool paused_;
 }
 
 }  // namespace framework
