@@ -9,7 +9,7 @@
 
 namespace framework {
 
-TimeHandler::TimeHandler { 
+TimeHandler::TimeHandler() {
     last_update_ = current_time_ = initial_time_ = SDL_GetTicks();
     paused_ = false;
     time_paused_ = 0;
