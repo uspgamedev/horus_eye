@@ -15,8 +15,8 @@ namespace framework {
 
 class Sprite {
   public:
-    Sprite(Image& image);
-    Sprite(Image& image, Vector2D position);
+    Sprite(Image *image);
+    Sprite(Image *image, Vector2D position);
     ~Sprite() { }
 
 
@@ -48,15 +48,15 @@ class Sprite {
     // ======================================================================
     void SelectAnimation(Animation& animation);
 
-    void Render(Image& back_buffer);
+    void Render(Image *back_buffer);
 
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
   private:
     Vector2D position_;
-    Image& image_;
-    Animation& animation_;
+    Image *image_;
+    Animation *animation_;
     bool visible_;
 
 };

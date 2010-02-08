@@ -2,20 +2,20 @@
 
 namespace framework {
 
-Sprite::Sprite(Image& image) {
+Sprite::Sprite(Image *image) {
     image_ = image;
     visible_ = true;
     animation_ = NULL;
 }
 
-Sprite::Sprite(Image& image, Vector2D position) {
+Sprite::Sprite(Image *image, Vector2D position) {
     image_ = image;
     visible_ = true;
     animation_ = NULL;
     position_ = position; 
 }
 
-void Sprite::SelectAnimation(Animation& animation) {
+void Sprite::SelectAnimation(Animation *animation) {
     animation_ = animation;
 }
 
