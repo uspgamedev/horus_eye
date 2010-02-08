@@ -31,6 +31,19 @@
 		<Compiler>
 			<Add option="-Wall" />
 		</Compiler>
+		<Linker>
+			<Add option="-lmingw32 -lSDL -lSDLmain" />
+		</Linker>
+		<Unit filename="..\src\framework\frame.cc" />
+		<Unit filename="..\src\framework\frame.h" />
+		<Unit filename="..\src\framework\layer.h" />
+		<Unit filename="..\src\framework\scene.h" />
+		<Unit filename="..\src\framework\sprite.h" />
+		<Unit filename="..\src\framework\timehandler.h" />
+		<Unit filename="..\src\framework\vector2D.cc" />
+		<Unit filename="..\src\framework\vector2D.h" />
+		<Unit filename="..\src\sandbox\LEIAME.txt" />
+		<Unit filename="..\src\sandbox\teste_frame.cc" />
 		<Extensions>
 			<code_completion />
 			<debugger />
