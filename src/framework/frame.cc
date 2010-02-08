@@ -13,9 +13,9 @@ namespace framework {
 // 'frame' e este retangulo
 bool Frame::Collides(const Frame& frame) const {
     // se houver colisao no eixo-x...
-    if(left() < frame.right() && right() > frame.left()) {
+    if (left() < frame.right() && right() > frame.left()) {
         // e se houver colisao no eixo-y...
-        if(top() < frame.bottom() && bottom() > frame.top()) {
+        if (top() < frame.bottom() && bottom() > frame.top()) {
             return true;
         }
     }
