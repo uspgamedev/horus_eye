@@ -8,6 +8,7 @@
 #include <SDL/SDL_image.h>
 #include "image.h"
 #include "frame.h"
+#include "videomanager.h"
 
 namespace framework {
 
@@ -16,14 +17,14 @@ namespace framework {
 bool Image::Create(const Vector2D& size) {
     VideoManager *video = Main::getReference()->getVideoManager();
     SDL_Surface *screen = video->getScreen()->data_;
-    int width = int(size.x());
-    int height = int(size.y());
-    int depth = VIDEOMANAGER_COLOR_DEPTH;
+    int width = static_cast<int>(size.x());
+    int height = static_cast<int>(size.y());
+    int depth = VideoManager::COLOR_DEPTH;
     Uint32 flags = SDL_HWSURFACE | SDL_SRCCOLORKEY;
 
     data_ = SDL_CreateRGBSurface(flags, width, height, depth,
-                                screen->format->Rmask, screen->format->Gmask,
-                                screen->format->Bmask, screen->format->Amask);
+                                 screen->format->Rmask, screen->format->Gmask,
+                                 screen->format->Bmask, screen->format->Amask);
 
     set_frame_size(Vector2D(this->width(), this->height()));
     return (data_ != NULL);
@@ -98,7 +99,20 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
 // devolve o numero de frames que esta imagem armazena
 int Image::FrameCount() const {
     return static_cast<int>((width()/frame_size_.x())
-                           * (height()/frame_size_.y()));
+                            * (height()/frame_size_.y()));
+}
+
+// cria uma superficie de video.
+// Voce nao deve libera-la porque a SDL ja faz isso
+// Devolve true em caso de sucesso
+bool Image::CreateVideoSurface(const Vector2D& size) {
+    int width = static_cast<int>(size.x());
+    int height = static_cast<int>(size.y());
+
+    data_ = SDL_SetVideoMode(width, height, VideoManager::COLOR_DEPTH,
+                             SDL_HWSURFACE);
+
+    return (data_ != NULL);
 }
 
 }  // namespace framework

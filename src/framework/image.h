@@ -49,7 +49,12 @@ class Image {
   private:
     SDL_Surface *data_;
     Vector2D frame_size_;
-    bool LoadFromFile(const string& file); // apenas o VideoManager acessa
+
+    // apenas o VideoManager acessa
+    bool LoadFromFile(const string& file);
+
+    // apenas o VideoManager acessa
+    bool CreateVideoSurface(const Vector2D& size);
 };
 
 }
