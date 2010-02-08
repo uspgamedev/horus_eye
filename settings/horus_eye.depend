@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1265654633 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\vector2d.cc
+	<math.h>
+	"vector2D.h"
+
+1265654633 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\vector2d.h
+
+1265654633 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\sandbox\teste_frame.cc
+	<iostream>
+	"../framework/frame.h"
+
+1265654633 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.h
+
+1265654633 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.cc
+	"frame.h"
+
