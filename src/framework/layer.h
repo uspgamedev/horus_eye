@@ -11,11 +11,7 @@
 
 #include <list>
 #include "vector2D.h"
-//#include "sprite.h"
-
-class Sprite {
-    int x;
-};
+#include "sprite.h"
 
 namespace framework {
 

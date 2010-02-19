@@ -16,7 +16,7 @@ void Layer::Update(float delta_t) {
     list<Sprite*>::iterator it = sprite_list_.begin();
 
     while (it != sprite_list_.end()) {
-        (*it).update(delta_t);
+        (*it).Update(delta_t);
         ++it;
     }
 }

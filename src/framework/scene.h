@@ -21,10 +21,7 @@ namespace framework {
 class Scene {
   public:
     // The Evil Constructor!
-    Scene() {
-        // TODO Auto-generated constructor stub
-
-    }
+    Scene() {}
     // The Good Destructor!
     virtual ~Scene();
 
