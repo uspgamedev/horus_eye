@@ -22,9 +22,7 @@ void Sprite::SelectAnimation(Animation *animation) {
 void Sprite::Render(Image *back_buffer) {
     if (visible_) {
         int frame_number = animation_.get_current_frame();
-        //FIXME
-        Image::Mirror mirror = NULL; 
-        image_.DrawTo(back_buffer, position, frame_number, mirror);
+        image_.DrawTo(back_buffer, position, frame_number, mirror_);
     }
 }
 

@@ -17,14 +17,14 @@ class Sprite {
   public:
     Sprite(Image *image);
     Sprite(Image *image, Vector2D position);
-    virtual ~Sprite() { }
+    ~Sprite() { }
 
 
     // Acessors e mutators
     Vector2D position() const { return position_; }
     void set_position(Vector2D position) { position_ = position; }
 
-    bool visible() const { return visible; }
+    bool visible() const { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
 
 
@@ -53,9 +53,13 @@ class Sprite {
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
+    Mirror mirror() const { return mirror_; }
+    void set_mirror(Mirror mirror) { mirror_ = mirror; }
+
   private:
     Vector2D position_;
     Image *image_;
+    Mirror mirror_;
     Animation *animation_;
     bool visible_;
 
