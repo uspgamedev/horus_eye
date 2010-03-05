@@ -16,7 +16,7 @@ namespace framework {
 
 // Classe Scene
 // Representa uma CENA, que contem varias camadas de graficos.
-// Uma cena e uma "tela" inteira do jogo, como por exemplo o main menu,
+// Uma cena e´ uma "tela" inteira do jogo, como por exemplo o main menu,
 // ou o jogo em si (onde ocorre a acao).
 class Scene {
   public:
@@ -25,19 +25,21 @@ class Scene {
     // The Good Destructor!
     virtual ~Scene();
 
-    // Funcoes basicas pra adicionar e remover layers...
+    // Funcoes basicas pra adicionar e remover layers.
     void AddLayer(Layer *layer) { layers_.push_back(layer); };
     void RemoveLayer(Layer *layer) { layers_.remove(layer); };
 
-    // Atualiza a logica da cena...
+    // Atualiza a logica da cena.
     virtual void Update(float delta_t);
 
-    // Redesenha o grafico da cena...
+    // Redesenha o grafico da cena.
     void Render();
 
   protected:
+    // Lista das camadas.
     ::std::list<Layer*> layers_;
-};
+
+}; // class Scene.
 
 }
 

@@ -15,10 +15,6 @@
 
 namespace framework {
 
-
-// Temporario.
-//class Sprite {};
-
 // Representa uma camada grafica na qual os Sprites sao desenhados.
 //
 // Um objeto Layer pode ter um offset, que e' o deslocamento da camada inteira
@@ -55,7 +51,7 @@ class Layer {
     Vector2D offset_;
     bool visible_;
 
-};
+}; // class Layer.
 
 
 }

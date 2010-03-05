@@ -17,7 +17,7 @@ class Sprite {
   public:
     Sprite(Image *image);
     Sprite(Image *image, Vector2D position);
-    ~Sprite() { }
+    virtual ~Sprite() { }
 
 
     // Acessors e mutators
@@ -61,3 +61,5 @@ class Sprite {
 
 };
 }
+
+#endif //HORUSEYE_FRAMEWORK_SPRITE_H_
