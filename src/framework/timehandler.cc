@@ -5,6 +5,8 @@
 // framework/timehandler.cc
 // Implementacao da classe TimeHandler.
 //
+#include <SDL/SDL.h>
+#include <SDL/SDL_timer.h>
 #include "timehandler.h"
 
 namespace framework {
@@ -23,7 +25,7 @@ void TimeHandler::Update() {
 }
 
 Uint32 TimeHandler::TimeElapsed() {
-    return this.TimeSince(initial_time_);
+    return TimeSince(initial_time_);
 }
 
 Uint32 TimeHandler::TimeDifference() {
