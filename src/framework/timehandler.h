@@ -17,8 +17,6 @@ class TimeHandler {
     TimeHandler();
     ~TimeHandler() { }
 
-    // TODO(HenriqueG): implementar todas as seguintes funcoes
-
     // Informa ao TimeHandler que uma nova iteracao iniciou
     void Update();
 

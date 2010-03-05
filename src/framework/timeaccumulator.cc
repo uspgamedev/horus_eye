@@ -2,8 +2,8 @@
 // Horus Eye - Framework
 // Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
 //
-// framework/timehandler.cc
-// Implementacao da classe TimeHandler.
+// framework/timeaccumulator.cc
+// Implementacao da classe TimeAccumulator.
 //
 #include <SDL/SDL.h>
 #include <SDL/SDL_timer.h>
@@ -25,7 +25,6 @@ bool TimeAccumulator::Expired() {
     return TimeLeft() <= 0;
 }
 
-/* Despausa se pausado. */
 void TimeAccumulator::Restart() {
     Restart(duration_);
 }
@@ -49,7 +48,7 @@ void TimeAccumulator::Resume() {
 }
 
 bool TimeAccumulator::IsPaused() {
-    return when_paused_ == 0;
+    return when_paused_ > 0;
 }
 
 }

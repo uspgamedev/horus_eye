@@ -10,20 +10,31 @@
 
 namespace framework {
 
-// TODO(HenriqueG): descricao de como a classe TimeHandler foi(sera) implementada
 class TimeAccumulator {
   public:
     // Construtores e destrutores
     TimeAccumulator(TimeHandler handler, int duration);
     ~TimeAccumulator() { }
 
-    // TODO(HenriqueG): implementar todas as seguintes funcoes
+    /* Ignora tempo pausado. */
     Uint32 TimeLeft();
+
+    /* True se o timer ja expirou. */
     bool Expired();
+
+    /* Despausa se pausado. */
     void Restart();
+
+    /* Despausa se pausado e ataliza a duracao. */
     void Restart(int duration);
+
+    /* Pausa o timer, desconsiderando o tempo ate que seja despausado. */
     void Pause();
+
+    /* Despausa o contador. */
     void Resume();
+
+    /* True se pausado. False caso contrario. */
     bool IsPaused();
 
   private:
