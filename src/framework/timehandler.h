@@ -31,12 +31,11 @@ class TimeHandler {
     // Devolve quanto tempo se passou desde um ponto no tempo
     Uint32 TimeSince(Uint32 t0);
 
-
     void Pause();
     void Resume();
     bool IsPaused();
 
-   private:
+  private:
     Uint32 initial_time_, current_time_, last_update_, time_paused_;
     bool paused_;
 };
