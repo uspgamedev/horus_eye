@@ -16,25 +16,25 @@ class TimeAccumulator {
     TimeAccumulator(TimeHandler handler, int duration);
     ~TimeAccumulator() { }
 
-    /* Ignora tempo pausado. */
+    // Ignora tempo pausado
     Uint32 TimeLeft();
 
-    /* True se o timer ja expirou. */
+    // True se o timer ja expirou
     bool Expired();
 
-    /* Despausa se pausado. */
+    // Despausa se pausado
     void Restart();
 
-    /* Despausa se pausado e ataliza a duracao. */
+    // Despausa se pausado e ataliza a duracao
     void Restart(int duration);
 
-    /* Pausa o timer, desconsiderando o tempo ate que seja despausado. */
+    // Pausa o timer, desconsiderando o tempo ate que seja despausado
     void Pause();
 
-    /* Despausa o contador. */
+    // Despausa o contador
     void Resume();
 
-    /* True se pausado. False caso contrario. */
+    // True se pausado. False caso contrario
     bool IsPaused();
 
   private:
