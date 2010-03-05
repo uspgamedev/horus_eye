@@ -54,9 +54,9 @@ class Image {
     bool LoadFromFile(const string& file);
 
     // apenas o VideoManager acessa
-    bool CreateVideoSurface(const Vector2D& size);
+    bool CreateVideoSurface(const Vector2D& size, bool fullscreen);
 };
 
-}
+}  // namespace framework
 
 #endif

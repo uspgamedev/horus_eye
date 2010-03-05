@@ -15,12 +15,14 @@ namespace framework {
 // Cria uma imagem com tamanho size.
 // Retorna true em caso de sucesso
 bool Image::Create(const Vector2D& size) {
-    VideoManager *video = Main::getReference()->getVideoManager();
-    SDL_Surface *screen = video->getScreen()->data_;
+    SDL_Surface *screen = SDL_GetVideoSurface();
     int width = static_cast<int>(size.x());
     int height = static_cast<int>(size.y());
     int depth = VideoManager::COLOR_DEPTH;
     Uint32 flags = SDL_HWSURFACE | SDL_SRCCOLORKEY;
+
+    if(screen == NULL)
+        return false;
 
     data_ = SDL_CreateRGBSurface(flags, width, height, depth,
                                  screen->format->Rmask, screen->format->Gmask,
@@ -105,12 +107,15 @@ int Image::FrameCount() const {
 // cria uma superficie de video.
 // Voce nao deve libera-la porque a SDL ja faz isso
 // Devolve true em caso de sucesso
-bool Image::CreateVideoSurface(const Vector2D& size) {
+bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
     int width = static_cast<int>(size.x());
     int height = static_cast<int>(size.y());
+    Uint32 flags = SDL_HWSURFACE;
 
-    data_ = SDL_SetVideoMode(width, height, VideoManager::COLOR_DEPTH,
-                             SDL_HWSURFACE);
+    if(fullscreen)
+        flags |= SDL_FULLSCREEN;
+
+    data_ = SDL_SetVideoMode(width, height, VideoManager::COLOR_DEPTH, flags);
 
     return (data_ != NULL);
 }
