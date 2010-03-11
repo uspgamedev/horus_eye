@@ -8,8 +8,10 @@
 #ifndef HORUSEYE_FRAMEWORK_SPRITE_H_
 #define HORUSEYE_FRAMEWORK_SPRITE_H_
 
+#include "animation.h"
 #include "image.h"
 #include "vector2D.h"
+
 
 namespace framework {
 
@@ -46,7 +48,7 @@ class Sprite {
     //bool SelectAnimation(int animation_id);
 
     // ======================================================================
-    void SelectAnimation(Animation& animation);
+    void SelectAnimation(Animation *animation);
 
     void Render(Image *back_buffer);
 

@@ -5,8 +5,8 @@
 // framework/vector2D.h
 // Definicao da classe Vector2D.
 //
-#ifndef HORUSEYE_FRAMEWORK_VECTOR2D_H_
-#define HORUSEYE_FRAMEWORK_VECTOR2D_H_
+#ifndef HORUSEYE_FRAMEWORK_ANIMATION_H_
+#define HORUSEYE_FRAMEWORK_ANIMATION_H_
 
 namespace framework {
 
