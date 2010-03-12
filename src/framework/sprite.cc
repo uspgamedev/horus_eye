@@ -1,4 +1,4 @@
-#include "sprite.h";
+#include "sprite.h"
 
 namespace framework {
 
@@ -22,7 +22,7 @@ void Sprite::SelectAnimation(Animation *animation) {
 void Sprite::Render(Image *back_buffer) {
     if (visible_) {
         int frame_number = animation_->get_current_frame();
-        image_->DrawTo(back_buffer, position, frame_number, mirror_);
+        image_->DrawTo(back_buffer, position_, frame_number, mirror_);
     }
 }
 
