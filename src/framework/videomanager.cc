@@ -13,7 +13,8 @@ namespace framework {
 // Inicializa o gerenciador de video, definindo uma
 // resolucao para o programa. Retorna true em caso de
 // sucesso.
-bool VideoManager::Initialize(const Vector2D& size, bool fullscreen) {
+bool VideoManager::Initialize(const string& title, const Vector2D& size,
+                              bool fullscreen) {
     if(!screen_.CreateVideoSurface(size, fullscreen))
         return false;
 
@@ -21,8 +22,12 @@ bool VideoManager::Initialize(const Vector2D& size, bool fullscreen) {
     if(backbuffer_ == NULL || !backbuffer_->Create(size))
         return false;
 
+    SDL_WM_SetCaption(title.c_str(), NULL);
+
     video_size_ = size;
     fullscreen_ = fullscreen;
+    title_ = title;
+
     return true;
 }
 
@@ -49,6 +54,7 @@ bool VideoManager::Release() {
 // Desenha backbuffer na tela
 void VideoManager::Render() {
     backbuffer_->DrawTo(&screen_, Vector2D(0, 0), 0, Image::MIRROR_NONE);
+    SDL_Flip(screen_.data_);
 }
 
 // Carrega imagem de um arquivo, fazendo o

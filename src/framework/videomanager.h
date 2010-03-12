@@ -26,7 +26,7 @@ class VideoManager {
     VideoManager() : backbuffer_(NULL), fullscreen_(false) {}
     ~VideoManager() {}
 
-    bool Initialize(const Vector2D& size, bool fullscreen);
+    bool Initialize(const string& title, const Vector2D& size, bool fullscreen);
     bool Release();
     void Render();
 
@@ -34,6 +34,7 @@ class VideoManager {
 
     Vector2D video_size() const { return video_size_; }
     bool fullscreen() const { return fullscreen_; }
+    string title() const { return title_; }
     Image* backbuffer() const { return backbuffer_; }
 
   private:
@@ -41,6 +42,7 @@ class VideoManager {
     Image screen_;
     Vector2D video_size_;
     bool fullscreen_;
+    string title_;
     map<string, Image*> memory_;
 };
 

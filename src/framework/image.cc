@@ -96,6 +96,9 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
 
     // desenhando...
     SDL_BlitSurface(data_, &source_rect, dest->data_, &dest_rect);
+
+    // sucesso!
+    return true;
 }
 
 // devolve o numero de frames que esta imagem armazena
