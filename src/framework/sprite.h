@@ -55,13 +55,13 @@ class Sprite {
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
-    Mirror mirror() const { return mirror_; }
-    void set_mirror(Mirror mirror) { mirror_ = mirror; }
+    Image::Mirror mirror() const { return mirror_; }
+    void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 
   private:
     Vector2D position_;
     Image *image_;
-    Mirror mirror_;
+    Image::Mirror mirror_;
     Animation *animation_;
     bool visible_;
 
