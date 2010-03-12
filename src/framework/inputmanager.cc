@@ -9,28 +9,23 @@
 
 namespace framework {
 
-void InputManager::Update(float delta_t)
-{
+void InputManager::Update(float delta_t) {
     SDL_PumpEvents();
 }
 
-void GetMouseState(int *x, int *y)
-{
+void GetMouseState(int *x, int *y) {
     SDL_GetMouseState(x, y);
 }
 
-void WarpMouse(Uint16 x, Uint16 y)
-{
+void WarpMouse(Uint16 x, Uint16 y) {
     SDL_WarpMouse(x, y);
 }
 
-int ShowCursor(int toggle)
-{
+int ShowCursor(int toggle) {
     SDL_ShowCursor(toggle);
 }
 
-Uint8 *GetKeyState(int *numkeys)
-{
+Uint8 *GetKeyState(int *numkeys) {
     return SDL_GetKeyState(numkeys);
 }
 
