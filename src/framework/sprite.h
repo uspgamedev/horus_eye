@@ -19,7 +19,7 @@ class Sprite {
   public:
     Sprite(Image *image);
     Sprite(Image *image, Vector2D position);
-    ~Sprite() { }
+    virtual ~Sprite() { }
 
 
     // Acessors e mutators
@@ -37,7 +37,7 @@ class Sprite {
 
     // Devole um numero negativo caso nao seja possível registrar a animacao.
     // Caso contrario, devolve um identificador positivo univoco.
-    //int RegisterAnimation(Animation *animation); 
+    //int RegisterAnimation(Animation *animation);
 
     // Recebe um identificador da animacao
     // Devole true quando a animação for desregistrada e false caso contrario

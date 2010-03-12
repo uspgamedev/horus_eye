@@ -3,14 +3,52 @@
 	<math.h>
 	"vector2D.h"
 
-1265654633 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\vector2d.h
+1268425067 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\vector2d.h
 
 1265654633 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\sandbox\teste_frame.cc
 	<iostream>
 	"../framework/frame.h"
 
-1265654633 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.h
+1268425067 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.h
 
-1265654633 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.cc
+1268425067 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.cc
 	"frame.h"
+
+1268425067 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\animation.cc
+	<string.h>
+	<stdarg.h>
+	"animation.h"
+	<stdlib.h>
+
+1268425710 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\animation.h
+
+1268425067 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\image.cc
+	<SDL/SDL_image.h>
+	"image.h"
+	"frame.h"
+	"videomanager.h"
+
+1268425067 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\image.h
+	<SDL/SDL.h>
+	<string>
+	"vector2D.h"
+
+1268425067 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\videomanager.h
+	<string>
+	<map>
+	"vector2D.h"
+	"image.h"
+
+1268426732 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\layer.cc
+	"layer.h"
+
+1268425067 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\layer.h
+	<list>
+	"vector2D.h"
+	"sprite.h"
+
+1268425744 c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\sprite.h
+	"animation.h"
+	"image.h"
+	"vector2D.h"
 

@@ -14,10 +14,10 @@ class Animation {
   public:
     Animation(float fps, ...);
     ~Animation() { }
-    
+
     void set_fps(float fps) { fps_ = fps; }
-    int fps() { return fps_; }
-    
+    float fps() { return fps_; }
+
     int get_current_frame() { return current_frame_; }
     void Update(float delta_t);
 
