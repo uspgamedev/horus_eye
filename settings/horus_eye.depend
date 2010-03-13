@@ -49,9 +49,25 @@
 1268422648 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\frame.cc
 	"frame.h"
 
-1268427382 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\teste_main.cc
+1268427684 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\teste_main.cc
 	<cstdio>
 	"../framework/videomanager.h"
 	"../framework/vector2D.h"
 	"../framework/image.h"
+
+1268422648 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.cc
+	<string.h>
+	<stdarg.h>
+	"animation.h"
+	<stdlib.h>
+
+1268428169 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.h
+
+1268422648 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\sprite.cc
+	"sprite.h"
+
+1268428169 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\sprite.h
+	"animation.h"
+	"image.h"
+	"vector2D.h"
 

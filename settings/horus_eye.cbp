@@ -34,12 +34,20 @@
 		<Linker>
 			<Add option="-lmingw32 -lSDL -lSDLmain" />
 		</Linker>
+		<Unit filename="..\src\framework\animation.cc" />
+		<Unit filename="..\src\framework\animation.h" />
+		<Unit filename="..\src\framework\engine.cc" />
+		<Unit filename="..\src\framework\engine.h" />
 		<Unit filename="..\src\framework\frame.cc" />
 		<Unit filename="..\src\framework\frame.h" />
 		<Unit filename="..\src\framework\image.cc" />
 		<Unit filename="..\src\framework\image.h" />
+		<Unit filename="..\src\framework\inputmanager.cc" />
+		<Unit filename="..\src\framework\inputmanager.h" />
 		<Unit filename="..\src\framework\layer.h" />
+		<Unit filename="..\src\framework\scene.cc" />
 		<Unit filename="..\src\framework\scene.h" />
+		<Unit filename="..\src\framework\sprite.cc" />
 		<Unit filename="..\src\framework\sprite.h" />
 		<Unit filename="..\src\framework\timehandler.h" />
 		<Unit filename="..\src\framework\vector2D.cc" />
