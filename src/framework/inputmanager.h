@@ -15,7 +15,7 @@ namespace framework {
 class InputManager {
   public:
     // Construtores e destrutores
-    InputManager() {}
+    InputManager();
     ~InputManager() {}
 
     // Member functions
@@ -23,7 +23,12 @@ class InputManager {
     void GetMouseState(int *x, int *y);
     void WarpMouse(Uint16 x, Uint16 y);
     int ShowCursor(int toggle);
-    Uint8 *GetKeyState(int *numkeys);
+    bool KeyPressed(int key);
+    bool KeyDown(int key);
+    bool KeyUp(int key);
+    
+  private:
+    Uint8 *keystate_now, *keystate_last;
 };
 
 }

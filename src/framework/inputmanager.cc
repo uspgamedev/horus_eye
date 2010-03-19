@@ -9,8 +9,14 @@
 
 namespace framework {
 
+InputManager::InputManager() {
+    keystate_last = keystate_now = SDL_GetKeyState(NULL);
+}
+
 void InputManager::Update(float delta_t) {
     SDL_PumpEvents();
+    keystate_last = keystate_now;
+    keystate_now = SDL_GetKeyState(NULL);
 }
 
 void GetMouseState(int *x, int *y) {
@@ -25,8 +31,17 @@ int ShowCursor(int toggle) {
     SDL_ShowCursor(toggle);
 }
 
-Uint8 *GetKeyState(int *numkeys) {
-    return SDL_GetKeyState(numkeys);
+bool KeyPressed(int key) {
+    return (keystate_now[key] && !keystate_last[key]);
 }
 
+bool KeyDown(int key) {
+    return keystate_now[key];
 }
+
+bool KeyUp(int key) {
+    return (!keystate_now[key] && keystate_last[key]);
+}
+
+} //namespace framework
+
