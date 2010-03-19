@@ -12,13 +12,13 @@
 
 namespace framework {
 
-TimeAccumulator::TimeAccumulator(TimeHandler handler, int duration) {
-    handler_ = handler;
-    Restart(duration);
+TimeAccumulator::TimeAccumulator(int duration_miliseconds) {
+    handler_ = Engine::reference()->timehandler();
+    Restart(duration_miliseconds);
 }
 
-Uint32 TimeAccumulator::TimeLeft() {
-    return duration_ - (handler_.TimeSince(initial_time_) - time_paused_);
+uint32 TimeAccumulator::TimeLeft() {
+    return duration_ - (handler_->TimeSince(initial_time_) - time_paused_);
 }
 
 bool TimeAccumulator::Expired() {
@@ -30,19 +30,19 @@ void TimeAccumulator::Restart() {
 }
 
 void TimeAccumulator::Restart(int duration) {
-    initial_time_ = handler_.TimeElapsed();
-    duration_ = (Uint32) duration;
+    initial_time_ = handler_->TimeElapsed();
+    duration_ = (uint32) duration;
     time_paused_ = when_paused_ = 0;
 }
 
 void TimeAccumulator::Pause() {
     if(when_paused_ == 0)
-        when_paused_ = handler_.TimeElapsed();
+        when_paused_ = handler_->TimeElapsed();
 }
 
 void TimeAccumulator::Resume() {
     if(when_paused_ > 0) {
-        time_paused_ += handler_.TimeSince(when_paused_);
+        time_paused_ += handler_->TimeSince(when_paused_);
         when_paused_ = 0;
     }
 }

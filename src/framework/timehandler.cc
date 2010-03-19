@@ -24,15 +24,15 @@ void TimeHandler::Update() {
         time_paused_ += current_time_ - last_update_;
 }
 
-Uint32 TimeHandler::TimeElapsed() {
+uint32 TimeHandler::TimeElapsed() {
     return TimeSince(initial_time_);
 }
 
-Uint32 TimeHandler::TimeDifference() {
+uint32 TimeHandler::TimeDifference() {
     return current_time_ - last_update_;
 }
 
-Uint32 TimeHandler::TimeSince(Uint32 t0) {
+uint32 TimeHandler::TimeSince(uint32 t0) {
     return current_time_ - t0 - time_paused_;
 }
 

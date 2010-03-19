@@ -21,20 +21,20 @@ class TimeHandler {
     void Update();
 
     // Devolve quanto tempo se passou desde a inicializacao, em milisegundos
-    Uint32 TimeElapsed();
+    uint32 TimeElapsed();
 
     // Devolve quanto tempo se passou desde a iteracao anterior, em milisegundos
-    Uint32 TimeDifference();
+    uint32 TimeDifference();
 
     // Devolve quanto tempo se passou desde um ponto no tempo
-    Uint32 TimeSince(Uint32 t0);
+    uint32 TimeSince(uint32 t0);
 
     void Pause();
     void Resume();
     bool IsPaused();
 
   private:
-    Uint32 initial_time_, current_time_, last_update_, time_paused_;
+    uint32 initial_time_, current_time_, last_update_, time_paused_;
     bool paused_;
 };
 

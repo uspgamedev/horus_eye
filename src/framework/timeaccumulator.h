@@ -13,11 +13,11 @@ namespace framework {
 class TimeAccumulator {
   public:
     // Construtores e destrutores
-    TimeAccumulator(TimeHandler handler, int duration);
+    TimeAccumulator(int duration_miliseconds);
     ~TimeAccumulator() { }
 
     // Ignora tempo pausado
-    Uint32 TimeLeft();
+    uint32 TimeLeft();
 
     // True se o timer ja expirou
     bool Expired();
@@ -26,7 +26,7 @@ class TimeAccumulator {
     void Restart();
 
     // Despausa se pausado e ataliza a duracao
-    void Restart(int duration);
+    void Restart(int duration_miliseconds);
 
     // Pausa o timer, desconsiderando o tempo ate que seja despausado
     void Pause();
@@ -38,8 +38,8 @@ class TimeAccumulator {
     bool IsPaused();
 
   private:
-    TimeHandler handler_;
-    Uint32 initial_time_, time_paused_, when_paused_, duration_;
+    TimeHandler *handler_;
+    uint32 initial_time_, time_paused_, when_paused_, duration_;
 };
 
 }  // namespace framework
