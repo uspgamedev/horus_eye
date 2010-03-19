@@ -5,7 +5,7 @@
 // framework/engine.cc
 // Implementacao da classe Engine (motor do jogo).
 //
-
+#include <SDL/SDL.h>
 #include "engine.h"
 #include <vector>
 
@@ -15,6 +15,9 @@ namespace framework
 bool Engine::Initialize() {
     quit_ = false;
     video_manager_ = new VideoManager();
+    SDL_Init(SDL_INIT_EVERYTHING);
+    video_manager_->Initialize("Framework", Vector2D(640,480), false);
+
     input_manager_ = new InputManager();
     time_handler_ = new TimeHandler();
     scene_list_.clear();
@@ -24,6 +27,9 @@ bool Engine::Initialize() {
 void Engine::Run() {
     time_handler_->Update();
     while(!quit_) {
+        if (scene_list_.size() == 0) {
+            break;
+        }
         for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
             scene_list_[i]->Render();
         }

@@ -23,7 +23,7 @@ class Scene {
     // The Evil Constructor!
     Scene() {}
     // The Good Destructor!
-    virtual ~Scene();
+    virtual ~Scene() {}
 
     // Funcoes basicas pra adicionar e remover layers.
     void AddLayer(Layer *layer) { layers_.push_back(layer); };

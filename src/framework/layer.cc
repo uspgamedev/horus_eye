@@ -28,7 +28,7 @@ void Layer::Render() {
     list<Sprite*>::iterator it = sprite_list_.begin();
 
         while (it != sprite_list_.end()) {
-            (*it).render(Engine::reference->video_manager()->backbuffer());
+            (*it)->Render(Engine::reference()->video_manager()->backbuffer());
             ++it;
         }
 }

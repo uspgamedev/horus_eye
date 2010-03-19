@@ -24,7 +24,7 @@ class Layer {
   public:
     // Construtores e destrutores.
     Layer(Vector2D offset = Vector2D()) : visible_(true) {}
-    virtual ~Layer();
+    virtual ~Layer() { }
 
     // Acesso e leitura de atributos.
     bool IsVisible() { return visible_; }
