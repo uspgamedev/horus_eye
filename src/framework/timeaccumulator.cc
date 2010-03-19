@@ -13,7 +13,7 @@
 namespace framework {
 
 TimeAccumulator::TimeAccumulator(int duration_miliseconds) {
-    handler_ = Engine::reference()->timehandler();
+    handler_ = Engine::reference()->time_handler();
     Restart(duration_miliseconds);
 }
 
