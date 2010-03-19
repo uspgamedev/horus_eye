@@ -1,6 +1,7 @@
 // um Main de testes...
 // sandbox
 #include <cstdio>
+#include <iostream>
 #include "../framework/videomanager.h"
 #include "../framework/vector2D.h"
 #include "../framework/image.h"
@@ -38,7 +39,9 @@ class Main {
         Image *image = video()->LoadImage("SDL_logo.png");
         image->DrawTo(video()->backbuffer(), Vector2D(100,100), 0, Image::MIRROR_NONE);
         video()->Render();
-        while(!input_.KeyPressed(SDLK_0)) {}
+        while(!input_.KeyPressed(SDLK_0)) {
+            input_.Update(0.2);
+        }
     }
 };
 
@@ -46,7 +49,6 @@ class Main {
 int main(int argc, char* argv[])
 {
     Main *main = Main::reference();
-
     main->Initialize();
     main->Run();
     main->Release();
