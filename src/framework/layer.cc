@@ -6,6 +6,7 @@
  */
 
 #include "layer.h"
+#include "engine.h"
 
 namespace framework {
 
@@ -27,7 +28,7 @@ void Layer::Render() {
 
         while (it != sprite_list_.end()) {
             //Preciso de um objeto VideoManager!
-            //(*it).render(back_buffer);
+            (*it).render(Engine::reference->video_manager()->backbuffer());
             ++it;
         }
 }
