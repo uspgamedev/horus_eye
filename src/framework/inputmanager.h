@@ -20,7 +20,7 @@ class InputManager {
 
     // Member functions
     void Update(float);
-    void GetMouseState(int *x, int *y);
+    Vector2D GetMouseState(void);
     void WarpMouse(Uint16 x, Uint16 y);
     int ShowCursor(int toggle);
     bool KeyPressed(int key);
