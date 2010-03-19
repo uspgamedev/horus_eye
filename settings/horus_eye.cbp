@@ -49,7 +49,11 @@
 		<Unit filename="..\src\framework\scene.h" />
 		<Unit filename="..\src\framework\sprite.cc" />
 		<Unit filename="..\src\framework\sprite.h" />
+		<Unit filename="..\src\framework\timeaccumulator.cc" />
+		<Unit filename="..\src\framework\timeaccumulator.h" />
+		<Unit filename="..\src\framework\timehandler.cc" />
 		<Unit filename="..\src\framework\timehandler.h" />
+		<Unit filename="..\src\framework\types.h" />
 		<Unit filename="..\src\framework\vector2D.cc" />
 		<Unit filename="..\src\framework\vector2D.h" />
 		<Unit filename="..\src\framework\videomanager.cc" />

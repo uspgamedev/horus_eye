@@ -49,11 +49,12 @@
 1269028989 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\frame.cc
 	"frame.h"
 
-1269028990 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\teste_main.cc
+1269033477 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\teste_main.cc
 	<cstdio>
 	"../framework/videomanager.h"
 	"../framework/vector2D.h"
 	"../framework/image.h"
+	"../framework/inputmanager.h"
 
 1269028989 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.cc
 	<string.h>
@@ -78,11 +79,11 @@
 1269032062 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.cc
 	"inputmanager.h"
 
-1269032429 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.h
+1269035692 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.h
 	<SDL/SDL.h>
 	"vector2D.h"
 
-1269028989 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.cc
+1269033710 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.cc
 	"scene.h"
 
 1269028989 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.h
