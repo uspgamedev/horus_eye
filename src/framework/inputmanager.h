@@ -26,7 +26,7 @@ class InputManager {
     bool KeyPressed(int key);
     bool KeyDown(int key);
     bool KeyUp(int key);
-    
+
   private:
     Uint8 *keystate_now, *keystate_last;
 };

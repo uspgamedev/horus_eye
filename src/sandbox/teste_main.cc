@@ -4,6 +4,7 @@
 #include "../framework/videomanager.h"
 #include "../framework/vector2D.h"
 #include "../framework/image.h"
+#include "../framework/inputmanager.h"
 using namespace framework; // nao respeita coding style
 using namespace std;
 
@@ -12,6 +13,7 @@ class Main {
   private:
     bool gameover_;
     VideoManager video_;
+    InputManager input_;
     Main() : gameover_(false) {}
 
   public:
@@ -36,7 +38,7 @@ class Main {
         Image *image = video()->LoadImage("SDL_logo.png");
         image->DrawTo(video()->backbuffer(), Vector2D(100,100), 0, Image::MIRROR_NONE);
         video()->Render();
-        SDL_Delay(2000);
+        while(!input_.KeyPressed(SDLK_0)) {}
     }
 };
 

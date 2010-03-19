@@ -8,6 +8,8 @@
 #ifndef HORUSEYE_FRAMEWORK_TIMEACCUMULATOR_H_
 #define HORUSEYE_FRAMEWORK_TIMEACCUMULATOR_H_
 
+#include "timehandler.h"
+
 namespace framework {
 
 class TimeAccumulator {

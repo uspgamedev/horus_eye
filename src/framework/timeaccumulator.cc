@@ -9,6 +9,7 @@
 #include <SDL/SDL_timer.h>
 #include "timehandler.h"
 #include "timeaccumulator.h"
+#include "engine.h"
 
 namespace framework {
 

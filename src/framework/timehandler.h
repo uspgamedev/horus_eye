@@ -8,6 +8,8 @@
 #ifndef HORUSEYE_FRAMEWORK_TIMEHANDLER_H_
 #define HORUSEYE_FRAMEWORK_TIMEHANDLER_H_
 
+#include "types.h"
+
 namespace framework {
 
 // TODO(HenriqueG): descricao de como a classe TimeHandler foi(sera) implementada
