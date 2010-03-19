@@ -17,9 +17,9 @@ class InputManager {
   public:
     // Construtores e destrutores
     InputManager();
-    ~InputManager() {}
+    ~InputManager();
 
-    // Member functions
+    // Member functions e
     void Update(float);
     Vector2D GetMouseState(void);
     void ShowCursor(bool toggle);
@@ -28,6 +28,7 @@ class InputManager {
     bool KeyUp(int key);
 
   private:
+    int kbsize;
     Uint8 *keystate_now, *keystate_last;
 };
 

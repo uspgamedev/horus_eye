@@ -10,13 +10,19 @@
 namespace framework {
 
 InputManager::InputManager() {
-    keystate_last = keystate_now = SDL_GetKeyState(NULL);
+    keystate_now = SDL_GetKeyState(&kbsize);
+    keystate_last = new Uint8[kbsize];
+    Update(1.3);
+}
+
+InputManager::~InputManager() {
+    delete[] keystate_last;
 }
 
 void InputManager::Update(float delta_t) {
+    for (int i = 0; i < kbsize; i++) keystate_last[i] = keystate_now[i];
     SDL_PumpEvents();
-    keystate_last = keystate_now;
-    keystate_now = SDL_GetKeyState(NULL);
+    keystate_now = SDL_GetKeyState(NULL);    
 }
 
 Vector2D InputManager::GetMouseState(void) {
