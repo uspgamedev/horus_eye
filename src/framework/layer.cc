@@ -1,9 +1,10 @@
-/*
- * layer.cc
- *
- *  Created on: 04/02/2010
- *      Author: Kazuo
- */
+//
+// Horus Eye - Framework
+// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
+//
+// framework/layer.h
+// Implementacao da classe Layer.
+//
 
 #include "layer.h"
 #include "engine.h"
