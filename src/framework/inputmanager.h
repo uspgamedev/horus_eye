@@ -9,6 +9,7 @@
 #define HORUSEYE_FRAMEWORK_INPUTMANAGER_H_
 
 #include <SDL/SDL.h>
+#include "vector2D.h"
 
 namespace framework {
 
@@ -21,8 +22,7 @@ class InputManager {
     // Member functions
     void Update(float);
     Vector2D GetMouseState(void);
-    void WarpMouse(Uint16 x, Uint16 y);
-    int ShowCursor(int toggle);
+    void ShowCursor(bool toggle);
     bool KeyPressed(int key);
     bool KeyDown(int key);
     bool KeyUp(int key);
