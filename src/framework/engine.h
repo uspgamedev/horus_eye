@@ -9,6 +9,11 @@
 #define HORUSEYE_FRAMEWORK_ENGINE_H_
 
 #include <vector>
+#include "inputmanager.h"
+#include "videomanager.h"
+#include "scene.h"
+#include "timehandler.h"
+
 using std::vector;
 
 namespace framework {
@@ -20,10 +25,14 @@ class Engine {
     static Engine* reference() { static Engine *r = NULL;
                                  return r ? r : r = new Engine; }
 
+    VideoManager *video_manager() { return video_manager_; }
+    InputManager *input_manager() { return input_manager_; }
+    TimeHandler *time_handler() { return time_handler_; }
+
     // Gerenciamento do motor
     bool Initialize();
     void Run();
-    bool Release();
+    void Release();
 
     // Gerenciamento de cenas
     void PushScene(Scene* scene);
@@ -37,9 +46,11 @@ class Engine {
     ~Engine() {}
 
   private:
-    Engine() : quit_(false) {}
+    VideoManager *video_manager_;
+    InputManager *input_manager_;
+    TimeHandler *time_handler_;
     bool quit_;
-    vector<Scene*> scene_list;
+    vector<Scene*> scene_list_;
 };
 
 }  // namespace framework
