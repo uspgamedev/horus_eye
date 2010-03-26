@@ -30,7 +30,7 @@ class Engine {
     TimeHandler *time_handler() { return time_handler_; }
 
     // Gerenciamento do motor
-    bool Initialize();
+    bool Initialize(string windowTitle, Vector2D windowSize, bool fullscreen);
     void Run();
     void Release();
 

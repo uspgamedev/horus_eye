@@ -36,7 +36,7 @@ public:
 
 int main(int argc, char* argv[]) {
     Engine * engine = Engine::reference();
-    engine->Initialize();
+    engine->Initialize("exemplo1 :P", Vector2D(640, 480), false);
 
     Fase1 * scene = new Fase1();
   /* Layer *layer = new Layer();

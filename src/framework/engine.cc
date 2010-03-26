@@ -6,18 +6,18 @@
 // Implementacao da classe Engine (motor do jogo).
 //
 #include <SDL/SDL.h>
+#include <string>
 #include "engine.h"
-#include <vector>
+using std::string;
 
 namespace framework
 {
 
-bool Engine::Initialize() {
+bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen) {
     quit_ = false;
     video_manager_ = new VideoManager();
     SDL_Init(SDL_INIT_EVERYTHING);
-    video_manager_->Initialize("Framework", Vector2D(640,480), false);
-
+    video_manager_->Initialize(windowTitle, windowSize, fullscreen);
     input_manager_ = new InputManager();
     time_handler_ = new TimeHandler();
     scene_list_.clear();
