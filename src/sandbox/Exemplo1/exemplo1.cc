@@ -1,4 +1,3 @@
-
 #include "..\..\framework\engine.h"
 #include "..\..\framework\scene.h"
 #include "..\..\framework\image.h"
@@ -8,47 +7,71 @@
 #include "..\..\framework\timehandler.h"
 #include "..\..\framework\vector2D.h"
 #include <cmath>
+
 using namespace std;
-
-
-
 using namespace framework;
 
-class Fase1 : public Scene {
-    Image *image;
-    Vector2D pos;
+class Ryu : public Sprite {
+  public:
+    Ryu() : Sprite(Engine::reference()->video_manager()->LoadImage("ryu_punch.bmp")) {
+        Vector2D frameSize(67, 83);
+        this->image()->set_frame_size(frameSize);
 
-public:
-    Fase1() : pos(100,100) {
-        image = Engine::reference()->video_manager()->LoadImage("heli.png");
+        punch_animation = new Animation(9, 0, 1, 2, 3, -1);
+        standing_animation =  new Animation(1, 0, -1);
+
+        //this->Punch();
     }
-    void Update(float delta_t) {
-        VideoManager *video = Engine::reference()->video_manager();
-        video->backbuffer()->Clear(0);
-        image->DrawTo(Engine::reference()->video_manager()->backbuffer(), pos, 0, Image::MIRROR_NONE);
-        pos.set_x(100 - 50*sin(M_PI * (Engine::reference()->time_handler()->TimeElapsed())*0.001));
-        pos.set_y(200 + 150*cos(M_PI * (Engine::reference()->time_handler()->TimeElapsed())*0.001));
-        if(Engine::reference()->input_manager()->KeyPressed(SDLK_0))
-            Engine::reference()->quit();
+
+    void Punch() {
+        this->SelectAnimation(punch_animation);
     }
+
+    void Stand() {
+        this->SelectAnimation(standing_animation);
+    }
+
+  private:
+    Animation *punch_animation;
+    Animation *standing_animation;
 };
 
+class RyuScene : public Scene {
 
+public:
+    RyuScene() {
+        ryu = new Ryu();
+        video = Engine::reference()->video_manager();
+        input = Engine::reference()->input_manager();
+        main_layer = new Layer();
+
+        main_layer->AddSprite(ryu);
+        this->AddLayer(main_layer);
+    }
+
+    void Update(float delta_t) {
+        Scene::Update(delta_t);
+        video->backbuffer()->Clear(0);
+        if(input->KeyDown(SDLK_0))
+            Engine::reference()->quit();
+        if(input->KeyDown(SDLK_d))
+            ryu->Punch();
+        if(input->KeyDown(SDLK_s))
+            ryu->Stand();
+    }
+
+  private:
+    Ryu *ryu;
+    VideoManager *video;
+    Layer *main_layer;
+    InputManager *input;
+};
 
 int main(int argc, char* argv[]) {
     Engine * engine = Engine::reference();
-    engine->Initialize("exemplo1 :P", Vector2D(640, 480), false);
+    engine->Initialize("Ryu Punching", Vector2D(640, 480), false);
 
-    Fase1 * scene = new Fase1();
-  /* Layer *layer = new Layer();
-    Image *image = engine->video_manager()->LoadImage("ryu1.png");
-
-
-    Sprite *sprite = new Sprite(image);
-
-    scene->AddLayer(layer);
-    layer->AddSprite(sprite);*/
-
+    RyuScene * scene = new RyuScene();
 
     engine->PushScene(scene);
 

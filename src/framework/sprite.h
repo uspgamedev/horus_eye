@@ -62,7 +62,7 @@ class Sprite {
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 
-  protected:
+  private:
     Vector2D position_;
     Image *image_;
     Image::Mirror mirror_;

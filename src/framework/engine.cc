@@ -53,10 +53,11 @@ void Engine::Run() {
         if (scene_list_.size() == 0) {
             break;
         }
+
+        CurrentScene()->Update(delta_t);
         for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
             scene_list_[i]->Render();
         }
-        CurrentScene()->Update(delta_t);
 
         // gerenciamento de video
         video_manager_->Render();
