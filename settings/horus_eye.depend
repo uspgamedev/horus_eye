@@ -14,22 +14,22 @@
 1265654633 source:c:\documents and settings\bieniomovel\desktop\nj_usp\horus_eye\trunk\src\framework\frame.cc
 	"frame.h"
 
-1269028928 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\vector2d.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\vector2d.cc
 	<math.h>
 	"vector2D.h"
 
-1269028928 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\vector2d.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\vector2d.h
 
-1269028928 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\videomanager.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\videomanager.cc
 	"videomanager.h"
 
-1269028928 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\videomanager.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\videomanager.h
 	<string>
 	<map>
 	"vector2D.h"
 	"image.h"
 
-1269028928 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\image.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\image.h
 	<SDL/SDL.h>
 	<string>
 	"vector2D.h"
@@ -38,93 +38,93 @@
 	<iostream>
 	"../framework/frame.h"
 
-1269028928 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\frame.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\frame.h
 
-1269028928 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\image.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\image.cc
 	<SDL/SDL_image.h>
 	"image.h"
 	"frame.h"
 	"videomanager.h"
 
-1269028928 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\frame.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\frame.cc
 	"frame.h"
 
-1269633371 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\teste_main.cc
+1269636307 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\teste_main.cc
 	<cstdio>
 	"../framework/videomanager.h"
 	"../framework/vector2D.h"
 	"../framework/image.h"
 	"../framework/inputmanager.h"
 
-1269028928 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.cc
 	<string.h>
 	<stdarg.h>
 	"animation.h"
 	<stdlib.h>
 
-1269028928 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\animation.h
 
-1269028928 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\sprite.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\sprite.cc
 	"sprite.h"
 
-1269028928 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\sprite.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\sprite.h
 	"animation.h"
 	"image.h"
 	"vector2D.h"
 
-1269635038 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\engine.cc
+1269637956 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\engine.cc
 	<SDL/SDL.h>
 	"engine.h"
 	<vector>
 	<windows.h>
 
-1269036113 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.cc
 	"inputmanager.h"
 
-1269036113 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\inputmanager.h
 	<SDL/SDL.h>
 	"vector2D.h"
 
-1269035863 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.cc
 	"scene.h"
 
-1269035872 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\scene.h
 	"layer.h"
 	<list>
 
-1269036488 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\layer.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\layer.h
 	<list>
 	"vector2D.h"
 	"sprite.h"
 
-1269033511 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timehandler.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timehandler.cc
 	<SDL/SDL.h>
 	<SDL/SDL_timer.h>
 	"timehandler.h"
 
-1269033511 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timehandler.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timehandler.h
 	"types.h"
 
-1269033511 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timeaccumulator.cc
+1269636304 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timeaccumulator.cc
 	<SDL/SDL.h>
 	<SDL/SDL_timer.h>
 	"timehandler.h"
 	"timeaccumulator.h"
 	"engine.h"
 
-1269033511 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timeaccumulator.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\timeaccumulator.h
 	"timehandler.h"
 
-1269032712 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\engine.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\engine.h
 	<vector>
 	"inputmanager.h"
 	"videomanager.h"
 	"scene.h"
 	"timehandler.h"
 
-1269033511 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\types.h
+1269636304 c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\framework\types.h
 
-1269633401 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\exemplo1\exemplo1.cc
+1269636945 source:c:\documents and settings\bieniomovel\desktop\horus_eye\trunk\src\sandbox\exemplo1\exemplo1.cc
 	"..\..\framework\engine.h"
 	"..\..\framework\scene.h"
 	"..\..\framework\image.h"
@@ -133,5 +133,5 @@
 	"..\..\framework\inputmanager.h"
 	"..\..\framework\timehandler.h"
 	"..\..\framework\vector2D.h"
-	<windows.h>
+	<cmath>
 

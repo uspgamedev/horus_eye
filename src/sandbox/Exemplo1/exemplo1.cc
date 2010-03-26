@@ -7,6 +7,8 @@
 #include "..\..\framework\inputmanager.h"
 #include "..\..\framework\timehandler.h"
 #include "..\..\framework\vector2D.h"
+#include <cmath>
+using namespace std;
 
 
 
@@ -14,13 +16,16 @@ using namespace framework;
 
 class Fase1 : public Scene {
     Image *image;
+    Vector2D pos;
 
 public:
-    Fase1() {
+    Fase1() : pos(100,100) {
         image = Engine::reference()->video_manager()->LoadImage("ryu1.png");
     }
     void Update(float delta_t) {
-        image->DrawTo(Engine::reference()->video_manager()->backbuffer(), Vector2D(100,100), 0, Image::MIRROR_NONE);
+        image->DrawTo(Engine::reference()->video_manager()->backbuffer(), pos, 0, Image::MIRROR_NONE);
+        pos.set_x(100 - 50*sin(M_PI * (Engine::reference()->time_handler()->TimeElapsed())*0.001));
+        pos.set_y(200 + 150*cos(M_PI * (Engine::reference()->time_handler()->TimeElapsed())*0.001));
         if(Engine::reference()->input_manager()->KeyPressed(SDLK_0))
             Engine::reference()->quit();
 

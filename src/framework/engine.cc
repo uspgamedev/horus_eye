@@ -28,17 +28,39 @@ bool Engine::Initialize() {
 
 void Engine::Run() {
 
+    SDL_Event event;
+    float delta_t;
+
     while(!quit_) {
+        // tratamento de eventos
+        while(SDL_PollEvent(&event)) {
+            switch(event.type) {
+                case SDL_QUIT:
+                    quit();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+
+        // gerenciamento de tempo
         time_handler_->Update();
+        delta_t = (time_handler_->TimeDifference())/1000.0f;
+
+        // gerenciador de input
+        input_manager()->Update(delta_t);
+
+        // gerenciamento das cenas
         if (scene_list_.size() == 0) {
             break;
         }
         for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
             scene_list_[i]->Render();
         }
-        float delta_t = (time_handler_->TimeDifference())/1000.0f;
-        input_manager()->Update(delta_t);
         CurrentScene()->Update(delta_t);
+
+        // gerenciamento de video
         video_manager_->Render();
     }
 }
