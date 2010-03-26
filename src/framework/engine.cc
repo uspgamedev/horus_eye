@@ -9,6 +9,8 @@
 #include "engine.h"
 #include <vector>
 
+#include <windows.h>
+
 namespace framework
 {
 
@@ -25,15 +27,19 @@ bool Engine::Initialize() {
 }
 
 void Engine::Run() {
-    time_handler_->Update();
+
     while(!quit_) {
+        time_handler_->Update();
         if (scene_list_.size() == 0) {
             break;
         }
         for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
             scene_list_[i]->Render();
         }
-        CurrentScene()->Update(time_handler_->TimeDifference());
+        float delta_t = (time_handler_->TimeDifference())/1000.0f;
+        input_manager()->Update(delta_t);
+        CurrentScene()->Update(delta_t);
+        video_manager_->Render();
     }
 }
 

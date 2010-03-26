@@ -8,13 +8,32 @@
 #include "..\..\framework\timehandler.h"
 #include "..\..\framework\vector2D.h"
 
+
+
 using namespace framework;
+
+class Fase1 : public Scene {
+    Image *image;
+
+public:
+    Fase1() {
+        image = Engine::reference()->video_manager()->LoadImage("ryu1.png");
+    }
+    void Update(float delta_t) {
+        image->DrawTo(Engine::reference()->video_manager()->backbuffer(), Vector2D(100,100), 0, Image::MIRROR_NONE);
+        if(Engine::reference()->input_manager()->KeyPressed(SDLK_0))
+            Engine::reference()->quit();
+
+    }
+};
+
+
 
 int main(int argc, char* argv[]) {
     Engine * engine = Engine::reference();
     engine->Initialize();
 
-    Scene * scene = new Scene();
+    Fase1 * scene = new Fase1();
   /* Layer *layer = new Layer();
     Image *image = engine->video_manager()->LoadImage("ryu1.png");
 
