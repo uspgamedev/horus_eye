@@ -53,6 +53,7 @@ int main(int argc, char* argv[]) {
     engine->PushScene(scene);
 
     engine->Run();
+    engine->Release();
 
     return 0;
 }
