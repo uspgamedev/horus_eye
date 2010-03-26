@@ -20,15 +20,16 @@ class Fase1 : public Scene {
 
 public:
     Fase1() : pos(100,100) {
-        image = Engine::reference()->video_manager()->LoadImage("ryu1.png");
+        image = Engine::reference()->video_manager()->LoadImage("heli.png");
     }
     void Update(float delta_t) {
+        VideoManager *video = Engine::reference()->video_manager();
+        video->backbuffer()->Clear(0);
         image->DrawTo(Engine::reference()->video_manager()->backbuffer(), pos, 0, Image::MIRROR_NONE);
         pos.set_x(100 - 50*sin(M_PI * (Engine::reference()->time_handler()->TimeElapsed())*0.001));
         pos.set_y(200 + 150*cos(M_PI * (Engine::reference()->time_handler()->TimeElapsed())*0.001));
         if(Engine::reference()->input_manager()->KeyPressed(SDLK_0))
             Engine::reference()->quit();
-
     }
 };
 

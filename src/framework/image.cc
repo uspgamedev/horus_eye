@@ -50,7 +50,7 @@ bool Image::LoadFromFile(const string& file) {
     loadedImage = IMG_Load(file.c_str());
     if (loadedImage != NULL) {
         // faz a conversao da imagem
-        optimizedImage = SDL_DisplayFormat(loadedImage);
+        optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
         SDL_FreeSurface(loadedImage);
 
         // carregou na memoria
