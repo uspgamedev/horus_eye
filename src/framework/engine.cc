@@ -9,8 +9,6 @@
 #include "engine.h"
 #include <vector>
 
-#include <windows.h>
-
 namespace framework
 {
 
