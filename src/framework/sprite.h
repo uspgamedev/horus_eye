@@ -29,6 +29,8 @@ class Sprite {
     bool visible() const { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
 
+    Image *image() { return image_; }
+
 
     // ======================================================================
     // Substituimos o sistema de guardar animacoes no sprite por simplesmente
@@ -55,10 +57,12 @@ class Sprite {
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
+    void Initialise(Image *image);
+
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 
-  private:
+  protected:
     Vector2D position_;
     Image *image_;
     Image::Mirror mirror_;

@@ -10,10 +10,10 @@ Animation::Animation(float fps, ...) {
     int i = 0;
     static int tmp_frame_list[256]; /*TODO*/
     va_list arg_list;
-    
+
     va_start(arg_list, fps);
     while (1) {
-        int next_arg = va_arg(arg_list, int); 
+        int next_arg = va_arg(arg_list, int);
         if (next_arg == -1) { // Indica fim da lista de argumentos
             break;
         }
@@ -41,4 +41,4 @@ void Animation::Update(float delta_t) {
 
 
 
-        
+

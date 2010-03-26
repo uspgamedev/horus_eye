@@ -16,8 +16,8 @@ namespace framework {
 // Retorna true em caso de sucesso
 bool Image::Create(const Vector2D& size) {
     SDL_Surface *screen = SDL_GetVideoSurface();
-    int width = static_cast<int>(size.x());
-    int height = static_cast<int>(size.y());
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
     int depth = VideoManager::COLOR_DEPTH;
     Uint32 flags = SDL_HWSURFACE | SDL_SRCCOLORKEY;
 
@@ -82,16 +82,16 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
         return false;
 
     // obtendo coordenadas do frame_number
-    int frame_width = static_cast<int>(frame_size_.x());
-    int frame_height = static_cast<int>(frame_size_.y());
+    int frame_width = static_cast<int>(frame_size_.x);
+    int frame_height = static_cast<int>(frame_size_.y);
     int nx = width()/frame_width;
     int xpos = frame_width * (frame_number % nx);
     int ypos = frame_height * (frame_number / nx);
 
     // calculando rects...
     SDL_Rect source_rect = {xpos, ypos, frame_width, frame_height};
-    SDL_Rect dest_rect = {static_cast<Sint16>(position.x()),
-                          static_cast<Sint16>(position.y()),
+    SDL_Rect dest_rect = {static_cast<Sint16>(position.x),
+                          static_cast<Sint16>(position.y),
                           frame_width, frame_height};
 
     // desenhando...
@@ -103,16 +103,16 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
 
 // devolve o numero de frames que esta imagem armazena
 int Image::FrameCount() const {
-    return static_cast<int>((width()/frame_size_.x())
-                            * (height()/frame_size_.y()));
+    return static_cast<int>((width()/frame_size_.x)
+                            * (height()/frame_size_.y));
 }
 
 // cria uma superficie de video.
 // Voce nao deve libera-la porque a SDL ja faz isso
 // Devolve true em caso de sucesso
 bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
-    int width = static_cast<int>(size.x());
-    int height = static_cast<int>(size.y());
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
     Uint32 flags = SDL_HWSURFACE;
 
     if(fullscreen)

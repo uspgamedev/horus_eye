@@ -3,17 +3,21 @@
 namespace framework {
 
 Sprite::Sprite(Image *image) {
-    image_ = image;
-    visible_ = true;
-    animation_ = NULL;
+    Initialise(image);
 }
 
 Sprite::Sprite(Image *image, Vector2D position) {
+    Initialise(image);
+    position_ = position;
+}
+void Sprite::Initialise(Image *image)
+{
     image_ = image;
     visible_ = true;
-    position_ = position; 
-    animation_ = NULL;
+    animation_ = new Animation(50, 0, -1);
 }
+
+
 
 void Sprite::SelectAnimation(Animation *animation) {
     animation_ = animation;

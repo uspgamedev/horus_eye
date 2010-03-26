@@ -33,7 +33,7 @@ class Layer {
     Vector2D offset() { return offset_; }
 
     // Adicionando e removendo Sprites.
-    virtual void AddSprite(Sprite *sprite) { sprite_list_.push_back(sprite); }
+    void AddSprite(Sprite *sprite) { sprite_list_.push_back(sprite); }
     void RemoveSprite(Sprite *sprite) { sprite_list_.remove(sprite); }
 
     // Atualiza a camada e seus Sprites.
