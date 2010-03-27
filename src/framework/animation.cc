@@ -3,6 +3,8 @@
 #include "animation.h"
 #include <stdlib.h>
 
+#include <windows.h>
+#include <stdio.h>
 namespace framework {
 
 
@@ -31,7 +33,7 @@ Animation::Animation(float fps, ...) {
 
 void Animation::Update(float delta_t) {
     elapsed_time_ += delta_t;
-    if (elapsed_time_ >= 1/fps_) {
+    if (elapsed_time_ >= 1 / fps_) {
         current_frame_ = (current_frame_ + 1) % n_frames_;
         elapsed_time_ = 0;
     }

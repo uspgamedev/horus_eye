@@ -13,26 +13,27 @@ using namespace framework;
 
 class Ryu : public Sprite {
   public:
-    Ryu() : Sprite(Engine::reference()->video_manager()->LoadImage("ryu_punch.bmp")) {
-        Vector2D frameSize(67, 83);
-        this->image()->set_frame_size(frameSize);
+    Ryu() : Sprite(Engine::reference()->video_manager()->LoadImage("ryu_hadouken.bmp")) {
+        standing_animation =  new Animation(5, 0, 1, 2, 3, 4, 5, -1);
+        hadouken_animation = new Animation(5, 7, 8, 9, 10, 11, 12, 13, -1);
 
-        punch_animation = new Animation(9, 0, 1, 2, 3, -1);
-        standing_animation =  new Animation(1, 0, -1);
-
-        //this->Punch();
+        Stand();
     }
 
-    void Punch() {
-        this->SelectAnimation(punch_animation);
+    void Hadouken() {
+        Vector2D frameSize(292, 132);
+        this->image()->set_frame_size(frameSize);
+        this->SelectAnimation(hadouken_animation);
     }
 
     void Stand() {
+        Vector2D frameSize(86, 111);
+        this->image()->set_frame_size(frameSize);
         this->SelectAnimation(standing_animation);
     }
 
   private:
-    Animation *punch_animation;
+    Animation *hadouken_animation;
     Animation *standing_animation;
 };
 
@@ -55,7 +56,7 @@ public:
         if(input->KeyDown(SDLK_0))
             Engine::reference()->quit();
         if(input->KeyDown(SDLK_d))
-            ryu->Punch();
+            ryu->Hadouken();
         if(input->KeyDown(SDLK_s))
             ryu->Stand();
     }
