@@ -26,6 +26,7 @@ void Sprite::SelectAnimation(Animation *animation) {
 void Sprite::Render(Image *back_buffer) {
     if (visible_) {
         int frame_number = animation_->get_current_frame();
+        //printf("%d frame\n",frame_number);
         image_->DrawTo(back_buffer, position_, frame_number, mirror_);
     }
 }

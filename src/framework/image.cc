@@ -74,12 +74,18 @@ bool Image::Clear(Image::Color color) {
 bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
                    Mirror mirror) {
     // frame_number invalido!
-    if (frame_number < 0 || frame_number >= FrameCount())
+    if (frame_number < 0 || frame_number >= FrameCount()){
+        printf("width %d height %d x %lf y %lf",width(),height(),frame_size_.x,frame_size_.y);
+        printf("%d frame image %d count\n",frame_number,FrameCount());exit(-1);
+
         return false;
+    }
 
     // destino e' valido?
-    if(dest == NULL || dest->data_ == NULL)
+    if(dest == NULL || dest->data_ == NULL){
+        printf("%d FERROU\n",frame_number);exit(-1);
         return false;
+    }
 
     // obtendo coordenadas do frame_number
     int frame_width = static_cast<int>(frame_size_.x);
@@ -103,8 +109,9 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
 
 // devolve o numero de frames que esta imagem armazena
 int Image::FrameCount() const {
-    return static_cast<int>((width()/frame_size_.x)
-                            * (height()/frame_size_.y));
+    int size_x = static_cast<int> (frame_size_.x);
+    int size_y = static_cast<int> (frame_size_.y);
+    return (width()/size_x) * (height()/size_y);
 }
 
 // cria uma superficie de video.

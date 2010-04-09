@@ -276,3 +276,124 @@
 	"layer.h"
 	"engine.h"
 
+1270844212 source:/home/natan/Horus_eye/trunk/src/framework/frame.cc
+	"frame.h"
+
+1270844212 /home/natan/Horus_eye/trunk/src/framework/frame.h
+
+1270846862 source:/home/natan/Horus_eye/trunk/src/framework/animation.cc
+	<string.h>
+	<stdarg.h>
+	"animation.h"
+	<stdlib.h>
+	<stdio.h>
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/animation.h
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/engine.cc
+	<SDL/SDL.h>
+	<string>
+	"engine.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/engine.h
+	<vector>
+	"inputmanager.h"
+	"videomanager.h"
+	"scene.h"
+	"timehandler.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/inputmanager.h
+	<SDL/SDL.h>
+	"vector2D.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/vector2D.h
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/videomanager.h
+	<string>
+	<map>
+	"vector2D.h"
+	"image.h"
+
+1270844212 /home/natan/Horus_eye/trunk/src/framework/image.h
+	<SDL/SDL.h>
+	<string>
+	"vector2D.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/scene.h
+	"layer.h"
+	<list>
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/layer.h
+	<list>
+	"vector2D.h"
+	"sprite.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/sprite.h
+	"animation.h"
+	"image.h"
+	"vector2D.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/timehandler.h
+	"types.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/types.h
+
+1270847978 source:/home/natan/Horus_eye/trunk/src/framework/image.cc
+	<SDL/SDL_image.h>
+	"image.h"
+	"frame.h"
+	"videomanager.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/inputmanager.cc
+	"inputmanager.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/layer.cc
+	"layer.h"
+	"engine.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/scene.cc
+	"scene.h"
+
+1270847131 source:/home/natan/Horus_eye/trunk/src/framework/sprite.cc
+	"sprite.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/timeaccumulator.cc
+	<SDL/SDL.h>
+	<SDL/SDL_timer.h>
+	"timehandler.h"
+	"timeaccumulator.h"
+	"engine.h"
+
+1270844269 /home/natan/Horus_eye/trunk/src/framework/timeaccumulator.h
+	"timehandler.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/timehandler.cc
+	<SDL/SDL.h>
+	<SDL/SDL_timer.h>
+	"timehandler.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/vector2D.cc
+	<math.h>
+	"vector2D.h"
+
+1270844269 source:/home/natan/Horus_eye/trunk/src/framework/videomanager.cc
+	"videomanager.h"
+
+1270844274 source:/home/natan/Horus_eye/trunk/src/sandbox/teste_main.cc
+	<cstdio>
+	"../framework/videomanager.h"
+	"../framework/vector2D.h"
+	"../framework/image.h"
+	"../framework/inputmanager.h"
+
+1270847824 source:/home/natan/Horus_eye/trunk/src/sandbox/Exemplo1/exemplo1.cc
+	"../../framework/engine.h"
+	"../../framework/scene.h"
+	"../../framework/image.h"
+	"../../framework/sprite.h"
+	"../../framework/videomanager.h"
+	"../../framework/inputmanager.h"
+	"../../framework/timehandler.h"
+	"../../framework/vector2D.h"
+	<cmath>
+

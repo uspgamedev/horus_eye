@@ -21,7 +21,7 @@ class Ryu : public Sprite {
     }
 
     void Hadouken() {
-        Vector2D frameSize(292, 132);
+        Vector2D frameSize(292, 122);
         this->image()->set_frame_size(frameSize);
         this->SelectAnimation(hadouken_animation);
     }

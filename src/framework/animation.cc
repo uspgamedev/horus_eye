@@ -18,6 +18,7 @@ Animation::Animation(float fps, ...) {
         if (next_arg == -1) { // Indica fim da lista de argumentos
             break;
         }
+        //printf("%d ",next_arg);
         tmp_frame_list[i++] = next_arg;
     }
 
