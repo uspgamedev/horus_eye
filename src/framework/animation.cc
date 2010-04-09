@@ -3,7 +3,6 @@
 #include "animation.h"
 #include <stdlib.h>
 
-#include <windows.h>
 #include <stdio.h>
 namespace framework {
 

@@ -1,11 +1,11 @@
-#include "..\..\framework\engine.h"
-#include "..\..\framework\scene.h"
-#include "..\..\framework\image.h"
-#include "..\..\framework\sprite.h"
-#include "..\..\framework\videomanager.h"
-#include "..\..\framework\inputmanager.h"
-#include "..\..\framework\timehandler.h"
-#include "..\..\framework\vector2D.h"
+#include "../../framework/engine.h"
+#include "../../framework/scene.h"
+#include "../../framework/image.h"
+#include "../../framework/sprite.h"
+#include "../../framework/videomanager.h"
+#include "../../framework/inputmanager.h"
+#include "../../framework/timehandler.h"
+#include "../../framework/vector2D.h"
 #include <cmath>
 
 using namespace std;
@@ -14,8 +14,8 @@ using namespace framework;
 class Ryu : public Sprite {
   public:
     Ryu() : Sprite(Engine::reference()->video_manager()->LoadImage("ryu_hadouken.bmp")) {
-        standing_animation =  new Animation(5, 0, 1, 2, 3, 4, 5, -1);
-        hadouken_animation = new Animation(5, 7, 8, 9, 10, 11, 12, 13, -1);
+        standing_animation =  new Animation(8, 0, 1, 2, 3, 4, 5, -1);
+        hadouken_animation = new Animation(8, 7, 8, 9, 10, 11, 12, 13, -1);
 
         Stand();
     }
