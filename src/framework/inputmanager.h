@@ -10,6 +10,7 @@
 
 #include <SDL/SDL.h>
 #include "vector2D.h"
+#include "keys.h"
 
 namespace framework {
 
