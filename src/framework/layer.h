@@ -53,7 +53,6 @@ class Layer {
 
 }; // class Layer.
 
-
 }
 
 #endif // HORUSEYE_FRAMEWORK_LAYER_H_
