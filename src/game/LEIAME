@@ -1,0 +1,7 @@
+Coloque os arquivos do jogo aqui (codigo-fonte e dados).
+Existe uma estrutura de pastas *sugerida*:
+
+scenes/ - para colocar o codigo das cenas
+sprites/ - para colocar o codigo dos sprites
+data/ - para colocar dados do jogo (figuras, sons, etc)
+etc.
