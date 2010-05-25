@@ -8,6 +8,7 @@
 #include "../framework/engine.h"
 #include "../framework/vector2D.h"
 #include "scenes/world.h"
+#include "sprites/worldobject.h"
 using framework::Engine;
 using framework::Scene;
 using framework::Vector2D;

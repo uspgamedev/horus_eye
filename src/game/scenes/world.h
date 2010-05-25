@@ -22,6 +22,8 @@ class World : public framework::Scene {
   public:
     World() : Scene() { }
     virtual ~World() { }
+
+    void Update(float delta_t) { } // TODO no .cc
 };  // class World
 
 }  // namespace scene
