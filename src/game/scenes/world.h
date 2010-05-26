@@ -9,7 +9,10 @@
 #ifndef HORUSEYE_GAME_SCENES_WORLD_H_
 #define HORUSEYE_GAME_SCENES_WORLD_H_
 
+#include <list.h>
 #include "../../framework/scene.h"
+#include "../sprites/worldobject.h"
+#include "../sprites/hero.h"
 
 namespace scene {
 
@@ -24,6 +27,20 @@ class World : public framework::Scene {
     virtual ~World() { }
 
     void Update(float delta_t) { } // TODO no .cc
+
+    void AddWorldObject(sprite::WorldObject*);
+    void AddFloor(sprite::Floor*);
+    void FinishLevel(bool);
+    int CountRemainingEnemies();
+    Hero * hero();
+
+  protected:
+    sprite::Hero *                  hero_;
+    std::list<sprite::WorldObject*> world_objects_,
+                                    collidable_;
+
+    void RemoveInactiveObjects();
+
 };  // class World
 
 }  // namespace scene

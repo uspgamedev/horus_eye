@@ -16,7 +16,7 @@ namespace sprite {
 
 // Classe Creature
 
-class Creature : public sprites::WorldObject {
+class Creature : public sprite::WorldObject {
   public:
     Creature() : WorldObject() { }
     virtual ~Creature() { }
