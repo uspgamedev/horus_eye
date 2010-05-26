@@ -11,6 +11,7 @@
 
 #include <list.h>
 #include "../../framework/scene.h"
+#include "../../framework/vector2D.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 
@@ -33,11 +34,14 @@ class World : public framework::Scene {
     void FinishLevel(bool);
     int CountRemainingEnemies();
     Hero * hero();
+    void set_mummy_count_(int);
 
   protected:
     sprite::Hero *                  hero_;
     std::list<sprite::WorldObject*> world_objects_,
                                     collidable_;
+    framework::Vector2D             camera_position_;
+    int                             mummy_count_;
 
     void RemoveInactiveObjects();
 
