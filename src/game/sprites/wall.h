@@ -13,7 +13,7 @@
 
 namespace sprite {
 
-class Wall : public framework::Sprite {
+class Wall : public WorldObject {
 
 };
 

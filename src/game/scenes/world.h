@@ -14,6 +14,8 @@
 #include "../../framework/vector2D.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
+#include "../sprites/floor.h"
+#include "../sprites/wall.h"
 
 namespace scene {
 
@@ -29,13 +31,13 @@ class World : public framework::Scene {
     }
     virtual ~World();
 
-    void Update(float delta_t) { } // TODO no .cc
+    void Update(float delta_t); // TODO no .cc
 
     void AddWorldObject(sprite::WorldObject*);
     void AddFloor(sprite::Floor*);
     void FinishLevel(bool);
     int CountRemainingEnemies();
-    Hero * hero();
+    sprite::Hero * hero();
 
   protected:
     sprite::Hero *                  hero_;
