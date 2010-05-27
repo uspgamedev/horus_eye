@@ -24,8 +24,10 @@ namespace scene {
 // testar a compilacao do jogo. :P
 class World : public framework::Scene {
   public:
-    World() : Scene() { }
-    virtual ~World() { }
+    World() : Scene(), world_layer_(new framework::Layer()) {
+        AddLayer(world_layer_);
+    }
+    virtual ~World();
 
     void Update(float delta_t) { } // TODO no .cc
 
@@ -40,7 +42,7 @@ class World : public framework::Scene {
     std::list<sprite::WorldObject*> world_objects_,
                                     collidable_;
     framework::Vector2D             camera_position_;
-    framework::Laye                 world_layer_;
+    framework::Layer                *world_layer_;
 
     void RemoveInactiveObjects();
 

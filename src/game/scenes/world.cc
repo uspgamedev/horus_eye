@@ -15,10 +15,7 @@
 
 namespace scene {
 
-// Construtor
-World::World() : world_layer_() {
-    AddLayer(world_layer_);
-}
+using namespace framework;
 
 // Destrutor
 World::~World() {
@@ -40,12 +37,12 @@ void World::Update(float delta_t) {
 void World::AddWorldObject(sprite::WorldObject* new_object) {
     world_objects_.push_front(new_object);
     collidable_.push_front(new_object);
-    world_layer_.AddSprite(new_object);
+    world_layer_->AddSprite(new_object);
 }
 
 void World::AddFloor(sprite::Floor* new_floor) {
     world_objects_.push_front(new_floor);
-    world_layer_.AddSprite(new_floor);
+    world_layer_->AddSprite(new_floor);
 }
 
 void World::FinishLevel(bool goodEnd) {
