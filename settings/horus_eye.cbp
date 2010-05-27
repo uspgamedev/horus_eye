@@ -59,6 +59,8 @@
 		<Unit filename="../src/framework/videomanager.cc" />
 		<Unit filename="../src/framework/videomanager.h" />
 		<Unit filename="../src/sandbox/Exemplo1/exemplo1.cc" />
+		<Unit filename="../src/sandbox/Exemplo2/exemplo2.cc" />
+		<Unit filename="../src/sandbox/Exemplo2/mage.png" />
 		<Unit filename="../src/sandbox/LEIAME.txt" />
 		<Unit filename="../src/sandbox/teste_main.cc" />
 		<Extensions>

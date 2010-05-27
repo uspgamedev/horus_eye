@@ -68,7 +68,7 @@ public:
     InputManager *input;
 };
 
-int main(int argc, char* argv[]) {
+int main_(int argc, char* argv[]) {
     Engine * engine = Engine::reference();
     engine->Initialize("Ryu Punching", Vector2D(640, 480), false);
 
