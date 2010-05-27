@@ -17,8 +17,15 @@ using namespace scene;
 using namespace sprite;
 using namespace framework;
 
+#define WALL W
+#define DOOR D
+#define MUMMY M
+#define HERO H
+
 /*
- * TODO: nao terminada!
+ * Lê o arquivo de texto e passa as informações de que objetos criar, e onde, ao World.
+ * O arquivo de entrada deve começar com dois inteiros que representam o tamanho do mapa
+ * seguida da matriz de simbolos associados aos tipos de objeto a serem criados:
  * Wall     : W
  * Door     : D
  * Mummy    : M
@@ -45,9 +52,21 @@ void LevelLoader::Load(string file_name) {
             fscanf(level_input, "%c", &token);
             position.x = i;
             position.y = j;
-            // ... Criar o chao.
+            new_floor = new Floor;
+            new_floor->set_world_pos(position);
             world_->AddFloor(new_floor);
             if (token != 'X') {
+                switch(token) {
+                    case WALL:
+                        new_world_obj = new Wall;
+                        break;
+                    case HERO:
+                        new_world_obj = new Hero;
+                        break;
+                    default:
+                        break;
+                }
+                new_floor->set_world_pos(position);
                 // ... Criar o objeto correspondente.
                 world_->AddWorldObject(new_world_obj);
             }
