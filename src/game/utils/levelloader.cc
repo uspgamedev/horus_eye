@@ -47,13 +47,13 @@ void LevelLoader::Load(string file_name) {
     WorldObject *   new_world_obj;
     Vector2D        position;
 
-    for (int j = 0; j < height; j++)
-        for (int i = 0; i < width; i++) {
+    for (int j = 0; j < height; ++j)
+        for (int i = 0; i < width; ++i) {
             fscanf(level_input, "%c", &token);
             position.x = i;
             position.y = j;
             new_floor = new Floor;
-            new_floor->set_world_pos(position);
+            new_floor->set_world_position(position);
             world_->AddFloor(new_floor);
             if (token != 'X') {
                 switch(token) {
@@ -66,7 +66,7 @@ void LevelLoader::Load(string file_name) {
                     default:
                         break;
                 }
-                new_floor->set_world_pos(position);
+                new_floor->set_world_position(position);
                 // ... Criar o objeto correspondente.
                 world_->AddWorldObject(new_world_obj);
             }
