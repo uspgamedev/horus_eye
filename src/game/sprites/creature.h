@@ -11,6 +11,7 @@
 
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
+#include "wall.h"
 
 namespace sprite {
 
@@ -27,13 +28,13 @@ class Creature : public sprite::WorldObject {
   protected:
 
     // funcoes
-    void Move(Vector2D direction, float delta_t);
-    virtual Vector2D GetWalkingDirection();
+    void Move(framework::Vector2D direction, float delta_t);
+    virtual framework::Vector2D GetWalkingDirection();
 
     // variaveis
     int   life_, max_life_;
     float speed_, attack_cool_down_, attack_duration_, hit_duration_;
-    Vector2D walking_direction_, looking_direction_;
+    framework::Vector2D walking_direction_, looking_direction_;
 };  // class Creature
 
 }  // namespace sprite
