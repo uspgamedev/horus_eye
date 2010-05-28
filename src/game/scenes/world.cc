@@ -6,16 +6,18 @@
 // Implementacao da classe World.
 //
 
-#include <list.h>
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../sprites/worldobject.h"
-#include "../sprites/hero.h"
 #include "world.h"
+#include "../sprites/hero.h"
+#include "../sprites/floor.h"
+#include "../sprites/wall.h"
 
 namespace scene {
 
 using namespace framework;
+using namespace sprite;
 
 // Destrutor
 World::~World() {
@@ -26,9 +28,9 @@ void World::Update(float delta_t) {
     Scene::Update(delta_t);
     for (i = collidable_.begin(); i != collidable_.end(); ++i)
         for (j = i, ++j; j != collidable_.end(); ++j)
-            if ((*i).IsColliding(*j)) {
-                (*i).CollidesWith(*j);
-                (*j).CollidesWith(*i);
+            if ((*i)->IsColliding(*j)) {
+                (*i)->CollidesWithG(*j);
+                (*j)->CollidesWithG(*i);
             }
 }
 

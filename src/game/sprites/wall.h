@@ -10,10 +10,14 @@
 #define WALL_H_
 
 #include "../../framework/sprite.h"
+#include "worldobject.h"
 
 namespace sprite {
 
-class Wall : public WorldObject {
+class Wall : public sprite::WorldObject {
+
+  public:
+    Wall() {}
 
 };
 

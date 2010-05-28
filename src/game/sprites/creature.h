@@ -11,6 +11,7 @@
 
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
+#include "worldobject.h"
 #include "wall.h"
 
 namespace sprite {
@@ -19,7 +20,7 @@ namespace sprite {
 
 class Creature : public sprite::WorldObject {
   public:
-    Creature() : WorldObject() { }
+    Creature();
     virtual ~Creature() { }
 
     // Colisoes
@@ -29,7 +30,9 @@ class Creature : public sprite::WorldObject {
 
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
-    virtual framework::Vector2D GetWalkingDirection();
+    virtual framework::Vector2D GetWalkingDirection() {
+        return walking_direction_;
+    }
 
     // variaveis
     int   life_, max_life_;

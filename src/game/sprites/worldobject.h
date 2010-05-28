@@ -13,6 +13,12 @@
 #include "../../framework/vector2D.h"
 #include "../scenes/world.h"
 
+namespace scene {
+
+class World;
+
+}
+
 namespace sprite {
 
 // Classe WorldObject (abstrata)
@@ -20,6 +26,7 @@ namespace sprite {
 class WorldObject : public framework::Sprite {
   public:
     WorldObject();
+    WorldObject(WorldObject*);
     virtual ~WorldObject();
 
     // estado do objeto
@@ -35,7 +42,9 @@ class WorldObject : public framework::Sprite {
 
     // tratamento de colisao
     virtual bool IsColliding(WorldObject* obj) const;
-    virtual void CollidesWith(WorldObject* obj);
+    virtual void CollidesWith(WorldObject* obj) {}
+    // tratamento de colisao
+    void CollidesWithG(WorldObject* obj);
 
   protected:
 
@@ -44,9 +53,8 @@ class WorldObject : public framework::Sprite {
     float collision_radius_;
     Status status_;
 
-    // tratamento de colisao
-    void CollidesWithG(WorldObject* obj);
-    friend void scene::World::Update(float);
+
+    //friend void scene::World::Update(float);
 
 };  // class WorldObject
 

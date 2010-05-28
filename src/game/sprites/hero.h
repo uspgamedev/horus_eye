@@ -13,12 +13,14 @@
 
 namespace sprite {
 
+class Creature;
+
 // Grupo 1: Criamos essa classe para podermos fazer a classe World.
-class Hero : public sprite::Creature {
+class Hero : public Creature {
 
   public:
-    Hero();
-    virtual ~Hero();
+    Hero() {}
+    virtual ~Hero() {}
 
 };
 

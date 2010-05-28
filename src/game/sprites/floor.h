@@ -9,11 +9,14 @@
 #ifndef FLOOR_H_
 #define FLOOR_H_
 
-#include "../../framework/sprite.h"
+#include "worldobject.h"
 
 namespace sprite {
 
 class Floor : public WorldObject {
+
+  public:
+    Floor() {}
 
 };
 

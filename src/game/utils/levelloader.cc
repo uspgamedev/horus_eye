@@ -9,6 +9,9 @@
 #include "levelloader.h"
 #include <cstdio>
 #include "../sprites/worldobject.h"
+#include "../sprites/hero.h"
+#include "../sprites/floor.h"
+#include "../sprites/wall.h"
 
 namespace utils {
 
@@ -17,10 +20,10 @@ using namespace scene;
 using namespace sprite;
 using namespace framework;
 
-#define WALL W
-#define DOOR D
-#define MUMMY M
-#define HERO H
+#define WALL    'W'
+#define DOOR    'D'
+#define MUMMY   'M'
+#define HERO    'H'
 
 /*
  * Lê o arquivo de texto e passa as informações de que objetos criar, e onde, ao World.
@@ -75,4 +78,4 @@ void LevelLoader::Load(string file_name) {
 
 }
 
-}
+} // namespace utils

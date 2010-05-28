@@ -10,9 +10,17 @@
 
 namespace sprite {
 
+using namespace framework;
+
 WorldObject::WorldObject()
-    : world_position_( framework::Vector2D(0.0f, 0.0f) ), collision_radius_(0.0f), status_(STATUS_ACTIVE)
-{
+    : Sprite(NULL),
+      world_position_( framework::Vector2D(0.0f, 0.0f) ),
+      collision_radius_(0.0f),
+      status_(STATUS_ACTIVE)
+{}
+
+WorldObject::WorldObject(WorldObject* obj) : Sprite(NULL) {
+    // vazio
 }
 
 WorldObject::~WorldObject() {
@@ -23,14 +31,10 @@ bool WorldObject::IsColliding(WorldObject* obj) const {
     return distance.length() <= obj->collision_radius() + collision_radius();
 }
 
-void WorldObject::WorldObject(WorldObject* obj) {
-    // vazio
-}
-
 void WorldObject::CollidesWithG(WorldObject* obj) {
     // double dispatch
     // http://en.wikipedia.org/wiki/Double_dispatch
-    obj->CollidesWith(*this);
+    obj->CollidesWith(this);
 }
 
 }  // namespace sprite

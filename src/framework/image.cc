@@ -75,7 +75,7 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
                    Mirror mirror) {
     // frame_number invalido!
     if (frame_number < 0 || frame_number >= FrameCount()){
-        printf("width %d height %d x %lf y %lf",width(),height(),frame_size_.x,frame_size_.y);
+        printf("width %d height %d x %f y %f",width(),height(),frame_size_.x,frame_size_.y);
         printf("%d frame image %d count\n",frame_number,FrameCount());exit(-1);
 
         return false;
