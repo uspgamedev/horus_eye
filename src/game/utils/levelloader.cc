@@ -24,6 +24,7 @@ using namespace framework;
 #define DOOR    'D'
 #define MUMMY   'M'
 #define HERO    'H'
+#define EMPTY   'X'
 
 /*
  * Lê o arquivo de texto e passa as informações de que objetos criar, e onde, ao World.
@@ -52,13 +53,13 @@ void LevelLoader::Load(string file_name) {
 
     for (int j = 0; j < height; ++j)
         for (int i = 0; i < width; ++i) {
-            fscanf(level_input, "%c", &token);
+            fscanf(level_input, "\n %c \n", &token);
             position.x = i;
             position.y = j;
             new_floor = new Floor;
             new_floor->set_world_position(position);
             world_->AddFloor(new_floor);
-            if (token != 'X') {
+            if (token != EMPTY) {
                 switch(token) {
                     case WALL:
                         new_world_obj = new Wall;
