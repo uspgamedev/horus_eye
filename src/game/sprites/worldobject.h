@@ -11,13 +11,6 @@
 
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
-#include "../scenes/world.h"
-
-namespace scene {
-
-class World;
-
-}
 
 namespace sprite {
 

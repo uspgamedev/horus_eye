@@ -31,12 +31,12 @@ SET(CFLAGS "" CACHE STRING "flags enviadas ao compilador")
 SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
 IF(UNIX)
   # se for o g++ para *nix:
-  SET(CFLAGS "${CFLAGS} -Wall -ansi -O2")
+  SET(CFLAGS "${CFLAGS} -Wall -ansi -O2 -U_FORTIFY_SOURCE")
   SET(LDFLAGS "${LDFLAGS}")
 ELSE(UNIX)
   IF(MINGW)
     # se for o g++ para Windows:
-    SET(CFLAGS "${CFLAGS} -Wall -ansi -O2")
+    SET(CFLAGS "${CFLAGS} -Wall -ansi -O2 -U_FORTIFY_SOURCE")
     SET(LDFLAGS "${LDFLAGS}")
   ELSE(MINGW)
     # se for o Microsoft Visual C++:

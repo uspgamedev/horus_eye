@@ -1,4 +1,4 @@
-SET(GAME_SRCS ./scenes/world.h ./main.cc ./sprites/worldobject.h ./sprites/creature.h ../framework/engine.h ../framework/frame.cc ../framework/scene.cc ../framework/animation.cc ../framework/types.h ../framework/image.h ../framework/inputmanager.cc ../framework/keys.h ../framework/videomanager.h ../framework/inputmanager.h ../framework/frame.h ../framework/layer.h ../framework/scene.h ../framework/timehandler.h ../framework/vector2D.h ../framework/image.cc ../framework/timehandler.cc ../framework/animation.h ../framework/sprite.cc ../framework/timeaccumulator.h ../framework/layer.cc ../framework/engine.cc ../framework/vector2D.cc ../framework/sprite.h ../framework/timeaccumulator.cc ../framework/videomanager.cc )
+SET(GAME_SRCS ./utils/levelloader.cc ./utils/levelloader.h ./sprites/worldobject.cc ./sprites/wall.h ./sprites/worldobject.h ./sprites/creature.h ./sprites/floor.cc ./sprites/wall.cc ./sprites/hero.h ./sprites/floor.h ./sprites/creature.cc ./scenes/world.cc ./scenes/world.h ./main.cc ../framework/image.h ../framework/sprite.cc ../framework/scene.h ../framework/animation.h ../framework/engine.h ../framework/engine.cc ../framework/frame.cc ../framework/vector2D.h ../framework/inputmanager.cc ../framework/animation.cc ../framework/videomanager.cc ../framework/scene.cc ../framework/inputmanager.h ../framework/vector2D.cc ../framework/layer.h ../framework/keys.h ../framework/videomanager.h ../framework/types.h ../framework/frame.h ../framework/timehandler.cc ../framework/image.cc ../framework/timeaccumulator.cc ../framework/layer.cc ../framework/timehandler.h ../framework/timeaccumulator.h ../framework/sprite.h )
 #
 # Horus Eye
 # Copyright (C) 2010  USPGameDev
@@ -32,12 +32,12 @@ SET(CFLAGS "" CACHE STRING "flags enviadas ao compilador")
 SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
 IF(UNIX)
   # se for o g++ para *nix:
-  SET(CFLAGS "${CFLAGS} -Wall -ansi -O2")
+  SET(CFLAGS "${CFLAGS} -Wall -ansi -O2 -U_FORTIFY_SOURCE")
   SET(LDFLAGS "${LDFLAGS}")
 ELSE(UNIX)
   IF(MINGW)
     # se for o g++ para Windows:
-    SET(CFLAGS "${CFLAGS} -Wall -ansi -O2")
+    SET(CFLAGS "${CFLAGS} -Wall -ansi -O2 -U_FORTIFY_SOURCE")
     SET(LDFLAGS "${LDFLAGS}")
   ELSE(MINGW)
     # se for o Microsoft Visual C++:

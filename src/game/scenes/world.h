@@ -12,20 +12,11 @@
 #include <list>
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
-/*#include "../sprites/worldobject.h"
+#include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../sprites/floor.h"
-#include "../sprites/wall.h"*/
+#include "../sprites/wall.h"
 
-namespace sprite {
-
-class WorldObject;
-class Creature;
-class Wall;
-class Floor;
-class Hero;
-
-}
 
 namespace scene {
 

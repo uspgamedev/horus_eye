@@ -7,6 +7,7 @@
 //
 
 #include "worldobject.h"
+#include "../scenes/world.h"
 
 namespace sprite {
 
