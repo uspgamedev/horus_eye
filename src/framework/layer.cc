@@ -6,16 +6,17 @@
 // Implementacao da classe Layer.
 //
 
+#include <algorithm>
 #include "layer.h"
 #include "engine.h"
 
 namespace framework {
 
-using namespace std;
-
 void Layer::Update(float delta_t) {
 
-    list<Sprite*>::iterator it = sprite_list_.begin();
+    std::vector<Sprite*>::iterator it = sprite_list_.begin();
+
+    SortSprites();
 
     while (it != sprite_list_.end()) {
         (*it)->Update(delta_t);
@@ -25,13 +26,34 @@ void Layer::Update(float delta_t) {
 
 void Layer::Render() {
 
-    list<Sprite*>::iterator it = sprite_list_.begin();
+    std::vector<Sprite*>::iterator it = sprite_list_.begin();
 
     if(visible_)
         while (it != sprite_list_.end()) {
             (*it)->Render(Engine::reference()->video_manager()->backbuffer());
             ++it;
         }
+}
+
+void Layer::AddSprite(Sprite* sprite)
+{
+    if(sprite != NULL)
+        sprite_list_.push_back(sprite);
+}
+
+void Layer::RemoveSprite(Sprite* sprite)
+{
+    // nao use RemoveSprite() se estiver iterando pela sprite_list_!
+    std::vector<Sprite*>::iterator it;
+
+    it = std::find(sprite_list_.begin(), sprite_list_.end(), sprite);
+    if(it != sprite_list_.end())
+        sprite_list_.erase(it);
+}
+
+void Layer::SortSprites() {
+    // ordena sprites pelo valor de zindex
+    std::sort(sprite_list_.begin(), sprite_list_.end(), Sprite::CompareByZIndex);
 }
 
 }

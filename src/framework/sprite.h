@@ -8,6 +8,7 @@
 #ifndef HORUSEYE_FRAMEWORK_SPRITE_H_
 #define HORUSEYE_FRAMEWORK_SPRITE_H_
 
+#include <algorithm>
 #include "animation.h"
 #include "image.h"
 #include "vector2D.h"
@@ -28,6 +29,11 @@ class Sprite {
 
     bool visible() const { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
+
+    // zindex: (tras) 0.0 <= zindex <= 1.0 (frente)
+    float zindex() const { return zindex_; }
+    void set_zindex(float z) { zindex_= std::max( std::min(z, 1.0f), 0.0f ); }
+    static bool CompareByZIndex(Sprite *a, Sprite *b);
 
     Image *image() { return image_; }
 
@@ -67,6 +73,7 @@ class Sprite {
     Image *image_;
     Image::Mirror mirror_;
     Animation *animation_;
+    float zindex_;
     bool visible_;
 
 };

@@ -9,7 +9,7 @@
 #ifndef HORUSEYE_FRAMEWORK_LAYER_H_
 #define HORUSEYE_FRAMEWORK_LAYER_H_
 
-#include <list>
+#include <vector>
 #include "vector2D.h"
 #include "sprite.h"
 
@@ -33,8 +33,8 @@ class Layer {
     Vector2D offset() { return offset_; }
 
     // Adicionando e removendo Sprites.
-    void AddSprite(Sprite *sprite) { sprite_list_.push_back(sprite); }
-    void RemoveSprite(Sprite *sprite) { sprite_list_.remove(sprite); }
+    void AddSprite(Sprite *sprite);
+    void RemoveSprite(Sprite *sprite);
 
     // Atualiza a camada e seus Sprites.
     virtual void Update(float delta_t);
@@ -44,12 +44,15 @@ class Layer {
 
   protected:
     // Estrutura básica para armazenar os Sprites. Não definitivo.
-    ::std::list<Sprite*> sprite_list_;
+    std::vector<Sprite*> sprite_list_;
 
   private:
     // Atributos.
     Vector2D offset_;
     bool visible_;
+
+    // Ordena os sprites pelo zindex
+    virtual void SortSprites();
 
 }; // class Layer.
 

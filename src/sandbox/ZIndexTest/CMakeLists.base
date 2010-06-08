@@ -1,17 +1,16 @@
-SET(GAME_SRCS ./scenes/world.h ./scenes/world.cc ./main.cc ./sprites/worldobject.cc ./sprites/hero.h ./sprites/wall.h ./sprites/wall.cc ./sprites/worldobject.h ./sprites/floor.cc ./sprites/creature.cc ./sprites/creature.h ./sprites/floor.h ./utils/levelloader.cc ./utils/levelloader.h ../framework/engine.h ../framework/frame.cc ../framework/scene.cc ../framework/animation.cc ../framework/types.h ../framework/image.h ../framework/inputmanager.cc ../framework/keys.h ../framework/videomanager.h ../framework/inputmanager.h ../framework/frame.h ../framework/layer.h ../framework/scene.h ../framework/timehandler.h ../framework/vector2D.h ../framework/image.cc ../framework/timehandler.cc ../framework/animation.h ../framework/sprite.cc ../framework/timeaccumulator.h ../framework/layer.cc ../framework/engine.cc ../framework/vector2D.cc ../framework/sprite.h ../framework/timeaccumulator.cc ../framework/videomanager.cc )
 #
 # Horus Eye
 # Copyright (C) 2010  USPGameDev
 #
-# game/CMakeLists.txt
+# sandbox/ZIndexTest/CMakeLists.txt
 # Arquivo de configuracao do CMake
 #
 
 # Inicializando...
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-PROJECT(horus_eye CXX)
-SET(GAME_UNIXNAME horus_eye)
-SET(GAME_NAME "Horus Eye")
+PROJECT(zindextest CXX)
+SET(GAME_UNIXNAME zindextest)
+SET(GAME_NAME "ZIndexTest")
 SET(GAME_VERSION "0.1")
 SET(CMAKE_BUILD_TYPE Release)
 MESSAGE("${GAME_NAME} versao ${GAME_VERSION}")
@@ -131,20 +130,3 @@ ENDIF(WIN32)
 
 # Misc
 SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES PROJECT_NAME "${GAME_NAME}")
-
-# Installing on *nix
-IF(UNIX)
-  SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}")
-  SET(GAME_FINAL_DIR "/usr/bin")
-
-  INSTALL(CODE "MESSAGE(\"Installing ${GAME_NAME} ${GAME_VERSION}... Make sure you have root privileges.\")")
-  INSTALL(TARGETS ${GAME_UNIXNAME} RUNTIME DESTINATION ${GAME_INSTALL_DIR})
-  #INSTALL(FILES license.txt readme.html DESTINATION ${GAME_INSTALL_DIR})
-  #INSTALL(DIRECTORY config images levels licenses musics quests samples screenshots themes languages DESTINATION ${GAME_INSTALL_DIR} PATTERN ".svn" EXCLUDE)
-  INSTALL(DIRECTORY data DESTINATION ${GAME_INSTALL_DIR} PATTERN ".svn" EXCLUDE)
-
-  INSTALL(CODE "MESSAGE(\"Creating files at ${GAME_FINAL_DIR}...\")")
-  INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"cmake\" \"-E\" \"copy\" \"${GAME_INSTALL_DIR}/${GAME_UNIXNAME}\" \"${GAME_FINAL_DIR}/${GAME_UNIXNAME}\")")
-
-  INSTALL(CODE "MESSAGE(\"Done! Please run ${GAME_UNIXNAME} to start ${GAME_NAME}.\")")
-ENDIF(UNIX)

@@ -2,11 +2,11 @@
 
 namespace framework {
 
-Sprite::Sprite(Image *image) {
+Sprite::Sprite(Image *image) : zindex_(0.0f) {
     Initialise(image);
 }
 
-Sprite::Sprite(Image *image, Vector2D position) {
+Sprite::Sprite(Image *image, Vector2D position) : zindex_(0.0f) {
     Initialise(image);
     position_ = position;
 }
@@ -31,6 +31,10 @@ void Sprite::Render(Image *back_buffer) {
 
 void Sprite::Update(float delta_t) {
     animation_->Update(delta_t);
+}
+
+bool Sprite::CompareByZIndex(Sprite *a, Sprite *b) {
+    return a->zindex() < b->zindex();
 }
 
 }
