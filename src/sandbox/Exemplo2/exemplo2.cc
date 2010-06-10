@@ -13,96 +13,146 @@ using namespace framework;
 
 class Mage : public Sprite {
   public:
-    int direction_;
+    int animation_direction_;
+    Animation *last_standing_animation_;
+    Animation ** standing_animations_[16];
+    Animation ** walking_animations_[16];
+
+    Vector2D directions_[4];
+    bool pressed_key_[4];
+
+    class Direction_ {
+      public:
+        static const int RIGHT = 0;
+        static const int LEFT = 1;
+        static const int UP = 2;
+        static const int DOWN = 3;
+    };
+
+    class Animation_ {
+      public:
+        static const int RIGHT = 1;
+        static const int LEFT = 2;
+        static const int UP = 4;
+        static const int DOWN = 8;
+    };
+
 
     Mage() : Sprite(Engine::reference()->video_manager()->LoadImage("mage.png"), Vector2D(280, 210)) {
-        standing_down_right =  new Animation(0, 0, -1);
-        standing_down_left = new Animation(0, 5, -1);
-        standing_up_right = new Animation(0, 10, -1);
-        standing_up_left = new Animation(0, 15, -1);
 
-        walking_down_right =  new Animation(10, 0, 1, 2, 3, 4, -1);
-        walking_down_left = new Animation(10, 5, 6, 7, 8, 9, -1);
-        walking_up_right = new Animation(10, 10, 11, 12, 13, 14, -1);
-        walking_up_left = new Animation(10, 15, 16, 17, 18, 19, -1);
-        spell_animation =  new Animation(10, 0, 1, 2, 3, 4, -1);
+        directions_[Direction_::RIGHT] = Vector2D(1, 0);
+        directions_[Direction_::LEFT] = Vector2D(-1, 0);
+        directions_[Direction_::DOWN] = Vector2D(0, 1);
+        directions_[Direction_::UP] = Vector2D(0, -1);
 
-        direction_ = 0;
-        Stand();
+        last_standing_animation_ = new Animation(0, -1);
+        for (int i = 0; i < 16; i++) {
+            standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+            walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+            *standing_animations_[i] = NULL;
+            *walking_animations_[i] = NULL;
+        }
+        *standing_animations_[Animation_::DOWN] = new Animation(0, 0, -1);
+        *standing_animations_[Animation_::LEFT] = new Animation(0, 5, -1);
+        *standing_animations_[Animation_::RIGHT] = new Animation(0, 10, -1);
+        *standing_animations_[Animation_::UP] = new Animation(0, 15, -1);
+        /**
+         * Por hora, sao as mesmas animacoes. Quando colocarmos as outras posicoes
+         * no sprite sheet, atualizaremos as animacoes.
+        */
+        *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 0, -1);
+        *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 5, -1);
+        *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 10, -1);
+        *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 15, -1);
+
+        *walking_animations_[Animation_::DOWN] = new Animation(10, 0, 1, 2, 3, 4, -1);
+        *walking_animations_[Animation_::LEFT] = new Animation(10, 5, 6, 7, 8, 9, -1);
+        *walking_animations_[Animation_::RIGHT] = new Animation(10, 10, 11, 12, 13, 14, -1);
+        *walking_animations_[Animation_::UP] = new Animation(10, 15, 16, 17, 18, 19, -1);
+        /**
+         * Por hora, sao as mesmas animacoes. Quando colocarmos as outras posicoes
+         * no sprite sheet, atualizaremos as animacoes.
+        */
+        *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 0, -1);
+        *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 5, -1);
+        *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 10, -1);
+        *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 15, -1);
+
+        animation_direction_ = 0;
+        last_standing_animation_ = *standing_animations_[Animation_::DOWN];
+        for (int i = 0; i < 16; i++) {
+            if (*standing_animations_[i] == NULL) {
+                free(standing_animations_[i]);
+                standing_animations_[i] = &last_standing_animation_;
+            }
+            if (*walking_animations_[i] == NULL) {
+                free(walking_animations_[i]);
+                walking_animations_[i] = &last_standing_animation_;
+            }
+        }
+
+        for (int i = 0; i < 4; i++) {
+            pressed_key_[i] = false;
+        }
     }
 
-    void Stand() {
-        is_walking_ = false;
-        Vector2D frameSize(74, 60);
-        this->image()->set_frame_size(frameSize);
-        if (direction_ == 0) {
-            this->SelectAnimation(standing_down_right);
-        } else if (direction_ == 1) {
-            this->SelectAnimation(standing_down_left);
-        } else if (direction_ == 2) {
-            this->SelectAnimation(standing_up_right);
-        } else {
-            this->SelectAnimation(standing_up_left);
-        }
+    void SelectSpriteAnimation() {
+        Vector2D frame_size(74, 60);
+        this->image()->set_frame_size(frame_size);
+        this->SelectAnimation(*walking_animations_[animation_direction_]);
     }
 
     void Move() {
         float speed = 0.1;
 
         Vector2D position(this->position().x, this->position().y);
-        if (is_walking_) {
-            if (direction_ == 0) {
-                position.x += speed;
-                position.y += speed;
-            } else if (direction_ == 1) {
-                position.x -= speed;
-                position.y += speed;
-            } else if (direction_ == 2) {
-                position.x += speed;
-                position.y -= speed;
-            } else {
-                position.x -= speed;
-                position.y -= speed;
+        Vector2D dir (0, 0);
+        for (int i = 0; i < 4; i++) {
+            if (pressed_key_[i]) {
+                dir = dir + directions_[i];
             }
         }
+        dir = Vector2D::Normalized(dir);
+        dir = dir * speed;
+        position = position + dir;
+
         set_position(position);
     }
 
-    void Walk() {
-        is_walking_ = true;
-        Vector2D frameSize(74, 60);
-        this->image()->set_frame_size(frameSize);
-        if (direction_ == 0) {
-            this->SelectAnimation(walking_down_right);
-        } else if (direction_ == 1) {
-            this->SelectAnimation(walking_down_left);
-        } else if (direction_ == 2) {
-            this->SelectAnimation(walking_up_right);
-        } else {
-            this->SelectAnimation(walking_up_left);
+    void Get_keys() {
+        InputManager *input_ = Engine::reference()->input_manager();
+        // -----------------------------
+        // Nao copiar esta parte
+        if(input_->KeyDown(K_ESCAPE))
+            Engine::reference()->quit();
+//        if(input_->KeyDown(SDLK_SPACE))
+//            mage_->Spell();
+        // -----------------------------
+
+        for (int i = 0; i < 4; i++) {
+            pressed_key_[i] = false;
         }
+
+        animation_direction_ = 0;
+        if(input_->KeyDown(K_w)) {
+            pressed_key_[Direction_::UP] = true;
+            animation_direction_ += Animation_::UP;
+        }
+        if(input_->KeyDown(K_a)) {
+            pressed_key_[Direction_::LEFT] = true;
+            animation_direction_ += Animation_::LEFT;
+        }
+        if(input_->KeyDown(K_s)) {
+            pressed_key_[Direction_::DOWN] = true;
+            animation_direction_ += Animation_::DOWN;
+        }
+        if(input_->KeyDown(K_d)) {
+            pressed_key_[Direction_::RIGHT] = true;
+            animation_direction_ += Animation_::RIGHT;
+        }
+
+        last_standing_animation_ = *(standing_animations_[animation_direction_]);
     }
-
-    void Spell() {
-        Vector2D frameSize(74, 60);
-        this->image()->set_frame_size(frameSize);
-        this->SelectAnimation(spell_animation);
-    }
-
-  private:
-    Animation *standing_down_right;
-    Animation *standing_down_left;
-    Animation *standing_up_right;
-    Animation *standing_up_left;
-
-    Animation *walking_down_right;
-    Animation *walking_down_left;
-    Animation *walking_up_right;
-    Animation *walking_up_left;
-
-    Animation *spell_animation;
-
-    bool is_walking_;
 };
 
 class MageScene : public Scene {
@@ -122,8 +172,9 @@ public:
     void Update(float delta_t) {
         Scene::Update(delta_t);
         video_->backbuffer()->Clear(0);
-        Get_keys();
+        mage_->Get_keys();
         mage_->Move();
+        mage_->SelectSpriteAnimation();
     }
 
   private:
@@ -132,46 +183,6 @@ public:
     Layer *main_layer_;
     InputManager *input_;
 
-    void Get_keys() {
-        if(input_->KeyDown(SDLK_ESCAPE))
-            Engine::reference()->quit();
-        if(input_->KeyDown(SDLK_SPACE))
-            mage_->Spell();
-
-        if(input_->KeyDown(K_f)) {
-            mage_->direction_ = 0;
-            mage_->Stand();
-        }
-        if(input_->KeyDown(K_d)) {
-            mage_->direction_ = 1;
-            mage_->Stand();
-        }
-        if(input_->KeyDown(K_r)) {
-            mage_->direction_ = 2;
-            mage_->Stand();
-        }
-        if(input_->KeyDown(K_e)) {
-            mage_->direction_ = 3;
-            mage_->Stand();
-        }
-
-        if(input_->KeyDown(K_s)) {
-            mage_->direction_ = 0;
-            mage_->Walk();
-        }
-        if(input_->KeyDown(K_a)) {
-            mage_->direction_ = 1;
-            mage_->Walk();
-        }
-        if(input_->KeyDown(K_w)) {
-            mage_->direction_ = 2;
-            mage_->Walk();
-        }
-        if(input_->KeyDown(K_q)) {
-            mage_->direction_ = 3;
-            mage_->Walk();
-        }
-    }
 };
 
 int main(int argc, char* argv[]) {

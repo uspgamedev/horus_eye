@@ -155,107 +155,107 @@
 	"layer.h"
 	"engine.h"
 
-1271159644 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/animation.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/animation.cc
 	<string.h>
 	<stdarg.h>
 	"animation.h"
 	<stdlib.h>
 	<stdio.h>
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/animation.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/animation.h
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/engine.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/engine.cc
 	<SDL/SDL.h>
 	<string>
 	"engine.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/engine.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/engine.h
 	<vector>
 	"inputmanager.h"
 	"videomanager.h"
 	"scene.h"
 	"timehandler.h"
 
-1271159644 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/inputmanager.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/inputmanager.h
 	<SDL/SDL.h>
 	"vector2D.h"
 	"keys.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/vector2D.h
+1275998306 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/vector2D.h
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/videomanager.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/videomanager.h
 	<string>
 	<map>
 	"vector2D.h"
 	"image.h"
 
-1267826759 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/image.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/image.h
 	<SDL/SDL.h>
 	<string>
 	"vector2D.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/scene.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/scene.h
 	"layer.h"
 	<list>
 
-1274988238 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/layer.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/layer.h
 	<list>
 	"vector2D.h"
 	"sprite.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/sprite.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/sprite.h
 	"animation.h"
 	"image.h"
 	"vector2D.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timehandler.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timehandler.h
 	"types.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/types.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/types.h
 
-1267819036 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/frame.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/frame.cc
 	"frame.h"
 
-1265370505 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/frame.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/frame.h
 
-1271159644 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/image.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/image.cc
 	<SDL/SDL_image.h>
 	"image.h"
 	"frame.h"
 	"videomanager.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/inputmanager.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/inputmanager.cc
 	"inputmanager.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/scene.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/scene.cc
 	"scene.h"
 
-1271375790 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/sprite.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/sprite.cc
 	"sprite.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timeaccumulator.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timeaccumulator.cc
 	<SDL/SDL.h>
 	<SDL/SDL_timer.h>
 	"timehandler.h"
 	"timeaccumulator.h"
 	"engine.h"
 
-1270411172 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timeaccumulator.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timeaccumulator.h
 	"timehandler.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timehandler.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/timehandler.cc
 	<SDL/SDL.h>
 	<SDL/SDL_timer.h>
 	"timehandler.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/vector2D.cc
+1276203987 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/vector2D.cc
 	<math.h>
 	"vector2D.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/videomanager.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/videomanager.cc
 	"videomanager.h"
 
-1271161572 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/sandbox/Exemplo1/exemplo1.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/sandbox/Exemplo1/exemplo1.cc
 	"../../framework/engine.h"
 	"../../framework/scene.h"
 	"../../framework/image.h"
@@ -266,14 +266,14 @@
 	"../../framework/vector2D.h"
 	<cmath>
 
-1270411174 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/sandbox/teste_main.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/sandbox/teste_main.cc
 	<cstdio>
 	"../framework/videomanager.h"
 	"../framework/vector2D.h"
 	"../framework/image.h"
 	"../framework/inputmanager.h"
 
-1270411172 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/layer.cc
+1275996619 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/layer.cc
 	"layer.h"
 	"engine.h"
 
@@ -398,10 +398,10 @@
 	"../../framework/vector2D.h"
 	<cmath>
 
-1271159644 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/keys.h
+1275996619 /home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/framework/keys.h
 	<SDL/SDL.h>
 
-1271444785 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/sandbox/Exemplo2/exemplo2.cc
+1276203866 source:/home/vinicius/disciplinas/uspgamedev/projeto1/horus_eye/trunk/src/sandbox/Exemplo2/exemplo2.cc
 	"../../framework/engine.h"
 	"../../framework/scene.h"
 	"../../framework/image.h"

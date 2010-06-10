@@ -50,6 +50,10 @@ float Vector2D::InnerProduct(Vector2D a, Vector2D b) {
 
 // Devolve o vetor a normalizado
 Vector2D Vector2D::Normalized(Vector2D a) {
+    if (a.length() == 0) {
+        return a;
+    }
+
     Vector2D ret;
     ret.x = (a.x / a.length());
     ret.y = (a.y / a.length());
