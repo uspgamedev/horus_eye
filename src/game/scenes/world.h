@@ -12,8 +12,8 @@
 #include <list>
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
-#include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
+#include "../sprites/worldobject.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 

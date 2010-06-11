@@ -1,4 +1,4 @@
-SET(GAME_SRCS ./sprites/hero.h ./sprites/floor.h ./sprites/wall.cc ./sprites/floor.cc ./sprites/creature.h ./sprites/worldobject.cc ./sprites/worldobject.h ./sprites/creature.cc ./sprites/wall.h ./main.cc ./utils/levelloader.cc ./utils/levelloader.h ./scenes/world.h ./scenes/world.cc ../framework/engine.cc ../framework/scene.cc ../framework/scene.h ../framework/videomanager.cc ../framework/frame.h ../framework/layer.cc ../framework/videomanager.h ../framework/frame.cc ../framework/inputmanager.cc ../framework/layer.h ../framework/vector2D.h ../framework/types.h ../framework/timeaccumulator.cc ../framework/sprite.cc ../framework/timehandler.cc ../framework/vector2D.cc ../framework/inputmanager.h ../framework/image.h ../framework/timeaccumulator.h ../framework/keys.h ../framework/sprite.h ../framework/engine.h ../framework/timehandler.h ../framework/animation.h ../framework/animation.cc ../framework/image.cc )
+SET(GAME_SRCS ./sprites/hero.h ./sprites/floor.h ./sprites/wall.cc ./sprites/floor.cc ./sprites/creature.h ./sprites/worldobject.cc ./sprites/hero.cc ./sprites/worldobject.h ./sprites/creature.cc ./sprites/wall.h ./main.cc ./utils/levelloader.cc ./utils/levelloader.h ./scenes/world.h ./scenes/world.cc ../framework/engine.cc ../framework/scene.cc ../framework/scene.h ../framework/videomanager.cc ../framework/frame.h ../framework/layer.cc ../framework/videomanager.h ../framework/frame.cc ../framework/inputmanager.cc ../framework/layer.h ../framework/vector2D.h ../framework/types.h ../framework/timeaccumulator.cc ../framework/sprite.cc ../framework/timehandler.cc ../framework/vector2D.cc ../framework/inputmanager.h ../framework/image.h ../framework/timeaccumulator.h ../framework/keys.h ../framework/sprite.h ../framework/engine.h ../framework/timehandler.h ../framework/animation.h ../framework/animation.cc ../framework/image.cc )
 #
 # Horus Eye
 # Copyright (C) 2010  USPGameDev
@@ -32,7 +32,7 @@ SET(CFLAGS "" CACHE STRING "flags enviadas ao compilador")
 SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
 IF(UNIX)
   # se for o g++ para *nix:
-  SET(CFLAGS "${CFLAGS} -Wall -ansi -O2 -U_FORTIFY_SOURCE")
+  SET(CFLAGS "${CFLAGS} -g -Wall -ansi -O2 -U_FORTIFY_SOURCE")
   SET(LDFLAGS "${LDFLAGS}")
 ELSE(UNIX)
   IF(MINGW)

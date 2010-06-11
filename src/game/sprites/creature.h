@@ -11,14 +11,13 @@
 
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
-#include "worldobject.h"
 #include "wall.h"
-
+#include "worldobject.h"
 namespace sprite {
 
 // Classe Creature
 
-class Creature : public sprite::WorldObject {
+class Creature : public WorldObject {
   public:
     Creature();
     virtual ~Creature() { }
@@ -27,6 +26,8 @@ class Creature : public sprite::WorldObject {
     void CollidesWith(Wall *);
 
   protected:
+
+    virtual void Update(float dt) { WorldObject::Update(dt); }
 
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);

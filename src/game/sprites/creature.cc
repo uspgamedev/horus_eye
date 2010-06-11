@@ -7,6 +7,8 @@
 //
 
 #include "creature.h"
+#include "worldobject.h"
+
 #include <cmath>
 
 using namespace framework;

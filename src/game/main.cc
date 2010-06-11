@@ -6,6 +6,7 @@
 // Arquivo principal do game (inclui a funcao main())
 //
 #include "../framework/engine.h"
+#include "sprites/hero.h"
 #include "../framework/vector2D.h"
 #include "scenes/world.h"
 #include "sprites/worldobject.h"
@@ -21,7 +22,8 @@ int main(int argc, char *argv[]) {
     Engine *engine = Engine::reference();
     engine->Initialize("Horus Eye", Vector2D(1024, 768), false);
 
-    Scene *world = new World;
+    World *world = new World;
+    world->AddWorldObject(new sprite::Hero);
     engine->PushScene(world);
     engine->Run();
 
