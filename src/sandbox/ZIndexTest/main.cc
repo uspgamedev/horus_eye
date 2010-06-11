@@ -27,7 +27,7 @@ class Mage : public Sprite {
 
   public:
     Mage(const Vector2D& position) {
-        set_image(Engine::reference()->video_manager()->LoadImage("mage.png"));
+        Initialize(Engine::reference()->video_manager()->LoadImage("mage.png"));
         set_position(position);
 
         standing_down_right =  new Animation(0, 0, -1);
@@ -208,15 +208,13 @@ class HumanMage : public Mage {
 
 class AIMage : public Mage {
   public:
-    AIMage(const Vector2D position) : Mage(position), accum(500) {
+    AIMage(const Vector2D position) : Mage(position), accum(1000) {
     }
 
     virtual void ReadInputDevice(float dt) {
    
         if(accum.Expired()) {
             direction_ = (Direction)((direction_+1)%4);
-            
-	    
             accum.Restart();
         }
       

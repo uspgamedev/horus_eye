@@ -61,9 +61,8 @@ class Sprite {
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
-    void Initialize(Image *image);
-
   protected:
+    void Initialize(Image *image);
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 
