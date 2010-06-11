@@ -24,13 +24,24 @@ class InputManager {
     void Update(float);
     Vector2D GetMouseState(void);
     void ShowCursor(bool toggle);
-    bool KeyPressed(int key);
-    bool KeyDown(int key);
-    bool KeyUp(int key);
+    bool KeyPressed(Key key);
+    bool KeyDown(Key key);
+    bool KeyUp(Key key);
+        
+    bool MousePressed(MouseButton button);
+    bool MouseDown(MouseButton button);
+    bool MouseUp(MouseButton button);
+    
+    void SimulateKeyPress(Key key);
+    void SimulateKeyRelease(Key key);
 
   private:
-    int kbsize;
-    Uint8 *keystate_now, *keystate_last;
+    int kbsize_;
+    bool *keystate_now_, *keystate_last_;
+    bool mousestate_now_[5], mousestate_last_[5];
+    Vector2D mouseposition_;
+    
+    void UpdateDevices();
 };
 
 }

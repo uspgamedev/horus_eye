@@ -25,29 +25,39 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
 }
 
 void Engine::Run() {
-
+    Key key;
     SDL_Event event;
     float delta_t;
 
     while(!quit_) {
-        // tratamento de eventos
-        while(SDL_PollEvent(&event)) {
-            switch(event.type) {
-                case SDL_QUIT:
-                    quit();
-                    break;
-
-                default:
-                    break;
-            }
-        }
-
         // gerenciamento de tempo
         time_handler_->Update();
         delta_t = (time_handler_->TimeDifference())/1000.0f;
 
         // gerenciador de input
         input_manager()->Update(delta_t);
+        
+        // tratamento de eventos
+        while(SDL_PollEvent(&event)) {
+            switch(event.type) {
+                case SDL_QUIT:
+                    quit();
+                    break;
+                    
+                case SDL_KEYDOWN:
+                    key = (Key)event.key.keysym.sym;
+                    input_manager()->SimulateKeyPress(key);
+                    break;
+                    
+                case SDL_KEYUP:
+                    key = (Key)event.key.keysym.sym;
+                    input_manager()->SimulateKeyRelease(key);
+                    break;
+
+                default:
+                    break;
+            }
+        }
 
         // gerenciamento das cenas
         if (scene_list_.size() == 0) {
