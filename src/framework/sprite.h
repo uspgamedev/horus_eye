@@ -18,8 +18,6 @@ namespace framework {
 
 class Sprite {
   public:
-    Sprite(Image *image);
-    Sprite(Image *image, Vector2D position);
     virtual ~Sprite() { }
 
 
@@ -63,10 +61,13 @@ class Sprite {
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
-    void Initialise(Image *image);
+    void Initialize(Image *image);
 
+  protected:
+    void set_image(Image *image) { image_ = image; }
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
+
 
   private:
     Vector2D position_;

@@ -2,18 +2,10 @@
 
 namespace framework {
 
-Sprite::Sprite(Image *image) : zindex_(0.0f) {
-    Initialise(image);
-}
-
-Sprite::Sprite(Image *image, Vector2D position) : zindex_(0.0f) {
-    Initialise(image);
-    position_ = position;
-}
-
-void Sprite::Initialise(Image *image)
+void Sprite::Initialize(Image *image)
 {
     image_ = image;
+	set_zindex(0.0f);
     visible_ = true;
     animation_ = new Animation(50, 0, -1);
 }
