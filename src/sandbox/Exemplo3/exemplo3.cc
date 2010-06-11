@@ -13,13 +13,78 @@
 using namespace std;
 using namespace framework;
 
+
+class Projetil : public Sprite{
+  public:
+    ::std::list<Vector2D> trajetoria;
+    Animation *going_up;
+    Vector2D origem;
+    Projetil( Image* imagem, Vector2D pos, Vector2D frameSz ) {
+      this->Initialize( imagem );
+      this->set_position( pos );
+      
+      this->image()->set_frame_size(frameSz);
+      going_up = new Animation(0, 0, -1);
+
+    }
+    void calculaReta( Vector2D A, Vector2D B ){
+      double slope;
+      
+//      this->origem = A;
+      Vector2D Ponto( A.x, A.y );
+      
+      slope = ( B.y - A.y ) / ( B.x - A.x ); // a boa e velha equacao da reta
+      
+      for( int i = (int) A.x; i < (int) A.x + B.x; i++ ){
+        Ponto.x = i;
+        Ponto.y = slope * Ponto.x + A.y;
+        trajetoria.push_front(Ponto);
+      
+      }
+
+    }
+    void Rush()
+    {
+      this->SelectAnimation(going_up);
+      set_position(origem);
+      Vector2D position;
+//    Vector2D position(this->position().x, this->position().y);
+
+      printf("------------------------\n");  
+      list<Vector2D>::iterator it = trajetoria.begin();// .end();
+      while (it != trajetoria.end()) {
+        position.x = it->x;
+        position.y = it->y;
+        ++it;
+        trajetoria.pop_front();
+        set_position(position);
+//        trajetoria.erase(it);
+//Update(1.3);
+      printf( "%lf %lf\n", position.x, position.y );
+      }
+
+//      is_walking_ = false;
+    }
+  
+};
+
 class Mage : public Sprite {
   public:
     int direction_;
     float speed;
-
-
-    Mage() : Sprite(Engine::reference()->video_manager()->LoadImage("mage3.png"), Vector2D(280, 210)) {
+//    void setFrameSize(Vector2D newFrameSize) {
+//      Vector2D frameSize;
+//      frameSize = newFrameSize;
+//      this->image()->set_frame_size(frameSize);
+//    };
+    Projetil *magia;
+    //Mage::Mage(string imagem, Vector2D pos); Vector2D(280, 210)
+    Mage(Image* imagem, Vector2D pos, Vector2D frameSz ){
+      this->Initialize( imagem );
+      this->set_position( pos );      
+//      this->magia = proj;
+//        setFrameSize( frameSz );
+      this->image()->set_frame_size( frameSz );
         standing_up = new Animation(0, 0, -1);
         standing_up_right = new Animation(0, 1, -1);
         standing_right =  new Animation(0, 2, -1);
@@ -50,14 +115,16 @@ class Mage : public Sprite {
 
         direction_ = DOWN;
         is_walking_ = false;
-        speed = 1;
+        speed = 5;
         Stand();
+
     }
     enum dir {UP,UP_LEFT,LEFT,DOWN_LEFT,DOWN,DOWN_RIGHT,RIGHT,UP_RIGHT};
     void Stand() {
 //        is_walking_ = false;
-        Vector2D frameSize(74, 60);
-        this->image()->set_frame_size(frameSize);
+//        Vector2D frameSize(74, 60);
+//Vector2D frameSize(74, 61)
+//        this->image()->set_frame_size(frameSize);
         switch(direction_)
         {
           case UP:
@@ -146,8 +213,10 @@ class Mage : public Sprite {
 
     void Walk() {
 //        is_walking_ = true;
-        Vector2D frameSize(74, 60);
-        this->image()->set_frame_size(frameSize);
+//        Vector2D frameSize(74, 60);
+//        Vector2D frameSize(74, 61);
+
+//        this->image()->set_frame_size(frameSize);
         switch(direction_)
         {
           case UP:
@@ -181,10 +250,15 @@ class Mage : public Sprite {
     Move();
   }
 
-    void Spell() {
-        Vector2D frameSize(74, 60);
-        this->image()->set_frame_size(frameSize);
+    void Spell( Vector2D destino ) {
+//    void Spell(  ) {
+//        Vector2D frameSize(74, 60);
+//        Vector2D frameSize(69, 57);
+//        this->image()->set_frame_size(frameSize);
 //        this->SelectAnimation(spell_animation_up);
+       this->magia->calculaReta( framework::Vector2D( this->position().x, this->position().y) , destino );
+       this->magia->Rush();
+       
         switch(direction_)
         {
           case UP:
@@ -250,21 +324,53 @@ class Mage : public Sprite {
     Animation *spell_animation_up_left;
 
 };
+//class shoot:: public Mage()
+//{
+    
+//}
+
+class MyLayer : public Layer{
+  public:
+    
+    void AddTileImage(Image *image, Vector2D FrameSet ) {
+      Sprite* chao;
+      int i, j;
+      
+      Vector2D TamTela = Engine::reference()->video_manager()->video_size();
+      
+      for( i=0; i < TamTela.x / FrameSet.x; i++ )  //tosco
+        for( j=0; j < TamTela.y / FrameSet.y; j++ ){
+          chao = new Sprite();
+          chao->Initialize( image );
+          chao->image()->set_frame_size(FrameSet);
+          chao->set_position(Vector2D( i*FrameSet.x, j*FrameSet.y ));
+          this->AddSprite(chao);
+        }
+    }
+};
 
 class MageScene : public Scene {
 
 public:
     enum dir {UP,UP_LEFT,LEFT,DOWN_LEFT,DOWN,DOWN_RIGHT,RIGHT,UP_RIGHT};
     MageScene() {
-        mage_ = new Mage();
+        tiro = new Projetil(Engine::reference()->video_manager()->LoadImage("skeleton4.png"), Vector2D(280, 210), Vector2D(74, 61));
+        mage_ = new Mage(Engine::reference()->video_manager()->LoadImage("mage3.png"), Vector2D(280, 210), Vector2D(74, 61) );
         video_ = Engine::reference()->video_manager();
         input_ = Engine::reference()->input_manager();
-        main_layer_ = new Layer();
-//        tiro = new Mage();
+//        main_layer_ = new Layer(Engine::reference()->video_manager()->LoadImage("skeleton4.png"), Vector2D(280, 210), Vector2D(74, 61));
+        main_layer_ = new Layer(Vector2D(0, 0));
 
+mage_->magia = tiro;
+chao_layer_ = new MyLayer();
+chao_layer_->AddTileImage(Engine::reference()->video_manager()->LoadImage("floor7.png"), Vector2D(42,42));
 
+        main_layer_->AddSprite(tiro);
         main_layer_->AddSprite(mage_);
+        this->AddLayer(chao_layer_);
 //        main_layer_->AddSprite(tiro);
+//        printf("foi\n");
+
         this->AddLayer(main_layer_);
     }
 
@@ -294,7 +400,7 @@ public:
       double mpi = 3.14159265;
 
       v.y = -v.y;      
-      printf( "v = ( %lf, %lf )\n", v.x, v.y );
+//      printf( "v = ( %lf, %lf )\n", v.x, v.y );
       angle = acos( v.x / v.length( ) );
       if( v.y < 0 ) // corrige erros
        angle = 2*mpi - angle;      
@@ -340,7 +446,7 @@ public:
         Angle( Vector2D::Subtract( mouse, mage ) );
         mouse.x = 9; mouse.y = 9;
         Angle( Vector2D::Subtract( mouse, mage ) );
-        printf("END\n");
+//        printf("END\n");
 //        input_->Update(SDL_DEFAULT_REPEAT_INTERVAL);
 //fprintf()
     }
@@ -350,8 +456,10 @@ public:
     VideoManager *video_;
     Layer *main_layer_;
     InputManager *input_;
+
     
-//    Mage *tiro;
+    MyLayer *chao_layer_;
+    Projetil *tiro;
     int decide( float angle )
     {
       double mpi = 3.14159265;
@@ -492,8 +600,9 @@ while (SDL_PollEvent(&keyevent))   //Poll our SDL key event for any keystrokes.
                   
 //      while( SDL_PollEvent( &event ) ){
         if(SDL_GetMouseState(NULL, NULL)&SDL_BUTTON(1)){
+          Vector2D mouse = input_->GetMouseState();
           printf("Mouse Button 1(left) is pressed.\n");
-          mage_->direction_ = decide(Angle(Vector2D::Subtract( input_->GetMouseState(), mage_->position() ) ) );
+          mage_->direction_ = decide(Angle(Vector2D::Subtract( mouse, mage_->position() ) ) );
           mage_->is_walking_ = false;
 //          Mage tiro = new Mage();
 //          Mage *tiro;
@@ -501,7 +610,8 @@ while (SDL_PollEvent(&keyevent))   //Poll our SDL key event for any keystrokes.
 //          tiro->direction_ = mage_->direction_;
 //          tiro->is_walking_ = true;
 //          tiro->Walk();
-          mage_->Spell();
+          mage_->Spell(mouse);
+//          mage_->Spell();
           }
 //        switch( event.type ) { 
 //          case SDL_MOUSEMOTION:
@@ -521,7 +631,8 @@ while (SDL_PollEvent(&keyevent))   //Poll our SDL key event for any keystrokes.
             if(input_->KeyDown(K_ESCAPE))
               Engine::reference()->quit();
             else if(input_->KeyDown(K_SPACE))
-              mage_->Spell();
+//              mage_->Spell();
+              mage_->Spell(input_->GetMouseState());
             else if(input_->KeyDown(K_w)){
               if(input_->KeyDown(K_d))
                 mage_->direction_ = UP_RIGHT;
@@ -659,10 +770,10 @@ if ( keystate[K_w] && keystate[K_d] ){
 
 int main(int argc, char* argv[]) {
     Engine * engine = Engine::reference();
-    engine->Initialize("Mage", Vector2D(640, 480), false);
+    engine->Initialize("Mage", Vector2D(800, 600), false);
 
     MageScene * scene = new MageScene();
-    
+//printf("foi main");    
 //    scene->input_ = engine->input_manager();
 
     engine->PushScene(scene);
