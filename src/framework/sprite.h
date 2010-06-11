@@ -23,7 +23,7 @@ class Sprite {
 
     // Acessors e mutators
     Vector2D position() const { return position_; }
-    void set_position(Vector2D position) { position_ = position; }
+    void set_position(const Vector2D& position) { position_ = position; }
 
     bool visible() const { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
@@ -64,7 +64,6 @@ class Sprite {
     void Initialize(Image *image);
 
   protected:
-    void set_image(Image *image) { image_ = image; }
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 

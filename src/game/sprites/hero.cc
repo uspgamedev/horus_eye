@@ -19,7 +19,7 @@ namespace sprite {
 
 Hero::Hero() {
     video_ = Engine::reference()->video_manager();
-	set_image(Engine::reference()->video_manager()->LoadImage("mage.png"));
+	Initialize(Engine::reference()->video_manager()->LoadImage("mage.png"));
 	set_position(Vector2D(280, 280));	
 
 	directions_[Direction_::RIGHT] = Vector2D(1, 0);
@@ -64,11 +64,11 @@ Hero::Hero() {
 	last_standing_animation_ = *standing_animations_[Animation_::DOWN];
 	for (int i = 0; i < 16; i++) {
 		if (*standing_animations_[i] == NULL) {
-	//		free(standing_animations_[i]);
+			free(standing_animations_[i]);
 			standing_animations_[i] = &last_standing_animation_;
 		}
 		if (*walking_animations_[i] == NULL) {
-	//		free(walking_animations_[i]);
+			free(walking_animations_[i]);
 			walking_animations_[i] = &last_standing_animation_;
 		}
 	}

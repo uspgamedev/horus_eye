@@ -26,7 +26,10 @@ class Mage : public Sprite {
     enum Direction { DIRECTION_NW, DIRECTION_NE, DIRECTION_SW, DIRECTION_SE } direction_;
 
   public:
-    Mage(const Vector2D& position) : Sprite(Engine::reference()->video_manager()->LoadImage("mage.png"), position) {
+    Mage(const Vector2D& position) {
+        set_image(Engine::reference()->video_manager()->LoadImage("mage.png"));
+        set_position(position);
+
         standing_down_right =  new Animation(0, 0, -1);
         standing_down_left = new Animation(0, 5, -1);
         standing_up_right = new Animation(0, 10, -1);
