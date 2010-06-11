@@ -19,7 +19,6 @@ namespace sprite {
 class WorldObject : public framework::Sprite {
   public:
     WorldObject();
-    WorldObject(WorldObject*);
     virtual ~WorldObject();
 
     // estado do objeto

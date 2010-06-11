@@ -13,16 +13,7 @@ namespace sprite {
 
 using namespace framework;
 
-WorldObject::WorldObject()
-    : Sprite(NULL),
-      world_position_( framework::Vector2D(0.0f, 0.0f) ),
-      collision_radius_(0.0f),
-      status_(STATUS_ACTIVE)
-{}
-
-WorldObject::WorldObject(WorldObject* obj) : Sprite(NULL) {
-    // vazio
-}
+WorldObject::WorldObject() { }
 
 WorldObject::~WorldObject() {
 }
