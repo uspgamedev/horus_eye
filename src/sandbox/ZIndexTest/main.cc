@@ -209,17 +209,14 @@ class AIMage : public Mage {
     }
 
     virtual void ReadInputDevice(float dt) {
-        static float t = 0.0f;
-
-        // por algum motivo nao consegui fazer
-        // o TimeAccumulator funcionar
-        if(t >= 0.5f) {
-        //if(accum.Expired()) {
+   
+        if(accum.Expired()) {
             direction_ = (Direction)((direction_+1)%4);
-            t -= 0.5f;
-            //accum.Restart();
+            
+	    
+            accum.Restart();
         }
-        t += dt;
+      
 
         Walk(dt);
     }

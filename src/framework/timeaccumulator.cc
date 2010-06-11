@@ -18,12 +18,12 @@ TimeAccumulator::TimeAccumulator(int duration_miliseconds) {
     Restart(duration_miliseconds);
 }
 
-uint32 TimeAccumulator::TimeLeft() {
+int TimeAccumulator::TimeLeft() {
     return duration_ - (handler_->TimeSince(initial_time_) - time_paused_);
 }
 
 bool TimeAccumulator::Expired() {
-    return TimeLeft() <= 0;
+    return (TimeLeft() <= 0);
 }
 
 void TimeAccumulator::Restart() {

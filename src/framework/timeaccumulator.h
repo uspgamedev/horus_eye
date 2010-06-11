@@ -19,7 +19,7 @@ class TimeAccumulator {
     ~TimeAccumulator() { }
 
     // Ignora tempo pausado
-    uint32 TimeLeft();
+    int TimeLeft();
 
     // True se o timer ja expirou
     bool Expired();
