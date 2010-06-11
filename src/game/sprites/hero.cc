@@ -85,8 +85,8 @@ void Hero::SelectSpriteAnimation() {
 	this->SelectAnimation(*walking_animations_[animation_direction_]);
 }
 
-void Hero::Move() {
-	float speed = 10;
+void Hero::Move(float delta_t) {
+	float speed = 100*delta_t;
 
 	Vector2D position(this->position().x, this->position().y);
 	Vector2D dir (0, 0);
@@ -141,7 +141,7 @@ void Hero::Update(float delta_t) {
 	Creature::Update(delta_t);
 	video_->backbuffer()->Clear(0);
 	this->Get_keys();
-	this->Move();
+	this->Move(delta_t);
 	this->SelectSpriteAnimation();
 }
 }

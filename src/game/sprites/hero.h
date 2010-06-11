@@ -61,7 +61,7 @@ class Hero : public Creature {
 
     void SelectSpriteAnimation(); 
     virtual void Update(float delta_t);
-    void Move();
+    void Move(float delta_t);
     void Get_keys();
 };
 
