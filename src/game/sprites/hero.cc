@@ -102,7 +102,7 @@ void Hero::Move(float delta_t) {
 	set_position(position);
 }
 
-void Hero::Get_keys() {
+void Hero::GetKeys() {
 	InputManager *input_ = Engine::reference()->input_manager();
 	// -----------------------------
 	// Nao copiar esta parte
@@ -140,7 +140,7 @@ void Hero::Get_keys() {
 void Hero::Update(float delta_t) {
 	Creature::Update(delta_t);
 	video_->backbuffer()->Clear(0);
-	this->Get_keys();
+	this->GetKeys();
 	this->Move(delta_t);
 	this->SelectSpriteAnimation();
 }
