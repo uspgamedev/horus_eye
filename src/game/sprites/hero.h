@@ -10,16 +10,7 @@
 #define HORUSEYE_GAME_SPRITE_HERO_H_
 
 
-#include "../../framework/engine.h"
-#include "../../framework/scene.h"
-#include "../../framework/image.h"
-#include "../../framework/sprite.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/timehandler.h"
-#include "../../framework/vector2D.h"
 #include "creature.h"
-#include <cmath>
 
 using namespace std;
 using namespace framework;
@@ -33,7 +24,6 @@ class Hero : public Creature {
     Hero();
     ~Hero() {} 
   private:
-    VideoManager *video_;
     int animation_direction_;
     Animation *last_standing_animation_;
     Animation ** standing_animations_[16];

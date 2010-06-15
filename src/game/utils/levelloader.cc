@@ -68,11 +68,13 @@ void LevelLoader::Load(string file_name) {
                         new_world_obj = new Hero();
                         break;
                     default:
+                        new_world_obj = NULL;
                         break;
                 }
                 new_floor->set_world_position(position);
                 // ... Criar o objeto correspondente.
-                world_->AddWorldObject(new_world_obj);
+                if(new_world_obj != NULL)
+                    world_->AddWorldObject(new_world_obj);
             }
         }
     }

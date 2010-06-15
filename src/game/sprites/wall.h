@@ -14,7 +14,7 @@
 
 namespace sprite {
 
-class Wall : public sprite::WorldObject {
+class Wall : public WorldObject {
 
   public:
     Wall() {}
