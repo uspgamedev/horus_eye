@@ -17,12 +17,13 @@ using namespace framework;
 using namespace scene;
 using namespace sprite;
 
-class sprite::TestWall : public sprite::WorldObject {
+class TestWall : public sprite::Wall {
   public:
 	Animation *wall_animation_;
 	TestWall() {
 		Initialize(Engine::reference()->video_manager()->LoadImage("mage.png"));
 		set_position(Vector2D(350, 350));
+		collision_radius_ = 10.0f;
 
 		wall_animation_ = new Animation(0, 0, -1);
 		SelectSpriteAnimation();
@@ -43,8 +44,9 @@ int main(int argc, char *argv[]) {
     Hero *mage = new Hero;
     TestWall *wall = new TestWall;
 
-    FILE* ohnoes = fopen("output.txt", "a");
+    FILE* ohnoes = fopen("output.txt", "w");
     fprintf(ohnoes, "\nExemplo 4 iniciado\n");
+    fclose(ohnoes);
 
     engine->PushScene(world);
     world->AddWorldObject(mage);
@@ -53,6 +55,7 @@ int main(int argc, char *argv[]) {
 
     engine->Release();
 
+    ohnoes = fopen("output.txt", "a");
     fprintf(ohnoes, "Exemplo 4 encerrado\n");
     fclose(ohnoes);
 
