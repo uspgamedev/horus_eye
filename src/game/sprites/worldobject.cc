@@ -23,7 +23,7 @@ bool WorldObject::IsColliding(WorldObject* obj) const {
     return distance.length() <= obj->collision_radius() + collision_radius();
 }
 
-void WorldObject::CollidesWithG(WorldObject* obj) {
+void WorldObject::HandleCollision(WorldObject* obj) {
     // double dispatch
     // http://en.wikipedia.org/wiki/Double_dispatch
     obj->CollidesWith(this);

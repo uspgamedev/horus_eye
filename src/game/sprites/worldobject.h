@@ -37,7 +37,7 @@ class WorldObject : public framework::Sprite {
     virtual bool IsColliding(WorldObject* obj) const;
     virtual void CollidesWith(WorldObject* obj) {}
     // tratamento de colisao
-    void CollidesWithG(WorldObject* obj);
+    void HandleCollision(WorldObject* obj);
 
   protected:
 

@@ -29,8 +29,8 @@ void World::Update(float delta_t) {
     for (i = collidable_.begin(); i != collidable_.end(); ++i)
         for (j = i, ++j; j != collidable_.end(); ++j)
             if ((*i)->IsColliding(*j)) {
-                (*i)->CollidesWithG(*j);
-                (*j)->CollidesWithG(*i);
+                (*i)->HandleCollision(*j);
+                (*j)->HandleCollision(*i);
             }
 }
 
