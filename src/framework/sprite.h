@@ -28,6 +28,9 @@ class Sprite {
     bool visible() const { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
 
+    Vector2D hotspot() const { return hotspot_; }
+    void set_hotspot(const Vector2D& hotspot) { hotspot_ = hotspot; }
+
     // zindex: (tras) 0.0 <= zindex <= 1.0 (frente)
     float zindex() const { return zindex_; }
     void set_zindex(float z) { zindex_= std::max( std::min(z, 1.0f), 0.0f ); }
@@ -68,7 +71,7 @@ class Sprite {
 
 
   private:
-    Vector2D position_;
+    Vector2D position_, hotspot_;
     Image *image_;
     Image::Mirror mirror_;
     Animation *animation_;
