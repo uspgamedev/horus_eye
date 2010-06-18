@@ -7,7 +7,9 @@
 //
 #ifndef HORUSEYE_FRAMEWORK_ANIMATION_H_
 #define HORUSEYE_FRAMEWORK_ANIMATION_H_
-
+#include <vector>
+#include "observer.h"
+using namespace std;
 namespace framework {
 
 class Animation {
@@ -20,6 +22,7 @@ class Animation {
 
     int get_current_frame() { return frames_[current_frame_]; }
     void Update(float delta_t);
+    void AddObserver(Observer* observer);
 
   private:
     float fps_;
@@ -27,6 +30,8 @@ class Animation {
     int n_frames_;
     int current_frame_;
     float elapsed_time_;
+    vector<Observer *> observers;
+    void NotifyAllObservers();
 
 };
 

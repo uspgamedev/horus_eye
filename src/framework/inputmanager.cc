@@ -43,7 +43,7 @@ void InputManager::Update(float delta_t) {
     UpdateDevices();
 }
 
-Vector2D InputManager::GetMouseState(void) {
+Vector2D InputManager::GetMousePosition(void) {
     int x, y;
     SDL_GetMouseState(&x, &y);
     return Vector2D((float) x, (float) y);

@@ -6,7 +6,6 @@
 #include "../../framework/videomanager.h"
 #include "../../framework/inputmanager.h"
 #include "../../framework/timehandler.h"
-#include "../../framework/vector2D.h"
 #include "hero.h"
 #include <cmath>
 #include <iostream>
@@ -14,134 +13,184 @@
 using namespace std;
 using namespace framework;
 
-
 namespace sprite {
 
+#define HERO_WIDTH  74 
+#define HERO_HEIGHT 74
+#define PI acos(-1)
+
 Hero::Hero() {
-   VideoManager* video = Engine::reference()->video_manager();
-   Initialize(video->LoadImage("mage.png"));
-   set_position(Vector2D(280, 280));	
+    VideoManager* video = Engine::reference()->video_manager();
+    Initialize(video->LoadImage("mage_74x74.png"));
+    set_position(Vector2D(280, 280));	
+    is_attacking_ = false;
 
-   directions_[Direction_::RIGHT] = Vector2D(1, 0);
-   directions_[Direction_::LEFT] = Vector2D(-1, 0);
-   directions_[Direction_::DOWN] = Vector2D(0, 1);
-   directions_[Direction_::UP] = Vector2D(0, -1);
+    directions_[Direction_::RIGHT] = Vector2D(1, 0);
+    directions_[Direction_::LEFT] = Vector2D(-1, 0);
+    directions_[Direction_::DOWN] = Vector2D(0, 1);
+    directions_[Direction_::UP] = Vector2D(0, -1);
 
-   last_standing_animation_ = new Animation(0, -1);
-   for (int i = 0; i < 16; i++) {
-      standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
-      walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
-      *standing_animations_[i] = NULL;
-      *walking_animations_[i] = NULL;
-   }
-   *standing_animations_[Animation_::DOWN] = new Animation(0, 0, -1);
-   *standing_animations_[Animation_::LEFT] = new Animation(0, 5, -1);
-   *standing_animations_[Animation_::RIGHT] = new Animation(0, 10, -1);
-   *standing_animations_[Animation_::UP] = new Animation(0, 15, -1);
-   /**
-    * Por hora, sao as mesmas animacoes. Quando colocarmos as outras posicoes
-    * no sprite sheet, atualizaremos as animacoes.
-    */
-   *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 0, -1);
-   *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 5, -1);
-   *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 10, -1);
-   *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 15, -1);
+    last_standing_animation_ = new Animation(0, -1);
+    for (int i = 0; i < 16; i++) {
+        standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+        walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+        *standing_animations_[i] = NULL;
+        *walking_animations_[i] = NULL;
+    }
+    *standing_animations_[Animation_::DOWN] = new Animation(0, 4, -1);
+    *standing_animations_[Animation_::LEFT] = new Animation(0, 7, -1);
+    *standing_animations_[Animation_::RIGHT] = new Animation(0, 2, -1);
+    *standing_animations_[Animation_::UP] = new Animation(0, 0, -1);
+    *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 3, -1);
+    *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 6, -1);
+    *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 1, -1);
+    *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 9, -1);
 
-   *walking_animations_[Animation_::DOWN] = new Animation(10, 0, 1, 2, 3, 4, -1);
-   *walking_animations_[Animation_::LEFT] = new Animation(10, 5, 6, 7, 8, 9, -1);
-   *walking_animations_[Animation_::RIGHT] = new Animation(10, 10, 11, 12, 13, 14, -1);
-   *walking_animations_[Animation_::UP] = new Animation(10, 15, 16, 17, 18, 19, -1);
-   /**
-    * Por hora, sao as mesmas animacoes. Quando colocarmos as outras posicoes
-    * no sprite sheet, atualizaremos as animacoes.
-    */
-   *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 0, -1);
-   *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 5, -1);
-   *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 10, -1);
-   *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 15, -1);
+    *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, 44, -1);
+    *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, 47, -1);
+    *walking_animations_[Animation_::RIGHT] = new Animation(10, 2, 12, 22, 32, 42, -1);
+    *walking_animations_[Animation_::UP] = new Animation(10, 0, 10, 20, 30, 40, -1);
+    *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, 43, -1);
+    *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, 46, -1);
+    *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, 41, -1);
+    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 9, 19, 29, 39, 49, -1);
 
-   animation_direction_ = 0;
-   last_standing_animation_ = *standing_animations_[Animation_::DOWN];
-   for (int i = 0; i < 16; i++) {
-      if (*standing_animations_[i] == NULL) {
-         free(standing_animations_[i]);
-         standing_animations_[i] = &last_standing_animation_;
-      }
-      if (*walking_animations_[i] == NULL) {
-         free(walking_animations_[i]);
-         walking_animations_[i] = &last_standing_animation_;
-      }
-   }
+    attacking_animations_[6] = new Animation(10, 54, 64, 74, 84, -1);
+    attacking_animations_[4] = new Animation(10, 57, 67, 77, 87, -1);
+    attacking_animations_[0] = new Animation(10, 52, 62, 72, 82, -1);
+    attacking_animations_[2] = new Animation(10, 50, 60, 70, 80, -1);
+    attacking_animations_[7] = new Animation(10, 53, 63, 73, 83, -1);
+    attacking_animations_[5] = new Animation(10, 56, 66, 76, 86, -1);
+    attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
+    attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
 
-   for (int i = 0; i < 4; i++) {
-      pressed_key_[i] = false;
-   }
-   SelectSpriteAnimation();
+    for (int i = 0; i < 8; i++) {
+        attacking_animations_[i]->AddObserver(this);
+    }
+    
+    direction_mapping_[0] = Animation_::RIGHT;
+    direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
+    direction_mapping_[2] = Animation_::UP; 
+    direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
+    direction_mapping_[4] = Animation_::LEFT;
+    direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
+    direction_mapping_[6] = Animation_::DOWN;
+    direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
+
+    animation_direction_ = 0;
+    last_standing_animation_ = *standing_animations_[Animation_::DOWN];
+    for (int i = 0; i < 16; i++) {
+        if (*standing_animations_[i] == NULL) {
+            free(standing_animations_[i]);
+            standing_animations_[i] = &last_standing_animation_;
+        }
+        if (*walking_animations_[i] == NULL) {
+            free(walking_animations_[i]);
+            walking_animations_[i] = &last_standing_animation_;
+        }
+    }
+
+    for (int i = 0; i < 4; i++) {
+        pressed_key_[i] = false;
+    }
+    SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
 }
 
-void Hero::SelectSpriteAnimation() {
-   Vector2D frame_size(74, 60);
-   this->image()->set_frame_size(frame_size);
-   this->SelectAnimation(*walking_animations_[animation_direction_]);
+void Hero::Tick() {
+    is_attacking_ = false;
+}
+
+void Hero::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
+    this->image()->set_frame_size(frame_size);
+    this->SelectAnimation(animation);
 }
 
 void Hero::Move(float delta_t) {
-   float speed = 100*delta_t;
+    float speed = 100*delta_t;
 
-   Vector2D position(this->position().x, this->position().y);
-   Vector2D dir (0, 0);
-   for (int i = 0; i < 4; i++) {
-      if (pressed_key_[i]) {
-         dir = dir + directions_[i];
-      }
-   }
-   dir = Vector2D::Normalized(dir);
-   dir = dir * speed;
-   position = position + dir;
+    Vector2D position(this->position().x, this->position().y);
+    Vector2D dir (0, 0);
+    for (int i = 0; i < 4; i++) {
+        if (pressed_key_[i]) {
+            dir = dir + directions_[i];
+        }
+    }
+    dir = Vector2D::Normalized(dir);
+    dir = dir * speed;
+    position = position + dir;
 
-   set_position(position);
+    set_position(position);
 }
 
 void Hero::GetKeys() {
-   InputManager *input_ = Engine::reference()->input_manager();
-   // -----------------------------
-   // Nao copiar esta parte
-   if(input_->KeyDown(K_ESCAPE))
-      Engine::reference()->quit();
-   //        if(input_->KeyDown(SDLK_SPACE))
-   //            mage_->Spell();
-   // -----------------------------
+    InputManager *input_ = Engine::reference()->input_manager();
+    // -----------------------------
+    // Nao copiar esta parte
+    if(input_->KeyDown(K_ESCAPE))
+        Engine::reference()->quit();
+    //        if(input_->KeyDown(SDLK_SPACE))
+    //            mage_->Spell();
+    // -----------------------------
 
-   for (int i = 0; i < 4; i++) {
-      pressed_key_[i] = false;
-   }
+    for (int i = 0; i < 4; i++) {
+        pressed_key_[i] = false;
+    }
 
-   animation_direction_ = 0;
-   if(input_->KeyDown(K_w)) {
-      pressed_key_[Direction_::UP] = true;
-      animation_direction_ += Animation_::UP;
-   }
-   if(input_->KeyDown(K_a)) {
-      pressed_key_[Direction_::LEFT] = true;
-      animation_direction_ += Animation_::LEFT;
-   }
-   if(input_->KeyDown(K_s)) {
-      pressed_key_[Direction_::DOWN] = true;
-      animation_direction_ += Animation_::DOWN;
-   }
-   if(input_->KeyDown(K_d)) {
-      pressed_key_[Direction_::RIGHT] = true;
-      animation_direction_ += Animation_::RIGHT;
-   }
+    animation_direction_ = 0;
+    if(input_->KeyDown(K_w)) {
+        pressed_key_[Direction_::UP] = true;
+        animation_direction_ += Animation_::UP;
+    }
+    if(input_->KeyDown(K_a)) {
+        pressed_key_[Direction_::LEFT] = true;
+        animation_direction_ += Animation_::LEFT;
+    }
+    if(input_->KeyDown(K_s)) {
+        pressed_key_[Direction_::DOWN] = true;
+        animation_direction_ += Animation_::DOWN;
+    }
+    if(input_->KeyDown(K_d)) {
+        pressed_key_[Direction_::RIGHT] = true;
+        animation_direction_ += Animation_::RIGHT;
+    }
 
-   last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    last_standing_animation_ = *(standing_animations_[animation_direction_]);
+}
+
+void Hero::GetMouseState() {
+    InputManager *input_ = Engine::reference()->input_manager();
+    if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_) {
+        is_attacking_ = true;
+        int attackAnimationIndex = GetAttackingAnimationIndex(input_->GetMousePosition());
+        last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+        this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
+    }
+}
+
+int Hero::GetAttackingAnimationIndex(Vector2D mousePosition) {
+    Vector2D versor = Vector2D::Normalized(mousePosition - position());
+    double radianAngle = acos(versor.x);
+    if (versor.y > 0) {
+        radianAngle = 2*PI - radianAngle;
+    }
+
+    int degreeAngle = (int)((radianAngle / PI) * 360);
+    
+    degreeAngle += 45;
+
+    int animationIndex = degreeAngle / 90;
+    return animationIndex % 8;
 }
 
 void Hero::Update(float delta_t) {
-   Creature::Update(delta_t);
-   Engine::reference()->video_manager()->backbuffer()->Clear(0);
-   this->GetKeys();
-   this->Move(delta_t);
-   this->SelectSpriteAnimation();
+    Creature::Update(delta_t);
+    Engine::reference()->video_manager()->backbuffer()->Clear(0);
+    if (!is_attacking_) {
+        this->GetKeys();
+        this->Move(delta_t);
+        this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));
+        this->GetMouseState();
+    }
+
 }
 }

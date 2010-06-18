@@ -11,23 +11,33 @@
 
 
 #include "creature.h"
+#include "../../framework/animation.h"
+#include "../../framework/vector2D.h"
 
 using namespace std;
 using namespace framework;
 
+
+
+
 namespace sprite {
 
 
-class Hero : public Creature {
+class Hero : public Creature, public Observer {
 
   public:
     Hero();
     ~Hero() {} 
   private:
     int animation_direction_;
+    int direction_mapping_[8];
+    bool is_attacking_;
     Animation *last_standing_animation_;
     Animation ** standing_animations_[16];
     Animation ** walking_animations_[16];
+    Animation * attacking_animations_[8];
+
+
 
     Vector2D directions_[4];
     bool pressed_key_[4];
@@ -48,11 +58,13 @@ class Hero : public Creature {
         static const int DOWN = 8;
     };
 
-
-    void SelectSpriteAnimation(); 
+    void SelectSpriteAnimation(Animation *, Vector2D); 
+    int GetAttackingAnimationIndex(Vector2D mousePosition);
     virtual void Update(float delta_t);
     void Move(float delta_t);
+    void GetMouseState();
     void GetKeys();
+    void Tick();
 };
 
 }
