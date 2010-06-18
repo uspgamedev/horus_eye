@@ -44,7 +44,7 @@ Hero::Hero() {
     *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 3, -1);
     *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 6, -1);
     *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 1, -1);
-    *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 9, -1);
+    *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 8, -1);
 
     *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, 44, -1);
     *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, 47, -1);
@@ -53,7 +53,7 @@ Hero::Hero() {
     *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, 43, -1);
     *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, 46, -1);
     *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, 41, -1);
-    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 9, 19, 29, 39, 49, -1);
+    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 8, 18, 28, 38, 48, -1);
 
     attacking_animations_[6] = new Animation(10, 54, 64, 74, 84, -1);
     attacking_animations_[4] = new Animation(10, 57, 67, 77, 87, -1);
