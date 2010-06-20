@@ -10,6 +10,7 @@
 #define WALL_H_
 
 #include "../../framework/sprite.h"
+#include "../../framework/engine.h"
 #include "worldobject.h"
 
 namespace sprite {
@@ -17,7 +18,10 @@ namespace sprite {
 class Wall : public WorldObject {
 
   public:
-    Wall() {}
+    Wall() {
+        Initialise(VIDEO_MANAGER()->LoadImage("wall0011.png"));
+        image()->set_frame_size(framework::Vector2D(160,160));
+    }
 
 };
 

@@ -27,12 +27,13 @@ using namespace framework;
 #define EMPTY   'X'
 
 /*
- * Lê o arquivo de texto e passa as informações de que objetos criar, e onde, ao World.
- * O arquivo de entrada deve começar com dois inteiros que representam o tamanho do mapa
- * seguida da matriz de simbolos associados aos tipos de objeto a serem criados:
+ * Le o arquivo de texto e passa as informaï¿½ï¿½es de que objetos criar, e onde,
+ * ao World. O arquivo de entrada deve comeï¿½ar com dois inteiros que representam
+ * o tamanho do mapa seguida da matriz de simbolos associados aos tipos de
+ * objeto a serem criados:
  * Wall     : W
- * Door     : D
- * Mummy    : M
+ * Door     : D (nao implementado)
+ * Mummy    : M (nao implementado)
  * Hero     : H
  * Empty    : X
  */
@@ -65,14 +66,15 @@ void LevelLoader::Load(string file_name) {
                         new_world_obj = new Wall();
                         break;
                     case HERO:
-                        new_world_obj = new Hero();
+                        Hero *hero = new Hero();
+                        new_world_obj = hero;
+                        world_->set_hero(hero);
                         break;
                     default:
                         new_world_obj = NULL;
                         break;
                 }
-                new_floor->set_world_position(position);
-                // ... Criar o objeto correspondente.
+                new_world_obj->set_world_position(position);
                 if(new_world_obj != NULL)
                     world_->AddWorldObject(new_world_obj);
             }

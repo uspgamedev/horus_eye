@@ -19,12 +19,13 @@ namespace sprite {
 class WorldObject : public framework::Sprite {
   public:
     WorldObject();
+    WorldObject(WorldObject* obj);
     virtual ~WorldObject();
 
     // estado do objeto
     enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
     virtual Status status() const { return status_; }
-    virtual void Update(float dt) { Sprite::Update(dt); }
+    virtual void Update(float dt);
 
     // atributos
     virtual float collision_radius() const { return collision_radius_; }

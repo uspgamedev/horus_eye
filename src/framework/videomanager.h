@@ -16,6 +16,8 @@
 using std::string;
 using std::map;
 
+#define VIDEO_MANAGER() framework::Engine::reference()->video_manager()
+
 namespace framework {
 
 // Gerenciador de video

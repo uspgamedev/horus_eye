@@ -20,10 +20,8 @@ namespace sprite {
 #define PI acos(-1)
 
 Hero::Hero() {
-    VideoManager* video = Engine::reference()->video_manager();
-    Initialize(video->LoadImage("mage_74x74.png"));
-    set_position(Vector2D(280, 280));	
-    is_attacking_ = false;
+
+    Initialise(VIDEO_MANAGER()->LoadImage("mage_74x74.png"));
 
     directions_[Direction_::RIGHT] = Vector2D(1, 0);
     directions_[Direction_::LEFT] = Vector2D(-1, 0);
@@ -90,10 +88,13 @@ Hero::Hero() {
         }
     }
 
+
+
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
+
 }
 
 void Hero::Tick() {

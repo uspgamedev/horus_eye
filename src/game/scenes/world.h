@@ -29,16 +29,24 @@ class World : public framework::Scene {
   public:
     World() : Scene(), world_layer_(new framework::Layer()) {
         AddLayer(world_layer_);
+        hero_ = NULL;
     }
     virtual ~World();
 
-    void Update(float delta_t); // TODO no .cc
+    void Update(float delta_t);
 
     void AddWorldObject(sprite::WorldObject*);
     void AddFloor(sprite::Floor*);
     void FinishLevel(bool);
     int CountRemainingEnemies();
     sprite::Hero * hero();
+    void set_hero(sprite::Hero *hero) {
+        hero_ = hero;
+    }
+    framework::Vector2D camera_position() { return camera_position_; }
+    void set_camera_position(framework::Vector2D &vector) {
+        camera_position_ = vector;
+    }
 
   protected:
     sprite::Hero *                  hero_;

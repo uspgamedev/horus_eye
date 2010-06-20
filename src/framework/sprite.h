@@ -18,6 +18,7 @@ namespace framework {
 
 class Sprite {
   public:
+    Sprite() { }
     virtual ~Sprite() { }
 
 
@@ -65,7 +66,7 @@ class Sprite {
     virtual void Update(float delta_t);
 
   protected:
-    void Initialize(Image *image);
+    void Initialise(Image *image);
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 

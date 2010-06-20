@@ -14,6 +14,8 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 
+#define SQRT_3 1.7320508075688772935274463415059
+
 namespace scene {
 
 using namespace framework;
@@ -24,8 +26,25 @@ World::~World() {
 }
 
 void World::Update(float delta_t) {
-    std::list<sprite::WorldObject*>::iterator i, j;
+
     Scene::Update(delta_t);
+
+    if(hero_) {
+        // Calcula a posicao da camera no mundo a partir da posicao do heroi.
+        float   x = hero_->world_position().x,
+                y = hero_->world_position().y;
+
+        camera_position_.x = -512 + SQRT_3*(x-y)/2.0;
+        camera_position_.y = -384 - (x+y)/2.0;
+    }
+    else {
+        camera_position_.x = -512;
+        camera_position_.y = -384;
+    }
+
+    // Verifica e trata colisoes do WorldObjetcts.
+    std::list<sprite::WorldObject*>::iterator i, j;
+
     for (i = collidable_.begin(); i != collidable_.end(); ++i)
         for (j = i, ++j; j != collidable_.end(); ++j)
             if ((*i)->IsColliding(*j)) {

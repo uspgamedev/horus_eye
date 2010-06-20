@@ -55,6 +55,7 @@ bool VideoManager::Release() {
 void VideoManager::Render() {
     backbuffer_->DrawTo(&screen_, Vector2D(0, 0), 0, Image::MIRROR_NONE);
     SDL_Flip(screen_.data_);
+    backbuffer_->Clear(0);
 }
 
 // Carrega imagem de um arquivo, fazendo o

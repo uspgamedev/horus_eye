@@ -10,10 +10,12 @@
 #include "../framework/vector2D.h"
 #include "scenes/world.h"
 #include "sprites/worldobject.h"
+#include "utils/levelloader.h"
 using framework::Engine;
 using framework::Scene;
 using framework::Vector2D;
 using scene::World;
+using utils::LevelLoader;
 
 // funcao principal do programa
 // atualmente ela simplesmente inicia
@@ -23,7 +25,11 @@ int main(int argc, char *argv[]) {
     engine->Initialize("Horus Eye", Vector2D(1024, 768), false);
 
     World *world = new World;
-    world->AddWorldObject(new sprite::Hero);
+    //sprite::Hero *hero = new sprite::Hero; TODO essa linha ta' dando segfault.
+    LevelLoader *loader = new LevelLoader(world);
+    loader->Load("level_test");
+    //world->AddWorldObject(hero);
+    //world->set_hero(hero);
     engine->PushScene(world);
     engine->Run();
 

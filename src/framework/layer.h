@@ -43,7 +43,7 @@ class Layer {
     virtual void Render();
 
   protected:
-    // Estrutura básica para armazenar os Sprites. Não definitivo.
+    // Estrutura bï¿½sica para armazenar os Sprites. Nï¿½o definitivo.
     std::vector<Sprite*> sprite_list_;
 
   private:
