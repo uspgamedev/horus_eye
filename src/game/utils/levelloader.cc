@@ -62,17 +62,20 @@ void LevelLoader::Load(string file_name) {
             world_->AddFloor(new_floor);
             if (token != EMPTY) {
                 switch(token) {
-                    case WALL:
+                    case WALL: {
                         new_world_obj = new Wall();
                         break;
-                    case HERO:
+                    }
+                    case HERO: {
                         Hero *hero = new Hero();
                         new_world_obj = hero;
                         world_->set_hero(hero);
                         break;
-                    default:
+                    }
+                    default: {
                         new_world_obj = NULL;
                         break;
+                    }
                 }
                 new_world_obj->set_world_position(position);
                 if(new_world_obj != NULL)

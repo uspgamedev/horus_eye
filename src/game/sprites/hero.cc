@@ -28,6 +28,8 @@ Hero::Hero() {
     directions_[Direction_::DOWN] = Vector2D(0, 1);
     directions_[Direction_::UP] = Vector2D(0, -1);
 
+    is_attacking_ = false;
+
     last_standing_animation_ = new Animation(0, -1);
     for (int i = 0; i < 16; i++) {
         standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
@@ -107,9 +109,9 @@ void Hero::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
 }
 
 void Hero::Move(float delta_t) {
-    float speed = 100*delta_t;
+    float speed = 3*delta_t;
 
-    Vector2D position(this->position().x, this->position().y);
+    Vector2D position(this->world_position().x, this->world_position().y);
     Vector2D dir (0, 0);
     for (int i = 0; i < 4; i++) {
         if (pressed_key_[i]) {
@@ -120,7 +122,7 @@ void Hero::Move(float delta_t) {
     dir = dir * speed;
     position = position + dir;
 
-    set_position(position);
+    set_world_position(position);
 }
 
 void Hero::GetKeys() {
@@ -184,6 +186,7 @@ int Hero::GetAttackingAnimationIndex(Vector2D mousePosition) {
 }
 
 void Hero::Update(float delta_t) {
+
     Creature::Update(delta_t);
     Engine::reference()->video_manager()->backbuffer()->Clear(0);
     if (!is_attacking_) {
