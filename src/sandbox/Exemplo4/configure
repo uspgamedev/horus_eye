@@ -9,6 +9,7 @@
 
 if [ -e ./CMakeLists.base ] && [ -e ./update_cmake ] ; then
   ./update_cmake
+  cp -r ../../game/data ./
   cmake .
 else
   echo "Erro: impossivel configurar! Verifique se os arquivos ./CMakeLists.base e ./update_cmake estao presentes."

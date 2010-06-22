@@ -25,11 +25,8 @@ int main(int argc, char *argv[]) {
     engine->Initialize("Horus Eye", Vector2D(1024, 768), false);
 
     World *world = new World;
-    //sprite::Hero *hero = new sprite::Hero; TODO essa linha ta' dando segfault.
     LevelLoader *loader = new LevelLoader(world);
-    loader->Load("level_test");
-    //world->AddWorldObject(hero);
-    //world->set_hero(hero);
+    loader->Load("data/levels/level_test.txt");
     engine->PushScene(world);
     engine->Run();
 

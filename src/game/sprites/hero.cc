@@ -21,7 +21,7 @@ namespace sprite {
 
 Hero::Hero() {
 
-    Initialise(VIDEO_MANAGER()->LoadImage("mage_74x74.png"));
+    Initialise(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
 
     directions_[Direction_::RIGHT] = Vector2D(1, 0);
     directions_[Direction_::LEFT] = Vector2D(-1, 0);
