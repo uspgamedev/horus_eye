@@ -16,15 +16,8 @@ namespace sprite {
 class Floor : public WorldObject {
 
   public:
-
-    Floor() {
-        Initialise(VIDEO_MANAGER()->LoadImage("data/images/chao41x41.png"));
-        image()->set_frame_size(framework::Vector2D(71,41));
-        set_hotspot(Vector2D(35.5, 20.5));
-    }
-
-
-
+    Floor();
+    virtual void Update(float delta_t);
 };
 
 }

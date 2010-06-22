@@ -45,6 +45,8 @@ void WorldObject::Update(float dt) {
             ((World*)(Engine::reference()->CurrentScene()))->camera_position();
 
     set_position(transformed);
+    // TODO: Setar z-index corretamente
+    set_zindex(1.0f);
 
 }
 
