@@ -6,12 +6,15 @@
 #include "../../framework/videomanager.h"
 #include "../../framework/inputmanager.h"
 #include "../../framework/timehandler.h"
+
+#include "../scenes/world.h"
 #include "hero.h"
 #include <cmath>
 #include <iostream>
 
 using namespace std;
 using namespace framework;
+using namespace scene;
 
 namespace sprite {
 
@@ -19,14 +22,22 @@ namespace sprite {
 #define HERO_HEIGHT 74
 #define PI acos(-1)
 
+#define SQRT_3 1.7320508075688772935274463415059
+ 
 Hero::Hero() {
 
     Initialise(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
 
-    directions_[Direction_::RIGHT] = Vector2D(1, 0);
-    directions_[Direction_::LEFT] = Vector2D(-1, 0);
-    directions_[Direction_::DOWN] = Vector2D(0, 1);
-    directions_[Direction_::UP] = Vector2D(0, -1);
+
+    World *world = ((World *)Engine::reference()->CurrentScene());
+    directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(1, 0));
+    directions_[Direction_::LEFT] =  world->FromScreenLinearCoordinates(Vector2D(-1, 0));
+    directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0, 1));
+    directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -1));
+
+
+
+
 
     is_attacking_ = false;
 
@@ -109,7 +120,7 @@ void Hero::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
 }
 
 void Hero::Move(float delta_t) {
-    float speed = 3*delta_t;
+    float speed = 4*delta_t;
 
     Vector2D position(this->world_position().x, this->world_position().y);
     Vector2D dir (0, 0);

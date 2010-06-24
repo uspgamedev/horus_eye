@@ -9,7 +9,6 @@
 #include "worldobject.h"
 #include "../scenes/world.h"
 
-#define SQRT_3 1.7320508075688772935274463415059
 
 namespace sprite {
 
@@ -33,18 +32,7 @@ WorldObject::~WorldObject() {
 void WorldObject::Update(float dt) {
 
     Sprite::Update(dt);
-
-    float       x = world_position_.x,
-                y = world_position_.y;
-    Vector2D    transformed;
-
-    transformed.x = SQRT_3*(x - y)/2.0;
-    transformed.y = -(x + y)/2.0;
-
-    transformed = transformed*41 -
-            ((World*)(Engine::reference()->CurrentScene()))->camera_position();
-
-    set_position(transformed);
+    set_position(((World *)Engine::reference()->CurrentScene())->FromWorldCoordinates(world_position_));
     // TODO: Setar z-index corretamente
     set_zindex(1.0f);
 

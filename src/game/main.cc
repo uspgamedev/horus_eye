@@ -25,9 +25,9 @@ int main(int argc, char *argv[]) {
     engine->Initialize("Horus Eye", Vector2D(1024, 768), false);
 
     World *world = new World;
+    engine->PushScene(world);
     LevelLoader *loader = new LevelLoader(world);
     loader->Load("data/levels/level_test.txt");
-    engine->PushScene(world);
     engine->Run();
 
     engine->Release();

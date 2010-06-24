@@ -39,6 +39,16 @@ class World : public framework::Scene {
     void AddFloor(sprite::Floor*);
     void FinishLevel(bool);
     int CountRemainingEnemies();
+
+    // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
+    Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
+    // Funcao auxiliar que transforma VETORES de coordenadas de mundo para de tela
+    Vector2D FromWorldLinearCoordinates(Vector2D world_coords);
+
+    // Funcao que transforma PONTOS de coordenadas de mundo para de tela
+    Vector2D FromWorldCoordinates(Vector2D screen_coords);
+
+
     sprite::Hero * hero();
     void set_hero(sprite::Hero *hero) {
         hero_ = hero;
