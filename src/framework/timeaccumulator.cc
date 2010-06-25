@@ -23,7 +23,9 @@ int TimeAccumulator::TimeLeft() {
 }
 
 bool TimeAccumulator::Expired() {
-    return TimeLeft() <= 0;
+	if(when_paused_ == 0)
+		return TimeLeft() <= 0;
+	return 0;
 }
 
 void TimeAccumulator::Restart() {
