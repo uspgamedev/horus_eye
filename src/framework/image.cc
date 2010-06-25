@@ -96,8 +96,8 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
 
     // calculando rects...
     SDL_Rect source_rect = {xpos, ypos, frame_width, frame_height};
-    SDL_Rect dest_rect = {static_cast<Sint16>(position.x),
-                          static_cast<Sint16>(position.y),
+    SDL_Rect dest_rect = {static_cast<Sint16>(position.x + 0.5),
+                          static_cast<Sint16>(position.y + 0.5),
                           frame_width, frame_height};
 
     // desenhando...

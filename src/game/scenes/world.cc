@@ -13,6 +13,7 @@
 #include "../sprites/hero.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
+#include <cmath>
 
 #define SQRT_3 1.7320508075688772935274463415059
 
@@ -28,19 +29,14 @@ World::~World() {
 void World::Update(float delta_t) {
 
     Scene::Update(delta_t);
+    Vector2D offset;
 
+    // Calcula a posicao da camera no mundo a partir da posicao do heroi.
+    offset = Vector2D(-512, -384);
     if(hero_) {
-        // Calcula a posicao da camera no mundo a partir da posicao do heroi.
-        float   x = hero_->world_position().x,
-                y = hero_->world_position().y;
-
-        camera_position_.x = -512 + SQRT_3*(x-y)/2.0;
-        camera_position_.y = -384 - (x+y)/2.0;
+        offset = offset + hero_->position();
     }
-    else {
-        camera_position_.x = -512;
-        camera_position_.y = -384;
-    }
+    world_layer_->set_offset(offset);
 
     // Verifica e trata colisoes do WorldObjetcts.
     std::list<sprite::WorldObject*>::iterator i, j;
@@ -97,7 +93,7 @@ Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
 
 Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
     Vector2D transformed = FromWorldLinearCoordinates(world_coords);
-    return (transformed * 41) - this->camera_position_;
+    return (transformed * 40);
 }
 
 } // namespace scene

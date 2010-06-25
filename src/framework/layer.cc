@@ -30,7 +30,8 @@ void Layer::Render() {
 
     if(visible_)
         while (it != sprite_list_.end()) {
-            (*it)->Render(Engine::reference()->video_manager()->backbuffer());
+            (*it)->Render(Engine::reference()->video_manager()->backbuffer(),
+                          offset_);
             ++it;
         }
 }

@@ -53,16 +53,11 @@ class World : public framework::Scene {
     void set_hero(sprite::Hero *hero) {
         hero_ = hero;
     }
-    framework::Vector2D camera_position() { return camera_position_; }
-    void set_camera_position(framework::Vector2D &vector) {
-        camera_position_ = vector;
-    }
 
   protected:
     sprite::Hero *                  hero_;
     std::list<sprite::WorldObject*> world_objects_,
                                     collidable_;
-    framework::Vector2D             camera_position_;
     framework::Layer                *world_layer_;
 
     void RemoveInactiveObjects();

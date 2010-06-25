@@ -60,7 +60,7 @@ class Sprite {
     // ======================================================================
     void SelectAnimation(Animation *animation);
 
-    void Render(Image *back_buffer);
+    void Render(Image *back_buffer, Vector2D &offset);
 
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);

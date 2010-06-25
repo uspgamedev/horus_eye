@@ -26,10 +26,11 @@ void Sprite::SelectAnimation(Animation *animation) {
     animation_ = animation;
 }
 
-void Sprite::Render(Image *back_buffer) {
+void Sprite::Render(Image *back_buffer, Vector2D &offset) {
     if (visible_) {
         int frame_number = animation_->get_current_frame();
-        image_->DrawTo(back_buffer, position_ - hotspot_, frame_number, mirror_);
+        image_->DrawTo(back_buffer, position_ - hotspot_ - offset, frame_number,
+                       mirror_);
     }
 }
 
