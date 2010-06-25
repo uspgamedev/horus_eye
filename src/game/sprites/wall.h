@@ -18,11 +18,7 @@ namespace sprite {
 class Wall : public WorldObject {
 
   public:
-    Wall() {
-        Initialise(VIDEO_MANAGER()->LoadImage("data/images/wall0011.png"));
-        image()->set_frame_size(framework::Vector2D(160,160));
-    }
-
+    Wall();
 };
 
 }

@@ -1,6 +1,12 @@
-5 5
-X X X X X
-X X X X X
-X X H X X
-X X X X X
-X X X X X
+11 11
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X H X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X
+X X X X X X X X X X X

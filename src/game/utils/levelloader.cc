@@ -42,6 +42,7 @@ void LevelLoader::Load(string file_name) {
     FILE *  level_input;
     char    token;
     int     width, height;
+    bool    hero_created = false;
 
     level_input = fopen(file_name.c_str(), "r");
 
@@ -67,9 +68,12 @@ void LevelLoader::Load(string file_name) {
                         break;
                     }
                     case HERO: {
-                        Hero *hero = new Hero();
-                        new_world_obj = hero;
-                        world_->set_hero(hero);
+                        if (!hero_created) {
+                            Hero *hero = new Hero();
+                            new_world_obj = hero;
+                            world_->set_hero(hero);
+                            hero_created = true;
+                        }
                         break;
                     }
                     default: {
@@ -77,9 +81,11 @@ void LevelLoader::Load(string file_name) {
                         break;
                     }
                 }
-                new_world_obj->set_world_position(position);
-                if(new_world_obj != NULL)
+                if(new_world_obj != NULL) {
+                    new_world_obj->set_world_position(position);
                     world_->AddWorldObject(new_world_obj);
+                    new_world_obj = NULL;
+                }
             }
         }
     }
