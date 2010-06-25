@@ -9,6 +9,7 @@
 #include "floor.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/engine.h"
+#include <float.h>
 
 using namespace framework;
 namespace sprite {
@@ -22,7 +23,7 @@ Floor::Floor() {
 
 void Floor::Update(float delta_t) {
     WorldObject::Update(delta_t);
-    set_zindex(0); // chao deve ficar a baixo de tudo
+    set_zindex(-FLT_MAX); // chao deve ficar a baixo de tudo/
 }
 
 }

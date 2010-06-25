@@ -32,9 +32,11 @@ WorldObject::~WorldObject() {
 void WorldObject::Update(float dt) {
 
     Sprite::Update(dt);
-    set_position(((World *)Engine::reference()->CurrentScene())->FromWorldCoordinates(world_position_));
+    World *world = ((World *)Engine::reference()->CurrentScene());
+    set_position(world->FromWorldCoordinates(world_position_));
     // TODO: Setar z-index corretamente
-    set_zindex(1.0f);
+
+    set_zindex(world->FromWorldLinearCoordinates(world_position_).y);
 
 }
 
