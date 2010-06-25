@@ -14,6 +14,13 @@ namespace framework {
 
 class Animation {
   public:
+	// Primeiro parametro define o fps da animacao.
+	// Os parametros seguintes sao os indices dos frames da animacao.
+	// Lista de parametro e' encerrada com um -1
+	//
+	//  A imagem e' dividida usando o frame_size, e o indice de um frame
+	//  e' representado pela sua posicao na imagem fonte, em linhas, da
+	//  esquerda para a direita e de cima para baixo.
     Animation(float fps, ...);
     ~Animation() { }
 
