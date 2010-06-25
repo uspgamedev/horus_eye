@@ -71,6 +71,8 @@ Hero::Hero() {
     attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
     attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
 
+    screen_center_ = Engine::reference()->window_size() * .5;
+
     for (int i = 0; i < 8; i++) {
         attacking_animations_[i]->AddObserver(this);
     }
@@ -96,8 +98,6 @@ Hero::Hero() {
             walking_animations_[i] = &last_standing_animation_;
         }
     }
-
-
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
@@ -178,7 +178,7 @@ void Hero::GetMouseState() {
 }
 
 int Hero::GetAttackingAnimationIndex(Vector2D mousePosition) {
-    Vector2D versor = Vector2D::Normalized(mousePosition - position());
+    Vector2D versor = Vector2D::Normalized(mousePosition - screen_center_);
     double radianAngle = acos(versor.x);
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
@@ -193,9 +193,7 @@ int Hero::GetAttackingAnimationIndex(Vector2D mousePosition) {
 }
 
 void Hero::Update(float delta_t) {
-
     Creature::Update(delta_t);
-    Engine::reference()->video_manager()->backbuffer()->Clear(0);
     if (!is_attacking_) {
         this->GetKeys();
         this->Move(delta_t);

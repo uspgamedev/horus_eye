@@ -29,6 +29,7 @@ class Hero : public Creature, public Observer {
     Hero();
     ~Hero() {} 
   private:
+    Vector2D screen_center_;
     int animation_direction_;
     int direction_mapping_[8];
     bool is_attacking_;
