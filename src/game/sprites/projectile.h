@@ -22,7 +22,7 @@ class Wall;
 class Projectile : public WorldObject {
 
   public:
-	Projectile();
+	Projectile(framework::Vector2D & pos, framework::Vector2D &);
 	void Move(float delta_t);
 	void Update(float delta_t);
 

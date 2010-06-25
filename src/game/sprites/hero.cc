@@ -9,6 +9,7 @@
 
 #include "../scenes/world.h"
 #include "hero.h"
+#include "projectile.h"
 #include <cmath>
 #include <iostream>
 
@@ -168,14 +169,24 @@ void Hero::GetKeys() {
     last_standing_animation_ = *(standing_animations_[animation_direction_]);
 }
 
+void Hero::StartAttack() {
+    InputManager *input_ = Engine::reference()->input_manager();
+
+    is_attacking_ = true;
+    int attackAnimationIndex = GetAttackingAnimationIndex(input_->GetMousePosition());
+    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
+
+    Vector2D angle = input_->GetMousePosition() - this->world_position_;
+    Projectile * projectile = new Projectile(world_position_, angle);
+    World *world_ = ((World *)Engine::reference()->CurrentScene());
+    world_->AddWorldObject(projectile);
+}
+
 void Hero::GetMouseState() {
     InputManager *input_ = Engine::reference()->input_manager();
-    if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_) {
-        is_attacking_ = true;
-        int attackAnimationIndex = GetAttackingAnimationIndex(input_->GetMousePosition());
-        last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-        this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
-    }
+    if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_)
+        StartAttack();
 }
 
 int Hero::GetAttackingAnimationIndex(Vector2D mousePosition) {

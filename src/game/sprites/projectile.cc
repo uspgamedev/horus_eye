@@ -12,13 +12,17 @@ using namespace framework;
 
 namespace sprite {
 
-Projectile::Projectile(Vector2D & dir) : duration_(5000), direction_(Vector2D::Normalized(dir)) {
+Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
+        duration_(5000),
+        direction_(Vector2D::Normalized(dir))
+{
 	// TODO: remover os numeros magicos
-    Initialise(VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png"));
+    Initialize(VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png"));
     image()->set_frame_size(Vector2D(32,32));
     set_hotspot(Vector2D(16, 16));
     dano_ = 1;
     speed_ = 5;
+    this->set_world_position(pos);
 }
 
 void Projectile::Move(float delta_t) {
