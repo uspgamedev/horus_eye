@@ -21,6 +21,7 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     input_manager_ = new InputManager();
     time_handler_ = new TimeHandler();
     scene_list_.clear();
+    window_size_ = windowSize;
     return (time_handler_ != NULL);
 }
 

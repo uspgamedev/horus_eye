@@ -28,9 +28,11 @@ class Engine {
     VideoManager *video_manager() { return video_manager_; }
     InputManager *input_manager() { return input_manager_; }
     TimeHandler *time_handler() { return time_handler_; }
+    Vector2D window_size() { return window_size_; }
 
     // Gerenciamento do motor
     bool Initialize(string windowTitle, Vector2D windowSize, bool fullscreen);
+
     void Run();
     void Release();
 
@@ -49,6 +51,7 @@ class Engine {
     VideoManager *video_manager_;
     InputManager *input_manager_;
     TimeHandler *time_handler_;
+    Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;
 };

@@ -70,13 +70,13 @@ class Sprite {
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 
+    float zindex_;
 
   private:
     Vector2D position_, hotspot_;
     Image *image_;
     Image::Mirror mirror_;
     Animation *animation_;
-    float zindex_;
     bool visible_;
 
 };
