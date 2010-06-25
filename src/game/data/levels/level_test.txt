@@ -1,12 +1,12 @@
 11 11
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X H X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
-X X X X X X X X X X X
+W W W W W W W W W W W
+W X X X X X X X X X W
+W X X X X X X X X X W
+W X X X X X X X X X W
+W X X X X X X X X X W
+W X X X X H X X X X W
+W X X X X X X X X X W
+W X X X X X X X X X W
+W X X X X W X X X X W
+W X X X X W X X X X W
+W W W W W W W W W W W

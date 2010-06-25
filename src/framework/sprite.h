@@ -66,7 +66,7 @@ class Sprite {
     virtual void Update(float delta_t);
 
   protected:
-    void Initialise(Image *image);
+    void Initialize(Image *image);
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
 

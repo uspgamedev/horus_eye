@@ -26,7 +26,7 @@ namespace sprite {
  
 Hero::Hero() {
 
-    Initialise(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
+    Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
 
 
     World *world = ((World *)Engine::reference()->CurrentScene());
@@ -103,6 +103,7 @@ Hero::Hero() {
         pressed_key_[i] = false;
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
+    set_hotspot(Vector2D(37, 55));
 
 }
 

@@ -13,7 +13,7 @@ Sprite::Sprite(Image *image, Vector2D position) : zindex_(0.0f) {
 }
 */
 
-void Sprite::Initialise(Image *image)
+void Sprite::Initialize(Image *image)
 {
     image_ = image;
   	set_zindex(0.0f);

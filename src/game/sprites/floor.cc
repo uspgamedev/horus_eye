@@ -18,7 +18,7 @@ namespace sprite {
 #define FLOOR_HEIGHT  41.0
 
 Floor::Floor() {
-    Initialise(VIDEO_MANAGER()->LoadImage("data/images/chao41x41.png"));
+    Initialize(VIDEO_MANAGER()->LoadImage("data/images/chao41x41.png"));
     image()->set_frame_size(framework::Vector2D(FLOOR_WIDTH,FLOOR_HEIGHT));
     set_hotspot(Vector2D(FLOOR_WIDTH/2, FLOOR_HEIGHT/2));
 }
