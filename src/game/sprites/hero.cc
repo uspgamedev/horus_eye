@@ -30,14 +30,10 @@ Hero::Hero() {
 
 
     World *world = ((World *)Engine::reference()->CurrentScene());
-    directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(1, 0));
-    directions_[Direction_::LEFT] =  world->FromScreenLinearCoordinates(Vector2D(-1, 0));
-    directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0, 1));
-    directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -1));
-
-
-
-
+    directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
+    directions_[Direction_::LEFT] =  world->FromScreenLinearCoordinates(Vector2D(-SQRT_3/2, 0));
+    directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0, .5));
+    directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -.5));
 
     is_attacking_ = false;
 

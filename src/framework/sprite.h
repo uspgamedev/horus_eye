@@ -34,7 +34,7 @@ class Sprite {
 
     // zindex: (tras) 0.0 <= zindex <= 1.0 (frente)
     float zindex() const { return zindex_; }
-    void set_zindex(float z) { zindex_= std::max( std::min(z, 1.0f), 0.0f ); }
+    void set_zindex(float z) { zindex_= z; }
     static bool CompareByZIndex(Sprite *a, Sprite *b);
 
     Image *image() { return image_; }
