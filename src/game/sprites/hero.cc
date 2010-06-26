@@ -26,10 +26,7 @@ namespace sprite {
 #define SQRT_3 1.7320508075688772935274463415059
  
 Hero::Hero() {
-
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
-    collision_radius_ = 1.0f;
-
 
     World *world = ((World *)Engine::reference()->CurrentScene());
     directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
@@ -37,8 +34,7 @@ Hero::Hero() {
     directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0, .5));
     directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -.5));
 
-    is_attacking_ = false;
-
+    // Animations
     last_standing_animation_ = new Animation(0, -1);
     for (int i = 0; i < 16; i++) {
         standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
@@ -106,7 +102,9 @@ Hero::Hero() {
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    this->collision_radius_ = 0.1f;
+    collision_radius_ = 0.1f;
+    is_attacking_ = false;
+    speed_ = 4.0f;
 }
 
 void Hero::Tick() {
@@ -116,23 +114,6 @@ void Hero::Tick() {
 void Hero::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
     this->image()->set_frame_size(frame_size);
     this->SelectAnimation(animation);
-}
-
-void Hero::Move(float delta_t) {
-    float speed = 4*delta_t;
-
-    Vector2D position(this->world_position().x, this->world_position().y);
-    Vector2D dir (0, 0);
-    for (int i = 0; i < 4; i++) {
-        if (pressed_key_[i]) {
-            dir = dir + directions_[i];
-        }
-    }
-    dir = Vector2D::Normalized(dir);
-    dir = dir * speed;
-    position = position + dir;
-
-    set_world_position(position);
 }
 
 void Hero::GetKeys() {
@@ -168,6 +149,15 @@ void Hero::GetKeys() {
     }
 
     last_standing_animation_ = *(standing_animations_[animation_direction_]);
+
+
+    Vector2D dir (0, 0);
+    for (int i = 0; i < 4; i++) {
+        if (pressed_key_[i]) {
+            dir = dir + directions_[i];
+        }
+    }
+    this->walking_direction_ = Vector2D::Normalized(dir);
 }
 
 double Hero::GetAttackingAngle(Vector2D mousePosition) {
@@ -212,7 +202,7 @@ void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!is_attacking_) {
         this->GetKeys();
-        this->Move(delta_t);
+        Creature::Move(this->GetWalkingDirection(), delta_t);
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));
         this->GetMouseState();
     }

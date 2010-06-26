@@ -18,7 +18,9 @@ namespace sprite {
 Creature::Creature() : WorldObject() { }
 
 void Creature::Move(Vector2D direction, float delta_t) {
-    // TODO: implementar essa funcao
+    Vector2D position(this->world_position().x, this->world_position().y);
+    position = position + direction * (this->speed_ * delta_t);
+    set_world_position(position);
 }
 
 void Creature::CollidesWith(Wall * obj) {
