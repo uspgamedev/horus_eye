@@ -19,6 +19,7 @@ class Wall : public WorldObject {
 
   public:
     Wall();
+    virtual void HandleCollision(WorldObject *);
 };
 
 }

@@ -12,7 +12,13 @@
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
 
+
+
 namespace sprite {
+
+class Hero;
+class Projectile;
+class Wall; 
 
 // Classe WorldObject (abstrata)
 // Representa um objeto do mundo (um bonequinho, uma magia, etc)
@@ -36,9 +42,14 @@ class WorldObject : public framework::Sprite {
 
     // tratamento de colisao
     virtual bool IsColliding(WorldObject* obj) const;
+
+    virtual void CollidesWith(Wall* obj) {}
+    virtual void CollidesWith(Hero* hero) {}
+    virtual void CollidesWith(Projectile *projectile) {}
+
     virtual void CollidesWith(WorldObject* obj) {}
     // tratamento de colisao
-    void HandleCollision(WorldObject* obj);
+    virtual void HandleCollision(WorldObject* obj);
 
   protected:
 

@@ -13,7 +13,6 @@ using namespace framework;
 namespace sprite {
 
 Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
-        duration_(5000),
         direction_(Vector2D::Normalized(dir))
 {
 	// TODO: remover os numeros magicos
@@ -23,6 +22,7 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     dano_ = 1;
     speed_ = 5;
     this->set_world_position(pos);
+    duration_ = new TimeAccumulator(5000);
 }
 
 void Projectile::Move(float delta_t) {
@@ -31,16 +31,20 @@ void Projectile::Move(float delta_t) {
 }
 
 void Projectile::Update(float delta_t) {
-	if( duration_.Expired() ) {
+	if( duration_->Expired() ) {
 		// TODO: destruir isso
 		return;
 	}
 	WorldObject::Update(delta_t);
 	this->Move(delta_t);
 }
-
+/*
 void CollidesWith(Wall * obj) {
 	// TODO: destruir isso
 }
+
+void CollidesWith(Mummy *obj) {
+}
+*/
 
 }

@@ -23,7 +23,7 @@ class Creature : public WorldObject {
     virtual ~Creature() { }
 
     // Colisoes
-    void CollidesWith(Wall *);
+    virtual void CollidesWith(Wall *);
 
   protected:
 

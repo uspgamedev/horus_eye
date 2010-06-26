@@ -15,6 +15,7 @@
 
 #include "worldobject.h"
 
+using namespace framework;
 namespace sprite {
 
 class Mummy;
@@ -26,15 +27,15 @@ class Projectile : public WorldObject {
 	void Move(float delta_t);
 	void Update(float delta_t);
 
-	void CollidesWith(Mummy * obj); // TODO: implementar quando existir Mummy
-	void CollidesWith(Wall * obj);
+//	virtual void CollidesWith(Mummy * obj); // TODO: implementar quando existir Mummy
+//	virtual void CollidesWith(Wall * obj);
 	int dano() { return dano_; }
 
   private:
 	int dano_;
     float speed_;
-    framework::Vector2D direction_;
-    framework::TimeAccumulator duration_;
+    Vector2D direction_;
+    TimeAccumulator *duration_;
 };
 
 }

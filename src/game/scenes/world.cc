@@ -14,6 +14,7 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 #include <cmath>
+#include <iostream>
 
 #define SQRT_3 1.7320508075688772935274463415059
 

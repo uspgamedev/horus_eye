@@ -28,6 +28,7 @@ namespace sprite {
 Hero::Hero() {
 
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
+    collision_radius_ = 1.0f;
 
 
     World *world = ((World *)Engine::reference()->CurrentScene());

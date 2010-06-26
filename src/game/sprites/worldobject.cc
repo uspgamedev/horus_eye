@@ -9,7 +9,6 @@
 #include "worldobject.h"
 #include "../scenes/world.h"
 
-
 namespace sprite {
 
 using namespace framework;
@@ -30,14 +29,11 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Update(float dt) {
+    World *world = ((World *)Engine::reference()->CurrentScene());
 
     Sprite::Update(dt);
-    World *world = ((World *)Engine::reference()->CurrentScene());
-    set_position(world->FromWorldCoordinates(world_position_));
-    // TODO: Setar z-index corretamente
-
-    set_zindex(world->FromWorldLinearCoordinates(world_position_).y);
-
+    set_position(world->FromWorldCoordinates(world_position_)); // Transforma coordenadas mundo -> coordenadas tela
+    set_zindex(world->FromWorldLinearCoordinates(world_position_).y); // Seta zindex
 }
 
 bool WorldObject::IsColliding(WorldObject* obj) const {
@@ -46,8 +42,8 @@ bool WorldObject::IsColliding(WorldObject* obj) const {
 }
 
 void WorldObject::HandleCollision(WorldObject* obj) {
-    // double dispatch
-    // http://en.wikipedia.org/wiki/Double_dispatch
+//     double dispatch
+//     http://en.wikipedia.org/wiki/Double_dispatch
     obj->CollidesWith(this);
 }
 

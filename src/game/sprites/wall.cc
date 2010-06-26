@@ -7,7 +7,7 @@
 //
 
 #include "wall.h"
-
+#include <iostream>
 
 
 namespace sprite {
@@ -23,6 +23,10 @@ Wall::Wall() {
         image()->set_frame_size(framework::Vector2D(WALL_WIDTH, WALL_HEIGHT));
         set_hotspot(Vector2D(WALL_WIDTH/2, WALL_HEIGHT - 20.5));
         this->collision_radius_ = SQRT_2/2;
+}
+
+void Wall::HandleCollision(WorldObject* obj) {
+    obj->CollidesWith(this);
 }
 
 }
