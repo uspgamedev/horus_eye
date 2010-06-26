@@ -21,6 +21,7 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     set_hotspot(Vector2D(16, 16));
     dano_ = 1;
     speed_ = 5;
+    this->collision_radius_ = 1.5f;
     this->set_world_position(pos);
     duration_ = new TimeAccumulator(5000);
 }
@@ -39,7 +40,7 @@ void Projectile::Update(float delta_t) {
 	this->Move(delta_t);
 }
 /*
-void CollidesWith(Wall * obj) {
+void Projectile::CollidesWith(Wall * obj) {
 	// TODO: destruir isso
 }
 

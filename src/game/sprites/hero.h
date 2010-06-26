@@ -59,8 +59,9 @@ class Hero : public Creature, public Observer {
         static const int DOWN = 8;
     };
 
-    void SelectSpriteAnimation(Animation *, Vector2D); 
-    int GetAttackingAnimationIndex(Vector2D mousePosition);
+    void SelectSpriteAnimation(Animation *, Vector2D);
+    double GetAttackingAngle(Vector2D mousePosition);
+    int GetAttackingAnimationIndex(double angle);
     virtual void Update(float delta_t);
     void Move(float delta_t);
     void StartAttack();

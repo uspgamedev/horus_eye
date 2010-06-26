@@ -106,7 +106,7 @@ Hero::Hero() {
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-
+    this->collision_radius_ = 0.1f;
 }
 
 void Hero::Tick() {
@@ -170,16 +170,27 @@ void Hero::GetKeys() {
     last_standing_animation_ = *(standing_animations_[animation_direction_]);
 }
 
+double Hero::GetAttackingAngle(Vector2D mousePosition) {
+    Vector2D versor = Vector2D::Normalized(mousePosition - screen_center_);
+    double radianAngle = acos(versor.x);
+    if (versor.y > 0) {
+        radianAngle = 2*PI - radianAngle;
+    }
+    return radianAngle;
+}
+
 void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition());
+
     is_attacking_ = true;
-    int attackAnimationIndex = GetAttackingAnimationIndex(input_->GetMousePosition());
+    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
 
-    Vector2D angle = input_->GetMousePosition() - this->world_position_;
-    Projectile * projectile = new Projectile(world_position_, angle);
+    Vector2D versor(cos(attackAngle - PI/4), sin(attackAngle - PI/4)); // -PI/4 calculado via testes
+    Projectile * projectile = new Projectile(world_position_, versor);
     World *world_ = ((World *)Engine::reference()->CurrentScene());
     world_->AddWorldObject(projectile);
 }
@@ -190,17 +201,9 @@ void Hero::GetMouseState() {
         StartAttack();
 }
 
-int Hero::GetAttackingAnimationIndex(Vector2D mousePosition) {
-    Vector2D versor = Vector2D::Normalized(mousePosition - screen_center_);
-    double radianAngle = acos(versor.x);
-    if (versor.y > 0) {
-        radianAngle = 2*PI - radianAngle;
-    }
-
-    int degreeAngle = (int)((radianAngle / PI) * 360);
-    
+int Hero::GetAttackingAnimationIndex(double angle) {
+    int degreeAngle = (int)((angle / PI) * 360);
     degreeAngle += 45;
-
     int animationIndex = degreeAngle / 90;
     return animationIndex % 8;
 }
