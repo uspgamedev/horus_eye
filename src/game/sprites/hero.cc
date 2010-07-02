@@ -173,16 +173,17 @@ void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
     double attackAngle = GetAttackingAngle(input_->GetMousePosition());
-
     is_attacking_ = true;
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
 
-    Vector2D versor(cos(attackAngle - PI/4), sin(attackAngle - PI/4)); // -PI/4 calculado via testes
-    Projectile * projectile = new Projectile(world_position_, versor);
     World *world_ = ((World *)Engine::reference()->CurrentScene());
+    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_;
+    Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset));
+    Projectile * projectile = new Projectile(world_position_, versor);
     world_->AddWorldObject(projectile);
+    world_->AddMoveable(projectile);
 }
 
 void Hero::GetMouseState() {
