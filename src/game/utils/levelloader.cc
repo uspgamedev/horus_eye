@@ -72,6 +72,7 @@ void LevelLoader::Load(string file_name) {
                             Hero *hero = new Hero();
                             new_world_obj = hero;
                             world_->set_hero(hero);
+                            world_->AddMoveable(hero);
                             hero_created = true;
                         }
                         break;

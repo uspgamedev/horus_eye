@@ -37,6 +37,7 @@ class World : public framework::Scene {
 
     void AddWorldObject(sprite::WorldObject*);
     void AddFloor(sprite::Floor*);
+    void AddMoveable(sprite::WorldObject*);
     void FinishLevel(bool);
     int CountRemainingEnemies();
 
@@ -57,7 +58,8 @@ class World : public framework::Scene {
   protected:
     sprite::Hero *                  hero_;
     std::list<sprite::WorldObject*> world_objects_,
-                                    collidable_;
+                                    collidable_,
+                                    moveable_;
     framework::Layer                *world_layer_;
 
     void RemoveInactiveObjects();

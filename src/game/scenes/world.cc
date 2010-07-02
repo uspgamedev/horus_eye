@@ -42,8 +42,8 @@ void World::Update(float delta_t) {
     // Verifica e trata colisoes do WorldObjetcts.
     std::list<sprite::WorldObject*>::iterator i, j;
 
-    for (i = collidable_.begin(); i != collidable_.end(); ++i)
-        for (j = i, ++j; j != collidable_.end(); ++j)
+    for (i = moveable_.begin(); i != moveable_.end(); ++i)
+        for (j = collidable_.begin(); j != collidable_.end(); ++j)
             if ((*i)->IsColliding(*j)) {
                 (*i)->HandleCollision(*j);
                 (*j)->HandleCollision(*i);
@@ -61,6 +61,10 @@ void World::AddWorldObject(sprite::WorldObject* new_object) {
 void World::AddFloor(sprite::Floor* new_floor) {
     world_objects_.push_front(new_floor);
     world_layer_->AddSprite(new_floor);
+}
+
+void World::AddMoveable(sprite::WorldObject* new_moveable) {
+    moveable_.push_front(new_moveable);
 }
 
 void World::FinishLevel(bool goodEnd) {
