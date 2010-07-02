@@ -17,6 +17,8 @@ namespace sprite {
 
 // Classe Creature
 
+using namespace framework;
+
 class Creature : public WorldObject {
   public:
     Creature();
@@ -36,6 +38,7 @@ class Creature : public WorldObject {
     }
 
     // variaveis
+    Vector2D last_stable_position_;
     int   life_, max_life_;
     float speed_, attack_cool_down_, attack_duration_, hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;

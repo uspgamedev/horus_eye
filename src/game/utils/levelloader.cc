@@ -50,7 +50,7 @@ void LevelLoader::Load(string file_name) {
     fscanf(level_input, "%d", &height);
 
     Floor *         new_floor;
-    WorldObject *   new_world_obj;
+    WorldObject *   new_world_obj = NULL;
     Vector2D        position;
 
     for (int j = 0; j < height; ++j) {
