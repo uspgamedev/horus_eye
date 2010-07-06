@@ -110,10 +110,6 @@ void Hero::Tick() {
     is_attacking_ = false;
 }
 
-void Hero::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
-    this->image()->set_frame_size(frame_size);
-    this->SelectAnimation(animation);
-}
 
 void Hero::GetKeys() {
     InputManager *input_ = Engine::reference()->input_manager();

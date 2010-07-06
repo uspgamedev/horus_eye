@@ -28,11 +28,37 @@ class Creature : public WorldObject {
     virtual void CollidesWith(Wall *);
 
   protected:
+    int animation_direction_;
+    int direction_mapping_[8];
+    bool is_attacking_;
+    Animation *last_standing_animation_;
+    Animation ** standing_animations_[16];
+    Animation ** walking_animations_[16];
+    Animation * attacking_animations_[8];
+
+    Vector2D directions_[4];
+    
+    class Direction_ {
+      public:
+        static const int RIGHT = 0;
+        static const int LEFT = 1;
+        static const int UP = 2;
+        static const int DOWN = 3;
+    };
+
+    class Animation_ {
+      public:
+        static const int RIGHT = 1;
+        static const int LEFT = 2;
+        static const int UP = 4;
+        static const int DOWN = 8;
+    };
 
     virtual void Update(float dt) { WorldObject::Update(dt); }
 
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
+    void SelectSpriteAnimation(Animation *animation, Vector2D frame_size);
     virtual framework::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }

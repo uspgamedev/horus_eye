@@ -30,4 +30,10 @@ void Creature::CollidesWith(Wall * obj) {
     set_world_position(last_stable_position_);
 
 }  // namespace sprite
+
+void Creature::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
+    this->image()->set_frame_size(frame_size);
+    this->SelectAnimation(animation);
+}
+
 }

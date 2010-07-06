@@ -91,7 +91,7 @@ Mummy::Mummy() {
         }
     }
 
-    SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
+    this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(37, 55));
     collision_radius_ = 0.1f;
     is_attacking_ = false;
@@ -99,36 +99,11 @@ Mummy::Mummy() {
 }
 
 
-void Mummy::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
-    this->image()->set_frame_size(frame_size);
-    this->SelectAnimation(animation);
-}
-
 pair<int,pbb> Mummy::Think() {
    return make_pair(rand()%8,make_pair(false, false)); 
 }
 
-
-
-
-double Mummy::GetAttackingAngle(Vector2D mousePosition) {
-    return 1.0;
-}
-
 void Mummy::StartAttack() {
-}
-
-void Mummy::GetMouseState() {
-    InputManager *input_ = Engine::reference()->input_manager();
-    if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_)
-        StartAttack();
-}
-
-int Mummy::GetAttackingAnimationIndex(double angle) {
-    int degreeAngle = (int)((angle / PI) * 360);
-    degreeAngle += 45;
-    int animationIndex = degreeAngle / 90;
-    return animationIndex % 8;
 }
 
 void Mummy::Update(float delta_t) {
@@ -152,7 +127,6 @@ void Mummy::Update(float delta_t) {
 
         Creature::Move(this->GetWalkingDirection(), delta_t);
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
-        this->GetMouseState();
     }
 
 }
