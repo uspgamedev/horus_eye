@@ -21,6 +21,7 @@ Floor::Floor() {
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/chao41x41.png"));
     image()->set_frame_size(framework::Vector2D(FLOOR_WIDTH,FLOOR_HEIGHT));
     set_hotspot(Vector2D(FLOOR_WIDTH/2, FLOOR_HEIGHT/2));
+    this->collision_type_ = NO_COLLISION;
 }
 
 void Floor::Update(float delta_t) {

@@ -178,7 +178,6 @@ void Hero::StartAttack() {
     Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset));
     Projectile * projectile = new Projectile(world_position_, versor);
     world_->AddWorldObject(projectile);
-    world_->AddMoveable(projectile);
 }
 
 void Hero::GetMouseState() {

@@ -20,6 +20,8 @@
 
 namespace scene {
 
+#define WORLD() ((World *)Engine::reference()->CurrentScene())
+
 // Classe World
 // O World e' uma cena onde o jogo se desencadeara'. O World contem
 // elementos como: heroi, mumias, cenario e hud.
@@ -37,7 +39,6 @@ class World : public framework::Scene {
 
     void AddWorldObject(sprite::WorldObject*);
     void AddFloor(sprite::Floor*);
-    void AddMoveable(sprite::WorldObject*);
     void FinishLevel(bool);
     int CountRemainingEnemies();
 
@@ -58,8 +59,7 @@ class World : public framework::Scene {
   protected:
     sprite::Hero *                  hero_;
     std::list<sprite::WorldObject*> world_objects_,
-                                    collidable_,
-                                    moveable_;
+                                    collisionless_objects;
     framework::Layer                *world_layer_;
 
     void RemoveInactiveObjects();

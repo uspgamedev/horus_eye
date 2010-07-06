@@ -29,7 +29,9 @@ class WorldObject : public framework::Sprite {
     virtual ~WorldObject();
 
     // estado do objeto
+    enum CollisionType { NO_COLLISION = 0x1, STATIC = 0x2, MOVEABLE = 0x4 };
     enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
+    virtual CollisionType collision_type() const { return collision_type_; }
     virtual Status status() const { return status_; }
     virtual void Update(float dt);
 
@@ -57,6 +59,7 @@ class WorldObject : public framework::Sprite {
     framework::Vector2D world_position_;
     float collision_radius_;
     Status status_;
+    CollisionType collision_type_;
 
 
     //friend void scene::World::Update(float);

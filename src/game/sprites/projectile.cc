@@ -7,8 +7,11 @@
 //
 
 #include "projectile.h"
+#include "../../framework/engine.h"
+#include "../scenes/world.h"
 
 using namespace framework;
+using namespace scene;
 
 namespace sprite {
 
@@ -21,9 +24,10 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     set_hotspot(Vector2D(16, 16));
     dano_ = 1;
     speed_ = 5;
-    this->collision_radius_ = 1.5f;
+    this->collision_radius_ = 0.1f;
     this->set_world_position(pos);
     duration_ = new TimeAccumulator(5000);
+    this->collision_type_ = MOVEABLE;
 }
 
 void Projectile::Move(float delta_t) {
@@ -33,19 +37,18 @@ void Projectile::Move(float delta_t) {
 
 void Projectile::Update(float delta_t) {
 	if( duration_->Expired() ) {
-		// TODO: destruir isso
-		return;
+	    this->status_ = WorldObject::STATUS_DEAD;
 	}
 	WorldObject::Update(delta_t);
 	this->Move(delta_t);
 }
-/*
+
 void Projectile::CollidesWith(Wall * obj) {
-	// TODO: destruir isso
+    this->status_ = WorldObject::STATUS_DEAD;
 }
 
-void CollidesWith(Mummy *obj) {
+void Projectile::CollidesWith(Mummy *obj) {
+    this->status_ = WorldObject::STATUS_DEAD;
 }
-*/
 
 }

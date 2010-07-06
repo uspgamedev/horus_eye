@@ -16,7 +16,7 @@ using namespace framework;
 namespace sprite {
 
 Creature::Creature() : WorldObject(),
-                     last_stable_position_(0, 0) { }
+                     last_stable_position_(0, 0) { this->collision_type_ = MOVEABLE; }
                      
 void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);
