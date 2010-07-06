@@ -7,8 +7,9 @@
 //
 #include <SDL/SDL.h>
 #include <string>
+#include <algorithm>
 #include "engine.h"
-using std::string;
+using std;
 
 namespace framework
 {
@@ -34,6 +35,10 @@ void Engine::Run() {
         // gerenciamento de tempo
         time_handler_->Update();
         delta_t = (time_handler_->TimeDifference())/1000.0f;
+
+        // Verifica se o FPS nao esta baixo demais.
+        // Impede que os personagens atravessem paredes.
+        delta_t = min(delta_t, 0.1);
 
         // gerenciador de input
         input_manager()->Update(delta_t);
