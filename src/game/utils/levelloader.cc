@@ -10,6 +10,7 @@
 #include <cstdio>
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
+#include "../sprites/mummy.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 
@@ -33,7 +34,7 @@ using namespace framework;
  * objeto a serem criados:
  * Wall     : W
  * Door     : D (nao implementado)
- * Mummy    : M (nao implementado)
+ * Mummy    : M 
  * Hero     : H
  * Empty    : X
  */
@@ -77,6 +78,11 @@ void LevelLoader::Load(string file_name) {
                         }
                         break;
                     }
+                    case MUMMY: {
+                        new_world_obj = new Mummy();
+                        break;
+                    }
+
                     default: {
                         new_world_obj = NULL;
                         break;

@@ -7,8 +7,9 @@
 #include "../../framework/inputmanager.h"
 #include "../../framework/timehandler.h"
 
+
 #include "../scenes/world.h"
-#include "hero.h"
+#include "mummy.h"
 #include "projectile.h"
 #include <cmath>
 #include <iostream>
@@ -19,13 +20,13 @@ using namespace scene;
 
 namespace sprite {
 
-#define HERO_WIDTH  74 
-#define HERO_HEIGHT 74
+#define MUMMY_WIDTH  74 
+#define MUMMY_HEIGHT 74
 #define PI acos(-1)
 #define SQRT_3 1.7320508075688772935274463415059
  
-Hero::Hero() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
+Mummy::Mummy() {
+    Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_red_74x74.png"));
 
     World *world = ((World *)Engine::reference()->CurrentScene());
     directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
@@ -68,12 +69,6 @@ Hero::Hero() {
     attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
     attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
 
-    screen_center_ = Engine::reference()->window_size() * .5;
-
-    for (int i = 0; i < 8; i++) {
-        attacking_animations_[i]->AddObserver(this);
-    }
-    
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
     direction_mapping_[2] = Animation_::UP; 
@@ -96,115 +91,69 @@ Hero::Hero() {
         }
     }
 
-    for (int i = 0; i < 4; i++) {
-        pressed_key_[i] = false;
-    }
-    SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
+    SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(37, 55));
     collision_radius_ = 0.1f;
     is_attacking_ = false;
-    speed_ = 4.0f;
+    speed_ = 0.2f;
 }
 
-void Hero::Tick() {
-    is_attacking_ = false;
-}
 
-void Hero::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
+void Mummy::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
     this->image()->set_frame_size(frame_size);
     this->SelectAnimation(animation);
 }
 
-void Hero::GetKeys() {
-    InputManager *input_ = Engine::reference()->input_manager();
-    // -----------------------------
-    // Nao copiar esta parte
-    if(input_->KeyDown(K_ESCAPE))
-        Engine::reference()->quit();
-    //        if(input_->KeyDown(SDLK_SPACE))
-    //            mage_->Spell();
-    // -----------------------------
-
-    for (int i = 0; i < 4; i++) {
-        pressed_key_[i] = false;
-    }
-
-    animation_direction_ = 0;
-    if(input_->KeyDown(K_w)) {
-        pressed_key_[Direction_::UP] = true;
-        animation_direction_ += Animation_::UP;
-    }
-    if(input_->KeyDown(K_a)) {
-        pressed_key_[Direction_::LEFT] = true;
-        animation_direction_ += Animation_::LEFT;
-    }
-    if(input_->KeyDown(K_s)) {
-        pressed_key_[Direction_::DOWN] = true;
-        animation_direction_ += Animation_::DOWN;
-    }
-    if(input_->KeyDown(K_d)) {
-        pressed_key_[Direction_::RIGHT] = true;
-        animation_direction_ += Animation_::RIGHT;
-    }
-
-    last_standing_animation_ = *(standing_animations_[animation_direction_]);
-
-
-    Vector2D dir (0, 0);
-    for (int i = 0; i < 4; i++) {
-        if (pressed_key_[i]) {
-            dir = dir + directions_[i];
-        }
-    }
-    this->walking_direction_ = Vector2D::Normalized(dir);
+pair<int,pbb> Mummy::Think() {
+   return make_pair(rand()%8,make_pair(false, false)); 
 }
 
-double Hero::GetAttackingAngle(Vector2D mousePosition) {
-    Vector2D versor = Vector2D::Normalized(mousePosition - screen_center_);
-    double radianAngle = acos(versor.x);
-    if (versor.y > 0) {
-        radianAngle = 2*PI - radianAngle;
-    }
-    return radianAngle;
+
+
+
+double Mummy::GetAttackingAngle(Vector2D mousePosition) {
+    return 1.0;
 }
 
-void Hero::StartAttack() {
-    InputManager *input_ = Engine::reference()->input_manager();
-
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition());
-    is_attacking_ = true;
-    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
-
-    World *world_ = ((World *)Engine::reference()->CurrentScene());
-    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_;
-    Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset));
-    Projectile * projectile = new Projectile(world_position_, versor);
-    world_->AddWorldObject(projectile);
-    world_->AddMoveable(projectile);
+void Mummy::StartAttack() {
 }
 
-void Hero::GetMouseState() {
+void Mummy::GetMouseState() {
     InputManager *input_ = Engine::reference()->input_manager();
     if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_)
         StartAttack();
 }
 
-int Hero::GetAttackingAnimationIndex(double angle) {
+int Mummy::GetAttackingAnimationIndex(double angle) {
     int degreeAngle = (int)((angle / PI) * 360);
     degreeAngle += 45;
     int animationIndex = degreeAngle / 90;
     return animationIndex % 8;
 }
 
-void Hero::Update(float delta_t) {
+void Mummy::Update(float delta_t) {
     Creature::Update(delta_t);
+    Vector2D dir(0,0);
+
+    pair<int, pbb> action = Think();
+    is_attacking_ = action.second.first;
+    animation_direction_ = action.first;
+
     if (!is_attacking_) {
-        this->GetKeys();
+        last_standing_animation_ = *(standing_animations_[animation_direction_]);
+        if (animation_direction_ & Animation_::UP)
+            dir = dir + directions_[Direction_::UP]; 
+        if (animation_direction_ & Animation_::DOWN)
+            dir = dir + directions_[Direction_::DOWN]; 
+        if (animation_direction_ & Animation_::LEFT)
+            dir = dir + directions_[Direction_::LEFT]; 
+        if (animation_direction_ & Animation_::RIGHT)
+            dir = dir + directions_[Direction_::RIGHT]; 
+
         Creature::Move(this->GetWalkingDirection(), delta_t);
-        this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));
+        this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
         this->GetMouseState();
     }
+
 }
 }
