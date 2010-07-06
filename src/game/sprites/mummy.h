@@ -13,6 +13,7 @@
 #include "creature.h"
 #include "../../framework/animation.h"
 #include "../../framework/vector2D.h"
+#include "../../framework/timeaccumulator.h"
 #include <algorithm>
 #define pbb pair<bool, bool>
 
@@ -32,9 +33,11 @@ class Mummy : public Creature {
     ~Mummy() {} 
   private:
 
+    TimeAccumulator *interval_;
+
     virtual void Update(float delta_t);
     void StartAttack();
-    pair<int, pbb> Think();
+    void Think();
 };
 
 }

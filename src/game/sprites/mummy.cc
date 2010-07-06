@@ -24,7 +24,15 @@ namespace sprite {
 #define MUMMY_HEIGHT 74
 #define PI acos(-1)
 #define SQRT_3 1.7320508075688772935274463415059
- 
+#define EXP_PARAM (1.0)
+
+// Devolve um tempo ~exp(EXP_PARAM)
+static int WaitingTime () {
+
+    return (int)(1000*-log(1.0*rand()/RAND_MAX)/EXP_PARAM);
+
+}
+
 Mummy::Mummy() {
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_red_74x74.png"));
 
@@ -95,12 +103,33 @@ Mummy::Mummy() {
     set_hotspot(Vector2D(37, 55));
     collision_radius_ = 0.1f;
     is_attacking_ = false;
-    speed_ = 0.2f;
+    speed_ = 2.0f;
+    interval_ = new TimeAccumulator(0);
+
+
 }
 
 
-pair<int,pbb> Mummy::Think() {
-   return make_pair(rand()%8,make_pair(false, false)); 
+void Mummy::Think() {
+
+    if (interval_->Expired()) {
+
+        int dir = rand()%8;
+
+        animation_direction_ = 0;
+        if (dir < 3) animation_direction_ += Animation_::UP;
+        if (dir >= 2 && dir < 5) animation_direction_ += Animation_::LEFT;
+        if (dir >= 4 && dir < 7) animation_direction_ += Animation_::DOWN;
+        if (dir >= 6 || dir == 0) animation_direction_ += Animation_::RIGHT;
+
+        last_standing_animation_ = *(standing_animations_[animation_direction_]);
+
+        this->walking_direction_ = Vector2D(cos(dir*PI/4), sin(dir*PI/4));
+
+        interval_->Restart(WaitingTime());
+
+    }
+
 }
 
 void Mummy::StartAttack() {
@@ -110,9 +139,8 @@ void Mummy::Update(float delta_t) {
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
-    pair<int, pbb> action = Think();
-    is_attacking_ = action.second.first;
-    animation_direction_ = action.first;
+    Think();
+    is_attacking_ = false;
 
     if (!is_attacking_) {
         last_standing_animation_ = *(standing_animations_[animation_direction_]);
