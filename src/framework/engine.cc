@@ -9,7 +9,8 @@
 #include <string>
 #include <algorithm>
 #include "engine.h"
-using std;
+
+using namespace std;
 
 namespace framework
 {
@@ -38,7 +39,7 @@ void Engine::Run() {
 
         // Verifica se o FPS nao esta baixo demais.
         // Impede que os personagens atravessem paredes.
-        delta_t = min(delta_t, 0.1);
+        delta_t = min(delta_t, 0.1f);
 
         // gerenciador de input
         input_manager()->Update(delta_t);
