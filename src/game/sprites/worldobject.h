@@ -17,8 +17,9 @@
 namespace sprite {
 
 class Hero;
+class Mummy;
 class Projectile;
-class Wall; 
+class Wall;
 
 // Classe WorldObject (abstrata)
 // Representa um objeto do mundo (um bonequinho, uma magia, etc)
@@ -48,6 +49,7 @@ class WorldObject : public framework::Sprite {
     virtual void CollidesWith(Wall* obj) {}
     virtual void CollidesWith(Hero* hero) {}
     virtual void CollidesWith(Projectile *projectile) {}
+    virtual void CollidesWith(Mummy *projectile) {}
 
     virtual void CollidesWith(WorldObject* obj) {}
     // tratamento de colisao

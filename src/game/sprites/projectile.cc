@@ -51,4 +51,8 @@ void Projectile::CollidesWith(Mummy *obj) {
     this->status_ = WorldObject::STATUS_DEAD;
 }
 
+void Projectile::HandleCollision(WorldObject* obj) {
+    obj->CollidesWith(this);
+}
+
 }

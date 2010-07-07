@@ -112,6 +112,10 @@ Hero::Hero(Image* img) {
     speed_ = 4.0f;
 }
 
+void Hero::HandleCollision(WorldObject* obj) {
+    obj->CollidesWith(this);
+}
+
 void Hero::Tick() {
     is_attacking_ = false;
 }

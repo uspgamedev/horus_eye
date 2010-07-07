@@ -115,6 +115,10 @@ Mummy::Mummy(Image* img) {
 
 }
 
+void Mummy::HandleCollision(WorldObject* obj) {
+    obj->CollidesWith(this);
+}
+
 
 void Mummy::Think() {
 

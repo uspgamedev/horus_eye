@@ -28,6 +28,8 @@ class Hero : public Creature, public Observer {
   public:
     Hero(Image* img = NULL);
     ~Hero() {} 
+    virtual void HandleCollision(WorldObject *);
+
   private:
     Vector2D screen_center_;
     bool pressed_key_[4];

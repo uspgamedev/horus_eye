@@ -29,6 +29,7 @@ class Projectile : public WorldObject {
 
 	virtual void CollidesWith(Mummy * obj); // TODO: implementar quando existir Mummy
 	virtual void CollidesWith(Wall * obj);
+	virtual void HandleCollision(WorldObject *);
 	int dano() { return dano_; }
 
   private:

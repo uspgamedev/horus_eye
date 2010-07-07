@@ -26,14 +26,16 @@ void Creature::Move(Vector2D direction, float delta_t) {
 }
 
 void Creature::CollidesWith(Wall * obj) {
-
     set_world_position(last_stable_position_);
+}
 
-}  // namespace sprite
+void Creature::HandleCollision(WorldObject* obj) {
+    obj->CollidesWith(this);
+}
 
 void Creature::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
     this->image()->set_frame_size(frame_size);
     this->SelectAnimation(animation);
 }
 
-}
+}  // namespace sprite

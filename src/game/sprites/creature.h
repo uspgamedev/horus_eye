@@ -27,6 +27,8 @@ class Creature : public WorldObject {
     // Colisoes
     virtual void CollidesWith(Wall *);
 
+    virtual void HandleCollision(WorldObject *);
+
   protected:
     int animation_direction_;
     int direction_mapping_[8];
