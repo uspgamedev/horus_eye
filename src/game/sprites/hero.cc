@@ -8,6 +8,7 @@
 #include "../../framework/timehandler.h"
 
 #include "../scenes/world.h"
+#include "../utils/imagefactory.h"
 #include "hero.h"
 #include "projectile.h"
 #include <cmath>
@@ -24,8 +25,13 @@ namespace sprite {
 #define PI acos(-1)
 #define SQRT_3 1.7320508075688772935274463415059
  
-Hero::Hero() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png"));
+Hero::Hero(Image* img) {
+    
+    if(img == NULL){
+        utils::ImageFactory img_fac;
+        img = img_fac.HeroImage();
+    }
+    Initialize(img);
 
     World *world = ((World *)Engine::reference()->CurrentScene());
     directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));

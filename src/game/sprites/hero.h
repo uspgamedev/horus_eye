@@ -26,7 +26,7 @@ namespace sprite {
 class Hero : public Creature, public Observer {
 
   public:
-    Hero();
+    Hero(Image* img = NULL);
     ~Hero() {} 
   private:
     Vector2D screen_center_;

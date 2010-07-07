@@ -9,6 +9,7 @@
 
 
 #include "../scenes/world.h"
+#include "../utils/imagefactory.h"
 #include "mummy.h"
 #include "projectile.h"
 #include <cmath>
@@ -33,8 +34,13 @@ static int WaitingTime () {
 
 }
 
-Mummy::Mummy() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_red_74x74.png"));
+Mummy::Mummy(Image* img) {
+    if(img == NULL){
+        utils::ImageFactory img_fac;
+        img = img_fac.MummyImage();
+    }
+    Initialize(img);
+    //Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_red_74x74.png"));
 
     World *world = ((World *)Engine::reference()->CurrentScene());
     directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));

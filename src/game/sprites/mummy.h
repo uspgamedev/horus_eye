@@ -29,7 +29,7 @@ namespace sprite {
 class Mummy : public Creature {
 
   public:
-    Mummy();
+    Mummy(Image* img = NULL);
     ~Mummy() {} 
   private:
 
