@@ -27,6 +27,11 @@ void Creature::Move(Vector2D direction, float delta_t) {
 
 void Creature::CollidesWith(Wall * obj) {
     set_world_position(last_stable_position_);
+    Vector2D dist = obj->world_position() - world_position_,
+             parallel = Vector2D(-dist.y, dist.x);
+
+    walking_direction_ = Vector2D::Normalized(parallel*Vector2D::InnerProduct(parallel, walking_direction_));
+
 }
 
 void Creature::HandleCollision(WorldObject* obj) {

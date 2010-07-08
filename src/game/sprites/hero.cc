@@ -144,7 +144,6 @@ void Hero::Tick() {
     }
 }
 
-
 void Hero::GetKeys() {
     InputManager *input_ = Engine::reference()->input_manager();
 
@@ -223,8 +222,8 @@ int Hero::GetAttackingAnimationIndex(double angle) {
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
-        this->GetKeys();
         Creature::Move(this->GetWalkingDirection(), delta_t);
+        this->GetKeys();
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));
         this->GetMouseState();
     }
