@@ -37,8 +37,6 @@ class Hero : public Creature, public Observer {
     bool pressed_key_[4];
 
     virtual void Update(float delta_t);
-    double GetAttackingAngle(Vector2D mousePosition);
-    int GetAttackingAnimationIndex(double angle);
     void StartAttack();
     void GetMouseState();
     void GetKeys();

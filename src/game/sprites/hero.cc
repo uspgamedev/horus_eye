@@ -23,7 +23,6 @@ namespace sprite {
 
 #define HERO_WIDTH  74 
 #define HERO_HEIGHT 74
-#define PI acos(-1)
 #define SQRT_3 1.7320508075688772935274463415059
  
 Hero::Hero(Image* img) {
@@ -115,7 +114,7 @@ Hero::Hero(Image* img) {
     collision_radius_ = 0.3f;
     is_attacking_ = false;
     speed_ = 4.0f;
-    life_ = max_life_ = 5;
+    life_ = max_life_ = 100;
     hit_duration_ = new TimeAccumulator(0);
 }
 
@@ -181,19 +180,10 @@ void Hero::GetKeys() {
     this->walking_direction_ = Vector2D::Normalized(dir);
 }
 
-double Hero::GetAttackingAngle(Vector2D targetPosition) {
-    Vector2D versor = Vector2D::Normalized(targetPosition - screen_center_);
-    double radianAngle = acos(versor.x);
-    if (versor.y > 0) {
-        radianAngle = 2*PI - radianAngle;
-    }
-    return radianAngle;
-}
-
 void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition());
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
@@ -210,13 +200,6 @@ void Hero::GetMouseState() {
     InputManager *input_ = Engine::reference()->input_manager();
     if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_)
         StartAttack();
-}
-
-int Hero::GetAttackingAnimationIndex(double angle) {
-    int degreeAngle = (int)((angle / PI) * 360);
-    degreeAngle += 45;
-    int animationIndex = degreeAngle / 90;
-    return animationIndex % 8;
 }
 
 void Hero::Update(float delta_t) {

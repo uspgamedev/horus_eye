@@ -13,6 +13,8 @@
 
 using namespace framework;
 
+#define PI acos(-1)
+
 namespace sprite {
 
 Creature::Creature() : WorldObject(),
@@ -36,6 +38,22 @@ void Creature::CollidesWith(Wall * obj) {
 
 void Creature::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
+}
+
+int Creature::GetAttackingAnimationIndex(double angle) {
+    int degreeAngle = (int)((angle / PI) * 360);
+    degreeAngle += 45;
+    int animationIndex = degreeAngle / 90;
+    return animationIndex % 8;
+}
+
+double Creature::GetAttackingAngle(Vector2D targetDirection) {
+    Vector2D versor = Vector2D::Normalized(targetDirection);
+    double radianAngle = acos(versor.x);
+    if (versor.y > 0) {
+        radianAngle = 2*PI - radianAngle;
+    }
+    return radianAngle;
 }
 
 void Creature::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {

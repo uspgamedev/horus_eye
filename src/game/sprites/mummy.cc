@@ -23,7 +23,6 @@ namespace sprite {
 
 #define MUMMY_WIDTH  74 
 #define MUMMY_HEIGHT 74
-#define PI acos(-1)
 #define SQRT_3 1.7320508075688772935274463415059
 #define EXP_PARAM (1.0)
 
@@ -146,33 +145,19 @@ void Mummy::CollidesWith(Hero* obj) {
     if (!is_attacking_) StartAttack();
 }
 
-int Mummy::GetAttackingAnimationIndex(double angle) {
-    int degreeAngle = (int)((angle / PI) * 360);
-    degreeAngle += 45;
-    int animationIndex = degreeAngle / 90;
-    return animationIndex % 8;
-}
 
 void Mummy::StartAttack() {
-    InputManager *input_ = Engine::reference()->input_manager();
-
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition());
+    World* world = (World *)Engine::reference()->CurrentScene();
+    Hero* hero = world->hero();
+    double attackAngle = GetAttackingAngle(hero->position() - position());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
 }
 
-double Mummy::GetAttackingAngle(Vector2D targetPosition) {
-    Vector2D versor = Vector2D::Normalized(targetPosition - world_position());
-    double radianAngle = acos(versor.x);
-    if (versor.y > 0) {
-        radianAngle = 2*PI - radianAngle;
-    }
-    return radianAngle;
-}
-
 void Mummy::Think() {
+    double PI = acos(-1);
 
     if (interval_->Expired()) {
 
