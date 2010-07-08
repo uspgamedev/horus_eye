@@ -32,6 +32,7 @@ class Mummy : public Creature {
     Mummy(Image* img = NULL);
     ~Mummy() {} 
     virtual void HandleCollision(WorldObject *);
+    virtual void CollidesWith(Projectile *);
   private:
 
     TimeAccumulator *interval_;

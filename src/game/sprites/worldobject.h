@@ -49,7 +49,7 @@ class WorldObject : public framework::Sprite {
     virtual void CollidesWith(Wall* obj) {}
     virtual void CollidesWith(Hero* hero) {}
     virtual void CollidesWith(Projectile *projectile) {}
-    virtual void CollidesWith(Mummy *projectile) {}
+    virtual void CollidesWith(Mummy *mummy) {}
 
     virtual void CollidesWith(WorldObject* obj) {}
     // tratamento de colisao

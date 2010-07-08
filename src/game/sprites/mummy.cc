@@ -119,6 +119,9 @@ void Mummy::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
+void Mummy::CollidesWith(Projectile* obj){
+    this->status_ = WorldObject::STATUS_DEAD;
+}
 
 void Mummy::Think() {
 
