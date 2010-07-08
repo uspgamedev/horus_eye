@@ -37,6 +37,7 @@ class Creature : public WorldObject {
     Animation ** standing_animations_[16];
     Animation ** walking_animations_[16];
     Animation * attacking_animations_[8];
+    Animation * dying_animation_;
 
     Vector2D directions_[4];
     

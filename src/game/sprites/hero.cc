@@ -107,7 +107,7 @@ Hero::Hero(Image* img) {
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.4f;
+    collision_radius_ = 0.3f;
     is_attacking_ = false;
     speed_ = 4.0f;
 }

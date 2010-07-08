@@ -92,6 +92,8 @@ Mummy::Mummy(Image* img) {
     direction_mapping_[6] = Animation_::DOWN;
     direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
+    dying_animation_ = new Animation(10, 90, 91, 92, 93, 94, 100, 101, -1);
+
     animation_direction_ = 0;
     last_standing_animation_ = *standing_animations_[Animation_::DOWN];
     for (int i = 0; i < 16; i++) {
@@ -109,9 +111,12 @@ Mummy::Mummy(Image* img) {
         attacking_animations_[i]->AddObserver(this);
     }
 
+
+    dying_animation_->AddObserver(this);
+
     this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.4f;
+    collision_radius_ = 0.3f;
     is_attacking_ = false;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);
@@ -122,11 +127,19 @@ void Mummy::HandleCollision(WorldObject* obj) {
 }
 
 void Mummy::CollidesWith(Projectile* obj) {
-    this->status_ = WorldObject::STATUS_DEAD;
+    if (status_ == WorldObject::STATUS_ACTIVE) {
+        this->SelectSpriteAnimation(dying_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
+        this->status_ = WorldObject::STATUS_DYING;
+    }
 }
 
 void Mummy::Tick() {
-    is_attacking_ = false;
+    if (status_ == WorldObject::STATUS_DYING) {
+            status_ = WorldObject::STATUS_DEAD;
+    }
+    else {
+        is_attacking_ = false;
+    }
 }
 
 void Mummy::CollidesWith(Hero* obj) {
@@ -182,13 +195,15 @@ void Mummy::Think() {
 }
 
 void Mummy::Update(float delta_t) {
+
+    if (status_ == WorldObject::STATUS_DEAD) return;
+
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
-    Think();
+    if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
+        Think();
 
-    if (!is_attacking_) {
-        last_standing_animation_ = *(standing_animations_[animation_direction_]);
         if (animation_direction_ & Animation_::UP)
             dir = dir + directions_[Direction_::UP]; 
         if (animation_direction_ & Animation_::DOWN)
