@@ -11,6 +11,7 @@
 
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
+#include "../../framework/timeaccumulator.h"
 #include "wall.h"
 #include "worldobject.h"
 namespace sprite {
@@ -23,6 +24,8 @@ class Creature : public WorldObject {
   public:
     Creature();
     virtual ~Creature() { }
+
+    bool is_attacking() { return is_attacking_; }
 
     // Colisoes
     virtual void CollidesWith(Wall *);
@@ -69,7 +72,8 @@ class Creature : public WorldObject {
     // variaveis
     Vector2D last_stable_position_;
     int   life_, max_life_;
-    float speed_, attack_cool_down_, attack_duration_, hit_duration_;
+    float speed_, attack_cool_down_, attack_duration_;
+    framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;
 };  // class Creature
 

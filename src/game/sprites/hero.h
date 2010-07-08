@@ -22,12 +22,14 @@ using namespace framework;
 
 namespace sprite {
 
-
+class Mummy;
 class Hero : public Creature, public Observer {
 
   public:
     Hero(Image* img = NULL);
     ~Hero() {} 
+
+    virtual void CollidesWith(Mummy *);
     virtual void HandleCollision(WorldObject *);
 
   private:

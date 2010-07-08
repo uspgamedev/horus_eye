@@ -11,6 +11,7 @@
 #include "../utils/imagefactory.h"
 #include "hero.h"
 #include "projectile.h"
+#include "mummy.h"
 #include <cmath>
 #include <iostream>
 
@@ -74,12 +75,16 @@ Hero::Hero(Image* img) {
     attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
     attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
 
+    dying_animation_ = new Animation(10, 90, 91, 92, 93, 94, 100, 101, -1);
+
     screen_center_ = Engine::reference()->window_size() * .5;
 
     for (int i = 0; i < 8; i++) {
         attacking_animations_[i]->AddObserver(this);
     }
     
+    dying_animation_->AddObserver(this);
+
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
     direction_mapping_[2] = Animation_::UP; 
@@ -110,6 +115,20 @@ Hero::Hero(Image* img) {
     collision_radius_ = 0.3f;
     is_attacking_ = false;
     speed_ = 4.0f;
+    life_ = max_life_ = 5;
+    hit_duration_ = new TimeAccumulator(0);
+}
+
+void Hero::CollidesWith(Mummy *obj) {
+    if(obj->is_attacking() && hit_duration_->Expired()) {
+        --life_;
+        hit_duration_->Restart(1500);
+    }
+    if(life_ <= 0)
+        if (status_ == WorldObject::STATUS_ACTIVE) {
+            this->SelectSpriteAnimation(dying_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
+            this->status_ = WorldObject::STATUS_DYING;
+        }
 }
 
 void Hero::HandleCollision(WorldObject* obj) {
@@ -117,19 +136,17 @@ void Hero::HandleCollision(WorldObject* obj) {
 }
 
 void Hero::Tick() {
-    is_attacking_ = false;
+    if (status_ == WorldObject::STATUS_DYING) {
+            status_ = WorldObject::STATUS_DEAD;
+    }
+    else {
+        is_attacking_ = false;
+    }
 }
 
 
 void Hero::GetKeys() {
     InputManager *input_ = Engine::reference()->input_manager();
-    // -----------------------------
-    // Nao copiar esta parte
-    if(input_->KeyDown(K_ESCAPE))
-        Engine::reference()->quit();
-    //        if(input_->KeyDown(SDLK_SPACE))
-    //            mage_->Spell();
-    // -----------------------------
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
@@ -205,7 +222,7 @@ int Hero::GetAttackingAnimationIndex(double angle) {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    if (!is_attacking_) {
+    if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
         this->GetKeys();
         Creature::Move(this->GetWalkingDirection(), delta_t);
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));

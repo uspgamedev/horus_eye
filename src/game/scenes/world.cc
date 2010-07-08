@@ -8,6 +8,7 @@
 
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
+#include "../../framework/inputmanager.h"
 #include "../sprites/worldobject.h"
 #include "world.h"
 #include "../sprites/hero.h"
@@ -32,6 +33,10 @@ bool worldObjectIsDead (const WorldObject* value) {
 }
 
 void World::Update(float delta_t) {
+
+    InputManager *input_ = Engine::reference()->input_manager();
+    if(input_->KeyDown(K_ESCAPE))
+        Engine::reference()->quit();
 
     Scene::Update(delta_t);
     Vector2D offset;
