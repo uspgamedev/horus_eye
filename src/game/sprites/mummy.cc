@@ -130,11 +130,7 @@ void Mummy::Tick() {
 }
 
 void Mummy::CollidesWith(Hero* obj) {
-    //atacar
-    if (!is_attacking_) {
-        printf("HADOUKEN\n");
-        StartAttack();
-    }
+    if (!is_attacking_) StartAttack();
 }
 
 int Mummy::GetAttackingAnimationIndex(double angle) {
