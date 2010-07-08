@@ -27,8 +27,8 @@ using namespace sprite;
 World::~World() {
 }
 
-bool worldObjectIsDead (const WorldObject& value) {
-    return (value.status() == WorldObject::STATUS_DEAD);
+bool worldObjectIsDead (const WorldObject* value) {
+    return ((*value).status() == WorldObject::STATUS_DEAD);
 }
 
 void World::Update(float delta_t) {

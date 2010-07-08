@@ -107,7 +107,7 @@ Mummy::Mummy(Image* img) {
 
     this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.1f;
+    collision_radius_ = 0.15f;
     is_attacking_ = false;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);

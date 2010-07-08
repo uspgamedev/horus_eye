@@ -21,10 +21,10 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
 	// TODO: remover os numeros magicos
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png"));
     image()->set_frame_size(Vector2D(32,32));
-    set_hotspot(Vector2D(16, 16));
+    set_hotspot(Vector2D(16, 28));
     dano_ = 1;
-    speed_ = 5;
-    this->collision_radius_ = 0.1f;
+    speed_ = 8.0f;
+    this->collision_radius_ = 0.15f;
     this->set_world_position(pos);
     duration_ = new TimeAccumulator(5000);
     this->collision_type_ = MOVEABLE;
