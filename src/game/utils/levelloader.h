@@ -6,8 +6,8 @@
 // Definicao da classe LevelLoader.
 //
 
-#ifndef ORUSEYE_GAME_UTILS_LEVELLOADER_H_
-#define ORUSEYE_GAME_UTILS_LEVELLOADER_H_
+#ifndef HORUSEYE_GAME_UTILS_LEVELLOADER_H_
+#define HORUSEYE_GAME_UTILS_LEVELLOADER_H_
 
 #include <string>
 #include "../scenes/world.h"

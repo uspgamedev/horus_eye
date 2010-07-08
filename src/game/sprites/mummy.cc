@@ -186,7 +186,7 @@ void Mummy::Think() {
 
         last_standing_animation_ = *(standing_animations_[animation_direction_]);
 
-        this->walking_direction_ = Vector2D(cos(dir*PI/4), sin(dir*PI/4));
+        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4), sin(dir*PI/4));
 
         interval_->Restart(WaitingTime());
 
@@ -214,6 +214,7 @@ void Mummy::Update(float delta_t) {
             dir = dir + directions_[Direction_::RIGHT]; 
 
         Creature::Move(this->GetWalkingDirection(), delta_t);
+        walking_direction_ = last_direction_;
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     }
 

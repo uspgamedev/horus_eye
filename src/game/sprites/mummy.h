@@ -37,6 +37,7 @@ class Mummy : public Creature, public Observer {
   private:
 
     TimeAccumulator *interval_;
+    Vector2D         last_direction_;
 
     virtual void Update(float delta_t);
     double GetAttackingAngle(Vector2D targetPosition);
