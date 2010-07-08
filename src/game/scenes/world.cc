@@ -51,6 +51,7 @@ void World::Update(float delta_t) {
     // Verifica e trata colisoes do WorldObjetcts.
     std::list<sprite::WorldObject*>::iterator i, j;
 
+    // TODO: colisao esta sendo verificada 2x por iteracao, corrigir isso
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
         if ((*i)->collision_type() == WorldObject::MOVEABLE)
             for (j = world_objects_.begin(); j != world_objects_.end(); ++j)
