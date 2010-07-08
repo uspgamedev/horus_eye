@@ -104,23 +104,63 @@ Mummy::Mummy(Image* img) {
             walking_animations_[i] = &last_standing_animation_;
         }
     }
+    
+    for (int i = 0; i < 8; i++) {
+        attacking_animations_[i]->AddObserver(this);
+    }
 
     this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.15f;
+    collision_radius_ = 0.4f;
     is_attacking_ = false;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);
-
-
 }
 
 void Mummy::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
-void Mummy::CollidesWith(Projectile* obj){
+void Mummy::CollidesWith(Projectile* obj) {
     this->status_ = WorldObject::STATUS_DEAD;
+}
+
+void Mummy::Tick() {
+    is_attacking_ = false;
+}
+
+void Mummy::CollidesWith(Hero* obj) {
+    //atacar
+    if (!is_attacking_) {
+        printf("HADOUKEN\n");
+        StartAttack();
+    }
+}
+
+int Mummy::GetAttackingAnimationIndex(double angle) {
+    int degreeAngle = (int)((angle / PI) * 360);
+    degreeAngle += 45;
+    int animationIndex = degreeAngle / 90;
+    return animationIndex % 8;
+}
+
+void Mummy::StartAttack() {
+    InputManager *input_ = Engine::reference()->input_manager();
+
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition());
+    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
+    is_attacking_ = true;
+    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
+}
+
+double Mummy::GetAttackingAngle(Vector2D targetPosition) {
+    Vector2D versor = Vector2D::Normalized(targetPosition - world_position());
+    double radianAngle = acos(versor.x);
+    if (versor.y > 0) {
+        radianAngle = 2*PI - radianAngle;
+    }
+    return radianAngle;
 }
 
 void Mummy::Think() {
@@ -145,15 +185,11 @@ void Mummy::Think() {
 
 }
 
-void Mummy::StartAttack() {
-}
-
 void Mummy::Update(float delta_t) {
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
     Think();
-    is_attacking_ = false;
 
     if (!is_attacking_) {
         last_standing_animation_ = *(standing_animations_[animation_direction_]);

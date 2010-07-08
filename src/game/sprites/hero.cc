@@ -107,7 +107,7 @@ Hero::Hero(Image* img) {
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.15f;
+    collision_radius_ = 0.4f;
     is_attacking_ = false;
     speed_ = 4.0f;
 }
@@ -165,8 +165,8 @@ void Hero::GetKeys() {
     this->walking_direction_ = Vector2D::Normalized(dir);
 }
 
-double Hero::GetAttackingAngle(Vector2D mousePosition) {
-    Vector2D versor = Vector2D::Normalized(mousePosition - screen_center_);
+double Hero::GetAttackingAngle(Vector2D targetPosition) {
+    Vector2D versor = Vector2D::Normalized(targetPosition - screen_center_);
     double radianAngle = acos(versor.x);
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
@@ -178,8 +178,8 @@ void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
     double attackAngle = GetAttackingAngle(input_->GetMousePosition());
-    is_attacking_ = true;
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
+    is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
 

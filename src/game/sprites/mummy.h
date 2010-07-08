@@ -26,20 +26,24 @@ using namespace framework;
 namespace sprite {
 
 
-class Mummy : public Creature {
+class Mummy : public Creature, public Observer {
 
   public:
     Mummy(Image* img = NULL);
     ~Mummy() {} 
     virtual void HandleCollision(WorldObject *);
     virtual void CollidesWith(Projectile *);
+    virtual void CollidesWith(Hero *);
   private:
 
     TimeAccumulator *interval_;
 
     virtual void Update(float delta_t);
+    double GetAttackingAngle(Vector2D targetPosition);
+    int GetAttackingAnimationIndex(double angle);
     void StartAttack();
     void Think();
+    void Tick();
 };
 
 }
