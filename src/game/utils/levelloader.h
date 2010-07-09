@@ -2,7 +2,7 @@
 // Horus Eye
 // Copyright (C) 2010  USPGameDev
 //
-// game/scenes/levelloader.h
+// game/utils/levelloader.h
 // Definicao da classe LevelLoader.
 //
 

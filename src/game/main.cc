@@ -11,11 +11,13 @@
 #include "scenes/world.h"
 #include "sprites/worldobject.h"
 #include "utils/levelloader.h"
+#include <iostream>
 using framework::Engine;
 using framework::Scene;
 using framework::Vector2D;
 using scene::World;
 using utils::LevelLoader;
+
 
 // funcao principal do programa
 // atualmente ela simplesmente inicia

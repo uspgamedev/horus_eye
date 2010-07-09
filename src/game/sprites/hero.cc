@@ -9,6 +9,7 @@
 
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
+#include "../utils/circleobject.h"
 #include "hero.h"
 #include "projectile.h"
 #include "mummy.h"
@@ -18,6 +19,7 @@
 using namespace std;
 using namespace framework;
 using namespace scene;
+using namespace utils;
 
 namespace sprite {
 
@@ -111,11 +113,11 @@ Hero::Hero(Image* img) {
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.3f;
     is_attacking_ = false;
     speed_ = 4.0f;
     life_ = max_life_ = 100;
     hit_duration_ = new TimeAccumulator(0);
+    bound_ = new CircleObject(0.3f);
 }
 
 void Hero::CollidesWith(Mummy *obj) {
@@ -191,8 +193,9 @@ void Hero::StartAttack() {
 
     World *world_ = ((World *)Engine::reference()->CurrentScene());
     Vector2D mouseOffset = input_->GetMousePosition() - screen_center_;
-    Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset));
-    Projectile * projectile = new Projectile(world_position_, versor);
+    Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset)),
+             pos = world_position();
+    Projectile * projectile = new Projectile(pos, versor);
     world_->AddWorldObject(projectile);
 }
 

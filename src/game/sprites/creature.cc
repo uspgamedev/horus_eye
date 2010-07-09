@@ -8,10 +8,13 @@
 
 #include "creature.h"
 #include "worldobject.h"
+#include "../utils/circleobject.h"
+#include "../utils/rectobject.h"
 
 #include <cmath>
 
 using namespace framework;
+using namespace utils;
 
 #define PI acos(-1)
 
@@ -28,11 +31,24 @@ void Creature::Move(Vector2D direction, float delta_t) {
 }
 
 void Creature::CollidesWith(Wall * obj) {
-    set_world_position(last_stable_position_);
-    Vector2D dist = obj->world_position() - world_position_,
-             parallel = Vector2D(-dist.y, dist.x);
 
-    walking_direction_ = Vector2D::Normalized(parallel*Vector2D::InnerProduct(parallel, walking_direction_));
+    set_world_position(last_stable_position_);
+
+    const CircleObject *circle = (const CircleObject*)bound_;
+    const RectObject *rect = (const RectObject*)obj->bound();
+    Vector2D    line(rect->width(), rect->height()),
+                circ_pos = circle->position(),
+                rect_pos = rect->position();
+    float tg = line.y/line.x;
+
+
+    int i = circ_pos.y < rect_pos.y + tg*(circ_pos.x - rect_pos.x),
+        j = circ_pos.y < rect_pos.y - tg*(circ_pos.x - rect_pos.x);
+
+    if ((i+j)%2) walking_direction_.x = 0;
+    else         walking_direction_.y = 0;
+
+    walking_direction_ = Vector2D::Normalized(walking_direction_);
 
 }
 

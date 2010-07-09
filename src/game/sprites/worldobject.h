@@ -10,8 +10,7 @@
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
 #include "../../framework/sprite.h"
-#include "../../framework/vector2D.h"
-
+#include "../utils/collisionobject.h"
 
 
 namespace sprite {
@@ -37,11 +36,13 @@ class WorldObject : public framework::Sprite {
     virtual void Update(float dt);
 
     // atributos
-    virtual float collision_radius() const { return collision_radius_; }
-    virtual framework::Vector2D world_position() const { return world_position_; }
-    virtual void set_world_position(const framework::Vector2D& pos) {
-        world_position_ = pos;
+    virtual framework::Vector2D world_position() const {
+        return bound_->position();
     }
+    virtual void set_world_position(const framework::Vector2D& pos) {
+        bound_->set_position(pos);
+    }
+    virtual const utils::CollisionObject * bound() const { return bound_; }
 
     // tratamento de colisao
     virtual bool IsColliding(WorldObject* obj) const;
@@ -58,8 +59,7 @@ class WorldObject : public framework::Sprite {
   protected:
 
     // atributos
-    framework::Vector2D world_position_;
-    float collision_radius_;
+    utils::CollisionObject *bound_;
     Status status_;
     CollisionType collision_type_;
 

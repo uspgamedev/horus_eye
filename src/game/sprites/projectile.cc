@@ -9,9 +9,11 @@
 #include "projectile.h"
 #include "../../framework/engine.h"
 #include "../scenes/world.h"
+#include "../utils/circleobject.h"
 
 using namespace framework;
 using namespace scene;
+using namespace utils;
 
 namespace sprite {
 
@@ -24,7 +26,7 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     set_hotspot(Vector2D(16, 28));
     dano_ = 1;
     speed_ = 8.0f;
-    this->collision_radius_ = 0.15f;
+    this->bound_ = new CircleObject(0.15f);
     this->set_world_position(pos);
     duration_ = new TimeAccumulator(5000);
     this->collision_type_ = MOVEABLE;

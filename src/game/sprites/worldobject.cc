@@ -8,16 +8,17 @@
 
 #include "worldobject.h"
 #include "../scenes/world.h"
+#include "../utils/circleobject.h"
 
 namespace sprite {
 
 using namespace framework;
 using namespace scene;
+using namespace utils;
 
 WorldObject::WorldObject()
     : //Sprite(NULL),
-      world_position_( framework::Vector2D(0.0f, 0.0f) ),
-      collision_radius_(0.0f),
+      bound_(NULL),
       status_(STATUS_ACTIVE),
       collision_type_(NO_COLLISION)
 {}
@@ -33,13 +34,12 @@ void WorldObject::Update(float dt) {
     World *world = ((World *)Engine::reference()->CurrentScene());
 
     Sprite::Update(dt);
-    set_position(world->FromWorldCoordinates(world_position_)); // Transforma coordenadas mundo -> coordenadas tela
-    set_zindex(world->FromWorldLinearCoordinates(world_position_).y); // Seta zindex
+    set_position(world->FromWorldCoordinates(world_position())); // Transforma coordenadas mundo -> coordenadas tela
+    set_zindex(world->FromWorldLinearCoordinates(world_position()).y); // Seta zindex
 }
 
 bool WorldObject::IsColliding(WorldObject* obj) const {
-    framework::Vector2D distance = obj->world_position() - world_position();
-    return distance.length() <= obj->collision_radius() + collision_radius();
+    return bound_->Intersects(obj->bound());
 }
 
 void WorldObject::HandleCollision(WorldObject* obj) {

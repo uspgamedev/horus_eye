@@ -10,6 +10,7 @@
 
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
+#include "../utils/circleobject.h"
 #include "mummy.h"
 #include "projectile.h"
 #include <cmath>
@@ -18,6 +19,7 @@
 using namespace std;
 using namespace framework;
 using namespace scene;
+using namespace utils;
 
 namespace sprite {
 
@@ -33,7 +35,7 @@ static int WaitingTime () {
 
 }
 
-Mummy::Mummy(Image* img) {
+Mummy::Mummy(Image* img)  {
     if(img == NULL){
         utils::ImageFactory img_fac;
         img = img_fac.MummyImage();
@@ -115,10 +117,10 @@ Mummy::Mummy(Image* img) {
 
     this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(37, 55));
-    collision_radius_ = 0.3f;
     is_attacking_ = false;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);
+    bound_ = new CircleObject(0.3f);
 }
 
 void Mummy::HandleCollision(WorldObject* obj) {
