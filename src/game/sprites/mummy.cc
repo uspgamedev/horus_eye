@@ -144,7 +144,7 @@ void Mummy::Tick() {
 }
 
 void Mummy::CollidesWith(Hero* obj) {
-    if (!is_attacking_) StartAttack();
+    if (status_ == WorldObject::STATUS_ACTIVE && !is_attacking_) StartAttack();
 }
 
 
