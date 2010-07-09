@@ -36,10 +36,11 @@ Hero::Hero(Image* img) {
     Initialize(img);
 
     World *world = ((World *)Engine::reference()->CurrentScene());
-    directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
-    directions_[Direction_::LEFT] =  world->FromScreenLinearCoordinates(Vector2D(-SQRT_3/2, 0));
-    directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0, .5));
-    directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -.5));
+
+    directions_[Direction_::RIGHT] = Vector2D(1, -1);
+    directions_[Direction_::LEFT] = Vector2D(-1, 1);
+    directions_[Direction_::DOWN] =  Vector2D(-1, -1);
+    directions_[Direction_::UP] = Vector2D(1, 1);
 
     // Animations
     last_standing_animation_ = new Animation(0, -1);
