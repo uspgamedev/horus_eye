@@ -41,6 +41,7 @@ class World : public framework::Scene {
     void AddFloor(sprite::Floor*);
     void FinishLevel(bool);
     int CountRemainingEnemies();
+    void End() { this->RemoveAll(); }
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
     Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
@@ -63,6 +64,7 @@ class World : public framework::Scene {
     framework::Layer                *world_layer_;
 
     void RemoveInactiveObjects();
+    void RemoveAll();
 
 };  // class World
 

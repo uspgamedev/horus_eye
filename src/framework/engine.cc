@@ -49,6 +49,7 @@ void Engine::Run() {
             switch(event.type) {
                 case SDL_QUIT:
                     quit();
+                    CurrentScene()->End();
                     break;
                     
                 case SDL_KEYDOWN:

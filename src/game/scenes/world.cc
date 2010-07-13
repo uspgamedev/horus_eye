@@ -29,14 +29,19 @@ World::~World() {
 }
 
 bool worldObjectIsDead (const WorldObject* value) {
-    return ((*value).status() == WorldObject::STATUS_DEAD);
+	bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
+	if (is_dead) delete value;
+    return is_dead;
 }
 
 void World::Update(float delta_t) {
 
     InputManager *input_ = Engine::reference()->input_manager();
-    if(input_->KeyDown(K_ESCAPE))
+    if(input_->KeyDown(K_ESCAPE)) {
+    	RemoveAll();
         Engine::reference()->quit();
+        return;
+    }
 
     Scene::Update(delta_t);
     Vector2D offset;
@@ -61,11 +66,8 @@ void World::Update(float delta_t) {
                     (*j)->HandleCollision(*i);
                 }
 
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-        if((*i)->status() == WorldObject::STATUS_DEAD)
-            world_layer_->RemoveSprite(*i);
+    RemoveInactiveObjects();
 
-    world_objects_.remove_if(worldObjectIsDead);
 }
 
 // Nao nos importamos com a ordem dos WorldObjects nas listas;
@@ -92,6 +94,27 @@ Hero * World::hero() {
 }
 
 void World::RemoveInactiveObjects() {
+    std::list<sprite::WorldObject*>::iterator i, j;
+	for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
+		if((*i)->status() == WorldObject::STATUS_DEAD)
+			world_layer_->RemoveSprite(*i);
+	world_objects_.remove_if(worldObjectIsDead);
+}
+
+void World::RemoveAll() {
+
+    std::list<sprite::WorldObject*>::iterator i;
+    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
+		world_layer_->RemoveSprite(*i);
+		delete (*i);
+    }
+    world_objects_.clear();
+    for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {
+		world_layer_->RemoveSprite(*i);
+		delete (*i);
+    }
+    collisionless_objects.clear();
+
 }
 
 

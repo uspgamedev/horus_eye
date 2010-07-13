@@ -16,7 +16,7 @@ namespace framework {
 
 // Classe Scene
 // Representa uma CENA, que contem varias camadas de graficos.
-// Uma cena e´ uma "tela" inteira do jogo, como por exemplo o main menu,
+// Uma cena eï¿½ uma "tela" inteira do jogo, como por exemplo o main menu,
 // ou o jogo em si (onde ocorre a acao).
 class Scene {
   public:
@@ -34,6 +34,9 @@ class Scene {
 
     // Redesenha o grafico da cena.
     void Render();
+
+    // Encerra a atividade da cena.
+    virtual void End() {}
 
   protected:
     // Lista das camadas.
