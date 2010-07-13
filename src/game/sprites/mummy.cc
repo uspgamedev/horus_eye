@@ -123,6 +123,10 @@ Mummy::Mummy(Image* img)  {
     bound_ = new CircleObject(0.3f);
 }
 
+Mummy::~Mummy() {
+	((World*)(Engine::reference()->CurrentScene()))->DecreaseEnemyCount();
+}
+
 void Mummy::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }

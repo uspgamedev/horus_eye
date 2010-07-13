@@ -32,6 +32,7 @@ class World : public framework::Scene {
     World() : Scene(), world_layer_(new framework::Layer()) {
         AddLayer(world_layer_);
         hero_ = NULL;
+        remaining_enemies_ = 0;
     }
     virtual ~World();
 
@@ -39,8 +40,13 @@ class World : public framework::Scene {
 
     void AddWorldObject(sprite::WorldObject*);
     void AddFloor(sprite::Floor*);
+    void AddFloor(framework::Vector2D&);
+    void AddWall(framework::Vector2D&);
+    void AddMummy(framework::Vector2D&);
+    void AddHero(framework::Vector2D&);
     void FinishLevel(bool);
     int CountRemainingEnemies();
+    void DecreaseEnemyCount() { remaining_enemies_--; }
     void End() { this->RemoveAll(); }
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
@@ -62,6 +68,7 @@ class World : public framework::Scene {
     std::list<sprite::WorldObject*> world_objects_,
                                     collisionless_objects;
     framework::Layer                *world_layer_;
+    int								remaining_enemies_;
 
     void RemoveInactiveObjects();
     void RemoveAll();

@@ -14,6 +14,7 @@
 #include "../sprites/hero.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
+#include "../sprites/mummy.h"
 #include <cmath>
 #include <iostream>
 
@@ -80,11 +81,45 @@ void World::AddWorldObject(sprite::WorldObject* new_object) {
     world_layer_->AddSprite(new_object);
 }
 
+void World::AddFloor(framework::Vector2D &pos) {
+
+	Floor *floor = new Floor;
+	floor->set_world_position(pos);
+	this->AddWorldObject(floor);
+
+}
+
+void World::AddWall(framework::Vector2D &pos) {
+
+	Wall *wall = new Wall;
+	wall->set_world_position(pos);
+	this->AddWorldObject(wall);
+
+}
+
+void World::AddMummy(framework::Vector2D &pos) {
+
+	Mummy *mummy = new Mummy;
+	mummy->set_world_position(pos);
+	this->AddWorldObject(mummy);
+	remaining_enemies_++;
+
+}
+
+void World::AddHero(framework::Vector2D &pos) {
+
+	Hero *hero = new Hero;
+	hero->set_world_position(pos);
+	this->AddWorldObject(hero);
+	hero_ = hero;
+
+}
+
 void World::FinishLevel(bool goodEnd) {
 }
 
 int World::CountRemainingEnemies() {
-    return 0; // Aguardando implementacao da classe Mumia
+    return 	remaining_enemies_;
 }
 
 

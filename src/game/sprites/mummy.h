@@ -14,7 +14,7 @@
 #include "../../framework/animation.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
-#include <algorithm>
+//#include <algorithm>
 #define pbb pair<bool, bool>
 
 using namespace std;
@@ -26,7 +26,7 @@ class Mummy : public Creature, public Observer {
 
   public:
     Mummy(Image* img = NULL);
-    ~Mummy() {} 
+    ~Mummy();
     virtual void HandleCollision(WorldObject *);
     virtual void CollidesWith(Projectile *);
     virtual void CollidesWith(Hero *);

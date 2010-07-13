@@ -50,8 +50,6 @@ void LevelLoader::Load(string file_name) {
     fscanf(level_input, "%d", &width);
     fscanf(level_input, "%d", &height);
 
-    Floor *         new_floor;
-    WorldObject *   new_world_obj = NULL;
     Vector2D        position;
 
     for (int j = 0; j < height; ++j) {
@@ -59,38 +57,24 @@ void LevelLoader::Load(string file_name) {
             fscanf(level_input, "\n %c \n", &token);
             position.x = i;
             position.y = j;
-            new_floor = new Floor;
-            new_floor->set_world_position(position);
-            world_->AddWorldObject(new_floor);
+            world_->AddFloor(position);
             if (token != EMPTY) {
                 switch(token) {
                     case WALL: {
-                        new_world_obj = new Wall();
+                        world_->AddWall(position);
                         break;
                     }
                     case HERO: {
                         if (!hero_created) {
-                            Hero *hero = new Hero();
-                            new_world_obj = hero;
-                            world_->set_hero(hero);
+                            world_->AddHero(position);
                             hero_created = true;
                         }
                         break;
                     }
                     case MUMMY: {
-                        new_world_obj = new Mummy();
+                        world_->AddMummy(position);
                         break;
                     }
-
-                    default: {
-                        new_world_obj = NULL;
-                        break;
-                    }
-                }
-                if(new_world_obj != NULL) {
-                    new_world_obj->set_world_position(position);
-                    world_->AddWorldObject(new_world_obj);
-                    new_world_obj = NULL;
                 }
             }
         }
