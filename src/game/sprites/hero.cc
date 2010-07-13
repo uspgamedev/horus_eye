@@ -13,6 +13,7 @@
 #include "hero.h"
 #include "projectile.h"
 #include "mummy.h"
+#include "../utils/constants.h"
 #include <cmath>
 #include <iostream>
 
@@ -194,7 +195,8 @@ void Hero::StartAttack() {
     this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
 
     World *world_ = ((World *)Engine::reference()->CurrentScene());
-    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_;
+    // Ajuste da altura do projetil.
+    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_HEIGHT);
     Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset)),
              pos = world_position();
     Projectile * projectile = new Projectile(pos, versor);
