@@ -117,12 +117,15 @@ Hero::Hero(Image* img) {
     life_ = max_life_ = 100;
     hit_duration_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
+    blink_time_ = 0;
+    blink_ = false;
 }
 
 void Hero::CollidesWith(Mummy *obj) {
     if(obj->is_attacking() && hit_duration_->Expired()) {
         --life_;
-        hit_duration_->Restart(1500);
+        hit_duration_->Restart(2000);
+        blink_time_ = 0;
     }
     if(life_ <= 0)
         if (status_ == WorldObject::STATUS_ACTIVE) {
@@ -212,5 +215,23 @@ void Hero::Update(float delta_t) {
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));
         this->GetMouseState();
     }
+    if (!hit_duration_->Expired()) {
+    	blink_time_ += delta_t;
+    	if (blink_time_ > 0.05) {
+    		blink_ = !blink_;
+    		blink_time_ = 0;
+    	}
+    }
+    else if (blink_) {
+    	blink_ = false;
+    }
+
 }
+
+void Hero::Render(Image *back_buffer, Vector2D &offset) {
+
+	if (!blink_) Sprite::Render(back_buffer, offset);
+
+}
+
 }
