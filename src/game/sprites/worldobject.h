@@ -19,6 +19,7 @@ class Hero;
 class Mummy;
 class Projectile;
 class Wall;
+class Door;
 
 // Classe WorldObject (abstrata)
 // Representa um objeto do mundo (um bonequinho, uma magia, etc)
@@ -48,6 +49,7 @@ class WorldObject : public framework::Sprite {
     virtual bool IsColliding(WorldObject* obj) const;
 
     virtual void CollidesWith(Wall* obj) {}
+    virtual void CollidesWith(Door* obj) {}
     virtual void CollidesWith(Hero* hero) {}
     virtual void CollidesWith(Projectile *projectile) {}
     virtual void CollidesWith(Mummy *mummy) {}

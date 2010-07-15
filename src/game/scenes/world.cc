@@ -15,6 +15,7 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 #include "../sprites/mummy.h"
+#include "../sprites/door.h"
 #include <cmath>
 #include <iostream>
 
@@ -115,7 +116,17 @@ void World::AddHero(framework::Vector2D &pos) {
 
 }
 
+void World::AddDoor(framework::Vector2D &pos) {
+
+    Door *door = new Door;
+    door->set_world_position(pos);
+    this->AddWorldObject(door);
+
+}
+
 void World::FinishLevel(bool goodEnd) {
+    Engine::reference()->quit();
+    RemoveAll();
 }
 
 int World::CountRemainingEnemies() {

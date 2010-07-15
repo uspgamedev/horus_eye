@@ -6,8 +6,8 @@
 // Definicao da classe Wall
 //
 
-#ifndef WALL_H_
-#define WALL_H_
+#ifndef HORUSEYE_GAME_SPRITE_WALL_H_
+#define HORUSEYE_GAME_SPRITE_WALL_H_
 
 #include "../../framework/sprite.h"
 #include "../../framework/engine.h"

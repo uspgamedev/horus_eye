@@ -12,6 +12,8 @@
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
+#include "../utils/rectobject.h"
+#include "door.h"
 #include "wall.h"
 #include "worldobject.h"
 namespace sprite {
@@ -19,6 +21,7 @@ namespace sprite {
 // Classe Creature
 
 using namespace framework;
+using namespace utils;
 
 class Creature : public WorldObject {
   public:
@@ -29,6 +32,7 @@ class Creature : public WorldObject {
 
     // Colisoes
     virtual void CollidesWith(Wall *);
+    virtual void CollidesWith(Door *);
 
     virtual void HandleCollision(WorldObject *);
 
@@ -77,6 +81,11 @@ class Creature : public WorldObject {
     float speed_, attack_cool_down_, attack_duration_;
     framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;
+
+  private:
+
+    void CollideWithRect(const RectObject*);
+
 };  // class Creature
 
 }  // namespace sprite

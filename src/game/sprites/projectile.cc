@@ -11,6 +11,7 @@
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
+#include "door.h"
 
 using namespace framework;
 using namespace scene;
@@ -29,7 +30,7 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png"));
     image()->set_frame_size(Vector2D(32,32));
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
-    dano_ = 1;
+    damage_ = 1;
     speed_ = 8.0f;
     this->bound_ = new CircleObject(0.15f);
     this->set_world_position(pos);
@@ -51,6 +52,10 @@ void Projectile::Update(float delta_t) {
 }
 
 void Projectile::CollidesWith(Wall * obj) {
+    this->status_ = WorldObject::STATUS_DEAD;
+}
+
+void Projectile::CollidesWith(Door * obj) {
     this->status_ = WorldObject::STATUS_DEAD;
 }
 

@@ -9,9 +9,9 @@
 #include "creature.h"
 #include "worldobject.h"
 #include "../utils/circleobject.h"
-#include "../utils/rectobject.h"
 
 #include <cmath>
+#include <iostream>
 
 using namespace framework;
 using namespace utils;
@@ -30,12 +30,11 @@ void Creature::Move(Vector2D direction, float delta_t) {
     set_world_position(position);
 }
 
-void Creature::CollidesWith(Wall * obj) {
+void Creature::CollideWithRect(const RectObject *rect) {
 
     set_world_position(last_stable_position_);
 
     const CircleObject *circle = (const CircleObject*)bound_;
-    const RectObject *rect = (const RectObject*)obj->bound();
     Vector2D    line(rect->width(), rect->height()),
                 circ_pos = circle->position(),
                 rect_pos = rect->position();
@@ -49,6 +48,20 @@ void Creature::CollidesWith(Wall * obj) {
     else         walking_direction_.y = 0;
 
     walking_direction_ = Vector2D::Normalized(walking_direction_);
+
+}
+
+void Creature::CollidesWith(Wall * obj) {
+
+    const RectObject *rect = (const RectObject*)obj->bound();
+    CollideWithRect(rect);
+
+}
+
+void Creature::CollidesWith(Door * obj) {
+
+    const RectObject *rect = (const RectObject*)obj->bound();
+    CollideWithRect(rect);
 
 }
 

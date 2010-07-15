@@ -44,6 +44,7 @@ class World : public framework::Scene {
     void AddWall(framework::Vector2D&);
     void AddMummy(framework::Vector2D&);
     void AddHero(framework::Vector2D&);
+    void AddDoor(framework::Vector2D&);
     void FinishLevel(bool);
     int CountRemainingEnemies();
     void DecreaseEnemyCount() { remaining_enemies_--; }

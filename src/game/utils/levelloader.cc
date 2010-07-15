@@ -82,6 +82,9 @@ void LevelLoader::Load(string file_name) {
                         world_->AddFloor(position);
                         break;
                     }
+                    case DOOR: {
+                        world_->AddDoor(position);
+                    }
                 }
             }
         }

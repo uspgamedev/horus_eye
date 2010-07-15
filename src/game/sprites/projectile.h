@@ -20,6 +20,7 @@ namespace sprite {
 
 class Mummy;
 class Wall;
+class Door;
 class Projectile : public WorldObject {
 
   public:
@@ -28,13 +29,14 @@ class Projectile : public WorldObject {
 	void Move(float delta_t);
 	void Update(float delta_t);
 
-	virtual void CollidesWith(Mummy * obj); // TODO: implementar quando existir Mummy
+	virtual void CollidesWith(Mummy * obj);
 	virtual void CollidesWith(Wall * obj);
+    virtual void CollidesWith(Door * obj);
 	virtual void HandleCollision(WorldObject *);
-	int dano() { return dano_; }
+	int damage() { return damage_; }
 
   private:
-	int dano_;
+	int damage_;
     float speed_;
     Vector2D direction_;
     TimeAccumulator *duration_;
