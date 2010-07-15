@@ -25,7 +25,8 @@ using namespace framework;
 #define DOOR    'D'
 #define MUMMY   'M'
 #define HERO    'H'
-#define EMPTY   'X'
+#define FLOOR   'X'
+#define EMPTY   'O'
 
 /*
  * Le o arquivo de texto e passa as informa��es de que objetos criar, e onde,
@@ -36,7 +37,8 @@ using namespace framework;
  * Door     : D (nao implementado)
  * Mummy    : M 
  * Hero     : H
- * Empty    : X
+ * Floor    : X
+ * Empty    : O
  */
 void LevelLoader::Load(string file_name) {
 
@@ -57,7 +59,6 @@ void LevelLoader::Load(string file_name) {
             fscanf(level_input, "\n %c \n", &token);
             position.x = i;
             position.y = j;
-            world_->AddFloor(position);
             if (token != EMPTY) {
                 switch(token) {
                     case WALL: {
@@ -67,12 +68,18 @@ void LevelLoader::Load(string file_name) {
                     case HERO: {
                         if (!hero_created) {
                             world_->AddHero(position);
+                            world_->AddFloor(position);
                             hero_created = true;
                         }
                         break;
                     }
                     case MUMMY: {
                         world_->AddMummy(position);
+                        world_->AddFloor(position);
+                        break;
+                    }
+                    case FLOOR: {
+                        world_->AddFloor(position);
                         break;
                     }
                 }
