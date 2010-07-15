@@ -20,21 +20,22 @@ class AudioManager;
 // Musica
 class Music {
   public:
-    void Play();
-    void Play(int loops);
-    void Stop();
-    bool IsPlaying();
-    void Pause();
-    void Resume();
+    void Play(); // toca musica uma vez
+    void Play(int loops); // toca musica loops vezes
+    void PlayForever(); // toca musica infinitas vezes
+    void Stop(); // para musica
+    bool IsPlaying(); // esta musica esta' tocando?
 
     void SetVolume(float vol); // 0.0f (quiet) <= vol <= 1.0f (loud)
-    float Volume();
+    float Volume(); // obtem volume, 0.0f <= volume <= 1.0f
 
   private:
     Music(const std::string& filepath);
     ~Music();
-    Mix_Music *data;
+    Mix_Music *data_;
+
     static void MusicDone();
+    static Mix_Music *playing_music_;
 
   friend class AudioManager;
 };

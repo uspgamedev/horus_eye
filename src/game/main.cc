@@ -30,6 +30,7 @@ int main(int argc, char *argv[]) {
     engine->PushScene(world);
     LevelLoader *loader = new LevelLoader(world);
     loader->Load("data/levels/level_test.txt");
+    engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
     engine->Run();
 
     engine->Release();

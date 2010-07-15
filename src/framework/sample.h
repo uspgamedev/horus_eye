@@ -28,19 +28,19 @@ class AudioManager;
 // Efeito sonoro
 class Sample {
   public:
-    void Play();
-    void Play(int loops);
-    void Stop();
-    bool IsPlaying();
+    void Play(); // toca o som
+    void Play(int loops); // toca o som, repetindo loops vezes
+    void Stop(); // para o som
+    bool IsPlaying(); // o som esta tocando?
 
     void SetVolume(float vol); // 0.0f (quiet) <= vol <= 1.0f (loud)
-    float Volume();
+    float Volume(); // obtem o volume, 0.0f <= volume <= 1.0f
 
   private:
     Sample(const std::string& filepath);
     ~Sample();
-    Mix_Chunk *data;
-    int channel;
+    Mix_Chunk *data_;
+    int channel_;
 
   friend class AudioManager;
 };

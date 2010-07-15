@@ -22,6 +22,8 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     video_manager_->Initialize(windowTitle, windowSize, fullscreen);
     input_manager_ = new InputManager();
     time_handler_ = new TimeHandler();
+    audio_manager_ = new AudioManager();
+    audio_manager_->Initialize();
     scene_list_.clear();
     window_size_ = windowSize;
     return (time_handler_ != NULL);
@@ -43,7 +45,7 @@ void Engine::Run() {
 
         // gerenciador de input
         input_manager()->Update(delta_t);
-        
+
         // tratamento de eventos
         while(SDL_PollEvent(&event)) {
             switch(event.type) {
@@ -51,12 +53,12 @@ void Engine::Run() {
                     quit();
                     CurrentScene()->End();
                     break;
-                    
+
                 case SDL_KEYDOWN:
                     key = (Key)event.key.keysym.sym;
                     input_manager()->SimulateKeyPress(key);
                     break;
-                    
+
                 case SDL_KEYUP:
                     key = (Key)event.key.keysym.sym;
                     input_manager()->SimulateKeyRelease(key);

@@ -15,13 +15,12 @@
 
 #include <string>
 #include <map>
+#include "music.h"
+#include "sample.h"
 
 #define AUDIO_MANAGER() framework::Engine::reference()->audio_manager()
 
 namespace framework {
-
-class Sample;
-class Music;
 
 // Gerenciador de audio
 class AudioManager {
