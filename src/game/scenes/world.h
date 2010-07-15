@@ -51,24 +51,34 @@ class World : public framework::Scene {
     void End() { this->RemoveAll(); }
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
-    Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
+    static Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
+    
     // Funcao auxiliar que transforma VETORES de coordenadas de mundo para de tela
-    Vector2D FromWorldLinearCoordinates(Vector2D world_coords);
+    static Vector2D FromWorldLinearCoordinates(Vector2D world_coords);
 
     // Funcao que transforma PONTOS de coordenadas de mundo para de tela
-    Vector2D FromWorldCoordinates(Vector2D screen_coords);
+    static Vector2D FromWorldCoordinates(Vector2D screen_coords);
 
 
     sprite::Hero * hero();
+    int level_width();
+    int level_height();
+    char** level_matrix();
+
+    void set_level_width(int width);
+    void set_level_height(int height);
+    void set_level_matrix(char** matrix);
+
     void set_hero(sprite::Hero *hero) {
         hero_ = hero;
     }
 
   protected:
-    sprite::Hero *                  hero_;
-    std::list<sprite::WorldObject*> world_objects_,
-                                    collisionless_objects;
-    framework::Layer                *world_layer_;
+    sprite::Hero* hero_;
+    std::list<sprite::WorldObject*> world_objects_, collisionless_objects;
+    framework::Layer* world_layer_;
+    int level_width_, level_height_;
+    char** level_matrix_;
     int								remaining_enemies_;
 
     void RemoveInactiveObjects();

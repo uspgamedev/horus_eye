@@ -38,6 +38,7 @@ class Mummy : public Creature, public Observer {
     virtual void Update(float delta_t);
     void StartAttack();
     void Think();
+    void RandomMovement();
     void Tick();
 };
 

@@ -16,10 +16,13 @@ namespace utils {
 
 class LevelLoader {
   public:
+    char **matrix_;
+    int width_, height_;
     LevelLoader(scene::World * world) : world_(world) {}
     virtual ~LevelLoader() {}
 
     void Load(std::string);
+    void LoadMatrix(std::string);
 
   protected:
 

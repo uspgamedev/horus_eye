@@ -36,6 +36,30 @@ bool worldObjectIsDead (const WorldObject* value) {
     return is_dead;
 }
 
+void World::set_level_width(int width) {
+    level_width_ = width;
+}
+
+void World::set_level_height(int height) {
+    level_height_ = height;
+}
+
+void World::set_level_matrix(char ** matrix) {
+    level_matrix_ = matrix;
+}
+
+int World::level_width() {
+    return level_width_;
+}
+
+int World::level_height() {
+    return level_height_;
+}
+
+char** World::level_matrix() {
+    return level_matrix_;
+}
+
 void World::Update(float delta_t) {
 
     InputManager *input_ = Engine::reference()->input_manager();
