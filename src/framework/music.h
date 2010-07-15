@@ -33,7 +33,9 @@ class Music {
     Music(const std::string& filepath);
     ~Music();
     Mix_Music *data_;
+    float volume_;
 
+    static void UpdateVolume(float vol);
     static void MusicDone();
     static Mix_Music *playing_music_;
 

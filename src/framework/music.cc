@@ -6,13 +6,14 @@
 // Músicas
 //
 
+#include <algorithm>
 #include "music.h"
 
 namespace framework {
 
 Mix_Music* Music::playing_music_(NULL);
 
-Music::Music(const std::string& filepath) : data_(NULL) {
+Music::Music(const std::string& filepath) : data_(NULL), volume_(1.0f) {
     data_ = Mix_LoadMUS(filepath.c_str());
     Mix_HookMusicFinished(MusicDone);
 }
@@ -33,8 +34,10 @@ void Music::PlayForever() {
 }
 
 void Music::Play(int loops) {
-    if(Mix_PlayMusic(data_, loops) == 0)
+    if(Mix_PlayMusic(data_, loops) == 0) {
         playing_music_ = data_;
+        UpdateVolume(volume_);
+    }
 }
 
 void Music::Stop() {
@@ -48,17 +51,22 @@ bool Music::IsPlaying() {
     return playing_music_ == data_;
 }
 
+void Music::SetVolume(float vol) {
+    volume_ = std::min(1.0f, std::max(0.0f, vol));
+    if(this->IsPlaying())
+        UpdateVolume(volume_);
+}
+
+float Music::Volume() {
+    return volume_;
+}
+
 void Music::MusicDone() {
     playing_music_ = NULL;
 }
 
-void Music::SetVolume(float vol) {
-    // TODO
-}
-
-float Music::Volume() {
-    // TODO
-    return 1.0f;
+void Music::UpdateVolume(float vol) {
+    Mix_VolumeMusic( int( vol * float(MIX_MAX_VOLUME) ) );
 }
 
 }  // namespace framework

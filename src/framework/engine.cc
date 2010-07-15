@@ -46,6 +46,9 @@ void Engine::Run() {
         // gerenciador de input
         input_manager()->Update(delta_t);
 
+        // gerenciamento de audio
+        audio_manager()->Update();
+
         // tratamento de eventos
         while(SDL_PollEvent(&event)) {
             switch(event.type) {
@@ -88,8 +91,16 @@ void Engine::Release() {
     for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
         delete scene_list_[i];
     }
-    delete time_handler_;
     scene_list_.clear();
+
+    delete time_handler_;
+    delete input_manager_;
+
+    audio_manager()->Release();
+    delete audio_manager_;
+
+    video_manager()->Release();
+    delete video_manager_;
 }
 
 void Engine::PushScene(Scene* scene) {
