@@ -6,6 +6,7 @@
 // Implementacao da classe World.
 //
 
+#include "../../framework/engine.h"
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/inputmanager.h"
@@ -84,7 +85,7 @@ void World::Update(float delta_t) {
     Vector2D offset;
 
     // Calcula a posicao da camera no mundo a partir da posicao do heroi.
-    offset = Vector2D(-512, -384);
+    offset = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
     if(hero_) {
         offset = offset + hero_->position();
     }
@@ -104,6 +105,7 @@ void World::Update(float delta_t) {
                 }
 
     RemoveInactiveObjects();
+    if (!hero_) FinishLevel(false);
     if (finished_) {
         Engine::reference()->quit();
         RemoveAll();
