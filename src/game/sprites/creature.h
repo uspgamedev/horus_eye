@@ -29,6 +29,8 @@ class Creature : public WorldObject {
     virtual ~Creature() { }
 
     bool is_attacking() { return is_attacking_; }
+    int life() { return life_; }
+    int max_life() { return  max_life_; }
 
     // Colisoes
     virtual void CollidesWith(Wall *);

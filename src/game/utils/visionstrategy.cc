@@ -33,6 +33,11 @@ queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
     int height = world->level_height();
     Hero* hero = world->hero();
 
+    queue<Vector2D> resp;
+
+    if(hero == NULL)
+        return resp;
+
     for (int i = 0; i < height && !colision; i++) {
         for (int j = 0; j < width && !colision; j++) {
             if (matrix[i][j] == 'W') {
@@ -51,7 +56,6 @@ queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
         }
     }
     //Nao enxerga o heroi
-    queue<Vector2D> resp;
     if(!colision)
         resp.push(hero->world_position());
     return resp;

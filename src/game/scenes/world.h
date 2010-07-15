@@ -15,9 +15,10 @@
 #include "../sprites/hero.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/floor.h"
-#include "../sprites/wall.h"
 
-
+namespace utils {
+    class Hud;
+}
 namespace scene {
 
 #define WORLD() ((World *)Engine::reference()->CurrentScene())
@@ -29,12 +30,7 @@ namespace scene {
 // testar a compilacao do jogo. :P
 class World : public framework::Scene {
   public:
-    World() : Scene(), world_layer_(new framework::Layer()) {
-        AddLayer(world_layer_);
-        hero_ = NULL;
-        remaining_enemies_ = 0;
-        finished_ = false;
-    }
+    World();
     virtual ~World();
 
     void Update(float delta_t);
@@ -60,8 +56,9 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de mundo para de tela
     static Vector2D FromWorldCoordinates(Vector2D screen_coords);
 
+    sprite::Hero * hero() { return hero_; }
 
-    sprite::Hero * hero();
+
     int level_width();
     int level_height();
     char** level_matrix();
@@ -75,9 +72,10 @@ class World : public framework::Scene {
     }
 
   protected:
-    sprite::Hero* hero_;
+    sprite::Hero *hero_;
     std::list<sprite::WorldObject*> world_objects_, collisionless_objects;
-    framework::Layer* world_layer_;
+    framework::Layer *world_layer_;
+    utils::Hud *hud_;
     int level_width_, level_height_;
     char** level_matrix_;
     int	remaining_enemies_;

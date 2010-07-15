@@ -6,8 +6,8 @@
 // Definicao da classe ImageFactory.
 //
 
-#ifndef ORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
-#define ORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
+#ifndef HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
+#define HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 
 #include "../../framework/image.h"
 using namespace framework;
@@ -19,10 +19,12 @@ class ImageFactory {
     virtual ~ImageFactory(){}
     virtual Image* HeroImage();
     virtual Image* MummyImage();
+    virtual Image* LifeImage();
 
   protected:
     Image* hero_image_;
     Image* mummy_image_;
+    Image* life_image_;
 
 };
 

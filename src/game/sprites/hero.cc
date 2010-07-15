@@ -27,6 +27,8 @@ namespace sprite {
 #define HERO_WIDTH  74 
 #define HERO_HEIGHT 74
 #define SQRT_3 1.7320508075688772935274463415059
+
+#define MAX_LIFE Constants::HERO_MAX_LIFE
  
 Hero::Hero(Image* img) {
     
@@ -115,7 +117,7 @@ Hero::Hero(Image* img) {
     set_hotspot(Vector2D(37, 55));
     is_attacking_ = false;
     speed_ = 4.0f;
-    life_ = max_life_ = 100;
+    life_ = max_life_ = MAX_LIFE;
     hit_duration_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
     blink_time_ = 0;

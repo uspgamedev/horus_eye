@@ -16,6 +16,7 @@
 #include "../sprites/wall.h"
 #include "../sprites/mummy.h"
 #include "../sprites/door.h"
+#include "../utils/hud.h"
 #include <cmath>
 #include <iostream>
 
@@ -25,6 +26,16 @@ namespace scene {
 
 using namespace framework;
 using namespace sprite;
+
+World::World() : Scene(), world_layer_(new framework::Layer()) {
+    AddLayer(world_layer_);
+    hero_ = new Hero;
+    remaining_enemies_ = 0;
+    this->AddWorldObject(hero_);
+    hud_ = new utils::Hud(this);
+    AddLayer(hud_);
+    finished_ = false;
+}
 
 // Destrutor
 World::~World() {
@@ -111,37 +122,26 @@ void World::AddWorldObject(sprite::WorldObject* new_object) {
 }
 
 void World::AddFloor(framework::Vector2D &pos) {
-
 	Floor *floor = new Floor;
 	floor->set_world_position(pos);
 	this->AddWorldObject(floor);
-
 }
 
 void World::AddWall(framework::Vector2D &pos) {
-
 	Wall *wall = new Wall;
 	wall->set_world_position(pos);
 	this->AddWorldObject(wall);
-
 }
 
 void World::AddMummy(framework::Vector2D &pos) {
-
 	Mummy *mummy = new Mummy;
 	mummy->set_world_position(pos);
 	this->AddWorldObject(mummy);
 	remaining_enemies_++;
-
 }
 
 void World::AddHero(framework::Vector2D &pos) {
-
-	Hero *hero = new Hero;
-	hero->set_world_position(pos);
-	this->AddWorldObject(hero);
-	hero_ = hero;
-
+	hero_->set_world_position(pos);
 }
 
 void World::AddDoor(framework::Vector2D &pos) {
@@ -160,14 +160,10 @@ int World::CountRemainingEnemies() {
     return 	remaining_enemies_;
 }
 
-
-// get Hero
-Hero * World::hero() {
-    return hero_;
-}
-
 void World::RemoveInactiveObjects() {
     std::list<sprite::WorldObject*>::iterator i, j;
+    if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD)
+        hero_ = NULL;
 	for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
 		if((*i)->status() == WorldObject::STATUS_DEAD)
 			world_layer_->RemoveSprite(*i);
