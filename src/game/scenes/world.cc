@@ -93,6 +93,10 @@ void World::Update(float delta_t) {
                 }
 
     RemoveInactiveObjects();
+    if (finished_) {
+        Engine::reference()->quit();
+        RemoveAll();
+    }
 
 }
 
@@ -149,8 +153,7 @@ void World::AddDoor(framework::Vector2D &pos) {
 }
 
 void World::FinishLevel(bool goodEnd) {
-    Engine::reference()->quit();
-    RemoveAll();
+    finished_ = true;
 }
 
 int World::CountRemainingEnemies() {

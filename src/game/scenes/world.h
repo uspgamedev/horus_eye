@@ -33,6 +33,7 @@ class World : public framework::Scene {
         AddLayer(world_layer_);
         hero_ = NULL;
         remaining_enemies_ = 0;
+        finished_ = false;
     }
     virtual ~World();
 
@@ -79,10 +80,13 @@ class World : public framework::Scene {
     framework::Layer* world_layer_;
     int level_width_, level_height_;
     char** level_matrix_;
-    int								remaining_enemies_;
+    int	remaining_enemies_;
 
     void RemoveInactiveObjects();
     void RemoveAll();
+
+  private:
+    bool finished_;
 
 };  // class World
 
