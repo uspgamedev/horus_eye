@@ -10,9 +10,9 @@
 #include"../scenes/world.h"
 namespace utils {
     ImageFactory::ImageFactory(){
-        hero_image_ = VIDEO_MANAGER()->LoadImage("data/images/mage_74x74.png");
+        hero_image_ = VIDEO_MANAGER()->LoadImage("data/images/hero.png");
         mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mage_red_74x74.png");
-        life_image_  = VIDEO_MANAGER()->LoadImage("data/images/brighteye.png");
+        life_image_  = VIDEO_MANAGER()->LoadImage("data/images/eye_animation.png");
     }
     Image* ImageFactory::HeroImage(){
         return hero_image_;

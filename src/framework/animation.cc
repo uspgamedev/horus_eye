@@ -30,6 +30,10 @@ Animation::Animation(float fps, ...) {
     current_frame_ = 0;
 }
 
+Animation::~Animation() {
+    free(frames_);
+}
+
 void Animation::Update(float delta_t) {
     elapsed_time_ += delta_t;
     if (elapsed_time_ >= 1 / fps_) {

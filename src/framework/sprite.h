@@ -19,7 +19,7 @@ namespace framework {
 class Sprite {
   public:
     Sprite() { }
-    virtual ~Sprite() { }
+    virtual ~Sprite();
 
     void Initialize(Image *image);
 

@@ -13,6 +13,10 @@ Sprite::Sprite(Image *image, Vector2D position) : zindex_(0.0f) {
 }
 */
 
+Sprite::~Sprite() {
+    delete animation_;
+}
+
 void Sprite::Initialize(Image *image)
 {
     image_ = image;

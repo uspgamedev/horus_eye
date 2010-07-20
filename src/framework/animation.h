@@ -22,7 +22,7 @@ class Animation {
 	//  e' representado pela sua posicao na imagem fonte, em linhas, da
 	//  esquerda para a direita e de cima para baixo.
     Animation(float fps, ...);
-    ~Animation() { }
+    ~Animation();
 
     void set_fps(float fps) { fps_ = fps; }
     float fps() { return fps_; }

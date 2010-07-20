@@ -38,6 +38,10 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     this->collision_type_ = MOVEABLE;
 }
 
+Projectile::~Projectile() {
+    delete duration_;
+}
+
 void Projectile::Move(float delta_t) {
     Vector2D velocity = direction_ * (speed_ * delta_t);
     set_world_position(this->world_position() + velocity);

@@ -28,6 +28,7 @@ WorldObject::WorldObject(WorldObject* obj) /*: Sprite(NULL) */{
 }
 
 WorldObject::~WorldObject() {
+    delete bound_;
 }
 
 void WorldObject::Update(float dt) {

@@ -25,6 +25,7 @@ class Hud: public framework::Layer {
 
   private:
     framework::Sprite** life_icons_;
+    framework::Animation *animation_;
 };
 
 }

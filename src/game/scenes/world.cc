@@ -40,6 +40,8 @@ World::World() : Scene(), world_layer_(new framework::Layer()) {
 
 // Destrutor
 World::~World() {
+    RemoveLayer(hud_);
+    delete hud_;
 }
 
 bool worldObjectIsDead (const WorldObject* value) {
@@ -167,8 +169,9 @@ void World::RemoveInactiveObjects() {
     if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD)
         hero_ = NULL;
 	for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-		if((*i)->status() == WorldObject::STATUS_DEAD)
+		if((*i)->status() == WorldObject::STATUS_DEAD) {
 			world_layer_->RemoveSprite(*i);
+		}
 	world_objects_.remove_if(worldObjectIsDead);
 }
 

@@ -136,6 +136,7 @@ void Mummy::CollidesWith(Projectile* obj) {
     if (status_ == WorldObject::STATUS_ACTIVE) {
         this->SelectSpriteAnimation(dying_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
         this->status_ = WorldObject::STATUS_DYING;
+        this->collision_type_ = WorldObject::NO_COLLISION;
     }
 }
 
