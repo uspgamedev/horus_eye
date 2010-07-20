@@ -76,6 +76,7 @@ class Creature : public WorldObject {
     virtual framework::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
+    void CollideWithRect(const RectObject*);
 
     // variaveis
     Vector2D last_stable_position_;
@@ -84,9 +85,7 @@ class Creature : public WorldObject {
     framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;
 
-  private:
 
-    void CollideWithRect(const RectObject*);
 
 };  // class Creature
 

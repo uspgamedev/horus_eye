@@ -52,17 +52,13 @@ void Creature::CollideWithRect(const RectObject *rect) {
 }
 
 void Creature::CollidesWith(Wall * obj) {
-
     const RectObject *rect = (const RectObject*)obj->bound();
     CollideWithRect(rect);
-
 }
 
 void Creature::CollidesWith(Door * obj) {
-
     const RectObject *rect = (const RectObject*)obj->bound();
     CollideWithRect(rect);
-
 }
 
 void Creature::HandleCollision(WorldObject* obj) {

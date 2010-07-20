@@ -24,7 +24,11 @@ bool intersect(Vector2D a, Vector2D b, Vector2D c, Vector2D d) {
     if ((left(a, b, c) != left(a, b, d)) && (left(c, d, a) != left(c, d, b))) return true;
     return false;
 }
-
+bool solid(char obj){
+    if(obj == 'W') return true;
+    if(obj == 'D') return true;
+    return false;
+}
 queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
     bool colision = false;
     World *world = ((World *)Engine::reference()->CurrentScene());
@@ -40,7 +44,7 @@ queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
 
     for (int i = 0; i < height && !colision; i++) {
         for (int j = 0; j < width && !colision; j++) {
-            if (matrix[i][j] == 'W') {
+            if(solid(matrix[i][j])){
                 double x = j;
                 double y = height - i - 1;
 

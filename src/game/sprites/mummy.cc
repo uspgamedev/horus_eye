@@ -139,6 +139,11 @@ void Mummy::CollidesWith(Projectile* obj) {
     }
 }
 
+void Mummy::CollidesWith(Mummy * obj) {
+    const RectObject *rect = (const RectObject*)obj->bound();
+    CollideWithRect(rect);
+}
+
 void Mummy::Tick() {
     if (status_ == WorldObject::STATUS_DYING) {
             status_ = WorldObject::STATUS_DEAD;
