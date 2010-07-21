@@ -20,21 +20,24 @@ using namespace utils;
 #define CENTER_X    Constants::PROJECTILE_SPRITE_CENTER_X
 #define CENTER_Y    Constants::PROJECTILE_SPRITE_CENTER_Y
 #define HEIGHT      Constants::PROJECTILE_HEIGHT
+#define PROJECTILE_SPEED    Constants::PROJECTILE_SPEED
+#define PROJECTILE_DURATION Constants::PROJECTILE_DURATION
+#define PROJECTILE_WIDTH    Constants::PROJECTILE_SPRITE_WIDTH
+#define PROJECTILE_HEIGHT   Constants::PROJECTILE_SPRITE_HEIGHT
 
 namespace sprite {
 
 Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
         direction_(Vector2D::Normalized(dir))
 {
-	// TODO: remover os numeros magicos
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png"));
-    image()->set_frame_size(Vector2D(32,32));
+    image()->set_frame_size(Vector2D(PROJECTILE_WIDTH,PROJECTILE_HEIGHT));
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     damage_ = 1;
-    speed_ = 8.0f;
+    speed_ = PROJECTILE_SPEED;
     this->bound_ = new CircleObject(0.15f);
     this->set_world_position(pos);
-    duration_ = new TimeAccumulator(5000);
+    duration_ = new TimeAccumulator(PROJECTILE_DURATION);
     this->collision_type_ = MOVEABLE;
 }
 

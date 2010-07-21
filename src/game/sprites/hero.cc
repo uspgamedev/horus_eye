@@ -24,11 +24,14 @@ using namespace utils;
 
 namespace sprite {
 
-#define HERO_WIDTH  110
-#define HERO_HEIGHT 110
 #define SQRT_3 1.7320508075688772935274463415059
 
+#define HERO_WIDTH  Constants::HERO_WIDTH
+#define HERO_HEIGHT Constants::HERO_HEIGHT
+#define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
+#define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 #define MAX_LIFE Constants::HERO_MAX_LIFE
+#define HERO_SPEED Constants::HERO_SPEED
  
 Hero::Hero(Image* img) {
     
@@ -114,9 +117,9 @@ Hero::Hero(Image* img) {
         pressed_key_[i] = false;
     }
     SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
-    set_hotspot(Vector2D(55, 102));
+    set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
     is_attacking_ = false;
-    speed_ = 4.0f;
+    speed_ = HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
     hit_duration_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
