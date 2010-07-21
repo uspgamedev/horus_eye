@@ -34,7 +34,7 @@ void Music::PlayForever() {
 }
 
 void Music::Play(int loops) {
-    if(Mix_PlayMusic(data_, loops) == 0) {
+    if(data_ && Mix_PlayMusic(data_, loops) == 0) {
         playing_music_ = data_;
         UpdateVolume(volume_);
     }

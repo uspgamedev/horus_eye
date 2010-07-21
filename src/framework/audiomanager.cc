@@ -47,9 +47,9 @@ void AudioManager::Update() {
 }
 
 void AudioManager::ReleaseSamples() {
-    /*std::map<std::string, Sample*>::iterator it;
+    std::map<std::string, Sample*>::iterator it;
     for(it = sample_data_.begin(); it != sample_data_.end(); ++it)
-        delete it->second;*/
+        delete it->second;
 }
 
 void AudioManager::ReleaseMusics() {
@@ -59,8 +59,13 @@ void AudioManager::ReleaseMusics() {
 }
 
 Sample* AudioManager::LoadSample(const std::string& filepath) {
-    // TODO
-    return NULL;
+    if(sample_data_.find(filepath) == sample_data_.end()) {
+        Sample *sample = new Sample(filepath);
+        if(sample)
+            sample_data_[filepath] = sample;
+    }
+
+    return sample_data_[filepath];
 }
 
 Music* AudioManager::LoadMusic(const std::string& filepath) {

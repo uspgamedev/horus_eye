@@ -41,6 +41,7 @@ class Sample {
     ~Sample();
     Mix_Chunk *data_;
     int channel_;
+    float volume_;
 
   friend class AudioManager;
 };
