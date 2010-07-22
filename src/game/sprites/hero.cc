@@ -47,7 +47,7 @@ Hero::Hero(Image* img) {
     directions_[Direction_::UP] = Vector2D(1, 1);
 
     // Animations
-    last_standing_animation_ = new Animation(0, -1);
+    //last_standing_animation_ = new Animation(0, -1);
     for (int i = 0; i < 16; i++) {
         standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
         walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));

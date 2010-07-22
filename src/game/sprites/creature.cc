@@ -21,8 +21,35 @@ using namespace utils;
 namespace sprite {
 
 Creature::Creature() : WorldObject(),
-                     last_stable_position_(0, 0) { this->collision_type_ = MOVEABLE; }
-                     
+                     last_stable_position_(0, 0),
+                     hit_duration_(NULL) { this->collision_type_ = MOVEABLE; }
+
+Creature::~Creature() {
+
+    if (hit_duration_) delete hit_duration_;
+
+    SelectAnimation(NULL);
+
+    for (int i = 1; i < 9; i <<= 1){
+        delete *standing_animations_[i];
+        free(standing_animations_[i]);
+        delete *walking_animations_[i];
+        free(walking_animations_[i]);
+        if (i >= 4) for (int j = 1; j < 3; j <<= 1) {
+            delete *standing_animations_[i|j];
+            free(standing_animations_[i|j]);
+            delete *walking_animations_[i|j];
+            free(walking_animations_[i|j]);
+        }
+    }
+
+    for (int i = 0; i < 8; i++) {
+        delete attacking_animations_[i];
+    }
+    delete dying_animation_;
+
+}
+
 void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;

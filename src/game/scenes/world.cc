@@ -40,8 +40,9 @@ World::World() : Scene(), world_layer_(new framework::Layer()) {
 
 // Destrutor
 World::~World() {
-    //RemoveLayer(hud_);
-    //delete hud_;
+    for (int i = 0; i < level_height_; ++i)
+        delete[] level_matrix_[i];
+    delete[] level_matrix_;
 }
 
 bool worldObjectIsDead (const WorldObject* value) {

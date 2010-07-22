@@ -33,6 +33,6 @@ int main(int argc, char *argv[]) {
     engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
     engine->Run();
 
-    engine->Release();
+    //engine->Release();
     return 0;
 }

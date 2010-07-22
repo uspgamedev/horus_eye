@@ -32,16 +32,22 @@ void LevelLoader::LoadMatrix(string file_name) {
 
     freopen(file_name.c_str(),"r",stdin);
     
-    scanf("%d", &width_);
-    scanf("%d", &height_);
-    matrix_ = new char*[height_];
-    for (int i = 0; i < height_; i++) matrix_[i] = new char[width_];
+    int width, height;
+    scanf("%d", &width);
+    scanf("%d", &height);
+    char **matrix = new char*[height];
+    for (int i = 0; i < height; i++) matrix[i] = new char[width];
 
-    for (int i = 0; i < height_; ++i) {
-        for (int j = 0; j < width_; ++j) {
-            scanf("\n %c \n", &matrix_[i][j]);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            scanf("\n %c \n", &matrix[i][j]);
         }
     }
+    world_->set_level_width(width);
+    world_->set_level_height(height);
+    world_->set_level_matrix(matrix);
+
+
 }
 /*
  * Le o arquivo de texto e passa as informa��es de que objetos criar, e onde,
@@ -64,12 +70,15 @@ void LevelLoader::Load(string file_name) {
     Vector2D        position;
 
     LoadMatrix(file_name);
+    char **matrix = world_->level_matrix();
+    int width = world_->level_width(),
+        height = world_->level_height();
 
-    for (int i = 0; i < height_; ++i) {
-        for (int j = 0; j < width_; ++j) {
-            token = matrix_[i][j];
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            token = matrix[i][j];
             position.x = j;
-            position.y = height_ - i - 1;
+            position.y = height - i - 1;
             if (token != EMPTY) {
                 switch(token) {
                     case WALL: {
@@ -100,9 +109,6 @@ void LevelLoader::Load(string file_name) {
             }
         }
     }
-    world_->set_level_width(width_);
-    world_->set_level_height(height_);
-    world_->set_level_matrix(matrix_);
 }
 
 } // namespace utils

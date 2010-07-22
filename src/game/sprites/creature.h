@@ -26,7 +26,7 @@ using namespace utils;
 class Creature : public WorldObject {
   public:
     Creature();
-    virtual ~Creature() { }
+    virtual ~Creature();
 
     bool is_attacking() { return is_attacking_; }
     int life() { return life_; }

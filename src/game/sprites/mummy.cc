@@ -127,6 +127,7 @@ Mummy::Mummy(Image* img)  {
 }
 
 Mummy::~Mummy() {
+    if (interval_) delete interval_;
 	((World*)(Engine::reference()->CurrentScene()))->DecreaseEnemyCount();
 }
 

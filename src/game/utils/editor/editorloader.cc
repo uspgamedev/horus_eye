@@ -39,7 +39,7 @@ WorldEditor::ObjectToken EditorLoader::ConvertToObjectToken(char token) {
  * o tamanho do mapa seguida da matriz de simbolos associados aos tipos de
  * objeto a serem criados:
  * Wall     : W
- * Door     : D (nao implementado)
+ * Door     : D
  * Mummy    : M 
  * Hero     : H
  * Floor    : X
@@ -49,12 +49,15 @@ void EditorLoader::Load(string file_name) {
 
     WorldEditor::ObjectToken token;
     LoadMatrix(file_name);
+    WorldEditor::ObjectToken **matrix = world_->level_matrix();
+    int width = world_->level_width(),
+        height = world_->level_height();
 
-    world_->InitializeLevel(width_, height_);
+    world_->InitializeLevel(width, height);
 
-    for (int i = 0; i < height_; ++i) {
-        for (int j = 0; j < width_; ++j) {
-            token = ConvertToObjectToken(matrix_[i][j]);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            token = ConvertToObjectToken(matrix[i][j]);
             if (token != WorldEditor::EMPTY) {
                 world_->LoadToken(j, i, token);
             }
