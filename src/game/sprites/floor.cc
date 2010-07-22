@@ -16,11 +16,11 @@ using namespace framework;
 using namespace utils;
 namespace sprite {
 
-#define FLOOR_WIDTH   71.0
-#define FLOOR_HEIGHT  41.0
+#define FLOOR_WIDTH   106.0
+#define FLOOR_HEIGHT  61.0
 
 Floor::Floor() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/chao41x41.png"));
+    Initialize(VIDEO_MANAGER()->LoadImage("data/images/chao106x106.png"));
     image()->set_frame_size(framework::Vector2D(FLOOR_WIDTH,FLOOR_HEIGHT));
     set_hotspot(Vector2D(FLOOR_WIDTH/2, FLOOR_HEIGHT/2));
     this->collision_type_ = NO_COLLISION;

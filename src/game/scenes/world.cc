@@ -206,7 +206,7 @@ Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
 
 Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
     Vector2D transformed = FromWorldLinearCoordinates(world_coords);
-    return (transformed * 40);
+    return (transformed * 60);
 }
 
 } // namespace scene

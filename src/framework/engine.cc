@@ -101,6 +101,8 @@ void Engine::Release() {
 
     video_manager()->Release();
     delete video_manager_;
+
+    SDL_Quit();
 }
 
 void Engine::PushScene(Scene* scene) {
