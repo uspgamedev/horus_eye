@@ -31,7 +31,7 @@ Animation::Animation(float fps, ...) {
 }
 
 Animation::~Animation() {
-    free(frames_);
+    delete[] frames_;
 }
 
 void Animation::Update(float delta_t) {

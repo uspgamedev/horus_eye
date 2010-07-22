@@ -12,6 +12,14 @@ namespace framework {
 
 using namespace std;
 
+Scene::~Scene() {
+    list<Layer*>::iterator it = layers_.begin();
+    while (it != layers_.end()) {
+        delete (*it);
+        ++it;
+    }
+}
+
 void Scene::Update(float delta_t) {
 
     list<Layer*>::iterator it = layers_.begin();

@@ -52,6 +52,8 @@ Hud::~Hud() {
     for(int i = 0; i < world->hero()->max_life(); ++i)
         free(life_icons_[i]);
     free(life_icons_);
+    delete animation_;
+    sprite_list_.clear();
 }
 
 void Hud::Update(float delta_t) {

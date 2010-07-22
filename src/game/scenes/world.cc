@@ -40,8 +40,8 @@ World::World() : Scene(), world_layer_(new framework::Layer()) {
 
 // Destrutor
 World::~World() {
-    RemoveLayer(hud_);
-    delete hud_;
+    //RemoveLayer(hud_);
+    //delete hud_;
 }
 
 bool worldObjectIsDead (const WorldObject* value) {

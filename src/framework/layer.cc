@@ -12,6 +12,16 @@
 
 namespace framework {
 
+Layer::~Layer() {
+
+    std::vector<Sprite*>::iterator it = sprite_list_.begin();
+    while (it != sprite_list_.end()) {
+        delete (*it);
+        ++it;
+    }
+
+}
+
 void Layer::Update(float delta_t) {
 
     std::vector<Sprite*>::iterator it = sprite_list_.begin();
