@@ -9,6 +9,7 @@
 #include"astarstrategy.h"
 #include"../scenes/world.h"
 #include"../sprites/hero.h"
+#include"geometryprimitives.h"
 #include"visionstrategy.h"
 #include<cmath>
 using namespace scene;
@@ -19,6 +20,7 @@ using namespace std;
 
 int dx[] = {0,0,1,-1,1,-1,1,-1};
 int dy[] = {-1,1,0,0,1,-1,-1,1};
+
 int width,height;
 char **matrix;
 struct vertex{
@@ -40,15 +42,11 @@ vertex make_vertex(int x,int y,int cst){
     v.cst = cst;
     return v;
 }
+
 bool SOLID(char x){
     if(x == 'W' || x == 'D') return true;
     return false;
 }
-
-double DIST(int ax,int ay,int bx,int by){
-    return sqrt((ax-bx)*(ax-bx) + (ay-by)*(ay-by));
-}
-
 
 bool valid(int x,int y){
     int i = height - y - 1;
@@ -57,6 +55,7 @@ bool valid(int x,int y){
     if(SOLID(matrix[i][j])) return false;
     return true;
 }
+
 queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
     World *world = ((World *)Engine::reference()->CurrentScene());
     Hero* hero = world->hero();
@@ -89,8 +88,8 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
             int xx = v.x + dx[d];
             int yy = v.y + dy[d];
 
-            if(valid(xx,yy) && (dist[xx][yy] == -1 || dist[xx][yy] > v.cst + DIST(xx,yy,v.x,v.y))){
-                dist[xx][yy] = v.cst + DIST(xx,yy,v.x,v.y);
+            if(valid(xx,yy) && (dist[xx][yy] == -1 || dist[xx][yy] > v.cst + GPdistance(xx,yy,v.x,v.y))){
+                dist[xx][yy] = v.cst + GPdistance(xx,yy,v.x,v.y);
                 parnt[xx][yy] = v;
                 priority_queue.insert(make_vertex(xx,yy,dist[xx][yy]));
             }
@@ -98,10 +97,10 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
     }
     queue<Vector2D> resp;
 
-//    VisionStrategy vision;
     resp.push(Vector2D(target.x,target.y));
-    for(vertex w = target, v = parnt[w.x][w.y]; v.cst >= 0; w = v, v = parnt[source.x][source.y]){
+    for(vertex w = target, v = parnt[w.x][w.y]; v.cst >= 0; w = v, v = parnt[v.x][v.y]){
         resp.push(Vector2D(v.x,v.y));
     }
     return resp;
 }
+
