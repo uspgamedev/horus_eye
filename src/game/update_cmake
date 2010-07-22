@@ -8,11 +8,31 @@
 # este script antes do CMake.
 #
 
+make clean
+
+if [ "$1" = "--editor" ]; then
+  EDITOR=1
+  echo "Configurando editor..."
+else
+  EDITOR=0
+  echo "Configurando game..."
+fi
+
 if [ -e ./CMakeLists.base ]; then
   FILES=`find . ../framework | grep "^.*\.\(h\|cc\)$"`
   echo -n "SET(GAME_SRCS " > ./CMakeLists.txt
   for f in $FILES; do
-    echo -n "$f " >> ./CMakeLists.txt
+
+    if [ "$EDITOR" = "1" ]; then
+      if [ "$f" != "./main.cc" ]; then
+        echo -n "$f " >> ./CMakeLists.txt
+      fi
+    else
+      if [ "$f" != "./editor.cc" ]; then
+        echo -n "$f " >> ./CMakeLists.txt
+      fi
+    fi
+
   done
   echo ")" >> ./CMakeLists.txt
   cat ./CMakeLists.base >> ./CMakeLists.txt

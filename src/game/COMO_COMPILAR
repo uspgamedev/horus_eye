@@ -8,7 +8,7 @@ Para compilar no GNU/Linux,
 
 3) va para a pasta horus_eye/trunk/src/game/
 
-4) $ ./configure
+4) $ ./configure ( para compilar o editor de fases, rode $ ./configure --editor )
    $ make
    # make install
 
