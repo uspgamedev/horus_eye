@@ -16,6 +16,7 @@
 #include "projectile.h"
 #include <cmath>
 #include <iostream>
+#include <sstream>
 
 using namespace std;
 using namespace framework;
@@ -24,7 +25,7 @@ using namespace utils;
 
 namespace sprite {
 
-#define MUMMY_WIDTH  74 
+#define MUMMY_WIDTH  74
 #define MUMMY_HEIGHT 74
 #define SQRT_3 1.7320508075688772935274463415059
 #define EXP_PARAM (1.0)
@@ -87,7 +88,7 @@ Mummy::Mummy(Image* img)  {
 
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
-    direction_mapping_[2] = Animation_::UP; 
+    direction_mapping_[2] = Animation_::UP;
     direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
     direction_mapping_[4] = Animation_::LEFT;
     direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
@@ -108,7 +109,7 @@ Mummy::Mummy(Image* img)  {
             walking_animations_[i] = &last_standing_animation_;
         }
     }
-    
+
     for (int i = 0; i < 8; i++) {
         attacking_animations_[i]->AddObserver(this);
     }
@@ -137,6 +138,7 @@ void Mummy::CollidesWith(Projectile* obj) {
         this->SelectSpriteAnimation(dying_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;
+        PlayHitSound();
     }
 }
 
@@ -181,7 +183,7 @@ void Mummy::RandomMovement(){
         if (dir >= 2 && dir < 5) animation_direction_ += Animation_::LEFT;
         if (dir >= 4 && dir < 7) animation_direction_ += Animation_::DOWN;
         if (dir >= 6 || dir == 0) animation_direction_ += Animation_::RIGHT;
-        
+
         interval_->Restart(WaitingTime());
         last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4),sin(dir*PI/4));
     }
@@ -195,13 +197,13 @@ void Mummy::Think() {
         last_standing_animation_ = *(standing_animations_[animation_direction_]);
     }
     else{
-        Vector2D dir_animation = World::FromWorldCoordinates(path.front()) - position(); 
+        Vector2D dir_animation = World::FromWorldCoordinates(path.front()) - position();
         double angle = GetAttackingAngle(dir_animation);
         int dir = GetAttackingAnimationIndex(angle);
 
         animation_direction_ = direction_mapping_[dir];
-        
-        Vector2D dir_ = path.front() - world_position(); 
+
+        Vector2D dir_ = path.front() - world_position();
         last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
         last_standing_animation_ = *(standing_animations_[animation_direction_]);
     }
@@ -218,13 +220,13 @@ void Mummy::Update(float delta_t) {
         Think();
 
         if (animation_direction_ & Animation_::UP)
-            dir = dir + directions_[Direction_::UP]; 
+            dir = dir + directions_[Direction_::UP];
         if (animation_direction_ & Animation_::DOWN)
-            dir = dir + directions_[Direction_::DOWN]; 
+            dir = dir + directions_[Direction_::DOWN];
         if (animation_direction_ & Animation_::LEFT)
-            dir = dir + directions_[Direction_::LEFT]; 
+            dir = dir + directions_[Direction_::LEFT];
         if (animation_direction_ & Animation_::RIGHT)
-            dir = dir + directions_[Direction_::RIGHT]; 
+            dir = dir + directions_[Direction_::RIGHT];
 
         Creature::Move(this->GetWalkingDirection(), delta_t);
         walking_direction_ = last_direction_;
@@ -232,4 +234,13 @@ void Mummy::Update(float delta_t) {
     }
 
 }
+
+void Mummy::PlayHitSound() const {
+    std::stringstream ss;
+    int id = 1 + (rand() % 4);
+
+    ss << "data/samples/hit" << id << ".wav";
+    Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
+}
+
 }

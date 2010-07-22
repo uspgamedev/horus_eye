@@ -32,9 +32,9 @@ namespace sprite {
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 #define MAX_LIFE Constants::HERO_MAX_LIFE
 #define HERO_SPEED Constants::HERO_SPEED
- 
+
 Hero::Hero(Image* img) {
-    
+
     if(img == NULL){
         utils::ImageFactory img_fac;
         img = img_fac.HeroImage();
@@ -88,12 +88,12 @@ Hero::Hero(Image* img) {
     for (int i = 0; i < 8; i++) {
         attacking_animations_[i]->AddObserver(this);
     }
-    
+
     dying_animation_->AddObserver(this);
 
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
-    direction_mapping_[2] = Animation_::UP; 
+    direction_mapping_[2] = Animation_::UP;
     direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
     direction_mapping_[4] = Animation_::LEFT;
     direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
@@ -132,6 +132,7 @@ void Hero::CollidesWith(Mummy *obj) {
         --life_;
         hit_duration_->Restart(2000);
         blink_time_ = 0;
+        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
     }
     if(life_ <= 0)
         if (status_ == WorldObject::STATUS_ACTIVE) {
@@ -206,6 +207,7 @@ void Hero::StartAttack() {
              pos = world_position();
     Projectile * projectile = new Projectile(pos, versor);
     world_->AddWorldObject(projectile);
+    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
 void Hero::GetMouseState() {

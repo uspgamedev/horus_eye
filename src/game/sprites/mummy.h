@@ -41,6 +41,7 @@ class Mummy : public Creature, public Observer {
     void Think();
     void RandomMovement();
     void Tick();
+    void PlayHitSound() const;
 };
 
 }

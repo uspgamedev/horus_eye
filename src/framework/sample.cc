@@ -8,7 +8,7 @@
 
 #include <algorithm>
 #include "sample.h"
-
+#include <windows.h>
 namespace framework {
 
 Sample::Sample(const std::string& filepath) : data_(NULL), channel_(-1), volume_(1.0f) {
