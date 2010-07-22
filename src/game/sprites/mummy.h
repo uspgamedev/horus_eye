@@ -15,6 +15,7 @@
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
 //#include <algorithm>
+#include<queue>
 #define pbb pair<bool, bool>
 
 using namespace std;
@@ -35,6 +36,7 @@ class Mummy : public Creature, public Observer {
 
     TimeAccumulator *interval_;
     Vector2D         last_direction_;
+    queue<Vector2D> path_;
 
     virtual void Update(float delta_t);
     void StartAttack();

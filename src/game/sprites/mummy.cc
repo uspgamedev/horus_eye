@@ -12,6 +12,7 @@
 #include "../utils/imagefactory.h"
 #include "../utils/circleobject.h"
 #include "../utils/visionstrategy.h"
+#include "../utils/astarstrategy.h"
 #include "mummy.h"
 #include "projectile.h"
 #include <cmath>
@@ -143,8 +144,8 @@ void Mummy::CollidesWith(Projectile* obj) {
 }
 
 void Mummy::CollidesWith(Mummy * obj) {
-    const RectObject *rect = (const RectObject*)obj->bound();
-    CollideWithRect(rect);
+    //const RectObject *rect = (const RectObject*)obj->bound();
+    //CollideWithRect(rect);
 }
 
 void Mummy::Tick() {
@@ -188,24 +189,43 @@ void Mummy::RandomMovement(){
         last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4),sin(dir*PI/4));
     }
 }
-
+double DIST(Vector2D a,Vector2D b){
+    return sqrt((a.x-b.x) * (a.x-b.x) + (a.y-b.y)*(a.y-b.y));
+}
 void Mummy::Think() {
-    VisionStrategy strategy;
-    queue<Vector2D> path = strategy.Calculate(world_position());
-    if(path.empty()) {
-        RandomMovement();
-        last_standing_animation_ = *(standing_animations_[animation_direction_]);
-    }
-    else{
-        Vector2D dir_animation = World::FromWorldCoordinates(path.front()) - position();
+    if(path_.empty()) {
+        AStarStrategy strategy;
+        path_ = strategy.Calculate(world_position());
+        Vector2D dir_animation = World::FromWorldCoordinates(path_.front()) - position(); 
         double angle = GetAttackingAngle(dir_animation);
         int dir = GetAttackingAnimationIndex(angle);
 
         animation_direction_ = direction_mapping_[dir];
 
-        Vector2D dir_ = path.front() - world_position();
+        Vector2D dir_ = path_.front() - world_position(); 
         last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
         last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    }
+
+    if(path_.empty()) {
+        RandomMovement();
+        last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    }
+    else{
+        if(DIST(path_.front(), world_position()) <= 0.05 || DIST(path_.front(),world_position()) >= 2.0){
+            path_.pop();
+            if(!path_.empty()){
+                Vector2D dir_animation = World::FromWorldCoordinates(path_.front()) - position(); 
+                double angle = GetAttackingAngle(dir_animation);
+                int dir = GetAttackingAnimationIndex(angle);
+
+                animation_direction_ = direction_mapping_[dir];
+
+                Vector2D dir_ = path_.front() - world_position(); 
+                last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
+                last_standing_animation_ = *(standing_animations_[animation_direction_]);
+            }
+        }
     }
 }
 
