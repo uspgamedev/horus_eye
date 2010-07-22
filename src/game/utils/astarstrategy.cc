@@ -10,6 +10,7 @@
 #include"../scenes/world.h"
 #include"../sprites/hero.h"
 #include"visionstrategy.h"
+#include<cmath>
 using namespace scene;
 using namespace utils;
 using namespace sprite;
@@ -44,6 +45,11 @@ bool SOLID(char x){
     return false;
 }
 
+double DIST(int ax,int ay,int bx,int by){
+    return sqrt((ax-bx)*(ax-bx) + (ay-by)*(ay-by));
+}
+
+
 bool valid(int x,int y){
     int i = height - y - 1;
     int j = x;
@@ -58,13 +64,15 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
     width = world->level_width();
     height = world->level_height();
 
-    int dist[width][height];
+    double dist[width][height];
+    for(int i = 0;i < width;i++)
+        for(int j = 0;j < height;j++)
+            dist[i][j] = -1.0;
+
     vertex parnt[width][height];
 
     vertex target = make_vertex(position.x+0.5,position.y+0.5,0);
     vertex source = make_vertex(hero->world_position().x+0.5,hero->world_position().y+0.5,0);
-
-    memset(dist,-1,sizeof(dist));
 
     set<vertex> priority_queue;
     priority_queue.insert(source);
@@ -81,8 +89,8 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
             int xx = v.x + dx[d];
             int yy = v.y + dy[d];
 
-            if(valid(xx,yy) && (dist[xx][yy] == -1 || dist[xx][yy] > v.cst + 1)){
-                dist[xx][yy] = v.cst + 1;
+            if(valid(xx,yy) && (dist[xx][yy] == -1 || dist[xx][yy] > v.cst + DIST(xx,yy,v.x,v.y))){
+                dist[xx][yy] = v.cst + DIST(xx,yy,v.x,v.y);
                 parnt[xx][yy] = v;
                 priority_queue.insert(make_vertex(xx,yy,dist[xx][yy]));
             }
@@ -90,18 +98,10 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
     }
     queue<Vector2D> resp;
 
-    VisionStrategy vision;
-    if(vision.Calculate(position).empty()){
-        resp.push(Vector2D(target.x,target.y));
-        for(vertex w = target, v = parnt[w.x][w.y]; v.cst >= 0; w = v, v = parnt[v.x][v.y]){
-            resp.push(Vector2D(v.x,v.y));
-        }
-    }
-    else{
-        resp.push(Vector2D(target.x,target.y));
-        for(vertex w = target, v = parnt[w.x][w.y]; v.cst >= 0; w = v, v = parnt[source.x][source.y]){
-            resp.push(Vector2D(v.x,v.y));
-        }
+//    VisionStrategy vision;
+    resp.push(Vector2D(target.x,target.y));
+    for(vertex w = target, v = parnt[w.x][w.y]; v.cst >= 0; w = v, v = parnt[source.x][source.y]){
+        resp.push(Vector2D(v.x,v.y));
     }
     return resp;
 }

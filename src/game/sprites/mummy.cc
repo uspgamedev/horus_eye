@@ -212,7 +212,7 @@ void Mummy::Think() {
         last_standing_animation_ = *(standing_animations_[animation_direction_]);
     }
     else{
-        if(DIST(path_.front(), world_position()) <= 0.05 || DIST(path_.front(),world_position()) >= 2.0){
+        if(DIST(path_.front(), world_position()) <= 0.05 || DIST(path_.front(),world_position()) >= 1.5){
             path_.pop();
             if(!path_.empty()){
                 Vector2D dir_animation = World::FromWorldCoordinates(path_.front()) - position(); 
