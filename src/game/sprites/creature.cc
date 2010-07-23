@@ -50,6 +50,47 @@ Creature::~Creature() {
 
 }
 
+void Creature::InitializeWalkingAnimations(){
+    for (int i = 0; i < 16; i++) {
+        walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+        *walking_animations_[i] = NULL;
+    }
+    *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, 44, -1);
+    *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, 47, -1);
+    *walking_animations_[Animation_::RIGHT] = new Animation(10, 2, 12, 22, 32, 42, -1);
+    *walking_animations_[Animation_::UP] = new Animation(10, 0, 10, 20, 30, 40, -1);
+    *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, 43, -1);
+    *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, 46, -1);
+    *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, 41, -1);
+    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 8, 18, 28, 38, 48, -1);
+    for (int i = 0; i < 16; i++) {
+        if (*walking_animations_[i] == NULL) {
+            free(walking_animations_[i]);
+            walking_animations_[i] = &last_standing_animation_;
+        }
+    }
+}
+void Creature::InitializeStandingAnimations(){
+    for (int i = 0; i < 16; i++) {
+        standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+        *standing_animations_[i] = NULL;
+    }
+    *standing_animations_[Animation_::DOWN] = new Animation(0, 4, -1);
+    *standing_animations_[Animation_::LEFT] = new Animation(0, 7, -1);
+    *standing_animations_[Animation_::RIGHT] = new Animation(0, 2, -1);
+    *standing_animations_[Animation_::UP] = new Animation(0, 0, -1);
+    *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 3, -1);
+    *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 6, -1);
+    *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 1, -1);
+    *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 8, -1);
+    for (int i = 0; i < 16; i++) {
+        if (*standing_animations_[i] == NULL) {
+            free(standing_animations_[i]);
+            standing_animations_[i] = &last_standing_animation_;
+        }
+    }
+}
+
 void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;

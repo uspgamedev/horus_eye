@@ -39,7 +39,7 @@ class Mummy : public Creature, public Observer {
     queue<Vector2D> path_;
 
     virtual void Update(float delta_t);
-    void StartAttack();
+    void StartAttack(Creature* obj);
     void Think();
     void UpdateDirection(Vector2D destiny);
     void RandomMovement();

@@ -73,6 +73,8 @@ class Creature : public WorldObject {
     void SelectSpriteAnimation(Animation *animation, Vector2D frame_size);
     double GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
+    void InitializeStandingAnimations();
+    void InitializeWalkingAnimations();
     virtual framework::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }

@@ -45,7 +45,6 @@ Mummy::Mummy(Image* img)  {
         img = img_fac.MummyImage();
     }
     Initialize(img);
-    //Initialize(VIDEO_MANAGER()->LoadImage("data/images/mage_red_74x74.png"));
 
     World *world = ((World *)Engine::reference()->CurrentScene());
     directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
@@ -55,30 +54,9 @@ Mummy::Mummy(Image* img)  {
 
     // Animations
     last_standing_animation_ = new Animation(0, -1);
-    for (int i = 0; i < 16; i++) {
-        standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
-        walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
-        *standing_animations_[i] = NULL;
-        *walking_animations_[i] = NULL;
-    }
-    *standing_animations_[Animation_::DOWN] = new Animation(0, 4, -1);
-    *standing_animations_[Animation_::LEFT] = new Animation(0, 7, -1);
-    *standing_animations_[Animation_::RIGHT] = new Animation(0, 2, -1);
-    *standing_animations_[Animation_::UP] = new Animation(0, 0, -1);
-    *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 3, -1);
-    *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 6, -1);
-    *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 1, -1);
-    *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 8, -1);
-
-    *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, 44, -1);
-    *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, 47, -1);
-    *walking_animations_[Animation_::RIGHT] = new Animation(10, 2, 12, 22, 32, 42, -1);
-    *walking_animations_[Animation_::UP] = new Animation(10, 0, 10, 20, 30, 40, -1);
-    *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, 43, -1);
-    *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, 46, -1);
-    *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, 41, -1);
-    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 8, 18, 28, 38, 48, -1);
-
+    InitializeStandingAnimations();
+    InitializeWalkingAnimations();
+    
     attacking_animations_[6] = new Animation(10, 54, 64, 74, 84, -1);
     attacking_animations_[4] = new Animation(10, 57, 67, 77, 87, -1);
     attacking_animations_[0] = new Animation(10, 52, 62, 72, 82, -1);
@@ -101,17 +79,7 @@ Mummy::Mummy(Image* img)  {
 
     animation_direction_ = 0;
     last_standing_animation_ = *standing_animations_[Animation_::DOWN];
-    for (int i = 0; i < 16; i++) {
-        if (*standing_animations_[i] == NULL) {
-            free(standing_animations_[i]);
-            standing_animations_[i] = &last_standing_animation_;
-        }
-        if (*walking_animations_[i] == NULL) {
-            free(walking_animations_[i]);
-            walking_animations_[i] = &last_standing_animation_;
-        }
-    }
-
+    
     for (int i = 0; i < 8; i++) {
         attacking_animations_[i]->AddObserver(this);
     }
@@ -160,14 +128,12 @@ void Mummy::Tick() {
 }
 
 void Mummy::CollidesWith(Hero* obj) {
-    if (status_ == WorldObject::STATUS_ACTIVE && !is_attacking_) StartAttack();
+    if (status_ == WorldObject::STATUS_ACTIVE && !is_attacking_) StartAttack(obj);
 }
 
 
-void Mummy::StartAttack() {
-    World* world = (World *)Engine::reference()->CurrentScene();
-    Hero* hero = world->hero();
-    double attackAngle = GetAttackingAngle(hero->position() - position());
+void Mummy::StartAttack(Creature* obj) {
+    double attackAngle = GetAttackingAngle(obj->position() - position());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
