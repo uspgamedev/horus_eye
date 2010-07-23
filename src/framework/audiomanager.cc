@@ -22,7 +22,7 @@ AudioManager::~AudioManager() {
 
 bool AudioManager::Initialize() {
     // inicializa SDL_mixer
-    if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 4096) != 0)
+    if(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, 2, 1024) != 0)
         return false;
 
     // aloca canais de audio
