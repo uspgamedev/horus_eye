@@ -44,6 +44,7 @@ class World : public framework::Scene {
     void AddDoor(framework::Vector2D&);
     void FinishLevel(bool);
     int CountRemainingEnemies();
+    int max_enemies() { return max_enemies_; }
     void DecreaseEnemyCount() { remaining_enemies_--; }
     void End() { this->RemoveAll(); }
 
@@ -78,7 +79,7 @@ class World : public framework::Scene {
     utils::Hud *hud_;
     int level_width_, level_height_;
     char** level_matrix_;
-    int	remaining_enemies_;
+    int	remaining_enemies_, max_enemies_;
 
     void RemoveInactiveObjects();
     void RemoveAll();

@@ -31,8 +31,8 @@ using namespace sprite;
 World::World() : Scene(), world_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
     hero_ = new Hero;
-    remaining_enemies_ = 0;
     this->AddWorldObject(hero_);
+    remaining_enemies_ = max_enemies_ = 0;
     hud_ = new utils::Hud(this);
     AddLayer(hud_);
     finished_ = false;
@@ -143,6 +143,7 @@ void World::AddMummy(framework::Vector2D &pos) {
 	mummy->set_world_position(pos);
 	this->AddWorldObject(mummy);
 	remaining_enemies_++;
+	max_enemies_++;
 }
 
 void World::AddHero(framework::Vector2D &pos) {
