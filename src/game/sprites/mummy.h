@@ -23,7 +23,7 @@ using namespace framework;
 
 namespace sprite {
 
-class Mummy : public Creature, public Observer {
+class Mummy : public Creature {
 
   public:
     Mummy(Image* img = NULL);
@@ -43,7 +43,6 @@ class Mummy : public Creature, public Observer {
     void Think();
     void UpdateDirection(Vector2D destiny);
     void RandomMovement();
-    void Tick();
     void PlayHitSound() const;
 };
 

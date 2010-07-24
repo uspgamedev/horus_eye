@@ -50,7 +50,22 @@ Creature::~Creature() {
 
 }
 
-void Creature::InitializeWalkingAnimations(){
+void Creature::InitializeAttackingAnimations() {
+    attacking_animations_[6] = new Animation(10, 54, 64, 74, 84, -1);
+    attacking_animations_[4] = new Animation(10, 57, 67, 77, 87, -1);
+    attacking_animations_[0] = new Animation(10, 52, 62, 72, 82, -1);
+    attacking_animations_[2] = new Animation(10, 50, 60, 70, 80, -1);
+    attacking_animations_[7] = new Animation(10, 53, 63, 73, 83, -1);
+    attacking_animations_[5] = new Animation(10, 56, 66, 76, 86, -1);
+    attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
+    attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
+
+    for (int i = 0; i < 8; i++) {
+        attacking_animations_[i]->AddObserver(this);
+    }
+}
+
+void Creature::InitializeWalkingAnimations() {
     for (int i = 0; i < 16; i++) {
         walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
         *walking_animations_[i] = NULL;
@@ -70,7 +85,8 @@ void Creature::InitializeWalkingAnimations(){
         }
     }
 }
-void Creature::InitializeStandingAnimations(){
+
+void Creature::InitializeStandingAnimations() {
     for (int i = 0; i < 16; i++) {
         standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
         *standing_animations_[i] = NULL;
@@ -118,6 +134,16 @@ void Creature::CollideWithRect(const RectObject *rect) {
     walking_direction_ = Vector2D::Normalized(walking_direction_);
 
 }
+
+void Creature::Tick() {
+    if (status_ == WorldObject::STATUS_DYING) {
+            status_ = WorldObject::STATUS_DEAD;
+    }
+    else {
+        is_attacking_ = false;
+    }
+}
+
 
 void Creature::CollidesWith(Wall * obj) {
     const RectObject *rect = (const RectObject*)obj->bound();

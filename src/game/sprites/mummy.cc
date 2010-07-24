@@ -56,16 +56,8 @@ Mummy::Mummy(Image* img)  {
     last_standing_animation_ = new Animation(0, -1);
     InitializeStandingAnimations();
     InitializeWalkingAnimations();
+    InitializeAttackingAnimations();
     
-    attacking_animations_[6] = new Animation(10, 54, 64, 74, 84, -1);
-    attacking_animations_[4] = new Animation(10, 57, 67, 77, 87, -1);
-    attacking_animations_[0] = new Animation(10, 52, 62, 72, 82, -1);
-    attacking_animations_[2] = new Animation(10, 50, 60, 70, 80, -1);
-    attacking_animations_[7] = new Animation(10, 53, 63, 73, 83, -1);
-    attacking_animations_[5] = new Animation(10, 56, 66, 76, 86, -1);
-    attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
-    attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
-
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
     direction_mapping_[2] = Animation_::UP;
@@ -79,11 +71,6 @@ Mummy::Mummy(Image* img)  {
 
     animation_direction_ = 0;
     last_standing_animation_ = *standing_animations_[Animation_::DOWN];
-    
-    for (int i = 0; i < 8; i++) {
-        attacking_animations_[i]->AddObserver(this);
-    }
-
 
     dying_animation_->AddObserver(this);
 
@@ -116,15 +103,6 @@ void Mummy::CollidesWith(Projectile* obj) {
 void Mummy::CollidesWith(Mummy * obj) {
     //const RectObject *rect = (const RectObject*)obj->bound();
     //CollideWithRect(rect);
-}
-
-void Mummy::Tick() {
-    if (status_ == WorldObject::STATUS_DYING) {
-            status_ = WorldObject::STATUS_DEAD;
-    }
-    else {
-        is_attacking_ = false;
-    }
 }
 
 void Mummy::CollidesWith(Hero* obj) {

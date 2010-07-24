@@ -17,13 +17,10 @@
 using namespace std;
 using namespace framework;
 
-
-
-
 namespace sprite {
 
 class Mummy;
-class Hero : public Creature, public Observer {
+class Hero : public Creature{
 
   public:
     Hero(Image* img = NULL);
@@ -43,7 +40,6 @@ class Hero : public Creature, public Observer {
     void StartAttack();
     void GetMouseState();
     void GetKeys();
-    void Tick();
 };
 
 }

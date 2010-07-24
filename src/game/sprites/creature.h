@@ -23,7 +23,7 @@ namespace sprite {
 using namespace framework;
 using namespace utils;
 
-class Creature : public WorldObject {
+class Creature : public WorldObject , public Observer {
   public:
     Creature();
     virtual ~Creature();
@@ -70,11 +70,13 @@ class Creature : public WorldObject {
 
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
+    void Tick();
     void SelectSpriteAnimation(Animation *animation, Vector2D frame_size);
     double GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     void InitializeStandingAnimations();
     void InitializeWalkingAnimations();
+    void InitializeAttackingAnimations();
     virtual framework::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
