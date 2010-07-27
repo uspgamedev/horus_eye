@@ -28,19 +28,15 @@ Creature::~Creature() {
 
     if (hit_duration_) delete hit_duration_;
 
+    // Para evitar double free.
     SelectAnimation(NULL);
 
-    for (int i = 1; i < 9; i <<= 1){
-        delete *standing_animations_[i];
-        free(standing_animations_[i]);
-        delete *walking_animations_[i];
-        free(walking_animations_[i]);
-        if (i >= 4) for (int j = 1; j < 3; j <<= 1) {
-            delete *standing_animations_[i|j];
-            free(standing_animations_[i|j]);
-            delete *walking_animations_[i|j];
-            free(walking_animations_[i|j]);
-        }
+    // Remove todas as animações.
+    for (int i = 0; i < 8; i++) {
+        delete *standing_animations_[direction_mapping_[i]];
+        free(standing_animations_[direction_mapping_[i]]);
+        delete *walking_animations_[direction_mapping_[i]];
+        free(walking_animations_[direction_mapping_[i]]);
     }
 
     for (int i = 0; i < 8; i++) {

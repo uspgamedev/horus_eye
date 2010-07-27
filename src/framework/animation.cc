@@ -6,13 +6,16 @@
 #include <stdio.h>
 namespace framework {
 
+#define ANIMATION_BUFFER_SIZE 256
+
 
 Animation::Animation(float fps, ...) {
     int i = 0;
-    static int tmp_frame_list[256];
+    static int tmp_frame_list[ANIMATION_BUFFER_SIZE];
     va_list arg_list;
 
     va_start(arg_list, fps);
+    tmp_frame_list[0] = 0;
     while (1) {
         int next_arg = va_arg(arg_list, int);
         if (next_arg == -1) { // Indica fim da lista de argumentos
