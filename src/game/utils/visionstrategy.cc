@@ -27,6 +27,11 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     int width = world->level_width();
     int height = world->level_height();
 
+    if(position2.x < 0.0){
+        Hero* hero = world->hero();
+        position2 = hero->world_position();
+    }
+
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             if(solid(matrix[i][j])){
@@ -37,14 +42,14 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
                 Vector2D b = Vector2D(x - 0.5, y + 0.5);
                 Vector2D c = Vector2D(x + 0.5, y + 0.5);
                 Vector2D d = Vector2D(x + 0.5, y - 0.5);
-                if (GPintersect(a, b, position1, position2)) return true;
-                if (GPintersect(b, c, position1, position2)) return true;
-                if (GPintersect(c, d, position1, position2)) return true;
-                if (GPintersect(d, a, position1, position2)) return true;
+                if (GPintersect(a, b, position1, position2)) return false;
+                if (GPintersect(b, c, position1, position2)) return false;
+                if (GPintersect(c, d, position1, position2)) return false;
+                if (GPintersect(d, a, position1, position2)) return false;
             }
         }
     }
-    return false;
+    return true;
 }
 
 queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {

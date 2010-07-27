@@ -150,15 +150,17 @@ void Mummy::UpdateDirection(Vector2D destiny){
 }
 
 void Mummy::Think() {
+    AStarStrategy strategy;
+    VisionStrategy vision;
     if(path_.empty()) {
-        AStarStrategy strategy;
-        path_ = strategy.Calculate(world_position());
-        UpdateDirection(path_.front());
-    }
-
-    if(path_.empty()) {
-        RandomMovement();
-        last_standing_animation_ = *(standing_animations_[animation_direction_]);
+        if(vision.IsVisible(world_position())){
+            path_ = strategy.Calculate(world_position());
+            UpdateDirection(path_.front());
+        }
+        else {
+            RandomMovement();
+            last_standing_animation_ = *(standing_animations_[animation_direction_]);
+        }
     }
     else{
         if(GPdistance(path_.front(), world_position()) <= 0.05 || GPdistance(path_.front(),world_position()) >= 1.5){
