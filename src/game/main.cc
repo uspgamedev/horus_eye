@@ -9,6 +9,7 @@
 #include "sprites/hero.h"
 #include "../framework/vector2D.h"
 #include "scenes/world.h"
+#include "scenes/imagescene.h"
 #include "sprites/worldobject.h"
 #include "utils/levelloader.h"
 #include <iostream>
@@ -16,6 +17,7 @@ using framework::Engine;
 using framework::Scene;
 using framework::Vector2D;
 using scene::World;
+using scene::ImageScene;
 using utils::LevelLoader;
 
 
@@ -31,6 +33,7 @@ int main(int argc, char *argv[]) {
     LevelLoader *loader = new LevelLoader(world);
     loader->Load("data/levels/level_test.txt");
     engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
+
     engine->Run();
 
     //engine->Release();

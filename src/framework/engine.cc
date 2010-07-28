@@ -35,6 +35,18 @@ void Engine::Run() {
     float delta_t;
 
     while(!quit_) {
+
+        if (CurrentScene()->finished()) {
+            Scene *removed = CurrentScene();
+            PopScene();
+            delete removed;
+        }
+
+        // gerenciamento das cenas
+        if (scene_list_.size() == 0) {
+            quit();
+        }
+
         // gerenciamento de tempo
         time_handler_->Update();
         delta_t = (time_handler_->TimeDifference())/1000.0f;
@@ -54,7 +66,7 @@ void Engine::Run() {
             switch(event.type) {
                 case SDL_QUIT:
                     quit();
-                    CurrentScene()->End();
+                    CurrentScene()->Finish();
                     break;
 
                 case SDL_KEYDOWN:
@@ -72,18 +84,15 @@ void Engine::Run() {
             }
         }
 
-        // gerenciamento das cenas
-        if (scene_list_.size() == 0) {
-            break;
-        }
+        if (!quit_) {
+            CurrentScene()->Update(delta_t);
+            for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
+                scene_list_[i]->Render();
+            }
 
-        CurrentScene()->Update(delta_t);
-        for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
-            scene_list_[i]->Render();
+            // gerenciamento de video
+            video_manager_->Render();
         }
-
-        // gerenciamento de video
-        video_manager_->Render();
     }
 }
 

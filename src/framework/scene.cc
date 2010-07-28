@@ -22,6 +22,8 @@ Scene::~Scene() {
 
 void Scene::Update(float delta_t) {
 
+    if (layers_.size() == 0) return;
+
     list<Layer*>::iterator it = layers_.begin();
 
     while (it != layers_.end()) {

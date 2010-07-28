@@ -38,7 +38,7 @@ class Constants {
     const static float DOOR_BOUND_WIDTH = 134/41.0,
                        DOOR_BOUND_HEIGHT = 78/41.0,
 
-                       HERO_SPEED = 4.0f,
+                       HERO_SPEED = 3.0f,
                        PROJECTILE_SPEED = 8.0f;
 
   private:
