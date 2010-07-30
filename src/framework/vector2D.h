@@ -22,6 +22,7 @@ class Vector2D {
 
     // Member functions
     float length() const;
+    float angle() const;
 
     // Metodos estaticos
     static Vector2D Add(Vector2D a, Vector2D b);

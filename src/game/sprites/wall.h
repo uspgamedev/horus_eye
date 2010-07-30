@@ -12,14 +12,24 @@
 #include "../../framework/sprite.h"
 #include "../../framework/engine.h"
 #include "worldobject.h"
+#include "../../framework/animation.h"
 
 namespace sprite {
 
 class Wall : public WorldObject {
 
   public:
+    enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
+
     Wall();
+    virtual void Update(float dt);
     virtual void HandleCollision(WorldObject *);
+    void set_type(WallType);
+
+    WallType wall_type_;
+
+  private:
+    framework::Animation *visible_animation_, *transparent_animation_;
 };
 
 }

@@ -36,6 +36,7 @@ void LevelLoader::LoadMatrix(string file_name) {
     scanf("%d", &width);
     scanf("%d", &height);
     char **matrix = new char*[height];
+
     for (int i = 0; i < height; i++) matrix[i] = new char[width];
 
     for (int i = 0; i < height; ++i) {
@@ -61,6 +62,15 @@ void LevelLoader::LoadMatrix(string file_name) {
  * Floor    : X
  * Empty    : O
  */
+bool isWall(World* world_, int i, int j) {
+    char **matrix = world_->level_matrix();
+    int width = world_->level_width(),
+        height = world_->level_height();
+    if(i >= height || j >= width || i < 0 || j < 0)
+        return false;
+    return matrix[i][j] == WALL;
+}
+
 void LevelLoader::Load(string file_name) {
 
     char    token;
@@ -73,6 +83,9 @@ void LevelLoader::Load(string file_name) {
     int width = world_->level_width(),
         height = world_->level_height();
 
+    Wall ***wall_matrix = new Wall**[height];
+    for (int i = 0; i < height; i++) wall_matrix[i] = new Wall*[width];
+
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             token = matrix[i][j];
@@ -81,7 +94,7 @@ void LevelLoader::Load(string file_name) {
             if (token != EMPTY) {
                 switch(token) {
                     case WALL: {
-                        world_->AddWall(position);
+                        wall_matrix[i][j] = world_->AddWall(position);
                         break;
                     }
                     case HERO: {
@@ -108,6 +121,23 @@ void LevelLoader::Load(string file_name) {
                         world_->AddFloor(position);
                         break;
                     }
+                }
+            }
+        }
+    }
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            if(matrix[i][j] == WALL) {
+                if(isWall(world_, i, j-1)) {
+                    if(isWall(world_, i+1, j))
+                        wall_matrix[i][j]->set_type(Wall::MIDDLE);
+                    else
+                        wall_matrix[i][j]->set_type(Wall::RIGHT);
+                } else {
+                    if(isWall(world_, i+1, j))
+                        wall_matrix[i][j]->set_type(Wall::BOTTOM);
+                    else
+                        wall_matrix[i][j]->set_type(Wall::BOTTOMRIGHT);
                 }
             }
         }

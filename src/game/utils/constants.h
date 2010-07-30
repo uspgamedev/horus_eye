@@ -33,10 +33,11 @@ class Constants {
                        LIFE_METER_OFFSET_Y = -20,
 
                        DOOR_SPRITE_WIDTH = 153,
-                       DOOR_SPRITE_HEIGHT = 109,
-                       DOOR_HOTSPOT_WIDTH = 153/2.0,
-                       DOOR_HOTSPOT_HEIGHT = 109-(91/2.0);
-    const static float DOOR_BOUND_WIDTH = 2.0,
+                       DOOR_SPRITE_HEIGHT = 109;
+
+    const static float DOOR_HOTSPOT_WIDTH = 153/2.0,
+                       DOOR_HOTSPOT_HEIGHT = 109-(91/2.0),
+                       DOOR_BOUND_WIDTH = 2.0,
                        DOOR_BOUND_HEIGHT = 1.0,
 
                        HERO_SPEED = 3.0f,

@@ -15,6 +15,7 @@
 #include "../sprites/hero.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/floor.h"
+#include "../sprites/wall.h"
 
 namespace utils {
     class Hud;
@@ -38,7 +39,7 @@ class World : public framework::Scene {
     void AddWorldObject(sprite::WorldObject*);
     void AddFloor(sprite::Floor*);
     void AddFloor(framework::Vector2D&);
-    void AddWall(framework::Vector2D&);
+    sprite::Wall* AddWall(framework::Vector2D&);
     void AddMummy(framework::Vector2D&);
     void AddHero(framework::Vector2D&);
     void AddDoor(framework::Vector2D&);

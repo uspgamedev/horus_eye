@@ -16,6 +16,9 @@ namespace framework {
 float Vector2D::length() const {
     return sqrt((x * x) + (y * y));
 }
+float Vector2D::angle() const {
+    return atan2(y, x);
+}
 
 // Metodos estaticos
 

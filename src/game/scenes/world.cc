@@ -146,10 +146,11 @@ void World::AddFloor(framework::Vector2D &pos) {
 	this->AddWorldObject(floor);
 }
 
-void World::AddWall(framework::Vector2D &pos) {
+Wall* World::AddWall(framework::Vector2D &pos) {
 	Wall *wall = new Wall;
 	wall->set_world_position(pos);
 	this->AddWorldObject(wall);
+	return wall;
 }
 
 void World::AddMummy(framework::Vector2D &pos) {
