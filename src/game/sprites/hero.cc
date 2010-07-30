@@ -51,7 +51,7 @@ Hero::Hero(Image* img) {
     InitializeWalkingAnimations();
     InitializeAttackingAnimations();
 
-    dying_animation_ = new Animation(10, 90, 91, 92, 93, 94, 100, 101, -1);
+    dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
 
     screen_center_ = Engine::reference()->window_size() * .5;
 

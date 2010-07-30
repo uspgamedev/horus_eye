@@ -35,7 +35,7 @@ World::World() : Scene(), world_layer_(new framework::Layer()) {
     remaining_enemies_ = max_enemies_ = 0;
     hud_ = new utils::Hud(this);
     AddLayer(hud_);
-    finished_ = false;
+    finished_game_ = false;
 }
 
 // Destrutor
@@ -79,11 +79,13 @@ void World::Update(float delta_t) {
 
     InputManager *input_ = Engine::reference()->input_manager();
     if(input_->KeyDown(K_ESCAPE)) {
-    	RemoveAll();
-        Engine::reference()->quit();
+    	//RemoveAll();
+        //Engine::reference()->quit();
+        Finish();
         return;
     }
 
+    set_visible(true);
     Scene::Update(delta_t);
     Vector2D offset;
 
@@ -109,9 +111,8 @@ void World::Update(float delta_t) {
 
     RemoveInactiveObjects();
     if (!hero_) FinishLevel(false);
-    if (finished_) {
-        Engine::reference()->quit();
-        RemoveAll();
+    if (finished_game_) {
+        Finish();
     }
 
 }
@@ -159,7 +160,7 @@ void World::AddDoor(framework::Vector2D &pos) {
 }
 
 void World::FinishLevel(bool goodEnd) {
-    finished_ = true;
+    finished_game_ = true;
 }
 
 int World::CountRemainingEnemies() {
@@ -190,6 +191,7 @@ void World::RemoveAll() {
 		delete (*i);
     }
     collisionless_objects.clear();
+    hero_ = NULL;
 
 }
 

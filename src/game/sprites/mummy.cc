@@ -14,6 +14,7 @@
 #include "../utils/circleobject.h"
 #include "../utils/visionstrategy.h"
 #include "../utils/astarstrategy.h"
+#include "../utils/constants.h"
 #include "mummy.h"
 #include "projectile.h"
 #include <cmath>
@@ -27,10 +28,12 @@ using namespace utils;
 
 namespace sprite {
 
-#define MUMMY_WIDTH  74
-#define MUMMY_HEIGHT 74
+#define MUMMY_WIDTH  110
+#define MUMMY_HEIGHT 110
 #define SQRT_3 1.7320508075688772935274463415059
 #define EXP_PARAM (1.0)
+#define MUMMY_HOTSPOT_X Constants::HERO_HOTSPOT_X
+#define MUMMY_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
@@ -67,7 +70,7 @@ Mummy::Mummy(Image* img)  {
     direction_mapping_[6] = Animation_::DOWN;
     direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
-    dying_animation_ = new Animation(10, 90, 91, 92, 93, 94, 100, 101, -1);
+    dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
 
     animation_direction_ = 0;
     last_standing_animation_ = *standing_animations_[Animation_::DOWN];
@@ -75,7 +78,7 @@ Mummy::Mummy(Image* img)  {
     dying_animation_->AddObserver(this);
 
     this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
-    set_hotspot(Vector2D(37, 55));
+    set_hotspot(Vector2D(MUMMY_HOTSPOT_X, MUMMY_HOTSPOT_Y));
     is_attacking_ = false;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);

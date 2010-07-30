@@ -13,6 +13,7 @@ namespace framework {
 using namespace std;
 
 Scene::~Scene() {
+    if (layers_.size() == 0) return;
     list<Layer*>::iterator it = layers_.begin();
     while (it != layers_.end()) {
         delete (*it);
@@ -34,11 +35,13 @@ void Scene::Update(float delta_t) {
 
 void Scene::Render() {
 
-    list<Layer*>::iterator it = layers_.begin();
+    if (visible_) {
+        list<Layer*>::iterator it = layers_.begin();
 
-    while (it != layers_.end()) {
-        (*it)->Render();
-        ++it;
+        while (it != layers_.end()) {
+            (*it)->Render();
+            ++it;
+        }
     }
 }
 

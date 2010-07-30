@@ -33,7 +33,7 @@ using namespace scene;
 namespace utils {
 
 // Aviso: maximo de 99 mumias no display de inimigos restantes!
-Hud::Hud(World* world) {
+Hud::Hud(World* world) : icon_count_(0) {
     Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers.png");
     Image* slash = VIDEO_MANAGER()->LoadImage("data/images/slash.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
@@ -44,7 +44,8 @@ Hud::Hud(World* world) {
                                13, 14, 15, 16, 17, 18, 19, 20, 21, 22, -1);
 
     life_icons_ = (Sprite**) malloc((world->hero()->max_life())*sizeof(*life_icons_));
-    for(int i = 0; i < world->hero()->max_life(); ++i) {
+    icon_count_ = world->hero()->max_life();
+    for(int i = 0; i < icon_count_; ++i) {
         life_icons_[i] = new Sprite;
         life_icons_[i]->Initialize(img);
 
@@ -74,8 +75,7 @@ Hud::Hud(World* world) {
 }
 
 Hud::~Hud() {
-    World* world = WORLD();
-    for(int i = 0; i < world->hero()->max_life(); ++i)
+    for(int i = 0; i < icon_count_; ++i)
         free(life_icons_[i]);
     free(life_icons_);
     delete animation_;

@@ -21,7 +21,7 @@ namespace framework {
 class Scene {
   public:
     // The Evul Constructor!
-    Scene() : finished_(false) {}
+    Scene() : finished_(false), visible_(true) {}
     // The Good Destructor!
     virtual ~Scene();
 
@@ -41,6 +41,9 @@ class Scene {
     // Getters.
     bool finished() { return finished_; }
 
+    bool visible () { return visible_; }
+    void set_visible (bool set) { visible_ = set; }
+
   protected:
 
     // Encerra a atividade da cena.
@@ -50,6 +53,7 @@ class Scene {
     ::std::list<Layer*> layers_;
     // Bool que diz se a cena esta' terminada ou nao.
     bool finished_;
+    bool visible_;
 
 }; // class Scene.
 

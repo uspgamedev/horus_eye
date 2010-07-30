@@ -87,7 +87,8 @@ void Engine::Run() {
         if (!quit_) {
             CurrentScene()->Update(delta_t);
             for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
-                scene_list_[i]->Render();
+                if (!scene_list_[i]->finished())
+                    scene_list_[i]->Render();
             }
 
             // gerenciamento de video

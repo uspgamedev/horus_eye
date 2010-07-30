@@ -66,7 +66,6 @@ void LevelLoader::Load(string file_name) {
     char    token;
     bool    hero_created = false;
 
-
     Vector2D        position;
 
     LoadMatrix(file_name);
@@ -98,12 +97,16 @@ void LevelLoader::Load(string file_name) {
                         world_->AddFloor(position);
                         break;
                     }
+                    case DOOR: {
+                        if (j < width-1 && matrix[i][j+1] == DOOR) {
+                            Vector2D pos = position + Vector2D(0.5,0);
+                            world_->AddDoor(pos);
+                        }
+                        // Sem break de proposito.
+                    }
                     case FLOOR: {
                         world_->AddFloor(position);
                         break;
-                    }
-                    case DOOR: {
-                        world_->AddDoor(position);
                     }
                 }
             }

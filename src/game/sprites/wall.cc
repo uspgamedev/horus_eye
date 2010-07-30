@@ -21,7 +21,7 @@ using namespace utils;
 #define WALL_HEIGHT  157.0
 
 Wall::Wall() {
-        Initialize(VIDEO_MANAGER()->LoadImage("data/images/stoneblock.png"));
+        Initialize(VIDEO_MANAGER()->LoadImage("data/images/stoneblock2.png"));
         image()->set_frame_size(framework::Vector2D(WALL_WIDTH, WALL_HEIGHT));
         set_hotspot(Vector2D(WALL_WIDTH/2, WALL_HEIGHT - 30.5));
         this->collision_type_ = STATIC;

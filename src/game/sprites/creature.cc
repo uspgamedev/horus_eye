@@ -47,14 +47,14 @@ Creature::~Creature() {
 }
 
 void Creature::InitializeAttackingAnimations() {
-    attacking_animations_[6] = new Animation(10, 54, 64, 74, 84, -1);
-    attacking_animations_[4] = new Animation(10, 57, 67, 77, 87, -1);
-    attacking_animations_[0] = new Animation(10, 52, 62, 72, 82, -1);
-    attacking_animations_[2] = new Animation(10, 50, 60, 70, 80, -1);
-    attacking_animations_[7] = new Animation(10, 53, 63, 73, 83, -1);
-    attacking_animations_[5] = new Animation(10, 56, 66, 76, 86, -1);
-    attacking_animations_[1] = new Animation(10, 51, 61, 71, 81, -1);
-    attacking_animations_[3] = new Animation(10, 58, 68, 78, 88, -1);
+    attacking_animations_[6] = new Animation(10, 44, 54, 64, 74, -1);
+    attacking_animations_[4] = new Animation(10, 47, 57, 67, 77, -1);
+    attacking_animations_[0] = new Animation(10, 42, 52, 62, 72, -1);
+    attacking_animations_[2] = new Animation(10, 40, 50, 60, 70, -1);
+    attacking_animations_[7] = new Animation(10, 43, 53, 63, 73, -1);
+    attacking_animations_[5] = new Animation(10, 46, 56, 66, 76, -1);
+    attacking_animations_[1] = new Animation(10, 41, 51, 61, 71, -1);
+    attacking_animations_[3] = new Animation(10, 48, 58, 68, 78, -1);
 
     for (int i = 0; i < 8; i++) {
         attacking_animations_[i]->AddObserver(this);
@@ -66,14 +66,14 @@ void Creature::InitializeWalkingAnimations() {
         walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
         *walking_animations_[i] = NULL;
     }
-    *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, 44, -1);
-    *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, 47, -1);
-    *walking_animations_[Animation_::RIGHT] = new Animation(10, 2, 12, 22, 32, 42, -1);
-    *walking_animations_[Animation_::UP] = new Animation(10, 0, 10, 20, 30, 40, -1);
-    *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, 43, -1);
-    *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, 46, -1);
-    *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, 41, -1);
-    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 8, 18, 28, 38, 48, -1);
+    *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, -1);
+    *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, -1);
+    *walking_animations_[Animation_::RIGHT] = new Animation(10, 2, 12, 22, 32, -1);
+    *walking_animations_[Animation_::UP] = new Animation(10, 0, 10, 20, 30, -1);
+    *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, -1);
+    *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, -1);
+    *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, -1);
+    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 8, 18, 28, 38, -1);
     for (int i = 0; i < 16; i++) {
         if (*walking_animations_[i] == NULL) {
             free(walking_animations_[i]);

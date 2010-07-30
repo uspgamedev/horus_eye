@@ -25,10 +25,12 @@ class Hud: public framework::Layer {
 
   private:
     framework::Sprite** life_icons_;
+    int icon_count_;
     framework::Sprite* enemy_counter_[5];
     framework::Animation* enemy_animation_[5];
     int enemy_counter_value_[5];
     framework::Animation *animation_;
+
 };
 
 }
