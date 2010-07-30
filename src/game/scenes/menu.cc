@@ -17,11 +17,19 @@ namespace scene {
 using namespace framework;
 using namespace utils;
 
+#define RECT_WIDTH  200
+#define RECT_HEIGHT 50
+#define MENU_TOP    VIDEO_MANAGER()->video_size().y/2.0
+#define MENU_LEFT   VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
+#define MENU_BOTTOM MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
+#define MENU_RIGHT  VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
+
+
 Menu::Menu () : selection_(SELECT_PLAY) {
 
     select_rect_ = new Sprite;
     rect_ = new Image;
-    rect_->Create(Vector2D(200,50));
+    rect_->Create(Vector2D(RECT_WIDTH, RECT_HEIGHT));
     rect_->Clear(0x000000FF);
     select_rect_->Initialize(rect_);
 
@@ -31,8 +39,8 @@ Menu::Menu () : selection_(SELECT_PLAY) {
     layer->AddSprite(select_rect_);
 
     for (int y, i = 0; i < Menu::SELECT_NUM; ++i) {
-        y = 768/2 + i*50;
-        select_pos_[i] = Vector2D(412, y);
+        y = MENU_TOP + i*RECT_HEIGHT;
+        select_pos_[i] = Vector2D(MENU_LEFT, y);
     }
 
     select_rect_->set_position(select_pos_[Menu::SELECT_PLAY]);
@@ -81,8 +89,30 @@ void Menu::Update(float delta_t) {
 
 }
 
+#define PRECISION 0
+
 bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
-    return false;
+
+    static float    old_x = 0, old_y = 0;
+    float           x = mouse_pos.x,
+                    y = mouse_pos.y,
+                    dx = x - old_x,
+                    dy = y - old_y;
+    static bool     on_selection = false;
+
+    if (dx*dx > PRECISION ||
+        dy*dy > PRECISION) {
+        old_x = x;
+        old_y = y;
+        if ((y >= MENU_TOP && y < MENU_BOTTOM) &&
+            (x >= MENU_LEFT && x < MENU_RIGHT)) {
+            on_selection = true;
+            selection_ = (Menu::Selection)(((int)y - MENU_TOP)/RECT_HEIGHT);
+        }
+        else on_selection = false;
+    }
+
+    return on_selection;
 }
 
 void Menu::Select () {

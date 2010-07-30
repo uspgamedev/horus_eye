@@ -62,7 +62,8 @@ void ImageScene::End() {
 void ImageScene::Update(float delta_t) {
     Scene::Update(delta_t);
     InputManager *input = Engine::reference()->input_manager();
-    if (input->KeyPressed(K_RETURN) || input->KeyPressed(K_ESCAPE)) Finish();
+    if (input->KeyPressed(K_RETURN) || input->KeyPressed(K_ESCAPE) ||
+        input->MouseDown(M_BUTTON_LEFT)) Finish();
 
     if (time_ > 0) {
         if (scene_layers_[IMG]) {
