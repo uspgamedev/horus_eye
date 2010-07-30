@@ -67,9 +67,9 @@ void Wall::Update(float delta_t) {
             world->hero()->world_position().y <= this->world_position().y + 1.5 &&
             world->hero()->world_position().x >= this->world_position().x  &&
             world->hero()->world_position().x <= this->world_position().x + 1.5 ) {*/
-        if( distance.length() < 2.5f ) {
-            if( (wall_type_ == BOTTOM && -PI/4.0 < angle && angle < PI/4.0) ||
-                (wall_type_ == RIGHT && PI/4.0 < angle && angle < 3.0*PI/4.0) )
+        if( distance.length() < 2.5f &&
+                ((wall_type_ == BOTTOM && -PI/4.0 < angle && angle < PI/4.0) ||
+                (wall_type_ == RIGHT && PI/4.0 < angle && angle < 3.0*PI/4.0)) ) {
             SelectAnimation(transparent_animation_);
         } else {
             SelectAnimation(visible_animation_);
