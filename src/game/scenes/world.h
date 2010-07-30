@@ -46,7 +46,7 @@ class World : public framework::Scene {
     int CountRemainingEnemies();
     int max_enemies() { return max_enemies_; }
     void DecreaseEnemyCount() { remaining_enemies_--; }
-    void End() { this->RemoveAll(); }
+    void End();
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
     static Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
@@ -85,7 +85,7 @@ class World : public framework::Scene {
     void RemoveAll();
 
   private:
-    bool finished_game_;
+    bool finished_game_, good_end_;
 
 };  // class World
 

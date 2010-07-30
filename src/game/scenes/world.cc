@@ -12,6 +12,7 @@
 #include "../../framework/inputmanager.h"
 #include "../sprites/worldobject.h"
 #include "world.h"
+#include "imagescene.h"
 #include "../sprites/hero.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
@@ -117,6 +118,18 @@ void World::Update(float delta_t) {
 
 }
 
+void World::End() {
+    this->RemoveAll();
+    ImageScene *ending;
+    if (good_end_)
+        ending = new ImageScene(NULL, NULL, 5);
+    else
+        ending = new ImageScene(NULL, NULL, 5);
+    Engine::reference()->PushScene(ending);
+    set_visible(false);
+
+}
+
 // Nao nos importamos com a ordem dos WorldObjects nas listas;
 // Decidimos fazer as adicoes e remocoes no comeco das listas por padrao.
 void World::AddWorldObject(sprite::WorldObject* new_object) {
@@ -160,6 +173,7 @@ void World::AddDoor(framework::Vector2D &pos) {
 }
 
 void World::FinishLevel(bool goodEnd) {
+    good_end_ = goodEnd;
     finished_game_ = true;
 }
 
