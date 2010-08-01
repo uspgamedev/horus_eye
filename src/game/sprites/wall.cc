@@ -23,6 +23,7 @@ using namespace scene;
 #define WALL_WIDTH   106.0
 #define WALL_HEIGHT  157.0
 #define PI          3.1415926535897932384626433832795
+#define TRANSPARENCY_DISTANCE 1.5f
 
 Wall::Wall() {
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/stoneblock2.png"));
@@ -33,6 +34,10 @@ Wall::Wall() {
     collision_type_ = STATIC;
     SelectAnimation(visible_animation_);
     bound_ = new RectObject(1.0f, 1.0f);
+}
+Wall::~Wall() {
+    SelectAnimation(visible_animation_);
+    delete transparent_animation_;
 }
 
 void Wall::set_type(WallType walltype) {
@@ -63,17 +68,22 @@ void Wall::Update(float delta_t) {
     if(world->hero() != NULL) {
         Vector2D distance = world->hero()->world_position() - world_position();
         float angle = distance.angle();
-        /*if( world->hero()->world_position().y >= this->world_position().y - 1.5 &&
-            world->hero()->world_position().y <= this->world_position().y + 1.5 &&
-            world->hero()->world_position().x >= this->world_position().x  &&
-            world->hero()->world_position().x <= this->world_position().x + 1.5 ) {*/
-        if( distance.length() < 2.5f &&
-                ((wall_type_ == BOTTOM && -PI/4.0 < angle && angle < PI/4.0) ||
-                (wall_type_ == RIGHT && PI/4.0 < angle && angle < 3.0*PI/4.0)) ) {
-            SelectAnimation(transparent_animation_);
-        } else {
-            SelectAnimation(visible_animation_);
+        bool turnTransparent = false;
+        if( world->hero()->world_position().y >= this->world_position().y - TRANSPARENCY_DISTANCE &&
+            world->hero()->world_position().y <= this->world_position().y + TRANSPARENCY_DISTANCE &&
+            world->hero()->world_position().x >= this->world_position().x - TRANSPARENCY_DISTANCE &&
+            world->hero()->world_position().x <= this->world_position().x + TRANSPARENCY_DISTANCE ) {
+
+            turnTransparent |= wall_type_ == BOTTOM && (-PI/3.0 < angle && angle <     PI/3.0);
+            turnTransparent |= wall_type_ == RIGHT  && ( PI/6.0 < angle && angle < 5.0*PI/6.0);
+            turnTransparent |= (wall_type_ == BOTTOMRIGHT || wall_type_ == MIDDLE) &&
+                    (( PI/6.0 < angle && angle < 5.0*PI/6.0) | (-PI/3.0 < angle && angle < PI/3.0));
+
         }
+        if(turnTransparent)
+            SelectAnimation(transparent_animation_);
+        else
+            SelectAnimation(visible_animation_);
     }
 }
 

@@ -22,6 +22,7 @@ class Wall : public WorldObject {
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
     Wall();
+    ~Wall();
     virtual void Update(float dt);
     virtual void HandleCollision(WorldObject *);
     void set_type(WallType);
