@@ -1,21 +1,44 @@
-15 20
-W W W W W W W W W W W W W W W 
-W X X X M X X X X X X X X X W 
-W X M X X X X X X M X X X X W 
-W X X X X X X X M X M M X X W 
-W X M X X X X X X X X X X X W 
-W X X M X X X M X M X X X X W 
-W X X X X X X M X X X X X X W 
-W X X M X X X D D X X X X X W 
-W X X X X X M X M X X X X X W 
-W X X X M X X X X X X X X X W 
-W X X X X X M X X X X X X X W 
-W X X X X X X X X X X X X X W 
-W X X X X X X X X X X X X X W 
-W X X X X X X X X X X X X X W 
-W W X X X W W W W W W W W W W 
-O W X X X W O O O O O O O O O 
-O W X X X W O O O O O O O O O 
-O W X H X W O O O O O O O O O 
-O W X X X W O O O O O O O O O 
-O W W W W W O O O O O O O O O 
+65 43
+O O O O O W W W W W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W W W W W W X X X W W W W W W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W M X M M X X X X M X X D X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W X X X M M X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W M X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W M X X X X X X M X X M X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+W M X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O W W W W W O O O O O O O O O O O O O O O O O O O O 
+W X X X X M X X X M X X X X W W W W W W W W W W W W W W W W W W W W W O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O 
+W X X X X X X X M X X X X X W W X M X X X X X X X X X X X W W X X X W O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O 
+W M X X X X X X X X X M X X X X X X X X X X M X X X X X X W W X X X W O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O 
+W X M X X X X X X M X X X X X X X M X X X X X X M M M X X W W X X X W O O O O O W X X X W O O O O O O O O O O O O O O O O O O O O 
+W X X X X X X X X X X X X X X X X X X X X X X X X X X X X W W X X X W W W W W W W X X X W W W W W W O O O O O O O O O O O O O O O 
+W X X X X X X X X X X X X X W W X X X X X X X X X X X X X W W X X X W W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O 
+W W W W W W W W W W W W W W W W M X X X X X M X X M X X X X X X X X X X X X M X M X X M X X X X X W O O O O O O O O O O O O O O O 
+O O O O O O O O O O O O O O O W M X M X X X X X X X X X X X X X H X X X X X X X X X X X X X X X X W O O O O O O O O O O O O O O O 
+O O O O O O O O O O O O O O O W X X X X M X X X M X X X X X X X X X X X X X X M X X X X X X X X X W O O O O O O O O O O O O O O O 
+O O O O O O O O O O W W W W W W X X X X X X X X X X X X X W W W W W W W X M X X X X X X X X X X X W O O O O O O O O O O O O O O O 
+O O O O O O O O O O W X X X X X X X X X X X X X X X X X X W O O O O O W M X X X X X X X X X X X X W O O O O O O O O O O O O O O O 
+O O O O O O O O O O W X X X X X X X X X X X X X X X X X X W O O O O O W M X X X X X M M X X M X X W O O O O O O O O O O O O O O O 
+O O O O O O O O O O W X X X X X X X X X X X X X X X X X X W O O O O O W M X X X X X M X X X X X X W W W W W W W W W W W W W W W W 
+O O O O O O O O O O W W W W W W X X X X X X X X X X X X X W O O O O O W X X X X X M X X M X X X X W W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W W X X X W W W W W W W W W W O O O O O W X X M X X M X X X X X X X X X X X X X X X M X X X X X X W 
+O O O O O O O O O O O O O O O W W X X X W W W W W W W W W W O O O O O W X X X X X M X X X X M X X X X X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X M X M X X X X X X X X W O O O O O W X X X X X X X X X X X X X X X X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O W X X X X X X X X X X X X X W W X X X X X M X M X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X M X X X X X X W O O O O O W W W W W W W W W W X X X W W W M X X X X X X X X M X X X W 
+O O O O O O O O O O O O O O O W X M X X X X X X X X X X X W O O O O O O O O O O O O O O W X X X W O W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X M X X X M X X X X X W O O O O O O O O O O O O O O W X X X W O W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X M X X X X X X W O O O O O O O O O O O O O O W X X X W O W X X X M X X X X M X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O O O O O O O O O O W X X X W O W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X M X X X X X X W O O O O O O O O O O O O O O W W W W W O W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O W W W W W W W W W W W W W W W 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+O O O O O O O O O O O O O O O W X X X X X X X X X X X X X W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
+O O O O O O O O O O O O O O O W W W W W W W W W W W W W W W O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O O 
