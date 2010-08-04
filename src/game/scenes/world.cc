@@ -37,6 +37,7 @@ World::World() : Scene(), world_layer_(new framework::Layer()) {
     hud_ = new utils::Hud(this);
     AddLayer(hud_);
     finished_game_ = false;
+    player_exit_ = false;
 }
 
 // Destrutor
@@ -80,8 +81,7 @@ void World::Update(float delta_t) {
 
     InputManager *input_ = Engine::reference()->input_manager();
     if(input_->KeyDown(K_ESCAPE)) {
-    	//RemoveAll();
-        //Engine::reference()->quit();
+    	player_exit_ = true;
         Finish();
         return;
     }
@@ -121,12 +121,15 @@ void World::Update(float delta_t) {
 void World::End() {
     this->RemoveAll();
     ImageScene *ending;
-    if (good_end_)
-        ending = new ImageScene(NULL, NULL, 5);
-    else
-        ending = new ImageScene(NULL, NULL, 5);
-    Engine::reference()->PushScene(ending);
-    set_visible(false);
+    if (!player_exit_) {
+        Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
+        if (good_end_)
+            ending = new ImageScene(NULL, intro, 30);
+        else
+            ending = new ImageScene(NULL, intro, 30);
+        Engine::reference()->PushScene(ending);
+        set_visible(false);
+    }
 
 }
 

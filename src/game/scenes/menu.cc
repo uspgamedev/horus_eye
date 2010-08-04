@@ -84,12 +84,10 @@ void Menu::Update(float delta_t) {
     Select();
 
     if (input->KeyPressed(K_RETURN) ||
-        (on_selection && input->MouseDown(M_BUTTON_LEFT)))
+        (on_selection && input->MousePressed(M_BUTTON_LEFT)))
         Choose();
 
 }
-
-#define PRECISION 0
 
 bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
 
@@ -100,8 +98,7 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
                     dy = y - old_y;
     static bool     on_selection = false;
 
-    if (dx*dx > PRECISION ||
-        dy*dy > PRECISION) {
+    if (dx*dx > 0 || dy*dy > 0) {
         old_x = x;
         old_y = y;
         if ((y >= MENU_TOP && y < MENU_BOTTOM) &&

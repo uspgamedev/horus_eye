@@ -86,7 +86,7 @@ class World : public framework::Scene {
     void RemoveAll();
 
   private:
-    bool finished_game_, good_end_;
+    bool finished_game_, good_end_, player_exit_;
 
 };  // class World
 
