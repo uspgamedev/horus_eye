@@ -17,7 +17,7 @@
 //#include <algorithm>
 #include<queue>
 #define pbb pair<bool, bool>
-
+#define TIME_TO_THINK 0.1
 using namespace std;
 using namespace framework;
 
@@ -35,12 +35,13 @@ class Mummy : public Creature {
   private:
 
     TimeAccumulator *interval_;
+    float time_to_think_;
     Vector2D         last_direction_;
     queue<Vector2D> path_;
 
     virtual void Update(float delta_t);
     void StartAttack(Creature* obj);
-    void Think();
+    void Think(float dt);
     void UpdateDirection(Vector2D destiny);
     void RandomMovement();
     void PlayHitSound() const;

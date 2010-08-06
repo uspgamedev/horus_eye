@@ -26,6 +26,7 @@ LevelManager::LevelManager() {}
 void LevelManager::Initialize() {
     level_list_.push_back("data/levels/level_1.txt");
     level_list_.push_back("data/levels/level_2.txt");
+    level_list_.push_back("data/levels/level_test.txt");
     current_level_ = NULL;
     level_list_iterator_ = level_list_.begin();
     menu_ = new Menu;

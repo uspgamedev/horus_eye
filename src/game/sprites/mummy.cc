@@ -80,6 +80,7 @@ Mummy::Mummy(Image* img)  {
     this->SelectSpriteAnimation(last_standing_animation_, Vector2D(MUMMY_WIDTH, MUMMY_HEIGHT));
     set_hotspot(Vector2D(MUMMY_HOTSPOT_X, MUMMY_HOTSPOT_Y));
     is_attacking_ = false;
+    time_to_think_ = TIME_TO_THINK;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
@@ -152,11 +153,12 @@ void Mummy::UpdateDirection(Vector2D destiny){
 
 }
 
-void Mummy::Think() {
-    AStarStrategy strategy;
-    VisionStrategy vision;
-    if(path_.empty()) {
-        if(vision.IsVisible(world_position())){
+void Mummy::Think(float dt) {
+    time_to_think_ -= dt;
+    if(time_to_think_ <= 0){
+        time_to_think_ = TIME_TO_THINK;
+        VisionStrategy strategy;
+        if(strategy.IsVisible(world_position())){
             path_ = strategy.Calculate(world_position());
             UpdateDirection(path_.front());
         }
@@ -164,14 +166,25 @@ void Mummy::Think() {
             RandomMovement();
             last_standing_animation_ = *(standing_animations_[animation_direction_]);
         }
-    }
-    else{
-        if(GPdistance(path_.front(), world_position()) <= 0.05 || GPdistance(path_.front(),world_position()) >= 1.5){
+        /*
+
+        if(GPdistance(last_stable_position_,world_position()) <= 0.01 && !path_.empty()){
             path_.pop();
-            if(!path_.empty()){
+        }
+        else{
+            if(strategy.IsVisible(world_position()))
+                path_ = strategy.Calculate(world_position());
+            else if(GPdistance(path_.front(),world_position()) <= 0.5 && !path_.empty())
+                path_.pop();
+
+            if(!path_.empty()) {
                 UpdateDirection(path_.front());
             }
-        }
+            else {
+                RandomMovement();
+                last_standing_animation_ = *(standing_animations_[animation_direction_]);
+            }
+        }*/
     }
 }
 
@@ -183,7 +196,7 @@ void Mummy::Update(float delta_t) {
     Vector2D dir(0,0);
 
     if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
-        Think();
+        Think(delta_t);
 
         if (animation_direction_ & Animation_::UP)
             dir = dir + directions_[Direction_::UP];
