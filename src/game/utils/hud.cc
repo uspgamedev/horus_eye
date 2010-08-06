@@ -27,15 +27,15 @@ using namespace scene;
 
 #define EYE_WIDTH   50
 #define EYE_HEIGHT  50
-#define NUMBER_WIDTH 21
+#define NUMBER_WIDTH 18
 #define NUMBER_HEIGHT 16
 
 namespace utils {
 
 // Aviso: maximo de 99 mumias no display de inimigos restantes!
 Hud::Hud(World* world) : icon_count_(0) {
-    Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers.png");
-    Image* slash = VIDEO_MANAGER()->LoadImage("data/images/slash.png");
+    Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
+    Image* slash = VIDEO_MANAGER()->LoadImage("data/images/slash2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
     ImageFactory img_fac;
     Image* img = img_fac.LifeImage();
