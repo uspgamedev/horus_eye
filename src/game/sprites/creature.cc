@@ -115,21 +115,35 @@ void Creature::CollideWithRect(const RectObject *rect) {
     set_world_position(last_stable_position_);
 
     const CircleObject *circle = (const CircleObject*)bound_;
-    Vector2D    line(rect->width(), rect->height()),
+
+    // Sejam a, b, c e d os pontos dos cantos do retangulo rect partindo do
+    // inferior esquerdoe indo no sentido anti-horario.
+
+    Vector2D    // Vetor a->c.
+                line(rect->width(), rect->height()),
+                // Centro da circunferencia da criatura.
                 circ_pos = circle->position(),
+                // Centro do retangulo.
                 rect_pos = rect->position(),
+                // Pontos a, b, c e d.
                 rect_a = rect_pos - line*0.5,
                 rect_b = rect_a + Vector2D(line.x,0),
                 rect_c = rect_a + line,
                 rect_d = rect_a + Vector2D(0, line.y);
 
+    // Analisamos se o centro da circunferencia da criatura esta' abaixo ou
+    // acima das retas dadas por (a,1), (b,-1), (c,1) e (d,-1) (pares de ponto
+    // mais tangente) através da formula y - y0 = m(x - x0).
+    bool    // Indica se a criatura esta' abaixo do retangulo.
+            i = (circ_pos.y < rect_a.y + (circ_pos.x - rect_a.x)) &&
+                (circ_pos.y < rect_b.y - (circ_pos.x - rect_b.x)),
+            // Indica se a criatura esta' acima do retangulo.
+            j = (circ_pos.y > rect_c.y + (circ_pos.x - rect_c.x)) &&
+                (circ_pos.y > rect_d.y - (circ_pos.x - rect_d.x));
 
-    int i = (circ_pos.y < rect_a.y + (circ_pos.x - rect_a.x)) &&
-            (circ_pos.y < rect_b.y - (circ_pos.x - rect_b.x)),
-        j = (circ_pos.y > rect_c.y + (circ_pos.x - rect_c.x)) &&
-            (circ_pos.y > rect_d.y - (circ_pos.x - rect_d.x));
-
+    // Se esta' acima ou abaixo, cancela a componente y.
     if (i || j)  walking_direction_.y = 0;
+    // Caso contrario, esta' 'a esquerda ou 'a direita. Cancela a componente x.
     else         walking_direction_.x = 0;
 
     walking_direction_ = Vector2D::Normalized(walking_direction_);
