@@ -31,7 +31,7 @@ Creature::~Creature() {
     // Para evitar double free.
     SelectAnimation(NULL);
 
-    // Remove todas as animações.
+    // Remove todas as animaÃ§Ãµes.
     for (int i = 0; i < 8; i++) {
         delete *standing_animations_[direction_mapping_[i]];
         free(standing_animations_[direction_mapping_[i]]);
@@ -117,15 +117,20 @@ void Creature::CollideWithRect(const RectObject *rect) {
     const CircleObject *circle = (const CircleObject*)bound_;
     Vector2D    line(rect->width(), rect->height()),
                 circ_pos = circle->position(),
-                rect_pos = rect->position();
-    float tg = line.y/line.x;
+                rect_pos = rect->position(),
+                rect_a = rect_pos - line*0.5,
+                rect_b = rect_a + Vector2D(line.x,0),
+                rect_c = rect_a + line,
+                rect_d = rect_a + Vector2D(0, line.y);
 
 
-    int i = circ_pos.y < rect_pos.y + tg*(circ_pos.x - rect_pos.x),
-        j = circ_pos.y < rect_pos.y - tg*(circ_pos.x - rect_pos.x);
+    int i = (circ_pos.y < rect_a.y + (circ_pos.x - rect_a.x)) &&
+            (circ_pos.y < rect_b.y - (circ_pos.x - rect_b.x)),
+        j = (circ_pos.y > rect_c.y + (circ_pos.x - rect_c.x)) &&
+            (circ_pos.y > rect_d.y - (circ_pos.x - rect_d.x));
 
-    if ((i+j)%2) walking_direction_.x = 0;
-    else         walking_direction_.y = 0;
+    if (i || j)  walking_direction_.y = 0;
+    else         walking_direction_.x = 0;
 
     walking_direction_ = Vector2D::Normalized(walking_direction_);
 
