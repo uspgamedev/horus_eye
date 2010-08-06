@@ -70,8 +70,8 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
 
     vertex parnt[width][height];
 
-    vertex target = make_vertex(position.x+0.5,position.y+0.5,0);
-    vertex source = make_vertex(hero->world_position().x+0.5,hero->world_position().y+0.5,0);
+    vertex target = make_vertex(position.x + 0.5, position.y + 0.5, 0);
+    vertex source = make_vertex(hero->world_position().x + 0.5, hero->world_position().y + 0.5, 0);
 
     set<vertex> priority_queue;
     priority_queue.insert(source);
@@ -87,7 +87,6 @@ queue<Vector2D> AStarStrategy::Calculate(Vector2D position) {
         for(int d = 0;d < 8;d++){
             int xx = v.x + dx[d];
             int yy = v.y + dy[d];
-
             if(valid(xx,yy) && (dist[xx][yy] == -1 || dist[xx][yy] > v.cst + GPdistance(xx,yy,v.x,v.y))){
                 dist[xx][yy] = v.cst + GPdistance(xx,yy,v.x,v.y);
                 parnt[xx][yy] = v;

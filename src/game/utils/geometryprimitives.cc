@@ -16,6 +16,6 @@ double GPdistance(Vector2D a,Vector2D b){
 }
 
 double GPdistance(int ax,int ay,int bx,int by){
-    return sqrt((ax-bx) * (ax-bx) + (ay-by) * (ay-by));
+    return sqrt(double((ax-bx) * (ax-bx) + (ay-by) * (ay-by)));
 }
 }

@@ -105,6 +105,9 @@ void Mummy::CollidesWith(Projectile* obj) {
 }
 
 void Mummy::CollidesWith(Mummy * obj) {
+    Vector2D desvio = world_position() - obj->world_position();
+    walking_direction_ = walking_direction_ + desvio*0.9; 
+    walking_direction_ = Vector2D::Normalized(walking_direction_);
     //const RectObject *rect = (const RectObject*)obj->bound();
     //CollideWithRect(rect);
 }

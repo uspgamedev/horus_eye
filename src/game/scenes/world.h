@@ -62,7 +62,7 @@ class World : public framework::Scene {
     static Vector2D FromWorldCoordinates(Vector2D screen_coords);
 
     sprite::Hero * hero() { return hero_; }
-
+    vector<sprite::Mummy *> Mummies();
 
     int level_width();
     int level_height();
