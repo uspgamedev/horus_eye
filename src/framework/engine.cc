@@ -36,7 +36,7 @@ void Engine::Run() {
 
     while(!quit_) {
 
-        while (CurrentScene()->finished()) {
+        while (scene_list_.size() > 0 && CurrentScene()->finished()) {
             Scene *removed = CurrentScene();
             PopScene();
             delete removed;

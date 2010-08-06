@@ -11,6 +11,7 @@
 #include "../../framework/layer.h"
 #include "../../framework/sprite.h"
 #include "../../framework/inputmanager.h"
+#include "../utils/levelmanager.h"
 #include "../../framework/keys.h"
 
 namespace scene {
@@ -21,9 +22,10 @@ namespace scene {
 using namespace framework;
 
 ImageScene::ImageScene(framework::Image *background, framework::Image *image,
-                float time) : time_(time) {
+                float time, SceneType type) : time_(time) {
 
 
+    type_ = type;
     if (background) {
         scene_layers_[BG] = new Layer;
         AddLayer(scene_layers_[BG]); // [0] layer do fundo
@@ -63,7 +65,8 @@ void ImageScene::Update(float delta_t) {
     Scene::Update(delta_t);
     InputManager *input = Engine::reference()->input_manager();
     if (input->KeyPressed(K_RETURN) || input->KeyPressed(K_ESCAPE) ||
-        input->MousePressed(M_BUTTON_LEFT)) Finish();
+        input->KeyPressed(K_KP_ENTER) || input->MousePressed(M_BUTTON_LEFT))
+        utils::LevelManager::reference()->StartGame(type_);
 
     if (time_ > 0) {
         if (scene_layers_[IMG]) {
@@ -73,7 +76,7 @@ void ImageScene::Update(float delta_t) {
         }
         time_ -= delta_t;
     }
-    else Finish();
+    else utils::LevelManager::reference()->StartGame(type_);
 
 }
 

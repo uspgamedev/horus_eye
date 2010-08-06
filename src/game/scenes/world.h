@@ -16,13 +16,14 @@
 #include "../sprites/worldobject.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
+#include "../utils/levelmanager.h"
 
 namespace utils {
     class Hud;
 }
 namespace scene {
 
-#define WORLD() ((World *)Engine::reference()->CurrentScene())
+#define WORLD() (utils::LevelManager::reference()->get_current_level() )
 
 // Classe World
 // O World e' uma cena onde o jogo se desencadeara'. O World contem
@@ -43,10 +44,12 @@ class World : public framework::Scene {
     void AddMummy(framework::Vector2D&);
     void AddHero(framework::Vector2D&);
     void AddDoor(framework::Vector2D&);
-    void FinishLevel(bool);
     int CountRemainingEnemies();
     int max_enemies() { return max_enemies_; }
     void DecreaseEnemyCount() { remaining_enemies_--; }
+    void FinishLevel(utils::LevelManager::LevelState state) {
+        level_state_ = state;
+    }
     void End();
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
@@ -86,7 +89,8 @@ class World : public framework::Scene {
     void RemoveAll();
 
   private:
-    bool finished_game_, good_end_, player_exit_;
+    utils::LevelManager::LevelState level_state_;
+    bool good_end_, player_exit_;
 
 };  // class World
 

@@ -1,0 +1,8 @@
+7 7
+W W W W W W W
+W H X X X X W
+W X X X X X W
+W X X X X X W
+W X M X D D W
+W X X X X X W
+W W W W W W W

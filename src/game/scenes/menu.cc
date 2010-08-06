@@ -10,6 +10,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/inputmanager.h"
 #include "../utils/levelloader.h"
+#include "../utils/levelmanager.h"
 #include "../scenes/imagescene.h"
 
 namespace scene {
@@ -39,7 +40,7 @@ Menu::Menu () : selection_(SELECT_PLAY) {
     layer->AddSprite(select_rect_);
 
     for (int y, i = 0; i < Menu::SELECT_NUM; ++i) {
-        y = MENU_TOP + i*RECT_HEIGHT;
+        y = static_cast<int>(MENU_TOP + i*RECT_HEIGHT);
         select_pos_[i] = Vector2D(MENU_LEFT, y);
     }
 
@@ -120,19 +121,17 @@ void Menu::Choose () {
     switch (selection_) {
         case Menu::SELECT_PLAY: {
 
-            Engine *engine = Engine::reference();
+            //Engine *engine = Engine::reference();
+            /*
             World *world = new World;
             LevelLoader *loader = new LevelLoader(world);
             loader->Load("data/levels/level_test.txt");
             engine->PushScene(world);
             world->set_visible(false);
             delete loader;
-
-            Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-            engine->PushScene(new ImageScene(NULL, intro, 30));
-
+            */
             set_visible(false);
-
+            LevelManager::reference()->ShowIntro();
             break;
         }
         case Menu::SELECT_HELP: {

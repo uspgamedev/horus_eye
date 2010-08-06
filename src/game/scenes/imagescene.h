@@ -20,8 +20,14 @@ namespace scene {
 
 class ImageScene: public framework::Scene {
   public:
+    typedef enum {
+        INTRO,
+        ENDING,
+        GAMEOVER
+    } SceneType;
+
     ImageScene (framework::Image *background, framework::Image *image,
-                float time);
+                float time, SceneType type);
     virtual ~ImageScene ();
 
     void Update (float delta_t);
@@ -34,6 +40,7 @@ class ImageScene: public framework::Scene {
     float time_;
     framework::Layer *scene_layers_[2];
     framework::Vector2D movement_;
+    SceneType type_;
 };
 
 }

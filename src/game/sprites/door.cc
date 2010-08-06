@@ -10,6 +10,7 @@
 #include "../../framework/engine.h"
 #include "../scenes/world.h"
 #include "../utils/rectobject.h"
+#include "../utils/levelmanager.h"
 #include "../utils/constants.h"
 #include <iostream>
 
@@ -35,9 +36,9 @@ Door::Door() {
 }
 
 void Door::CollidesWith(Hero *hero) {
-    World *world = ((World*)Engine::reference()->CurrentScene());
+    World *world = WORLD();
     if (!world->CountRemainingEnemies())
-        world->FinishLevel(true);
+        world->FinishLevel(LevelManager::FINISH_WIN);
 }
 
 void Door::HandleCollision(WorldObject* obj) {

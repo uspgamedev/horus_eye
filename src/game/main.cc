@@ -9,18 +9,18 @@
 #include "sprites/hero.h"
 #include "../framework/vector2D.h"
 #include "scenes/world.h"
-#include "scenes/menu.h"
 #include "scenes/imagescene.h"
 #include "sprites/worldobject.h"
 #include "utils/levelloader.h"
+#include "utils/levelmanager.h"
 #include <iostream>
 using framework::Engine;
 using framework::Scene;
 using framework::Vector2D;
 using scene::World;
-using scene::Menu;
 using scene::ImageScene;
 using utils::LevelLoader;
+using utils::LevelManager;
 
 
 // funcao principal do programa
@@ -28,17 +28,9 @@ using utils::LevelLoader;
 // a engine com um World
 int main(int argc, char *argv[]) {
     Engine *engine = Engine::reference();
-    engine->Initialize("Horus Eye", Vector2D(1024, 768), false);
-
-    //World *world = new World;
-    //engine->PushScene(world);
-    //LevelLoader *loader = new LevelLoader(world);
-    //loader->Load("data/levels/level_test.txt");
-    engine->PushScene(new Menu);
+    engine->Initialize("Horus Eye", Vector2D(800, 600), false);
     engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
-
+    LevelManager::reference()->Initialize();
     engine->Run();
-
-    //engine->Release();
     return 0;
 }

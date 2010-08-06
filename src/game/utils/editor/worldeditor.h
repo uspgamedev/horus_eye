@@ -19,7 +19,7 @@ class TimeAccumulator;
 }
 namespace utils {
 
-#define WORLD() ((World *)Engine::reference()->CurrentScene())
+//#define WORLD() ((World *)Engine::reference()->CurrentScene())
 
 class EditorObject;
 

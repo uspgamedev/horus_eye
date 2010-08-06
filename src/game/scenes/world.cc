@@ -19,6 +19,7 @@
 #include "../sprites/mummy.h"
 #include "../sprites/door.h"
 #include "../utils/hud.h"
+#include "../utils/levelmanager.h"
 #include <cmath>
 #include <iostream>
 
@@ -36,7 +37,7 @@ World::World() : Scene(), world_layer_(new framework::Layer()) {
     remaining_enemies_ = max_enemies_ = 0;
     hud_ = new utils::Hud(this);
     AddLayer(hud_);
-    finished_game_ = false;
+    level_state_ = LevelManager::NOT_FINISHED;
     player_exit_ = false;
 }
 
@@ -81,8 +82,9 @@ void World::Update(float delta_t) {
 
     InputManager *input_ = Engine::reference()->input_manager();
     if(input_->KeyDown(K_ESCAPE)) {
-    	player_exit_ = true;
-        Finish();
+        LevelManager::reference()->FinishLevel(LevelManager::FINISH_QUIT);
+    	/*player_exit_ = true;
+        Finish();*/
         return;
     }
 
@@ -111,26 +113,17 @@ void World::Update(float delta_t) {
                 }
 
     RemoveInactiveObjects();
-    if (!hero_) FinishLevel(false);
-    if (finished_game_) {
-        Finish();
+    if (!hero_)
+        level_state_ = LevelManager::FINISH_DIE;
+    if (level_state_ != LevelManager::NOT_FINISHED) {
+        LevelManager::reference()->FinishLevel(level_state_);
+
     }
 
 }
 
 void World::End() {
     this->RemoveAll();
-    ImageScene *ending;
-    if (!player_exit_) {
-        Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-        if (good_end_)
-            ending = new ImageScene(NULL, intro, 30);
-        else
-            ending = new ImageScene(NULL, intro, 30);
-        Engine::reference()->PushScene(ending);
-        set_visible(false);
-    }
-
 }
 
 // Nao nos importamos com a ordem dos WorldObjects nas listas;
@@ -174,11 +167,6 @@ void World::AddDoor(framework::Vector2D &pos) {
     door->set_world_position(pos);
     this->AddWorldObject(door);
 
-}
-
-void World::FinishLevel(bool goodEnd) {
-    good_end_ = goodEnd;
-    finished_game_ = true;
 }
 
 int World::CountRemainingEnemies() {

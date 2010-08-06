@@ -23,7 +23,7 @@ using namespace scene;
 #define WALL_WIDTH   106.0
 #define WALL_HEIGHT  157.0
 #define PI          3.1415926535897932384626433832795
-#define TRANSPARENCY_DISTANCE 1.5f
+#define TRANSPARENCY_DISTANCE 2.0f
 
 Wall::Wall() {
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/stoneblock2.png"));
