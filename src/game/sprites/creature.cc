@@ -116,35 +116,29 @@ void Creature::CollideWithRect(const RectObject *rect) {
 
     const CircleObject *circle = (const CircleObject*)bound_;
 
-    // Sejam a, b, c e d os pontos dos cantos do retangulo rect partindo do
-    // inferior esquerdoe indo no sentido anti-horario.
-
-    Vector2D    // Vetor a->c.
-                line(rect->width(), rect->height()),
-                // Centro da circunferencia da criatura.
+    Vector2D    line(rect->width(), rect->height()),
                 circ_pos = circle->position(),
-                // Centro do retangulo.
-                rect_pos = rect->position(),
-                // Pontos a, b, c e d.
-                rect_a = rect_pos - line*0.5,
-                rect_b = rect_a + Vector2D(line.x,0),
-                rect_c = rect_a + line,
-                rect_d = rect_a + Vector2D(0, line.y);
+                rect_pos = rect->position();
+    float       left = rect_pos.x - line.x/2,
+                bottom = rect_pos.y - line.y/2,
+                right = left + line.x,
+                top = bottom + line.y;
 
-    // Analisamos se o centro da circunferencia da criatura esta' abaixo ou
-    // acima das retas dadas por (a,1), (b,-1), (c,1) e (d,-1) (pares de ponto
-    // mais tangente) através da formula y - y0 = m(x - x0).
-    bool    // Indica se a criatura esta' abaixo do retangulo.
-            i = (circ_pos.y < rect_a.y + (circ_pos.x - rect_a.x)) &&
-                (circ_pos.y < rect_b.y - (circ_pos.x - rect_b.x)),
-            // Indica se a criatura esta' acima do retangulo.
-            j = (circ_pos.y > rect_c.y + (circ_pos.x - rect_c.x)) &&
-                (circ_pos.y > rect_d.y - (circ_pos.x - rect_d.x));
-
-    // Se esta' acima ou abaixo, cancela a componente y.
-    if (i || j)  walking_direction_.y = 0;
-    // Caso contrario, esta' 'a esquerda ou 'a direita. Cancela a componente x.
-    else         walking_direction_.x = 0;
+    if (circ_pos.y < top && circ_pos.y > bottom)
+        walking_direction_.x = 0;
+    else if (circ_pos.x < right && circ_pos.x > left)
+        walking_direction_.y = 0;
+    else {
+        Vector2D point(left, bottom);
+        if (circ_pos.x > right) point.x  = right;
+        if (circ_pos.y > top)   point.y = top;
+        Vector2D dir = circ_pos - point,
+                 tg_dir(-dir.y, dir.x);
+        if (Vector2D::InnerProduct(walking_direction_, tg_dir) > 0)
+            walking_direction_ = tg_dir;
+        else
+            walking_direction_ = Vector2D()-tg_dir;
+    }
 
     walking_direction_ = Vector2D::Normalized(walking_direction_);
 
