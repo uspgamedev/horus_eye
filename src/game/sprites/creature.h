@@ -35,6 +35,9 @@ class Creature : public WorldObject , public Observer {
     // Colisoes
     virtual void CollidesWith(Wall *);
     virtual void CollidesWith(Door *);
+    virtual void CollidesWith(Creature *);
+    virtual void CollidesWith(Mummy *);
+    virtual void CollidesWith(Hero *);
 
     virtual void HandleCollision(WorldObject *);
 

@@ -31,7 +31,7 @@ class Mummy : public Creature {
     virtual void HandleCollision(WorldObject *);
     virtual void CollidesWith(Projectile *);
     virtual void CollidesWith(Hero *);
-    virtual void CollidesWith(Mummy *);
+    //virtual void CollidesWith(Mummy *);
   private:
 
     TimeAccumulator *interval_;

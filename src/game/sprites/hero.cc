@@ -84,6 +84,7 @@ Hero::Hero(Image* img) {
 }
 
 void Hero::CollidesWith(Mummy *obj) {
+    Creature::CollidesWith(obj);
     if(obj->is_attacking() && hit_duration_->Expired()) {
         --life_;
         hit_duration_->Restart(2000);

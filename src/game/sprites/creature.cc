@@ -8,6 +8,8 @@
 
 #include "creature.h"
 #include "worldobject.h"
+#include "mummy.h"
+#include "hero.h"
 #include "../utils/circleobject.h"
 
 #include <cmath>
@@ -153,7 +155,6 @@ void Creature::Tick() {
     }
 }
 
-
 void Creature::CollidesWith(Wall * obj) {
     const RectObject *rect = (const RectObject*)obj->bound();
     CollideWithRect(rect);
@@ -162,6 +163,42 @@ void Creature::CollidesWith(Wall * obj) {
 void Creature::CollidesWith(Door * obj) {
     const RectObject *rect = (const RectObject*)obj->bound();
     CollideWithRect(rect);
+}
+
+void Creature::CollidesWith(Creature *obj) {
+
+    const CircleObject *circle1 = (const CircleObject*)bound_,
+                       *circle2 = (const CircleObject*)obj->bound();
+
+    Vector2D dir = circle2->position() - circle1->position(),
+             tg_dir(-dir.y, dir.x);
+
+    if (Vector2D::InnerProduct(walking_direction_, dir) > 0) {
+
+        set_world_position(last_stable_position_);
+
+        if (Vector2D::InnerProduct(walking_direction_, tg_dir) > 0)
+            walking_direction_ = tg_dir;
+        else
+            walking_direction_ = Vector2D()-tg_dir;
+
+        walking_direction_ = Vector2D::Normalized(walking_direction_);
+
+    }
+
+}
+
+void Creature::CollidesWith(Mummy *obj) {
+
+    CollidesWith(static_cast<Creature*>(obj));
+
+}
+
+void Creature::CollidesWith(Hero *obj)  {
+
+
+    CollidesWith(static_cast<Creature*>(obj));
+
 }
 
 void Creature::HandleCollision(WorldObject* obj) {
