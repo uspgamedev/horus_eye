@@ -65,7 +65,7 @@ void ImageScene::Update(float delta_t) {
     Scene::Update(delta_t);
     InputManager *input = Engine::reference()->input_manager();
     if (input->KeyPressed(K_RETURN) || input->KeyPressed(K_ESCAPE) ||
-        input->KeyPressed(K_KP_ENTER) || input->MousePressed(M_BUTTON_LEFT))
+        input->KeyPressed(K_KP_ENTER) || input->MouseUp(M_BUTTON_LEFT))
         utils::LevelManager::reference()->StartGame(type_);
 
     if (time_ > 0) {

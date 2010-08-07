@@ -105,10 +105,13 @@ void Mummy::CollidesWith(Projectile* obj) {
 }
 
 void Mummy::CollidesWith(Hero* obj) {
-    Creature::CollidesWith(obj);
     if (status_ == WorldObject::STATUS_ACTIVE && !is_attacking_) StartAttack(obj);
 }
 
+void Mummy::CollidesWith(Mummy *obj) {
+    Vector2D deviation = Vector2D::Normalized(world_position() - obj->world_position());
+    walking_direction_ = Vector2D::Normalized(walking_direction_ + deviation*0.9);
+}
 
 void Mummy::StartAttack(Creature* obj) {
     double attackAngle = GetAttackingAngle(obj->position() - position());

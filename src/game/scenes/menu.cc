@@ -85,7 +85,7 @@ void Menu::Update(float delta_t) {
     Select();
 
     if (input->KeyPressed(K_RETURN) ||
-        (on_selection && input->MousePressed(M_BUTTON_LEFT)))
+        (on_selection && input->MouseUp(M_BUTTON_LEFT)))
         Choose();
 
 }
