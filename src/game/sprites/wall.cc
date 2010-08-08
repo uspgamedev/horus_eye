@@ -45,57 +45,35 @@ void Wall::set_type(WallType walltype) {
     SelectAnimation(visible_animation_);
     delete transparent_animation_;
     int type;
+    Vector2D topleft, botright(TRANSPARENCY_DISTANCE, TRANSPARENCY_DISTANCE);
     switch(wall_type_) {
     case MIDDLE:
         type = 4;
+        topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
         break;
     case RIGHT:
         type = 3;
+        topleft = Vector2D(-TRANSPARENCY_DISTANCE, 0);
         break;
     case BOTTOM:
         type = 2;
+        topleft = Vector2D(0, -TRANSPARENCY_DISTANCE);
         break;
     case BOTTOMRIGHT:
         type = 1;
+        topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
         break;
     }
     transparent_animation_ = new Animation(50, type, -1);
+    transparency_square_ = Square(topleft, botright);
 }
-
-class Square {
-  public:
-    Vector2D top_left_, bot_right_;
-    Square(Vector2D& top_left, Vector2D& bot_right) {
-        top_left_ = top_left;
-        bot_right_ = bot_right;
-    }
-
-    bool Contains(Vector2D pos) {
-        return (top_left_.x <= pos.x && pos.x <= bot_right_.x)
-                && (top_left_.y <= pos.y && pos.y <= bot_right_.y);
-    }
-};
 
 void Wall::Update(float delta_t) {
     WorldObject::Update(delta_t);
     World* world = WORLD();
     if(world->hero() != NULL) {
-        Vector2D topleft, botright(TRANSPARENCY_DISTANCE, TRANSPARENCY_DISTANCE);
-        switch(wall_type_) {
-        case BOTTOM:
-            topleft = Vector2D(0, -TRANSPARENCY_DISTANCE);
-            break;
-        case RIGHT:
-            topleft = Vector2D(-TRANSPARENCY_DISTANCE, 0);
-            break;
-        default:
-            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
-            break;
-        }
-        Square transpquare(topleft, botright);
-
         Vector2D distance = world->hero()->world_position() - world_position();
-        if(transpquare.Contains(distance))
+        if(transparency_square_.Contains(distance))
             SelectAnimation(transparent_animation_);
         else
             SelectAnimation(visible_animation_);
