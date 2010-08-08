@@ -41,6 +41,7 @@ class LevelManager {
     void FinishLevel(LevelState);
 
     scene::World* get_current_level() { return current_level_; }
+    void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
 
     ~LevelManager();
 
@@ -50,7 +51,7 @@ class LevelManager {
     scene::World* current_level_;
     scene::Menu* menu_;
     std::vector<std::string> level_list_;
-    std::vector<std::string>::iterator level_list_iterator_;
+    unsigned int level_list_iterator_;
 
     LevelManager();
 };

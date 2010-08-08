@@ -23,7 +23,7 @@ using namespace scene;
 #define WALL_WIDTH   106.0
 #define WALL_HEIGHT  157.0
 #define PI          3.1415926535897932384626433832795
-#define TRANSPARENCY_DISTANCE 2.0f
+#define TRANSPARENCY_DISTANCE 1.5f
 
 Wall::Wall() {
     Initialize(VIDEO_MANAGER()->LoadImage("data/images/stoneblock2.png"));
@@ -62,25 +62,40 @@ void Wall::set_type(WallType walltype) {
     transparent_animation_ = new Animation(50, type, -1);
 }
 
+class Square {
+  public:
+    Vector2D top_left_, bot_right_;
+    Square(Vector2D& top_left, Vector2D& bot_right) {
+        top_left_ = top_left;
+        bot_right_ = bot_right;
+    }
+
+    bool Contains(Vector2D pos) {
+        return (top_left_.x <= pos.x && pos.x <= bot_right_.x)
+                && (top_left_.y <= pos.y && pos.y <= bot_right_.y);
+    }
+};
+
 void Wall::Update(float delta_t) {
     WorldObject::Update(delta_t);
     World* world = WORLD();
     if(world->hero() != NULL) {
-        Vector2D distance = world->hero()->world_position() - world_position();
-        float angle = distance.angle();
-        bool turnTransparent = false;
-        if( world->hero()->world_position().y >= this->world_position().y - TRANSPARENCY_DISTANCE &&
-            world->hero()->world_position().y <= this->world_position().y + TRANSPARENCY_DISTANCE &&
-            world->hero()->world_position().x >= this->world_position().x - TRANSPARENCY_DISTANCE &&
-            world->hero()->world_position().x <= this->world_position().x + TRANSPARENCY_DISTANCE ) {
-
-            turnTransparent |= wall_type_ == BOTTOM && (-PI/3.0 < angle && angle <     PI/3.0);
-            turnTransparent |= wall_type_ == RIGHT  && ( PI/6.0 < angle && angle < 5.0*PI/6.0);
-            turnTransparent |= (wall_type_ == BOTTOMRIGHT || wall_type_ == MIDDLE) &&
-                    (( PI/6.0 < angle && angle < 5.0*PI/6.0) | (-PI/3.0 < angle && angle < PI/3.0));
-
+        Vector2D topleft, botright(TRANSPARENCY_DISTANCE, TRANSPARENCY_DISTANCE);
+        switch(wall_type_) {
+        case BOTTOM:
+            topleft = Vector2D(0, -TRANSPARENCY_DISTANCE);
+            break;
+        case RIGHT:
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE, 0);
+            break;
+        default:
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
+            break;
         }
-        if(turnTransparent)
+        Square transpquare(topleft, botright);
+
+        Vector2D distance = world->hero()->world_position() - world_position();
+        if(transpquare.Contains(distance))
             SelectAnimation(transparent_animation_);
         else
             SelectAnimation(visible_animation_);

@@ -14,6 +14,7 @@
 #include "../scenes/world.h"
 #include "../scenes/imagescene.h"
 #include "levelloader.h"
+#include <cstdio>
 
 using namespace framework;
 using namespace std;
@@ -24,11 +25,19 @@ namespace utils {
 LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
-    level_list_.push_back("data/levels/level_1.txt");
-    level_list_.push_back("data/levels/level_2.txt");
-    level_list_.push_back("data/levels/level_test.txt");
+    FILE* list = fopen("data/level_list.txt", "r");
+    if(list != NULL) {
+        while(!feof(list)) {
+            char filename[255];
+            fgets(filename, 255, list);
+            if(filename[strlen(filename)-1] == '\n')
+                filename[strlen(filename)-1] = '\0';
+            level_list_.push_back(filename);
+        }
+        fclose(list);
+    }
     current_level_ = NULL;
-    level_list_iterator_ = level_list_.begin();
+    level_list_iterator_ = 0;
     menu_ = new Menu;
     Engine::reference()->PushScene(menu_);
 }
@@ -63,7 +72,7 @@ void LevelManager::StartGame(ImageScene::SceneType type) {
         return;
     finishAndDeleteCurrentScene();
     if(type == ImageScene::INTRO) {
-        level_list_iterator_ = level_list_.begin();
+        level_list_iterator_ = 0;
         LoadNextLevel();
     }
 }
@@ -88,17 +97,18 @@ void LevelManager::FinishLevel(LevelState state) {
         return;
     case FINISH_WIN:
     case FINISH_WARP:
-        if(level_list_iterator_ == level_list_.end())
-            ShowEnding();
-        else
-            LoadNextLevel();
+        LoadNextLevel();
     }
 }
 
 void LevelManager::LoadNextLevel() {
+    if(level_list_iterator_ == level_list_.size()) {
+        ShowEnding();
+        return;
+    }
     current_level_ = new World;
     LevelLoader *loader = new LevelLoader(current_level_);
-    loader->Load(*level_list_iterator_);
+    loader->Load(level_list_.at(level_list_iterator_));
     Engine::reference()->PushScene(current_level_);
     delete loader;
 }

@@ -1,8 +1,22 @@
-7 7
-W W W W W W W
-W H X X X X W
-W X X X X X W
-W X X X X X W
-W X M X D D W
-W X X X X X W
-W W W W W W W
+21 21
+W W W W W W W W W W W W W W W W W W W W W
+W X X X X X X X X X X X X X X X X X X X W
+W X X X X X X X X X X X X X X X X X X X W
+W X X W W W W W W X X X W W W W W W X X W
+W X X W X X X X X X X X X X X X X W X X W
+W X X W X X X X X X X X X X X X X W X X W
+W X X W X X X X X X W X X X X X X W X X W
+W X X W X X X H X X W X X D D X X W X X W
+W X X X X X X X X X W X X X X X X W X X W
+W X X X X X X X X W W W X X X X X X X X W
+W X X X X X W W W W W W W W W X X X X X W
+W X X X X X X X X W W W X X X X X X X X W
+W X X W X X X X X X W X X X X X X W X X W
+W X X W X X X X X X W X X X X X X W X X W
+W X X W X X X X X X W X X X X X X W X X W
+W X X W X X X X X X X X X X X X X W X X W
+W X X W X X X X X X X X X X X X X W X X W
+W X X W W W W W W X X X W W W W W W X X W
+W X X X X X X X X X X X X X X X X X X X W
+W X X X X X X X X X X X X X X X X X X X W
+W W W W W W W W W W W W W W W W W W W W W
