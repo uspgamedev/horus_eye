@@ -81,6 +81,7 @@ Mummy::Mummy(Image* img)  {
     set_hotspot(Vector2D(MUMMY_HOTSPOT_X, MUMMY_HOTSPOT_Y));
     is_attacking_ = false;
     time_to_think_ = TIME_TO_THINK;
+    standing_ = true;
     speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
@@ -158,10 +159,11 @@ void Mummy::Think(float dt) {
         time_to_think_ = TIME_TO_THINK;
         VisionStrategy strategy;
         if(strategy.IsVisible(world_position())){
+            standing_ = false;
             path_ = strategy.Calculate(world_position());
             UpdateDirection(path_.front());
         }
-        else {
+        else if(!standing_){
             RandomMovement();
             last_standing_animation_ = *(standing_animations_[animation_direction_]);
         }

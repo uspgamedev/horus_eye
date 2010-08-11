@@ -36,6 +36,7 @@ class Mummy : public Creature {
 
     TimeAccumulator *interval_;
     float time_to_think_;
+    bool standing_;
     Vector2D         last_direction_;
     queue<Vector2D> path_;
 
