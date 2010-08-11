@@ -34,6 +34,7 @@ class Hero : public Creature{
     bool pressed_key_[4];
     double blink_time_;
     bool blink_;
+    float time_to_recover_speed_;
 
     virtual void Update(float delta_t);
     virtual void Render(Image *back_buffer, Vector2D &offset);

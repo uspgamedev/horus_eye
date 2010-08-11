@@ -13,7 +13,7 @@
 #include "../sprites/mummy.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
-
+#include<iostream>
 namespace utils {
 
 using namespace std;
@@ -29,26 +29,23 @@ using namespace framework;
 #define EMPTY   'O'
 
 void LevelLoader::LoadMatrix(string file_name) {
-
-    freopen(file_name.c_str(),"r",stdin);
-    
+    FILE* file = fopen(file_name.c_str(),"r");
     int width, height;
-    scanf("%d", &width);
-    scanf("%d", &height);
+    fscanf(file,"%d", &width);
+    fscanf(file,"%d", &height);
     char **matrix = new char*[height];
 
     for (int i = 0; i < height; i++) matrix[i] = new char[width];
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            scanf("\n %c \n", &matrix[i][j]);
+            fscanf(file,"\n %c \n", &matrix[i][j]);
         }
     }
     world_->set_level_width(width);
     world_->set_level_height(height);
     world_->set_level_matrix(matrix);
-
-
+    fclose(file);
 }
 /*
  * Le o arquivo de texto e passa as informa��es de que objetos criar, e onde,

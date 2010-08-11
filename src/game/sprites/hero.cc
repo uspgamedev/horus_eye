@@ -32,7 +32,7 @@ namespace sprite {
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 #define MAX_LIFE Constants::HERO_MAX_LIFE
 #define HERO_SPEED Constants::HERO_SPEED
-
+#define SPEED_TIME 0.1
 Hero::Hero(Image* img) {
     if(img == NULL){
         utils::ImageFactory img_fac;
@@ -77,6 +77,7 @@ Hero::Hero(Image* img) {
     is_attacking_ = false;
     speed_ = HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
+    time_to_recover_speed_ = SPEED_TIME;
     hit_duration_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
     blink_time_ = 0;
@@ -90,11 +91,13 @@ void Hero::CollidesWith(Mummy *obj) {
         blink_time_ = 0;
         Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
     }
-    if(life_ <= 0)
+    if(life_ <= 0) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
             this->SelectSpriteAnimation(dying_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
             this->status_ = WorldObject::STATUS_DYING;
         }
+    }
+    speed_ /= 1.19;
 }
 
 void Hero::HandleCollision(WorldObject* obj) {
@@ -165,6 +168,7 @@ void Hero::GetMouseState() {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
+    
     if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
         Creature::Move(this->GetWalkingDirection(), delta_t);
         this->GetKeys();
@@ -181,7 +185,7 @@ void Hero::Update(float delta_t) {
     else if (blink_) {
     	blink_ = false;
     }
-
+    speed_ = HERO_SPEED;
 }
 
 void Hero::Render(Image *back_buffer, Vector2D &offset) {

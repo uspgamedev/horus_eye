@@ -29,9 +29,7 @@ void LevelManager::Initialize() {
     if(list != NULL) {
         while(!feof(list)) {
             char filename[255];
-            fgets(filename, 255, list);
-            if(filename[strlen(filename)-1] == '\n')
-                filename[strlen(filename)-1] = '\0';
+            fscanf(list,"%s",filename);
             level_list_.push_back(filename);
         }
         fclose(list);
