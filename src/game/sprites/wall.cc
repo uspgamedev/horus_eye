@@ -44,25 +44,25 @@ void Wall::set_type(WallType walltype) {
     wall_type_ = walltype;
     SelectAnimation(visible_animation_);
     delete transparent_animation_;
-    int type;
+    int type = 1;
     Vector2D topleft, botright(TRANSPARENCY_DISTANCE, TRANSPARENCY_DISTANCE);
     switch(wall_type_) {
-    case MIDDLE:
-        type = 4;
-        topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
-        break;
-    case RIGHT:
-        type = 3;
-        topleft = Vector2D(-TRANSPARENCY_DISTANCE, 0);
-        break;
-    case BOTTOM:
-        type = 2;
-        topleft = Vector2D(0, -TRANSPARENCY_DISTANCE);
-        break;
-    case BOTTOMRIGHT:
-        type = 1;
-        topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
-        break;
+        case MIDDLE:
+            type = 4;
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
+            break;
+        case RIGHT:
+            type = 3;
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE, 0);
+            break;
+        case BOTTOM:
+            type = 2;
+            topleft = Vector2D(0, -TRANSPARENCY_DISTANCE);
+            break;
+        case BOTTOMRIGHT:
+            type = 1;
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
+            break;
     }
     transparent_animation_ = new Animation(50, type, -1);
     transparency_square_ = Square(topleft, botright);
