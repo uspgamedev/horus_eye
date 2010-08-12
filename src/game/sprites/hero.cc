@@ -26,8 +26,6 @@ namespace sprite {
 
 #define SQRT_3 1.7320508075688772935274463415059
 
-#define HERO_WIDTH  Constants::HERO_WIDTH
-#define HERO_HEIGHT Constants::HERO_HEIGHT
 #define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 #define MAX_LIFE Constants::HERO_MAX_LIFE
@@ -72,7 +70,7 @@ Hero::Hero(Image* img) {
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
     }
-    SelectSpriteAnimation(last_standing_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
+    SelectSpriteAnimation(last_standing_animation_);
     set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
     is_attacking_ = false;
     speed_ = HERO_SPEED;
@@ -93,7 +91,7 @@ void Hero::CollidesWith(Mummy *obj) {
     }
     if(life_ <= 0) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
-            this->SelectSpriteAnimation(dying_animation_, Vector2D(HERO_WIDTH, HERO_HEIGHT));
+            this->SelectSpriteAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
         }
     }
@@ -148,7 +146,7 @@ void Hero::StartAttack() {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex], Vector2D(HERO_WIDTH, HERO_HEIGHT));
+    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex]);
 
     World *world_ = ((World *)Engine::reference()->CurrentScene());
     // Ajuste da altura do projetil.
@@ -172,7 +170,7 @@ void Hero::Update(float delta_t) {
     if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
         Creature::Move(this->GetWalkingDirection(), delta_t);
         this->GetKeys();
-        this->SelectSpriteAnimation(*walking_animations_[animation_direction_], Vector2D(HERO_WIDTH, HERO_HEIGHT));
+        this->SelectSpriteAnimation(*walking_animations_[animation_direction_]);
         this->GetMouseState();
     }
     if (!hit_duration_->Expired()) {

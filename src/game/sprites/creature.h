@@ -42,10 +42,12 @@ class Creature : public WorldObject , public Observer {
     int animation_direction_;
     int direction_mapping_[8];
     bool is_attacking_;
+    bool is_taking_damage_;
     Animation *last_standing_animation_;
     Animation ** standing_animations_[16];
     Animation ** walking_animations_[16];
     Animation * attacking_animations_[8];
+    Animation * taking_damage_animation_;
     Animation * dying_animation_;
 
     Vector2D directions_[4];
@@ -71,7 +73,7 @@ class Creature : public WorldObject , public Observer {
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
     void Tick();
-    void SelectSpriteAnimation(Animation *animation, Vector2D frame_size);
+    void SelectSpriteAnimation(Animation *animation);
     double GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     void InitializeStandingAnimations();

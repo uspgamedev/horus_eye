@@ -149,8 +149,23 @@ Wall* World::AddWall(framework::Vector2D &pos) {
 	return wall;
 }
 
-void World::AddMummy(framework::Vector2D &pos) {
-	Mummy *mummy = new Mummy;
+void World::AddMummy(framework::Vector2D &pos, int type) {
+	Mummy *mummy = NULL;
+
+    switch (type) {
+        case 0:
+            mummy = mummy_builder_.standard_mummy();
+            break;
+
+        case 1:
+            mummy = mummy_builder_.big_mummy();
+            break;
+
+//        case 2:
+//            mummy = mummy_builder_.mage_mummy();
+//            break;
+    }
+            
 	mummy->set_world_position(pos);
 	this->AddWorldObject(mummy);
 	remaining_enemies_++;

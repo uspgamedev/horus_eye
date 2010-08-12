@@ -152,6 +152,7 @@ void Creature::Tick() {
     }
     else {
         is_attacking_ = false;
+        is_taking_damage_ = false;
     }
 }
 
@@ -185,8 +186,7 @@ double Creature::GetAttackingAngle(Vector2D targetDirection) {
     return radianAngle;
 }
 
-void Creature::SelectSpriteAnimation(Animation *animation, Vector2D frame_size) {
-    this->image()->set_frame_size(frame_size);
+void Creature::SelectSpriteAnimation(Animation *animation) {
     this->SelectAnimation(animation);
 }
 

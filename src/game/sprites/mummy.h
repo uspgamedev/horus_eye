@@ -14,10 +14,11 @@
 #include "../../framework/animation.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
-//#include <algorithm>
-#include<queue>
+#include <queue>
+
 #define pbb pair<bool, bool>
 #define TIME_TO_THINK 0.1
+
 using namespace std;
 using namespace framework;
 
@@ -32,6 +33,10 @@ class Mummy : public Creature {
     virtual void CollidesWith(Projectile *);
     virtual void CollidesWith(Hero *);
     virtual void CollidesWith(Mummy *);
+    
+    void set_speed(float speed);
+    void set_life(int life);
+    void set_bound(float radius);
   private:
 
     TimeAccumulator *interval_;

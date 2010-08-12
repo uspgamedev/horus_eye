@@ -21,12 +21,13 @@ using namespace scene;
 using namespace sprite;
 using namespace framework;
 
-#define WALL    'W'
-#define DOOR    'D'
-#define MUMMY   'M'
-#define HERO    'H'
-#define FLOOR   'X'
-#define EMPTY   'O'
+#define WALL      'W'
+#define DOOR      'D'
+#define MUMMY     'M'
+#define BIG_MUMMY 'B'
+#define HERO      'H'
+#define FLOOR     'X'
+#define EMPTY     'O'
 
 void LevelLoader::LoadMatrix(string file_name) {
     FILE* file = fopen(file_name.c_str(),"r");
@@ -104,6 +105,11 @@ void LevelLoader::Load(string file_name) {
                     }
                     case MUMMY: {
                         world_->AddMummy(position);
+                        world_->AddFloor(position);
+                        break;
+                    }
+                    case BIG_MUMMY: {
+                        world_->AddMummy(position, 1);
                         world_->AddFloor(position);
                         break;
                     }
