@@ -53,6 +53,7 @@ Hud::Hud(World* world) : icon_count_(0) {
                 LIFE_METER_OFFSET_X + VIDEO_MANAGER()->video_size().x - LIFE_IMAGE_WIDTH*(i+1),
                 LIFE_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - LIFE_IMAGE_HEIGHT));
         life_icons_[i]->SelectAnimation(animation_);
+        life_icons_[i]->set_visible(i < world->hero()->life());
         AddSprite(life_icons_[i]);
     }
 

@@ -30,13 +30,23 @@ namespace scene {
 using namespace framework;
 using namespace sprite;
 
-World::World() : Scene(), world_layer_(new framework::Layer()) {
+World::World() : Scene(), world_layer_(new framework::Layer()), fog_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
     hero_ = new Hero;
     this->AddWorldObject(hero_);
-    remaining_enemies_ = max_enemies_ = 0;
+
+    AddLayer(fog_layer_);
+
+    // Atualmente apenas o heroi "emite" luz, entao deixa aqui por enquanto.
+    Image* fog = WORLD()->CreateFogTransparency(VIDEO_MANAGER()->video_size(), VIDEO_MANAGER()->video_size() * 0.5f, 3);
+    hero_fog_ = new Sprite;
+    hero_fog_->Initialize(fog);
+    fog_layer_->AddSprite(hero_fog_);
+
     hud_ = new utils::Hud(this);
     AddLayer(hud_);
+
+    remaining_enemies_ = max_enemies_ = 0;
     level_state_ = LevelManager::NOT_FINISHED;
     player_exit_ = false;
 }
@@ -232,6 +242,10 @@ Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
 Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
     Vector2D transformed = FromWorldLinearCoordinates(world_coords);
     return (transformed * 60);
+}
+
+Image* World::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius) {
+    return VIDEO_MANAGER()->CreateFogTransparency(size, origin, Vector2D(0.5, 1), radius * 60);
 }
 
 } // namespace scene

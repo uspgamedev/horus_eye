@@ -12,24 +12,25 @@
 #include "../../framework/layer.h"
 #include "../scenes/world.h"
 
-using namespace scene;
+using framework::Sprite;
+using framework::Animation;
 
 namespace utils {
 class Hud: public framework::Layer {
   public:
-    Hud(World*);
+    Hud(scene::World*);
     virtual ~Hud();
 
     // Atualiza a camada e seus Sprites.
     virtual void Update(float delta_t);
 
   private:
-    framework::Sprite** life_icons_;
+    Sprite** life_icons_;
     int icon_count_;
-    framework::Sprite* enemy_counter_[5];
-    framework::Animation* enemy_animation_[5];
+    Sprite* enemy_counter_[5];
+    Animation* enemy_animation_[5];
     int enemy_counter_value_[5];
-    framework::Animation *animation_;
+    Animation *animation_;
 
 };
 

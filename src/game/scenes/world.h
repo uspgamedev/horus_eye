@@ -62,6 +62,8 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de mundo para de tela
     static Vector2D FromWorldCoordinates(Vector2D screen_coords);
 
+    static Image* CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius);
+
     sprite::Hero * hero() { return hero_; }
     vector<sprite::Mummy *> Mummies();
 
@@ -80,7 +82,8 @@ class World : public framework::Scene {
   protected:
     sprite::Hero *hero_;
     std::list<sprite::WorldObject*> world_objects_, collisionless_objects;
-    framework::Layer *world_layer_;
+    framework::Layer *world_layer_, *fog_layer_;
+    framework::Sprite *hero_fog_;
     utils::Hud *hud_;
     int level_width_, level_height_;
     char** level_matrix_;

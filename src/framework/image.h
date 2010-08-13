@@ -55,6 +55,9 @@ class Image {
 
     // apenas o VideoManager acessa
     bool CreateVideoSurface(const Vector2D& size, bool fullscreen);
+
+    // apenas o VideoManager acessa
+    bool CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef, float radius);
 };
 
 }  // namespace framework

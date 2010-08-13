@@ -130,4 +130,40 @@ bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
     return (data_ != NULL);
 }
 
+bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef, float radius) {
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
+    Uint32 flags = SDL_SRCALPHA;
+
+    // Cria uma superficie nova. Como nao tem como criar uma RGBA diretamente, cria primeiro uma RGB...
+    SDL_Surface* original_surface = SDL_CreateRGBSurface(flags, width, height, VideoManager::COLOR_DEPTH, 0, 0, 0, 0xff);
+    if(original_surface == NULL)
+        return false;
+
+    // E depois converte para RGBA
+    data_ = SDL_DisplayFormatAlpha(original_surface);
+    SDL_FreeSurface(original_surface);
+    if(data_ == NULL)
+        return false;
+
+    set_frame_size(Vector2D(this->width(), this->height()));
+
+    // Trava para poder manipular pixels
+    SDL_LockSurface(data_);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            Uint8 alpha = SDL_ALPHA_OPAQUE;
+
+            // Formula para detectar se o ponto ta na elipse e outras coisas. Melhorias por favor!
+            Vector2D dist = Vector2D(j, i) - origin;
+            float distance = Vector2D(dist.x*ellipse_coef.x, dist.y*ellipse_coef.y).length();
+            if(distance <= radius)
+                alpha = static_cast<Uint8>(SDL_ALPHA_OPAQUE * distance/radius);
+            (static_cast<Uint32*>(data_->pixels))[i * width + j] = SDL_MapRGBA(data_->format, 0, 0, 0, alpha);
+        }
+    }
+    SDL_UnlockSurface(data_);
+    return true;
+}
+
 }  // namespace framework

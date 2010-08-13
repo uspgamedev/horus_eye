@@ -145,6 +145,8 @@ void LevelLoader::Load(string file_name) {
             }
         }
     }
+    for (int i = 0; i < height; i++) delete wall_matrix[i];
+    delete wall_matrix;
 }
 
 } // namespace utils
