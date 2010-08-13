@@ -11,7 +11,6 @@
 #include "../scenes/world.h"
 #include "../utils/geometryprimitives.h"
 #include "../utils/visionstrategy.h"
-#include "../utils/astarstrategy.h"
 #include "../utils/constants.h"
 #include "mummy.h"
 #include "projectile.h"
