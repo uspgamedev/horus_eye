@@ -28,7 +28,6 @@ class Creature : public WorldObject , public Observer {
     Creature();
     virtual ~Creature();
 
-    bool is_attacking() { return is_attacking_; }
     int life() { return life_; }
     int max_life() { return  max_life_; }
     int mana() { return mana_; }
@@ -41,10 +40,9 @@ class Creature : public WorldObject , public Observer {
     virtual void HandleCollision(WorldObject *);
 
   protected:
+	bool waiting_animation_;
     int animation_direction_;
     int direction_mapping_[8];
-    bool is_attacking_;
-    bool is_taking_damage_;
     Animation *last_standing_animation_;
     Animation ** standing_animations_[16];
     Animation ** walking_animations_[16];

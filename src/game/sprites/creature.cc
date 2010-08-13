@@ -22,9 +22,12 @@ using namespace utils;
 
 namespace sprite {
 
-Creature::Creature() : WorldObject(),
-                     last_stable_position_(0, 0),
-                     hit_duration_(NULL) { this->collision_type_ = MOVEABLE; }
+Creature::Creature() : 	WorldObject() { 
+	last_stable_position_ = Vector2D(0,0);
+	hit_duration_ = NULL;
+	waiting_animation_ = false;
+	this->collision_type_ = MOVEABLE; 
+}
 
 Creature::~Creature() {
 
@@ -150,10 +153,7 @@ void Creature::Tick() {
     if (status_ == WorldObject::STATUS_DYING) {
             status_ = WorldObject::STATUS_DEAD;
     }
-    else {
-        is_attacking_ = false;
-        is_taking_damage_ = false;
-    }
+	waiting_animation_ = false;
 }
 
 void Creature::CollidesWith(Wall * obj) {

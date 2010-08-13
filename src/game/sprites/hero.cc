@@ -75,7 +75,6 @@ Hero::Hero(Image* img) {
     }
     SelectAnimation(last_standing_animation_);
     set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
-    is_attacking_ = false;
     speed_ = HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
@@ -155,7 +154,7 @@ void Hero::StartAttack() {
 
     double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    is_attacking_ = true;
+    waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 
@@ -171,17 +170,19 @@ void Hero::StartAttack() {
 
 bool Hero::GetMouseState() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_);
+    return input_->MouseDown(M_BUTTON_LEFT);
 }
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    if (this->GetMouseState())
-      this->StartAttack();
-    if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
-        Creature::Move(this->GetWalkingDirection(), delta_t);
-        this->GetKeys();
-        this->SelectAnimation(*walking_animations_[animation_direction_]);
+    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+		if (this->GetMouseState())
+			this->StartAttack();
+		if(!waiting_animation_){
+			Creature::Move(this->GetWalkingDirection(), delta_t);
+			this->GetKeys();
+			this->SelectAnimation(*walking_animations_[animation_direction_]);
+		}
     }
     if (!hit_duration_->Expired()) {
     	blink_time_ += delta_t;

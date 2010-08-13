@@ -71,8 +71,6 @@ Mummy::Mummy(Image* img) {
     dying_animation_->AddObserver(this);
 
     this->SelectAnimation(last_standing_animation_);
-    is_attacking_ = false;
-    is_taking_damage_ = false;
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new TimeAccumulator(0);
@@ -96,7 +94,7 @@ void Mummy::CollidesWith(Projectile* obj) {
         this->collision_type_ = WorldObject::NO_COLLISION;
         PlayHitSound();
     } else {
-        is_taking_damage_ = true;
+        waiting_animation_ = true;
         this->SelectAnimation(taking_damage_animation_);
     }
 }
@@ -112,7 +110,7 @@ void Mummy::CollidesWith(Mummy *obj) {
 void Mummy::StartAttack(Creature* obj) {
     double attackAngle = GetAttackingAngle(obj->position() - position());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    is_attacking_ = true;
+    waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
@@ -177,10 +175,10 @@ void Mummy::Update(float delta_t) {
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
-    if (!is_attacking_ && !is_taking_damage_ && status_ == WorldObject::STATUS_ACTIVE) {
+    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         Think(delta_t);
 
-		if(!is_attacking_) {
+		if(!waiting_animation_) {
 	        if (animation_direction_ & Animation_::UP)
 	            dir = dir + directions_[Direction_::UP];
 	        if (animation_direction_ & Animation_::DOWN)
