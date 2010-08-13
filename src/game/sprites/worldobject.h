@@ -20,6 +20,7 @@ class Mummy;
 class Projectile;
 class Wall;
 class Door;
+class LifePotion;
 
 // Classe WorldObject (abstrata)
 // Representa um objeto do mundo (um bonequinho, uma magia, etc)
@@ -53,6 +54,7 @@ class WorldObject : public framework::Sprite {
     virtual void CollidesWith(Hero* hero) {}
     virtual void CollidesWith(Projectile *projectile) {}
     virtual void CollidesWith(Mummy *mummy) {}
+    virtual void CollidesWith(LifePotion *lifepotion) {}
 
     virtual void CollidesWith(WorldObject* obj) {}
     // tratamento de colisao

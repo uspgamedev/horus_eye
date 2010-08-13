@@ -18,6 +18,7 @@
 #include "../sprites/wall.h"
 #include "../sprites/mummy.h"
 #include "../sprites/door.h"
+#include "../sprites/lifepotion.h"
 #include "../utils/hud.h"
 #include "../utils/levelmanager.h"
 #include <cmath>
@@ -195,6 +196,14 @@ void World::AddDoor(framework::Vector2D &pos) {
     door->set_world_position(pos);
     this->AddWorldObject(door);
 
+}
+
+void World::AddLifePotion(framework::Vector2D &pos) {
+    
+    LifePotion *lifepotion = new LifePotion;
+    lifepotion->set_world_position(pos);
+    this->AddWorldObject(lifepotion);
+    
 }
 
 int World::CountRemainingEnemies() {

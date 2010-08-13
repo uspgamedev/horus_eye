@@ -10,6 +10,7 @@
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
 #include "../utils/circleobject.h"
+#include "lifepotion.h"
 #include "hero.h"
 #include "projectile.h"
 #include "mummy.h"
@@ -31,6 +32,7 @@ namespace sprite {
 #define MAX_LIFE Constants::HERO_MAX_LIFE
 #define HERO_SPEED Constants::HERO_SPEED
 #define SPEED_TIME 0.1
+
 Hero::Hero(Image* img) {
     if(img == NULL){
         utils::ImageFactory img_fac;
@@ -96,6 +98,10 @@ void Hero::CollidesWith(Mummy *obj) {
         }
     }
     speed_ /= 1.19;
+}
+
+void Hero::CollidesWith(LifePotion *obj) {
+    life_ += obj->recoveramount();
 }
 
 void Hero::HandleCollision(WorldObject* obj) {

@@ -27,6 +27,7 @@ class Hero : public Creature{
     ~Hero() {} 
 
     virtual void CollidesWith(Mummy *);
+    virtual void CollidesWith(LifePotion *);
     virtual void HandleCollision(WorldObject *);
 
   private:

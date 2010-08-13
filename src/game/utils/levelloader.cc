@@ -28,6 +28,7 @@ using namespace framework;
 #define HERO      'H'
 #define FLOOR     'X'
 #define EMPTY     'O'
+#define POTIONL   'L'
 
 void LevelLoader::LoadMatrix(string file_name) {
     FILE* file = fopen(file_name.c_str(),"r");
@@ -54,11 +55,12 @@ void LevelLoader::LoadMatrix(string file_name) {
  * o tamanho do mapa seguida da matriz de simbolos associados aos tipos de
  * objeto a serem criados:
  * Wall     : W
- * Door     : D (nao implementado)
+ * Door     : D
  * Mummy    : M 
  * Hero     : H
  * Floor    : X
  * Empty    : O
+ * PotionL  : L
  */
 bool isWall(World* world_, int i, int j) {
     char **matrix = world_->level_matrix();
@@ -121,6 +123,11 @@ void LevelLoader::Load(string file_name) {
                         // Sem break de proposito.
                     }
                     case FLOOR: {
+                        world_->AddFloor(position);
+                        break;
+                    }
+                    case POTIONL: {
+                        world_->AddLifePotion(position);
                         world_->AddFloor(position);
                         break;
                     }
