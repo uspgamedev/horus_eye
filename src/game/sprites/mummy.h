@@ -37,7 +37,7 @@ class Mummy : public Creature {
     virtual void CollidesWith(Hero *);
     virtual void CollidesWith(Mummy *);
     
-    void set_speed(float speed) { speed_ = speed; }
+    void set_speed(float speed) { original_speed_ = speed_ = speed; }
     void set_life(int life) { life_ = life; }
 	void set_weapon(Weapon *weapon) { weapon_ = weapon; }
     void set_bound(float radius) {

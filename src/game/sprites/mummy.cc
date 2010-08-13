@@ -150,17 +150,21 @@ void Mummy::Think(float dt) {
     time_to_think_ -= dt;
     if(time_to_think_ <= 0){
         time_to_think_ = TIME_TO_THINK;
+		speed_ = original_speed_;
         VisionStrategy strategy;
         if(strategy.IsVisible(world_position())){
             standing_ = false;
-            path_ = strategy.Calculate(world_position());
-            UpdateDirection(path_.front());
-
+			
+			path_ = strategy.Calculate(world_position());
+			UpdateDirection(path_.front());
+			
 			Vector2D diff;
 			diff = path_.front() - world_position();
-			if(diff.length() <= weapon_->range())
+			if(diff.length() <= weapon_->range()){
 				weapon_->Attack();
-        }
+				speed_ = 0;
+			}
+		}
         else if(!standing_){
             RandomMovement();
             last_standing_animation_ = *(standing_animations_[animation_direction_]);

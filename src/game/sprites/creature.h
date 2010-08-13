@@ -86,7 +86,7 @@ class Creature : public WorldObject , public Observer {
     // variaveis
     Vector2D last_stable_position_;
     int   life_, max_life_, mana_, max_mana_;
-    float speed_, attack_cool_down_, attack_duration_;
+    float original_speed_, speed_, attack_cool_down_, attack_duration_;
     framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;
 

@@ -31,7 +31,6 @@ namespace sprite {
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 #define MAX_LIFE Constants::HERO_MAX_LIFE
 #define MAX_MANA Constants::HERO_MAX_MANA
-#define HERO_SPEED Constants::HERO_SPEED
 #define SPEED_TIME 0.1
 
 Hero::Hero(Image* img) {
@@ -75,7 +74,7 @@ Hero::Hero(Image* img) {
     }
     SelectAnimation(last_standing_animation_);
     set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
-    speed_ = HERO_SPEED;
+    original_speed_ = speed_ = Constants::HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
     time_to_recover_speed_ = SPEED_TIME;
@@ -194,7 +193,7 @@ void Hero::Update(float delta_t) {
     else if (blink_) {
     	blink_ = false;
     }
-    speed_ = HERO_SPEED;
+    speed_ = original_speed_;
 }
 
 void Hero::Render(Image *back_buffer, Vector2D &offset) {
