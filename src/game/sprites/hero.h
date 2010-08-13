@@ -39,7 +39,7 @@ class Hero : public Creature{
     virtual void Update(float delta_t);
     virtual void Render(Image *back_buffer, Vector2D &offset);
     void StartAttack();
-    void GetMouseState();
+    bool GetMouseState();
     void GetKeys();
 };
 

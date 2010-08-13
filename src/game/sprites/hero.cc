@@ -158,20 +158,19 @@ void Hero::StartAttack() {
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
-void Hero::GetMouseState() {
+bool Hero::GetMouseState() {
     InputManager *input_ = Engine::reference()->input_manager();
-    if (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_)
-        StartAttack();
+    return (input_->MouseDown(M_BUTTON_LEFT) && !is_attacking_);
 }
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    
+    if (this->GetMouseState())
+      this->StartAttack();
     if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
         Creature::Move(this->GetWalkingDirection(), delta_t);
         this->GetKeys();
         this->SelectSpriteAnimation(*walking_animations_[animation_direction_]);
-        this->GetMouseState();
     }
     if (!hit_duration_->Expired()) {
     	blink_time_ += delta_t;
