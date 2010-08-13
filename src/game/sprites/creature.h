@@ -31,6 +31,8 @@ class Creature : public WorldObject , public Observer {
     bool is_attacking() { return is_attacking_; }
     int life() { return life_; }
     int max_life() { return  max_life_; }
+    int mana() { return mana_; }
+    int max_mana() { return  max_mana_; }
 
     // Colisoes
     virtual void CollidesWith(Wall *);
@@ -86,7 +88,7 @@ class Creature : public WorldObject , public Observer {
 
     // variaveis
     Vector2D last_stable_position_;
-    int   life_, max_life_;
+    int   life_, max_life_, mana_, max_mana_;
     float speed_, attack_cool_down_, attack_duration_;
     framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;

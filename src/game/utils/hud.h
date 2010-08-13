@@ -25,12 +25,16 @@ class Hud: public framework::Layer {
     virtual void Update(float delta_t);
 
   private:
-    Sprite** life_icons_;
-    int icon_count_;
+    //Sprite** life_icons_;
+    Sprite* life_bar_[2]; // 0-> Barra atual;  1->Barra do fundo;
+    Image* life_bar_images_[2];
+    Sprite* mana_bar_[2]; // 0-> Barra atual;  1->Barra do fundo;
+    Image* mana_bar_images_[2];
+    //int icon_count_;
     Sprite* enemy_counter_[5];
     Animation* enemy_animation_[5];
     int enemy_counter_value_[5];
-    Animation *animation_;
+    //Animation *animation_;
 
 };
 
