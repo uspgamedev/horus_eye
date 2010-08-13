@@ -14,6 +14,7 @@
 #include "../../framework/animation.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
+#include "../utils/circleobject.h"
 #include <queue>
 
 #define pbb pair<bool, bool>
@@ -23,6 +24,8 @@ using namespace std;
 using namespace framework;
 
 namespace sprite {
+
+class Weapon;
 
 class Mummy : public Creature {
 
@@ -34,19 +37,26 @@ class Mummy : public Creature {
     virtual void CollidesWith(Hero *);
     virtual void CollidesWith(Mummy *);
     
-    void set_speed(float speed);
-    void set_life(int life);
-    void set_bound(float radius);
+    void set_speed(float speed) { speed_ = speed; }
+    void set_life(int life) { life_ = life; }
+	void set_weapon(Weapon *weapon) { weapon_ = weapon; }
+    void set_bound(float radius) {
+		if(bound_ != NULL)
+			delete bound_;
+		bound_ = new CircleObject(radius);
+	}
+
+    void StartAttack(Creature* obj);
   private:
 
     TimeAccumulator *interval_;
     float time_to_think_;
     bool standing_;
-    Vector2D         last_direction_;
+    Vector2D last_direction_;
+	Weapon *weapon_;
     queue<Vector2D> path_;
 
     virtual void Update(float delta_t);
-    void StartAttack(Creature* obj);
     void Think(float dt);
     void UpdateDirection(Vector2D destiny);
     void RandomMovement();

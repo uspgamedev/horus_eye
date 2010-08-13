@@ -186,8 +186,4 @@ double Creature::GetAttackingAngle(Vector2D targetDirection) {
     return radianAngle;
 }
 
-void Creature::SelectSpriteAnimation(Animation *animation) {
-    this->SelectAnimation(animation);
-}
-
 }  // namespace sprite

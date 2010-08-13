@@ -1,11 +1,22 @@
 #include "mummybuilder.h"
+#include "mummyweapon.h"
 #include "../utils/imagefactory.h"
 
 using namespace sprite;
 using namespace utils;
 
 Mummy * MummyBuilder::standard_mummy() {
-    return new Mummy();
+    ImageFactory image_factory;
+	Image* mummy_image = image_factory.MummyImage();
+    Mummy* mummy = new Mummy(mummy_image);
+	mummy->set_life(Constants::MUMMY_LIFE);
+	mummy->set_speed(Constants::MUMMY_SPEED);
+	mummy->set_weapon(new MummyWeapon(mummy));
+	mummy->set_bound(Constants::MUMMY_RADIUS);
+	mummy->set_hotspot(Vector2D(mummy_image->frame_size().x / 2.0, 
+								mummy_image->frame_size().y*6.0 / 7.0));
+
+	return mummy;
 }
 
 Mummy * MummyBuilder::big_mummy() {
@@ -14,9 +25,11 @@ Mummy * MummyBuilder::big_mummy() {
     Mummy *mummy = new Mummy(big_mummy_image);
     mummy->set_life(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
+	mummy->set_weapon(new MummyWeapon(mummy));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
 	mummy->set_hotspot(Vector2D(big_mummy_image->frame_size().x / 2.0, 
 								big_mummy_image->frame_size().y*6.0 / 7.0));
 
     return mummy;
 }
+

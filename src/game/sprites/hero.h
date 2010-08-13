@@ -25,7 +25,7 @@ class Hero : public Creature{
   public:
     Hero(Image* img = NULL);
     ~Hero() {} 
-
+	void TakeDamage(int life_points = 1);
     virtual void CollidesWith(Mummy *);
     virtual void CollidesWith(LifePotion *);
     virtual void HandleCollision(WorldObject *);

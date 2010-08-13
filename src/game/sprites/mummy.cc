@@ -9,14 +9,13 @@
 
 
 #include "../scenes/world.h"
-#include "../utils/imagefactory.h"
 #include "../utils/geometryprimitives.h"
-#include "../utils/circleobject.h"
 #include "../utils/visionstrategy.h"
 #include "../utils/astarstrategy.h"
 #include "../utils/constants.h"
 #include "mummy.h"
 #include "projectile.h"
+#include "weapon.h"
 #include <cmath>
 #include <iostream>
 #include <sstream>
@@ -30,8 +29,6 @@ namespace sprite {
 
 #define SQRT_3 1.7320508075688772935274463415059
 #define EXP_PARAM (1.0)
-#define MUMMY_HOTSPOT_X Constants::HERO_HOTSPOT_X
-#define MUMMY_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
@@ -40,12 +37,9 @@ static int WaitingTime () {
 
 }
 
-Mummy::Mummy(Image* img)  {
-    if(img == NULL){
-        utils::ImageFactory img_fac;
-        img = img_fac.MummyImage();
-    }
+Mummy::Mummy(Image* img) {
     Initialize(img);
+	bound_ = NULL;
 
     World *world = ((World *)Engine::reference()->CurrentScene());
     directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
@@ -77,20 +71,17 @@ Mummy::Mummy(Image* img)  {
     taking_damage_animation_->AddObserver(this);
     dying_animation_->AddObserver(this);
 
-    this->SelectSpriteAnimation(last_standing_animation_);
-    set_hotspot(Vector2D(MUMMY_HOTSPOT_X, MUMMY_HOTSPOT_Y));
+    this->SelectAnimation(last_standing_animation_);
     is_attacking_ = false;
     is_taking_damage_ = false;
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
-    speed_ = 2.0f;
     interval_ = new TimeAccumulator(0);
-    bound_ = new CircleObject(0.3f);
-    life_ = 1;
 }
 
 Mummy::~Mummy() {
     if (interval_) delete interval_;
+	delete weapon_;
 	((World*)(Engine::reference()->CurrentScene()))->DecreaseEnemyCount();
 }
 
@@ -101,18 +92,17 @@ void Mummy::HandleCollision(WorldObject* obj) {
 void Mummy::CollidesWith(Projectile* obj) {
     life_--;
     if (life_ == 0) {
-        this->SelectSpriteAnimation(dying_animation_);
+        this->SelectAnimation(dying_animation_);
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;
         PlayHitSound();
     } else {
         is_taking_damage_ = true;
-        this->SelectSpriteAnimation(taking_damage_animation_);
+        this->SelectAnimation(taking_damage_animation_);
     }
 }
 
 void Mummy::CollidesWith(Hero* obj) {
-    if (status_ == WorldObject::STATUS_ACTIVE && !is_attacking_) StartAttack(obj);
 }
 
 void Mummy::CollidesWith(Mummy *obj) {
@@ -125,7 +115,7 @@ void Mummy::StartAttack(Creature* obj) {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex]);
+    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
 void Mummy::RandomMovement(){
@@ -168,6 +158,11 @@ void Mummy::Think(float dt) {
             standing_ = false;
             path_ = strategy.Calculate(world_position());
             UpdateDirection(path_.front());
+
+			Vector2D diff;
+			diff = path_.front() - world_position();
+			if(diff.length() <= weapon_->range())
+				weapon_->Attack();
         }
         else if(!standing_){
             RandomMovement();
@@ -186,18 +181,20 @@ void Mummy::Update(float delta_t) {
     if (!is_attacking_ && !is_taking_damage_ && status_ == WorldObject::STATUS_ACTIVE) {
         Think(delta_t);
 
-        if (animation_direction_ & Animation_::UP)
-            dir = dir + directions_[Direction_::UP];
-        if (animation_direction_ & Animation_::DOWN)
-            dir = dir + directions_[Direction_::DOWN];
-        if (animation_direction_ & Animation_::LEFT)
-            dir = dir + directions_[Direction_::LEFT];
-        if (animation_direction_ & Animation_::RIGHT)
-            dir = dir + directions_[Direction_::RIGHT];
+		if(!is_attacking_) {
+	        if (animation_direction_ & Animation_::UP)
+	            dir = dir + directions_[Direction_::UP];
+	        if (animation_direction_ & Animation_::DOWN)
+	            dir = dir + directions_[Direction_::DOWN];
+	        if (animation_direction_ & Animation_::LEFT)
+	            dir = dir + directions_[Direction_::LEFT];
+	        if (animation_direction_ & Animation_::RIGHT)
+	            dir = dir + directions_[Direction_::RIGHT];
 
-        Creature::Move(this->GetWalkingDirection(), delta_t);
-        walking_direction_ = last_direction_;
-        this->SelectSpriteAnimation(*walking_animations_[animation_direction_]);
+	        Creature::Move(this->GetWalkingDirection(), delta_t);
+	        walking_direction_ = last_direction_;
+	        this->SelectAnimation(*walking_animations_[animation_direction_]);
+		}
     }
 
 }
@@ -208,21 +205,6 @@ void Mummy::PlayHitSound() const {
 
     ss << "data/samples/hit" << id << ".wav";
     Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
-}
-
-void Mummy::set_speed(float speed) {
-    speed_ = speed;
-}
-
-void Mummy::set_life(int life) {
-    life_ = life;
-}
-
-void Mummy::set_bound(float radius) {
-    if (bound_ != NULL) {
-        delete bound_;
-    }
-    bound_ = new CircleObject(radius);
 }
 
 }

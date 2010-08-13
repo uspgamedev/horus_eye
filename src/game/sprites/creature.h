@@ -75,7 +75,6 @@ class Creature : public WorldObject , public Observer {
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
     void Tick();
-    void SelectSpriteAnimation(Animation *animation);
     double GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     void InitializeStandingAnimations();

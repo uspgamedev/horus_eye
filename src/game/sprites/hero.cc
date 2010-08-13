@@ -73,7 +73,7 @@ Hero::Hero(Image* img) {
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
     }
-    SelectSpriteAnimation(last_standing_animation_);
+    SelectAnimation(last_standing_animation_);
     set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
     is_attacking_ = false;
     speed_ = HERO_SPEED;
@@ -86,20 +86,23 @@ Hero::Hero(Image* img) {
     blink_ = false;
 }
 
-void Hero::CollidesWith(Mummy *obj) {
-    if(obj->is_attacking() && hit_duration_->Expired()) {
-        --life_;
+void Hero::TakeDamage(int life_points) {
+	if(hit_duration_->Expired()) {
+        life_ -= life_points;
         hit_duration_->Restart(2000);
         blink_time_ = 0;
         Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
     }
     if(life_ <= 0) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
-            this->SelectSpriteAnimation(dying_animation_);
+            this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
         }
     }
-    speed_ /= 1.19;
+}
+
+void Hero::CollidesWith(Mummy *obj) {
+   speed_ /= 1.19;
 }
 
 void Hero::CollidesWith(LifePotion *obj) {
@@ -154,7 +157,7 @@ void Hero::StartAttack() {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     is_attacking_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectSpriteAnimation(attacking_animations_[attackAnimationIndex]);
+    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 
     World *world_ = ((World *)Engine::reference()->CurrentScene());
     // Ajuste da altura do projetil.
@@ -178,7 +181,7 @@ void Hero::Update(float delta_t) {
     if (!is_attacking_ && status_ == WorldObject::STATUS_ACTIVE) {
         Creature::Move(this->GetWalkingDirection(), delta_t);
         this->GetKeys();
-        this->SelectSpriteAnimation(*walking_animations_[animation_direction_]);
+        this->SelectAnimation(*walking_animations_[animation_direction_]);
     }
     if (!hit_duration_->Expired()) {
     	blink_time_ += delta_t;

@@ -45,6 +45,8 @@ class Constants {
                        DOOR_SPRITE_WIDTH = 153,
                        DOOR_SPRITE_HEIGHT = 109,
 
+					   MUMMY_LIFE = 1,
+
                        BIG_MUMMY_LIFE = 3;
 
     const static float DOOR_HOTSPOT_WIDTH = 153.0f/2.0f,
@@ -59,6 +61,9 @@ class Constants {
 
                        HERO_SPEED = 3.0f,
                        PROJECTILE_SPEED = 8.0f,
+
+					   MUMMY_RADIUS = 0.3f,
+					   MUMMY_SPEED = 2.0f,
 
                        BIG_MUMMY_RADIUS = 0.5f,
                        BIG_MUMMY_SPEED = 1.7f;
