@@ -67,11 +67,12 @@ Hud::Hud(World* world) {
     //Criando sprites da life bar
     life_bar_[0] = new Sprite;
     life_bar_images_[0] = new Image;
-    life_bar_images_[0]->Create(Vector2D(LIFE_BAR_WIDTH, LIFE_BAR_HEIGHT));
+    float bar_width = ((float)world->hero()->life() * LIFE_BAR_WIDTH) / ((float)world->hero()->max_life());
+    life_bar_images_[0]->Create(Vector2D(bar_width, LIFE_BAR_HEIGHT));
     life_bar_images_[0]->Clear(0x00FF0000);
     life_bar_[0]->Initialize(life_bar_images_[0]);
     life_bar_[0]->set_position(Vector2D(
-            LIFE_METER_OFFSET_X + VIDEO_MANAGER()->video_size().x - LIFE_BAR_WIDTH,
+            LIFE_METER_OFFSET_X + VIDEO_MANAGER()->video_size().x - bar_width,
             LIFE_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - LIFE_BAR_HEIGHT));
 
     life_bar_[1] = new Sprite;
@@ -88,7 +89,8 @@ Hud::Hud(World* world) {
     //Criando sprites da mana bar
     mana_bar_[0] = new Sprite;
     mana_bar_images_[0] = new Image;
-    mana_bar_images_[0]->Create(Vector2D(MANA_BAR_WIDTH, MANA_BAR_HEIGHT));
+    bar_width = ((float)world->hero()->mana() * MANA_BAR_WIDTH) / ((float)world->hero()->max_mana());
+    mana_bar_images_[0]->Create(Vector2D(bar_width, MANA_BAR_HEIGHT));
     mana_bar_images_[0]->Clear(0x000000FF);
     mana_bar_[0]->Initialize(mana_bar_images_[0]);
     mana_bar_[0]->set_position(Vector2D(
