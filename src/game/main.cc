@@ -28,7 +28,7 @@ using utils::LevelManager;
 // a engine com um World
 int main(int argc, char *argv[]) {
     Engine *engine = Engine::reference();
-    engine->Initialize("Horus Eye", Vector2D(800, 600), false);
+    engine->Initialize("Horus Eye", Vector2D(1280, 720), true);
     engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
     LevelManager::reference()->Initialize();
     engine->Run();

@@ -9,6 +9,7 @@
 #include "image.h"
 #include "frame.h"
 #include "videomanager.h"
+#include <cmath>
 
 namespace framework {
 
@@ -130,7 +131,7 @@ bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
     return (data_ != NULL);
 }
 
-bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef, float radius) {
+bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef) {
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
     Uint32 flags = SDL_SRCALPHA;
@@ -156,9 +157,11 @@ bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, 
 
             // Formula para detectar se o ponto ta na elipse e outras coisas. Melhorias por favor!
             Vector2D dist = Vector2D(j, i) - origin;
-            float distance = Vector2D(dist.x*ellipse_coef.x, dist.y*ellipse_coef.y).length();
-            if(distance <= radius)
-                alpha = static_cast<Uint8>(SDL_ALPHA_OPAQUE * distance/radius);
+            dist.x /= ellipse_coef.x;
+            dist.y /= ellipse_coef.y;
+            float distance = Vector2D::InnerProduct(dist, dist);
+            if(distance <= 1)
+                alpha -= static_cast<Uint8>(SDL_ALPHA_OPAQUE * exp(-distance * 5.5412635451584261462455391880218));
             (static_cast<Uint32*>(data_->pixels))[i * width + j] = SDL_MapRGBA(data_->format, 0, 0, 0, alpha);
         }
     }

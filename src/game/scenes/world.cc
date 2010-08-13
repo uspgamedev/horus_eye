@@ -38,7 +38,7 @@ World::World() : Scene(), world_layer_(new framework::Layer()), fog_layer_(new f
     AddLayer(fog_layer_);
 
     // Atualmente apenas o heroi "emite" luz, entao deixa aqui por enquanto.
-    Image* fog = WORLD()->CreateFogTransparency(VIDEO_MANAGER()->video_size(), VIDEO_MANAGER()->video_size() * 0.5f, 3);
+    Image* fog = WORLD()->CreateFogTransparency(VIDEO_MANAGER()->video_size(), VIDEO_MANAGER()->video_size() * 0.5f, 5);
     hero_fog_ = new Sprite;
     hero_fog_->Initialize(fog);
     fog_layer_->AddSprite(hero_fog_);
@@ -248,7 +248,7 @@ Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
 }
 
 Image* World::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius) {
-    return VIDEO_MANAGER()->CreateFogTransparency(size, origin, Vector2D(0.5, 1), radius * 60);
+    return VIDEO_MANAGER()->CreateFogTransparency(size, origin, Vector2D(2, 1) * radius * 60);
 }
 
 } // namespace scene

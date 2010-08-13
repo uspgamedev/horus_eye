@@ -77,10 +77,10 @@ Image* VideoManager::LoadImage(const string& filepath) {
 
     return memory_[filepath];
 }
-Image* VideoManager::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef, float radius) {
+Image* VideoManager::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef) {
     Image* img = new Image;
     if(img != NULL) {
-        if(!img->CreateFogTransparency(size, origin, ellipse_coef, radius)) {
+        if(!img->CreateFogTransparency(size, origin, ellipse_coef)) {
             delete img;
             return NULL;
         }
