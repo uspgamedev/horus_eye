@@ -24,7 +24,7 @@
 namespace sprite {
 
 LifePotion::LifePotion() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png"));
+    Initialize(VIDEO_MANAGER()->LoadImage("data/images/life_potion.png"));
     image()->set_frame_size(Vector2D(POTION_WIDTH,POTION_HEIGHT));
     recover_life_ = POTION_RECOVER_LIFE;
     total_time_ = 0;

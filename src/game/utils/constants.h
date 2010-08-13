@@ -21,11 +21,11 @@ class Constants {
                        PROJECTILE_HEIGHT = 12,
                        PROJECTILE_DURATION = 5000,
                        
-                       POTION_SPRITE_CENTER_X = 16,
-                       POTION_SPRITE_CENTER_Y = 16,
-                       POTION_SPRITE_WIDTH = 32,
-                       POTION_SPRITE_HEIGHT = 32,
-                       POTION_HEIGHT = 12,
+                       POTION_SPRITE_CENTER_X = 1,
+                       POTION_SPRITE_CENTER_Y = 19,
+                       POTION_SPRITE_WIDTH = 20,
+                       POTION_SPRITE_HEIGHT = 20,
+                       POTION_HEIGHT = 16,
                        POTION_RECOVER_LIFE = 1,
                        
                        HERO_MAX_LIFE = 5,
