@@ -101,7 +101,7 @@ void Hero::CollidesWith(Mummy *obj) {
 }
 
 void Hero::CollidesWith(LifePotion *obj) {
-    life_ += obj->recoveramount();
+    if ( life_ != MAX_LIFE ) life_ += obj->recoveramount();
 }
 
 void Hero::HandleCollision(WorldObject* obj) {

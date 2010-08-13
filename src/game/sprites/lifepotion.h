@@ -20,12 +20,14 @@ public:
     LifePotion ();
     ~LifePotion ();
     
+    virtual void Update(float delta_t);
     virtual void CollidesWith(Hero *obj);
     virtual void HandleCollision(WorldObject *);
     int recoveramount() { return recover_life_; }
      
 private:
     int recover_life_;
+    float total_time_;
 };
 
 }
