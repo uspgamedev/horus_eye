@@ -104,32 +104,35 @@ void World::Update(float delta_t) {
 
     // Calcula a posicao da camera no mundo a partir da posicao do heroi.
     offset = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
-    if(hero_) {
+
+    if(hero_)
         offset = offset + hero_->position();
-    }
+
     world_layer_->set_offset(offset);
 
     // Verifica e trata colisoes do WorldObjetcts.
     std::list<sprite::WorldObject*>::iterator i, j;
 
     // TODO: colisao esta sendo verificada 2x por iteracao, corrigir isso
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-        if ((*i)->collision_type() == WorldObject::MOVEABLE)
-            for (j = world_objects_.begin(); j != world_objects_.end(); ++j)
+    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
+        if ((*i)->collision_type() == WorldObject::MOVEABLE) {
+            for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
                 if ( (*i) != (*j) && (*j)->collision_type() != WorldObject::NO_COLLISION &&
                         (*i)->IsColliding(*j)) {
                     (*i)->HandleCollision(*j);
                     (*j)->HandleCollision(*i);
                 }
+			}
+		}
+	}
 
     RemoveInactiveObjects();
-    if (!hero_)
+    
+	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
-    if (level_state_ != LevelManager::NOT_FINISHED) {
+
+    if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
-
-    }
-
 }
 
 void World::End() {
