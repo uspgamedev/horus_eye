@@ -31,9 +31,9 @@ class Hud: public framework::Layer {
     Sprite* mana_bar_[2]; // 0-> Barra atual;  1->Barra do fundo;
     Image* mana_bar_images_[2];
     //int icon_count_;
-    Sprite* enemy_counter_[5];
-    Animation* enemy_animation_[5];
-    int enemy_counter_value_[5];
+    Sprite *enemy_counter_[5], *fps_meter_[4];
+    Animation *enemy_animation_[5], *fps_animation_[4];
+    int enemy_counter_value_[5], fps_meter_value_[4];
     //Animation *animation_;
 
 };

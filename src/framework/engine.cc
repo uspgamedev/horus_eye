@@ -26,6 +26,11 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     audio_manager_->Initialize();
     scene_list_.clear();
     window_size_ = windowSize;
+
+    frames_last_second_ = reported_fps_ = 0;
+    if(time_handler_ != NULL)
+        last_fps_report_ = time_handler_->TimeElapsed();
+
     return (time_handler_ != NULL);
 }
 
@@ -93,6 +98,12 @@ void Engine::Run() {
 
             // gerenciamento de video
             video_manager_->Render();
+            ++frames_last_second_;
+            if(time_handler_->TimeSince(last_fps_report_) >= 1000) {
+                last_fps_report_ = time_handler_->TimeElapsed();
+                reported_fps_ = frames_last_second_;
+                frames_last_second_ = 0;
+            }
         }
     }
 }

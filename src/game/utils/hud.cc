@@ -16,6 +16,7 @@
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
 #define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT
+
 #define LIFE_METER_OFFSET_X Constants::LIFE_METER_OFFSET_X
 #define LIFE_METER_OFFSET_Y Constants::LIFE_METER_OFFSET_Y
 #define LIFE_BAR_WIDTH Constants::LIFE_BAR_WIDTH
@@ -28,6 +29,9 @@
 
 #define ENEMY_COUNTER_OFFSET_X -10
 #define ENEMY_COUNTER_OFFSET_Y  30
+
+#define FPS_METER_OFFSET_X  10
+#define FPS_METER_OFFSET_Y  30
 
 using namespace framework;
 using namespace scene;
@@ -130,6 +134,15 @@ Hud::Hud(World* world) {
         AddSprite(enemy_counter_[i]);
         enemy_counter_value_[i] = 0;
     }
+
+    for(int i = 0; i < 4; ++i) {
+        (fps_meter_[i] = new Sprite)->Initialize(number);
+        fps_meter_[i]->SelectAnimation(fps_animation_[i] = new Animation(50, 0, -1));
+        fps_meter_[i]->set_position(Vector2D(
+                        FPS_METER_OFFSET_X + NUMBER_WIDTH*i, FPS_METER_OFFSET_Y ));
+        AddSprite(fps_meter_[i]);
+        fps_meter_value_[i] = 0;
+    }
 }
 
 Hud::~Hud() {
@@ -167,6 +180,20 @@ void Hud::Update(float delta_t) {
             delete enemy_animation_[i];
             enemy_animation_[i] = new Animation(50, enemy_counter_value_[i], -1);
         }
+
+    int fps = Engine::reference()->current_fps();
+    if(fps > 9999) fps = 9999;
+    for(int i = 3; i >= 0; --i) {
+        newval[i] = fps % 10;
+        fps /= 10;
+    }
+    for(int i = 0; i < 4; ++i) {
+        if(newval[i] != fps_meter_value_[i]) {
+            fps_meter_value_[i] = newval[i];
+            delete fps_animation_[i];
+            fps_animation_[i] = new Animation(50, fps_meter_value_[i], -1);
+        }
+    }
 
     if(world->hero() != NULL && world->hero()->life() > 0)
     {
