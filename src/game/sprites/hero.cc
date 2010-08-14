@@ -45,7 +45,6 @@ Hero::Hero(Image* img) {
     directions_[Direction_::UP] = Vector2D(1, 1);
 
     // Animations
-    //last_standing_animation_ = new Animation(0, -1);
     InitializeStandingAnimations();
     InitializeWalkingAnimations();
     InitializeAttackingAnimations();

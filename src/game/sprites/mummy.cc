@@ -47,7 +47,6 @@ Mummy::Mummy(Image* img) {
     directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -.5));
 
     // Animations
-    last_standing_animation_ = new Animation(0, -1);
     InitializeStandingAnimations();
     InitializeWalkingAnimations();
     InitializeAttackingAnimations();
