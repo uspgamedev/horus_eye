@@ -6,8 +6,8 @@
 // Definicao da clase Hud.
 //
 
-#ifndef HUD_H_
-#define HUD_H_
+#ifndef HORUSEYE_GAME_UTILS_HUD_H_
+#define HORUSEYE_GAME_UTILS_HUD_H_
 
 #include "../../framework/layer.h"
 #include "../scenes/world.h"
@@ -40,4 +40,4 @@ class Hud: public framework::Layer {
 
 }
 
-#endif /* HUD_H_ */
+#endif /* HORUSEYE_GAME_UTILS_HUD_H_ */

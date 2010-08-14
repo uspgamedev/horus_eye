@@ -27,7 +27,9 @@ LevelManager::LevelManager() {}
 void LevelManager::Initialize() {
     FILE* list = fopen("data/level_list.txt", "r");
     if(list != NULL) {
-        while(!feof(list)) {
+        int level_count = 0;
+        fscanf(list,"%d",&level_count);
+        for(int i = 0; i < level_count; ++i) {
             char filename[255];
             fscanf(list,"%s",filename);
             level_list_.push_back(filename);
