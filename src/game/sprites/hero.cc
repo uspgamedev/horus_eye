@@ -31,7 +31,6 @@ namespace sprite {
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 #define MAX_LIFE Constants::HERO_MAX_LIFE
 #define MAX_MANA Constants::HERO_MAX_MANA
-#define SPEED_TIME 0.1
 
 Hero::Hero(Image* img) {
     if(img == NULL){
@@ -77,7 +76,6 @@ Hero::Hero(Image* img) {
     original_speed_ = speed_ = Constants::HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
-    time_to_recover_speed_ = SPEED_TIME;
     hit_duration_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
     blink_time_ = 0;
