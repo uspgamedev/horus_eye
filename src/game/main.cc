@@ -6,31 +6,15 @@
 // Arquivo principal do game (inclui a funcao main())
 //
 #include "../framework/engine.h"
-#include "sprites/hero.h"
 #include "../framework/vector2D.h"
-#include "scenes/world.h"
-#include "scenes/imagescene.h"
-#include "sprites/worldobject.h"
-#include "utils/levelloader.h"
 #include "utils/levelmanager.h"
-#include <iostream>
-using framework::Engine;
-using framework::Scene;
-using framework::Vector2D;
-using scene::World;
-using scene::ImageScene;
-using utils::LevelLoader;
-using utils::LevelManager;
-
 
 // funcao principal do programa
-// atualmente ela simplesmente inicia
-// a engine com um World
 int main(int argc, char *argv[]) {
-    Engine *engine = Engine::reference();
-    engine->Initialize("Horus Eye", Vector2D(1280, 720), true);
+	framework::Engine *engine = framework::Engine::reference();
+    engine->Initialize("Horus Eye", framework::Vector2D(1280, 720), true);
     engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
-    LevelManager::reference()->Initialize();
+	utils::LevelManager::reference()->Initialize();
     engine->Run();
     return 0;
 }
