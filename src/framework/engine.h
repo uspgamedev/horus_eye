@@ -59,7 +59,7 @@ class Engine {
     Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;
-    int reported_fps_, frames_last_second_, last_fps_report_;
+    int reported_fps_, frames_since_reset_, last_fps_report_;
 };
 
 }  // namespace framework
