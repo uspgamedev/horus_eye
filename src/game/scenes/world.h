@@ -63,6 +63,9 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de mundo para de tela
     static Vector2D FromWorldCoordinates(Vector2D screen_coords);
 
+    // Funcao que transforma PONTOS de coordenadas de tela para de mundo
+    static Vector2D FromScreenCoordinates(Vector2D screen_coords);
+
     static Image* CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius);
 
     sprite::Hero * hero() { return hero_; }

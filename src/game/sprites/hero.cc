@@ -156,7 +156,7 @@ void Hero::StartAttack() {
 
     World *world_ = ((World *)Engine::reference()->CurrentScene());
     // Ajuste da altura do projetil.
-    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_HEIGHT);
+    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_SPRITE_CENTER_Y+Constants::PROJECTILE_HEIGHT);
     Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset)),
              pos = world_position();
     Projectile * projectile = new Projectile(pos, versor);

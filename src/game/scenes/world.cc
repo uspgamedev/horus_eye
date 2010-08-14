@@ -256,6 +256,12 @@ Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
     return (transformed * 60);
 }
 
+Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
+    Vector2D    global_screen_coords = screen_coords + WORLD()->world_layer_->offset(),
+                transformed = FromScreenLinearCoordinates(global_screen_coords);
+    return (transformed * (1.0/60.0));
+}
+
 Image* World::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius) {
     return VIDEO_MANAGER()->CreateFogTransparency(size, origin, Vector2D(2, 1) * radius * 60);
 }
