@@ -115,7 +115,7 @@ void Mummy::StartAttack(Creature* obj) {
 }
 
 void Mummy::RandomMovement(){
-    double PI = acos(-1);
+    double PI = acos(-1.0f);
 
     if (interval_->Expired()) {
 

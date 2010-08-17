@@ -105,7 +105,8 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
         if ((y >= MENU_TOP && y < MENU_BOTTOM) &&
             (x >= MENU_LEFT && x < MENU_RIGHT)) {
             on_selection = true;
-            selection_ = (Menu::Selection)(((int)y - MENU_TOP)/RECT_HEIGHT);
+
+				selection_ = static_cast<Menu::Selection>(  (int)(((int)y - MENU_TOP)/RECT_HEIGHT)  );
         }
         else on_selection = false;
     }

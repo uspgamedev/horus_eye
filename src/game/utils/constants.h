@@ -13,19 +13,12 @@ namespace utils {
 
 class Constants {
   public:
-
-    const static int   PROJECTILE_SPRITE_CENTER_X = 16,
-                       PROJECTILE_SPRITE_CENTER_Y = 16,
-                       PROJECTILE_SPRITE_WIDTH = 32,
+    const static int   PROJECTILE_SPRITE_WIDTH = 32,
                        PROJECTILE_SPRITE_HEIGHT = 32,
-                       PROJECTILE_HEIGHT = 12,
                        PROJECTILE_DURATION = 5000,
                        
-                       POTION_SPRITE_CENTER_X = 1,
-                       POTION_SPRITE_CENTER_Y = 19,
                        POTION_SPRITE_WIDTH = 20,
                        POTION_SPRITE_HEIGHT = 20,
-                       POTION_HEIGHT = 16,
                        POTION_RECOVER_LIFE = 1,
                        
                        HERO_MAX_LIFE = 5,
@@ -49,24 +42,36 @@ class Constants {
 
                        BIG_MUMMY_LIFE = 3;
 
-    const static float DOOR_HOTSPOT_WIDTH = 153.0f/2.0f,
-                       DOOR_HOTSPOT_HEIGHT = 109.0f-(91.0f/2.0f),
-                       DOOR_BOUND_WIDTH = 2.0f,
-                       DOOR_BOUND_HEIGHT = 1.0f,
+    const static float
+        DOOR_HOTSPOT_WIDTH,
+        DOOR_HOTSPOT_HEIGHT,
+        DOOR_BOUND_WIDTH,
+        DOOR_BOUND_HEIGHT,
 
-                       LIFE_BAR_WIDTH = 200.0f,
-                       LIFE_BAR_HEIGHT = 15.0f,
-                       MANA_BAR_WIDTH = 200.0f,
-                       MANA_BAR_HEIGHT = 15.0f,
+        LIFE_BAR_WIDTH,
+        LIFE_BAR_HEIGHT,
+        MANA_BAR_WIDTH,
+        MANA_BAR_HEIGHT,
 
-                       HERO_SPEED = 3.0f,
-                       PROJECTILE_SPEED = 8.0f,
+        LIGHT_RADIUS_THRESHOLD,
 
-					   MUMMY_RADIUS = 0.3f,
-					   MUMMY_SPEED = 2.0f,
+        HERO_SPEED,
 
-                       BIG_MUMMY_RADIUS = 0.5f,
-                       BIG_MUMMY_SPEED = 1.7f;
+		PROJECTILE_SPEED,
+		PROJECTILE_SPRITE_CENTER_X,
+        PROJECTILE_SPRITE_CENTER_Y,
+		PROJECTILE_HEIGHT,
+
+        MUMMY_RADIUS,
+        MUMMY_SPEED,
+
+        BIG_MUMMY_RADIUS,
+        BIG_MUMMY_SPEED,
+
+		POTION_SPRITE_CENTER_X,
+        POTION_SPRITE_CENTER_Y,
+		POTION_HEIGHT;
+
 
   private:
     Constants() {}

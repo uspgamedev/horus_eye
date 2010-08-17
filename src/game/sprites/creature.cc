@@ -18,7 +18,7 @@
 using namespace framework;
 using namespace utils;
 
-#define PI acos(-1)
+#define PI acos(-1.0f)
 
 namespace sprite {
 
