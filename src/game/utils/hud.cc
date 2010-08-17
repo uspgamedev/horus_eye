@@ -179,6 +179,7 @@ void Hud::Update(float delta_t) {
             enemy_counter_value_[i] = newval[i];
             delete enemy_animation_[i];
             enemy_animation_[i] = new Animation(50, enemy_counter_value_[i], -1);
+            enemy_counter_[i]->SelectAnimation(enemy_animation_[i]);
         }
 
     int fps = Engine::reference()->current_fps();
@@ -192,6 +193,7 @@ void Hud::Update(float delta_t) {
             fps_meter_value_[i] = newval[i];
             delete fps_animation_[i];
             fps_animation_[i] = new Animation(50, fps_meter_value_[i], -1);
+            fps_meter_[i]->SelectAnimation(fps_animation_[i]);
         }
     }
 
