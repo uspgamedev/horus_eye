@@ -148,7 +148,8 @@ void Hero::GetKeys() {
 void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_);
+    Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
@@ -156,8 +157,8 @@ void Hero::StartAttack() {
 
     World *world_ = ((World *)Engine::reference()->CurrentScene());
     // Ajuste da altura do projetil.
-    Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_SPRITE_CENTER_Y+Constants::PROJECTILE_HEIGHT);
-    Vector2D versor = world_->FromScreenLinearCoordinates(Vector2D::Normalized(mouseOffset)),
+    //Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_SPRITE_CENTER_Y+Constants::PROJECTILE_HEIGHT);
+    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-world_position()),
              pos = world_position();
     Projectile * projectile = new Projectile(pos, versor);
     world_->AddWorldObject(projectile);
