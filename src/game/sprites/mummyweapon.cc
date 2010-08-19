@@ -4,7 +4,7 @@
 
 namespace sprite {
 
-void MummyWeapon::Attack(Vector2D target){
+void MummyWeapon::Attack(){
 	scene::World *world = ((scene::World *)Engine::reference()->CurrentScene());
 	Hero* hero = world->hero();
 	

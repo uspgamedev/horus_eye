@@ -21,14 +21,15 @@ using namespace scene;
 using namespace sprite;
 using namespace framework;
 
-#define WALL      'W'
-#define DOOR      'D'
-#define MUMMY     'M'
-#define BIG_MUMMY 'B'
-#define HERO      'H'
-#define FLOOR     'X'
-#define EMPTY     'O'
-#define POTIONL   'L'
+#define WALL         'W'
+#define DOOR         'D'
+#define MUMMY        'M'
+#define RANGED_MUMMY 'R'
+#define BIG_MUMMY    'B'
+#define HERO         'H'
+#define FLOOR        'X'
+#define EMPTY        'O'
+#define POTIONL      'L'
 
 void LevelLoader::LoadMatrix(string file_name) {
     FILE* file = fopen(file_name.c_str(),"r");
@@ -54,13 +55,6 @@ void LevelLoader::LoadMatrix(string file_name) {
  * ao World. O arquivo de entrada deve come�ar com dois inteiros que representam
  * o tamanho do mapa seguida da matriz de simbolos associados aos tipos de
  * objeto a serem criados:
- * Wall     : W
- * Door     : D
- * Mummy    : M 
- * Hero     : H
- * Floor    : X
- * Empty    : O
- * PotionL  : L
  */
 bool isWall(World* world_, int i, int j) {
     char **matrix = world_->level_matrix();
@@ -112,6 +106,11 @@ void LevelLoader::Load(string file_name) {
                     }
                     case BIG_MUMMY: {
                         world_->AddMummy(position, 1);
+                        world_->AddFloor(position);
+                        break;
+                    }
+                    case RANGED_MUMMY: {
+                        world_->AddMummy(position, 2);
                         world_->AddFloor(position);
                         break;
                     }

@@ -12,6 +12,7 @@ class MummyBuilder {
     MummyBuilder() {}
 
     Mummy *standard_mummy();
+    Mummy *ranged_mummy();
     Mummy *big_mummy();
 
 };

@@ -175,9 +175,9 @@ void World::AddMummy(framework::Vector2D &pos, int type) {
             mummy = mummy_builder_.big_mummy();
             break;
 
-//        case 2:
-//            mummy = mummy_builder_.mage_mummy();
-//            break;
+        case 2:
+            mummy = mummy_builder_.ranged_mummy();
+            break;
     }
             
 	mummy->set_world_position(pos);

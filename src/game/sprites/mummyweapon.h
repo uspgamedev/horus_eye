@@ -10,7 +10,7 @@ class MummyWeapon : public Weapon {
 	MummyWeapon(Creature* owner) : Weapon(owner) {}
 
 	virtual float range(){ return 1.0f; }
-	virtual void Attack(framework::Vector2D target = framework::Vector2D(-2,-2));
+	virtual void Attack();
 
 };
 

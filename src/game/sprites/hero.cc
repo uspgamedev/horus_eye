@@ -100,6 +100,10 @@ void Hero::CollidesWith(Mummy *obj) {
    speed_ /= 1.19;
 }
 
+void Hero::CollidesWith(MummyProjectile* obj) {
+	TakeDamage(1);
+}
+
 void Hero::CollidesWith(LifePotion *obj) {
     if ( life_ != MAX_LIFE ) life_ += obj->recoveramount();
 }

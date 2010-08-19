@@ -18,6 +18,7 @@ namespace sprite {
 class Hero;
 class Mummy;
 class Projectile;
+class MummyProjectile;
 class Wall;
 class Door;
 class LifePotion;
@@ -53,6 +54,7 @@ class WorldObject : public framework::Sprite {
     virtual void CollidesWith(Door* obj) {}
     virtual void CollidesWith(Hero* hero) {}
     virtual void CollidesWith(Projectile *projectile) {}
+    virtual void CollidesWith(MummyProjectile *projectile) {}
     virtual void CollidesWith(Mummy *mummy) {}
     virtual void CollidesWith(LifePotion *lifepotion) {}
 
