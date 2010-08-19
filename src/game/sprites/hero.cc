@@ -120,21 +120,26 @@ void Hero::GetKeys() {
     }
 
     animation_direction_ = 0;
+	int num_dirs = 0;
     if(input_->KeyDown(K_w)) {
         pressed_key_[Direction_::UP] = true;
         animation_direction_ += Animation_::UP;
+		num_dirs++;
     }
     if(input_->KeyDown(K_a)) {
         pressed_key_[Direction_::LEFT] = true;
         animation_direction_ += Animation_::LEFT;
+		num_dirs++;
     }
-    if(input_->KeyDown(K_s)) {
+    if(input_->KeyDown(K_s) && num_dirs < 2) {
         pressed_key_[Direction_::DOWN] = true;
         animation_direction_ += Animation_::DOWN;
+		num_dirs++;
     }
-    if(input_->KeyDown(K_d)) {
+    if(input_->KeyDown(K_d) && num_dirs < 2) {
         pressed_key_[Direction_::RIGHT] = true;
         animation_direction_ += Animation_::RIGHT;
+		num_dirs++;
     }
 
     last_standing_animation_ = *(standing_animations_[animation_direction_]);

@@ -31,9 +31,9 @@ namespace scene {
 using namespace framework;
 using namespace sprite;
 
-World::World() : Scene(), world_layer_(new framework::Layer()), fog_layer_(new framework::Layer()) {
+World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()), fog_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
-    hero_ = new Hero;
+    hero_ = hero;
     this->AddWorldObject(hero_);
 
     AddLayer(fog_layer_);
@@ -226,7 +226,9 @@ void World::RemoveAll() {
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
 		world_layer_->RemoveSprite(*i);
-		delete (*i);
+		if ( *i != hero_ ) {
+			delete (*i);
+		}
     }
     world_objects_.clear();
     for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {

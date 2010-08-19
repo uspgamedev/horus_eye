@@ -9,6 +9,7 @@
 #define HORUSEYE_GAME_UTILS_LEVELMANAGER_H_
 
 #include "../scenes/imagescene.h"
+#include "../sprites/hero.h"
 
 namespace scene {
 class World;
@@ -43,6 +44,7 @@ class LevelManager {
     scene::World* get_current_level() { return current_level_; }
     void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
 
+	void Finish();
     ~LevelManager();
 
   private:
@@ -52,6 +54,7 @@ class LevelManager {
     scene::Menu* menu_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
+	sprite::Hero *hero_;
 
     LevelManager();
 };

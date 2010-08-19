@@ -12,9 +12,10 @@
 // funcao principal do programa
 int main(int argc, char *argv[]) {
 	framework::Engine *engine = framework::Engine::reference();
-    engine->Initialize("Horus Eye", framework::Vector2D(1280, 720), false);
+    engine->Initialize("Horus Eye", framework::Vector2D(1024, 768), false);
     engine->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
 	utils::LevelManager::reference()->Initialize();
     engine->Run();
+	utils::LevelManager::reference()->Finish();
     return 0;
 }

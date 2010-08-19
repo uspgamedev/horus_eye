@@ -38,6 +38,7 @@ void LevelManager::Initialize() {
     }
     current_level_ = NULL;
     level_list_iterator_ = 0;
+	hero_ = NULL;
     menu_ = new Menu;
     Engine::reference()->PushScene(menu_);
 }
@@ -91,6 +92,7 @@ void LevelManager::FinishLevel(LevelState state) {
 
     switch(state) {
     case FINISH_DIE:
+		hero_ = NULL;
         ShowGameOver();
     case FINISH_QUIT:
     case NOT_FINISHED:
@@ -106,11 +108,24 @@ void LevelManager::LoadNextLevel() {
         ShowEnding();
         return;
     }
-    current_level_ = new World;
+
+	if (hero_ == NULL) {
+		hero_ = new sprite::Hero;
+	}
+	if (level_list_iterator_ == 0) {
+		hero_->set_life(hero_->max_life());
+		hero_->set_mana(hero_->max_mana());
+	}
+    current_level_ = new World(hero_);
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
     Engine::reference()->PushScene(current_level_);
     delete loader;
+}
+
+void LevelManager::Finish() {
+	if (hero_)
+		delete hero_;
 }
 
 LevelManager::~LevelManager() {}

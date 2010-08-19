@@ -33,7 +33,7 @@ namespace scene {
 // testar a compilacao do jogo. :P
 class World : public framework::Scene {
   public:
-    World();
+    World(sprite::Hero *hero);
     virtual ~World();
 
     void Update(float delta_t);

@@ -29,8 +29,18 @@ class Creature : public WorldObject , public Observer {
     virtual ~Creature();
 
     int life() { return life_; }
+	void set_life(int life) {
+		life_ = life;
+		if (life_ < 0) life_ = 0;
+		if (life_ > max_life_) life_ = max_life_;
+	}
     int max_life() { return  max_life_; }
     int mana() { return mana_; }
+	void set_mana(int mana) {
+		mana_ = mana;
+		if (mana_ < 0) mana_ = 0;
+		if (mana_ > max_mana_) mana_ = max_mana_;
+	}
     int max_mana() { return  max_mana_; }
 
     // Colisoes
