@@ -6,6 +6,7 @@
 // Definicao da classe Menu.
 //
 
+#include <string>
 #include "menu.h"
 #include "../../framework/engine.h"
 #include "../../framework/inputmanager.h"
@@ -18,9 +19,9 @@ namespace scene {
 using namespace framework;
 using namespace utils;
 
-#define RECT_WIDTH  200
-#define RECT_HEIGHT 50
-#define MENU_TOP    VIDEO_MANAGER()->video_size().y/2.0
+#define RECT_WIDTH  266
+#define RECT_HEIGHT 90
+#define MENU_TOP    VIDEO_MANAGER()->video_size().y/4.0
 #define MENU_LEFT   VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
 #define MENU_BOTTOM MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
 #define MENU_RIGHT  VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
@@ -34,17 +35,42 @@ Menu::Menu () : selection_(SELECT_PLAY) {
     rect_->Clear(0x000000FF);
     select_rect_->Initialize(rect_);
 
-    Layer *layer = new Layer;
+    Layer *layer;
+
+    layer = new Layer;
     AddLayer(layer);
 
     layer->AddSprite(select_rect_);
 
+    select_rect_->set_position(select_pos_[Menu::SELECT_PLAY]);
+
+    layer = new Layer;
+    AddLayer(layer);
+
     for (int y, i = 0; i < Menu::SELECT_NUM; ++i) {
         y = static_cast<int>(MENU_TOP + i*RECT_HEIGHT);
         select_pos_[i] = Vector2D(MENU_LEFT, y);
+        options_[i] = new Sprite;
+        switch (i) {
+        case Menu::SELECT_PLAY:
+            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/play.png"));
+            break;
+        case Menu::SELECT_HELP:
+            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/help.png"));
+            break;
+        case Menu::SELECT_SETTINGS:
+            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/settings.png"));
+            break;
+        case Menu::SELECT_ABOUT:
+            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/credits.png"));
+            break;
+        case Menu::SELECT_EXIT:
+            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/exit.png"));
+            break;
+        }
+        options_[i]->set_position(select_pos_[i]);
+        layer->AddSprite(options_[i]);
     }
-
-    select_rect_->set_position(select_pos_[Menu::SELECT_PLAY]);
 
 }
 
@@ -121,16 +147,6 @@ void Menu::Select () {
 void Menu::Choose () {
     switch (selection_) {
         case Menu::SELECT_PLAY: {
-
-            //Engine *engine = Engine::reference();
-            /*
-            World *world = new World;
-            LevelLoader *loader = new LevelLoader(world);
-            loader->Load("data/levels/level_test.txt");
-            engine->PushScene(world);
-            world->set_visible(false);
-            delete loader;
-            */
             set_visible(false);
             LevelManager::reference()->ShowIntro();
             break;

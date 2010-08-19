@@ -42,7 +42,8 @@ class Menu: public framework::Scene {
     void Choose ();
 
     Selection selection_;
-    framework::Sprite *select_rect_;
+    framework::Sprite *select_rect_,
+                      *options_[SELECT_NUM];
     framework::Image *rect_;
     framework::Vector2D select_pos_[SELECT_NUM];
 
