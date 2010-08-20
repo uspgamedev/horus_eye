@@ -1,6 +1,8 @@
-5 5
-W W W W W
-W H X X W
-W X X X W
-W X D D W
-W W W W W
+8 7
+W W W W W W W W
+W H X X X X X W
+W X X X X X X W
+W X X D D X X W
+W X X X X X X W
+W X X X X X X W
+W W W W W W W W
