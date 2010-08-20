@@ -37,7 +37,7 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
 void Engine::Run() {
     Key key;
     SDL_Event event;
-    float delta_t;
+    float delta_t, total_fps = 0;
 
     while(!quit_) {
 
@@ -99,10 +99,11 @@ void Engine::Run() {
             // gerenciamento de video
             video_manager_->Render();
             ++frames_since_reset_;
-            if(time_handler_->TimeSince(last_fps_report_) >= 3000) {
-                last_fps_report_ = time_handler_->TimeElapsed();
-                reported_fps_ = frames_since_reset_ / 3;
+            total_fps += 1.0f/delta_t;
+            if(frames_since_reset_ == 10) {
+                reported_fps_ = static_cast<int>(total_fps/10.0f);
                 frames_since_reset_ = 0;
+                total_fps = 0;
             }
         }
     }

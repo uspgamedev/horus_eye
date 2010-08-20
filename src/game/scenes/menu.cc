@@ -19,21 +19,24 @@ namespace scene {
 using namespace framework;
 using namespace utils;
 
-#define RECT_WIDTH  266
-#define RECT_HEIGHT 90
-#define MENU_TOP    VIDEO_MANAGER()->video_size().y/4.0
-#define MENU_LEFT   VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
-#define MENU_BOTTOM MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
-#define MENU_RIGHT  VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
+#define RECT_WIDTH          266
+#define RECT_HEIGHT         90
+#define SELECTION_WIDTH     864
+#define SELECTION_HEIGHT    155
+#define MENU_TOP            VIDEO_MANAGER()->video_size().y/4.0
+#define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
+#define MENU_BOTTOM         MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
+#define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
 
 
 Menu::Menu () : selection_(SELECT_PLAY) {
 
     select_rect_ = new Sprite;
-    rect_ = new Image;
-    rect_->Create(Vector2D(RECT_WIDTH, RECT_HEIGHT));
-    rect_->Clear(0x000000FF);
-    select_rect_->Initialize(rect_);
+    //rect_ = new Image;
+    //rect_->Create(Vector2D(RECT_WIDTH, RECT_HEIGHT));
+    //rect_->Clear(0x000000FF);
+    select_rect_->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
+    select_rect_->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
 
     Layer *layer;
 
@@ -75,8 +78,8 @@ Menu::Menu () : selection_(SELECT_PLAY) {
 }
 
 Menu::~Menu () {
-    rect_->Destroy();
-    delete rect_;
+    //rect_->Destroy();
+    //delete rect_;
 }
 
 Menu::Selection operator ++ (Menu::Selection& selection) {

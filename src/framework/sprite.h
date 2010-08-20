@@ -69,6 +69,7 @@ class Sprite {
   protected:
     Image::Mirror mirror() const { return mirror_; }
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
+    bool withinScreen(Vector2D &offset);
 
     float zindex_;
 

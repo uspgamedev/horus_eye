@@ -10,6 +10,7 @@
 #include "frame.h"
 #include "videomanager.h"
 #include <cmath>
+#include <algorithm>
 
 namespace framework {
 
@@ -112,7 +113,7 @@ bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
 int Image::FrameCount() const {
     int size_x = static_cast<int> (frame_size_.x);
     int size_y = static_cast<int> (frame_size_.y);
-    return (width()/size_x) * (height()/size_y);
+    return std::max((width()/size_x) * (height()/size_y), 1);
 }
 
 // cria uma superficie de video.

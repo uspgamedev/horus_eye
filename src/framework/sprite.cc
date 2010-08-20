@@ -1,4 +1,6 @@
 #include "sprite.h"
+#include "engine.h"
+#include "videomanager.h"
 
 namespace framework {
 
@@ -30,8 +32,21 @@ void Sprite::SelectAnimation(Animation *animation) {
     animation_ = animation;
 }
 
+#define PRECISION 0.05f
+
+bool Sprite::withinScreen(Vector2D &offset) {
+
+    Vector2D    true_pos = position_ - offset,
+                screen_bounds = VIDEO_MANAGER()->video_size(),
+                precision = screen_bounds*PRECISION;
+
+    return (true_pos.x >= -precision.x) && (true_pos.y >= -precision.y) &&
+           (true_pos.x <= screen_bounds.x + precision.x) &&
+           (true_pos.y <= screen_bounds.y + precision.y);
+}
+
 void Sprite::Render(Image *back_buffer, Vector2D &offset) {
-    if (visible_) {
+    if (visible_ && withinScreen(offset)) {
         int frame_number = animation_->get_current_frame();
         image_->DrawTo(back_buffer, position_ - hotspot_ - offset, frame_number,
                        mirror_);

@@ -17,5 +17,6 @@ int main(int argc, char *argv[]) {
 	utils::LevelManager::reference()->Initialize();
     engine->Run();
 	utils::LevelManager::reference()->Finish();
+	engine->Release();
     return 0;
 }
