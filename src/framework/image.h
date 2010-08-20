@@ -11,7 +11,9 @@
 
 #include <SDL/SDL.h>
 #include <string>
+#include <map>
 #include "vector2D.h"
+#include "types.h"
 using std::string;
 
 namespace framework {
@@ -30,9 +32,12 @@ class Image {
     Image() : data_(NULL) {}
     ~Image() {}
 
+    bool Create(const Vector2D& size, uint32 flags);
     bool Create(const Vector2D& size);
     bool Destroy();
     bool Clear(Color color);
+
+    void Optimize();
 
     int width() const { return data_ ? data_->w : 0; }
     int height() const { return data_ ? data_->h : 0; }
@@ -41,10 +46,10 @@ class Image {
     Vector2D frame_size() const { return frame_size_; }
     int FrameCount() const;
 
+    void MergeTransparency(Image* target, Vector2D& offset);
+
     bool DrawTo(Image* dest, const Vector2D& position, int frame_number,
                 Mirror mirror);
-
-
 
   private:
     SDL_Surface *data_;

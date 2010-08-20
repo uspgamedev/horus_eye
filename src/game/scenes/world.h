@@ -20,7 +20,8 @@
 #include "../utils/levelmanager.h"
 
 namespace utils {
-    class Hud;
+class Hud;
+class Fog;
 }
 namespace scene {
 
@@ -66,7 +67,8 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
     static Vector2D FromScreenCoordinates(Vector2D screen_coords);
 
-    static Image* CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius);
+    static Image* CreateFogTransparency(float radius);
+    static Image* CreateFogTransparency(float radius, Vector2D size);
 
     sprite::Hero * hero() { return hero_; }
     vector<sprite::Mummy *> Mummies();
@@ -79,6 +81,8 @@ class World : public framework::Scene {
     void set_level_height(int height);
     void set_level_matrix(char** matrix);
 
+    utils::Fog* fog() { return fog_; }
+
     void set_hero(sprite::Hero *hero) {
         hero_ = hero;
     }
@@ -86,9 +90,10 @@ class World : public framework::Scene {
   protected:
     sprite::Hero *hero_;
     std::list<sprite::WorldObject*> world_objects_, collisionless_objects;
-    framework::Layer *world_layer_, *fog_layer_;
+    framework::Layer *world_layer_;
     framework::Sprite *hero_fog_;
     utils::Hud *hud_;
+    utils::Fog *fog_;
     int level_width_, level_height_;
     char** level_matrix_;
     int	remaining_enemies_, max_enemies_;

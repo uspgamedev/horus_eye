@@ -16,12 +16,11 @@ namespace framework {
 
 // Cria uma imagem com tamanho size.
 // Retorna true em caso de sucesso
-bool Image::Create(const Vector2D& size) {
+bool Image::Create(const Vector2D& size, uint32 flags) {
     SDL_Surface *screen = SDL_GetVideoSurface();
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
     int depth = VideoManager::COLOR_DEPTH;
-    Uint32 flags = SDL_HWSURFACE | SDL_SRCCOLORKEY;
 
     if(screen == NULL)
         return false;
@@ -32,6 +31,9 @@ bool Image::Create(const Vector2D& size) {
 
     set_frame_size(Vector2D(this->width(), this->height()));
     return (data_ != NULL);
+}
+bool Image::Create(const Vector2D& size) {
+    return Create(size, SDL_HWSURFACE | SDL_SRCCOLORKEY);
 }
 
 // Destroi a imagem
@@ -116,6 +118,49 @@ int Image::FrameCount() const {
     return std::max((width()/size_x) * (height()/size_y), 1);
 }
 
+void Image::Optimize() {
+    SDL_Surface *optimizedImage = SDL_DisplayFormatAlpha(data_);
+    SDL_FreeSurface(data_);
+    data_ = optimizedImage;
+}
+
+void Image::MergeTransparency(Image* target, Vector2D& offset) {
+    int offset_x = static_cast<int>(offset.x),
+        offset_y = static_cast<int>(offset.y);
+
+    int max_x = std::min(offset_x + target->width(), width());
+    int max_y = std::min(offset_y + target->height(), height());
+
+    SDL_LockSurface(data_);
+    SDL_LockSurface(target->data_);
+
+    for (int source_y = std::max(0, offset_y); source_y < max_y; ++source_y) {
+        for (int source_x = std::max(0, offset_x); source_x < max_x; ++source_x) {
+            Uint32 this_pixel = (static_cast<Uint32*>(data_->pixels))[source_y * width() + source_x];
+
+            Uint8 red, green, blue, alpha;
+            SDL_GetRGBA(this_pixel, data_->format, &red, &green, &blue, &alpha );
+
+            Uint32 temp = (static_cast<Uint32*>(target->data_->pixels))
+                    [(source_y - offset_y) * target->width() + (source_x - offset_x)];
+            temp = temp & (target->data_->format->Amask);
+            temp = temp >> target->data_->format->Ashift;
+            temp = temp << target->data_->format->Aloss;
+            Uint8 thatAlpha = static_cast<Uint8>(temp);
+
+            int invert = SDL_ALPHA_OPAQUE + SDL_ALPHA_OPAQUE;
+            invert -= (alpha + thatAlpha);
+            invert = SDL_ALPHA_OPAQUE - std::min(std::max(invert, 0), SDL_ALPHA_OPAQUE);
+
+            (static_cast<Uint32*>(data_->pixels))[source_y * width() + source_x] =
+                    SDL_MapRGBA(data_->format, red, green, blue, static_cast<Uint8>(invert));
+        }
+    }
+
+    SDL_UnlockSurface(target->data_);
+    SDL_UnlockSurface(data_);
+}
+
 // cria uma superficie de video.
 // Voce nao deve libera-la porque a SDL ja faz isso
 // Devolve true em caso de sucesso
@@ -135,20 +180,10 @@ bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
 bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef) {
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
-    Uint32 flags = SDL_SRCALPHA;
-
-    // Cria uma superficie nova. Como nao tem como criar uma RGBA diretamente, cria primeiro uma RGB...
-    SDL_Surface* original_surface = SDL_CreateRGBSurface(flags, width, height, VideoManager::COLOR_DEPTH, 0, 0, 0, 0xff);
-    if(original_surface == NULL)
+    if(!Create(size))
         return false;
 
-    // E depois converte para RGBA
-    data_ = SDL_DisplayFormatAlpha(original_surface);
-    SDL_FreeSurface(original_surface);
-    if(data_ == NULL)
-        return false;
-
-    set_frame_size(Vector2D(this->width(), this->height()));
+    Optimize();
 
     // Trava para poder manipular pixels
     SDL_LockSurface(data_);

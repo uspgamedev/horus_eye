@@ -20,6 +20,7 @@
 #include "../sprites/door.h"
 #include "../sprites/lifepotion.h"
 #include "../utils/hud.h"
+#include "../utils/fog.h"
 #include "../utils/levelmanager.h"
 #include <cmath>
 #include <iostream>
@@ -31,18 +32,14 @@ namespace scene {
 using namespace framework;
 using namespace sprite;
 
-World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()), fog_layer_(new framework::Layer()) {
+World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
+
+    fog_ = new Fog(true);
+    AddLayer(fog_);
+
     hero_ = hero;
     this->AddWorldObject(hero_);
-
-    AddLayer(fog_layer_);
-
-    // Atualmente apenas o heroi "emite" luz, entao deixa aqui por enquanto.
-    Image* fog = WORLD()->CreateFogTransparency(VIDEO_MANAGER()->video_size(), VIDEO_MANAGER()->video_size() * 0.5f, 5);
-    hero_fog_ = new Sprite;
-    hero_fog_->Initialize(fog);
-    fog_layer_->AddSprite(hero_fog_);
 
     hud_ = new utils::Hud(this);
     AddLayer(hud_);
@@ -110,6 +107,7 @@ void World::Update(float delta_t) {
         offset = offset + hero_->position();
 
     world_layer_->set_offset(offset);
+    fog_->set_offset(offset);
 
     // Verifica e trata colisoes do WorldObjetcts.
     std::list<sprite::WorldObject*>::iterator i, j;
@@ -148,6 +146,7 @@ void World::AddWorldObject(sprite::WorldObject* new_object) {
     else
         world_objects_.push_front(new_object);
     world_layer_->AddSprite(new_object);
+    fog_->AddLightSource(new_object);
 }
 
 void World::AddFloor(framework::Vector2D &pos) {
@@ -217,6 +216,7 @@ void World::RemoveInactiveObjects() {
 	for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
 		if((*i)->status() == WorldObject::STATUS_DEAD) {
 			world_layer_->RemoveSprite(*i);
+			fog_->RemoveLightSource(*i);
 		}
 	world_objects_.remove_if(worldObjectIsDead);
 }
@@ -226,6 +226,7 @@ void World::RemoveAll() {
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
 		world_layer_->RemoveSprite(*i);
+		fog_->RemoveLightSource(*i);
 		if ( *i != hero_ ) {
 			delete (*i);
 		}
@@ -233,6 +234,7 @@ void World::RemoveAll() {
     world_objects_.clear();
     for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {
 		world_layer_->RemoveSprite(*i);
+		fog_->RemoveLightSource(*i);
 		delete (*i);
     }
     collisionless_objects.clear();
@@ -264,8 +266,14 @@ Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
     return (transformed * (1.0/60.0));
 }
 
-Image* World::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, float radius) {
-    return VIDEO_MANAGER()->CreateFogTransparency(size, origin, Vector2D(2, 1) * radius * 60);
+Image* World::CreateFogTransparency(float radius, Vector2D size) {
+    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60;
+    Image* img = VIDEO_MANAGER()->CreateFogTransparency(size, size * 0.5f, ellipse_coords);
+    return img;
+}
+Image* World::CreateFogTransparency(float radius) {
+    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60;
+    return CreateFogTransparency(radius, ellipse_coords * 2);
 }
 
 } // namespace scene

@@ -20,7 +20,8 @@ WorldObject::WorldObject()
     : //Sprite(NULL),
       bound_(NULL),
       status_(STATUS_ACTIVE),
-      collision_type_(NO_COLLISION)
+      collision_type_(NO_COLLISION),
+      light_radius_(0.0f)
 {}
 
 WorldObject::WorldObject(WorldObject* obj) /*: Sprite(NULL) */{

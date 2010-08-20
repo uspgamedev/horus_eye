@@ -37,6 +37,7 @@ class WorldObject : public framework::Sprite {
     virtual CollisionType collision_type() const { return collision_type_; }
     virtual Status status() const { return status_; }
     virtual void Update(float dt);
+    virtual float light_radius(){ return light_radius_; }
 
     // atributos
     virtual framework::Vector2D world_position() const {
@@ -68,6 +69,7 @@ class WorldObject : public framework::Sprite {
     utils::CollisionObject *bound_;
     Status status_;
     CollisionType collision_type_;
+    float light_radius_;
 
 
     //friend void scene::World::Update(float);

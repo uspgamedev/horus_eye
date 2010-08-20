@@ -37,6 +37,7 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     speed_ = PROJECTILE_SPEED;
     this->bound_ = new CircleObject(0.15f);
     this->set_world_position(pos);
+    light_radius_ = 1.0f;
     duration_ = new TimeAccumulator(PROJECTILE_DURATION);
     this->collision_type_ = MOVEABLE;
 }
