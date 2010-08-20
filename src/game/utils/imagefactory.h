@@ -19,12 +19,14 @@ class ImageFactory {
     virtual ~ImageFactory(){}
     virtual Image* HeroImage();
     virtual Image* MummyImage();
+    virtual Image* RangedMummyImage();
     virtual Image* BigMummyImage();
     virtual Image* LifeImage();
 
   protected:
     Image* hero_image_;
     Image* mummy_image_;
+    Image* ranged_mummy_image_;
     Image* big_mummy_image_;
     Image* life_image_;
 

@@ -17,6 +17,9 @@ namespace utils {
         mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3_bw.png");
         mummy_image_->set_frame_size(Vector2D(110, 110));
 
+        ranged_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3_red.png");
+        ranged_mummy_image_->set_frame_size(Vector2D(110, 110));
+
         big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/big_mummy_193x193.png");
         big_mummy_image_->set_frame_size(Vector2D(193, 193));
 
@@ -30,6 +33,9 @@ namespace utils {
     }
     Image* ImageFactory::MummyImage(){
         return mummy_image_;
+    }
+    Image* ImageFactory::RangedMummyImage(){
+        return ranged_mummy_image_;
     }
     Image* ImageFactory::LifeImage() {
         return life_image_;
