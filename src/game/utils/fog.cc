@@ -31,7 +31,7 @@ Fog::Fog(bool single_light) {
 
 Fog::~Fog() {
     // TODO destrutor do fog
-    map<WorldObject*,Sprite*>::iterator it = light_sources_.find(obj);
+    map<WorldObject*,Sprite*>::iterator it = light_sources_.begin();
     if(it != light_sources_.end()) {
         delete it->second;
         light_sources_.erase(it);

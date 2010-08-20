@@ -168,11 +168,14 @@ void Hud::Update(float delta_t) {
     World* world = WORLD();
 
     int newval[5];
-    newval[4] = world->CountRemainingEnemies() / 10;
-    newval[3] = world->CountRemainingEnemies() % 10;
+    int temp = world->CountRemainingEnemies();
+    temp = temp > 99 ? 99 : temp;
+    newval[4] = temp / 10;
+    newval[3] = temp % 10;
     newval[2] = 0;
-    newval[1] = world->max_enemies() / 10;
-    newval[0] = world->max_enemies() % 10;
+    temp = (temp = world->max_enemies()) > 99 ? 99 : temp;
+    newval[1] = temp / 10;
+    newval[0] = temp % 10;
 
     for(int i = 0; i < 5; ++i)
         if(newval[i] != enemy_counter_value_[i]) {
