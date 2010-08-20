@@ -107,7 +107,7 @@ bool load_files()
     background = load_image( "background.png" );
 
     //Open the font
-    font = TTF_OpenFont( "lazy.ttf", 28 );
+    font = TTF_OpenFont( "papyrus0.ttf", 28 );
 
     //If there was a problem in loading the background
     if( background == NULL )
