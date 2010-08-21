@@ -7,7 +7,7 @@
 //
 
 #include <math.h>
-#include "lifepotion.h"
+#include "potion.h"
 #include "../../framework/engine.h"
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
@@ -19,35 +19,34 @@
 #define POTION_SPRITE_WIDTH    Constants::POTION_SPRITE_WIDTH
 #define POTION_SPRITE_HEIGHT   Constants::POTION_SPRITE_HEIGHT
 #define POTION_RECOVER_LIFE   Constants::POTION_RECOVER_LIFE
-#define MAX_LIFE Constants::HERO_MAX_LIFE
 
 namespace sprite {
 
-LifePotion::LifePotion() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/life_potion.png"));
-    image()->set_frame_size(Vector2D(POTION_SPRITE_WIDTH, POTION_SPRITE_HEIGHT));
-    recover_life_ = POTION_RECOVER_LIFE;
+Potion::Potion(framework::Image* img) {
+    Initialize(img);
+    recover_life_ = recover_mana_ = 0;
     total_time_ = 0;
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     this->bound_ = new CircleObject(0.15f);
     this->collision_type_ = STATIC;
 }
 
-void LifePotion::Update(float delta_t) {
+void Potion::Update(float delta_t) {
 	WorldObject::Update(delta_t);
     total_time_ += delta_t;
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT + 10.0f*cos(3.0f*total_time_)));
 }
 
-LifePotion::~LifePotion () {
+Potion::~Potion () {
 }
 
-void LifePotion::CollidesWith(Hero *obj) {
-    if (obj->life() < MAX_LIFE )
+void Potion::CollidesWith(Hero *obj) {
+    if ((recover_life_ != 0 && obj->life() < obj->max_life() )
+         || (recover_mana_ != 0 && obj->mana() < obj->max_mana() ) )
         this->status_ = WorldObject::STATUS_DEAD;
 }
 
-void LifePotion::HandleCollision(WorldObject* obj) {
+void Potion::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 

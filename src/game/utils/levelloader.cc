@@ -126,7 +126,7 @@ void LevelLoader::Load(string file_name) {
                         break;
                     }
                     case POTIONL: {
-                        world_->AddLifePotion(position);
+                        world_->AddPotion(position, 0);
                         world_->AddFloor(position);
                         break;
                     }

@@ -15,18 +15,23 @@
 
 namespace sprite {
 
-class LifePotion: public sprite::WorldObject {
+class Potion: public sprite::WorldObject {
 public:
-    LifePotion ();
-    ~LifePotion ();
+    Potion (framework::Image* img = NULL);
+    ~Potion ();
     
     virtual void Update(float delta_t);
+
     virtual void CollidesWith(Hero *obj);
     virtual void HandleCollision(WorldObject *);
-    int recoveramount() { return recover_life_; }
+
+    int recover_life() { return recover_life_; }
+    int recover_mana() { return recover_mana_; }
+    void set_recover_life(int life) { recover_life_ = life; }
+    void set_recover_mana(int mana) { recover_mana_ = mana; }
      
 private:
-    int recover_life_;
+    int recover_life_, recover_mana_;
     float total_time_;
 };
 

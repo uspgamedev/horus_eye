@@ -17,9 +17,8 @@ class Constants {
                        PROJECTILE_SPRITE_HEIGHT = 32,
                        PROJECTILE_DURATION = 5000,
                        
-                       POTION_SPRITE_WIDTH = 20,
-                       POTION_SPRITE_HEIGHT = 20,
-                       POTION_RECOVER_LIFE = 1,
+                       LIFEPOTION_RECOVER_LIFE = 1,
+                       MANAPOTION_RECOVER_MANA = 1,
                        
                        HERO_MAX_LIFE = 5,
                        HERO_MAX_MANA = 5,
@@ -35,9 +34,6 @@ class Constants {
                        MANA_METER_OFFSET_X = 20,
                        MANA_METER_OFFSET_Y = -20,
 
-                       DOOR_SPRITE_WIDTH = 153,
-                       DOOR_SPRITE_HEIGHT = 109,
-
 					   MUMMY_LIFE = 1,
 
                        BIG_MUMMY_LIFE = 3;
@@ -47,6 +43,12 @@ class Constants {
         DOOR_HOTSPOT_HEIGHT,
         DOOR_BOUND_WIDTH,
         DOOR_BOUND_HEIGHT,
+
+        FLOOR_HOTSPOT_X,
+        FLOOR_HOTSPOT_Y,
+
+        WALL_HOTSPOT_X,
+        WALL_HOTSPOT_Y,
 
         LIFE_BAR_WIDTH,
         LIFE_BAR_HEIGHT,

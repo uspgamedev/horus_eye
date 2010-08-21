@@ -18,7 +18,7 @@
 #include "../sprites/wall.h"
 #include "../sprites/mummy.h"
 #include "../sprites/door.h"
-#include "../sprites/lifepotion.h"
+#include "../sprites/potion.h"
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
@@ -197,11 +197,22 @@ void World::AddDoor(framework::Vector2D &pos) {
 
 }
 
-void World::AddLifePotion(framework::Vector2D &pos) {
+void World::AddPotion(framework::Vector2D &pos, int type) {
+    Potion *potion = NULL;
+
+    switch (type) {
+        case 0:
+            potion = potion_builder_.life_potion();
+            break;
+
+        case 1:
+            potion = potion_builder_.mana_potion();
+            break;
+
+    }
     
-    LifePotion *lifepotion = new LifePotion;
-    lifepotion->set_world_position(pos);
-    this->AddWorldObject(lifepotion);
+    potion->set_world_position(pos);
+    this->AddWorldObject(potion);
     
 }
 

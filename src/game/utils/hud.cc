@@ -200,24 +200,27 @@ void Hud::Update(float delta_t) {
         }
     }
 
-    if(world->hero() != NULL && world->hero()->life() > 0)
-    {
-        //for(int i = 0; i < world->hero()->max_life(); ++i)
-        float new_width = ((float)world->hero()->life() * LIFE_BAR_WIDTH) / ((float)world->hero()->max_life());
-        life_bar_[0]->image()->set_frame_size(Vector2D(
-                new_width,
-                LIFE_BAR_HEIGHT
-                ));
-        life_bar_[0]->set_position(Vector2D(
-                LIFE_METER_OFFSET_X + VIDEO_MANAGER()->video_size().x - new_width,
-                LIFE_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - LIFE_BAR_HEIGHT));
+    if(world->hero() != NULL) {
+        if(world->hero()->life() > 0) {
+            float new_width = ((float)world->hero()->life() * LIFE_BAR_WIDTH) / ((float)world->hero()->max_life());
 
-        new_width = ((float)world->hero()->mana() * MANA_BAR_WIDTH) / ((float)world->hero()->max_mana());
-        mana_bar_[0]->image()->set_frame_size(Vector2D(
-                new_width,
-                MANA_BAR_HEIGHT
-                ));
-            //life_icons_[i]->set_visible(i < world->hero()->life());
+            life_bar_[0]->image()->set_frame_size(Vector2D(
+                    new_width,
+                    LIFE_BAR_HEIGHT
+                    ));
+            life_bar_[0]->set_position(Vector2D(
+                    LIFE_METER_OFFSET_X + VIDEO_MANAGER()->video_size().x - new_width,
+                    LIFE_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - LIFE_BAR_HEIGHT));
+        }
+        if(world->hero()->mana() > 0) {
+            mana_bar_[0]->set_visible(true);
+            float new_width = ((float)world->hero()->mana() * MANA_BAR_WIDTH) / ((float)world->hero()->max_mana());
+            mana_bar_[0]->image()->set_frame_size(Vector2D(
+                    new_width,
+                    MANA_BAR_HEIGHT
+                    ));
+        } else if(world->hero()->mana() == 0)
+            mana_bar_[0]->set_visible(false);
     }
 }
 

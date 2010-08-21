@@ -11,6 +11,7 @@
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
+#include "../utils/imagefactory.h"
 #include "door.h"
 
 using namespace framework;
@@ -30,9 +31,9 @@ namespace sprite {
 Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
         direction_(Vector2D::Normalized(dir))
 {
-    Initialize( VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png") );
-    image()->set_frame_size( Vector2D(PROJECTILE_SPRITE_WIDTH, PROJECTILE_SPRITE_HEIGHT) );
-	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
+    ImageFactory image_factory;
+    Initialize( image_factory.ProjectileImage() );
+    set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
 	damage_ = 1;
     speed_ = PROJECTILE_SPEED;
     this->bound_ = new CircleObject(0.15f);

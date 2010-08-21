@@ -21,14 +21,24 @@ class ImageFactory {
     virtual Image* MummyImage();
     virtual Image* RangedMummyImage();
     virtual Image* BigMummyImage();
-    virtual Image* LifeImage();
+    virtual Image* ProjectileImage();
+    virtual Image* LifePotionImage();
+    virtual Image* ManaPotionImage();
+    virtual Image* DoorImage();
+    virtual Image* FloorImage();
+    virtual Image* WallImage();
 
   protected:
     Image* hero_image_;
     Image* mummy_image_;
     Image* ranged_mummy_image_;
     Image* big_mummy_image_;
-    Image* life_image_;
+    Image* projectile_image_;
+    Image* life_potion_image_;
+    Image* mana_potion_image_;
+    Image* door_image_;
+    Image* floor_image_;
+    Image* wall_image_;
 
 };
 

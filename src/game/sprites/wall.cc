@@ -10,6 +10,8 @@
 #include "hero.h"
 #include "../scenes/world.h"
 #include "../utils/rectobject.h"
+#include "../utils/constants.h"
+#include "../utils/imagefactory.h"
 #include <iostream>
 
 
@@ -26,9 +28,9 @@ using namespace scene;
 #define TRANSPARENCY_DISTANCE 1.5f
 
 Wall::Wall() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/stoneblock2.png"));
-    image()->set_frame_size(framework::Vector2D(WALL_WIDTH, WALL_HEIGHT));
-    set_hotspot(Vector2D(WALL_WIDTH/2, WALL_HEIGHT - 30.5));
+    ImageFactory image_factory;
+    Initialize(image_factory.WallImage());
+    set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
     visible_animation_ = new Animation(50, 0, -1);
     transparent_animation_ = new Animation(50, 1, -1);
     collision_type_ = STATIC;
@@ -61,7 +63,7 @@ void Wall::set_type(WallType walltype) {
             break;
         case BOTTOMRIGHT:
             type = 1;
-            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE/2);
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE * 0.45);
             break;
     }
     transparent_animation_ = new Animation(50, type, -1);

@@ -10,19 +10,18 @@
 #include "../../framework/videomanager.h"
 #include "../../framework/engine.h"
 #include "../utils/circleobject.h"
+#include "../utils/constants.h"
+#include "../utils/imagefactory.h"
 #include <float.h>
 
 using namespace framework;
 using namespace utils;
 namespace sprite {
 
-#define FLOOR_WIDTH   106.0
-#define FLOOR_HEIGHT  61.0
-
 Floor::Floor() {
-    Initialize(VIDEO_MANAGER()->LoadImage("data/images/chao106x106.png"));
-    image()->set_frame_size(framework::Vector2D(FLOOR_WIDTH,FLOOR_HEIGHT));
-    set_hotspot(Vector2D(FLOOR_WIDTH/2, FLOOR_HEIGHT/2));
+    ImageFactory image_factory;
+    Initialize(image_factory.FloorImage());
+    set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
     this->collision_type_ = NO_COLLISION;
     bound_ = new CircleObject(0.0f);
 }

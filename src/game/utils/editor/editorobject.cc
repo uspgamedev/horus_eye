@@ -25,29 +25,25 @@ EditorObject::EditorObject(WorldEditor::ObjectToken token) {
     Image * img;
     switch(token) {
     case WorldEditor::WALL:
-        img = VIDEO_MANAGER()->LoadImage("data/images/stoneblock.png");
-        img->set_frame_size(Vector2D(71, 74));
-        this->set_hotspot(Vector2D(71.0/2, 74.0 - 20.5));
+        img = img_fac.WallImage();
+        this->set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
         break;
     case WorldEditor::DOOR:
-        img = VIDEO_MANAGER()->LoadImage("data/images/stairs.png");
-        img->set_frame_size(Vector2D(Constants::DOOR_SPRITE_WIDTH, Constants::DOOR_SPRITE_HEIGHT));
-        this->set_hotspot(Vector2D(Constants::DOOR_SPRITE_WIDTH/2.0, Constants::DOOR_SPRITE_HEIGHT - Constants::DOOR_HOTSPOT_HEIGHT));
+        img = img_fac.DoorImage();
+        this->set_hotspot(Vector2D(Constants::DOOR_HOTSPOT_WIDTH, Constants::DOOR_HOTSPOT_HEIGHT));
         break;
     case WorldEditor::MUMMY:
         img = img_fac.MummyImage();
-        img->set_frame_size(Vector2D(74, 74));
-        this->set_hotspot(Vector2D(37, 55));
+        this->set_hotspot(Vector2D(img->frame_size().x / 2.0,
+                                    img->frame_size().y*6.0 / 7.0));
         break;
     case WorldEditor::HERO:
         img = img_fac.HeroImage();
-        img->set_frame_size(Vector2D(74, 74));
-        this->set_hotspot(Vector2D(37, 55));
+        this->set_hotspot(Vector2D(Constants::HERO_HOTSPOT_X, Constants::HERO_HOTSPOT_Y));
         break;
     case WorldEditor::FLOOR:
-        img = VIDEO_MANAGER()->LoadImage("data/images/chao41x41.png");
-        img->set_frame_size(framework::Vector2D(71,41));
-        this->set_hotspot(Vector2D(71.0/2, 41.0/2));
+        img = img_fac.FloorImage();
+        this->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
         break;
     default:
         img = NULL;

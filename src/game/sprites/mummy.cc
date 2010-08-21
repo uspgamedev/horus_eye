@@ -86,8 +86,8 @@ void Mummy::HandleCollision(WorldObject* obj) {
 }
 
 void Mummy::CollidesWith(Projectile* obj) {
-    life_--;
-    if (life_ == 0) {
+    life_ -= obj->damage();
+    if (life_ <= 0) {
         this->SelectAnimation(dying_animation_);
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;

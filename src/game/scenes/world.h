@@ -17,6 +17,7 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 #include "../sprites/mummybuilder.h"
+#include "../sprites/potionbuilder.h"
 #include "../utils/levelmanager.h"
 
 namespace utils {
@@ -46,7 +47,7 @@ class World : public framework::Scene {
     void AddMummy(framework::Vector2D&, int type = 0);
     void AddHero(framework::Vector2D&);
     void AddDoor(framework::Vector2D&);
-    void AddLifePotion(framework::Vector2D&);
+    void AddPotion(framework::Vector2D&, int type = 0);
     int CountRemainingEnemies();
     int max_enemies() { return max_enemies_; }
     void DecreaseEnemyCount() { remaining_enemies_--; }
@@ -98,6 +99,7 @@ class World : public framework::Scene {
     char** level_matrix_;
     int	remaining_enemies_, max_enemies_;
     sprite::MummyBuilder mummy_builder_;
+    sprite::PotionBuilder potion_builder_;
 
     void RemoveInactiveObjects();
     void RemoveAll();

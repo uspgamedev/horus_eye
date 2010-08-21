@@ -10,9 +10,10 @@
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
 #include "../utils/circleobject.h"
-#include "lifepotion.h"
+#include "potion.h"
 #include "hero.h"
 #include "projectile.h"
+#include "mummyprojectile.h"
 #include "mummy.h"
 #include "../utils/constants.h"
 #include <cmath>
@@ -102,11 +103,14 @@ void Hero::CollidesWith(Mummy *obj) {
 }
 
 void Hero::CollidesWith(MummyProjectile* obj) {
-	TakeDamage(1);
+	TakeDamage(obj->damage());
 }
 
-void Hero::CollidesWith(LifePotion *obj) {
-    if ( life_ != MAX_LIFE ) life_ += obj->recoveramount();
+void Hero::CollidesWith(Potion *obj) {
+    life_ += obj->recover_life();
+    if(life_ > max_life_) life_ = max_life_;
+    mana_ += obj->recover_mana();
+    if(mana_ > max_mana_) mana_ = max_mana_;
 }
 
 void Hero::HandleCollision(WorldObject* obj) {
