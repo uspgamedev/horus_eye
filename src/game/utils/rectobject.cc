@@ -23,6 +23,9 @@ bool RectObject::Intersects (const CircleObject *circle) const {
 
     Vector2D distance = circle->position() - position();
 
+	if(fabs(distance.x) + fabs(distance.y) > circle->radius() + 2*half_width_ + 2*half_height_)
+		return false;
+
     if (fabs(distance.y) <= half_height_ &&
         fabs(distance.x) <= circle->radius() + half_width_)
         return true;

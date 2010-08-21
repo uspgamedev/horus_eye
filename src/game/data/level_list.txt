@@ -1,4 +1,5 @@
-3
+4
 data/levels/level_1.txt
 data/levels/level_2.txt
+data/levels/level_3.txt
 data/levels/level_test.txt
