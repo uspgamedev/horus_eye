@@ -136,13 +136,13 @@ void Image::MergeTransparency(Image* target, Vector2D& offset) {
 
     for (int source_y = std::max(0, offset_y); source_y < max_y; ++source_y) {
         for (int source_x = std::max(0, offset_x); source_x < max_x; ++source_x) {
-            Uint32 this_pixel = (static_cast<Uint32*>(data_->pixels))[source_y * width() + source_x];
+			Uint32 this_pixel = (static_cast<Uint32*>(data_->pixels))[source_y * data_->w + source_x];
 
             Uint8 red, green, blue, alpha;
             SDL_GetRGBA(this_pixel, data_->format, &red, &green, &blue, &alpha );
 
             Uint32 temp = (static_cast<Uint32*>(target->data_->pixels))
-                    [(source_y - offset_y) * target->width() + (source_x - offset_x)];
+				[(source_y - offset_y) * target->data_->w + (source_x - offset_x)];
             temp = temp & (target->data_->format->Amask);
             temp = temp >> target->data_->format->Ashift;
             temp = temp << target->data_->format->Aloss;
@@ -150,9 +150,14 @@ void Image::MergeTransparency(Image* target, Vector2D& offset) {
 
             int invert = SDL_ALPHA_OPAQUE + SDL_ALPHA_OPAQUE;
             invert -= (alpha + thatAlpha);
-            invert = SDL_ALPHA_OPAQUE - std::min(std::max(invert, 0), SDL_ALPHA_OPAQUE);
+			if(invert < 0)
+				invert = SDL_ALPHA_OPAQUE;
+			else if(invert > SDL_ALPHA_OPAQUE)
+				invert = 0;
+			else
+				invert = SDL_ALPHA_OPAQUE - invert;
 
-            (static_cast<Uint32*>(data_->pixels))[source_y * width() + source_x] =
+			(static_cast<Uint32*>(data_->pixels))[source_y * data_->w + source_x] =
                     SDL_MapRGBA(data_->format, red, green, blue, static_cast<Uint8>(invert));
         }
     }
