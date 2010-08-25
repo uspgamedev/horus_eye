@@ -17,7 +17,7 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 #include "../sprites/mummybuilder.h"
-#include "../sprites/potionbuilder.h"
+#include "../sprites/itembuilder.h"
 #include "../utils/levelmanager.h"
 
 namespace utils {
@@ -99,7 +99,7 @@ class World : public framework::Scene {
     char** level_matrix_;
     int	remaining_enemies_, max_enemies_;
     sprite::MummyBuilder mummy_builder_;
-    sprite::PotionBuilder potion_builder_;
+    sprite::ItemBuilder potion_builder_;
 
     void RemoveInactiveObjects();
     void RemoveAll();

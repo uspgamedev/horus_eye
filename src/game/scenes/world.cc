@@ -18,7 +18,7 @@
 #include "../sprites/wall.h"
 #include "../sprites/mummy.h"
 #include "../sprites/door.h"
-#include "../sprites/potion.h"
+#include "../sprites/item.h"
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
@@ -35,7 +35,7 @@ using namespace sprite;
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
 
-    fog_ = new Fog(true);
+    fog_ = new Fog(false);
     AddLayer(fog_);
 
     hero_ = hero;
@@ -198,7 +198,7 @@ void World::AddDoor(framework::Vector2D &pos) {
 }
 
 void World::AddPotion(framework::Vector2D &pos, int type) {
-    Potion *potion = NULL;
+    Item *potion = NULL;
 
     switch (type) {
         case 0:

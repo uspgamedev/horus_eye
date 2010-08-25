@@ -7,7 +7,7 @@
 //
 
 #include <math.h>
-#include "potion.h"
+#include "item.h"
 #include "../../framework/engine.h"
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
@@ -22,31 +22,27 @@
 
 namespace sprite {
 
-Potion::Potion(framework::Image* img) {
+Item::Item(framework::Image* img) {
     Initialize(img);
-    recover_life_ = recover_mana_ = 0;
     total_time_ = 0;
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     this->bound_ = new CircleObject(0.15f);
     this->collision_type_ = STATIC;
+    this->event_ = NULL;
 }
 
-void Potion::Update(float delta_t) {
+void Item::Update(float delta_t) {
 	WorldObject::Update(delta_t);
     total_time_ += delta_t;
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT + 10.0f*cos(3.0f*total_time_)));
 }
 
-Potion::~Potion () {
-}
-
-void Potion::CollidesWith(Hero *obj) {
-    if ((recover_life_ != 0 && obj->life() < obj->max_life() )
-         || (recover_mana_ != 0 && obj->mana() < obj->max_mana() ) )
+void Item::CollidesWith(Hero *obj) {
+    if (event_->Use(obj))
         this->status_ = WorldObject::STATUS_DEAD;
 }
 
-void Potion::HandleCollision(WorldObject* obj) {
+void Item::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 

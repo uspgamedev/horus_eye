@@ -10,7 +10,7 @@
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
 #include "../utils/circleobject.h"
-#include "potion.h"
+#include "item.h"
 #include "hero.h"
 #include "projectile.h"
 #include "mummyprojectile.h"
@@ -106,11 +106,11 @@ void Hero::CollidesWith(MummyProjectile* obj) {
 	TakeDamage(obj->damage());
 }
 
-void Hero::CollidesWith(Potion *obj) {
-    life_ += obj->recover_life();
+void Hero::CollidesWith(Item *obj) {
+    /*life_ += obj->recover_life();
     if(life_ > max_life_) life_ = max_life_;
     mana_ += obj->recover_mana();
-    if(mana_ > max_mana_) mana_ = max_mana_;
+    if(mana_ > max_mana_) mana_ = max_mana_;*/
 }
 
 void Hero::HandleCollision(WorldObject* obj) {

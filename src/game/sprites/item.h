@@ -12,26 +12,23 @@
 #include "worldobject.h"
 #include "../../framework/sprite.h"
 #include "../../framework/engine.h"
+#include "itemevent.h"
 
 namespace sprite {
 
-class Potion: public sprite::WorldObject {
-public:
-    Potion (framework::Image* img = NULL);
-    ~Potion ();
+class Item: public sprite::WorldObject {
+  public:
+    Item (framework::Image* img = NULL);
+    ~Item () { if (event_) delete event_; }
     
     virtual void Update(float delta_t);
+    virtual void set_event(ItemEvent *event) { event_ = event; }
 
     virtual void CollidesWith(Hero *obj);
     virtual void HandleCollision(WorldObject *);
-
-    int recover_life() { return recover_life_; }
-    int recover_mana() { return recover_mana_; }
-    void set_recover_life(int life) { recover_life_ = life; }
-    void set_recover_mana(int mana) { recover_mana_ = mana; }
      
-private:
-    int recover_life_, recover_mana_;
+  private:
+    ItemEvent *event_;
     float total_time_;
 };
 
