@@ -80,8 +80,8 @@ void LevelManager::StartGame(ImageScene::SceneType type) {
 
 void LevelManager::FinishLevel(LevelState state) {
     if(Engine::reference()->CurrentScene() != current_level_) {
-        // Oh crap, tem alguma Scene empilhada que não deveria estar la!
-        // Vamos simplesmente fazer nada...
+        // Oh crap, there's some stacked Scene that shouldn't be there!
+        // Lets just do nothing...
         return;
     }
     if(state == FINISH_WIN || state == FINISH_WARP)
@@ -96,6 +96,9 @@ void LevelManager::FinishLevel(LevelState state) {
         ShowGameOver();
     case FINISH_QUIT:
     case NOT_FINISHED:
+		if (hero_)
+			delete hero_;
+			hero_ = NULL;
         return;
     case FINISH_WIN:
     case FINISH_WARP:
