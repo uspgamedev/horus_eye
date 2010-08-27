@@ -13,6 +13,7 @@
 #include "../scenes/menu.h"
 #include "../scenes/world.h"
 #include "../scenes/imagescene.h"
+#include "imagefactory.h"
 #include "levelloader.h"
 #include <cstdio>
 
@@ -52,19 +53,22 @@ void finishAndDeleteCurrentScene() {
 }
 
 void LevelManager::ShowIntro() {
-    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-    Engine::reference()->PushScene(new ImageScene(NULL, intro, 30, ImageScene::INTRO));
+    ImageFactory image_factory;
+    Image *img = image_factory.IntroImage();
+    Engine::reference()->PushScene(new ImageScene(NULL, img, 30, ImageScene::INTRO));
 }
 
 void LevelManager::ShowEnding() {
-    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-    ImageScene *ending = new ImageScene(NULL, intro, 30, ImageScene::ENDING);
+    ImageFactory image_factory;
+    Image *img = image_factory.WinImage();
+    ImageScene *ending = new ImageScene(NULL, img, 30, ImageScene::ENDING);
     Engine::reference()->PushScene(ending);
 }
 
 void LevelManager::ShowGameOver() {
-    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-    ImageScene *ending = new ImageScene(NULL, intro, 30, ImageScene::GAMEOVER);
+    ImageFactory image_factory;
+    Image *img = image_factory.LoseImage();
+    ImageScene *ending = new ImageScene(NULL, img, 30, ImageScene::GAMEOVER);
     Engine::reference()->PushScene(ending);
 }
 

@@ -42,6 +42,8 @@ ImageScene::ImageScene(framework::Image *background, framework::Image *image,
         img_sprite->Initialize(image);
         Vector2D pos = VIDEO_MANAGER()->video_size();
         pos.x = pos.x/2.0 - img_sprite->image()->width()/2.0;
+        if (type_ != ImageScene::INTRO)
+            pos.y = pos.y/2.0f - img_sprite->image()->height()/2.0f;
         img_sprite->set_position(pos);
         scene_layers_[IMG]->AddSprite(img_sprite);
         float delta_h = image->height() + VIDEO_MANAGER()->video_size().y;
@@ -68,15 +70,17 @@ void ImageScene::Update(float delta_t) {
         input->KeyPressed(K_KP_ENTER) || input->MouseUp(M_BUTTON_LEFT))
         utils::LevelManager::reference()->StartGame(type_);
 
-    if (time_ > 0) {
-        if (scene_layers_[IMG]) {
-            Layer *img_layer = scene_layers_[IMG];
-            Vector2D new_offset = img_layer->offset() + movement_*delta_t;
-            img_layer->set_offset(new_offset);
+    if (type_ == ImageScene::INTRO) {
+        if(time_ > 0) {
+            if (scene_layers_[IMG]) {
+                Layer *img_layer = scene_layers_[IMG];
+                Vector2D new_offset = img_layer->offset() + movement_*delta_t;
+                img_layer->set_offset(new_offset);
+            }
+            time_ -= delta_t;
         }
-        time_ -= delta_t;
+        else utils::LevelManager::reference()->StartGame(type_);
     }
-    else utils::LevelManager::reference()->StartGame(type_);
 
 }
 

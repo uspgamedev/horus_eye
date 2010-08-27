@@ -27,6 +27,9 @@ class ImageFactory {
     virtual Image* DoorImage();
     virtual Image* FloorImage();
     virtual Image* WallImage();
+    virtual Image* IntroImage();
+    virtual Image* WinImage();
+    virtual Image* LoseImage();
 
   protected:
     Image* hero_image_;
@@ -39,6 +42,9 @@ class ImageFactory {
     Image* door_image_;
     Image* floor_image_;
     Image* wall_image_;
+    Image* intro_image_;
+    Image* win_image_;
+    Image* lose_image_;
 
 };
 
