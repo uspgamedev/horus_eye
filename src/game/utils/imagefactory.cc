@@ -26,11 +26,14 @@ namespace utils {
         projectile_image_ = VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png");
         projectile_image_->set_frame_size( Vector2D(32, 32) );
 
-        life_potion_image_ = VIDEO_MANAGER()->LoadImage("data/images/life_potion.png");
-        life_potion_image_->set_frame_size(Vector2D(20, 20));
+        life_potion_image_ = VIDEO_MANAGER()->LoadImage("data/images/life_potion2.png");
+        life_potion_image_->set_frame_size(Vector2D(30, 30));
 
-        mana_potion_image_ = VIDEO_MANAGER()->LoadImage("data/images/life_potion.png");
-        mana_potion_image_->set_frame_size(Vector2D(20, 20));
+        mana_potion_image_ = VIDEO_MANAGER()->LoadImage("data/images/mana_potion.png");
+        mana_potion_image_->set_frame_size(Vector2D(30, 30));
+
+        sight_potion_image_ = VIDEO_MANAGER()->LoadImage("data/images/sight_potion.png");
+        sight_potion_image_->set_frame_size(Vector2D(30, 30));
 
         door_image_ = VIDEO_MANAGER()->LoadImage("data/images/stairs3.png");
         door_image_->set_frame_size(Vector2D(153, 109));
@@ -68,6 +71,9 @@ namespace utils {
     }
     Image* ImageFactory::ManaPotionImage() {
         return mana_potion_image_;
+    }
+    Image* ImageFactory::SightPotionImage() {
+        return sight_potion_image_;
     }
     Image* ImageFactory::DoorImage() {
         return door_image_;

@@ -4,7 +4,7 @@ W X X X X X X X X X X X X X X X X X X X W
 W X X X X X X X X X X X X X X X X X X X W
 W X X W W W W W W X X X W W W W W W X X W
 W X X W X X X X X X X X X X X X X W X X W
-W X X W X X X X L X X X X X X X X W X X W
+W X X W X X S N L X X X X X X X X W X X W
 W X X W X X X X X X W X X X X X X W X X W
 W X X W X X X H X X W X X D D X X W X X W
 W X X X X X X X X X W X X X X X X W X X W

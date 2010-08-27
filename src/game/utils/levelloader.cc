@@ -30,6 +30,8 @@ using namespace framework;
 #define FLOOR        'X'
 #define EMPTY        'O'
 #define POTIONL      'L'
+#define POTIONM		 'N'	
+#define POTIONS		 'S'	
 
 void LevelLoader::LoadMatrix(string file_name) {
     FILE* file = fopen(file_name.c_str(),"r");
@@ -127,6 +129,16 @@ void LevelLoader::Load(string file_name) {
                     }
                     case POTIONL: {
                         world_->AddPotion(position, 0);
+                        world_->AddFloor(position);
+                        break;
+                    }
+                    case POTIONM: {
+                    	world_->AddPotion(position, 1);
+                        world_->AddFloor(position);
+                        break;
+                    }
+                    case POTIONS: {
+                    	world_->AddPotion(position, 2);
                         world_->AddFloor(position);
                         break;
                     }

@@ -24,6 +24,7 @@ class ImageFactory {
     virtual Image* ProjectileImage();
     virtual Image* LifePotionImage();
     virtual Image* ManaPotionImage();
+    virtual Image* SightPotionImage();
     virtual Image* DoorImage();
     virtual Image* FloorImage();
     virtual Image* WallImage();
@@ -39,6 +40,7 @@ class ImageFactory {
     Image* projectile_image_;
     Image* life_potion_image_;
     Image* mana_potion_image_;
+    Image* sight_potion_image_;
     Image* door_image_;
     Image* floor_image_;
     Image* wall_image_;

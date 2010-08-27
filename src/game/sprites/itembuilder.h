@@ -19,6 +19,7 @@ class ItemBuilder {
 
     Item* life_potion();
     Item* mana_potion();
+    Item* sight_potion();
 
   protected:
 
@@ -44,6 +45,18 @@ class ItemBuilder {
       private:
 
         int recover_;
+
+    };
+    class IncreaseSightEvent : public ItemEvent {
+
+      public:
+
+        IncreaseSightEvent (int additional_sight) : additional_sight_(additional_sight) {}
+        bool Use (Hero *);
+
+      private:
+
+        float additional_sight_;
 
     };
 

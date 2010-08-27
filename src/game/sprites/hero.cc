@@ -198,6 +198,7 @@ void Hero::StartExplosion() {
     Explosion * explosion = new Explosion(pos, versor);
     world_->AddWorldObject(explosion);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    --mana_;
 }
 
 int Hero::GetMouseState() {
@@ -214,7 +215,7 @@ void Hero::Update(float delta_t) {
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         if (this->GetMouseState()==1)
             this->StartAttack();
-        if (this->GetMouseState()==2)
+        if (this->GetMouseState()==2 && mana_ > 0)
             this->StartExplosion();
         if(!waiting_animation_){
             Creature::Move(this->GetWalkingDirection(), delta_t);

@@ -27,6 +27,10 @@ bool ItemBuilder::RecoverManaEvent::Use (Hero *hero) {
     }
     return false;
 }
+bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
+	hero->set_light_radius(hero->light_radius() + additional_sight_);
+	return true;
+}
 
 Item* ItemBuilder::life_potion() {
     ImageFactory image_factory;
@@ -38,6 +42,12 @@ Item* ItemBuilder::mana_potion() {
     ImageFactory image_factory;
     Item* potion = new Item(image_factory.ManaPotionImage());
     potion->set_event(new RecoverManaEvent(1));
+    return potion;
+}
+Item* ItemBuilder::sight_potion() {
+    ImageFactory image_factory;
+    Item* potion = new Item(image_factory.SightPotionImage());
+    potion->set_event(new IncreaseSightEvent(1));
     return potion;
 }
 

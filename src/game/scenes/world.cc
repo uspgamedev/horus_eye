@@ -209,6 +209,9 @@ void World::AddPotion(framework::Vector2D &pos, int type) {
             potion = potion_builder_.mana_potion();
             break;
 
+        case 2:
+        	potion = potion_builder_.sight_potion();
+        	break;
     }
     
     potion->set_world_position(pos);
