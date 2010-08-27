@@ -21,18 +21,16 @@ using std::map;
 
 class Fog: public framework::Layer {
   public:
-    Fog(bool single_light);
-    virtual ~Fog();
-
-    void SetLightSource(sprite::WorldObject*);
+    Fog();
+    ~Fog();
 
     void AddLightSource(sprite::WorldObject*);
     void RemoveLightSource(sprite::WorldObject*);
+    void UpdateLightSource(sprite::WorldObject*);
 
     virtual void Render();
 
   private:
-    bool single_light_;
     framework::Image* blank_background_;
     map<sprite::WorldObject*, framework::Sprite*> light_sources_;
 };

@@ -38,6 +38,7 @@ class WorldObject : public framework::Sprite {
     virtual Status status() const { return status_; }
     virtual void Update(float dt);
     virtual float light_radius(){ return light_radius_; }
+    virtual void set_light_radius(float radius);
 
     // atributos
     virtual framework::Vector2D world_position() const {

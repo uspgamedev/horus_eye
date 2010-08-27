@@ -35,7 +35,7 @@ using namespace sprite;
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
 
-    fog_ = new Fog(false);
+    fog_ = new Fog();
     AddLayer(fog_);
 
     hero_ = hero;
