@@ -60,6 +60,9 @@ Mummy::Mummy(Image* img) {
     direction_mapping_[6] = Animation_::DOWN;
     direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
+	for(int i = 0;i < 8;i++) 
+		attacking_animations_[i]->set_fps(5);
+
     taking_damage_animation_ = new Animation(10, 80, 81, 82, -1);
     dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
 
