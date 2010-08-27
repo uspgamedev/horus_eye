@@ -21,6 +21,7 @@ class CircleObject : public CollisionObject {
     virtual ~CircleObject() {}
 
     float radius() const { return radius_; }
+    void set_radius(float radius) { radius_ = radius; }
 
     bool Intersects (const RectObject *) const;
     bool Intersects (const CircleObject *) const;
