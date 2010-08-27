@@ -13,6 +13,7 @@
 #include "item.h"
 #include "hero.h"
 #include "projectile.h"
+#include "explosion.h"
 #include "mummyprojectile.h"
 #include "mummy.h"
 #include "../utils/constants.h"
@@ -84,7 +85,7 @@ Hero::Hero(Image* img) {
 }
 
 void Hero::TakeDamage(int life_points) {
-	if(hit_duration_->Expired()) {
+    if(hit_duration_->Expired()) {
         life_ -= life_points;
         hit_duration_->Restart(2000);
         blink_time_ = 0;
@@ -103,7 +104,7 @@ void Hero::CollidesWith(Mummy *obj) {
 }
 
 void Hero::CollidesWith(MummyProjectile* obj) {
-	TakeDamage(obj->damage());
+    TakeDamage(obj->damage());
 }
 
 void Hero::CollidesWith(Item *obj) {
@@ -125,26 +126,26 @@ void Hero::GetKeys() {
     }
 
     animation_direction_ = 0;
-	int num_dirs = 0;
+    int num_dirs = 0;
     if(input_->KeyDown(K_w)) {
         pressed_key_[Direction_::UP] = true;
         animation_direction_ += Animation_::UP;
-		num_dirs++;
+        num_dirs++;
     }
     if(input_->KeyDown(K_a)) {
         pressed_key_[Direction_::LEFT] = true;
         animation_direction_ += Animation_::LEFT;
-		num_dirs++;
+        num_dirs++;
     }
     if(input_->KeyDown(K_s) && num_dirs < 2) {
         pressed_key_[Direction_::DOWN] = true;
         animation_direction_ += Animation_::DOWN;
-		num_dirs++;
+        num_dirs++;
     }
     if(input_->KeyDown(K_d) && num_dirs < 2) {
         pressed_key_[Direction_::RIGHT] = true;
         animation_direction_ += Animation_::RIGHT;
-		num_dirs++;
+        num_dirs++;
     }
 
     last_standing_animation_ = *(standing_animations_[animation_direction_]);
@@ -179,38 +180,64 @@ void Hero::StartAttack() {
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
-bool Hero::GetMouseState() {
+void Hero::StartExplosion() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT);
+
+    Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_ + projectile_height);
+    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
+    waiting_animation_ = true;
+    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+
+    World *world_ = ((World *)Engine::reference()->CurrentScene());
+    // Ajuste da altura do projetil.
+    //Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_SPRITE_CENTER_Y+Constants::PROJECTILE_HEIGHT);
+    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-world_position()),
+             pos = world_position();
+    Explosion * explosion = new Explosion(pos, versor);
+    world_->AddWorldObject(explosion);
+    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+}
+
+int Hero::GetMouseState() {
+    InputManager *input_ = Engine::reference()->input_manager();
+    if (input_->MouseDown(M_BUTTON_LEFT))
+        return 1;
+    if (input_->MouseDown(M_BUTTON_RIGHT))
+        return 2;
+    return 0;
 }
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
-		if (this->GetMouseState())
-			this->StartAttack();
-		if(!waiting_animation_){
-			Creature::Move(this->GetWalkingDirection(), delta_t);
-			this->GetKeys();
-			this->SelectAnimation(*walking_animations_[animation_direction_]);
-		}
+        if (this->GetMouseState()==1)
+            this->StartAttack();
+        if (this->GetMouseState()==2)
+            this->StartExplosion();
+        if(!waiting_animation_){
+            Creature::Move(this->GetWalkingDirection(), delta_t);
+            this->GetKeys();
+            this->SelectAnimation(*walking_animations_[animation_direction_]);
+        }
     }
     if (!hit_duration_->Expired()) {
-    	blink_time_ += delta_t;
-    	if (blink_time_ > 0.05) {
-    		blink_ = !blink_;
-    		blink_time_ = 0;
-    	}
+        blink_time_ += delta_t;
+        if (blink_time_ > 0.05) {
+            blink_ = !blink_;
+            blink_time_ = 0;
+        }
     }
     else if (blink_) {
-    	blink_ = false;
+        blink_ = false;
     }
     speed_ = original_speed_;
 }
 
 void Hero::Render(Image *back_buffer, Vector2D &offset) {
 
-	if (!blink_) Sprite::Render(back_buffer, offset);
+    if (!blink_) Sprite::Render(back_buffer, offset);
 
 }
 

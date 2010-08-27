@@ -14,6 +14,7 @@
 #include "../utils/constants.h"
 #include "mummy.h"
 #include "projectile.h"
+#include "explosion.h"
 #include "weapon.h"
 #include <cmath>
 #include <iostream>
@@ -88,9 +89,22 @@ void Mummy::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
+void Mummy::CollidesWith(Explosion* obj) {
+    life_--;
+    if (life_ == 0) {
+        this->SelectAnimation(dying_animation_);
+        this->status_ = WorldObject::STATUS_DYING;
+        this->collision_type_ = WorldObject::NO_COLLISION;
+        PlayHitSound();
+    } else {
+        waiting_animation_ = true;
+        this->SelectAnimation(taking_damage_animation_);
+    }
+}
+
 void Mummy::CollidesWith(Projectile* obj) {
-    life_ -= obj->damage();
-    if (life_ <= 0) {
+    life_--;
+    if (life_ == 0) {
         this->SelectAnimation(dying_animation_);
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;

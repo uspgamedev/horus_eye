@@ -25,7 +25,7 @@ class Hero : public Creature{
   public:
     Hero(Image* img = NULL);
     ~Hero() {} 
-	void TakeDamage(int life_points = 1);
+    void TakeDamage(int life_points = 1);
     virtual void CollidesWith(Mummy *);
     virtual void CollidesWith(Item *);
     virtual void CollidesWith(MummyProjectile *);
@@ -41,7 +41,8 @@ class Hero : public Creature{
     virtual void Update(float delta_t);
     virtual void Render(Image *back_buffer, Vector2D &offset);
     void StartAttack();
-    bool GetMouseState();
+    void StartExplosion();
+    int GetMouseState();
     void GetKeys();
 };
 
