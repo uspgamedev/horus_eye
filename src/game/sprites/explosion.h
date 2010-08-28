@@ -11,6 +11,7 @@
 
 #include "worldobject.h"
 #include "../../framework/vector2D.h"
+#include <set>
 
 namespace framework {
 class TimeAccumulator;
@@ -44,6 +45,7 @@ class Explosion : public WorldObject {
     bool exploding_;
     framework::Vector2D direction_;
     framework::TimeAccumulator *duration_;
+    std::set<Mummy*> already_hit_;
 
     void Explode();
 };

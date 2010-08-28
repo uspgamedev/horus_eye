@@ -19,7 +19,7 @@
 #include "mummy.h"
 #include "projectile.h"
 #include "explosion.h"
-#include "weapon.h"
+#include "weapons/weapon.h"
 
 using namespace std;
 using namespace framework;
@@ -91,6 +91,7 @@ void Mummy::HandleCollision(WorldObject* obj) {
 }
 
 void Mummy::CollidesWith(Explosion* obj) {
+    /*
     life_ -= obj->damage();
     if (life_ <= 0) {
         this->SelectAnimation(dying_animation_);
@@ -100,16 +101,29 @@ void Mummy::CollidesWith(Explosion* obj) {
     } else {
         waiting_animation_ = true;
         this->SelectAnimation(taking_damage_animation_);
-    }
+    }*/
 }
 
 void Mummy::CollidesWith(Projectile* obj) {
+    /*
     life_ -= obj->damage();
     if (life_ <= 0) {
         this->SelectAnimation(dying_animation_);
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;
-        PlayHitSound();
+    } else {
+        waiting_animation_ = true;
+        this->SelectAnimation(taking_damage_animation_);
+    }*/
+}
+
+void Mummy::TakeDamage(int life_points) {
+    life_ -= life_points;
+    PlayHitSound();
+    if(life_ <= 0) {
+        this->SelectAnimation(dying_animation_);
+        this->status_ = WorldObject::STATUS_DYING;
+        this->collision_type_ = WorldObject::NO_COLLISION;
     } else {
         waiting_animation_ = true;
         this->SelectAnimation(taking_damage_animation_);

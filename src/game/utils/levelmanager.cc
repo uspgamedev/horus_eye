@@ -15,11 +15,13 @@
 #include "../scenes/imagescene.h"
 #include "imagefactory.h"
 #include "levelloader.h"
+#include "../sprites/weapons/herobaseweapon.h"
 #include <cstdio>
 
 using namespace framework;
 using namespace std;
 using namespace scene;
+using namespace sprite;
 
 namespace utils {
 
@@ -122,6 +124,7 @@ void LevelManager::LoadNextLevel() {
 	if (level_list_iterator_ == 0) {
 		hero_->set_life(hero_->max_life());
 		hero_->set_mana(hero_->max_mana());
+		hero_->AddWeapon(0, new HeroBaseWeapon(hero_));
 	}
     current_level_ = new World(hero_);
     LevelLoader *loader = new LevelLoader(current_level_);

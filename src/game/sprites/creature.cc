@@ -51,6 +51,17 @@ Creature::~Creature() {
 
 }
 
+void Creature::TakeDamage(int life_points) {
+    life_ -= life_points;
+    if(life_ <= 0) {
+        if (status_ == WorldObject::STATUS_ACTIVE) {
+            this->SelectAnimation(dying_animation_);
+            this->status_ = WorldObject::STATUS_DYING;
+            this->collision_type_ = WorldObject::NO_COLLISION;
+        }
+    }
+}
+
 void Creature::InitializeAttackingAnimations() {
     attacking_animations_[6] = new Animation(10, 44, 54, 64, 74, -1);
     attacking_animations_[4] = new Animation(10, 47, 57, 67, 77, -1);

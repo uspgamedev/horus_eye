@@ -9,6 +9,7 @@ class Weapon {
 	}
 	virtual float range() = 0;
 	virtual void Attack() = 0;
+	virtual bool Available() = 0;
 
 	protected:
 	Creature* owner_;

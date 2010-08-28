@@ -11,6 +11,7 @@ class MummyWeapon : public Weapon {
 
 	virtual float range(){ return 1.0f; }
 	virtual void Attack();
+	virtual bool Available() { return true; }
 
 };
 

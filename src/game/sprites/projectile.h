@@ -8,6 +8,7 @@
 
 #ifndef HORUSEYE_GAME_SPRITES_PROJECTILE_H_
 #define HORUSEYE_GAME_SPRITES_PROJECTILE_H_
+#include <set>
 
 #include "worldobject.h"
 #include "../../framework/vector2D.h"
@@ -21,6 +22,7 @@ namespace sprite {
 class Mummy;
 class Wall;
 class Door;
+class Creature;
 class Projectile : public WorldObject {
 
   public:

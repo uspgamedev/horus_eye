@@ -1,6 +1,6 @@
 #include "mummybuilder.h"
-#include "mummyweapon.h"
-#include "mummyrangedweapon.h"
+#include "weapons/mummyweapon.h"
+#include "weapons/mummyrangedweapon.h"
 #include "../utils/imagefactory.h"
 
 using namespace sprite;

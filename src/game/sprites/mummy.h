@@ -31,6 +31,7 @@ class Mummy : public Creature {
   public:
     Mummy(Image* img = NULL);
     ~Mummy();
+
     virtual void HandleCollision(WorldObject *);
     virtual void CollidesWith(Projectile *);
     virtual void CollidesWith(Explosion *);
@@ -39,6 +40,7 @@ class Mummy : public Creature {
     
     void set_speed(float speed) { original_speed_ = speed_ = speed; }
     void set_life(int life) { life_ = life; }
+    void TakeDamage(int life_points = 1);
 	void set_weapon(Weapon *weapon) { weapon_ = weapon; }
     void set_bound(float radius) {
 		if(bound_ != NULL)

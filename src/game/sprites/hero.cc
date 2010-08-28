@@ -20,6 +20,9 @@
 #include "mummyprojectile.h"
 #include "mummy.h"
 #include "../utils/constants.h"
+#include "weapons/herobaseweapon.h"
+#include <cmath>
+#include <iostream>
 
 using namespace std;
 using namespace framework;
@@ -83,6 +86,20 @@ Hero::Hero(Image* img) {
     bound_ = new CircleObject(0.3f);
     blink_time_ = 0;
     blink_ = false;
+    slot_selected_ = -1;
+    weapon_ = NULL;
+}
+
+void Hero::AddWeapon(int slot, Weapon* weapon) {
+    if (!weapons_.count(slot)) weapons_[slot] = weapon;
+    if (!weapon_) ChangePrimaryWeapon(slot);
+}
+
+void Hero::ChangePrimaryWeapon(int slot) {
+    if (slot != slot_selected_) {
+        slot_selected_ = slot;
+        weapon_ = weapons_[slot];
+    }
 }
 
 void Hero::TakeDamage(int life_points) {
@@ -172,7 +189,7 @@ void Hero::StartAttack() {
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
-
+/*
     World *world_ = WORLD();
     // Ajuste da altura do projetil.
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(
@@ -181,6 +198,7 @@ void Hero::StartAttack() {
     Projectile * projectile = new Projectile(pos, versor);
     world_->AddWorldObject(projectile);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    */
 }
 
 void Hero::StartExplosion() {
@@ -217,8 +235,9 @@ int Hero::GetMouseState() {
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
-        if (this->GetMouseState()==1)
-            this->StartAttack();
+        if (this->GetMouseState()==1 && weapon_->Available())
+            //this->StartAttack();
+            weapon_->Attack();
         if (this->GetMouseState()==2 && mana_ > 0)
             this->StartExplosion();
         if(!waiting_animation_){

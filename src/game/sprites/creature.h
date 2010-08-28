@@ -23,6 +23,8 @@ namespace sprite {
 using namespace framework;
 using namespace utils;
 
+class Weapon;
+
 class Creature : public WorldObject , public Observer {
   public:
     Creature();
@@ -42,6 +44,8 @@ class Creature : public WorldObject , public Observer {
 		if (mana_ > max_mana_) mana_ = max_mana_;
 	}
     int max_mana() { return  max_mana_; }
+    virtual void TakeDamage(int life_points = 1);
+    void set_weapon(Weapon *weapon) { weapon_ = weapon; }
 
     // Colisoes
     virtual void CollidesWith(Wall *);
@@ -59,6 +63,7 @@ class Creature : public WorldObject , public Observer {
     Animation * attacking_animations_[8];
     Animation * taking_damage_animation_;
     Animation * dying_animation_;
+    Weapon *weapon_;
 
     Vector2D directions_[4];
     

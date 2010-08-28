@@ -41,7 +41,7 @@ const float Constants::MUMMY_SPEED = 2.0f;
 const float Constants::BIG_MUMMY_RADIUS = 0.5f;
 const float Constants::BIG_MUMMY_SPEED = 1.7f;
 
-const float Constants::POTION_SPRITE_CENTER_X = 1.0f;
-const float Constants::POTION_SPRITE_CENTER_Y = 19.0f;
+const float Constants::POTION_SPRITE_CENTER_X = 15.0f;
+const float Constants::POTION_SPRITE_CENTER_Y = 15.0f;
 const float Constants::POTION_HEIGHT = 16.0f;
 }

@@ -7,6 +7,7 @@
 //
 
 #include "projectile.h"
+#include "mummy.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
@@ -64,6 +65,9 @@ void Projectile::CollidesWith(Door * obj) {
 }
 
 void Projectile::CollidesWith(Mummy *obj) {
+    if (this->status_ == WorldObject::STATUS_ACTIVE) {
+        obj->TakeDamage();
+    }
     this->status_ = WorldObject::STATUS_DEAD;
 }
 

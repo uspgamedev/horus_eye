@@ -7,6 +7,7 @@
 //
 
 #include "explosion.h"
+#include "mummy.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
@@ -73,6 +74,10 @@ void Explosion::CollidesWith(Door * obj) {
 	Explode();
 }
 void Explosion::CollidesWith(Mummy *obj) {
+    if (!already_hit_.count(obj)) {
+        obj->TakeDamage();
+        already_hit_.insert(obj);
+    }
 	Explode();
 }
 void Explosion::HandleCollision(WorldObject* obj) {
