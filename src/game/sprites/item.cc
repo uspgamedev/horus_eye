@@ -10,12 +10,16 @@
 #include "item.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
+#include "../../framework/vector2D.h"
 
 #define CENTER_X    Constants::POTION_SPRITE_CENTER_X
 #define CENTER_Y    Constants::POTION_SPRITE_CENTER_Y
 #define HEIGHT      Constants::POTION_HEIGHT
 
 namespace sprite {
+
+using namespace framework;
+using namespace utils;
 
 Item::Item(framework::Image* img) {
     Initialize(img);

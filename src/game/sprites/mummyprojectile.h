@@ -9,9 +9,6 @@
 #ifndef HORUSEYE_GAME_SPRITES_MUMMY_PROJECTILE_H_
 #define HORUSEYE_GAME_SPRITES_MUMMY_PROJECTILE_H_
 
-#include "../../framework/sprite.h"
-#include "../../framework/engine.h"
-
 #include "worldobject.h"
 
 namespace framework {
@@ -26,7 +23,7 @@ class Door;
 class MummyProjectile : public WorldObject {
 
   public:
-	MummyProjectile(framework::Vector2D & pos, framework::Vector2D &);
+	MummyProjectile(framework::Vector2D & pos, framework::Vector2D &, int damage = 1);
 	~MummyProjectile();
 	void Move(float delta_t);
 	void Update(float delta_t);

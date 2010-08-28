@@ -1,19 +1,22 @@
-#ifndef HORUSEYE_GAME_SPRITES_MUMMYRANGEDWEAPON_H_
-#define HORUSEYE_GAME_SPRITES_MUMMYRANGEDWEAPON_H_
+#ifndef HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYRANGEDWEAPON_H_
+#define HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYRANGEDWEAPON_H_
 #include "weapon.h"
+#include "../../utils/constants.h"
 
 namespace sprite {
 
 class MummyRangedWeapon : public Weapon {
-	public:
-	MummyRangedWeapon(Creature* owner) : Weapon(owner) {}
+  public:
+    MummyRangedWeapon(Creature* owner, int damage = 1) :
+        Weapon(owner), damage_(damage) {}
 
-	virtual float range(){ return 5.0f; }
-	virtual void Attack();
-	virtual bool Available() { return true; }
-
+    virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }
+    virtual void Attack();
+    virtual bool Available() { return true; }
+  private:
+    int damage_;
 };
 
 }//namespace
 
-#endif /* MUMMYRANGEDWEAPON_H_ */
+#endif /* HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYRANGEDWEAPON_H_ */

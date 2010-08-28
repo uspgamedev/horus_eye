@@ -30,7 +30,7 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     ImageFactory image_factory;
     Initialize( image_factory.ProjectileImage() );
     set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
-	damage_ = 1;
+	damage_ = Constants::PROJECTILE_DAMAGE;
     speed_ = Constants::PROJECTILE_SPEED;
     bound_ = new CircleObject(0.15f);
     set_world_position(pos);

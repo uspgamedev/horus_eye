@@ -13,19 +13,22 @@
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/rectobject.h"
-#include "door.h"
-#include "wall.h"
 #include "worldobject.h"
+
+namespace framework {
+class TimeAccumulator;
+}
+
 namespace sprite {
 
-// Classe Creature
-
-using namespace framework;
-using namespace utils;
+using framework::Animation;
+using framework::Vector2D;
 
 class Weapon;
+class Door;
+class Wall;
 
-class Creature : public WorldObject , public Observer {
+class Creature : public WorldObject , public framework::Observer {
   public:
     Creature();
     virtual ~Creature();
@@ -96,7 +99,7 @@ class Creature : public WorldObject , public Observer {
     virtual framework::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
-    void CollideWithRect(const RectObject*);
+    void CollideWithRect(const utils::RectObject*);
 
     // variaveis
     Vector2D last_stable_position_;

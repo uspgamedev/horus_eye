@@ -2,20 +2,22 @@
 #include "../../scenes/world.h"
 #include "../hero.h"
 #include "../mummyprojectile.h"
+#include "../../../framework/engine.h"
 #include "../../../framework/audiomanager.h"
 
 namespace sprite {
 
+using framework::Vector2D;
+
 void MummyRangedWeapon::Attack(){
-    scene::World *world = ((scene::World *)Engine::reference()->CurrentScene());
+    scene::World *world = WORLD();
     Hero* hero = world->hero();
 
-    framework::Vector2D versor = framework::Vector2D::Normalized(hero->world_position() - owner_->world_position());
-    framework::Vector2D pos = owner_->world_position();
+    Vector2D versor = Vector2D::Normalized(hero->world_position() - owner_->world_position());
+    Vector2D pos = owner_->world_position();
 
-    sprite::MummyProjectile * projectile = new sprite::MummyProjectile(pos, versor);
-    world->AddWorldObject(projectile);
-    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    world->AddWorldObject(new sprite::MummyProjectile(pos, versor, damage_));
+    framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     ((Mummy*)owner_)->StartAttack(hero);
 }

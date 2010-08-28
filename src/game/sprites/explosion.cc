@@ -30,7 +30,7 @@ Explosion::Explosion(Vector2D & pos, Vector2D & dir) :
     ImageFactory image_factory;
     Initialize( image_factory.ProjectileImage() );
 	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
-	damage_ = 1;
+	damage_ = Constants::EXPLOSION_DAMAGE;
 	speed_ = Constants::PROJECTILE_SPEED;
 	bound_ = new CircleObject(0.15f);
 	set_world_position(pos);
@@ -51,7 +51,7 @@ void Explosion::Move(float delta_t) {
 
 void Explosion::RadiusUpdate(float delta_t) {
 	CircleObject* bound = static_cast<CircleObject*>(this->bound_);
-	bound->set_radius(1.5f);
+	bound->set_radius(Constants::EXPLOSION_DAMAGE_RADIUS);
 }
 
 void Explosion::Update(float delta_t) {
@@ -66,23 +66,21 @@ void Explosion::Update(float delta_t) {
 	}
 }
 
-void Explosion::CollidesWith(Wall * obj) {
-	Explode();
-}
+void Explosion::CollidesWith(Wall * obj) { Explode(); }
+void Explosion::CollidesWith(Door * obj) { Explode(); }
 
-void Explosion::CollidesWith(Door * obj) {
-	Explode();
-}
 void Explosion::CollidesWith(Mummy *obj) {
     if (!already_hit_.count(obj)) {
-        obj->TakeDamage();
+        obj->TakeDamage(damage_);
         already_hit_.insert(obj);
     }
 	Explode();
 }
+
 void Explosion::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
+
 void Explosion::Explode(){
 	if(!exploding_) {
 		exploding_ = true;

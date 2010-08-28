@@ -32,6 +32,7 @@ namespace scene {
 
 using namespace framework;
 using namespace sprite;
+using namespace utils;
 
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
     AddLayer(world_layer_);

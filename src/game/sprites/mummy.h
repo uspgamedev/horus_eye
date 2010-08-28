@@ -24,18 +24,14 @@ class TimeAccumulator;
 namespace sprite {
 
 class Weapon;
-class Explosion;
 
 class Mummy : public Creature {
 
   public:
-    Mummy(Image* img = NULL);
+    Mummy(framework::Image* img = NULL);
     ~Mummy();
 
     virtual void HandleCollision(WorldObject *);
-    virtual void CollidesWith(Projectile *);
-    virtual void CollidesWith(Explosion *);
-    virtual void CollidesWith(Hero *);
     virtual void CollidesWith(Mummy *);
     
     void set_speed(float speed) { original_speed_ = speed_ = speed; }
@@ -45,13 +41,13 @@ class Mummy : public Creature {
     void set_bound(float radius) {
 		if(bound_ != NULL)
 			delete bound_;
-		bound_ = new CircleObject(radius);
+		bound_ = new utils::CircleObject(radius);
 	}
 
     void StartAttack(Creature* obj);
   private:
 
-    TimeAccumulator *interval_;
+    framework::TimeAccumulator *interval_;
     float time_to_think_;
     bool standing_;
     Vector2D last_direction_;

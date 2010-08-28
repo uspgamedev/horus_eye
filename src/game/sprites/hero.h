@@ -17,7 +17,6 @@
 namespace sprite {
 
 class Mummy;
-class Item;
 class MummyProjectile;
 class Hero : public Creature {
 
@@ -26,7 +25,6 @@ class Hero : public Creature {
     ~Hero() {} 
     void TakeDamage(int life_points = 1);
     virtual void CollidesWith(Mummy *);
-    virtual void CollidesWith(Item *);
     virtual void CollidesWith(MummyProjectile *);
     virtual void HandleCollision(WorldObject *);
     void AddWeapon(int slot, Weapon* weapon);

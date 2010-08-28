@@ -30,13 +30,13 @@ using namespace utils;
 
 namespace sprite {
 
-MummyProjectile::MummyProjectile(Vector2D & pos, Vector2D & dir) :
+MummyProjectile::MummyProjectile(Vector2D & pos, Vector2D & dir, int damage) :
         direction_(Vector2D::Normalized(dir))
 {
     Initialize( VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png") );
     image()->set_frame_size( Vector2D(PROJECTILE_SPRITE_WIDTH, PROJECTILE_SPRITE_HEIGHT) );
 	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
-	damage_ = 1;
+	damage_ = damage;
     speed_ = PROJECTILE_SPEED;
     this->bound_ = new CircleObject(0.15f);
     this->set_world_position(pos);

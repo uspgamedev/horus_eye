@@ -10,6 +10,8 @@
 #include "worldobject.h"
 #include "mummy.h"
 #include "hero.h"
+#include "door.h"
+#include "wall.h"
 #include "../utils/circleobject.h"
 
 #include <cmath>

@@ -90,47 +90,13 @@ void Mummy::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
-void Mummy::CollidesWith(Explosion* obj) {
-    /*
-    life_ -= obj->damage();
-    if (life_ <= 0) {
-        this->SelectAnimation(dying_animation_);
-        this->status_ = WorldObject::STATUS_DYING;
-        this->collision_type_ = WorldObject::NO_COLLISION;
-        PlayHitSound();
-    } else {
-        waiting_animation_ = true;
-        this->SelectAnimation(taking_damage_animation_);
-    }*/
-}
-
-void Mummy::CollidesWith(Projectile* obj) {
-    /*
-    life_ -= obj->damage();
-    if (life_ <= 0) {
-        this->SelectAnimation(dying_animation_);
-        this->status_ = WorldObject::STATUS_DYING;
-        this->collision_type_ = WorldObject::NO_COLLISION;
-    } else {
-        waiting_animation_ = true;
-        this->SelectAnimation(taking_damage_animation_);
-    }*/
-}
-
 void Mummy::TakeDamage(int life_points) {
-    life_ -= life_points;
+    Creature::TakeDamage(life_points);
     PlayHitSound();
-    if(life_ <= 0) {
-        this->SelectAnimation(dying_animation_);
-        this->status_ = WorldObject::STATUS_DYING;
-        this->collision_type_ = WorldObject::NO_COLLISION;
-    } else {
+    if(life_ > 0) {
         waiting_animation_ = true;
         this->SelectAnimation(taking_damage_animation_);
     }
-}
-
-void Mummy::CollidesWith(Hero* obj) {
 }
 
 void Mummy::CollidesWith(Mummy *obj) {
@@ -206,7 +172,6 @@ void Mummy::Think(float dt) {
 void Mummy::Update(float delta_t) {
 
     if (status_ == WorldObject::STATUS_DEAD) return;
-
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 

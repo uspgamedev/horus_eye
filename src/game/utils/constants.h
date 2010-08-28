@@ -18,6 +18,9 @@ class Constants {
                        PROJECTILE_DURATION = 5000,
                        EXPLOSION_DURATION = 300,
                        
+                       PROJECTILE_DAMAGE = 1,
+                       EXPLOSION_DAMAGE = 1,
+
                        LIFEPOTION_RECOVER_LIFE = 1,
                        MANAPOTION_RECOVER_MANA = 1,
                        
@@ -36,8 +39,13 @@ class Constants {
                        MANA_METER_OFFSET_Y = -20,
 
 					   MUMMY_LIFE = 1,
+					   MUMMY_DAMAGE = 1,
 
-                       BIG_MUMMY_LIFE = 3;
+                       RANGED_MUMMY_LIFE = 1,
+                       RANGED_MUMMY_DAMAGE = 1,
+
+                       BIG_MUMMY_LIFE = 3,
+                       BIG_MUMMY_DAMAGE = 2;
 
     const static float
         DOOR_HOTSPOT_WIDTH,
@@ -65,8 +73,14 @@ class Constants {
         PROJECTILE_SPRITE_CENTER_Y,
 		PROJECTILE_HEIGHT,
 
+		EXPLOSION_DAMAGE_RADIUS,
+
+		SIGHT_POTION_INCREASE,
+
         MUMMY_RADIUS,
         MUMMY_SPEED,
+
+        RANGED_MUMMY_RANGE,
 
         BIG_MUMMY_RADIUS,
         BIG_MUMMY_SPEED,

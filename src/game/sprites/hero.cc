@@ -104,16 +104,10 @@ void Hero::ChangePrimaryWeapon(int slot) {
 
 void Hero::TakeDamage(int life_points) {
     if(hit_duration_->Expired()) {
-        life_ -= life_points;
+        Creature::TakeDamage(life_points);
+        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
         hit_duration_->Restart(2000);
         blink_time_ = 0;
-        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
-    }
-    if(life_ <= 0) {
-        if (status_ == WorldObject::STATUS_ACTIVE) {
-            this->SelectAnimation(dying_animation_);
-            this->status_ = WorldObject::STATUS_DYING;
-        }
     }
 }
 
@@ -123,13 +117,6 @@ void Hero::CollidesWith(Mummy *obj) {
 
 void Hero::CollidesWith(MummyProjectile* obj) {
     TakeDamage(obj->damage());
-}
-
-void Hero::CollidesWith(Item *obj) {
-    /*life_ += obj->recover_life();
-    if(life_ > max_life_) life_ = max_life_;
-    mana_ += obj->recover_mana();
-    if(mana_ > max_mana_) mana_ = max_mana_;*/
 }
 
 void Hero::HandleCollision(WorldObject* obj) {
@@ -189,16 +176,6 @@ void Hero::StartAttack() {
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
-/*
-    World *world_ = WORLD();
-    // Ajuste da altura do projetil.
-    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(
-            input_->GetMousePosition() + projectile_height)-world_position());
-    Vector2D pos = world_position();
-    Projectile * projectile = new Projectile(pos, versor);
-    world_->AddWorldObject(projectile);
-    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    */
 }
 
 void Hero::StartExplosion() {

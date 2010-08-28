@@ -35,7 +35,7 @@ class ItemBuilder {
     };
     class IncreaseSightEvent : public ItemEvent {
       public:
-        IncreaseSightEvent (int additional_sight) : additional_sight_(additional_sight) {}
+        IncreaseSightEvent (float additional_sight) : additional_sight_(additional_sight) {}
         bool Use (Hero *);
 
       private:
