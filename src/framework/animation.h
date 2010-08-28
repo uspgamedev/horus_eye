@@ -24,6 +24,8 @@ class Animation {
     Animation(float fps, ...);
     ~Animation();
 
+    void set_framelist(int frame1, ...);
+
     void set_fps(float fps) { fps_ = fps; }
     float fps() { return fps_; }
 
@@ -39,6 +41,8 @@ class Animation {
     float elapsed_time_;
     vector<Observer *> observers;
     void NotifyAllObservers();
+
+    void CopyFrameList(int frame_list[], int n_frames);
 
 };
 

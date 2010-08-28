@@ -60,6 +60,7 @@ class Sprite {
 
     // ======================================================================
     void SelectAnimation(Animation *animation);
+    Animation* animation() { return animation_; }
 
     virtual void Render(Image *back_buffer, Vector2D &offset);
 

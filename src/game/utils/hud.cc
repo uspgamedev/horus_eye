@@ -34,13 +34,11 @@
 #define FPS_METER_OFFSET_X  10
 #define FPS_METER_OFFSET_Y  30
 
-using namespace framework;
-using namespace scene;
-
-#define EYE_WIDTH   50
-#define EYE_HEIGHT  50
 #define NUMBER_WIDTH 18
 #define NUMBER_HEIGHT 16
+
+using namespace framework;
+using namespace scene;
 
 namespace utils {
 
@@ -49,25 +47,6 @@ Hud::Hud(World* world) {
     Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
     Image* slash = VIDEO_MANAGER()->LoadImage("data/images/slash2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
-    /*ImageFactory img_fac;
-    Image* img = img_fac.LifeImage();
-    img->set_frame_size(Vector2D(EYE_WIDTH, EYE_HEIGHT));
-    animation_ = new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,
-                               13, 14, 15, 16, 17, 18, 19, 20, 21, 22, -1);
-
-    life_icons_ = (Sprite**) malloc((world->hero()->max_life())*sizeof(*life_icons_));
-    icon_count_ = world->hero()->max_life();
-    for(int i = 0; i < icon_count_; ++i) {
-        life_icons_[i] = new Sprite;
-        life_icons_[i]->Initialize(img);
-
-        life_icons_[i]->set_position(Vector2D(
-                LIFE_METER_OFFSET_X + VIDEO_MANAGER()->video_size().x - LIFE_IMAGE_WIDTH*(i+1),
-                LIFE_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - LIFE_IMAGE_HEIGHT));
-        life_icons_[i]->SelectAnimation(animation_);
-        life_icons_[i]->set_visible(i < world->hero()->life());
-        //AddSprite(life_icons_[i]);
-    }*/
 
     //Criando sprites da life bar
     life_bar_[0] = new Sprite;
@@ -122,16 +101,12 @@ Hud::Hud(World* world) {
     AddSprite(mana_bar_[0]);
 
 
-    for(int i = 0; i < 5; ++i) {
+    for(int i = 0; i < 7; ++i) {
         enemy_counter_[i] = new Sprite;
-        if(i != 2) { // 2 == Slash
+        if(i != 3) // 3 == Slash
             enemy_counter_[i]->Initialize(number);
-            enemy_animation_[i] = new Animation(50, 0, -1);
-            enemy_counter_[i]->SelectAnimation(enemy_animation_[i]);
-        } else {
+        else
             enemy_counter_[i]->Initialize(slash);
-            enemy_animation_[i] = NULL;
-        }
         enemy_counter_[i]->set_position(Vector2D(
                 ENEMY_COUNTER_OFFSET_X + VIDEO_MANAGER()->video_size().x - NUMBER_WIDTH*(i+1),
                 ENEMY_COUNTER_OFFSET_Y ));
@@ -139,9 +114,8 @@ Hud::Hud(World* world) {
         enemy_counter_value_[i] = 0;
     }
 
-    for(int i = 0; i < 4; ++i) {
+    for(int i = 0; i < 3; ++i) {
         (fps_meter_[i] = new Sprite)->Initialize(number);
-        fps_meter_[i]->SelectAnimation(fps_animation_[i] = new Animation(50, 0, -1));
         fps_meter_[i]->set_position(Vector2D(
                         FPS_METER_OFFSET_X + NUMBER_WIDTH*i, FPS_METER_OFFSET_Y ));
         AddSprite(fps_meter_[i]);
@@ -171,36 +145,33 @@ void Hud::Update(float delta_t) {
     Layer::Update(delta_t);
     World* world = WORLD();
 
-    int newval[5];
-    int temp = world->CountRemainingEnemies();
-    temp = temp > 99 ? 99 : temp;
-    newval[4] = temp / 10;
-    newval[3] = temp % 10;
-    newval[2] = 0;
-    temp = (temp = world->max_enemies()) > 99 ? 99 : temp;
-    newval[1] = temp / 10;
+    int newval[7], temp;
+    temp = (temp = world->CountRemainingEnemies()) > 999 ? 999 : temp;
+    newval[6] = temp / 100;
+    newval[5] = (temp / 10) % 10;
+    newval[4] = temp % 10;
+    newval[3] = 0;
+    temp = (temp = world->max_enemies()) > 999 ? 999 : temp;
+    newval[2] = temp / 100;
+    newval[1] = (temp / 10) % 10;
     newval[0] = temp % 10;
 
-    for(int i = 0; i < 5; ++i)
+    for(int i = 0; i < 7; ++i)
         if(newval[i] != enemy_counter_value_[i]) {
             enemy_counter_value_[i] = newval[i];
-            delete enemy_animation_[i];
-            enemy_animation_[i] = new Animation(50, enemy_counter_value_[i], -1);
-            enemy_counter_[i]->SelectAnimation(enemy_animation_[i]);
+            enemy_counter_[i]->animation()->set_framelist(enemy_counter_value_[i], -1);
         }
 
     int fps = Engine::reference()->current_fps();
-    if(fps > 9999) fps = 9999;
-    for(int i = 3; i >= 0; --i) {
+    if(fps > 999) fps = 999;
+    for(int i = 2; i >= 0; --i) {
         newval[i] = fps % 10;
         fps /= 10;
     }
-    for(int i = 0; i < 4; ++i) {
+    for(int i = 0; i < 3; ++i) {
         if(newval[i] != fps_meter_value_[i]) {
             fps_meter_value_[i] = newval[i];
-            delete fps_animation_[i];
-            fps_animation_[i] = new Animation(50, fps_meter_value_[i], -1);
-            fps_meter_[i]->SelectAnimation(fps_animation_[i]);
+            fps_meter_[i]->animation()->set_framelist(fps_meter_value_[i], -1);
         }
     }
 
