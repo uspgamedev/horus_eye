@@ -22,7 +22,7 @@ bool solid(char obj){
 }
 
 bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
-    World *world = ((World *)Engine::reference()->CurrentScene());
+    World *world = WORLD();
     char ** matrix = world->level_matrix();
     int width = world->level_width();
     int height = world->level_height();
@@ -53,7 +53,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
 }
 
 queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
-    World *world = ((World *)Engine::reference()->CurrentScene());
+    World *world = WORLD();
     Hero* hero = world->hero();
 
     queue<Vector2D> resp;

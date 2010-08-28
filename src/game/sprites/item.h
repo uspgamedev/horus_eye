@@ -6,12 +6,10 @@
 // lifepotion.h da classe LifePotion
 //
 
-#ifndef LIFEPOTION_H_
-#define LIFEPOTION_H_
+#ifndef HORUSEYE_GAME_SPRITES_ITEM_H_
+#define HORUSEYE_GAME_SPRITES_ITEM_H_
 
 #include "worldobject.h"
-#include "../../framework/sprite.h"
-#include "../../framework/engine.h"
 #include "itemevent.h"
 
 namespace sprite {
@@ -34,4 +32,4 @@ class Item: public sprite::WorldObject {
 
 }
 
-#endif /* LIFEPOTION_H_ */
+#endif /* HORUSEYE_GAME_SPRITES_ITEM_H_ */

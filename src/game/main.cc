@@ -6,6 +6,7 @@
 // Arquivo principal do game (inclui a funcao main())
 //
 #include "../framework/engine.h"
+#include "../framework/audiomanager.h"
 #include "../framework/vector2D.h"
 #include "utils/levelmanager.h"
 

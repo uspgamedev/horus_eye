@@ -6,13 +6,16 @@
 // Implementacao da classe World.
 //
 
+#include <cmath>
+#include <iostream>
 #include "../../framework/engine.h"
+#include "../../framework/videomanager.h"
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/inputmanager.h"
-#include "../sprites/worldobject.h"
 #include "world.h"
 #include "imagescene.h"
+#include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
@@ -22,8 +25,6 @@
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
-#include <cmath>
-#include <iostream>
 
 #define SQRT_3 1.7320508075688772935274463415059
 

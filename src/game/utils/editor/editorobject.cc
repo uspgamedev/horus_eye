@@ -15,6 +15,8 @@
 #include "../constants.h"
 #include <float.h>
 
+using namespace framework;
+
 namespace utils {
 
 EditorObject::EditorObject(WorldEditor::ObjectToken token) {

@@ -9,11 +9,12 @@
 #ifndef HORUSEYE_FRAMEWORK_IMAGE_H_
 #define HORUSEYE_FRAMEWORK_IMAGE_H_
 
-#include <SDL/SDL.h>
 #include <string>
 #include <map>
+#include <SDL/SDL.h>
 #include "vector2D.h"
 #include "types.h"
+#include "videomanager.h"
 using std::string;
 
 namespace framework {

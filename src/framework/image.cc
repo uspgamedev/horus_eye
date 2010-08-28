@@ -5,12 +5,12 @@
 // framework/image.cc
 // Implementacao da classe Image.
 //
+#include <cmath>
+#include <algorithm>
 #include <SDL/SDL_image.h>
 #include "image.h"
 #include "frame.h"
 #include "videomanager.h"
-#include <cmath>
-#include <algorithm>
 
 namespace framework {
 

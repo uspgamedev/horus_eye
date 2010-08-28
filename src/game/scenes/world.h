@@ -12,18 +12,25 @@
 #include <list>
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
-#include "../sprites/hero.h"
-#include "../sprites/worldobject.h"
-#include "../sprites/floor.h"
-#include "../sprites/wall.h"
-#include "../sprites/mummybuilder.h"
-#include "../sprites/itembuilder.h"
 #include "../utils/levelmanager.h"
+#include "../sprites/itembuilder.h"
+#include "../sprites/mummybuilder.h"
 
 namespace utils {
 class Hud;
 class Fog;
 }
+namespace sprite {
+class Hero;
+class WorldObject;
+class Floor;
+class Wall;
+class Mummy;
+}
+
+using framework::Vector2D;
+using framework::Image;
+
 namespace scene {
 
 #define WORLD() (utils::LevelManager::reference()->get_current_level() )

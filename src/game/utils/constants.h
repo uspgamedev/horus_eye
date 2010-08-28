@@ -6,8 +6,8 @@
 // Definicao da classe Constants.
 //
 
-#ifndef CONSTANTS_H_
-#define CONSTANTS_H_
+#ifndef HORUSEYE_GAME_UTILS_CONSTANTS_H_
+#define HORUSEYE_GAME_UTILS_CONSTANTS_H_
 
 namespace utils {
 
@@ -16,6 +16,7 @@ class Constants {
     const static int   PROJECTILE_SPRITE_WIDTH = 32,
                        PROJECTILE_SPRITE_HEIGHT = 32,
                        PROJECTILE_DURATION = 5000,
+                       EXPLOSION_DURATION = 300,
                        
                        LIFEPOTION_RECOVER_LIFE = 1,
                        MANAPOTION_RECOVER_MANA = 1,
@@ -81,4 +82,4 @@ class Constants {
 
 }
 
-#endif /* CONSTANTS_H_ */
+#endif /* HORUSEYE_GAME_UTILS_CONSTANTS_H_ */

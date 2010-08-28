@@ -9,15 +9,18 @@
 #define HORUSEYE_FRAMEWORK_ENGINE_H_
 
 #include <vector>
-#include "inputmanager.h"
-#include "videomanager.h"
-#include "audiomanager.h"
-#include "scene.h"
-#include "timehandler.h"
+#include <string>
+#include "vector2D.h"
 
 using std::vector;
 
 namespace framework {
+
+class VideoManager;
+class InputManager;
+class TimeHandler;
+class AudioManager;
+class Scene;
 
 class Engine {
   public:
@@ -33,7 +36,7 @@ class Engine {
     Vector2D window_size() { return window_size_; }
 
     // Gerenciamento do motor
-    bool Initialize(string windowTitle, Vector2D windowSize, bool fullscreen);
+    bool Initialize(std::string windowTitle, Vector2D windowSize, bool fullscreen);
 
     void Run();
     void Release();

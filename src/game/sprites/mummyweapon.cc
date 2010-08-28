@@ -5,7 +5,7 @@
 namespace sprite {
 
 void MummyWeapon::Attack(){
-	scene::World *world = ((scene::World *)Engine::reference()->CurrentScene());
+	scene::World *world = WORLD();
 	Hero* hero = world->hero();
 	
 	hero->TakeDamage();

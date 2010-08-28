@@ -6,16 +6,16 @@
 // Definicao da classe Projectile
 //
 
-#ifndef PROJECTILE_H_
-#define PROJECTILE_H_
-
-#include "../../framework/sprite.h"
-#include "../../framework/engine.h"
-#include "../../framework/timeaccumulator.h"
+#ifndef HORUSEYE_GAME_SPRITES_PROJECTILE_H_
+#define HORUSEYE_GAME_SPRITES_PROJECTILE_H_
 
 #include "worldobject.h"
+#include "../../framework/vector2D.h"
 
-using namespace framework;
+namespace framework {
+class TimeAccumulator;
+}
+
 namespace sprite {
 
 class Mummy;
@@ -38,10 +38,10 @@ class Projectile : public WorldObject {
   private:
 	int damage_;
     float speed_;
-    Vector2D direction_;
-    TimeAccumulator *duration_;
+    framework::Vector2D direction_;
+    framework::TimeAccumulator *duration_;
 };
 
 }
 
-#endif /* PROJECTILE_H_ */
+#endif /* HORUSEYE_GAME_SPRITES_PROJECTILE_H_ */

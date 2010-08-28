@@ -9,8 +9,10 @@
 #ifndef HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 #define HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 
-#include "../../framework/image.h"
-using namespace framework;
+namespace framework {
+class Image;
+}
+using framework::Image;
 namespace utils {
 
 class ImageFactory {

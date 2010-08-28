@@ -1,18 +1,12 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/wall.cc
-// Implementacao da classe Wall
-//
-
+#include <iostream>
+#include "../../framework/engine.h"
+#include "../../framework/animation.h"
 #include "wall.h"
 #include "hero.h"
 #include "../scenes/world.h"
 #include "../utils/rectobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
-#include <iostream>
 
 
 namespace sprite {

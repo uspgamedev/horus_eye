@@ -8,17 +8,12 @@
 
 #include <math.h>
 #include "item.h"
-#include "../../framework/engine.h"
-#include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 
 #define CENTER_X    Constants::POTION_SPRITE_CENTER_X
 #define CENTER_Y    Constants::POTION_SPRITE_CENTER_Y
 #define HEIGHT      Constants::POTION_HEIGHT
-#define POTION_SPRITE_WIDTH    Constants::POTION_SPRITE_WIDTH
-#define POTION_SPRITE_HEIGHT   Constants::POTION_SPRITE_HEIGHT
-#define POTION_RECOVER_LIFE   Constants::POTION_RECOVER_LIFE
 
 namespace sprite {
 

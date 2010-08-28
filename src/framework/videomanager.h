@@ -12,13 +12,13 @@
 #include <string>
 #include <map>
 #include "vector2D.h"
-#include "image.h"
 using std::string;
 using std::map;
 
 #define VIDEO_MANAGER() framework::Engine::reference()->video_manager()
 
 namespace framework {
+class Image;
 
 // Gerenciador de video
 class VideoManager {
@@ -42,7 +42,7 @@ class VideoManager {
 
   private:
     Image* backbuffer_;
-    Image screen_;
+    Image* screen_;
     Vector2D video_size_;
     bool fullscreen_;
     string title_;

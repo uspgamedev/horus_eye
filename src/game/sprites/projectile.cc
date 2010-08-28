@@ -7,22 +7,17 @@
 //
 
 #include "projectile.h"
-#include "../../framework/engine.h"
-#include "../scenes/world.h"
+#include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
-#include "door.h"
 
 using namespace framework;
-using namespace scene;
 using namespace utils;
 
 #define CENTER_X    Constants::PROJECTILE_SPRITE_CENTER_X
 #define CENTER_Y    Constants::PROJECTILE_SPRITE_CENTER_Y
 #define HEIGHT      Constants::PROJECTILE_HEIGHT
-#define PROJECTILE_SPEED    Constants::PROJECTILE_SPEED
-#define PROJECTILE_DURATION Constants::PROJECTILE_DURATION
 #define PROJECTILE_SPRITE_WIDTH    Constants::PROJECTILE_SPRITE_WIDTH
 #define PROJECTILE_SPRITE_HEIGHT   Constants::PROJECTILE_SPRITE_HEIGHT
 
@@ -35,12 +30,12 @@ Projectile::Projectile(Vector2D & pos, Vector2D & dir) :
     Initialize( image_factory.ProjectileImage() );
     set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
 	damage_ = 1;
-    speed_ = PROJECTILE_SPEED;
-    this->bound_ = new CircleObject(0.15f);
-    this->set_world_position(pos);
+    speed_ = Constants::PROJECTILE_SPEED;
+    bound_ = new CircleObject(0.15f);
+    set_world_position(pos);
     light_radius_ = 1.0f;
-    duration_ = new TimeAccumulator(PROJECTILE_DURATION);
-    this->collision_type_ = MOVEABLE;
+    duration_ = new TimeAccumulator(Constants::PROJECTILE_DURATION);
+    collision_type_ = MOVEABLE;
 }
 
 Projectile::~Projectile() {

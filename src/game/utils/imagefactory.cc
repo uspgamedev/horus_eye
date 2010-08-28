@@ -7,8 +7,11 @@
 //
 
 #include "imagefactory.h"
-#include "../scenes/world.h"
+#include "../../framework/engine.h"
+#include "../../framework/videomanager.h"
+#include "../../framework/image.h"
 
+using namespace framework;
 namespace utils {
     ImageFactory::ImageFactory(){
         hero_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3.png");

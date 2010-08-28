@@ -7,6 +7,7 @@
 
 #include "fog.h"
 #include "../../framework/vector2D.h"
+#include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 #include "../scenes/world.h"
 #include "../sprites/worldobject.h"

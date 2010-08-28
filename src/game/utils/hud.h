@@ -12,6 +12,11 @@
 #include "../../framework/layer.h"
 #include "../scenes/world.h"
 
+namespace framework {
+class Sprite;
+class Animation;
+}
+
 using framework::Sprite;
 using framework::Animation;
 

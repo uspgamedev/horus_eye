@@ -9,10 +9,11 @@
 #include "hud.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/sprite.h"
+#include "../../framework/engine.h"
+#include "../../framework/videomanager.h"
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
 #include "constants.h"
-#include "../../framework/videomanager.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
 #define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT

@@ -9,6 +9,8 @@
 #include "mummyprojectile.h"
 #include "hero.h"
 #include "../../framework/engine.h"
+#include "../../framework/timeaccumulator.h"
+#include "../../framework/videomanager.h"
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"

@@ -11,11 +11,13 @@
 
 #include "../../framework/sprite.h"
 #include "../../framework/engine.h"
-#include "../../framework/timeaccumulator.h"
 
 #include "worldobject.h"
 
-using namespace framework;
+namespace framework {
+class TimeAccumulator;
+}
+
 namespace sprite {
 
 class Mummy;
@@ -38,8 +40,8 @@ class MummyProjectile : public WorldObject {
   private:
 	int damage_;
     float speed_;
-    Vector2D direction_;
-    TimeAccumulator *duration_;
+    framework::Vector2D direction_;
+    framework::TimeAccumulator *duration_;
 };
 
 }

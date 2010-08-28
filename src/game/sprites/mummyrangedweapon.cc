@@ -1,3 +1,4 @@
+#include "../../framework/audiomanager.h"
 #include "mummyrangedweapon.h"
 #include "../scenes/world.h"
 #include "hero.h"
@@ -6,7 +7,7 @@
 namespace sprite {
 
 	void MummyRangedWeapon::Attack(){
-		scene::World *world = ((scene::World *)Engine::reference()->CurrentScene());
+		scene::World *world = WORLD();
 		Hero* hero = world->hero();
 
 		framework::Vector2D versor = framework::Vector2D::Normalized(hero->world_position() - owner_->world_position());

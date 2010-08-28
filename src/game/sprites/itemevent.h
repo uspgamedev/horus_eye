@@ -1,7 +1,5 @@
-
-
-#ifndef ITEMEVENT_H_
-#define ITEMEVENT_H_
+#ifndef HORUSEYE_GAME_SPRITES_ITEMEVENT_H_
+#define HORUSEYE_GAME_SPRITES_ITEMEVENT_H_
 
 #include "hero.h"
 
@@ -17,4 +15,4 @@ class ItemEvent {
 
 }
 
-#endif /* ITEMEVENT_H_ */
+#endif /* HORUSEYE_GAME_SPRITES_ITEMEVENT_H_ */

@@ -7,6 +7,7 @@
 //
 
 #include "videomanager.h"
+#include "image.h"
 
 namespace framework {
 
@@ -15,7 +16,8 @@ namespace framework {
 // sucesso.
 bool VideoManager::Initialize(const string& title, const Vector2D& size,
                               bool fullscreen) {
-    if(!screen_.CreateVideoSurface(size, fullscreen))
+    screen_ = new Image;
+    if(!screen_->CreateVideoSurface(size, fullscreen))
         return false;
 
     backbuffer_ = new Image;
@@ -47,14 +49,16 @@ bool VideoManager::Release() {
         delete backbuffer_;
     }
 
+    delete screen_;
+
     memory_.clear();
     return true;
 }
 
 // Desenha backbuffer na tela
 void VideoManager::Render() {
-    backbuffer_->DrawTo(&screen_, Vector2D(0, 0), 0, Image::MIRROR_NONE);
-    SDL_Flip(screen_.data_);
+    backbuffer_->DrawTo(screen_, Vector2D(0, 0), 0, Image::MIRROR_NONE);
+    SDL_Flip(screen_->data_);
     backbuffer_->Clear(0);
 }
 

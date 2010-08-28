@@ -1,11 +1,14 @@
+#include <cmath>
+#include <iostream>
 
 #include "../../framework/engine.h"
 #include "../../framework/scene.h"
-#include "../../framework/image.h"
+#include "../../framework/animation.h"
 #include "../../framework/sprite.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/inputmanager.h"
 #include "../../framework/timehandler.h"
+#include "../../framework/audiomanager.h"
 
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
@@ -17,8 +20,6 @@
 #include "mummyprojectile.h"
 #include "mummy.h"
 #include "../utils/constants.h"
-#include <cmath>
-#include <iostream>
 
 using namespace std;
 using namespace framework;
@@ -163,18 +164,20 @@ void Hero::GetKeys() {
 void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
-    Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_ + projectile_height);
+    Vector2D projectile_height(0,
+            Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition() -
+            screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 
-    World *world_ = ((World *)Engine::reference()->CurrentScene());
+    World *world_ = WORLD();
     // Ajuste da altura do projetil.
-    //Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_SPRITE_CENTER_Y+Constants::PROJECTILE_HEIGHT);
-    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-world_position()),
-             pos = world_position();
+    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(
+            input_->GetMousePosition() + projectile_height)-world_position());
+    Vector2D pos = world_position();
     Projectile * projectile = new Projectile(pos, versor);
     world_->AddWorldObject(projectile);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
@@ -184,17 +187,18 @@ void Hero::StartExplosion() {
     InputManager *input_ = Engine::reference()->input_manager();
 
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center_ + projectile_height);
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition() -
+            screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 
-    World *world_ = ((World *)Engine::reference()->CurrentScene());
+    World *world_ = WORLD();
     // Ajuste da altura do projetil.
-    //Vector2D mouseOffset = input_->GetMousePosition() - screen_center_ + Vector2D(0,Constants::PROJECTILE_SPRITE_CENTER_Y+Constants::PROJECTILE_HEIGHT);
-    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-world_position()),
-             pos = world_position();
+    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(
+            input_->GetMousePosition() + projectile_height)-world_position());
+    Vector2D pos = world_position();
     Explosion * explosion = new Explosion(pos, versor);
     world_->AddWorldObject(explosion);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();

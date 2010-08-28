@@ -9,19 +9,17 @@
 #ifndef HORUSEYE_GAME_SPRITE_MUMMY_H_
 #define HORUSEYE_GAME_SPRITE_MUMMY_H_
 
-
-#include "creature.h"
-#include "../../framework/animation.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/timeaccumulator.h"
-#include "../utils/circleobject.h"
 #include <queue>
+#include "creature.h"
+#include "../../framework/vector2D.h"
+#include "../utils/circleobject.h"
 
 #define pbb pair<bool, bool>
 #define TIME_TO_THINK 0.1
 
-using namespace std;
-using namespace framework;
+namespace framework {
+class TimeAccumulator;
+}
 
 namespace sprite {
 

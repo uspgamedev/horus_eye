@@ -1,12 +1,16 @@
-
+#include <cmath>
+#include <iostream>
+#include <sstream>
 #include "../../framework/engine.h"
 #include "../../framework/scene.h"
 #include "../../framework/image.h"
 #include "../../framework/sprite.h"
+#include "../../framework/animation.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/inputmanager.h"
 #include "../../framework/timehandler.h"
-
+#include "../../framework/audiomanager.h"
+#include "../../framework/timeaccumulator.h"
 
 #include "../scenes/world.h"
 #include "../utils/geometryprimitives.h"
@@ -16,9 +20,6 @@
 #include "projectile.h"
 #include "explosion.h"
 #include "weapon.h"
-#include <cmath>
-#include <iostream>
-#include <sstream>
 
 using namespace std;
 using namespace framework;
@@ -82,7 +83,7 @@ Mummy::Mummy(Image* img) {
 Mummy::~Mummy() {
     if (interval_) delete interval_;
 	delete weapon_;
-	((World*)(Engine::reference()->CurrentScene()))->DecreaseEnemyCount();
+	WORLD()->DecreaseEnemyCount();
 }
 
 void Mummy::HandleCollision(WorldObject* obj) {
@@ -90,8 +91,8 @@ void Mummy::HandleCollision(WorldObject* obj) {
 }
 
 void Mummy::CollidesWith(Explosion* obj) {
-    life_--;
-    if (life_ == 0) {
+    life_ -= obj->damage();
+    if (life_ <= 0) {
         this->SelectAnimation(dying_animation_);
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;
@@ -103,8 +104,8 @@ void Mummy::CollidesWith(Explosion* obj) {
 }
 
 void Mummy::CollidesWith(Projectile* obj) {
-    life_--;
-    if (life_ == 0) {
+    life_ -= obj->damage();
+    if (life_ <= 0) {
         this->SelectAnimation(dying_animation_);
         this->status_ = WorldObject::STATUS_DYING;
         this->collision_type_ = WorldObject::NO_COLLISION;

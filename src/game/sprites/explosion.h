@@ -6,21 +6,21 @@
 // Definicao da classe Explosion
 //
 
-#ifndef EXPLOSION_H_
-#define EXPLOSION_H_
-
-#include "../../framework/sprite.h"
-#include "../../framework/engine.h"
-#include "../../framework/timeaccumulator.h"
-#include "../../framework/vector2D.h"
+#ifndef HORUSEYE_GAME_SPRITES_EXPLOSION_H_
+#define HORUSEYE_GAME_SPRITES_EXPLOSION_H_
 
 #include "worldobject.h"
+#include "../../framework/vector2D.h"
+
+namespace framework {
+class TimeAccumulator;
+}
 
 namespace sprite {
 
-using namespace framework;
-class Mummy;
 class Wall;
+class Door;
+class Mummy;
 class Explosion : public WorldObject {
 
   public:
@@ -42,12 +42,12 @@ class Explosion : public WorldObject {
 	float speed_;
     float radius_;
     bool exploding_;
-    Vector2D direction_;
-    TimeAccumulator *duration_;
+    framework::Vector2D direction_;
+    framework::TimeAccumulator *duration_;
 
     void Explode();
 };
 
 }
 
-#endif /* EXPLOSION_H_ */
+#endif /* HORUSEYE_GAME_SPRITES_EXPLOSION_H_ */
