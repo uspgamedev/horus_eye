@@ -52,6 +52,7 @@ class World : public framework::Scene {
     void AddFloor(framework::Vector2D&);
     sprite::Wall* AddWall(framework::Vector2D&);
     void AddMummy(framework::Vector2D&, int type = 0);
+	void AddPharaoh(framework::Vector2D&);
     void AddHero(framework::Vector2D&);
     void AddDoor(framework::Vector2D&);
     void AddPotion(framework::Vector2D&, int type = 0);

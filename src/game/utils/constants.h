@@ -45,7 +45,12 @@ class Constants {
                        RANGED_MUMMY_DAMAGE = 1,
 
                        BIG_MUMMY_LIFE = 3,
-                       BIG_MUMMY_DAMAGE = 2;
+                       BIG_MUMMY_DAMAGE = 2,
+
+					   PHARAOH_LIFE = 7,
+					   PHARAOH_DAMAGE = 2,
+					   PHARAOH_RANGED_DAMAGE = 1;
+
 
     const static float
         DOOR_HOTSPOT_WIDTH,
@@ -84,6 +89,9 @@ class Constants {
 
         BIG_MUMMY_RADIUS,
         BIG_MUMMY_SPEED,
+
+		PHARAOH_RADIUS,
+		PHARAOH_SPEED,
 
 		POTION_SPRITE_CENTER_X,
         POTION_SPRITE_CENTER_Y,

@@ -45,8 +45,7 @@ class Mummy : public Creature {
 	}
 
     void StartAttack(Creature* obj);
-  private:
-
+  protected:
     framework::TimeAccumulator *interval_;
     float time_to_think_;
     bool standing_;
@@ -55,7 +54,7 @@ class Mummy : public Creature {
     queue<Vector2D> path_;
 
     virtual void Update(float delta_t);
-    void Think(float dt);
+    virtual void Think(float dt);
     void UpdateDirection(Vector2D destiny);
     void RandomMovement();
     void PlayHitSound() const;

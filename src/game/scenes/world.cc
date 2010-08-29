@@ -20,8 +20,11 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 #include "../sprites/mummy.h"
+#include "../sprites/pharaoh.h"
 #include "../sprites/door.h"
 #include "../sprites/item.h"
+#include "../sprites/weapons/mummyweapon.h"
+#include "../sprites/weapons/mummyrangedweapon.h"
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
@@ -183,6 +186,21 @@ void World::AddMummy(framework::Vector2D &pos, int type) {
             
 	mummy->set_world_position(pos);
 	this->AddWorldObject(mummy);
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
+void World::AddPharaoh(framework::Vector2D &pos) {
+	Pharaoh *pharaoh = new Pharaoh(Constants::PHARAOH_LIFE);
+    pharaoh->set_speed(Constants::PHARAOH_SPEED);
+	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
+	pharaoh->set_ranged_weapon(new MummyRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
+    pharaoh->set_bound(Constants::PHARAOH_RADIUS);
+	pharaoh->set_hotspot(Vector2D(pharaoh->image()->frame_size().x / 2.0f, 
+		pharaoh->image()->frame_size().y*6.0f / 7.0f));
+
+	pharaoh->set_world_position(pos);
+	this->AddWorldObject(pharaoh);
 	remaining_enemies_++;
 	max_enemies_++;
 }

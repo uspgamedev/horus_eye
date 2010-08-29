@@ -26,6 +26,7 @@ using namespace framework;
 #define MUMMY        'M'
 #define RANGED_MUMMY 'R'
 #define BIG_MUMMY    'B'
+#define PHARAOH      'P'
 #define HERO         'H'
 #define FLOOR        'X'
 #define EMPTY        'O'
@@ -113,6 +114,11 @@ void LevelLoader::Load(string file_name) {
                     }
                     case RANGED_MUMMY: {
                         world_->AddMummy(position, 2);
+                        world_->AddFloor(position);
+                        break;
+                    }
+					case PHARAOH: {
+                        world_->AddPharaoh(position);
                         world_->AddFloor(position);
                         break;
                     }

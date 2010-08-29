@@ -26,6 +26,9 @@ namespace utils {
         big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/big_mummy_193x193.png");
         big_mummy_image_->set_frame_size(Vector2D(193, 193));
 
+		pharaoh_image_ = VIDEO_MANAGER()->LoadImage("data/images/pharaoh_193x193.png");
+        pharaoh_image_->set_frame_size(Vector2D(193, 193));
+
         projectile_image_ = VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png");
         projectile_image_->set_frame_size( Vector2D(32, 32) );
 
@@ -60,6 +63,9 @@ namespace utils {
     Image* ImageFactory::BigMummyImage(){
         return big_mummy_image_;
     }
+	Image* ImageFactory::PharaohImage(){
+		return pharaoh_image_;
+	}
     Image* ImageFactory::MummyImage(){
         return mummy_image_;
     }
