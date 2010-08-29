@@ -35,13 +35,13 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             if(solid(matrix[i][j])){
-                double x = j;
-                double y = height - i - 1;
+                float x = static_cast<float>(j);
+                float y = static_cast<float>(height - i - 1);
 
-                Vector2D a = Vector2D(x - 0.5, y - 0.5);
-                Vector2D b = Vector2D(x - 0.5, y + 0.5);
-                Vector2D c = Vector2D(x + 0.5, y + 0.5);
-                Vector2D d = Vector2D(x + 0.5, y - 0.5);
+                Vector2D a = Vector2D(x - 0.5f, y - 0.5f);
+                Vector2D b = Vector2D(x - 0.5f, y + 0.5f);
+                Vector2D c = Vector2D(x + 0.5f, y + 0.5f);
+                Vector2D d = Vector2D(x + 0.5f, y - 0.5f);
                 if (GPintersect(a, b, position1, position2)) return false;
                 if (GPintersect(b, c, position1, position2)) return false;
                 if (GPintersect(c, d, position1, position2)) return false;

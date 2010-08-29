@@ -28,8 +28,8 @@ using namespace utils;
 
 namespace sprite {
 
-#define SQRT_3 1.7320508075688772935274463415059
-#define EXP_PARAM (1.0)
+#define SQRT_3 1.7320508075688772935274463415059f
+#define EXP_PARAM (1.0f)
 
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
@@ -43,10 +43,10 @@ Mummy::Mummy(Image* img) {
 	bound_ = NULL;
 
     World *world = ((World *)Engine::reference()->CurrentScene());
-    directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D(SQRT_3/2, 0));
-    directions_[Direction_::LEFT] =  world->FromScreenLinearCoordinates(Vector2D(-SQRT_3/2, 0));
-    directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0, .5));
-    directions_[Direction_::UP] =  world->FromScreenLinearCoordinates(Vector2D(0, -.5));
+    directions_[Direction_::RIGHT] = world->FromScreenLinearCoordinates(Vector2D( SQRT_3/2.0f, 0.0f));
+    directions_[Direction_::LEFT] =  world->FromScreenLinearCoordinates(Vector2D(-SQRT_3/2.0f, 0.0f));
+    directions_[Direction_::DOWN] =  world->FromScreenLinearCoordinates(Vector2D(0.0f,  0.5f));
+    directions_[Direction_::UP] =    world->FromScreenLinearCoordinates(Vector2D(0.0f, -0.5f));
 
     // Animations
     InitializeStandingAnimations();
@@ -101,11 +101,11 @@ void Mummy::TakeDamage(int life_points) {
 
 void Mummy::CollidesWith(Mummy *obj) {
     Vector2D deviation = Vector2D::Normalized(world_position() - obj->world_position());
-    walking_direction_ = Vector2D::Normalized(walking_direction_ + deviation*0.9);
+    walking_direction_ = Vector2D::Normalized(walking_direction_ + deviation*0.9f);
 }
 
 void Mummy::StartAttack(Creature* obj) {
-    double attackAngle = GetAttackingAngle(obj->position() - position());
+    float attackAngle = GetAttackingAngle(obj->position() - position());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
@@ -113,7 +113,7 @@ void Mummy::StartAttack(Creature* obj) {
 }
 
 void Mummy::RandomMovement(){
-    double PI = acos(-1.0f);
+    float PI = acos(-1.0f);
 
     if (interval_->Expired()) {
 
@@ -126,13 +126,13 @@ void Mummy::RandomMovement(){
         if (dir >= 6 || dir == 0) animation_direction_ += Animation_::RIGHT;
 
         interval_->Restart(WaitingTime());
-        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4),sin(dir*PI/4));
+        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0f),sin(dir*PI/4.0f));
     }
 }
 
 void Mummy::UpdateDirection(Vector2D destiny){
     Vector2D dir_animation = World::FromWorldCoordinates(destiny) - position(); 
-    double angle = GetAttackingAngle(dir_animation);
+    float angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
     animation_direction_ = direction_mapping_[dir];

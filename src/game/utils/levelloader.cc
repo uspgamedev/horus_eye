@@ -85,8 +85,8 @@ void LevelLoader::Load(string file_name) {
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             token = matrix[i][j];
-            position.x = j;
-            position.y = height - i - 1;
+            position.x = static_cast<float>(j);
+            position.y = static_cast<float>(height - i - 1);
             if (token != EMPTY) {
                 switch(token) {
                     case WALL: {

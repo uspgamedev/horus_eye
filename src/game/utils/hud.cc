@@ -80,7 +80,7 @@ Hud::Hud(World* world) {
     mana_bar_images_[0]->Clear(0x000000FF);
     mana_bar_[0]->Initialize(mana_bar_images_[0]);
     mana_bar_[0]->set_position(Vector2D(
-            MANA_METER_OFFSET_X,
+            MANA_METER_OFFSET_X + 0.0f,
             MANA_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - MANA_BAR_HEIGHT));
 	mana_bar_[0]->image()->set_frame_size(Vector2D(bar_width, MANA_BAR_HEIGHT));
 
@@ -92,7 +92,7 @@ Hud::Hud(World* world) {
     mana_bar_images_[1]->Clear(0x00000000);
     mana_bar_[1]->Initialize(mana_bar_images_[1]);
     mana_bar_[1]->set_position(Vector2D(
-            MANA_METER_OFFSET_X,
+            MANA_METER_OFFSET_X + 0.0f,
             MANA_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - MANA_BAR_HEIGHT));
 
     AddSprite(life_bar_[1]);
@@ -117,7 +117,7 @@ Hud::Hud(World* world) {
     for(int i = 0; i < 3; ++i) {
         (fps_meter_[i] = new Sprite)->Initialize(number);
         fps_meter_[i]->set_position(Vector2D(
-                        FPS_METER_OFFSET_X + NUMBER_WIDTH*i, FPS_METER_OFFSET_Y ));
+                        FPS_METER_OFFSET_X + NUMBER_WIDTH*i + 0.0f, FPS_METER_OFFSET_Y + 0.0f));
         AddSprite(fps_meter_[i]);
         fps_meter_value_[i] = 0;
     }

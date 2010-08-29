@@ -41,7 +41,7 @@ ImageScene::ImageScene(framework::Image *background, framework::Image *image,
         Sprite *img_sprite = new Sprite;
         img_sprite->Initialize(image);
         Vector2D pos = VIDEO_MANAGER()->video_size();
-        pos.x = pos.x/2.0 - img_sprite->image()->width()/2.0;
+        pos.x = pos.x/2.0f - img_sprite->image()->width()/2.0f;
         if (type_ != ImageScene::INTRO)
             pos.y = pos.y/2.0f - img_sprite->image()->height()/2.0f;
         img_sprite->set_position(pos);

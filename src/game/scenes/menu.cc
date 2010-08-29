@@ -24,10 +24,10 @@ using namespace utils;
 #define RECT_HEIGHT         90
 #define SELECTION_WIDTH     864
 #define SELECTION_HEIGHT    155
-#define MENU_TOP            VIDEO_MANAGER()->video_size().y/4.0
-#define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
+#define MENU_TOP            VIDEO_MANAGER()->video_size().y/4.0f
+#define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_BOTTOM         MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
-#define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
+#define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
 
 
 Menu::Menu () : selection_(SELECT_PLAY) {
@@ -53,7 +53,7 @@ Menu::Menu () : selection_(SELECT_PLAY) {
 
     for (int y, i = 0; i < Menu::SELECT_NUM; ++i) {
         y = static_cast<int>(MENU_TOP + i*RECT_HEIGHT);
-        select_pos_[i] = Vector2D(MENU_LEFT, y);
+        select_pos_[i] = Vector2D(MENU_LEFT, static_cast<float>(y));
         options_[i] = new Sprite;
         switch (i) {
         case Menu::SELECT_PLAY:

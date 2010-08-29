@@ -29,7 +29,8 @@ bool Image::Create(const Vector2D& size, uint32 flags) {
                                  screen->format->Rmask, screen->format->Gmask,
                                  screen->format->Bmask, screen->format->Amask);
 
-    set_frame_size(Vector2D(this->width(), this->height()));
+    set_frame_size(Vector2D(static_cast<float>(this->width()), 
+							static_cast<float>(this->height())));
     return (data_ != NULL);
 }
 bool Image::Create(const Vector2D& size) {
@@ -59,7 +60,8 @@ bool Image::LoadFromFile(const string& file) {
 
         // carregou na memoria
         data_ = optimizedImage;
-        set_frame_size(Vector2D(width(), height()));
+        set_frame_size(Vector2D(static_cast<float>(width()), 
+								static_cast<float>(height())));
         return true;
     }
     else
@@ -196,7 +198,7 @@ bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, 
             Uint8 alpha = SDL_ALPHA_OPAQUE;
 
             // Formula para detectar se o ponto ta na elipse e outras coisas. Melhorias por favor!
-            Vector2D dist = Vector2D(j, i) - origin;
+            Vector2D dist = Vector2D(j + 0.0f, i + 0.0f) - origin;
             dist.x /= ellipse_coef.x;
             dist.y /= ellipse_coef.y;
             float distance = Vector2D::InnerProduct(dist, dist);

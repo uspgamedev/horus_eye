@@ -14,7 +14,7 @@
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
-#include "door.h"
+#include "../utils/imagefactory.h"
 
 using namespace framework;
 using namespace scene;
@@ -33,8 +33,8 @@ namespace sprite {
 MummyProjectile::MummyProjectile(Vector2D & pos, Vector2D & dir, int damage) :
         direction_(Vector2D::Normalized(dir))
 {
-    Initialize( VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png") );
-    image()->set_frame_size( Vector2D(PROJECTILE_SPRITE_WIDTH, PROJECTILE_SPRITE_HEIGHT) );
+    ImageFactory image_factory;
+    Initialize( image_factory.ProjectileImage() );
 	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
 	damage_ = damage;
     speed_ = PROJECTILE_SPEED;

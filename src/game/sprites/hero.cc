@@ -77,7 +77,8 @@ Hero::Hero(Image* img) {
         pressed_key_[i] = false;
     }
     SelectAnimation(last_standing_animation_);
-    set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
+    set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
+						 static_cast<float>(HERO_HOTSPOT_Y)));
     original_speed_ = speed_ = Constants::HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
@@ -112,7 +113,7 @@ void Hero::TakeDamage(int life_points) {
 }
 
 void Hero::CollidesWith(Mummy *obj) {
-   speed_ /= 1.19;
+   speed_ /= 1.19f;
 }
 
 void Hero::CollidesWith(MummyProjectile* obj) {

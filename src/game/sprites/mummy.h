@@ -15,7 +15,7 @@
 #include "../utils/circleobject.h"
 
 #define pbb pair<bool, bool>
-#define TIME_TO_THINK 0.1
+#define TIME_TO_THINK 0.1f
 
 namespace framework {
 class TimeAccumulator;

@@ -20,7 +20,7 @@ InputManager::InputManager() {
     std::fill(keystate_now_, keystate_now_+kbsize_, false);
     std::fill(keystate_last_, keystate_last_+kbsize_, false);
     
-    Update(1.3);
+    Update(1.3f);
 }
 
 InputManager::~InputManager() {

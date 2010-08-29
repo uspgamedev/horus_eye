@@ -91,7 +91,7 @@ class Creature : public WorldObject , public framework::Observer {
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
     void Tick();
-    double GetAttackingAngle(Vector2D targetDirection);
+    float GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     void InitializeStandingAnimations();
     void InitializeWalkingAnimations();

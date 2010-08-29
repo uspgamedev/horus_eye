@@ -57,7 +57,7 @@ void Wall::set_type(WallType walltype) {
             break;
         case BOTTOMRIGHT:
             type = 1;
-            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE * 0.45);
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE * 0.45f);
             break;
     }
     transparent_animation_ = new Animation(50, type, -1);

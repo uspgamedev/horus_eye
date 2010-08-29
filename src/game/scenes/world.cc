@@ -26,7 +26,7 @@
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
 
-#define SQRT_3 1.7320508075688772935274463415059
+#define SQRT_3 1.7320508075688772935274463415059f
 
 namespace scene {
 
@@ -279,7 +279,7 @@ Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
 Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
     Vector2D    global_screen_coords = screen_coords + WORLD()->world_layer_->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
-    return (transformed * (1.0/60.0));
+    return (transformed * (1.0f/60.0f));
 }
 
 Image* World::CreateFogTransparency(float radius, Vector2D size) {

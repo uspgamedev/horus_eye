@@ -190,13 +190,13 @@ int Creature::GetAttackingAnimationIndex(double angle) {
     return animationIndex % 8;
 }
 
-double Creature::GetAttackingAngle(Vector2D targetDirection) {
+float Creature::GetAttackingAngle(Vector2D targetDirection) {
     Vector2D versor = Vector2D::Normalized(targetDirection);
-    double radianAngle = acos(versor.x);
+    float radianAngle = acos(versor.x);
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
     }
-    return radianAngle;
+	return radianAngle;
 }
 
 }  // namespace sprite
