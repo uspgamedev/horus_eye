@@ -35,6 +35,7 @@ class Image {
 
     bool Create(const Vector2D& size, uint32 flags);
     bool Create(const Vector2D& size);
+    bool CreateFogTransparency(const Vector2D& ellipse_coef);
     bool Destroy();
     bool Clear(Color color);
 
@@ -61,9 +62,6 @@ class Image {
 
     // apenas o VideoManager acessa
     bool CreateVideoSurface(const Vector2D& size, bool fullscreen);
-
-    // apenas o VideoManager acessa
-    bool CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef);
 };
 
 }  // namespace framework

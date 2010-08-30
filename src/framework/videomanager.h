@@ -33,7 +33,6 @@ class VideoManager {
     void Render();
 
     Image* LoadImage(const string& filepath);
-    Image* CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef);
 
     Vector2D video_size() const { return video_size_; }
     bool fullscreen() const { return fullscreen_; }

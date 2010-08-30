@@ -13,6 +13,7 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/inputmanager.h"
+#include "../../framework/fogmanager.h"
 #include "world.h"
 #include "imagescene.h"
 #include "../sprites/worldobject.h"
@@ -300,14 +301,9 @@ Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
     return (transformed * (1.0f/60.0f));
 }
 
-Image* World::CreateFogTransparency(float radius, Vector2D size) {
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60;
-    Image* img = VIDEO_MANAGER()->CreateFogTransparency(size, size * 0.5f, ellipse_coords);
-    return img;
-}
 Image* World::CreateFogTransparency(float radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60;
-    return CreateFogTransparency(radius, ellipse_coords * 2);
+    return Engine::reference()->fog_manager()->GetLightSource(ellipse_coords);
 }
 
 } // namespace scene

@@ -14,6 +14,7 @@
 #include "audiomanager.h"
 #include "scene.h"
 #include "timehandler.h"
+#include "fogmanager.h"
 
 using namespace std;
 
@@ -28,6 +29,7 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     input_manager_ = new InputManager();
     time_handler_ = new TimeHandler();
     audio_manager_ = new AudioManager();
+    fog_manager_ = new FogManager();
     audio_manager_->Initialize();
     scene_list_.clear();
     window_size_ = windowSize;
@@ -122,6 +124,7 @@ void Engine::Release() {
 
     delete time_handler_;
     delete input_manager_;
+    delete fog_manager_;
 
     audio_manager()->Release();
     delete audio_manager_;

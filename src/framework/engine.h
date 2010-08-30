@@ -20,6 +20,7 @@ class VideoManager;
 class InputManager;
 class TimeHandler;
 class AudioManager;
+class FogManager;
 class Scene;
 
 class Engine {
@@ -33,6 +34,7 @@ class Engine {
     InputManager *input_manager() { return input_manager_; }
     TimeHandler *time_handler() { return time_handler_; }
     AudioManager *audio_manager() { return audio_manager_; }
+    FogManager *fog_manager() { return fog_manager_; }
     Vector2D window_size() { return window_size_; }
 
     // Gerenciamento do motor
@@ -59,6 +61,7 @@ class Engine {
     InputManager *input_manager_;
     TimeHandler *time_handler_;
     AudioManager *audio_manager_;
+    FogManager *fog_manager_;
     Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;

@@ -50,8 +50,8 @@ void finishAndDeleteCurrentScene() {
     Engine *engine = Engine::reference();
     Scene* current_scene = engine->CurrentScene();
     current_scene->Finish();
-    //engine->PopScene();
-    //delete current_scene;
+    engine->PopScene();
+    delete current_scene;
 }
 
 void LevelManager::ShowIntro() {

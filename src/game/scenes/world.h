@@ -77,7 +77,6 @@ class World : public framework::Scene {
     static Vector2D FromScreenCoordinates(Vector2D screen_coords);
 
     static Image* CreateFogTransparency(float radius);
-    static Image* CreateFogTransparency(float radius, Vector2D size);
 
     sprite::Hero * hero() { return hero_; }
     vector<sprite::Mummy *> Mummies();

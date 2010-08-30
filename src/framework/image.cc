@@ -183,13 +183,15 @@ bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
     return (data_ != NULL);
 }
 
-bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& origin, const Vector2D& ellipse_coef) {
-    int width = static_cast<int>(size.x);
-    int height = static_cast<int>(size.y);
-    if(!Create(size))
+bool Image::CreateFogTransparency(const Vector2D& ellipse_coef) {
+    int width = static_cast<int>(2.0f * ellipse_coef.x);
+    int height = static_cast<int>(2.0f * ellipse_coef.y);
+    if(!Create(ellipse_coef * 2.0f))
         return false;
 
     Optimize();
+
+    Vector2D origin = ellipse_coef;
 
     // Trava para poder manipular pixels
     SDL_LockSurface(data_);
