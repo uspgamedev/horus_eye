@@ -130,27 +130,41 @@ void Image::MergeTransparency(Image* target, Vector2D& offset) {
     int offset_x = static_cast<int>(offset.x),
         offset_y = static_cast<int>(offset.y);
 
+    int start_x = std::max(0, offset_x);
     int max_x = std::min(offset_x + target->width(), width());
     int max_y = std::min(offset_y + target->height(), height());
 
     SDL_LockSurface(data_);
     SDL_LockSurface(target->data_);
 
+    // Avoids converting the arrays every iteration of the nested for-loop,
+    // increasing the speed a bit.
+    Uint32 *source_pixels = static_cast<Uint32*>(data_->pixels),
+           *target_pixels = static_cast<Uint32*>(target->data_->pixels);
+
     for (int source_y = std::max(0, offset_y); source_y < max_y; ++source_y) {
-        for (int source_x = std::max(0, offset_x); source_x < max_x; ++source_x) {
-			Uint32 this_pixel = (static_cast<Uint32*>(data_->pixels))[source_y * data_->w + source_x];
+
+        // Avoids recalculating these indexes during the second for-loop, speeding
+        // the process a bit more.
+        int source_index = source_y * data_->w + start_x;
+        int target_index = (source_y - offset_y) * target->data_->w + (start_x - offset_x);
+
+        for (int source_x = start_x; source_x < max_x; ++source_x, ++source_index, ++target_index) {
+			Uint32 this_pixel = source_pixels[source_index];
             this_pixel = this_pixel & (data_->format->Amask);
             this_pixel = this_pixel >> data_->format->Ashift;
             this_pixel = this_pixel << data_->format->Aloss;
             Uint8 alpha = static_cast<Uint8>(this_pixel);
 
-            Uint32 temp = (static_cast<Uint32*>(target->data_->pixels))
-				[(source_y - offset_y) * target->data_->w + (source_x - offset_x)];
-            temp = temp & (target->data_->format->Amask);
-            temp = temp >> target->data_->format->Ashift;
-            temp = temp << target->data_->format->Aloss;
-            Uint8 thatAlpha = static_cast<Uint8>(temp);
+            Uint32 that_pixel = target_pixels[target_index];
+            that_pixel = that_pixel & (target->data_->format->Amask);
+            that_pixel = that_pixel >> target->data_->format->Ashift;
+            that_pixel = that_pixel << target->data_->format->Aloss;
+            Uint8 thatAlpha = static_cast<Uint8>(that_pixel);
 
+            // On SDL, alpha is stored such as that SDL_ALPHA_OPAQUE is the max value (255).
+            // In order to create the effect of multiple lights, we must first invert the values
+            // (so 255 means fully tranparent), add then and then convert it back to what SDL uses.
             Uint16 invert = SDL_ALPHA_OPAQUE + SDL_ALPHA_OPAQUE;
             invert -= (alpha + thatAlpha);
 			if(invert > SDL_ALPHA_OPAQUE)
@@ -158,8 +172,7 @@ void Image::MergeTransparency(Image* target, Vector2D& offset) {
 			else
 				invert = SDL_ALPHA_OPAQUE - invert;
 
-			(static_cast<Uint32*>(data_->pixels))[source_y * data_->w + source_x] =
-				(static_cast<Uint8>(invert)) << data_->format->Ashift;
+			source_pixels[source_index] = static_cast<Uint8>(invert) << data_->format->Ashift;
         }
     }
 
@@ -195,6 +208,7 @@ bool Image::CreateFogTransparency(const Vector2D& ellipse_coef) {
 
     // Trava para poder manipular pixels
     SDL_LockSurface(data_);
+    Uint32 *pixels = static_cast<Uint32*>(data_->pixels);
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
             Uint8 alpha = SDL_ALPHA_OPAQUE;
@@ -206,7 +220,7 @@ bool Image::CreateFogTransparency(const Vector2D& ellipse_coef) {
             float distance = Vector2D::InnerProduct(dist, dist);
             if(distance <= 1)
                 alpha -= static_cast<Uint8>(SDL_ALPHA_OPAQUE * exp(-distance * 5.5412635451584261462455391880218));
-            (static_cast<Uint32*>(data_->pixels))[i * width + j] = SDL_MapRGBA(data_->format, 0, 0, 0, alpha);
+            pixels[i * width + j] = alpha << data_->format->Ashift;
         }
     }
     SDL_UnlockSurface(data_);
