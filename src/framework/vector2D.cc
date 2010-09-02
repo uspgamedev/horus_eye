@@ -63,6 +63,15 @@ Vector2D Vector2D::Normalized(Vector2D a) {
     return ret;
 }
 
+Vector2D Vector2D::Rotate(Vector2D a, float angle) {
+    float ca = cos(angle),
+    		 sa = sin(angle);
+    Vector2D ret;
+    ret.x = a.x * ca - a.y * sa;
+    ret.y = a.x * sa + a.y * ca;
+    return ret;
+}
+
 //Overload de operadores
 Vector2D operator+(const Vector2D& left_value,
                    const Vector2D& right_value) {

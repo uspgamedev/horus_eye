@@ -53,22 +53,26 @@ void Projectile::Update(float delta_t) {
 	    this->status_ = WorldObject::STATUS_DEAD;
 	}
 	WorldObject::Update(delta_t);
-	this->Move(delta_t);
+	if (this->status_ == WorldObject::STATUS_ACTIVE)
+	    this->Move(delta_t);
 }
 
-void Projectile::CollidesWith(Wall * obj) {
-    this->status_ = WorldObject::STATUS_DEAD;
+void Projectile::Explode() {
+    if (this->status_ == WorldObject::STATUS_ACTIVE) {
+        this->status_ = WorldObject::STATUS_DYING;
+        duration_->Restart(250);
+        set_visible(false);
+    }
 }
 
-void Projectile::CollidesWith(Door * obj) {
-    this->status_ = WorldObject::STATUS_DEAD;
-}
+void Projectile::CollidesWith(Wall * obj) { Explode(); }
+void Projectile::CollidesWith(Door * obj) { Explode(); }
 
 void Projectile::CollidesWith(Mummy *obj) {
     if (this->status_ == WorldObject::STATUS_ACTIVE) {
         obj->TakeDamage();
     }
-    this->status_ = WorldObject::STATUS_DEAD;
+    Explode();
 }
 
 void Projectile::HandleCollision(WorldObject* obj) {

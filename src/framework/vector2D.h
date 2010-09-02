@@ -30,6 +30,7 @@ class Vector2D {
     static Vector2D Multiply(Vector2D a, float scalar);
     static float InnerProduct(Vector2D a, Vector2D b);
     static Vector2D Normalized(Vector2D a);
+    static Vector2D Rotate(Vector2D a, float angle);
 
     float x, y;
 };

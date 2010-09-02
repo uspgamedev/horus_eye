@@ -23,25 +23,26 @@ class Mummy;
 class Wall;
 class Door;
 class Creature;
+
 class Projectile : public WorldObject {
-
   public:
-	Projectile(framework::Vector2D & pos, framework::Vector2D &);
-	~Projectile();
-	void Move(float delta_t);
-	void Update(float delta_t);
+    Projectile(framework::Vector2D & pos, framework::Vector2D &);
+    ~Projectile();
+    void Move(float delta_t);
+    void Update(float delta_t);
 
-	virtual void CollidesWith(Mummy * obj);
-	virtual void CollidesWith(Wall * obj);
+    virtual void CollidesWith(Mummy * obj);
+    virtual void CollidesWith(Wall * obj);
     virtual void CollidesWith(Door * obj);
-	virtual void HandleCollision(WorldObject *);
-	int damage() { return damage_; }
+    virtual void HandleCollision(WorldObject *);
+    int damage() { return damage_; }
 
   private:
-	int damage_;
+    int damage_;
     float speed_;
     framework::Vector2D direction_;
     framework::TimeAccumulator *duration_;
+    void Explode();
 };
 
 }

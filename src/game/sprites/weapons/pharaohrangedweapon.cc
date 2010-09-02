@@ -1,3 +1,4 @@
+#include <cmath>
 #include "pharaohrangedweapon.h"
 #include "../../scenes/world.h"
 #include "../hero.h"
@@ -7,7 +8,7 @@
 
 namespace sprite {
 
-#define SQRT_3 1.7320508075688772935274463415059f
+#define PI 3.1415926535897932384626433832795f
 
 using framework::Vector2D;
 
@@ -16,11 +17,13 @@ void PharaohRangedWeapon::Attack(){
     Hero* hero = world->hero();
 
     Vector2D pos = owner_->world_position();
-    Vector2D versor = Vector2D::Normalized(hero->world_position() - pos);
-    Vector2D offsetleft = Vector2D(versor.x * SQRT_3/2.0f - versor.y * 1.0f/2.0f,
-                                   versor.x * 1.0f/2.0f   + versor.y * SQRT_3/2.0f);
-    Vector2D offsetright = Vector2D(versor.x * SQRT_3/2.0f + versor.y * 1.0f/2.0f,
-                                    -versor.x * 1.0f/2.0f  + versor.y * SQRT_3/2.0f);
+    Vector2D distance = hero->world_position() - pos;
+    
+    float angle = atan2(1.5f, distance.length()); 
+    
+    Vector2D versor = Vector2D::Normalized(distance);
+    Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
+    Vector2D offsetright = Vector2D::Rotate(versor,-angle);
 
     world->AddWorldObject(new sprite::MummyProjectile(pos, versor, damage_));
     world->AddWorldObject(new sprite::MummyProjectile(pos, offsetleft, damage_));
