@@ -47,7 +47,7 @@ class Constants {
                        BIG_MUMMY_LIFE = 3,
                        BIG_MUMMY_DAMAGE = 2,
 
-					   PHARAOH_LIFE = 7,
+					   PHARAOH_LIFE = 15,
 					   PHARAOH_DAMAGE = 2,
 					   PHARAOH_RANGED_DAMAGE = 1;
 

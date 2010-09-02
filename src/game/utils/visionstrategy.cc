@@ -32,6 +32,10 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
         position2 = hero->world_position();
     }
 
+    Vector2D distance = position2 - position1;
+    if(distance.length() > 10.0f)
+        return false;
+
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             if(solid(matrix[i][j])){

@@ -90,7 +90,7 @@ void LevelManager::FinishLevel(LevelState state) {
         // Lets just do nothing...
         return;
     }
-    if(state == FINISH_WIN || state == FINISH_WARP)
+    if(state == FINISH_WIN)
         ++level_list_iterator_;
 
     finishAndDeleteCurrentScene();

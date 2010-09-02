@@ -20,7 +20,7 @@ Pharaoh::Pharaoh(int life) : Mummy() {
 	mana_ = max_mana_ = 0;
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
-    standing_ = false;
+    standing_ = true;
 }
 
 Pharaoh::~Pharaoh() {

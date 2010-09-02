@@ -26,6 +26,7 @@
 #include "../sprites/item.h"
 #include "../sprites/weapons/mummyweapon.h"
 #include "../sprites/weapons/mummyrangedweapon.h"
+#include "../sprites/weapons/pharaohrangedweapon.h"
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
@@ -136,6 +137,19 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
+	if(input_->KeyPressed(K_p)) {
+	    LevelManager *level_manager = LevelManager::reference();
+	    level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
+	    level_state_ = LevelManager::FINISH_WARP;
+	} else if(input_->KeyPressed(K_o)) {
+	    LevelManager *level_manager = LevelManager::reference();
+	    unsigned int cur_level = level_manager->GetNextLevelID();
+	    if(cur_level > 0) {
+	        level_manager->SetNextLevel(cur_level - 1);
+	        level_state_ = LevelManager::FINISH_WARP;
+	    }
+	}
+
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
 }
@@ -195,7 +209,7 @@ void World::AddPharaoh(framework::Vector2D &pos) {
 	Pharaoh *pharaoh = new Pharaoh(Constants::PHARAOH_LIFE);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
-	pharaoh->set_ranged_weapon(new MummyRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
+	pharaoh->set_ranged_weapon(new PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
 	pharaoh->set_hotspot(Vector2D(pharaoh->image()->frame_size().x / 2.0f, 
 		pharaoh->image()->frame_size().y*6.0f / 7.0f));

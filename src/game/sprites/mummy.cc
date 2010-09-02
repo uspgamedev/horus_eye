@@ -97,6 +97,7 @@ void Mummy::TakeDamage(int life_points) {
         waiting_animation_ = true;
         this->SelectAnimation(taking_damage_animation_);
     }
+    standing_ = false;
 }
 
 void Mummy::CollidesWith(Mummy *obj) {
