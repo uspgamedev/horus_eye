@@ -1,10 +1,3 @@
-/*
- * levelmanager.cc
- *
- *  Created on: Aug 4, 2010
- *      Author: Henrique
- */
-
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/image.h"
@@ -15,6 +8,7 @@
 #include "../scenes/imagescene.h"
 #include "imagefactory.h"
 #include "levelloader.h"
+#include "../sprites/weapons/herofireballweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
 #include <cstdio>
 
@@ -131,7 +125,8 @@ void LevelManager::LoadNextLevel() {
 	if (level_list_iterator_ == 0) {
 		hero_->set_life(hero_->max_life());
 		hero_->set_mana(hero_->max_mana());
-		hero_->AddWeapon(0, new HeroBaseWeapon(hero_));
+		hero_->AddWeapon(0, new HeroFireballWeapon(hero_));
+		// Add here the other initial weapons of the hero.
 	}
     current_level_ = new World(hero_);
     LevelLoader *loader = new LevelLoader(current_level_);

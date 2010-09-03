@@ -30,6 +30,7 @@ class Constants {
                        HERO_HEIGHT = 110,
                        HERO_HOTSPOT_X = 55,
                        HERO_HOTSPOT_Y = 102,
+                       HERO_MAX_WEAPONS = 5,
 
                        LIFE_IMAGE_WIDTH = 49,
                        LIFE_IMAGE_HEIGHT = 49,

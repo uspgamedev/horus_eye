@@ -29,6 +29,7 @@ class Hero : public Creature {
     virtual void HandleCollision(WorldObject *);
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();
+    void StartExplosion();
 
   private:
     framework::Vector2D screen_center_;
@@ -36,13 +37,13 @@ class Hero : public Creature {
     float time_to_recover_speed_;
     std::map<int, Weapon*> weapons_;
     int slot_selected_;
+    Weapon *secondary_weapon_;
 
     virtual void Update(float delta_t);
     
-    void StartExplosion();
     int GetMouseState();
     void GetKeys();
-    void ChangePrimaryWeapon(int slot);
+    void ChangeSecondaryWeapon(int slot);
 };
 
 }

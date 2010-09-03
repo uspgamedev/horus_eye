@@ -83,6 +83,7 @@ Hud::Hud(World* world) {
             MANA_METER_OFFSET_X + 0.0f,
             MANA_METER_OFFSET_Y + VIDEO_MANAGER()->video_size().y - MANA_BAR_HEIGHT));
 	mana_bar_[0]->image()->set_frame_size(Vector2D(bar_width, MANA_BAR_HEIGHT));
+	mana_bar_[0]->set_visible(false);
 
     mana_bar_[1] = new Sprite;
     //TODO: alterar esta image (life_bar_images_[1]) pra ser a imagem do "recipiente" da barra.
@@ -194,7 +195,7 @@ void Hud::Update(float delta_t) {
                     new_width,
                     MANA_BAR_HEIGHT
                     ));
-        } else if(world->hero()->mana() == 0)
+        } else //if(world->hero()->mana() == 0)
             mana_bar_[0]->set_visible(false);
     }
 }

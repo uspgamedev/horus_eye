@@ -88,7 +88,8 @@ Hero::Hero(Image* img) {
     blink_time_ = 0;
     blink_ = false;
     slot_selected_ = -1;
-    weapon_ = NULL;
+    weapon_ = new HeroBaseWeapon(this);
+    secondary_weapon_ = NULL;
 
     // Create the bigger fog image now, so the game doesn't hang during play.
     World::CreateFogTransparency(light_radius_ + Constants::SIGHT_POTION_INCREASE);
@@ -96,13 +97,13 @@ Hero::Hero(Image* img) {
 
 void Hero::AddWeapon(int slot, Weapon* weapon) {
     if (!weapons_.count(slot)) weapons_[slot] = weapon;
-    if (!weapon_) ChangePrimaryWeapon(slot);
+    if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
 }
 
-void Hero::ChangePrimaryWeapon(int slot) {
+void Hero::ChangeSecondaryWeapon(int slot) {
     if (slot != slot_selected_) {
         slot_selected_ = slot;
-        weapon_ = weapons_[slot];
+        secondary_weapon_ = weapons_[slot];
     }
 }
 
@@ -156,6 +157,18 @@ void Hero::GetKeys() {
         animation_direction_ += Animation_::RIGHT;
         num_dirs++;
     }
+    if (input_->KeyPressed(K_e)) {
+        int next_slot = slot_selected_;
+        do next_slot = (next_slot+1)%Constants::HERO_MAX_WEAPONS;
+        while (!weapons_.count(next_slot));
+        ChangeSecondaryWeapon(next_slot);
+    }
+    if (input_->KeyPressed(K_q)) {
+        int next_slot = slot_selected_;
+        do next_slot = next_slot-1 < 0 ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
+        while (!weapons_.count(next_slot));
+        ChangeSecondaryWeapon(next_slot);
+    }
 
     last_standing_animation_ = *(standing_animations_[animation_direction_]);
 
@@ -193,7 +206,7 @@ void Hero::StartExplosion() {
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 
-    World *world_ = WORLD();
+    /*World *world_ = WORLD();
     // Ajuste da altura do projetil.
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(
             input_->GetMousePosition() + projectile_height)-world_position());
@@ -201,7 +214,7 @@ void Hero::StartExplosion() {
     Explosion * explosion = new Explosion(pos, versor);
     world_->AddWorldObject(explosion);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    --mana_;
+    --mana_;*/
 }
 
 int Hero::GetMouseState() {
@@ -215,15 +228,16 @@ int Hero::GetMouseState() {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
+    this->GetKeys();
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
-        if (this->GetMouseState()==1 && weapon_->Available())
+        if (this->GetMouseState()==1 && weapon_ && weapon_->Available())
             //this->StartAttack();
             weapon_->Attack();
-        if (this->GetMouseState()==2 && mana_ > 0)
-            this->StartExplosion();
+        if (this->GetMouseState()==2 && secondary_weapon_ && secondary_weapon_->Available())
+            //this->StartExplosion();
+            secondary_weapon_->Attack();
         if(!waiting_animation_){
             Creature::Move(this->GetWalkingDirection(), delta_t);
-            this->GetKeys();
             this->SelectAnimation(*walking_animations_[animation_direction_]);
         }
     }
