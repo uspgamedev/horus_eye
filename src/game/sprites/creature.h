@@ -9,10 +9,12 @@
 #ifndef HORUSEYE_GAME_SPRITE_CREATURE_H_
 #define HORUSEYE_GAME_SPRITE_CREATURE_H_
 
+#include <list>
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/rectobject.h"
+#include "condition.h"
 #include "worldobject.h"
 
 namespace framework {
@@ -47,6 +49,8 @@ class Creature : public WorldObject , public framework::Observer {
 		if (mana_ > max_mana_) mana_ = max_mana_;
 	}
     int max_mana() { return  max_mana_; }
+    virtual bool AddCondition(Condition* new_condition);
+    virtual void UpdateCondition(float dt);
     virtual void TakeDamage(int life_points = 1);
     void set_weapon(Weapon *weapon) { weapon_ = weapon; }
 
@@ -86,7 +90,7 @@ class Creature : public WorldObject , public framework::Observer {
         static const int DOWN = 8;
     };
 
-    virtual void Update(float dt) { WorldObject::Update(dt); }
+    virtual void Update(float dt) { UpdateCondition(dt); WorldObject::Update(dt); }
 	virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
 
     // funcoes
@@ -110,8 +114,7 @@ class Creature : public WorldObject , public framework::Observer {
     float original_speed_, speed_, attack_cool_down_, attack_duration_;
     framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;
-
-
+    std::list<Condition*> conditions_;
 
 };  // class Creature
 

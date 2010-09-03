@@ -9,6 +9,8 @@
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
 
+#define INCREASE_SIGHT_TIME 3.00
+
 namespace sprite {
 
 using namespace utils;
@@ -20,6 +22,7 @@ bool ItemBuilder::RecoverLifeEvent::Use (Hero *hero) {
     }
     return false;
 }
+
 bool ItemBuilder::RecoverManaEvent::Use (Hero *hero) {
     if (hero->mana() < hero->max_mana()) {
         hero->set_mana(hero->mana() + recover_);
@@ -27,9 +30,11 @@ bool ItemBuilder::RecoverManaEvent::Use (Hero *hero) {
     }
     return false;
 }
+
 bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
-	hero->set_light_radius(hero->light_radius() + additional_sight_);
-	return true;
+	Condition* condition = condition_builder_.increase_sight_condition(hero);
+	if (hero->AddCondition(condition)) return true;
+	else return false;
 }
 
 Item* ItemBuilder::life_potion() {
@@ -38,12 +43,14 @@ Item* ItemBuilder::life_potion() {
     potion->set_event(new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE));
     return potion;
 }
+
 Item* ItemBuilder::mana_potion() {
     ImageFactory image_factory;
     Item* potion = new Item(image_factory.ManaPotionImage());
     potion->set_event(new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA));
     return potion;
 }
+
 Item* ItemBuilder::sight_potion() {
     ImageFactory image_factory;
     Item* potion = new Item(image_factory.SightPotionImage());

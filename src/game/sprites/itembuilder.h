@@ -2,6 +2,8 @@
 #define HORUSEYE_GAME_SPRITES_ITEMBUILDER_H_
 
 #include "item.h"
+#include "condition.h"
+#include "conditionbuilder.h"
 
 namespace sprite {
 
@@ -40,9 +42,8 @@ class ItemBuilder {
 
       private:
         float additional_sight_;
-
+        ConditionBuilder condition_builder_;
     };
-
 };
 
 }

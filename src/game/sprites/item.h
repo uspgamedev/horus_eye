@@ -11,6 +11,8 @@
 
 #include "worldobject.h"
 #include "itemevent.h"
+#include "conditionbuilder.h"
+#include "condition.h"
 
 namespace sprite {
 

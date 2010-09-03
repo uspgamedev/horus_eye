@@ -23,7 +23,6 @@ using namespace utils;
 
 Item::Item(framework::Image* img) {
     Initialize(img);
-    total_time_ = 0;
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     this->bound_ = new CircleObject(0.15f);
     this->collision_type_ = STATIC;

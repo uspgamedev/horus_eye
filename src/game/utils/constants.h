@@ -37,7 +37,7 @@ class Constants {
                        LIFE_METER_OFFSET_X = -20,
                        LIFE_METER_OFFSET_Y = -20,
                        MANA_METER_OFFSET_X = 20,
-                       MANA_METER_OFFSET_Y = -20,
+                       MANA_METER_OFFSET_Y = -20,                 
 
 					   MUMMY_LIFE = 1,
 					   MUMMY_DAMAGE = 1,
@@ -60,6 +60,8 @@ class Constants {
         DOOR_HOTSPOT_HEIGHT,
         DOOR_BOUND_WIDTH,
         DOOR_BOUND_HEIGHT,
+        
+        CONDITION_DURATION,
 
         FLOOR_HOTSPOT_X,
         FLOOR_HOTSPOT_Y,
