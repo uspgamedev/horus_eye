@@ -80,8 +80,7 @@ void LevelLoader::Load(string file_name) {
     int width = world_->level_width(),
         height = world_->level_height();
 
-    Wall ***wall_matrix = new Wall**[height];
-    for (int i = 0; i < height; i++) wall_matrix[i] = new Wall*[width];
+    Wall *wall_matrix[height][width];
 
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
@@ -169,8 +168,6 @@ void LevelLoader::Load(string file_name) {
             }
         }
     }
-    for (int i = 0; i < height; i++) delete wall_matrix[i];
-    delete wall_matrix;
 }
 
 } // namespace utils

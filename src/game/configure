@@ -8,8 +8,9 @@
 #
 
 if [ -e ./CMakeLists.base ] && [ -e ./update_cmake ] ; then
-  ./update_cmake $@
-  cmake .
+    rm CMakeCache.txt
+    ./update_cmake $@
+    cmake .
 else
-  echo "Erro: impossivel configurar! Verifique se os arquivos ./CMakeLists.base e ./update_cmake estao presentes."
+    echo "Erro: impossivel configurar! Verifique se os arquivos ./CMakeLists.base e ./update_cmake estao presentes."
 fi
