@@ -5,12 +5,13 @@
 // framework/image.cc
 // Implementacao da classe Image.
 //
+
 #include <cmath>
 #include <algorithm>
 #include <SDL/SDL_image.h>
-#include "image.h"
 #include "frame.h"
 #include "videomanager.h"
+#include "image.h"
 
 namespace framework {
 
@@ -46,6 +47,32 @@ bool Image::Destroy() {
     return true;
 }
 
+//Define a surface da imagem
+//Retorna true em caso de sucesso
+bool Image::setSurface(SDL_Surface* surface) {
+    if(surface != NULL){
+        data_ = surface;
+        set_frame_size(Vector2D(width(), height()));
+        return true;
+    }
+    else
+        return false;
+}
+        
+//Faz um blit de uma surface na surface da imagem
+//Retorna true em caso de sucesso
+bool Image::blitSurface(SDL_Surface* surface, SDL_Rect* srcrect, SDL_Rect* dstrect) {
+    if(surface != NULL && dstrect != NULL){
+        if(SDL_BlitSurface(surface, srcrect, data_, dstrect)==0){
+            return true;
+        }
+        else
+            return false;
+    }
+    else
+        return false;
+}
+
 // Carrega imagem de um arquivo
 // Retorna true em caso de sucesso
 bool Image::LoadFromFile(const string& file) {
@@ -74,6 +101,13 @@ bool Image::Clear(Image::Color color) {
     SDL_Rect rect = {0, 0, width(), height()};
     return (SDL_FillRect(data_, &rect, color) == 0);
 }
+
+//Define a cor de transparencia
+//Retorna true em caso de sucesso
+bool Image::setColorKey(SDL_Color color) { 
+    return SDL_SetColorKey(data_, SDL_SRCCOLORKEY, SDL_MapRGB(data_->format, color.r, color.g, color.b));
+}
+    
 
 // copia esta imagem numa outra
 // Retorna true em caso de sucesso

@@ -31,6 +31,8 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     audio_manager_ = new AudioManager();
     fog_manager_ = new FogManager();
     audio_manager_->Initialize();
+    text_manager_ = new TextManager();
+    text_manager_->Initialize();
     scene_list_.clear();
     window_size_ = windowSize;
 

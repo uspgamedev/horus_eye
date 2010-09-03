@@ -38,6 +38,7 @@ class VideoManager {
     bool fullscreen() const { return fullscreen_; }
     string title() const { return title_; }
     Image* backbuffer() const { return backbuffer_; }
+    Image* screen() const { return screen_; }
 
   private:
     Image* backbuffer_;

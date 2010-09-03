@@ -11,6 +11,12 @@
 #include <vector>
 #include <string>
 #include "vector2D.h"
+#include "inputmanager.h"
+#include "videomanager.h"
+#include "audiomanager.h"
+#include "textmanager.h"
+#include "scene.h"
+#include "timehandler.h"
 
 using std::vector;
 
@@ -34,6 +40,7 @@ class Engine {
     InputManager *input_manager() { return input_manager_; }
     TimeHandler *time_handler() { return time_handler_; }
     AudioManager *audio_manager() { return audio_manager_; }
+    TextManager *text_manager() { return text_manager_; }
     FogManager *fog_manager() { return fog_manager_; }
     Vector2D window_size() { return window_size_; }
 
@@ -61,6 +68,7 @@ class Engine {
     InputManager *input_manager_;
     TimeHandler *time_handler_;
     AudioManager *audio_manager_;
+    TextManager *text_manager_;
     FogManager *fog_manager_;
     Vector2D window_size_;
     bool quit_;

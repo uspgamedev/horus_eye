@@ -28,6 +28,7 @@ namespace utils {
 LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
+
     FILE* list = fopen("data/level_list.txt", "r");
     if(list != NULL) {
         int level_count = 0;
@@ -55,9 +56,12 @@ void finishAndDeleteCurrentScene() {
 }
 
 void LevelManager::ShowIntro() {
-    ImageFactory image_factory;
-    Image *img = image_factory.IntroImage();
-    Engine::reference()->PushScene(new ImageScene(NULL, img, 30, ImageScene::INTRO));
+    Engine::reference()->text_manager()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
+//    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
+//    Image *intro = TEXT_MANAGER()->LoadText("Texto\nTexto\nTexto\nTexto\nTexto\n");
+//    Image *intro = TEXT_MANAGER()->LoadLine("Texto");
+    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
+    Engine::reference()->PushScene(new ImageScene(NULL, intro, 30, ImageScene::INTRO));
 }
 
 void LevelManager::ShowEnding() {

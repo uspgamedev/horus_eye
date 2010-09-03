@@ -38,11 +38,13 @@ class Image {
     bool CreateFogTransparency(const Vector2D& ellipse_coef);
     bool Destroy();
     bool Clear(Color color);
+    bool setColorKey(SDL_Color color);
 
     void Optimize();
 
     int width() const { return data_ ? data_->w : 0; }
     int height() const { return data_ ? data_->h : 0; }
+    SDL_PixelFormat* format() {return data_ ? data_->format : 0; }
 
     void set_frame_size(const Vector2D& size) { frame_size_ = size; }
     Vector2D frame_size() const { return frame_size_; }
@@ -52,6 +54,9 @@ class Image {
 
     bool DrawTo(Image* dest, const Vector2D& position, int frame_number,
                 Mirror mirror);
+
+    bool setSurface(SDL_Surface *surface);
+    bool blitSurface(SDL_Surface* surface, SDL_Rect* srcrect, SDL_Rect* dstrect); 
 
   private:
     SDL_Surface *data_;

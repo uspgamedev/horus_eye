@@ -46,7 +46,7 @@ class Sprite {
     // atribuir diretamente a animacao desejada.
     // ======================================================================
 
-    // Devole um numero negativo caso nao seja possível registrar a animacao.
+    // Devolve um numero negativo caso nao seja possível registrar a animacao.
     // Caso contrario, devolve um identificador positivo univoco.
     //int RegisterAnimation(Animation *animation);
 
