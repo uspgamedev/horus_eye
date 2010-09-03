@@ -58,7 +58,7 @@ void finishAndDeleteCurrentScene() {
 void LevelManager::ShowIntro() {
     Engine::reference()->text_manager()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
 //    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
-//    Image *intro = TEXT_MANAGER()->LoadText("Texto\nTexto\nTexto\nTexto\nTexto\n");
+//    Image *intro = TEXT_MANAGER()->LoadText("Texto\nTexto Grande\nTexto\nTxt\nTexto\n", 'c');
 //    Image *intro = TEXT_MANAGER()->LoadLine("Texto");
     Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
     Engine::reference()->PushScene(new ImageScene(NULL, intro, 30, ImageScene::INTRO));
