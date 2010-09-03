@@ -6,8 +6,15 @@
 // Implementacao da classe TextManager.
 //
 
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
 #include "engine.h"
 #include "textmanager.h"
+using namespace std;
+
+//Tamanho máximo de uma linha do arquivo de entrada
+#define MAXLINE 200
 
 namespace framework{
 
@@ -115,8 +122,39 @@ Image* TextManager::LoadText(string text, char indent) {
     return img;
 }
 
-Image* TextManager::LoadFile(string path){
-    return NULL;
+Image* TextManager::LoadFile(string path, char indent){
+    FILE* txtFile;
+    char buffer[MAXLINE];
+    int fontwidth = 24;
+    int screensize = 1024;
+    int nchar=0, pos=0, last=0;
+    string line, output;
+
+    txtFile = fopen(path.c_str(), "r");
+    if(txtFile==NULL) return NULL;
+
+    nchar = screensize/fontwidth;
+
+    while(fgets(buffer, 200, txtFile)!=NULL){
+        line=buffer;
+        while(pos!=-1){
+            pos = line.find(" ", last+1);
+            if(pos >= nchar){
+                output.append(line.substr(0, last));
+                output.append("\n");
+                line = line.substr(last+1, string::npos);
+                last=0;
+            }
+            else{
+                last = pos;
+            }
+        }
+        pos = 0;
+        output.append(line);
+        output.append(" \n");
+    }
+
+    return LoadText(output, indent);
 }
 
 } // namespace framework

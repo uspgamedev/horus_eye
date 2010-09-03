@@ -33,7 +33,7 @@ class TextManager{
 
         Image* LoadLine(string line);
         Image* LoadText(string text, char indent);
-        Image* LoadFile(string path);
+        Image* LoadFile(string path, char indent);
 
     private:
         TTF_Font *font_;
