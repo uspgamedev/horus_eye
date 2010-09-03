@@ -15,6 +15,7 @@
 #include "scene.h"
 #include "timehandler.h"
 #include "fogmanager.h"
+#define FOREACH(i,a,b) for(__typeof(a) i = a; i != b; ++i)
 
 using namespace std;
 
@@ -43,18 +44,29 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     return (time_handler_ != NULL);
 }
 
+void Engine::DeleteFinishedScenes() {
+	bool deleted = true;
+	while(deleted){
+		deleted = false;
+		FOREACH (it, scene_list_.begin(), scene_list_.end()) {
+			if ((*it)->finished()) {
+				scene_list_.erase(it);
+				deleted = true;
+				break;
+			}
+		}
+	}
+}
+
+
+
 void Engine::Run() {
     Key key;
     SDL_Event event;
     float delta_t, total_fps = 0;
 
     while(!quit_) {
-
-        while (scene_list_.size() > 0 && CurrentScene()->finished()) {
-            Scene *removed = CurrentScene();
-            PopScene();
-            delete removed;
-        }
+        DeleteFinishedScenes();
 
         // gerenciamento das cenas
         if (scene_list_.size() == 0) {

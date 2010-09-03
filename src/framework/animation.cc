@@ -57,7 +57,7 @@ void Animation::CopyFrameList(int frame_list[], int n_frames) {
     if(frames_ != NULL)
         delete[] frames_;
     n_frames_ = n_frames;
-    frames_ = (int *) malloc(n_frames_ * sizeof(int));
+    frames_ = new int[n_frames];
     memcpy(frames_, frame_list, n_frames_ * sizeof(int));
 }
 

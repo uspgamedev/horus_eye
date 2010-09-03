@@ -64,6 +64,7 @@ class Engine {
     ~Engine() {}
 
   private:
+    void DeleteFinishedScenes();
     VideoManager *video_manager_;
     InputManager *input_manager_;
     TimeHandler *time_handler_;
