@@ -13,8 +13,12 @@ namespace framework{
 
 bool TextManager::Initialize() {
     TTF_Init();
-    textColor_ = { 255, 255, 255 };
-    transparentColor_ = { 255, 0, 255 };
+    textColor_.r = 255;
+    textColor_.g = 255;
+    textColor_.b = 255;
+    transparentColor_.r = 255;
+    transparentColor_.g = 0;
+    transparentColor_.b = 255;
     font_ = TTF_OpenFont( "data/font/Filmcryptic.ttf", 28 );
     return true;
 }
