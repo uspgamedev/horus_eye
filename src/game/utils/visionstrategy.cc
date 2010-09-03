@@ -33,7 +33,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     }
 
     Vector2D distance = position2 - position1;
-    if(distance.length() > 10.0f)
+    if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
     for (int i = 0; i < height; i++) {

@@ -15,7 +15,7 @@ class Constants {
   public:
     const static int   PROJECTILE_SPRITE_WIDTH = 32,
                        PROJECTILE_SPRITE_HEIGHT = 32,
-                       PROJECTILE_DURATION = 5000,
+                       PROJECTILE_DURATION = 3500,
                        EXPLOSION_DURATION = 300,
                        
                        PROJECTILE_DAMAGE = 1,
@@ -83,6 +83,8 @@ class Constants {
 		EXPLOSION_DAMAGE_RADIUS,
 
 		SIGHT_POTION_INCREASE,
+
+		MUMMY_SIGHT_RANGE,
 
         MUMMY_RADIUS,
         MUMMY_SPEED,

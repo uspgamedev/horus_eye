@@ -32,7 +32,7 @@ void Sprite::SelectAnimation(Animation *animation) {
     animation_ = animation;
 }
 
-#define PRECISION 0.05f
+#define PRECISION 0.15f
 
 bool Sprite::withinScreen(Vector2D &offset) {
 

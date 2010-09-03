@@ -39,6 +39,8 @@ const float Constants::EXPLOSION_DAMAGE_RADIUS = 1.5f;
 
 const float Constants::SIGHT_POTION_INCREASE = 1.0f;
 
+const float Constants::MUMMY_SIGHT_RANGE = 20.0f;
+
 const float Constants::MUMMY_RADIUS = 0.3f;
 const float Constants::MUMMY_SPEED = 2.0f;
 
