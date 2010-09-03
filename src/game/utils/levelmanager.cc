@@ -120,6 +120,8 @@ void LevelManager::FinishLevel(LevelState state) {
 void LevelManager::LoadNextLevel() {
     if(level_list_iterator_ == level_list_.size()) {
         ShowEnding();
+        if (hero_) delete hero_;
+        hero_ = NULL;
         return;
     }
 
