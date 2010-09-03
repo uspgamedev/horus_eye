@@ -1,6 +1,7 @@
 #include "mummybuilder.h"
 #include "weapons/mummyweapon.h"
 #include "weapons/mummyrangedweapon.h"
+#include "weapons/pharaohrangedweapon.h"
 #include "../utils/imagefactory.h"
 
 using namespace sprite;
@@ -47,5 +48,18 @@ Mummy * MummyBuilder::big_mummy() {
 								big_mummy_image->frame_size().y*6.0f / 7.0f));
 
     return mummy;
+}
+
+
+Pharaoh * MummyBuilder::pharaoh() {
+	Pharaoh *pharaoh = new Pharaoh(Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
+    pharaoh->set_speed(Constants::PHARAOH_SPEED);
+	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
+	pharaoh->set_ranged_weapon(new PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
+    pharaoh->set_bound(Constants::PHARAOH_RADIUS);
+	pharaoh->set_hotspot(Vector2D(pharaoh->image()->frame_size().x / 2.0f, 
+		pharaoh->image()->frame_size().y*6.0f / 7.0f));
+
+	return pharaoh;
 }
 

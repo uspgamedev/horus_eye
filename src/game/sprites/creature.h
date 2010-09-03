@@ -87,6 +87,7 @@ class Creature : public WorldObject , public framework::Observer {
     };
 
     virtual void Update(float dt) { WorldObject::Update(dt); }
+	virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
 
     // funcoes
     void Move(framework::Vector2D direction, float delta_t);
@@ -104,6 +105,8 @@ class Creature : public WorldObject , public framework::Observer {
     // variaveis
     Vector2D last_stable_position_;
     int   life_, max_life_, mana_, max_mana_;
+	double blink_time_;
+    bool blink_;
     float original_speed_, speed_, attack_cool_down_, attack_duration_;
     framework::TimeAccumulator *hit_duration_;
     framework::Vector2D walking_direction_, looking_direction_;

@@ -20,14 +20,19 @@ class Weapon;
 class Pharaoh : public Mummy {
 
   public:
-    Pharaoh(int life);
+    Pharaoh(int life, int mana);
     ~Pharaoh();
 
+	void TakeDamage(int life_points = 1);
 	void set_ranged_weapon(Weapon *weapon) { ranged_weapon_ = weapon; }
+
+	void StartSummonMummy(Creature* target);
 
   protected:
 	Weapon *ranged_weapon_;
+	double mana_regen_time_;
 
+	void Update(float delta_t);
     void Think(float dt);
 
 };

@@ -240,10 +240,4 @@ void Hero::Update(float delta_t) {
     speed_ = original_speed_;
 }
 
-void Hero::Render(Image *back_buffer, Vector2D &offset) {
-
-    if (!blink_) Sprite::Render(back_buffer, offset);
-
-}
-
 }

@@ -47,8 +47,9 @@ const float Constants::RANGED_MUMMY_RANGE = 5.0f;
 const float Constants::BIG_MUMMY_RADIUS = 0.5f;
 const float Constants::BIG_MUMMY_SPEED = 1.7f;
 
-const float Constants::PHARAOH_RADIUS = 0.5f;
-const float Constants::PHARAOH_SPEED = 2.5f;
+const float Constants::PHARAOH_RADIUS = 0.45f;
+const float Constants::PHARAOH_SPEED = 2.8f;
+const float Constants::PHARAOH_MANA_REGEN_RATE = 2.0f;
 
 const float Constants::POTION_SPRITE_CENTER_X = 15.0f;
 const float Constants::POTION_SPRITE_CENTER_Y = 15.0f;

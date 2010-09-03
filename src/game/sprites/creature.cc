@@ -28,6 +28,8 @@ Creature::Creature() : 	WorldObject() {
 	last_stable_position_ = Vector2D(0,0);
 	hit_duration_ = NULL;
 	waiting_animation_ = false;
+	blink_time_ = 0;
+    blink_ = false;
 	this->collision_type_ = MOVEABLE; 
 }
 
@@ -197,6 +199,10 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
         radianAngle = 2*PI - radianAngle;
     }
 	return radianAngle;
+}
+
+void Creature::Render(Image *back_buffer, Vector2D &offset) {
+    if (!blink_) Sprite::Render(back_buffer, offset);
 }
 
 }  // namespace sprite

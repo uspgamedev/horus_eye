@@ -48,6 +48,8 @@ class Constants {
                        BIG_MUMMY_DAMAGE = 2,
 
 					   PHARAOH_LIFE = 15,
+					   PHARAOH_MANA = 10,
+					   PHARAOH_SUMMON_MANA_COST = 3,
 					   PHARAOH_DAMAGE = 2,
 					   PHARAOH_RANGED_DAMAGE = 1;
 
@@ -92,6 +94,7 @@ class Constants {
 
 		PHARAOH_RADIUS,
 		PHARAOH_SPEED,
+		PHARAOH_MANA_REGEN_RATE,
 
 		POTION_SPRITE_CENTER_X,
         POTION_SPRITE_CENTER_Y,
