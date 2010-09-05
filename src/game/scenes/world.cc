@@ -161,10 +161,12 @@ void World::End() {
 // Nao nos importamos com a ordem dos WorldObjects nas listas;
 // Decidimos fazer as adicoes e remocoes no comeco das listas por padrao.
 void World::AddWorldObject(sprite::WorldObject* new_object) {
-    if(new_object->collision_type() == WorldObject::NO_COLLISION)
+    if(new_object->collision_type() == WorldObject::NO_COLLISION) {
         collisionless_objects.push_front(new_object);
-    else
+	} else {
         world_objects_.push_front(new_object);
+	}
+
     world_layer_->AddSprite(new_object);
     fog_->AddLightSource(new_object);
 }
@@ -231,26 +233,22 @@ void World::AddDoor(framework::Vector2D &pos) {
 
 }
 
-void World::AddPotion(framework::Vector2D &pos, int type) {
-    Item *potion = NULL;
-
-    switch (type) {
-        case 0:
-            potion = potion_builder_.life_potion();
-            break;
-
-        case 1:
-            potion = potion_builder_.mana_potion();
-            break;
-
-        case 2:
-        	potion = potion_builder_.sight_potion();
-        	break;
-    }
-    
+void World::AddLifePotion(framework::Vector2D &pos){
+	Item *potion = potion_builder_.life_potion();
     potion->set_world_position(pos);
     this->AddWorldObject(potion);
-    
+}
+
+void World::AddManaPotion(framework::Vector2D &pos){
+	Item *potion = potion_builder_.mana_potion();
+    potion->set_world_position(pos);
+    this->AddWorldObject(potion);
+}
+
+void World::AddSightPotion(framework::Vector2D &pos){
+	Item *potion = potion_builder_.sight_potion();
+    potion->set_world_position(pos);
+    this->AddWorldObject(potion);
 }
 
 int World::CountRemainingEnemies() {

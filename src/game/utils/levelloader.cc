@@ -133,17 +133,17 @@ void LevelLoader::Load(string file_name) {
                         break;
                     }
                     case POTIONL: {
-                        world_->AddPotion(position, 0);
+                        world_->AddLifePotion(position);
                         world_->AddFloor(position);
                         break;
                     }
                     case POTIONM: {
-                    	world_->AddPotion(position, 1);
+                    	world_->AddManaPotion(position);
                         world_->AddFloor(position);
                         break;
                     }
                     case POTIONS: {
-                    	world_->AddPotion(position, 2);
+                    	world_->AddSightPotion(position);
                         world_->AddFloor(position);
                         break;
                     }
