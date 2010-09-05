@@ -107,12 +107,12 @@ void LevelLoader::Load(string file_name) {
                         break;
                     }
                     case BIG_MUMMY: {
-                        world_->AddMummy(position, 1);
+                        world_->AddBigMummy(position);
                         world_->AddFloor(position);
                         break;
                     }
                     case RANGED_MUMMY: {
-                        world_->AddMummy(position, 2);
+                        world_->AddRangedMummy(position);
                         world_->AddFloor(position);
                         break;
                     }

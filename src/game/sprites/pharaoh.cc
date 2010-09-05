@@ -88,13 +88,13 @@ void Pharaoh::StartSummonMummy(Creature* target) {
 	*/
 	int choice = rand()%100;
 	if (choice < SUMMON_RANGED_CHANCE) {
-		world->AddMummy(mummyPos, 2);
+		world->AddRangedMummy(mummyPos);
 	}
 	else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-		world->AddMummy(mummyPos, 1);
+		world->AddBigMummy(mummyPos);
 	}
 	else {
-		world->AddMummy(mummyPos, 0);
+		world->AddMummy(mummyPos);
 	}
 
 	float attackAngle = GetAttackingAngle(target->position() - position());

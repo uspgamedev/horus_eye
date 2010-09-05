@@ -56,7 +56,9 @@ ImageScene::ImageScene(framework::Image *background, framework::Image *image,
 
 }
 
-ImageScene::~ImageScene() {}
+ImageScene::~ImageScene() {
+	printf("merda!\n");
+}
 
 void ImageScene::End() {
     Scene::End();

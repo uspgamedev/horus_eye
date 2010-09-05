@@ -182,22 +182,27 @@ Wall* World::AddWall(framework::Vector2D &pos) {
 	return wall;
 }
 
-void World::AddMummy(framework::Vector2D &pos, int type) {
-	Mummy *mummy = NULL;
+void World::AddBigMummy(framework::Vector2D &pos) {
+	Mummy *mummy = mummy_builder_.big_mummy();
 
-    switch (type) {
-        case 0:
-            mummy = mummy_builder_.standard_mummy();
-            break;
+	mummy->set_world_position(pos);
+	this->AddWorldObject(mummy);
+	remaining_enemies_++;
+	max_enemies_++;
+}
 
-        case 1:
-            mummy = mummy_builder_.big_mummy();
-            break;
+void World::AddRangedMummy(framework::Vector2D &pos) {
+	Mummy *mummy = mummy_builder_.ranged_mummy();
 
-        case 2:
-            mummy = mummy_builder_.ranged_mummy();
-            break;
-    }
+	mummy->set_world_position(pos);
+	this->AddWorldObject(mummy);
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
+
+void World::AddMummy(framework::Vector2D &pos) {
+	Mummy *mummy = mummy_builder_.standard_mummy();
             
 	mummy->set_world_position(pos);
 	this->AddWorldObject(mummy);
