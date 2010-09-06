@@ -207,42 +207,43 @@ void Hero::StartExplosion() {
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
-bool Hero::LeftButtonPressed() {
+bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-	return input_->MouseDown(M_BUTTON_LEFT);
+	return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Available();
 }
 
-bool Hero::RightButtonPressed() {
+bool Hero::ShootingWithSecondaryWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-	return input_->MouseDown(M_BUTTON_RIGHT);
+	return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
+}
+
+void Hero::AdjustBlink(float delta_t) {
+	if (!hit_duration_->Expired()) {
+		blink_time_ += delta_t;
+		if (blink_time_ > 0.05) {
+			blink_ = !blink_;
+			blink_time_ = 0;
+		}
+	} else if (blink_) {
+		blink_ = false;
+	}
 }
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
-        if (LeftButtonPressed() && weapon_ && weapon_->Available()) {
+        if (ShootingWithWeapon()) {
             weapon_->Attack();
-		}
-        if (RightButtonPressed() && secondary_weapon_ && secondary_weapon_->Available()) {
+		} else if (ShootingWithSecondaryWeapon()) {
             secondary_weapon_->Attack();
-		}
-        if(!waiting_animation_){
-            Creature::Move(this->GetWalkingDirection(), delta_t);
+		} else {
+			Creature::Move(this->GetWalkingDirection(), delta_t);
 			this->GetKeys();
-            this->SelectAnimation(*walking_animations_[animation_direction_]);
-        }
+			this->SelectAnimation(*walking_animations_[animation_direction_]);
+		}
     }
-    if (!hit_duration_->Expired()) {
-        blink_time_ += delta_t;
-        if (blink_time_ > 0.05) {
-            blink_ = !blink_;
-            blink_time_ = 0;
-        }
-    }
-    else if (blink_) {
-        blink_ = false;
-    }
-    speed_ = original_speed_;
+	AdjustBlink(delta_t);
+	speed_ = original_speed_;
 }
 
 }
