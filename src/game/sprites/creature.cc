@@ -56,7 +56,7 @@ Creature::~Creature() {
 }
 
 bool deletecondition(Condition *condition) {
-	bool is_finished = ((*condition).phase() == Condition::PHASE_FINISHED);
+	bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
 	if (is_finished) delete condition;
     return is_finished;
 
@@ -69,7 +69,8 @@ bool Creature::AddCondition(Condition* new_condition) {
 
 void Creature::UpdateCondition(float dt) {
 	 std::list<Condition*>::iterator i;
-	 for (i = conditions_.begin(); i != conditions_.end(); ++i) (*i)->Update(dt);
+	 for (i = conditions_.begin(); i != conditions_.end(); ++i) 
+		 (*i)->Update(dt);
 	 conditions_.remove_if(deletecondition);
 }
 

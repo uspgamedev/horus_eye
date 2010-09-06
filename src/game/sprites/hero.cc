@@ -229,7 +229,6 @@ int Hero::GetMouseState() {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    this->GetKeys();
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         if (this->GetMouseState()==1 && weapon_ && weapon_->Available())
             //this->StartAttack();
@@ -239,6 +238,7 @@ void Hero::Update(float delta_t) {
             secondary_weapon_->Attack();
         if(!waiting_animation_){
             Creature::Move(this->GetWalkingDirection(), delta_t);
+			this->GetKeys();
             this->SelectAnimation(*walking_animations_[animation_direction_]);
         }
     }
