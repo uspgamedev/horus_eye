@@ -19,8 +19,8 @@ void HeroFireballWeapon::Attack(){
     // Ajuste da altura do projetil.
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
              pos = hero_->world_position();
-    Explosion * explosion = new Explosion(pos, versor);
-    world_->AddWorldObject(explosion);
+    Explosion * explosion = new Explosion(versor);
+    world_->AddWorldObject(explosion, pos);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     hero_->StartExplosion();
     hero_->set_mana(hero_->mana() - cost_);

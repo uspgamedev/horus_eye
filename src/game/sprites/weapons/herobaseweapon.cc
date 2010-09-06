@@ -19,8 +19,8 @@ void HeroBaseWeapon::Attack(){
     // Ajuste da altura do projetil.
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
              pos = hero_->world_position();
-    Projectile * projectile = new Projectile(pos, versor);
-    world_->AddWorldObject(projectile);
+    Projectile * projectile = new Projectile(versor);
+    world_->AddWorldObject(projectile, pos);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     hero_->StartAttack();
 }

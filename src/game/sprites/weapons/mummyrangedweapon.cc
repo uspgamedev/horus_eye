@@ -16,7 +16,7 @@ void MummyRangedWeapon::Attack(){
     Vector2D versor = Vector2D::Normalized(hero->world_position() - owner_->world_position());
     Vector2D pos = owner_->world_position();
 
-    world->AddWorldObject(new sprite::MummyProjectile(pos, versor, damage_));
+    world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);
     framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     ((Mummy*)owner_)->StartAttack(hero);

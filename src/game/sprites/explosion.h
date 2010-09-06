@@ -25,7 +25,7 @@ class Mummy;
 class Explosion : public WorldObject {
 
   public:
-	Explosion(framework::Vector2D & pos, framework::Vector2D &);
+	Explosion(framework::Vector2D &);
 	~Explosion();
 	void Move(float delta_t);
 	void RadiusUpdate(float delta_t);

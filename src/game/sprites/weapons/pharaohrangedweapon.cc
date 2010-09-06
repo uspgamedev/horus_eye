@@ -25,9 +25,9 @@ void PharaohRangedWeapon::Attack(){
     Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
     Vector2D offsetright = Vector2D::Rotate(versor,-angle);
 
-    world->AddWorldObject(new sprite::MummyProjectile(pos, versor, damage_));
-    world->AddWorldObject(new sprite::MummyProjectile(pos, offsetleft, damage_));
-    world->AddWorldObject(new sprite::MummyProjectile(pos, offsetright, damage_));
+    world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);
+    world->AddWorldObject(new sprite::MummyProjectile(offsetleft, damage_), pos);
+    world->AddWorldObject(new sprite::MummyProjectile(offsetright, damage_), pos);
     framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     ((Mummy*)owner_)->StartAttack(hero);

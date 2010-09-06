@@ -30,7 +30,7 @@ using namespace utils;
 
 namespace sprite {
 
-MummyProjectile::MummyProjectile(Vector2D & pos, Vector2D & dir, int damage) :
+MummyProjectile::MummyProjectile(Vector2D & dir, int damage) :
         direction_(Vector2D::Normalized(dir))
 {
     ImageFactory image_factory;
@@ -39,7 +39,6 @@ MummyProjectile::MummyProjectile(Vector2D & pos, Vector2D & dir, int damage) :
 	damage_ = damage;
     speed_ = PROJECTILE_SPEED;
     this->bound_ = new CircleObject(0.15f);
-    this->set_world_position(pos);
     duration_ = new TimeAccumulator(PROJECTILE_DURATION);
     this->collision_type_ = MOVEABLE;
 }

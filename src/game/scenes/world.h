@@ -48,7 +48,7 @@ class World : public framework::Scene {
     void Update(float delta_t);
 
     sprite::Wall* AddWall(framework::Vector2D&);
-    void AddWorldObject(sprite::WorldObject*);
+    void AddWorldObject(sprite::WorldObject*, framework::Vector2D &pos);
     void AddFloor(sprite::Floor*);
     void AddFloor(framework::Vector2D &pos);
     void AddMummy(framework::Vector2D &pos);

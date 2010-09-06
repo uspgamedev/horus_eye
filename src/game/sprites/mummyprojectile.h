@@ -23,7 +23,7 @@ class Door;
 class MummyProjectile : public WorldObject {
 
   public:
-	MummyProjectile(framework::Vector2D & pos, framework::Vector2D &, int damage = 1);
+	MummyProjectile(framework::Vector2D &, int damage = 1);
 	~MummyProjectile();
 	void Move(float delta_t);
 	void Update(float delta_t);

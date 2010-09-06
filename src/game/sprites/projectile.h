@@ -26,7 +26,7 @@ class Creature;
 
 class Projectile : public WorldObject {
   public:
-    Projectile(framework::Vector2D & pos, framework::Vector2D &);
+    Projectile(framework::Vector2D &);
     ~Projectile();
     void Move(float delta_t);
     void Update(float delta_t);

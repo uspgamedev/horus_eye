@@ -24,7 +24,7 @@ using namespace utils;
 
 namespace sprite {
 
-Explosion::Explosion(Vector2D & pos, Vector2D & dir) :
+Explosion::Explosion(Vector2D & dir) :
 			direction_(Vector2D::Normalized(dir))
 {
     ImageFactory image_factory;
@@ -33,7 +33,6 @@ Explosion::Explosion(Vector2D & pos, Vector2D & dir) :
 	damage_ = Constants::EXPLOSION_DAMAGE;
 	speed_ = Constants::PROJECTILE_SPEED;
 	bound_ = new CircleObject(0.15f);
-	set_world_position(pos);
 	light_radius_ = 1.5f;
 	duration_ = new TimeAccumulator(Constants::PROJECTILE_DURATION);
 	collision_type_ = MOVEABLE;
