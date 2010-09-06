@@ -126,6 +126,13 @@ void World::VerifyCheats() {
 	}
 }
 
+Vector2D World::ActualOffset() {
+	Vector2D result = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
+	if(hero_) result = result + hero_->position();
+
+	return result;
+}
+
 void World::Update(float delta_t) {
 
     InputManager *input = Engine::reference()->input_manager();
@@ -138,16 +145,9 @@ void World::Update(float delta_t) {
 
     set_visible(true);
     Scene::Update(delta_t);
-    Vector2D offset;
 
-    // Calcula a posicao da camera no mundo a partir da posicao do heroi.
-    offset = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
-
-    if (hero_)
-        offset = offset + hero_->position();
-
-    world_layer_->set_offset(offset);
-    fog_->set_offset(offset);
+    world_layer_->set_offset(ActualOffset());
+    fog_->set_offset(ActualOffset());
 
 	HandleCollisions();
 
@@ -166,7 +166,7 @@ void World::End() {
     this->RemoveAll();
 }
 
-void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D &pos) {
+void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
 
 	new_object-> set_world_position(pos);
 
@@ -180,58 +180,58 @@ void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D 
     fog_->AddLightSource(new_object);
 }
 
-void World::AddFloor(framework::Vector2D &pos) {
+void World::AddFloor(framework::Vector2D pos) {
 	this->AddWorldObject(new Floor(), pos);
 }
 
-Wall* World::AddWall(framework::Vector2D &pos) {
+Wall* World::AddWall(framework::Vector2D pos) {
 	Wall* wall = new Wall();
 	this->AddWorldObject(wall, pos);
 	return wall;
 }
 
-void World::AddBigMummy(framework::Vector2D &pos) {
+void World::AddBigMummy(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.big_mummy(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
-void World::AddRangedMummy(framework::Vector2D &pos) {
+void World::AddRangedMummy(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.ranged_mummy(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
 
-void World::AddMummy(framework::Vector2D &pos) {
+void World::AddMummy(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.standard_mummy(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
-void World::AddPharaoh(framework::Vector2D &pos) {
+void World::AddPharaoh(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.pharaoh(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
-void World::AddHero(framework::Vector2D &pos) {
+void World::AddHero(framework::Vector2D pos) {
     this->AddWorldObject(hero_, pos);
 }
 
-void World::AddDoor(framework::Vector2D &pos) {
+void World::AddDoor(framework::Vector2D pos) {
     this->AddWorldObject(new Door, pos);
 }
 
-void World::AddLifePotion(framework::Vector2D &pos){
+void World::AddLifePotion(framework::Vector2D pos){
     this->AddWorldObject(potion_builder_.life_potion(), pos);
 }
 
-void World::AddManaPotion(framework::Vector2D &pos){
+void World::AddManaPotion(framework::Vector2D pos){
     this->AddWorldObject(potion_builder_.mana_potion(), pos);
 }
 
-void World::AddSightPotion(framework::Vector2D &pos){
+void World::AddSightPotion(framework::Vector2D pos){
     this->AddWorldObject(potion_builder_.sight_potion(), pos);
 }
 

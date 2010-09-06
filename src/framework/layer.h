@@ -29,7 +29,7 @@ class Layer {
     // Acesso e leitura de atributos.
     bool IsVisible() { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
-    void set_offset(Vector2D &offset) { offset_ = offset; }
+    void set_offset(Vector2D offset) { offset_ = offset; }
     Vector2D offset() { return offset_; }
 
     // Adicionando e removendo Sprites.
