@@ -133,15 +133,18 @@ Vector2D World::ActualOffset() {
 	return result;
 }
 
-void World::Update(float delta_t) {
-
+bool World::VerifyQuit() {
     InputManager *input = Engine::reference()->input_manager();
     if(input->KeyDown(K_ESCAPE)) {
         LevelManager::reference()->FinishLevel(LevelManager::FINISH_QUIT);
-    	/*player_exit_ = true;
-        Finish();*/
-        return;
+        return true;
     }
+	return false;
+}
+
+void World::Update(float delta_t) {
+
+	if(VerifyQuit()) return;
 
     set_visible(true);
     Scene::Update(delta_t);
