@@ -41,7 +41,8 @@ class Hero : public Creature {
 
     virtual void Update(float delta_t);
     
-    int GetMouseState();
+	bool LeftButtonPressed();
+	bool RightButtonPressed();
     void GetKeys();
     void ChangeSecondaryWeapon(int slot);
 };

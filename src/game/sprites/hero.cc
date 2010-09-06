@@ -186,8 +186,7 @@ void Hero::GetKeys() {
 void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
-    Vector2D projectile_height(0,
-            Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     double attackAngle = GetAttackingAngle(input_->GetMousePosition() -
             screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
@@ -199,7 +198,7 @@ void Hero::StartAttack() {
 void Hero::StartExplosion() {
     InputManager *input_ = Engine::reference()->input_manager();
 
-    Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     double attackAngle = GetAttackingAngle(input_->GetMousePosition() -
             screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
@@ -208,22 +207,23 @@ void Hero::StartExplosion() {
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
-int Hero::GetMouseState() {
+bool Hero::LeftButtonPressed() {
     InputManager *input_ = Engine::reference()->input_manager();
-    if (input_->MouseDown(M_BUTTON_LEFT))
-        return 1;
-    if (input_->MouseDown(M_BUTTON_RIGHT))
-        return 2;
-    return 0;
+	return input_->MouseDown(M_BUTTON_LEFT);
+}
+
+bool Hero::RightButtonPressed() {
+    InputManager *input_ = Engine::reference()->input_manager();
+	return input_->MouseDown(M_BUTTON_RIGHT);
 }
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
-        if (this->GetMouseState()==1 && weapon_ && weapon_->Available()) {
+        if (LeftButtonPressed() && weapon_ && weapon_->Available()) {
             weapon_->Attack();
 		}
-        if (this->GetMouseState()==2 && secondary_weapon_ && secondary_weapon_->Available()) {
+        if (RightButtonPressed() && secondary_weapon_ && secondary_weapon_->Available()) {
             secondary_weapon_->Attack();
 		}
         if(!waiting_animation_){
