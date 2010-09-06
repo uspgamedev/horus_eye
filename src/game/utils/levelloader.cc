@@ -13,6 +13,7 @@
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
 #include<fstream>
+#include<iostream>
 namespace utils {
 
 using namespace std;
@@ -37,18 +38,23 @@ void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (file_name.c_str());
     int width, height;
 
-  	file >> width >> height; 
-	vector<string> matrix (height);
+	if(file.is_open()){
+		file >> width >> height; 
+		vector<string> matrix (height);
 
-    for (int i = 0; i < height; ++i) {
+		for (int i = 0; i < height; ++i) {
 			file >> matrix[i];
-    }
-    
-	world_->set_level_width(width);
-    world_->set_level_height(height);
-    world_->set_level_matrix(matrix);
-	
-	file.close();
+		}
+
+		world_->set_level_width(width);
+		world_->set_level_height(height);
+		world_->set_level_matrix(matrix);
+
+		file.close();
+	} else {
+		cout << "CANNOT OPEN FILE: " << file_name << endl;
+		exit(0);
+	}
 }
 
 bool LevelLoader::InRange (int i,int j) {
