@@ -84,22 +84,20 @@ class World : public framework::Scene {
 
     static Image* CreateFogTransparency(float radius);
 
-    sprite::Hero * hero() { return hero_; }
     vector<sprite::Mummy *> Mummies();
-
-    int level_width();
-    int level_height();
-    char** level_matrix();
-
-    void set_level_width(int width);
-    void set_level_height(int height);
-    void set_level_matrix(char** matrix);
-
-    utils::Fog* fog() { return fog_; }
-
-    void set_hero(sprite::Hero *hero) {
-        hero_ = hero;
-    }
+    
+	//getters
+	sprite::Hero * hero() { return hero_; }
+    utils::Fog* fog() {	return fog_; }
+    int level_width() {	return level_width_; }
+    int level_height() { return level_height_; }
+    vector<string> level_matrix() {	return level_matrix_; }
+	
+	//setters
+	void set_level_width(int width) { level_width_ = width; }
+    void set_level_height(int height) {	level_height_ = height; }
+    void set_level_matrix(vector<string> matrix) { level_matrix_ = matrix; }
+    void set_hero(sprite::Hero *hero) { hero_ = hero; }
 
   protected:
     sprite::Hero *hero_;
@@ -109,7 +107,7 @@ class World : public framework::Scene {
     utils::Hud *hud_;
     utils::Fog *fog_;
     int level_width_, level_height_;
-    char** level_matrix_;
+    vector<string> level_matrix_;
     int	remaining_enemies_, max_enemies_;
     sprite::MummyBuilder mummy_builder_;
     sprite::ItemBuilder potion_builder_;

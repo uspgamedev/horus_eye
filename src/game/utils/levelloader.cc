@@ -7,13 +7,12 @@
 //
 
 #include "levelloader.h"
-#include <cstdio>
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../sprites/mummy.h"
 #include "../sprites/floor.h"
 #include "../sprites/wall.h"
-#include<iostream>
+#include<fstream>
 namespace utils {
 
 using namespace std;
@@ -35,25 +34,21 @@ using namespace framework;
 #define POTIONS		 'S'	
 
 void LevelLoader::LoadMatrix(string file_name) {
-    FILE* file = fopen(file_name.c_str(),"r");
+	ifstream file (file_name.c_str());
     int width, height;
-    fscanf(file,"%d %d", &width, &height);
-    
-	char **matrix = new char*[height];
-    for (int i = 0; i < height; i++) 
-		matrix[i] = new char[width];
+
+  	file >> width >> height; 
+	vector<string> matrix (height);
 
     for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            fscanf(file,"\n %c \n", &matrix[i][j]);
-        }
+			file >> matrix[i];
     }
     
 	world_->set_level_width(width);
     world_->set_level_height(height);
     world_->set_level_matrix(matrix);
-
-    fclose(file);
+	
+	file.close();
 }
 
 bool LevelLoader::InRange (int i,int j) {
@@ -67,10 +62,10 @@ bool LevelLoader::IsWall(int i, int j) {
 }
 
 void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
-    char **matrix = world_->level_matrix();
+    vector<string> matrix = world_->level_matrix();
 	
-	for (int i = 0; i < world_->level_height(); ++i) {
-		for (int j = 0; j < world_->level_width(); ++j) {
+	for (int i = 0; i < (int)matrix.size(); ++i) {
+		for (int j = 0; j < (int)matrix[i].size(); ++j) {
 			if(matrix[i][j] == WALL) {
 				if(IsWall(i, j-1)) {
 					if(IsWall(i+1, j)) {
@@ -93,12 +88,12 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 void LevelLoader::Load(string file_name) {
 
     LoadMatrix(file_name);
-    char **matrix = world_->level_matrix();
+    vector<string> matrix = world_->level_matrix();
 
-	vector<vector<Wall* > > wall_matrix(world_->level_height(), vector<Wall *> (world_->level_width()));
+	vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
 
-    for (int i = 0; i < world_->level_height(); ++i) {
-        for (int j = 0; j < world_->level_width(); ++j) {
+    for (int i = 0; i < (int)matrix.size(); ++i) {
+        for (int j = 0; j < (int)matrix[i].size(); ++j) {
             char token = matrix[i][j];
 			Vector2D position ((float)j, (float)(world_->level_height() - i - 1));
             if (token != EMPTY) {

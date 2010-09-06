@@ -23,9 +23,7 @@ bool solid(char obj){
 
 bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     World *world = WORLD();
-    char ** matrix = world->level_matrix();
-    int width = world->level_width();
-    int height = world->level_height();
+    vector<string> matrix = world->level_matrix();
 
     if(position2.x < 0.0){
         Hero* hero = world->hero();
@@ -36,11 +34,11 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
+    for (int i = 0; i < matrix.size(); i++) {
+        for (int j = 0; j < matrix[i].size(); j++) {
             if(solid(matrix[i][j])){
                 float x = static_cast<float>(j);
-                float y = static_cast<float>(height - i - 1);
+                float y = static_cast<float>(matrix.size() - i - 1);
 
                 Vector2D a = Vector2D(x - 0.5f, y - 0.5f);
                 Vector2D b = Vector2D(x - 0.5f, y + 0.5f);
