@@ -206,16 +206,6 @@ void Hero::StartExplosion() {
     waiting_animation_ = true;
     last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
-
-    /*World *world_ = WORLD();
-    // Ajuste da altura do projetil.
-    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(
-            input_->GetMousePosition() + projectile_height)-world_position());
-    Vector2D pos = world_position();
-    Explosion * explosion = new Explosion(pos, versor);
-    world_->AddWorldObject(explosion);
-    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    --mana_;*/
 }
 
 int Hero::GetMouseState() {
@@ -230,12 +220,12 @@ int Hero::GetMouseState() {
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
-        if (this->GetMouseState()==1 && weapon_ && weapon_->Available())
-            //this->StartAttack();
+        if (this->GetMouseState()==1 && weapon_ && weapon_->Available()) {
             weapon_->Attack();
-        if (this->GetMouseState()==2 && secondary_weapon_ && secondary_weapon_->Available())
-            //this->StartExplosion();
+		}
+        if (this->GetMouseState()==2 && secondary_weapon_ && secondary_weapon_->Available()) {
             secondary_weapon_->Attack();
+		}
         if(!waiting_animation_){
             Creature::Move(this->GetWalkingDirection(), delta_t);
 			this->GetKeys();
