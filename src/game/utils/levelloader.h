@@ -8,12 +8,15 @@
 
 #ifndef HORUSEYE_GAME_UTILS_LEVELLOADER_H_
 #define HORUSEYE_GAME_UTILS_LEVELLOADER_H_
-
+#include<vector>
 #include <string>
 #include "../scenes/world.h"
 
-namespace utils {
+namespace sprite{
+	class Wall;
+}
 
+namespace utils {
 class LevelLoader {
   public:
     LevelLoader(scene::World * world) : world_(world) {}
@@ -25,6 +28,9 @@ class LevelLoader {
   protected:
 
     scene::World * world_;
+	bool InRange (int i,int j);
+	bool IsWall(int i, int j);
+	void InitializeWallTypes(std::vector<std::vector<sprite::Wall *> > wall_matrix);
 
 };
 
