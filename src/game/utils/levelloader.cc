@@ -36,9 +36,9 @@ using namespace framework;
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (file_name.c_str());
-    int width, height;
 
 	if(file.is_open()){
+		int width, height;
 		file >> width >> height; 
 		vector<string> matrix (height);
 
@@ -58,7 +58,7 @@ void LevelLoader::LoadMatrix(string file_name) {
 }
 
 bool LevelLoader::InRange (int i,int j) {
-    if(i >= world_->level_height() || j >= world_->level_width() || i < 0 || j < 0)
+	if(i >= world_->level_height() || j >= world_->level_width() || i < 0 || j < 0)
 		return false;
 	return true;
 }
@@ -68,7 +68,7 @@ bool LevelLoader::IsWall(int i, int j) {
 }
 
 void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
-    vector<string> matrix = world_->level_matrix();
+	vector<string> matrix = world_->level_matrix();
 	
 	for (int i = 0; i < (int)matrix.size(); ++i) {
 		for (int j = 0; j < (int)matrix[i].size(); ++j) {
@@ -91,78 +91,84 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 	}
 }
 
+void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
+	if(token != EMPTY) {
+		switch(token) {
+			case WALL: {
+				wall_matrix[i][j] = world_->AddWall(position);
+				break;
+			}
+			case HERO: {
+				world_->AddHero(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case MUMMY: {
+				world_->AddMummy(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case BIG_MUMMY: {
+				world_->AddBigMummy(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case RANGED_MUMMY: {
+				world_->AddRangedMummy(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case PHARAOH: {
+				world_->AddPharaoh(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case DOOR: {
+				vector<string> matrix = world_->level_matrix();
+				if(j < world_->level_width()-1 && matrix[i][j+1] == DOOR) {
+					Vector2D pos = position + Vector2D(0.5, 0);
+					world_->AddDoor(pos);
+				}
+			//Sembreakdeproposito.
+			}
+			case FLOOR: {
+				world_->AddFloor(position);
+				break;
+			}
+			case POTIONL: {
+				world_->AddLifePotion(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case POTIONM: {
+				world_->AddManaPotion(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case POTIONS: {
+				world_->AddSightPotion(position);
+				world_->AddFloor(position);
+				break;
+			}
+		}
+	}
+}
+
 void LevelLoader::Load(string file_name) {
 
-    LoadMatrix(file_name);
-    vector<string> matrix = world_->level_matrix();
+	LoadMatrix(file_name);
+	vector<string> matrix = world_->level_matrix();
 
 	vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
 
-    for (int i = 0; i < (int)matrix.size(); ++i) {
-        for (int j = 0; j < (int)matrix[i].size(); ++j) {
-            char token = matrix[i][j];
+	for (int i = 0; i < (int)matrix.size(); ++i) {
+		for (int j = 0; j < (int)matrix[i].size(); ++j) {
+			char token = matrix[i][j];
 			Vector2D position ((float)j, (float)(world_->level_height() - i - 1));
-            if (token != EMPTY) {
-                switch(token) {
-                    case WALL: {
-                        wall_matrix[i][j] = world_->AddWall(position);
-                        break;
-                    }
-                    case HERO: {
-						world_->AddHero(position);
-						world_->AddFloor(position);
-                        break;
-                    }
-                    case MUMMY: {
-                        world_->AddMummy(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-                    case BIG_MUMMY: {
-                        world_->AddBigMummy(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-                    case RANGED_MUMMY: {
-                        world_->AddRangedMummy(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-					case PHARAOH: {
-                        world_->AddPharaoh(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-                    case DOOR: {
-                        if (j < world_->level_width()-1 && matrix[i][j+1] == DOOR) {
-                            Vector2D pos = position + Vector2D(0.5,0);
-                            world_->AddDoor(pos);
-                        }
-                        // Sem break de proposito.
-                    }
-                    case FLOOR: {
-                        world_->AddFloor(position);
-                        break;
-                    }
-                    case POTIONL: {
-                        world_->AddLifePotion(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-                    case POTIONM: {
-                    	world_->AddManaPotion(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-                    case POTIONS: {
-                    	world_->AddSightPotion(position);
-                        world_->AddFloor(position);
-                        break;
-                    }
-                }
-            }
-        }
-    }
+
+			TokenToWorldObject(token, i, j, position, wall_matrix);
+		}
+	}
 	InitializeWallTypes(wall_matrix);
 }
 
