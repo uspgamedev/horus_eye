@@ -175,45 +175,36 @@ void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D 
 }
 
 void World::AddFloor(framework::Vector2D &pos) {
-	Floor *floor = new Floor;
-	this->AddWorldObject(floor, pos);
+	this->AddWorldObject(new Floor(), pos);
 }
 
 Wall* World::AddWall(framework::Vector2D &pos) {
-	Wall *wall = new Wall;
+	Wall* wall = new Wall();
 	this->AddWorldObject(wall, pos);
 	return wall;
 }
 
 void World::AddBigMummy(framework::Vector2D &pos) {
-	Mummy *mummy = mummy_builder_.big_mummy();
-
-	this->AddWorldObject(mummy, pos);
+	this->AddWorldObject(mummy_builder_.big_mummy(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
 void World::AddRangedMummy(framework::Vector2D &pos) {
-	Mummy *mummy = mummy_builder_.ranged_mummy();
-
-	this->AddWorldObject(mummy, pos);
+	this->AddWorldObject(mummy_builder_.ranged_mummy(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
 
 void World::AddMummy(framework::Vector2D &pos) {
-	Mummy *mummy = mummy_builder_.standard_mummy();
-            
-	this->AddWorldObject(mummy, pos);
+	this->AddWorldObject(mummy_builder_.standard_mummy(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
 void World::AddPharaoh(framework::Vector2D &pos) {
-	Pharaoh *pharaoh = mummy_builder_.pharaoh();
-
-	this->AddWorldObject(pharaoh, pos);
+	this->AddWorldObject(mummy_builder_.pharaoh(), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
@@ -223,25 +214,19 @@ void World::AddHero(framework::Vector2D &pos) {
 }
 
 void World::AddDoor(framework::Vector2D &pos) {
-
-    Door *door = new Door;
-    this->AddWorldObject(door, pos);
-
+    this->AddWorldObject(new Door, pos);
 }
 
 void World::AddLifePotion(framework::Vector2D &pos){
-	Item *potion = potion_builder_.life_potion();
-    this->AddWorldObject(potion, pos);
+    this->AddWorldObject(potion_builder_.life_potion(), pos);
 }
 
 void World::AddManaPotion(framework::Vector2D &pos){
-	Item *potion = potion_builder_.mana_potion();
-    this->AddWorldObject(potion, pos);
+    this->AddWorldObject(potion_builder_.mana_potion(), pos);
 }
 
 void World::AddSightPotion(framework::Vector2D &pos){
-	Item *potion = potion_builder_.sight_potion();
-    this->AddWorldObject(potion, pos);
+    this->AddWorldObject(potion_builder_.sight_potion(), pos);
 }
 
 int World::CountRemainingEnemies() {
