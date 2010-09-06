@@ -2,16 +2,16 @@
 #include "../../framework/videomanager.h"
 #include "../../framework/image.h"
 #include "../../framework/scene.h"
-#include "levelmanager.h"
 #include "../scenes/menu.h"
 #include "../scenes/world.h"
 #include "../scenes/imagescene.h"
-#include "imagefactory.h"
-#include "levelloader.h"
 #include "../sprites/weapons/herofireballweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
-#include <cstdio>
-
+#include "levelmanager.h"
+#include "imagefactory.h"
+#include "levelloader.h"
+#include <fstream>
+#include <iostream>
 using namespace framework;
 using namespace std;
 using namespace scene;
@@ -23,17 +23,20 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
 
-    FILE* list = fopen("data/level_list.txt", "r");
-    if(list != NULL) {
-        int level_count = 0;
-        fscanf(list,"%d",&level_count);
+	ifstream list ("data/level_list.txt");
+    if(list.is_open()) {
+		int level_count;
+		list >> level_count;
         for(int i = 0; i < level_count; ++i) {
-            char filename[255];
-            fscanf(list,"%s",filename);
+			string filename;
+			list >> filename;
             level_list_.push_back(filename);
         }
-        fclose(list);
-    }
+		list.close();
+    } else {
+		cout << "CANNOT OPEN data/level_list.txt" << endl;
+		exit(0);
+	}
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
