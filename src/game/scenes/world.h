@@ -114,6 +114,7 @@ class World : public framework::Scene {
     sprite::MummyBuilder mummy_builder_;
     sprite::ItemBuilder potion_builder_;
 
+	void VerifyCheats();
 	void HandleCollisions();
     void RemoveInactiveObjects();
     void RemoveAll();

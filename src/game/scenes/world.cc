@@ -109,10 +109,27 @@ void World::HandleCollisions() {
 	}
 }
 
+void World::VerifyCheats() {
+    InputManager *input = Engine::reference()->input_manager();
+
+	if (input->KeyPressed(K_p)) {
+	    LevelManager *level_manager = LevelManager::reference();
+	    level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
+	    level_state_ = LevelManager::FINISH_WARP;
+	} else if (input->KeyPressed(K_o)) {
+	    LevelManager *level_manager = LevelManager::reference();
+	    unsigned int cur_level = level_manager->GetNextLevelID();
+	    if(cur_level > 0) {
+	        level_manager->SetNextLevel(cur_level - 1);
+	        level_state_ = LevelManager::FINISH_WARP;
+	    }
+	}
+}
+
 void World::Update(float delta_t) {
 
-    InputManager *input_ = Engine::reference()->input_manager();
-    if(input_->KeyDown(K_ESCAPE)) {
+    InputManager *input = Engine::reference()->input_manager();
+    if(input->KeyDown(K_ESCAPE)) {
         LevelManager::reference()->FinishLevel(LevelManager::FINISH_QUIT);
     	/*player_exit_ = true;
         Finish();*/
@@ -139,18 +156,7 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
-	if (input_->KeyPressed(K_p)) {
-	    LevelManager *level_manager = LevelManager::reference();
-	    level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
-	    level_state_ = LevelManager::FINISH_WARP;
-	} else if (input_->KeyPressed(K_o)) {
-	    LevelManager *level_manager = LevelManager::reference();
-	    unsigned int cur_level = level_manager->GetNextLevelID();
-	    if(cur_level > 0) {
-	        level_manager->SetNextLevel(cur_level - 1);
-	        level_state_ = LevelManager::FINISH_WARP;
-	    }
-	}
+	VerifyCheats();
 
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
