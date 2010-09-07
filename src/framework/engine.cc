@@ -15,7 +15,6 @@
 #include "scene.h"
 #include "timehandler.h"
 #include "fogmanager.h"
-#define FOREACH(i,a,b) for(__typeof(a) i = a; i != b; ++i)
 
 using namespace std;
 
@@ -48,7 +47,7 @@ void Engine::DeleteFinishedScenes() {
 	bool deleted = true;
 	while(deleted){
 		deleted = false;
-		FOREACH (it, scene_list_.begin(), scene_list_.end()) {
+		for(vector<Scene* >::iterator it = scene_list_.begin(); it != scene_list_.end(); ++it) {
 			if ((*it)->finished()) {
 				scene_list_.erase(it);
 				deleted = true;
