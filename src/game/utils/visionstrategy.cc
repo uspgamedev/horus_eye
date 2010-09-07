@@ -34,8 +34,8 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
-    for (int i = 0; i < matrix.size(); i++) {
-        for (int j = 0; j < matrix[i].size(); j++) {
+    for (int i = 0; i < (int)matrix.size(); i++) {
+        for (int j = 0; j < (int)matrix[i].size(); j++) {
             if(solid(matrix[i][j])){
                 float x = static_cast<float>(j);
                 float y = static_cast<float>(matrix.size() - i - 1);
