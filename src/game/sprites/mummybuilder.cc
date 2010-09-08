@@ -24,7 +24,7 @@ Mummy * MummyBuilder::mummy(framework::Image *image) {
 	return mummy;
 }
 
-Mummy * MummyBuilder::ranged_mummy(framework::Image *image) {
+Mummy * MummyBuilder::standing_ranged_mummy(framework::Image *image) {
     Mummy* mummy = new Mummy(image);
 	mummy->set_life(Constants::RANGED_MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
@@ -35,8 +35,13 @@ Mummy * MummyBuilder::ranged_mummy(framework::Image *image) {
 	return mummy;
 }
 
+Mummy * MummyBuilder::ranged_mummy(framework::Image *image) {
+	Mummy* mummy = standing_ranged_mummy(image);
+	mummy->set_standing(false);
+	return mummy;
+}
 
-Mummy * MummyBuilder::big_mummy(framework::Image *image) {
+Mummy * MummyBuilder::standing_big_mummy(framework::Image *image) {
     Mummy *mummy = new Mummy(image);
     mummy->set_life(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
@@ -47,8 +52,13 @@ Mummy * MummyBuilder::big_mummy(framework::Image *image) {
     return mummy;
 }
 
+Mummy * MummyBuilder::big_mummy(framework::Image *image) {
+	Mummy* mummy = standing_big_mummy(image);
+	mummy->set_standing(false);
+	return mummy;
+}
 
-Pharaoh * MummyBuilder::pharaoh(framework::Image *image) {
+Pharaoh * MummyBuilder::standing_pharaoh(framework::Image *image) {
 	Pharaoh *pharaoh = new Pharaoh(image, Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
@@ -56,6 +66,12 @@ Pharaoh * MummyBuilder::pharaoh(framework::Image *image) {
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
 	pharaoh->set_hotspot(Vector2D(image->frame_size().x / 2.0f, image->frame_size().y*6.0f / 7.0f));
 
+	return pharaoh;
+}
+
+Pharaoh * MummyBuilder::pharaoh(framework::Image *image) {
+	Pharaoh* pharaoh = standing_pharaoh(image);
+	pharaoh->set_standing(false);
 	return pharaoh;
 }
 

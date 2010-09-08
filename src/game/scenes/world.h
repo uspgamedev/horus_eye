@@ -51,11 +51,19 @@ class World : public framework::Scene {
     void AddWorldObject(sprite::WorldObject*, framework::Vector2D pos);
     void AddFloor(sprite::Floor*);
     void AddFloor(framework::Vector2D pos);
+
     void AddMummy(framework::Vector2D pos);
-    void AddWalkingMummy(framework::Vector2D pos);
+    void AddStandingMummy(framework::Vector2D pos);
+
 	void AddBigMummy(framework::Vector2D pos);
+	void AddStandingBigMummy(framework::Vector2D pos);
+
 	void AddRangedMummy(framework::Vector2D pos);
+	void AddStandingRangedMummy(framework::Vector2D pos);
+
 	void AddPharaoh(framework::Vector2D pos);
+	void AddStandingPharaoh(framework::Vector2D pos);
+
     void AddHero(framework::Vector2D pos);
     void AddDoor(framework::Vector2D pos);
     void AddPotion(framework::Vector2D pos);

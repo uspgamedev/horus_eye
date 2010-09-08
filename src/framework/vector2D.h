@@ -35,12 +35,12 @@ class Vector2D {
     float x, y;
 };
 
-// Overload de operadores
-Vector2D operator+(const Vector2D& left_value,
+	// Overload de operadores
+	Vector2D operator+(const Vector2D& left_value,
                    const Vector2D& right_value);
-Vector2D operator-(const Vector2D& left_value,
+	Vector2D operator-(const Vector2D& left_value,
                    const Vector2D& right_value);
-Vector2D operator*(const Vector2D& left_value,
+	Vector2D operator*(const Vector2D& left_value,
                    const float& scalar);
 
 }  // namespace framework

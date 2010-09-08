@@ -168,8 +168,20 @@ Wall* World::AddWall(framework::Vector2D pos) {
 	return wall;
 }
 
+void World::AddStandingBigMummy(framework::Vector2D pos) {
+	this->AddWorldObject(mummy_builder_.standing_big_mummy(image_factory_->BigMummyImage()), pos);
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
 void World::AddBigMummy(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.big_mummy(image_factory_->BigMummyImage()), pos);
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
+void World::AddStandingRangedMummy(framework::Vector2D pos) {
+	this->AddWorldObject(mummy_builder_.standing_ranged_mummy(image_factory_->RangedMummyImage()), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
@@ -181,14 +193,20 @@ void World::AddRangedMummy(framework::Vector2D pos) {
 }
 
 
-void World::AddMummy(framework::Vector2D pos) {
+void World::AddStandingMummy(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.standing_mummy(image_factory_->MummyImage()), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }
 
-void World::AddWalkingMummy(framework::Vector2D pos) {
+void World::AddMummy(framework::Vector2D pos) {
 	this->AddWorldObject(mummy_builder_.mummy(image_factory_->MummyImage()), pos);
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
+void World::AddStandingPharaoh(framework::Vector2D pos) {
+	this->AddWorldObject(mummy_builder_.standing_pharaoh(image_factory_->PharaohImage()), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }

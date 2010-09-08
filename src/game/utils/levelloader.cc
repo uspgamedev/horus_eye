@@ -21,19 +21,22 @@ using namespace scene;
 using namespace sprite;
 using namespace framework;
 
-#define WALL         'W'
-#define DOOR         'D'
-#define MUMMY        'M'
-#define RANGED_MUMMY 'R'
-#define BIG_MUMMY    'B'
-#define PHARAOH      'P'
-#define HERO         'H'
-#define FLOOR        'X'
-#define EMPTY        'O'
-#define POTIONL      'L'
-#define POTIONM		 'N'	
-#define POTIONS		 'S'	
-#define WALKINGMUMMY 'm'
+#define WALL            'W'
+#define DOOR         	'D'
+#define MUMMY           'm'
+#define STANDING_MUMMY  'M'
+#define RANGED_MUMMY    'r'
+#define STANDING_RANGED_MUMMY    'R'
+#define BIG_MUMMY       'b'
+#define STANDING_BIG_MUMMY       'B'
+#define PHARAOH         'p'
+#define STANDING_PHARAOH         'P'
+#define HERO            'H'
+#define FLOOR           'X'
+#define EMPTY           'O'
+#define POTIONL         'L'
+#define POTIONM		    'N'	
+#define POTIONS		    'S'	
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (file_name.c_str());
@@ -104,19 +107,23 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddFloor(position);
 				break;
 			}
+			case STANDING_MUMMY: {
+				world_->AddStandingMummy(position);
+				world_->AddFloor(position);
+				break;
+			}
 			case MUMMY: {
 				world_->AddMummy(position);
 				world_->AddFloor(position);
 				break;
 			}
-			case WALKINGMUMMY: {
-				world_->AddWalkingMummy(position);
+			case BIG_MUMMY: {
+				world_->AddBigMummy(position);
 				world_->AddFloor(position);
 				break;
 			}
-
-			case BIG_MUMMY: {
-				world_->AddBigMummy(position);
+			case STANDING_BIG_MUMMY: {
+				world_->AddStandingBigMummy(position);
 				world_->AddFloor(position);
 				break;
 			}
@@ -125,8 +132,18 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddFloor(position);
 				break;
 			}
+			case STANDING_RANGED_MUMMY: {
+				world_->AddStandingRangedMummy(position);
+				world_->AddFloor(position);
+				break;
+			}
 			case PHARAOH: {
 				world_->AddPharaoh(position);
+				world_->AddFloor(position);
+				break;
+			}
+			case STANDING_PHARAOH: {
+				world_->AddStandingPharaoh(position);
 				world_->AddFloor(position);
 				break;
 			}
