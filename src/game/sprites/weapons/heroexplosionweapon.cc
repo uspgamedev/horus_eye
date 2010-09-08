@@ -5,11 +5,13 @@
 #include "../../../framework/engine.h"
 #include "../../scenes/world.h"
 #include "../explosion.h"
+#include "../../utils/visionstrategy.h"
 
 namespace sprite {
 
 using namespace scene;
 using namespace framework;
+using namespace utils;
 using utils::Constants;
 
 void HeroFireballWeapon::Attack(){
@@ -17,11 +19,15 @@ void HeroFireballWeapon::Attack(){
     World *world_ = WORLD();
     // Ajuste da altura do projetil.
     Vector2D explosionPosition = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
-    Explosion * explosion = new Explosion();
-    world_->AddWorldObject(explosion, explosionPosition);
-    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    hero_->StartExplosion();
-    hero_->set_mana(hero_->mana() - cost_);
+    float distance = (hero_->world_position() - explosionPosition).length();
+    VisionStrategy vs;
+    if (distance <= 5 && vs.IsVisible(explosionPosition)) {
+        Explosion * explosion = new Explosion();
+        world_->AddWorldObject(explosion, explosionPosition);
+        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        hero_->StartExplosion();
+        hero_->set_mana(hero_->mana() - cost_);
+    }
 }
 
 bool HeroFireballWeapon::Available() {
