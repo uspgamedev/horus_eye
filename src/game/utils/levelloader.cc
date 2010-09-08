@@ -33,6 +33,7 @@ using namespace framework;
 #define POTIONL      'L'
 #define POTIONM		 'N'	
 #define POTIONS		 'S'	
+#define WALKINGMUMMY 'm'
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (file_name.c_str());
@@ -108,6 +109,12 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddFloor(position);
 				break;
 			}
+			case WALKINGMUMMY: {
+				world_->AddWalkingMummy(position);
+				world_->AddFloor(position);
+				break;
+			}
+
 			case BIG_MUMMY: {
 				world_->AddBigMummy(position);
 				world_->AddFloor(position);

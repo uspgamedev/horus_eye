@@ -182,7 +182,13 @@ void World::AddRangedMummy(framework::Vector2D pos) {
 
 
 void World::AddMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.standard_mummy(image_factory_->MummyImage()), pos);
+	this->AddWorldObject(mummy_builder_.standing_mummy(image_factory_->MummyImage()), pos);
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
+void World::AddWalkingMummy(framework::Vector2D pos) {
+	this->AddWorldObject(mummy_builder_.mummy(image_factory_->MummyImage()), pos);
 	remaining_enemies_++;
 	max_enemies_++;
 }

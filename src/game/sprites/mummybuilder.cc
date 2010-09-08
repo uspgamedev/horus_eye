@@ -7,7 +7,7 @@
 using namespace sprite;
 using namespace utils;
 
-Mummy * MummyBuilder::standard_mummy(framework::Image *image) {
+Mummy * MummyBuilder::standing_mummy(framework::Image *image) {
     Mummy* mummy = new Mummy(image);
 	mummy->set_life(Constants::MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
@@ -15,6 +15,12 @@ Mummy * MummyBuilder::standard_mummy(framework::Image *image) {
 	mummy->set_bound(Constants::MUMMY_RADIUS);
 	mummy->set_hotspot(Vector2D(image->frame_size().x / 2.0f, image->frame_size().y*6.0f / 7.0f));
 
+	return mummy;
+}
+
+Mummy * MummyBuilder::mummy(framework::Image *image) {
+	Mummy* mummy = standing_mummy(image);
+	mummy->set_standing(false);
 	return mummy;
 }
 

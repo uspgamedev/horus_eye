@@ -16,7 +16,8 @@ class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    Mummy *standard_mummy(framework::Image* image);
+    Mummy *standing_mummy(framework::Image* image);
+    Mummy *mummy(framework::Image* image);
     Mummy *ranged_mummy(framework::Image* image);
     Mummy *big_mummy(framework::Image* image);
 	Pharaoh *pharaoh(framework::Image* image);
