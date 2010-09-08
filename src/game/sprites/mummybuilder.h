@@ -5,6 +5,10 @@
 #include "pharaoh.h"
 #include "../utils/constants.h"
 
+namespace framework{
+	class Image;
+}
+
 namespace sprite {
 
 class MummyBuilder {
@@ -12,10 +16,10 @@ class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    Mummy *standard_mummy();
-    Mummy *ranged_mummy();
-    Mummy *big_mummy();
-	Pharaoh *pharaoh();
+    Mummy *standard_mummy(framework::Image* image);
+    Mummy *ranged_mummy(framework::Image* image);
+    Mummy *big_mummy(framework::Image* image);
+	Pharaoh *pharaoh(framework::Image* image);
 
 };
 

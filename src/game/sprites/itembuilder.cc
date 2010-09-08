@@ -7,9 +7,12 @@
 
 #include "itembuilder.h"
 #include "../utils/constants.h"
-#include "../utils/imagefactory.h"
 
 #define INCREASE_SIGHT_TIME 3.00
+
+namespace framework{
+	class Image;
+}
 
 namespace sprite {
 
@@ -37,23 +40,20 @@ bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
 	else return false;
 }
 
-Item* ItemBuilder::life_potion() {
-    ImageFactory image_factory;
-    Item* potion = new Item(image_factory.LifePotionImage());
+Item* ItemBuilder::life_potion(framework::Image* image) {
+    Item* potion = new Item(image);
     potion->set_event(new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE));
     return potion;
 }
 
-Item* ItemBuilder::mana_potion() {
-    ImageFactory image_factory;
-    Item* potion = new Item(image_factory.ManaPotionImage());
+Item* ItemBuilder::mana_potion(framework::Image* image) {
+    Item* potion = new Item(image);
     potion->set_event(new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA));
     return potion;
 }
 
-Item* ItemBuilder::sight_potion() {
-    ImageFactory image_factory;
-    Item* potion = new Item(image_factory.SightPotionImage());
+Item* ItemBuilder::sight_potion(framework::Image* image) {
+    Item* potion = new Item(image);
     potion->set_event(new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE));
     return potion;
 }

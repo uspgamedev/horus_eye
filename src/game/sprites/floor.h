@@ -10,13 +10,15 @@
 #define FLOOR_H_
 
 #include "worldobject.h"
-
+namespace framework{
+	class Image;
+};
 namespace sprite {
 
 class Floor : public WorldObject {
 
   public:
-    Floor();
+    Floor(framework::Image* image);
     virtual void Update(float delta_t);
 };
 

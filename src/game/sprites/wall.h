@@ -13,6 +13,7 @@
 
 namespace framework {
 class Animation;
+class Image;
 }
 
 namespace sprite {
@@ -22,7 +23,7 @@ class Wall : public WorldObject {
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
-    Wall();
+    Wall(framework::Image* image);
     ~Wall();
     virtual void Update(float dt);
     virtual void HandleCollision(WorldObject *);

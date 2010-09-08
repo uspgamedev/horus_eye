@@ -21,9 +21,8 @@ using namespace scene;
 #define PI          3.1415926535897932384626433832795
 #define TRANSPARENCY_DISTANCE 1.5f
 
-Wall::Wall() {
-    ImageFactory image_factory;
-    Initialize(image_factory.WallImage());
+Wall::Wall(Image* image) {
+    Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
     visible_animation_ = new Animation(50, 0, -1);
     transparent_animation_ = new Animation(50, 1, -1);

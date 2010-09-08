@@ -15,7 +15,7 @@
 #include "../utils/levelmanager.h"
 #include "../sprites/itembuilder.h"
 #include "../sprites/mummybuilder.h"
-
+#include"../utils/imagefactory.h"
 namespace utils {
 class Hud;
 class Fog;
@@ -109,6 +109,7 @@ class World : public framework::Scene {
     int level_width_, level_height_;
     vector<string> level_matrix_;
     int	remaining_enemies_, max_enemies_;
+	utils::ImageFactory* image_factory_;
     sprite::MummyBuilder mummy_builder_;
     sprite::ItemBuilder potion_builder_;
 

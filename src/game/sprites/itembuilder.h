@@ -4,6 +4,7 @@
 #include "item.h"
 #include "condition.h"
 #include "conditionbuilder.h"
+#include "../../framework/image.h"
 
 namespace sprite {
 
@@ -12,9 +13,9 @@ class ItemBuilder {
     ItemBuilder() {}
     ~ItemBuilder() {}
 
-    Item* life_potion();
-    Item* mana_potion();
-    Item* sight_potion();
+    Item* life_potion(framework::Image* image);
+    Item* mana_potion(framework::Image* image);
+    Item* sight_potion(framework::Image* image);
 
   protected:
     class RecoverLifeEvent : public ItemEvent {
