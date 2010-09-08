@@ -94,6 +94,7 @@ class Creature : public WorldObject , public framework::Observer {
 	virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
 
     // funcoes
+    void AdjustBlink(float delta_t);
     void Move(framework::Vector2D direction, float delta_t);
     void Tick();
     float GetAttackingAngle(Vector2D targetDirection);

@@ -209,18 +209,6 @@ bool Hero::ShootingWithSecondaryWeapon() {
     return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
 }
 
-void Hero::AdjustBlink(float delta_t) {
-    if (!hit_duration_->Expired()) {
-        blink_time_ += delta_t;
-        if (blink_time_ > 0.05) {
-            blink_ = !blink_;
-            blink_time_ = 0;
-        }
-    } else if (blink_) {
-        blink_ = false;
-    }
-}
-
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {

@@ -33,7 +33,6 @@ class Hero : public Creature {
 
     virtual void Update(float delta_t);
     
-    void AdjustBlink(float delta_t);
     bool ShootingWithWeapon();
     bool ShootingWithSecondaryWeapon();
     void GetKeys();

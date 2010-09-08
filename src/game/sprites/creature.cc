@@ -74,6 +74,20 @@ void Creature::UpdateCondition(float dt) {
 	 conditions_.remove_if(deletecondition);
 }
 
+void Creature::AdjustBlink(float delta_t) {
+    if (!hit_duration_->Expired()) {
+        blink_time_ += delta_t;
+        if (blink_time_ > 0.05) {
+            blink_ = !blink_;
+            blink_time_ = 0;
+        }
+    } else if (blink_) {
+        blink_ = false;
+    }
+}
+
+
+
 void Creature::TakeDamage(int life_points) {
     life_ -= life_points;
     if(life_ <= 0) {

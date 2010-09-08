@@ -35,29 +35,22 @@ Pharaoh::~Pharaoh() {
 }
 
 void Pharaoh::TakeDamage(int life_points) {
-    Creature::TakeDamage(life_points);
-    PlayHitSound();
-    if(life_ > 0) {
-        hit_duration_->Restart(1000);
-        blink_time_ = 0;
-    }
-    standing_ = false;
+	if(hit_duration_->Expired()){
+		Creature::TakeDamage(life_points);
+		PlayHitSound();
+		if(life_ > 0) {
+			hit_duration_->Restart(1000);
+			blink_time_ = 0;
+		}
+		standing_ = false;
+	}
 }
 
 void Pharaoh::Update(float delta_t) {
 	if (status_ == WorldObject::STATUS_DEAD) return;
 	Mummy::Update(delta_t);
 
-	if (!hit_duration_->Expired()) {
-        blink_time_ += delta_t;
-        if (blink_time_ > 0.04) {
-            blink_ = !blink_;
-            blink_time_ = 0;
-        }
-    }
-    else if (blink_) {
-        blink_ = false;
-    }
+	AdjustBlink(delta_t);
 
 	mana_regen_time_ -= delta_t;
 	if (mana_regen_time_ < 0) {
@@ -68,7 +61,7 @@ void Pharaoh::Update(float delta_t) {
 }
 
 void Pharaoh::StartSummonMummy(Creature* target) {
-	
+
 	mana_ -= SUMMON_MANA_COST;
 
 	Vector2D mummyPos = (Vector2D::Normalized(target->world_position() - world_position()))*2.0f + world_position();
@@ -77,12 +70,12 @@ void Pharaoh::StartSummonMummy(Creature* target) {
 	   A value in the range [0, 100[ is chosen randomly, and then depending on where it
 	   sits in the range, according to boundaries determined by our SUMMON_<>_CHANCE defines,
 	   a given mummy type is chosen. Example:
-                                 choice = 34
-                                   V
+	   choice = 34
+	   V
 	   [ ----RANGED_CHANCE--- || ----BIG_CHANCE---- || ------- Rest of bar is normal mummy ----- ] 
 	   0                      30                    50                                           100
 	   So in this example, we will summon a big mummy.
-	*/
+	   */
 	int choice = rand()%100;
 	if (choice < SUMMON_RANGED_CHANCE) {
 		world->AddRangedMummy(mummyPos);
@@ -95,24 +88,24 @@ void Pharaoh::StartSummonMummy(Creature* target) {
 	}
 
 	float attackAngle = GetAttackingAngle(target->position() - position());
-    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    waiting_animation_ = true;
-    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+	int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
+	waiting_animation_ = true;
+	last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+	this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
 void Pharaoh::Think(float dt) {
-    time_to_think_ -= dt;
-    if(time_to_think_ <= 0){
-        time_to_think_ = PHARAOH_TIME_TO_THINK;
+	time_to_think_ -= dt;
+	if(time_to_think_ <= 0){
+		time_to_think_ = PHARAOH_TIME_TO_THINK;
 		speed_ = original_speed_;
-        VisionStrategy strategy;
-        if(strategy.IsVisible(world_position())){
-            standing_ = false;
-			
+		VisionStrategy strategy;
+		if(strategy.IsVisible(world_position())){
+			standing_ = false;
+
 			path_ = strategy.Calculate(world_position());
 			UpdateDirection(path_.front());
-			
+
 			Vector2D diff;
 			diff = path_.front() - world_position();
 			if(diff.length() <= weapon_->range()){
@@ -130,9 +123,9 @@ void Pharaoh::Think(float dt) {
 				speed_ = 0;
 			}
 		}
-        else if(!standing_){
-            RandomMovement();
-            last_standing_animation_ = *(standing_animations_[animation_direction_]);
+		else if(!standing_){
+			RandomMovement();
+			last_standing_animation_ = *(standing_animations_[animation_direction_]);
         }
     }
 }
