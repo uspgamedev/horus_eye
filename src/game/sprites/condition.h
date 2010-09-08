@@ -18,7 +18,7 @@ class Creature;
 
 class Condition {
   public:
-    ~Condition () {}
+    virtual ~Condition () {}
     
     enum Phase { PHASE_IDLE, PHASE_ACTIVE, PHASE_FINISHED };
     

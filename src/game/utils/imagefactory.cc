@@ -29,8 +29,14 @@ namespace utils {
 		pharaoh_image_ = VIDEO_MANAGER()->LoadImage("data/images/pharaoh_193x193.png");
         pharaoh_image_->set_frame_size(Vector2D(193, 193));
 
-        projectile_image_ = VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png");
-        projectile_image_->set_frame_size( Vector2D(32, 32) );
+        magicmissile_image_ = VIDEO_MANAGER()->LoadImage("data/images/blue_fire_ball.png");
+        magicmissile_image_->set_frame_size( Vector2D(32, 32) );
+
+        fireball_image_ = VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png");
+        fireball_image_->set_frame_size( Vector2D(32, 32) );
+
+        mummy_projectile_image_= VIDEO_MANAGER()->LoadImage("data/images/green_fire_ball.png");
+        mummy_projectile_image_->set_frame_size( Vector2D(32, 32) );
 
         explosion_image_ = VIDEO_MANAGER()->LoadImage("data/images/explosion.png");
         explosion_image_->set_frame_size( Vector2D(256, 128) );
@@ -75,8 +81,14 @@ namespace utils {
     Image* ImageFactory::RangedMummyImage(){
         return ranged_mummy_image_;
     }
-    Image* ImageFactory::ProjectileImage() {
-        return projectile_image_;
+    Image* ImageFactory::MagicMissileImage() {
+        return magicmissile_image_;
+    }
+    Image* ImageFactory::FireballImage() {
+        return fireball_image_;
+    }
+    Image* ImageFactory::MummyProjectileImage() {
+        return mummy_projectile_image_;
     }
     Image* ImageFactory::ExplosionImage() {
         return explosion_image_;

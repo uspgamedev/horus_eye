@@ -16,26 +16,17 @@
 using namespace framework;
 using namespace utils;
 
-#define CENTER_X    Constants::PROJECTILE_SPRITE_CENTER_X
-#define CENTER_Y    Constants::PROJECTILE_SPRITE_CENTER_Y
-#define HEIGHT      Constants::PROJECTILE_HEIGHT
-#define PROJECTILE_SPRITE_WIDTH    Constants::PROJECTILE_SPRITE_WIDTH
-#define PROJECTILE_SPRITE_HEIGHT   Constants::PROJECTILE_SPRITE_HEIGHT
-
 namespace sprite {
 
-Projectile::Projectile(Vector2D & dir) :
+Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
         direction_(Vector2D::Normalized(dir))
 {
-    ImageFactory image_factory;
-    Initialize( image_factory.ProjectileImage() );
-    set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
-	damage_ = Constants::PROJECTILE_DAMAGE;
-    speed_ = Constants::PROJECTILE_SPEED;
+	damage_ = damage;
+    speed_ = speed;
     bound_ = new CircleObject(0.15f);
-    light_radius_ = 1.0f;
-    duration_ = new TimeAccumulator(Constants::PROJECTILE_DURATION);
+    duration_ = new TimeAccumulator(duration);
     collision_type_ = MOVEABLE;
+    exploding_ = false;
 }
 
 Projectile::~Projectile() {
@@ -52,26 +43,17 @@ void Projectile::Update(float delta_t) {
 	    this->status_ = WorldObject::STATUS_DEAD;
 	}
 	WorldObject::Update(delta_t);
-	if (this->status_ == WorldObject::STATUS_ACTIVE)
+	if (!exploding_)
 	    this->Move(delta_t);
 }
 
 void Projectile::Explode() {
-    if (this->status_ == WorldObject::STATUS_ACTIVE) {
+    if (!exploding_) {
+        exploding_ = true;
         this->status_ = WorldObject::STATUS_DYING;
         duration_->Restart(250);
         set_visible(false);
     }
-}
-
-void Projectile::CollidesWith(Wall * obj) { Explode(); }
-void Projectile::CollidesWith(Door * obj) { Explode(); }
-
-void Projectile::CollidesWith(Mummy *obj) {
-    if (this->status_ == WorldObject::STATUS_ACTIVE) {
-        obj->TakeDamage();
-    }
-    Explode();
 }
 
 void Projectile::HandleCollision(WorldObject* obj) {

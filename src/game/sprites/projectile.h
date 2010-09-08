@@ -8,7 +8,6 @@
 
 #ifndef HORUSEYE_GAME_SPRITES_PROJECTILE_H_
 #define HORUSEYE_GAME_SPRITES_PROJECTILE_H_
-#include <set>
 
 #include "worldobject.h"
 #include "../../framework/vector2D.h"
@@ -19,6 +18,7 @@ class TimeAccumulator;
 
 namespace sprite {
 
+class Hero;
 class Mummy;
 class Wall;
 class Door;
@@ -26,22 +26,25 @@ class Creature;
 
 class Projectile : public WorldObject {
   public:
-    Projectile(framework::Vector2D &);
-    ~Projectile();
+    Projectile(int damage, float speed, int duration, framework::Vector2D &);
+    virtual ~Projectile();
     void Move(float delta_t);
     void Update(float delta_t);
 
-    virtual void CollidesWith(Mummy * obj);
-    virtual void CollidesWith(Wall * obj);
-    virtual void CollidesWith(Door * obj);
+    virtual void CollidesWith(Hero * obj) {}
+    virtual void CollidesWith(Mummy * obj) {}
+    virtual void CollidesWith(Wall * obj) { Explode(); }
+    virtual void CollidesWith(Door * obj) { Explode(); }
     virtual void HandleCollision(WorldObject *);
     int damage() { return damage_; }
 
-  private:
+  protected:
     int damage_;
     float speed_;
     framework::Vector2D direction_;
     framework::TimeAccumulator *duration_;
+    bool exploding_;
+
     void Explode();
 };
 

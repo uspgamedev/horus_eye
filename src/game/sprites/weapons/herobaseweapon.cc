@@ -4,7 +4,7 @@
 #include "../../../framework/audiomanager.h"
 #include "../../../framework/engine.h"
 #include "../../scenes/world.h"
-#include "../projectile.h"
+#include "../magicmissile.h"
 
 namespace sprite {
 
@@ -19,16 +19,12 @@ void HeroBaseWeapon::Attack(){
     // Ajuste da altura do projetil.
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
              pos = hero_->world_position();
-    Projectile * projectile = new Projectile(versor);
+    MagicMissile * projectile = new MagicMissile(versor);
     world_->AddWorldObject(projectile, pos);
     Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     hero_->StartAttack();
 }
 
-bool HeroBaseWeapon::Available() {
-
-    return true;
-
-}
+bool HeroBaseWeapon::Available() { return true; }
 
 }
