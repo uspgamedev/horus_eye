@@ -124,7 +124,8 @@ class World : public framework::Scene {
 
 	Vector2D ActualOffset();
 	void VerifyCheats();
-	bool VerifyQuit(); 
+	bool VerifyQuit();
+    bool VerifyPause();
 	void HandleCollisions();
     void RemoveInactiveObjects();
     void RemoveAll();

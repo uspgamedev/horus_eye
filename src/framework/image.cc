@@ -96,14 +96,20 @@ bool Image::LoadFromFile(const string& file) {
 }
 
 // Limpa o surface da imagem usando determinada cor
-// Retorna true em caso de sucesso
+// Retorna 0 em caso de sucesso e -1 caso contrario.
 bool Image::Clear(Image::Color color) {
     SDL_Rect rect = {0, 0, width(), height()};
     return (SDL_FillRect(data_, &rect, color) == 0);
 }
 
+// Define uma transparencia para a imagem inteira.
+// Retorna 0 em caso de sucesso e -1 caso contrario.
+bool Image::SetAlpha(Uint8 alpha) {
+    return SDL_SetAlpha(data_, SDL_RLEACCEL | SDL_SRCALPHA, alpha);
+}
+
 //Define a cor de transparencia
-//Retorna true em caso de sucesso
+// Retorna 0 em caso de sucesso e -1 caso contrario.
 bool Image::setColorKey(SDL_Color color) { 
     return SDL_SetColorKey(data_, SDL_SRCCOLORKEY, SDL_MapRGB(data_->format, color.r, color.g, color.b));
 }

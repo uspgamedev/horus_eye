@@ -49,6 +49,7 @@ void Engine::DeleteFinishedScenes() {
 		deleted = false;
 		for(vector<Scene* >::iterator it = scene_list_.begin(); it != scene_list_.end(); ++it) {
 			if ((*it)->finished()) {
+			    delete (*it);
 				scene_list_.erase(it);
 				deleted = true;
 				break;
@@ -91,7 +92,6 @@ void Engine::Run() {
             switch(event.type) {
                 case SDL_QUIT:
                     quit();
-                    CurrentScene()->Finish();
                     break;
 
                 case SDL_KEYDOWN:
@@ -131,6 +131,7 @@ void Engine::Run() {
 
 void Engine::Release() {
     for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
+        scene_list_[i]->Finish();
         delete scene_list_[i];
     }
     scene_list_.clear();

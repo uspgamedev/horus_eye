@@ -24,7 +24,7 @@ using namespace utils;
 #define RECT_HEIGHT         90
 #define SELECTION_WIDTH     864
 #define SELECTION_HEIGHT    155
-#define MENU_TOP            VIDEO_MANAGER()->video_size().y/4.0f
+#define MENU_TOP            VIDEO_MANAGER()->video_size().y/3.0f
 #define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_BOTTOM         MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
 #define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
@@ -33,9 +33,6 @@ using namespace utils;
 Menu::Menu () : selection_(SELECT_PLAY) {
 
     select_rect_ = new Sprite;
-    //rect_ = new Image;
-    //rect_->Create(Vector2D(RECT_WIDTH, RECT_HEIGHT));
-    //rect_->Clear(0x000000FF);
     select_rect_->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
     select_rect_->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
 
@@ -44,6 +41,11 @@ Menu::Menu () : selection_(SELECT_PLAY) {
     layer = new Layer;
     AddLayer(layer);
 
+    Sprite *logo = new Sprite;
+    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_480x286_black.png"));
+    logo->set_hotspot(Vector2D(480.0/2.0, 0));
+    logo->set_position(Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
+    layer->AddSprite(logo);
     layer->AddSprite(select_rect_);
 
     select_rect_->set_position(select_pos_[Menu::SELECT_PLAY]);

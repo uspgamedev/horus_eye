@@ -16,6 +16,7 @@
 #include "../../framework/fogmanager.h"
 #include "world.h"
 #include "imagescene.h"
+#include "pausescene.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../sprites/floor.h"
@@ -117,9 +118,19 @@ bool World::VerifyQuit() {
 	return false;
 }
 
+bool World::VerifyPause() {
+    InputManager *input = Engine::reference()->input_manager();
+    if(input->KeyPressed(K_RETURN)) {
+        Engine::reference()->PushScene(new PauseScene);
+        return true;
+    }
+    return false;
+}
+
 void World::Update(float delta_t) {
 
 	if(VerifyQuit()) return;
+	if(VerifyPause()) return;
 
     set_visible(true);
     Scene::Update(delta_t);

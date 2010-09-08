@@ -38,6 +38,7 @@ class Image {
     bool CreateFogTransparency(const Vector2D& ellipse_coef);
     bool Destroy();
     bool Clear(Color color);
+    bool SetAlpha(Uint8 alpha);
     bool setColorKey(SDL_Color color);
 
     void Optimize();
