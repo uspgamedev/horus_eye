@@ -12,6 +12,7 @@
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
+#include "../utils/visionstrategy.h"
 
 using namespace framework;
 using namespace utils;
@@ -69,7 +70,8 @@ void Explosion::CollidesWith(Wall * obj) { Explode(); }
 void Explosion::CollidesWith(Door * obj) { Explode(); }
 
 void Explosion::CollidesWith(Mummy *obj) {
-    if (!already_hit_.count(obj)) {
+    VisionStrategy vision;
+    if (!already_hit_.count(obj) && vision.IsVisible(this->world_position(), obj->world_position()) ) {
         obj->TakeDamage(damage_);
         already_hit_.insert(obj);
     }
