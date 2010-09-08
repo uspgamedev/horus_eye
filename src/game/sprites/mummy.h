@@ -32,7 +32,7 @@ class Mummy : public Creature {
 
     virtual void HandleCollision(WorldObject *);
     virtual void CollidesWith(Mummy *);
-    
+   	
     void set_speed(float speed) { original_speed_ = speed_ = speed; }
     void set_life(int life) { life_ = life; }
     void TakeDamage(int life_points = 1);

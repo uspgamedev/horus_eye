@@ -18,7 +18,7 @@ namespace sprite {
 
 class Item: public sprite::WorldObject {
   public:
-    Item (framework::Image* img = NULL);
+    Item (framework::Image* img);
     ~Item () { if (event_) delete event_; }
     
     virtual void Update(float delta_t);

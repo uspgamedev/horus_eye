@@ -209,24 +209,24 @@ void Hero::StartExplosion() {
 
 bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-	return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Available();
+    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Available();
 }
 
 bool Hero::ShootingWithSecondaryWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-	return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
+    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
 }
 
 void Hero::AdjustBlink(float delta_t) {
-	if (!hit_duration_->Expired()) {
-		blink_time_ += delta_t;
-		if (blink_time_ > 0.05) {
-			blink_ = !blink_;
-			blink_time_ = 0;
-		}
-	} else if (blink_) {
-		blink_ = false;
-	}
+    if (!hit_duration_->Expired()) {
+        blink_time_ += delta_t;
+        if (blink_time_ > 0.05) {
+            blink_ = !blink_;
+            blink_time_ = 0;
+        }
+    } else if (blink_) {
+        blink_ = false;
+    }
 }
 
 void Hero::Update(float delta_t) {
@@ -234,16 +234,16 @@ void Hero::Update(float delta_t) {
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         if (ShootingWithWeapon()) {
             weapon_->Attack();
-		} else if (ShootingWithSecondaryWeapon()) {
+        } else if (ShootingWithSecondaryWeapon()) {
             secondary_weapon_->Attack();
-		} else {
-			Creature::Move(this->GetWalkingDirection(), delta_t);
-			this->GetKeys();
-			this->SelectAnimation(*walking_animations_[animation_direction_]);
-		}
+        } else {
+            Creature::Move(this->GetWalkingDirection(), delta_t);
+            this->GetKeys();
+            this->SelectAnimation(*walking_animations_[animation_direction_]);
+        }
     }
-	AdjustBlink(delta_t);
-	speed_ = original_speed_;
+    AdjustBlink(delta_t);
+    speed_ = original_speed_;
 }
 
 }

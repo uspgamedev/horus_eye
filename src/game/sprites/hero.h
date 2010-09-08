@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/worldobject.h
-// Definicao da classe Hero.
-//
-
 #ifndef HORUSEYE_GAME_SPRITE_HERO_H_
 #define HORUSEYE_GAME_SPRITE_HERO_H_
 
@@ -41,9 +33,9 @@ class Hero : public Creature {
 
     virtual void Update(float delta_t);
     
-	void AdjustBlink(float delta_t);
-	bool ShootingWithWeapon();
-	bool ShootingWithSecondaryWeapon();
+    void AdjustBlink(float delta_t);
+    bool ShootingWithWeapon();
+    bool ShootingWithSecondaryWeapon();
     void GetKeys();
     void ChangeSecondaryWeapon(int slot);
 };
