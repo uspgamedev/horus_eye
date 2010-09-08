@@ -16,14 +16,14 @@ class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    Mummy *standing_mummy(framework::Image* image);
-    Mummy *mummy(framework::Image* image);
-    Mummy *ranged_mummy(framework::Image* image);
-    Mummy *standing_ranged_mummy(framework::Image* image);
-    Mummy *big_mummy(framework::Image* image);
-    Mummy *standing_big_mummy(framework::Image* image);
-	Pharaoh *pharaoh(framework::Image* image);
-	Pharaoh *standing_pharaoh(framework::Image* image);
+    Mummy *StandingMummy(framework::Image* image);
+    Mummy *WalkingMummy(framework::Image* image);
+    Mummy *RangedMummy(framework::Image* image);
+    Mummy *StandingRangedMummy(framework::Image* image);
+    Mummy *BigMummy(framework::Image* image);
+    Mummy *StandingBigMummy(framework::Image* image);
+	Pharaoh *WalkingPharaoh(framework::Image* image);
+	Pharaoh *StandingPharaoh(framework::Image* image);
 
 };
 
