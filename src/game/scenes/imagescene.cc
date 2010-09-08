@@ -47,7 +47,7 @@ ImageScene::ImageScene(framework::Image *background, framework::Image *image,
         img_sprite->set_position(pos);
         scene_layers_[IMG]->AddSprite(img_sprite);
         float delta_h = image->height() + VIDEO_MANAGER()->video_size().y;
-        if (delta_h > 0)
+        if (time > 0)
             movement_ = Vector2D(0, delta_h/time);
     }
     else scene_layers_[IMG] = NULL;;
@@ -73,7 +73,7 @@ void ImageScene::Update(float delta_t) {
         utils::LevelManager::reference()->StartGame(type_);
 
     if (type_ == ImageScene::INTRO) {
-        if(time_ > 0) {
+        if(time_ > 0.0f) {
             if (scene_layers_[IMG]) {
                 Layer *img_layer = scene_layers_[IMG];
                 Vector2D new_offset = img_layer->offset() + movement_*delta_t;
