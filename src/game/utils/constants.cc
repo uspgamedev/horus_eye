@@ -37,6 +37,12 @@ const float Constants::PROJECTILE_SPRITE_CENTER_X = 16.0f;
 const float Constants::PROJECTILE_SPRITE_CENTER_Y = 16.0f;
 const float Constants::PROJECTILE_HEIGHT = 12.0f;
 
+const float Constants::EXPLOSION_SPEED = 8.0f;
+const float Constants::EXPLOSION_SPRITE_CENTER_X = 128.0f;
+const float Constants::EXPLOSION_SPRITE_CENTER_Y = 64.0f;
+const float Constants::EXPLOSION_WIDTH = 256.0f;
+const float Constants::EXPLOSION_HEIGHT = 128.0f;
+
 const float Constants::EXPLOSION_DAMAGE_RADIUS = 1.5f;
 
 const float Constants::SIGHT_POTION_INCREASE = 1.0f;

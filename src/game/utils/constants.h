@@ -16,6 +16,9 @@ class Constants {
     const static int   PROJECTILE_SPRITE_WIDTH = 32,
                        PROJECTILE_SPRITE_HEIGHT = 32,
                        PROJECTILE_DURATION = 3500,
+
+                       EXPLOSION_SPRITE_WIDTH = 128,
+                       EXPLOSION_SPRITE_HEIGHT = 256,
                        EXPLOSION_DURATION = 300,
                        
                        PROJECTILE_DAMAGE = 1,
@@ -82,6 +85,12 @@ class Constants {
 		PROJECTILE_SPRITE_CENTER_X,
         PROJECTILE_SPRITE_CENTER_Y,
 		PROJECTILE_HEIGHT,
+
+		EXPLOSION_SPEED,
+		EXPLOSION_SPRITE_CENTER_X,
+        EXPLOSION_SPRITE_CENTER_Y,
+		EXPLOSION_WIDTH,
+		EXPLOSION_HEIGHT,
 
 		EXPLOSION_DAMAGE_RADIUS,
 
