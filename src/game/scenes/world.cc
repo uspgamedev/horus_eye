@@ -97,6 +97,10 @@ void World::VerifyCheats() {
 	        level_state_ = LevelManager::FINISH_WARP;
 	    }
 	}
+	if(input->KeyPressed(K_h)) {
+		hero_->set_life(hero_->max_life());
+		hero_->set_mana(hero_->max_mana());
+	}
 }
 
 Vector2D World::ActualOffset() {
