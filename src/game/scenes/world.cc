@@ -31,9 +31,6 @@
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
-
-#define SQRT_3 1.7320508075688772935274463415059f
-
 namespace scene {
 
 using namespace framework;
@@ -287,14 +284,14 @@ void World::RemoveAll() {
 
 
 Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {
-    Vector2D tx(1/SQRT_3, -1/SQRT_3);
+    Vector2D tx(1/sqrt(3.0), -1/sqrt(3.0));
     Vector2D ty(-1, -1);
     return (tx * screen_coords.x)   +  (ty * screen_coords.y);
 }
 
 Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
-    Vector2D tx(SQRT_3/2, -.5);
-    Vector2D ty(-SQRT_3/2, -.5);
+    Vector2D tx(sqrt(3.0)/2, -.5);
+    Vector2D ty(-sqrt(3.0)/2, -.5);
     return (tx * world_coords.x)   +  (ty * world_coords.y);
 }
 
