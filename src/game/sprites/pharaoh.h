@@ -11,7 +11,9 @@
 
 
 #define PHARAOH_TIME_TO_THINK 0.05f
-
+namespace framework {
+	class Image;
+}
 namespace sprite {
 
 class Mummy;
@@ -20,7 +22,7 @@ class Weapon;
 class Pharaoh : public Mummy {
 
   public:
-    Pharaoh(int life, int mana);
+    Pharaoh(framework::Image* image, int life, int mana);
     ~Pharaoh();
 
 	void TakeDamage(int life_points = 1);

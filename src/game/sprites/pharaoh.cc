@@ -20,10 +20,7 @@ namespace sprite {
 #define SUMMON_BIG_CHANCE     20
 
 
-Pharaoh::Pharaoh(int life, int mana) : Mummy() {
-	ImageFactory img_fac;
-    Initialize(img_fac.PharaohImage()); 
-
+Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 	life_ = max_life_ = life;
 	mana_ = max_mana_ = mana;
 	mana_regen_time_ = MANA_REGEN_RATE;

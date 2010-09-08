@@ -27,7 +27,7 @@ class Weapon;
 class Mummy : public Creature {
 
   public:
-    Mummy(framework::Image* img = NULL);
+    Mummy(framework::Image* img);
     ~Mummy();
 
     virtual void HandleCollision(WorldObject *);

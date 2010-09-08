@@ -43,7 +43,7 @@ Mummy * MummyBuilder::big_mummy(framework::Image *image) {
 
 
 Pharaoh * MummyBuilder::pharaoh(framework::Image *image) {
-	Pharaoh *pharaoh = new Pharaoh(Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
+	Pharaoh *pharaoh = new Pharaoh(image, Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
 	pharaoh->set_ranged_weapon(new PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
