@@ -5,7 +5,7 @@
 #include "../scenes/menu.h"
 #include "../scenes/world.h"
 #include "../scenes/imagescene.h"
-#include "../sprites/weapons/herofireballweapon.h"
+#include "../sprites/weapons/heroexplosionweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
 #include "levelmanager.h"
 #include "imagefactory.h"

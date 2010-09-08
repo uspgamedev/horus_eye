@@ -19,7 +19,7 @@ class Constants {
 
                        EXPLOSION_SPRITE_WIDTH = 128,
                        EXPLOSION_SPRITE_HEIGHT = 256,
-                       EXPLOSION_DURATION = 300,
+                       EXPLOSION_DURATION = 3000,
                        
                        PROJECTILE_DAMAGE = 1,
                        EXPLOSION_DAMAGE = 1,

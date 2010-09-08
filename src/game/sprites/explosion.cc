@@ -1,52 +1,39 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/projectile.cc
-// projectile.cc da classe Explosion
-//
-
 #include "explosion.h"
 #include "mummy.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
-#include "../utils/visionstrategy.h"
 
 using namespace framework;
 using namespace utils;
 
-#define CENTER_X    Constants::PROJECTILE_SPRITE_CENTER_X
-#define CENTER_Y    Constants::PROJECTILE_SPRITE_CENTER_Y
-#define HEIGHT      Constants::PROJECTILE_HEIGHT
-#define PROJECTILE_SPRITE_WIDTH    Constants::PROJECTILE_SPRITE_WIDTH
-#define PROJECTILE_SPRITE_HEIGHT   Constants::PROJECTILE_SPRITE_HEIGHT
+#define CENTER_X    Constants::EXPLOSION_SPRITE_CENTER_X
+#define CENTER_Y    Constants::EXPLOSION_SPRITE_CENTER_Y
+#define HEIGHT      Constants::EXPLOSION_HEIGHT
+#define EXPLOSION_SPRITE_WIDTH    Constants::EXPLOSION_SPRITE_WIDTH
+#define EXPLOSION_SPRITE_HEIGHT   Constants::EXPLOSION_SPRITE_HEIGHT
 
 namespace sprite {
 
-Explosion::Explosion(Vector2D & dir) :
-			direction_(Vector2D::Normalized(dir))
+Explosion::Explosion() 
 {
     ImageFactory image_factory;
-    Initialize( image_factory.ProjectileImage() );
-	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
+    Initialize( image_factory.ExplosionImage());
+	set_hotspot(Vector2D(CENTER_X, CENTER_Y));
 	damage_ = Constants::EXPLOSION_DAMAGE;
-	speed_ = Constants::PROJECTILE_SPEED;
 	bound_ = new CircleObject(0.15f);
-	light_radius_ = 1.5f;
-	duration_ = new TimeAccumulator(Constants::PROJECTILE_DURATION);
+    light_radius_ = 4.0f;
 	collision_type_ = MOVEABLE;
-	exploding_ = false;
+    Animation *animation = new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
+    animation->AddObserver(this);
+    SelectAnimation(animation);
 }
 
-Explosion::~Explosion() {
-    delete duration_;
-}
+Explosion::~Explosion() {}
 
-void Explosion::Move(float delta_t) {
-	Vector2D velocity = direction_ * (speed_ * delta_t);
-	set_world_position(this->world_position() + velocity);
+void Explosion::Tick() {
+    this->status_ = WorldObject::STATUS_DEAD;
 }
 
 void Explosion::RadiusUpdate(float delta_t) {
@@ -55,38 +42,16 @@ void Explosion::RadiusUpdate(float delta_t) {
 }
 
 void Explosion::Update(float delta_t) {
-	if( duration_->Expired() && exploding_) {
-        this->status_ = WorldObject::STATUS_DEAD;
-	}
-	WorldObject::Update(delta_t);
-	if(!exploding_)
-		this->Move(delta_t);
-	else{
-		this->RadiusUpdate(delta_t);
-	}
+    WorldObject::Update(delta_t);
+	this->RadiusUpdate(delta_t);
 }
 
-void Explosion::CollidesWith(Wall * obj) { Explode(); }
-void Explosion::CollidesWith(Door * obj) { Explode(); }
-
 void Explosion::CollidesWith(Mummy *obj) {
-    VisionStrategy vision;
-    if (!already_hit_.count(obj) && vision.IsVisible(this->world_position(), obj->world_position()) ) {
-        obj->TakeDamage(damage_);
-        already_hit_.insert(obj);
-    }
-	Explode();
+    obj->TakeDamage(damage_);
 }
 
 void Explosion::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
-}
-
-void Explosion::Explode(){
-	if(!exploding_) {
-		exploding_ = true;
-		duration_->Restart(Constants::EXPLOSION_DURATION);
-	}
 }
 
 }
