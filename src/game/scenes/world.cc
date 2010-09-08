@@ -226,15 +226,15 @@ void World::AddDoor(framework::Vector2D pos) {
 }
 
 void World::AddLifePotion(framework::Vector2D pos){
-    this->AddWorldObject(potion_builder_.life_potion(image_factory_->LifePotionImage()), pos);
+    this->AddWorldObject(potion_builder_.LifePotion(image_factory_->LifePotionImage()), pos);
 }
 
 void World::AddManaPotion(framework::Vector2D pos){
-    this->AddWorldObject(potion_builder_.mana_potion(image_factory_->ManaPotionImage()), pos);
+    this->AddWorldObject(potion_builder_.ManaPotion(image_factory_->ManaPotionImage()), pos);
 }
 
 void World::AddSightPotion(framework::Vector2D pos){
-    this->AddWorldObject(potion_builder_.sight_potion(image_factory_->SightPotionImage()), pos);
+    this->AddWorldObject(potion_builder_.SightPotion(image_factory_->SightPotionImage()), pos);
 }
 
 int World::CountRemainingEnemies() {

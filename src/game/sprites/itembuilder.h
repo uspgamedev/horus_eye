@@ -13,9 +13,9 @@ class ItemBuilder {
     ItemBuilder() {}
     ~ItemBuilder() {}
 
-    Item* life_potion(framework::Image* image);
-    Item* mana_potion(framework::Image* image);
-    Item* sight_potion(framework::Image* image);
+    Item* LifePotion(framework::Image* image);
+    Item* ManaPotion(framework::Image* image);
+    Item* SightPotion(framework::Image* image);
 
   protected:
     class RecoverLifeEvent : public ItemEvent {

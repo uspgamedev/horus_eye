@@ -40,19 +40,19 @@ bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
 	else return false;
 }
 
-Item* ItemBuilder::life_potion(framework::Image* image) {
+Item* ItemBuilder::LifePotion(framework::Image* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE));
     return potion;
 }
 
-Item* ItemBuilder::mana_potion(framework::Image* image) {
+Item* ItemBuilder::ManaPotion(framework::Image* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA));
     return potion;
 }
 
-Item* ItemBuilder::sight_potion(framework::Image* image) {
+Item* ItemBuilder::SightPotion(framework::Image* image) {
     Item* potion = new Item(image);
     potion->set_event(new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE));
     return potion;
