@@ -19,15 +19,6 @@
 #include "pausescene.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
-#include "../sprites/floor.h"
-#include "../sprites/wall.h"
-#include "../sprites/mummy.h"
-#include "../sprites/pharaoh.h"
-#include "../sprites/door.h"
-#include "../sprites/item.h"
-#include "../sprites/weapons/mummyweapon.h"
-#include "../sprites/weapons/mummyrangedweapon.h"
-#include "../sprites/weapons/pharaohrangedweapon.h"
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
@@ -156,6 +147,11 @@ void World::End() {
     this->RemoveAll();
 }
 
+void World::IncreaseNumberOfEnemies() {
+	remaining_enemies_++;
+	max_enemies_++;
+}
+
 void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
 
 	new_object-> set_world_position(pos);
@@ -170,83 +166,8 @@ void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D 
     fog_->AddLightSource(new_object);
 }
 
-void World::AddFloor(framework::Vector2D pos) {
-	this->AddWorldObject(new Floor(image_factory_->FloorImage()), pos);
-}
-
-Wall* World::AddWall(framework::Vector2D pos) {
-	Wall* wall = new Wall(image_factory_->WallImage());
-	this->AddWorldObject(wall, pos);
-	return wall;
-}
-
-void World::AddStandingBigMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.StandingBigMummy(image_factory_->BigMummyImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-void World::AddBigMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.BigMummy(image_factory_->BigMummyImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-void World::AddStandingRangedMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.StandingRangedMummy(image_factory_->RangedMummyImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-void World::AddRangedMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.RangedMummy(image_factory_->RangedMummyImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-
-void World::AddStandingMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.StandingMummy(image_factory_->MummyImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-void World::AddMummy(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.WalkingMummy(image_factory_->MummyImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-void World::AddStandingPharaoh(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.StandingPharaoh(image_factory_->PharaohImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
-void World::AddPharaoh(framework::Vector2D pos) {
-	this->AddWorldObject(mummy_builder_.WalkingPharaoh(image_factory_->PharaohImage()), pos);
-	remaining_enemies_++;
-	max_enemies_++;
-}
-
 void World::AddHero(framework::Vector2D pos) {
     this->AddWorldObject(hero_, pos);
-}
-
-void World::AddDoor(framework::Vector2D pos) {
-    this->AddWorldObject(new Door(image_factory_->DoorImage()), pos);
-}
-
-void World::AddLifePotion(framework::Vector2D pos){
-    this->AddWorldObject(potion_builder_.LifePotion(image_factory_->LifePotionImage()), pos);
-}
-
-void World::AddManaPotion(framework::Vector2D pos){
-    this->AddWorldObject(potion_builder_.ManaPotion(image_factory_->ManaPotionImage()), pos);
-}
-
-void World::AddSightPotion(framework::Vector2D pos){
-    this->AddWorldObject(potion_builder_.SightPotion(image_factory_->SightPotionImage()), pos);
 }
 
 int World::CountRemainingEnemies() {

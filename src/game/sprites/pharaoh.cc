@@ -61,6 +61,7 @@ void Pharaoh::Update(float delta_t) {
 }
 
 void Pharaoh::StartSummonMummy(Creature* target) {
+	//TODO tirar isso daqui, weapon eh o lugar certo
 
 	mana_ -= SUMMON_MANA_COST;
 
@@ -77,14 +78,19 @@ void Pharaoh::StartSummonMummy(Creature* target) {
 	   So in this example, we will summon a big mummy.
 	   */
 	int choice = rand()%100;
+	utils::ImageFactory image_factory;
+	MummyBuilder mummy_builder;
 	if (choice < SUMMON_RANGED_CHANCE) {
-		world->AddRangedMummy(mummyPos);
+		world->AddWorldObject(mummy_builder.RangedMummy(image_factory.RangedMummyImage()), mummyPos);
+		world->IncreaseNumberOfEnemies();
 	}
 	else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-		world->AddBigMummy(mummyPos);
+		world->AddWorldObject(mummy_builder.BigMummy(image_factory.BigMummyImage()), mummyPos);
+		world->IncreaseNumberOfEnemies();
 	}
 	else {
-		world->AddMummy(mummyPos);
+		world->AddWorldObject(mummy_builder.WalkingMummy(image_factory.MummyImage()), mummyPos);
+		world->IncreaseNumberOfEnemies();
 	}
 
 	float attackAngle = GetAttackingAngle(target->position() - position());

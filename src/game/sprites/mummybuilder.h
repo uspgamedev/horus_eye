@@ -1,4 +1,4 @@
-#ifndef MUMMY_BUILDER_H
+#ifndef MUMMY_BUILDER_H_
 #define MUMMY_BUILDER_H_
 
 #include "mummy.h"

@@ -11,7 +11,10 @@
 #include "../sprites/hero.h"
 #include "../sprites/mummy.h"
 #include "../sprites/floor.h"
+#include "../sprites/door.h"
 #include "../sprites/wall.h"
+#include "../sprites/itembuilder.h"
+#include "../sprites/mummybuilder.h"
 #include<fstream>
 #include<iostream>
 namespace utils {
@@ -21,22 +24,22 @@ using namespace scene;
 using namespace sprite;
 using namespace framework;
 
-#define WALL            'W'
-#define DOOR         	'D'
-#define MUMMY           'm'
-#define STANDING_MUMMY  'M'
-#define RANGED_MUMMY    'r'
+#define WALL            		 'W'
+#define DOOR         			 'D'
+#define MUMMY           		 'm'
+#define STANDING_MUMMY  		 'M'
+#define RANGED_MUMMY    		 'r'
 #define STANDING_RANGED_MUMMY    'R'
-#define BIG_MUMMY       'b'
+#define BIG_MUMMY       		 'b'
 #define STANDING_BIG_MUMMY       'B'
-#define PHARAOH         'p'
+#define PHARAOH         		 'p'
 #define STANDING_PHARAOH         'P'
-#define HERO            'H'
-#define FLOOR           'X'
-#define EMPTY           'O'
-#define POTIONL         'L'
-#define POTIONM		    'N'	
-#define POTIONS		    'S'	
+#define HERO            		 'H'
+#define FLOOR           		 'X'
+#define EMPTY           		 'O'
+#define POTIONL         		 'L'
+#define POTIONM		    		 'N'	
+#define POTIONS		    		 'S'	
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (file_name.c_str());
@@ -96,82 +99,94 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 }
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
+    MummyBuilder mummy_builder;
+    ItemBuilder potion_builder;
 	if(token != EMPTY) {
 		switch(token) {
 			case WALL: {
-				wall_matrix[i][j] = world_->AddWall(position);
+				wall_matrix[i][j] = new Wall(image_factory_->WallImage());
+				world_->AddWorldObject(wall_matrix[i][j], position);
 				break;
 			}
 			case HERO: {
 				world_->AddHero(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case STANDING_MUMMY: {
-				world_->AddStandingMummy(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.StandingMummy(image_factory_->MummyImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case MUMMY: {
-				world_->AddMummy(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.WalkingMummy(image_factory_->MummyImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case BIG_MUMMY: {
-				world_->AddBigMummy(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.BigMummy(image_factory_->BigMummyImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case STANDING_BIG_MUMMY: {
-				world_->AddStandingBigMummy(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.StandingBigMummy(image_factory_->BigMummyImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case RANGED_MUMMY: {
-				world_->AddRangedMummy(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.RangedMummy(image_factory_->RangedMummyImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case STANDING_RANGED_MUMMY: {
-				world_->AddStandingRangedMummy(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.StandingRangedMummy(image_factory_->RangedMummyImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case PHARAOH: {
-				world_->AddPharaoh(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.WalkingPharaoh(image_factory_->PharaohImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case STANDING_PHARAOH: {
-				world_->AddStandingPharaoh(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(mummy_builder.StandingPharaoh(image_factory_->PharaohImage()), position);
+				world_->IncreaseNumberOfEnemies();
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case DOOR: {
 				vector<string> matrix = world_->level_matrix();
 				if(j < world_->level_width()-1 && matrix[i][j+1] == DOOR) {
 					Vector2D pos = position + Vector2D(0.5, 0);
-					world_->AddDoor(pos);
+					world_->AddWorldObject(new Door(image_factory_->DoorImage()), pos);
+
 				}
 			//Sembreakdeproposito.
 			}
 			case FLOOR: {
-				world_->AddFloor(position);
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case POTIONL: {
-				world_->AddLifePotion(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(potion_builder.LifePotion(image_factory_->LifePotionImage()), position);
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case POTIONM: {
-				world_->AddManaPotion(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(potion_builder.ManaPotion(image_factory_->ManaPotionImage()), position);
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 			case POTIONS: {
-				world_->AddSightPotion(position);
-				world_->AddFloor(position);
+				world_->AddWorldObject(potion_builder.SightPotion(image_factory_->SightPotionImage()), position);
+				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
 				break;
 			}
 		}

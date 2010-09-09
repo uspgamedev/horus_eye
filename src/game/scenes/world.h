@@ -13,7 +13,6 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../utils/levelmanager.h"
-#include "../sprites/itembuilder.h"
 #include "../sprites/mummybuilder.h"
 #include"../utils/imagefactory.h"
 namespace utils {
@@ -23,9 +22,6 @@ class Fog;
 namespace sprite {
 class Hero;
 class WorldObject;
-class Floor;
-class Wall;
-class Mummy;
 }
 
 using framework::Vector2D;
@@ -47,31 +43,11 @@ class World : public framework::Scene {
 
     void Update(float delta_t);
 
-    sprite::Wall* AddWall(framework::Vector2D);
     void AddWorldObject(sprite::WorldObject*, framework::Vector2D pos);
-    void AddFloor(sprite::Floor*);
-    void AddFloor(framework::Vector2D pos);
-
-    void AddMummy(framework::Vector2D pos);
-    void AddStandingMummy(framework::Vector2D pos);
-
-	void AddBigMummy(framework::Vector2D pos);
-	void AddStandingBigMummy(framework::Vector2D pos);
-
-	void AddRangedMummy(framework::Vector2D pos);
-	void AddStandingRangedMummy(framework::Vector2D pos);
-
-	void AddPharaoh(framework::Vector2D pos);
-	void AddStandingPharaoh(framework::Vector2D pos);
-
     void AddHero(framework::Vector2D pos);
-    void AddDoor(framework::Vector2D pos);
-    void AddPotion(framework::Vector2D pos);
-    void AddLifePotion(framework::Vector2D pos);
-    void AddManaPotion(framework::Vector2D pos);
-    void AddSightPotion(framework::Vector2D pos);
 
     int CountRemainingEnemies();
+	void IncreaseNumberOfEnemies();
     int max_enemies() { return max_enemies_; }
     void DecreaseEnemyCount() { remaining_enemies_--; }
     void FinishLevel(utils::LevelManager::LevelState state) {
@@ -120,7 +96,6 @@ class World : public framework::Scene {
     int	remaining_enemies_, max_enemies_;
 	utils::ImageFactory* image_factory_;
     sprite::MummyBuilder mummy_builder_;
-    sprite::ItemBuilder potion_builder_;
 
 	Vector2D ActualOffset();
 	void VerifyCheats();
