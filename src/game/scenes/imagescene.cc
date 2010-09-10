@@ -41,8 +41,7 @@ ImageScene::ImageScene(framework::Image *background, framework::Image *image) {
         pos.y = 0;
         img_sprite->set_position(pos);
         scene_layers_[IMG]->AddSprite(img_sprite);
-        Vector2D layeroffset(0, (VIDEO_MANAGER()->video_size()*0.5f).y -
-                (img_sprite->image()->height()/2.0f));
+        Vector2D layeroffset(0, -(VIDEO_MANAGER()->video_size()*0.5f).y);
         scene_layers_[IMG]->set_offset(layeroffset);
     }
     else scene_layers_[IMG] = NULL;
