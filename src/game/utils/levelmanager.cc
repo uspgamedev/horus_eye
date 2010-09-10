@@ -2,6 +2,7 @@
 #include "../../framework/videomanager.h"
 #include "../../framework/image.h"
 #include "../../framework/scene.h"
+#include "../scenes/menubuilder.h"
 #include "../scenes/menu.h"
 #include "../scenes/world.h"
 #include "../scenes/imagescene.h"
@@ -25,6 +26,7 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
 
+    MenuBuilder builder;
 	ifstream list ("data/level_list.txt");
     if(list.is_open()) {
 		int level_count;
@@ -42,7 +44,7 @@ void LevelManager::Initialize() {
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
-    menu_ = new Menu;
+    menu_ = builder.BuildMainMenu();
     Engine::reference()->PushScene(menu_);
 }
 

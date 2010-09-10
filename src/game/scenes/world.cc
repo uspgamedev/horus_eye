@@ -16,7 +16,8 @@
 #include "../../framework/fogmanager.h"
 #include "world.h"
 #include "imagescene.h"
-#include "pausescene.h"
+#include "menu.h"
+#include "menubuilder.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../utils/hud.h"
@@ -101,19 +102,11 @@ Vector2D World::ActualOffset() {
 	return result;
 }
 
-bool World::VerifyQuit() {
-    InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyDown(K_ESCAPE)) {
-        LevelManager::reference()->FinishLevel(LevelManager::FINISH_QUIT);
-        return true;
-    }
-	return false;
-}
-
 bool World::VerifyPause() {
     InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(K_RETURN)) {
-        Engine::reference()->PushScene(new PauseScene);
+    if(input->KeyPressed(K_ESCAPE)) {
+        MenuBuilder builder;
+        Engine::reference()->PushScene(builder.BuildPauseMenu());
         return true;
     }
     return false;
@@ -121,7 +114,6 @@ bool World::VerifyPause() {
 
 void World::Update(float delta_t) {
 
-	if(VerifyQuit()) return;
 	if(VerifyPause()) return;
 
     set_visible(true);
@@ -139,9 +131,9 @@ void World::Update(float delta_t) {
         level_state_ = LevelManager::FINISH_DIE;
 
 	VerifyCheats();
-
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
+
 }
 
 void World::End() {

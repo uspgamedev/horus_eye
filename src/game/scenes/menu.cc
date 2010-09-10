@@ -6,6 +6,7 @@
 // Definicao da classe Menu.
 //
 
+#include <cstdlib>
 #include <string>
 #include "menu.h"
 #include "../../framework/engine.h"
@@ -26,77 +27,33 @@ using namespace utils;
 #define SELECTION_HEIGHT    155
 #define MENU_TOP            VIDEO_MANAGER()->video_size().y/3.0f
 #define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
-#define MENU_BOTTOM         MENU_TOP + Menu::SELECT_NUM*RECT_HEIGHT
+#define MENU_BOTTOM         MENU_TOP + Menu::MAIN_SELECT_NUM*RECT_HEIGHT
 #define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
 
 
-Menu::Menu () : selection_(SELECT_PLAY) {
+Menu::Menu (int selection_num)
+    : selection_(0) {
 
-    select_rect_ = new Sprite;
-    select_rect_->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
-    select_rect_->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
-
-    Layer *layer;
-
-    layer = new Layer;
-    AddLayer(layer);
-
-    Sprite *logo = new Sprite;
-    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_480x286_black.png"));
-    logo->set_hotspot(Vector2D(480.0/2.0, 0));
-    logo->set_position(Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
-    layer->AddSprite(logo);
-    layer->AddSprite(select_rect_);
-
-    select_rect_->set_position(select_pos_[Menu::SELECT_PLAY]);
-
-    layer = new Layer;
-    AddLayer(layer);
-
-    for (int y, i = 0; i < Menu::SELECT_NUM; ++i) {
-        y = static_cast<int>(MENU_TOP + i*RECT_HEIGHT);
-        select_pos_[i] = Vector2D(MENU_LEFT, static_cast<float>(y));
-        options_[i] = new Sprite;
-        switch (i) {
-        case Menu::SELECT_PLAY:
-            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/play.png"));
-            break;
-        case Menu::SELECT_HELP:
-            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/help.png"));
-            break;
-        case Menu::SELECT_SETTINGS:
-            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/settings.png"));
-            break;
-        case Menu::SELECT_ABOUT:
-            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/credits.png"));
-            break;
-        case Menu::SELECT_EXIT:
-            options_[i]->Initialize(VIDEO_MANAGER()->LoadImage("data/images/exit.png"));
-            break;
-        }
-        options_[i]->set_position(select_pos_[i]);
-        layer->AddSprite(options_[i]);
-    }
+    selection_num_ = selection_num;
+    handler_ = NULL;
+    content_box_defined_ = false;
+    selection_sprite_ = NULL;
+    options_sprite_ = static_cast<Sprite**>(malloc(selection_num*sizeof(Sprite*)));
+    selection_pos_ = new Vector2D[selection_num_];
+    AddLayer(new Layer);
 
 }
+
 
 Menu::~Menu () {
-    //rect_->Destroy();
-    //delete rect_;
-}
-
-Menu::Selection operator ++ (Menu::Selection& selection) {
-    return selection = (Menu::Selection)((selection+1)%Menu::SELECT_NUM);
-}
-
-Menu::Selection operator -- (Menu::Selection& selection) {
-    selection = (Menu::Selection)((selection-1)%Menu::SELECT_NUM);
-    if (selection < 0) selection = (Menu::Selection)(Menu::SELECT_NUM-1);
-    return selection;
+    handler_->CleanUp();
+    delete[] selection_pos_;
+    free(options_sprite_);
 }
 
 void Menu::Update(float delta_t) {
 
+    Scene::Update(delta_t);
     InputManager *input = Engine::reference()->input_manager();
     Vector2D mouse_pos = input->GetMousePosition();
 
@@ -107,10 +64,11 @@ void Menu::Update(float delta_t) {
         return;
     }
 
-    if (input->KeyPressed(K_UP))
-        --selection_;
+    if (input->KeyPressed(K_UP)) {
+        selection_ = selection_ - 1 < 0 ? selection_num_ - 1 : selection_ - 1;
+    }
     if (input->KeyPressed(K_DOWN))
-        ++selection_;
+        selection_ = (++selection_)%selection_num_;
 
     bool on_selection = CheckMouse(mouse_pos);
 
@@ -118,8 +76,23 @@ void Menu::Update(float delta_t) {
 
     if (input->KeyPressed(K_RETURN) ||
         (on_selection && input->MouseUp(M_BUTTON_LEFT)))
-        Choose();
+        handler_->Handle(selection_);
 
+}
+
+
+void Menu::DecideWhereOptionsGo() {
+    float selection_height = content_box_.height()/selection_num_, y;
+    for (int i = 0; i < selection_num_; ++i) {
+        y = content_box_.top() + static_cast<float>(i)*selection_height;
+        selection_pos_[i] = Vector2D(content_box_.left(), y);
+    }
+    InitialSelection();
+}
+
+void Menu::InitialSelection() {
+    if (selection_sprite_ && content_box_defined_)
+        selection_sprite_->set_position(selection_pos_[0]);
 }
 
 bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
@@ -130,15 +103,15 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
                     dx = x - old_x,
                     dy = y - old_y;
     static bool     on_selection = false;
+    float selection_height = content_box_.height()/selection_num_;
 
     if (dx*dx > 0 || dy*dy > 0) {
         old_x = x;
         old_y = y;
-        if ((y >= MENU_TOP && y < MENU_BOTTOM) &&
-            (x >= MENU_LEFT && x < MENU_RIGHT)) {
+        if ((y >= content_box_.top() && y < content_box_.bottom()) &&
+            (x >= content_box_.left() && x < content_box_.right())) {
             on_selection = true;
-
-				selection_ = static_cast<Menu::Selection>(  (int)(((int)y - MENU_TOP)/RECT_HEIGHT)  );
+            selection_ = (int)((y - content_box_.top())/selection_height);
         }
         else on_selection = false;
     }
@@ -147,34 +120,7 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
 }
 
 void Menu::Select () {
-    select_rect_->set_position(select_pos_[selection_]);
-}
-
-void Menu::Choose () {
-    switch (selection_) {
-        case Menu::SELECT_PLAY: {
-            set_visible(false);
-            LevelManager::reference()->ShowIntro();
-            break;
-        }
-        case Menu::SELECT_HELP: {
-            break;
-        }
-        case Menu::SELECT_SETTINGS: {
-            break;
-        }
-        case Menu::SELECT_ABOUT: {
-            break;
-        }
-        case Menu::SELECT_EXIT: {
-            Engine::reference()->quit();
-            break;
-        }
-        default: {
-            break;
-        }
-    }
-
+    selection_sprite_->set_position(selection_pos_[selection_]);
 }
 
 }
