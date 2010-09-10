@@ -43,13 +43,13 @@ class Layer {
     virtual void Render();
 
   protected:
-    // Estrutura b�sica para armazenar os Sprites. N�o definitivo.
+    // Estrutura basica para armazenar os Sprites. Nao definitivo.
     std::vector<Sprite*> sprite_list_;
+    bool visible_;
 
   private:
     // Atributos.
     Vector2D offset_;
-    bool visible_;
 
     // Ordena os sprites pelo zindex
     virtual void SortSprites();

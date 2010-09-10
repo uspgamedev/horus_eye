@@ -93,6 +93,8 @@ void World::VerifyCheats() {
 		hero_->set_life(hero_->max_life());
 		hero_->set_mana(hero_->max_mana());
 	}
+	if(input->KeyPressed(K_l))
+	    fog_->set_visible(!fog_->IsVisible());
 }
 
 Vector2D World::ActualOffset() {

@@ -66,6 +66,7 @@ void Fog::UpdateLightSource(WorldObject* obj) {
 }
 
 void Fog::Render() {
+    if(!visible_) return;
     Vector2D offset = this->offset();
     map<WorldObject*,Sprite*>::iterator it;
     for(it = light_sources_.begin(); it != light_sources_.end(); ++it) {
