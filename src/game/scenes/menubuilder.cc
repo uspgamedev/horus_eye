@@ -21,7 +21,7 @@ using namespace utils;
 #define RECT_HEIGHT             90
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
-#define MENU_TOP                VIDEO_MANAGER()->video_size().y/3.0f
+#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.3f
 #define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_BOTTOM             MENU_TOP + MenuBuilder::MAIN_SELECT_NUM*RECT_HEIGHT
 #define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
@@ -49,8 +49,8 @@ Menu *MenuBuilder::BuildMainMenu () {
 
     // The game logo.
     Sprite *logo = new Sprite;
-    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_480x286_black.png"));
-    logo->set_hotspot(Vector2D(480.0/2.0, 0));
+    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_560x334_black.png"));
+    logo->set_hotspot(Vector2D(560.0/2.0, 0));
     menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
 
     // The sprite of each option.
