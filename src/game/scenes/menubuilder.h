@@ -19,6 +19,7 @@ class MenuBuilder {
     virtual ~MenuBuilder () {}
     Menu *BuildMainMenu();
     Menu *BuildPauseMenu();
+    Menu *BuildHelpMenu();
   private:
     typedef enum {
         MAIN_SELECT_PLAY = 0,
@@ -49,6 +50,13 @@ class MenuBuilder {
         void CleanUp();
       private:
         framework::Image *bg_img_;
+    };
+    class HelpMenuHandler : public MenuHandler {
+      public:
+        HelpMenuHandler(Menu *menu) : MenuHandler(menu) {}
+        ~HelpMenuHandler() {}
+        void Handle(int selection);
+        void CleanUp() {}
     };
 };
 

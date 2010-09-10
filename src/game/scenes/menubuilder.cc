@@ -21,7 +21,7 @@ using namespace utils;
 #define RECT_HEIGHT             90
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
-#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.3f
+#define MENU_TOP                VIDEO_MANAGER()->video_size().y/3.0f
 #define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_BOTTOM             MENU_TOP + MenuBuilder::MAIN_SELECT_NUM*RECT_HEIGHT
 #define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
@@ -50,7 +50,7 @@ Menu *MenuBuilder::BuildMainMenu () {
     // The game logo.
     Sprite *logo = new Sprite;
     logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_560x334_black.png"));
-    logo->set_hotspot(Vector2D(560.0/2.0, 0));
+    logo->set_hotspot(Vector2D(logo->image()->width() * 0.5f, 0));
     menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
 
     // The sprite of each option.
@@ -87,6 +87,9 @@ void MenuBuilder::MainMenuHandler::Handle(int selection) {
             break;
         }
         case MenuBuilder::MAIN_SELECT_HELP: {
+            MenuBuilder builder;
+            Engine::reference()->PushScene(builder.BuildHelpMenu());
+            menu_->set_visible(false);
             break;
         }
         case MenuBuilder::MAIN_SELECT_SETTINGS: {
@@ -171,6 +174,43 @@ void MenuBuilder::PauseMenuHandler::Handle(int selection) {
 void MenuBuilder::PauseMenuHandler::CleanUp() {
     bg_img_->Destroy();
     delete bg_img_;
+}
+
+Menu *MenuBuilder::BuildHelpMenu () {
+
+    // Our main menu.
+    Menu *menu = new Menu(1);
+
+    // Setting its handler.
+    menu->set_handler(new HelpMenuHandler(menu));
+
+    Image* img = VIDEO_MANAGER()->LoadImage("data/images/exit.png");
+
+    // The menu's content box.
+    float top = VIDEO_MANAGER()->video_size().y - img->height();
+    menu->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
+
+    // Setting the selection sprite.
+    Sprite *selection_sprite = new Sprite;
+    selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
+    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
+    menu->set_selection_sprite(selection_sprite);
+    // The game logo.//
+    Sprite *logo = new Sprite;
+
+    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/horus_tutorial_ee.png"));
+    logo->set_hotspot(Vector2D(logo->image()->width() * 0.5f, 0));
+    menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
+
+    Sprite *options_sprite = new Sprite;
+    options_sprite->Initialize(img);
+    menu->set_option_sprite(0, options_sprite);
+
+    return menu;
+}
+
+void MenuBuilder::HelpMenuHandler::Handle(int selection) {
+    menu_->Finish();
 }
 
 }
