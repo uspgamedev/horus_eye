@@ -60,7 +60,7 @@ void Menu::Update(float delta_t) {
     set_visible(true);
 
     if (input->KeyPressed(K_ESCAPE)) {
-        Engine::reference()->quit();
+        Finish();
         return;
     }
 
@@ -68,7 +68,8 @@ void Menu::Update(float delta_t) {
         selection_ = selection_ - 1 < 0 ? selection_num_ - 1 : selection_ - 1;
     }
     if (input->KeyPressed(K_DOWN))
-        selection_ = (++selection_)%selection_num_;
+        selection_++;
+        selection_ = selection_ % selection_num_;
 
     bool on_selection = CheckMouse(mouse_pos);
 
