@@ -60,46 +60,6 @@ void Pharaoh::Update(float delta_t) {
 	}
 }
 
-void Pharaoh::StartSummonMummy(Creature* target) {
-	//TODO tirar isso daqui, weapon eh o lugar certo
-
-	mana_ -= SUMMON_MANA_COST;
-
-	Vector2D mummyPos = (Vector2D::Normalized(target->world_position() - world_position()))*2.0f + world_position();
-	scene::World *world = WORLD();
-	/* The choice of mummy type to summon here is based on a discrete percent probability.
-	   A value in the range [0, 100[ is chosen randomly, and then depending on where it
-	   sits in the range, according to boundaries determined by our SUMMON_<>_CHANCE defines,
-	   a given mummy type is chosen. Example:
-	   choice = 34
-	   V
-	   [ ----RANGED_CHANCE--- || ----BIG_CHANCE---- || ------- Rest of bar is normal mummy ----- ] 
-	   0                      30                    50                                           100
-	   So in this example, we will summon a big mummy.
-	   */
-	int choice = rand()%100;
-	utils::ImageFactory image_factory;
-	MummyBuilder mummy_builder;
-	if (choice < SUMMON_RANGED_CHANCE) {
-		world->AddWorldObject(mummy_builder.RangedMummy(image_factory.RangedMummyImage()), mummyPos);
-		world->IncreaseNumberOfEnemies();
-	}
-	else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-		world->AddWorldObject(mummy_builder.BigMummy(image_factory.BigMummyImage()), mummyPos);
-		world->IncreaseNumberOfEnemies();
-	}
-	else {
-		world->AddWorldObject(mummy_builder.WalkingMummy(image_factory.MummyImage()), mummyPos);
-		world->IncreaseNumberOfEnemies();
-	}
-
-	float attackAngle = GetAttackingAngle(target->position() - position());
-	int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-	waiting_animation_ = true;
-	last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-	this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
-}
-
 void Pharaoh::Think(float dt) {
 	time_to_think_ -= dt;
 	if(time_to_think_ <= 0){
@@ -114,18 +74,18 @@ void Pharaoh::Think(float dt) {
 
 			Vector2D diff;
 			diff = path_.front() - world_position();
-			if(diff.length() <= weapon_->range()){
+			if(diff.length() <= weapon_->range() && weapon_->Available()){
 				weapon_->Attack();
 				speed_ = 0;
 			}
-			else if ( (ranged_weapon_->range()/2.0f <= diff.length()) & (diff.length() <= ranged_weapon_->range()) ) {
+			else if((ranged_weapon_->range()/2.0f <= diff.length()) &&
+			        (diff.length() <= ranged_weapon_->range()) &&
+			        ranged_weapon_->Available()) {
 				ranged_weapon_->Attack();
 				speed_ = 0;
 			}
-			else if (mana_ >= SUMMON_MANA_COST) {
-				scene::World *world = WORLD();
-				Hero* hero = world->hero();
-				StartSummonMummy(hero);
+			else if (summon_weapon_->Available()) {
+			    summon_weapon_->Attack();
 				speed_ = 0;
 			}
 		}

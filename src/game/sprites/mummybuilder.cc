@@ -2,6 +2,7 @@
 #include "weapons/mummyweapon.h"
 #include "weapons/mummyrangedweapon.h"
 #include "weapons/pharaohrangedweapon.h"
+#include "weapons/pharaohsummonweapon.h"
 #include "../../framework/image.h"
 
 using namespace sprite;
@@ -63,6 +64,7 @@ Pharaoh * MummyBuilder::StandingPharaoh(framework::Image *image) {
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
 	pharaoh->set_ranged_weapon(new PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
+	pharaoh->set_summon_weapon(new PharaohSummonWeapon(pharaoh));
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
 	pharaoh->set_hotspot(Vector2D(image->frame_size().x / 2.0f, image->frame_size().y*6.0f / 7.0f));
 

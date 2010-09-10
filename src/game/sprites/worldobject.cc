@@ -24,21 +24,15 @@ WorldObject::WorldObject()
       light_radius_(0.0f)
 {}
 
-WorldObject::WorldObject(WorldObject* obj) /*: Sprite(NULL) */{
-    // vazio
-}
-
 WorldObject::~WorldObject() {
     delete bound_;
 }
 
 void WorldObject::Update(float dt) {
-    World *world = WORLD();
-
     Sprite::Update(dt);
-    set_position(world->FromWorldCoordinates(world_position())); // Transforma coordenadas mundo -> coordenadas tela
-    set_zindex(world->FromWorldLinearCoordinates(world_position()).y); // Seta zindex
+    set_zindex(World::FromWorldLinearCoordinates(world_position()).y); // Seta zindex
 }
+
 void WorldObject::set_light_radius(float radius) {
     light_radius_ = radius;
     WORLD()->fog()->UpdateLightSource(this);
@@ -52,6 +46,11 @@ void WorldObject::HandleCollision(WorldObject* obj) {
 //     double dispatch
 //     http://en.wikipedia.org/wiki/Double_dispatch
     obj->CollidesWith(this);
+}
+
+void WorldObject::set_world_position(const framework::Vector2D& pos) {
+   bound_->set_position(pos);
+   set_position(World::FromWorldCoordinates(pos));
 }
 
 }  // namespace sprite

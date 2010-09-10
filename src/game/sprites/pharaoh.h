@@ -27,11 +27,12 @@ class Pharaoh : public Mummy {
 
 	void TakeDamage(int life_points = 1);
 	void set_ranged_weapon(Weapon *weapon) { ranged_weapon_ = weapon; }
+	void set_summon_weapon(Weapon *weapon) { summon_weapon_ = weapon; }
 
 	void StartSummonMummy(Creature* target);
 
   protected:
-	Weapon *ranged_weapon_;
+	Weapon *ranged_weapon_, *summon_weapon_;
 	double mana_regen_time_;
 
 	void Update(float delta_t);

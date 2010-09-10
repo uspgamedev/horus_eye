@@ -30,7 +30,6 @@ class Item;
 class WorldObject : public framework::Sprite {
   public:
     WorldObject();
-    WorldObject(WorldObject* obj);
     virtual ~WorldObject();
 
     // estado do objeto
@@ -46,9 +45,7 @@ class WorldObject : public framework::Sprite {
     virtual framework::Vector2D world_position() const {
         return bound_->position();
     }
-    virtual void set_world_position(const framework::Vector2D& pos) {
-        bound_->set_position(pos);
-    }
+    virtual void set_world_position(const framework::Vector2D& pos);
     virtual const utils::CollisionObject * bound() const { return bound_; }
 
     // tratamento de colisao
