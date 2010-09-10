@@ -51,6 +51,9 @@ class Constants {
                        BIG_MUMMY_LIFE = 3,
                        BIG_MUMMY_DAMAGE = 2,
 
+                       FIREBALL_EXPLOSION_DAMAGE = 2,
+                       QUAKE_EXPLOSION_DAMAGE = 3,
+
 					   PHARAOH_LIFE = 15,
 					   PHARAOH_MANA = 10,
 					   PHARAOH_SUMMON_MANA_COST = 3,
@@ -76,6 +79,9 @@ class Constants {
         LIFE_BAR_HEIGHT,
         MANA_BAR_WIDTH,
         MANA_BAR_HEIGHT,
+        
+        FIREBALL_EXPLOSION_RADIUS,
+        QUAKE_EXPLOSION_RADIUS,
 
         LIGHT_RADIUS_THRESHOLD,
 
@@ -91,8 +97,6 @@ class Constants {
         EXPLOSION_SPRITE_CENTER_Y,
 		EXPLOSION_WIDTH,
 		EXPLOSION_HEIGHT,
-
-		EXPLOSION_DAMAGE_RADIUS,
 
 		SIGHT_POTION_INCREASE,
 

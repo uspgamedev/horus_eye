@@ -3,7 +3,6 @@
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
-#include "../utils/imagefactory.h"
 
 using namespace framework;
 using namespace utils;
@@ -16,18 +15,18 @@ using namespace utils;
 
 namespace sprite {
 
-Explosion::Explosion() 
+Explosion::Explosion(Image *image, Animation *animation, float radius, float damage) 
 {
-    ImageFactory image_factory;
-    Initialize( image_factory.ExplosionImage());
+    Initialize(image);
 	set_hotspot(Vector2D(CENTER_X, CENTER_Y));
-	damage_ = Constants::EXPLOSION_DAMAGE;
-	bound_ = new CircleObject(0.15f);
-    light_radius_ = 4.0f;
+	damage_ = damage;
+	bound_ = new CircleObject(radius / 2);
+    light_radius_ = 1.3*radius;
 	collision_type_ = MOVEABLE;
-    Animation *animation = new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
     animation->AddObserver(this);
     SelectAnimation(animation);
+
+    expansion_speed_ = (radius / 2) / (animation->n_frames() / animation->fps());
 }
 
 Explosion::~Explosion() {}
@@ -38,7 +37,7 @@ void Explosion::Tick() {
 
 void Explosion::RadiusUpdate(float delta_t) {
 	CircleObject* bound = static_cast<CircleObject*>(this->bound_);
-	bound->set_radius(Constants::EXPLOSION_DAMAGE_RADIUS);
+	bound->set_radius(bound->radius() + expansion_speed_ * delta_t);
 }
 
 void Explosion::Update(float delta_t) {

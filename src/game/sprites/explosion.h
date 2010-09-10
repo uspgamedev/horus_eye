@@ -17,7 +17,7 @@ class Mummy;
 class Explosion : public WorldObject, Observer {
 
   public:
-	Explosion();
+	Explosion(Image *img, Animation *, float radius, float damage);
 	~Explosion();
 	void RadiusUpdate(float delta_t);
 	void Update(float delta_t);
@@ -30,7 +30,8 @@ class Explosion : public WorldObject, Observer {
   private:
 	int damage_;
     float radius_;
-    framework::Vector2D direction_;
+    float expansion_speed_;
+    Vector2D direction_;
 };
 
 }

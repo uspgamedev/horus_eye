@@ -43,7 +43,8 @@ const float Constants::EXPLOSION_SPRITE_CENTER_Y = 64.0f;
 const float Constants::EXPLOSION_WIDTH = 256.0f;
 const float Constants::EXPLOSION_HEIGHT = 128.0f;
 
-const float Constants::EXPLOSION_DAMAGE_RADIUS = 1.5f;
+const float Constants::FIREBALL_EXPLOSION_RADIUS = 1.6f;
+const float Constants::QUAKE_EXPLOSION_RADIUS = 1.25f;
 
 const float Constants::SIGHT_POTION_INCREASE = 1.0f;
 

@@ -28,6 +28,7 @@ class ImageFactory {
     virtual Image* FireballImage();
     virtual Image* MummyProjectileImage();
     virtual Image* ExplosionImage();
+    virtual Image* QuakeImage();
     virtual Image* LifePotionImage();
     virtual Image* ManaPotionImage();
     virtual Image* SightPotionImage();
@@ -49,6 +50,7 @@ class ImageFactory {
     Image* mummy_projectile_image_;
     Image* fireball_image_;
     Image* explosion_image_;
+    Image* quake_image_;
     Image* life_potion_image_;
     Image* mana_potion_image_;
     Image* sight_potion_image_;

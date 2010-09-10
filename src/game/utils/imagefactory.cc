@@ -41,6 +41,9 @@ namespace utils {
         explosion_image_ = VIDEO_MANAGER()->LoadImage("data/images/explosion.png");
         explosion_image_->set_frame_size( Vector2D(256, 128) );
 
+        quake_image_ = VIDEO_MANAGER()->LoadImage("data/images/quake.png");
+        quake_image_->set_frame_size( Vector2D(256, 128) );
+
         life_potion_image_ = VIDEO_MANAGER()->LoadImage("data/images/life_potion2.png");
         life_potion_image_->set_frame_size(Vector2D(30, 30));
 
@@ -92,6 +95,9 @@ namespace utils {
     }
     Image* ImageFactory::ExplosionImage() {
         return explosion_image_;
+    }
+    Image* ImageFactory::QuakeImage() {
+        return quake_image_;
     }
     Image* ImageFactory::LifePotionImage() {
         return life_potion_image_;
