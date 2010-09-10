@@ -4,17 +4,6 @@
 
 namespace framework {
 
-/*
-Sprite::Sprite(Image *image) : zindex_(0.0f) {
-    Initialise(image);
-}
-
-Sprite::Sprite(Image *image, Vector2D position) : zindex_(0.0f) {
-    Initialise(image);
-    position_ = position;
-}
-*/
-
 Sprite::~Sprite() {
     if (animation_) delete animation_;
 }

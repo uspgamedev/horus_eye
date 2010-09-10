@@ -7,11 +7,13 @@
 #include "../scenes/imagescene.h"
 #include "../sprites/weapons/herofireballweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
+#include "../sprites/weapons/heroexplosionweapon.h"
 #include "levelmanager.h"
 #include "imagefactory.h"
 #include "levelloader.h"
 #include <fstream>
 #include <iostream>
+
 using namespace framework;
 using namespace std;
 using namespace scene;
@@ -127,6 +129,7 @@ void LevelManager::LoadNextLevel() {
 		hero_->set_life(hero_->max_life());
 		hero_->set_mana(hero_->max_mana());
 		hero_->AddWeapon(0, new HeroFireballWeapon(hero_));
+		hero_->AddWeapon(1, new HeroExplosionWeapon(hero_));
 		// Add here the other initial weapons of the hero.
 	}
     current_level_ = new World(hero_);
