@@ -38,7 +38,7 @@ class LevelManager {
     void ShowEnding();
     void ShowGameOver();
 
-    void StartGame(scene::ImageScene::SceneType type);
+    void StartGame();
     void FinishLevel(LevelState);
 
     scene::World* get_current_level() { return current_level_; }

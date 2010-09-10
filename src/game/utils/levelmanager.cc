@@ -6,6 +6,8 @@
 #include "../scenes/menu.h"
 #include "../scenes/world.h"
 #include "../scenes/imagescene.h"
+#include "../scenes/scrollingimagescene.h"
+#include "../scenes/loading.h"
 #include "../sprites/weapons/herofireballweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
 #include "../sprites/weapons/heroexplosionweapon.h"
@@ -55,37 +57,35 @@ void finishAndDeleteCurrentScene() {
 }
 
 void LevelManager::ShowIntro() {
-    Engine::reference()->text_manager()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
-    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
+//    Engine::reference()->text_manager()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
+//    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
 //    Image *intro = TEXT_MANAGER()->LoadFile("data/text/intro_en.txt", 'c');
 //    Image *intro = TEXT_MANAGER()->LoadText("Texto\nTexto Grande\nTexto\nTxt\nTexto\n", 'c');
 //    Image *intro = TEXT_MANAGER()->LoadLine("Texto");
     Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-    Engine::reference()->PushScene(new ImageScene(NULL, intro, 30, ImageScene::INTRO));
+    Engine::reference()->PushScene(new Loading);
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 30));
 }
 
 void LevelManager::ShowEnding() {
     ImageFactory image_factory;
     Image *img = image_factory.WinImage();
-    ImageScene *ending = new ImageScene(NULL, img, 30, ImageScene::ENDING);
+    ImageScene *ending = new ImageScene(NULL, img);
     Engine::reference()->PushScene(ending);
 }
 
 void LevelManager::ShowGameOver() {
     ImageFactory image_factory;
     Image *img = image_factory.LoseImage();
-    ImageScene *ending = new ImageScene(NULL, img, 30, ImageScene::GAMEOVER);
+    ImageScene *ending = new ImageScene(NULL, img);
     Engine::reference()->PushScene(ending);
 }
 
-void LevelManager::StartGame(ImageScene::SceneType type) {
+void LevelManager::StartGame() {
     if(current_level_ != NULL)
         return;
-    finishAndDeleteCurrentScene();
-    if(type == ImageScene::INTRO) {
-        level_list_iterator_ = 0;
-        LoadNextLevel();
-    }
+    level_list_iterator_ = 0;
+    LoadNextLevel();
 }
 
 void LevelManager::FinishLevel(LevelState state) {
@@ -123,7 +123,6 @@ void LevelManager::LoadNextLevel() {
         hero_ = NULL;
         return;
     }
-
 	if (hero_ == NULL) {
 		hero_ = new sprite::Hero;
 	}
