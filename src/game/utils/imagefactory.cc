@@ -56,10 +56,10 @@ namespace utils {
         door_image_ = VIDEO_MANAGER()->LoadImage("data/images/stairs3.png");
         door_image_->set_frame_size(Vector2D(153, 109));
 
-        floor_image_ = VIDEO_MANAGER()->LoadImage("data/images/chao106x106.png");
+        floor_image_ = VIDEO_MANAGER()->LoadImage("data/images/ground2_106x54.png");
         floor_image_->set_frame_size(Vector2D(106,61));
 
-        wall_image_ = VIDEO_MANAGER()->LoadImage("data/images/stoneblock2.png");
+        wall_image_ = VIDEO_MANAGER()->LoadImage("data/images/stoneblock3.png");
         wall_image_->set_frame_size(Vector2D(106, 157));
 
         intro_image_ = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");

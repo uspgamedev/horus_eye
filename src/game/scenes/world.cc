@@ -214,32 +214,33 @@ void World::RemoveAll() {
 
 }
 
+#define SQRT_5 2.236067977f
+
 
 Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {
-    Vector2D tx(1/sqrt(3.0), -1/sqrt(3.0));
-    Vector2D ty(-1, -1);
+    Vector2D tx(SQRT_5/4.0f, -SQRT_5/4.0f);
+    Vector2D ty(-SQRT_5/2.0f, -SQRT_5/2.0f);
     return (tx * screen_coords.x)   +  (ty * screen_coords.y);
 }
 
 Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
-    Vector2D tx(sqrt(3.0)/2, -.5);
-    Vector2D ty(-sqrt(3.0)/2, -.5);
+    Vector2D tx(54.0f, -27.0f);
+    Vector2D ty(-54.0f, -27.0f);
     return (tx * world_coords.x)   +  (ty * world_coords.y);
 }
 
 Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
-    Vector2D transformed = FromWorldLinearCoordinates(world_coords);
-    return (transformed * 60);
+    return FromWorldLinearCoordinates(world_coords);
 }
 
 Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
     Vector2D    global_screen_coords = screen_coords + WORLD()->world_layer_->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
-    return (transformed * (1.0f/60.0f));
+    return (transformed * (1.0f/60.373835392f));
 }
 
 Image* World::CreateFogTransparency(float radius) {
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60;
+    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return Engine::reference()->fog_manager()->GetLightSource(ellipse_coords);
 }
 

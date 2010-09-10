@@ -18,10 +18,10 @@ const float Constants::DOOR_BOUND_HEIGHT = 1.0f;
 const float Constants::CONDITION_DURATION = 30.0f;
 
 const float Constants::FLOOR_HOTSPOT_X = 106.0f/2.0f;
-const float Constants::FLOOR_HOTSPOT_Y =  61.0f/2.0f;
+const float Constants::FLOOR_HOTSPOT_Y =  54.0f/2.0f;
 
 const float Constants::WALL_HOTSPOT_X = 106.0f/2.0f;
-const float Constants::WALL_HOTSPOT_Y = 157.0f - 30.5f;
+const float Constants::WALL_HOTSPOT_Y = 157.0f - 27.0f;
 
 const float Constants::LIFE_BAR_WIDTH = 200.0f;
 const float Constants::LIFE_BAR_HEIGHT = 15.0f;
