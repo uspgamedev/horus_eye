@@ -133,6 +133,7 @@ void World::Update(float delta_t) {
 	HandleCollisions();
 
     RemoveInactiveObjects();
+    AddNewWorldObjects();
     
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
@@ -155,15 +156,25 @@ void World::IncreaseNumberOfEnemies() {
 void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
 
 	new_object-> set_world_position(pos);
+    new_world_objects.push_front(new_object);
+}
 
-    if(new_object->collision_type() == WorldObject::NO_COLLISION) {
-        collisionless_objects.push_front(new_object);
-	} else {
-        world_objects_.push_front(new_object);
-	}
+void World::AddNewWorldObjects() {
+    for (list<sprite::WorldObject*>::iterator it = new_world_objects.begin();
+         it != new_world_objects.end();
+         ++it) {
 
-    world_layer_->AddSprite(new_object);
-    fog_->AddLightSource(new_object);
+        WorldObject *new_object = *it;
+        if(new_object->collision_type() == WorldObject::NO_COLLISION) {
+            collisionless_objects.push_front(new_object);
+        } else {
+            world_objects_.push_front(new_object);
+        }
+
+        world_layer_->AddSprite(new_object);
+        fog_->AddLightSource(new_object);
+    }
+    new_world_objects.clear();
 }
 
 void World::AddHero(framework::Vector2D pos) {
@@ -175,14 +186,16 @@ int World::CountRemainingEnemies() {
 }
 
 void World::RemoveInactiveObjects() {
-    std::list<sprite::WorldObject*>::iterator i, j;
-    if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD)
+    std::list<sprite::WorldObject*>::iterator i;
+    if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD) {
         hero_ = NULL;
-	for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
+    }
+	for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
 		if((*i)->status() == WorldObject::STATUS_DEAD) {
 			world_layer_->RemoveSprite(*i);
 			fog_->RemoveLightSource(*i);
 		}
+    }
 	world_objects_.remove_if(worldObjectIsDead);
 }
 

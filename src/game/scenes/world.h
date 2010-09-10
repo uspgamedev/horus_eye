@@ -13,8 +13,9 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../utils/levelmanager.h"
+#include "../utils/imagefactory.h"
 #include "../sprites/mummybuilder.h"
-#include"../utils/imagefactory.h"
+
 namespace utils {
 class Hud;
 class Fog;
@@ -44,6 +45,7 @@ class World : public framework::Scene {
     void Update(float delta_t);
 
     void AddWorldObject(sprite::WorldObject*, framework::Vector2D pos);
+    void AddNewWorldObjects();
     void AddHero(framework::Vector2D pos);
 
     int CountRemainingEnemies();
@@ -86,7 +88,7 @@ class World : public framework::Scene {
 
   protected:
     sprite::Hero *hero_;
-    std::list<sprite::WorldObject*> world_objects_, collisionless_objects;
+    std::list<sprite::WorldObject*> world_objects_, collisionless_objects, new_world_objects;
     framework::Layer *world_layer_;
     framework::Sprite *hero_fog_;
     utils::Hud *hud_;

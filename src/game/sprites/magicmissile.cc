@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/projectile.cc
-// projectile.cc da classe Projectile
-//
-
 #include "magicmissile.h"
 #include "mummy.h"
 #include "../../framework/timeaccumulator.h"

@@ -3,7 +3,7 @@
 #include "../utils/constants.h"
 #include "pharaoh.h"
 #include "weapons/weapon.h"
-
+#include "mummybuilder.h"
 using namespace std;
 using namespace framework;
 using namespace scene;

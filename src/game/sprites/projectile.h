@@ -45,7 +45,7 @@ class Projectile : public WorldObject {
     framework::TimeAccumulator *duration_;
     bool exploding_;
 
-    void Explode();
+    virtual void Explode();
 };
 
 }

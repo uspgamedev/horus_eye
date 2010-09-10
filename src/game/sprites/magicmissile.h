@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/projectile.h
-// Definicao da classe Projectile
-//
-
 #ifndef HORUSEYE_GAME_SPRITES_MAGICMISSILE_H_
 #define HORUSEYE_GAME_SPRITES_MAGICMISSILE_H_
 #include <set>
