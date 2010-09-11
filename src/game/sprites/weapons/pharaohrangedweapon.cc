@@ -2,6 +2,7 @@
 #include "pharaohrangedweapon.h"
 #include "../../scenes/world.h"
 #include "../hero.h"
+#include "../mummy.h"
 #include "../mummyprojectile.h"
 #include "../../../framework/engine.h"
 #include "../../../framework/audiomanager.h"

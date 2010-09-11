@@ -12,13 +12,10 @@ using namespace utils;
 namespace sprite {
 
 #define SQRT_3 1.7320508075688772935274463415059
+#define PHARAOH_TIME_TO_THINK 0.05f
 
 //Mana Regen Rate is how many secs to restore 1 mana point.
 #define MANA_REGEN_RATE Constants::PHARAOH_MANA_REGEN_RATE
-#define SUMMON_MANA_COST Constants::PHARAOH_SUMMON_MANA_COST
-#define SUMMON_RANGED_CHANCE  30
-#define SUMMON_BIG_CHANCE     20
-
 
 Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 	life_ = max_life_ = life;
@@ -32,6 +29,7 @@ Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 
 Pharaoh::~Pharaoh() {
 	delete ranged_weapon_;
+	delete summon_weapon_;
 }
 
 void Pharaoh::TakeDamage(int life_points) {

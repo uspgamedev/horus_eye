@@ -6,6 +6,8 @@
 // Definicao da classe LevelLoader.
 //
 
+#include <fstream>
+#include <iostream>
 #include "levelloader.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
@@ -15,8 +17,8 @@
 #include "../sprites/wall.h"
 #include "../sprites/itembuilder.h"
 #include "../sprites/mummybuilder.h"
-#include<fstream>
-#include<iostream>
+#include "imagefactory.h"
+
 namespace utils {
 
 using namespace std;
@@ -101,92 +103,93 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
     MummyBuilder mummy_builder;
     ItemBuilder potion_builder;
+    ImageFactory* image_factory = world_->image_factory();
 	if(token != EMPTY) {
 		switch(token) {
 			case WALL: {
-				wall_matrix[i][j] = new Wall(image_factory_->WallImage());
+				wall_matrix[i][j] = new Wall(image_factory->WallImage());
 				world_->AddWorldObject(wall_matrix[i][j], position);
 				break;
 			}
 			case HERO: {
 				world_->AddHero(position);
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case STANDING_MUMMY: {
-				world_->AddWorldObject(mummy_builder.StandingMummy(image_factory_->MummyImage()), position);
+				world_->AddWorldObject(mummy_builder.StandingMummy(image_factory->MummyImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case MUMMY: {
-				world_->AddWorldObject(mummy_builder.WalkingMummy(image_factory_->MummyImage()), position);
+				world_->AddWorldObject(mummy_builder.WalkingMummy(image_factory->MummyImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case BIG_MUMMY: {
-				world_->AddWorldObject(mummy_builder.BigMummy(image_factory_->BigMummyImage()), position);
+				world_->AddWorldObject(mummy_builder.BigMummy(image_factory->BigMummyImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case STANDING_BIG_MUMMY: {
-				world_->AddWorldObject(mummy_builder.StandingBigMummy(image_factory_->BigMummyImage()), position);
+				world_->AddWorldObject(mummy_builder.StandingBigMummy(image_factory->BigMummyImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case RANGED_MUMMY: {
-				world_->AddWorldObject(mummy_builder.RangedMummy(image_factory_->RangedMummyImage()), position);
+				world_->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case STANDING_RANGED_MUMMY: {
-				world_->AddWorldObject(mummy_builder.StandingRangedMummy(image_factory_->RangedMummyImage()), position);
+				world_->AddWorldObject(mummy_builder.StandingRangedMummy(image_factory->RangedMummyImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case PHARAOH: {
-				world_->AddWorldObject(mummy_builder.WalkingPharaoh(image_factory_->PharaohImage()), position);
+				world_->AddWorldObject(mummy_builder.WalkingPharaoh(image_factory->PharaohImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case STANDING_PHARAOH: {
-				world_->AddWorldObject(mummy_builder.StandingPharaoh(image_factory_->PharaohImage()), position);
+				world_->AddWorldObject(mummy_builder.StandingPharaoh(image_factory->PharaohImage()), position);
 				world_->IncreaseNumberOfEnemies();
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case DOOR: {
 				vector<string> matrix = world_->level_matrix();
 				if(j < world_->level_width()-1 && matrix[i][j+1] == DOOR) {
 					Vector2D pos = position + Vector2D(0.5, 0);
-					world_->AddWorldObject(new Door(image_factory_->DoorImage()), pos);
+					world_->AddWorldObject(new Door(image_factory->DoorImage()), pos);
 
 				}
 			//Sembreakdeproposito.
 			}
 			case FLOOR: {
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case POTIONL: {
-				world_->AddWorldObject(potion_builder.LifePotion(image_factory_->LifePotionImage()), position);
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(potion_builder.LifePotion(image_factory->LifePotionImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case POTIONM: {
-				world_->AddWorldObject(potion_builder.ManaPotion(image_factory_->ManaPotionImage()), position);
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(potion_builder.ManaPotion(image_factory->ManaPotionImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case POTIONS: {
-				world_->AddWorldObject(potion_builder.SightPotion(image_factory_->SightPotionImage()), position);
-				world_->AddWorldObject(new Floor(image_factory_->FloorImage()), position);
+				world_->AddWorldObject(potion_builder.SightPotion(image_factory->SightPotionImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 		}

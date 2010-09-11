@@ -19,17 +19,13 @@ namespace sprite{
 namespace utils {
 class LevelLoader {
   public:
-    LevelLoader(scene::World * world) : world_(world) {
-		image_factory_ = new utils::ImageFactory();
-	}
+    LevelLoader(scene::World * world) : world_(world) {}
     virtual ~LevelLoader() {}
 
     void Load(std::string);
     void LoadMatrix(std::string);
 
   protected:
-
-	ImageFactory* image_factory_;
     scene::World * world_;
 	bool InRange (int i,int j);
 	bool IsWall(int i, int j);

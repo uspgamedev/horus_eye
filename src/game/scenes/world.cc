@@ -23,6 +23,7 @@
 #include "../utils/hud.h"
 #include "../utils/fog.h"
 #include "../utils/levelmanager.h"
+#include "../utils/imagefactory.h"
 namespace scene {
 
 using namespace framework;

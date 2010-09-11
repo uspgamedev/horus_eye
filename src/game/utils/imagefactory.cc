@@ -61,13 +61,6 @@ namespace utils {
 
         wall_image_ = VIDEO_MANAGER()->LoadImage("data/images/stoneblock3.png");
         wall_image_->set_frame_size(Vector2D(106, 157));
-
-        intro_image_ = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
-
-        win_image_ = VIDEO_MANAGER()->LoadImage("data/images/you_win.png");
-
-        lose_image_ = VIDEO_MANAGER()->LoadImage("data/images/game_over.png");
-
     }
     Image* ImageFactory::HeroImage(){
         return hero_image_;
@@ -116,15 +109,6 @@ namespace utils {
     }
     Image* ImageFactory::WallImage() {
         return wall_image_;
-    }
-    Image* ImageFactory::IntroImage() {
-        return intro_image_;
-    }
-    Image* ImageFactory::WinImage() {
-        return win_image_;
-    }
-    Image* ImageFactory::LoseImage() {
-        return lose_image_;
     }
 }
 

@@ -13,12 +13,11 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../utils/levelmanager.h"
-#include "../utils/imagefactory.h"
-#include "../sprites/mummybuilder.h"
 
 namespace utils {
 class Hud;
 class Fog;
+class ImageFactory;
 }
 namespace sprite {
 class Hero;
@@ -79,6 +78,7 @@ class World : public framework::Scene {
     int level_width() {	return level_width_; }
     int level_height() { return level_height_; }
     vector<string> level_matrix() {	return level_matrix_; }
+    utils::ImageFactory* image_factory() { return image_factory_; }
 	
 	//setters
 	void set_level_width(int width) { level_width_ = width; }
@@ -97,7 +97,6 @@ class World : public framework::Scene {
     vector<string> level_matrix_;
     int	remaining_enemies_, max_enemies_;
 	utils::ImageFactory* image_factory_;
-    sprite::MummyBuilder mummy_builder_;
 
 	Vector2D ActualOffset();
 	void VerifyCheats();

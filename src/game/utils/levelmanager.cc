@@ -68,17 +68,13 @@ void LevelManager::ShowIntro() {
 }
 
 void LevelManager::ShowEnding() {
-    ImageFactory image_factory;
-    Image *img = image_factory.WinImage();
-    ImageScene *ending = new ImageScene(NULL, img);
-    Engine::reference()->PushScene(ending);
+    Engine::reference()->PushScene(new ImageScene(NULL,
+            VIDEO_MANAGER()->LoadImage("data/images/you_win.png")));
 }
 
 void LevelManager::ShowGameOver() {
-    ImageFactory image_factory;
-    Image *img = image_factory.LoseImage();
-    ImageScene *ending = new ImageScene(NULL, img);
-    Engine::reference()->PushScene(ending);
+    Engine::reference()->PushScene(new ImageScene(NULL,
+            VIDEO_MANAGER()->LoadImage("data/images/game_over.png")));
 }
 
 void LevelManager::StartGame() {

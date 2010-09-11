@@ -3,6 +3,7 @@
 #include "../hero.h"
 #include "../../utils/imagefactory.h"
 #include "../../utils/visionstrategy.h"
+#include "../mummybuilder.h"
 
 #define SUMMON_RANGED_CHANCE  30
 #define SUMMON_BIG_CHANCE     20

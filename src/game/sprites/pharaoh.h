@@ -1,16 +1,8 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/pharaoh.h
-// Definicao da classe Pharaoh.
-//
-
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
 
+#include "mummy.h"
 
-#define PHARAOH_TIME_TO_THINK 0.05f
 namespace framework {
 	class Image;
 }
