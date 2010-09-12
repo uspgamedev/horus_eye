@@ -9,13 +9,13 @@
 #define HORUSEYE_FRAMEWORK_SPRITE_H_
 
 #include <algorithm>
-#include "animation.h"
 #include "image.h"
 #include "vector2D.h"
 
 
 namespace framework {
 
+class Animation;
 class Sprite {
   public:
     Sprite() { }

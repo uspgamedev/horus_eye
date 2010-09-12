@@ -11,15 +11,13 @@
 
 #include <vector>
 #include <SDL/SDL_ttf.h>
-#include "image.h"
 #include "vector2D.h"
-#include "videomanager.h"
-using namespace std;
 
 #define TEXT_MANAGER() framework::Engine::reference()->text_manager()
 
 namespace framework {
 
+class Image;
 class TextManager{
     public:
         TextManager() : font_(NULL) {}

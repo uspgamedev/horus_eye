@@ -10,6 +10,8 @@
 #include"geometryprimitives.h"
 #include"../scenes/world.h"
 #include"../sprites/hero.h"
+
+using namespace std;
 using namespace scene;
 using namespace utils;
 using namespace sprite;

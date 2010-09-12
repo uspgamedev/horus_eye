@@ -13,6 +13,7 @@
 #include "../../framework/sprite.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/timeaccumulator.h"
+#include "../../framework/observer.h"
 #include "../utils/rectobject.h"
 #include "condition.h"
 #include "worldobject.h"

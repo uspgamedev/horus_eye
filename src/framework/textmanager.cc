@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include "engine.h"
 #include "textmanager.h"
+
 using namespace std;
 
 //Tamanho máximo de uma linha do arquivo de entrada

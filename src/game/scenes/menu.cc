@@ -57,8 +57,6 @@ void Menu::Update(float delta_t) {
     InputManager *input = Engine::reference()->input_manager();
     Vector2D mouse_pos = input->GetMousePosition();
 
-    set_visible(true);
-
     if (input->KeyPressed(K_ESCAPE)) {
         Finish();
         return;
@@ -72,13 +70,13 @@ void Menu::Update(float delta_t) {
         selection_ = selection_ % selection_num_;
 
     bool on_selection = CheckMouse(mouse_pos);
+    set_visible(true);
 
     Select();
 
     if (input->KeyPressed(K_RETURN) ||
         (on_selection && input->MouseUp(M_BUTTON_LEFT)))
         handler_->Handle(selection_);
-
 }
 
 
@@ -106,7 +104,7 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
     static bool     on_selection = false;
     float selection_height = content_box_.height()/selection_num_;
 
-    if (dx*dx > 0 || dy*dy > 0) {
+    if (dx*dx > 0 || dy*dy > 0 || !visible_) {
         old_x = x;
         old_y = y;
         if ((y >= content_box_.top() && y < content_box_.bottom()) &&

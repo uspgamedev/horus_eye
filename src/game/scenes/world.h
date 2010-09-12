@@ -10,6 +10,7 @@
 #define HORUSEYE_GAME_SCENES_WORLD_H_
 
 #include <list>
+#include <vector>
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../utils/levelmanager.h"
@@ -26,6 +27,7 @@ class WorldObject;
 
 using framework::Vector2D;
 using framework::Image;
+using std::vector;
 
 namespace scene {
 

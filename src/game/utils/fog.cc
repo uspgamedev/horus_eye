@@ -31,9 +31,10 @@ Fog::~Fog() {
         delete it->second;
         light_sources_.erase(it);
     }
-    if(blank_background_ != NULL)
+    if(blank_background_ != NULL) {
+        blank_background_->Destroy();
         delete blank_background_;
-
+    }
 }
 
 Sprite* CreateLightSource(float radius) {

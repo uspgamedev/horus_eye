@@ -1,5 +1,6 @@
 #include "explosion.h"
 #include "mummy.h"
+#include "../../framework/animation.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"

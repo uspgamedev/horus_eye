@@ -1,9 +1,9 @@
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
 #include "animation.h"
-#include <stdlib.h>
-
-#include <stdio.h>
+#include "observer.h"
 namespace framework {
 
 #define ANIMATION_BUFFER_SIZE 256

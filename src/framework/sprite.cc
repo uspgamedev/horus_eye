@@ -1,6 +1,7 @@
 #include "sprite.h"
 #include "engine.h"
 #include "videomanager.h"
+#include "animation.h"
 
 namespace framework {
 

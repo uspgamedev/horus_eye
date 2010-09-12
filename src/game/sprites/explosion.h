@@ -3,10 +3,10 @@
 
 #include "worldobject.h"
 #include "../../framework/vector2D.h"
+#include "../../framework/observer.h"
 
 namespace framework {
 class TimeAccumulator;
-class Observer;
 }
 
 using namespace framework;

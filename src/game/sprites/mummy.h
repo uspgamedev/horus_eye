@@ -51,7 +51,7 @@ class Mummy : public Creature {
     bool standing_;
     Vector2D last_direction_;
 	Weapon *weapon_;
-    queue<Vector2D> path_;
+    std::queue<Vector2D> path_;
 
     virtual void Update(float delta_t);
     virtual void Think(float dt);

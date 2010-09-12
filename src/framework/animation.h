@@ -1,10 +1,10 @@
 #ifndef HORUSEYE_FRAMEWORK_ANIMATION_H_
 #define HORUSEYE_FRAMEWORK_ANIMATION_H_
+
 #include <vector>
-#include "observer.h"
-using namespace std;
 namespace framework {
 
+class Observer;
 class Animation {
   public:
 	// Primeiro parametro define o fps da animacao.
@@ -33,7 +33,7 @@ class Animation {
     int n_frames_;
     int current_frame_;
     float elapsed_time_;
-    vector<Observer *> observers;
+    std::vector<Observer *> observers;
     void NotifyAllObservers();
 
     void CopyFrameList(int frame_list[], int n_frames);

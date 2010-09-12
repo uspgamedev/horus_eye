@@ -17,7 +17,7 @@ namespace utils {
 
 class VisionStrategy {
   public:
-    queue<Vector2D> Calculate(Vector2D position);
+    std::queue<Vector2D> Calculate(Vector2D position);
     bool IsVisible(Vector2D position1, Vector2D position2 = Vector2D(-1,-1));
 };
 

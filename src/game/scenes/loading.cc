@@ -27,6 +27,7 @@ Loading::Loading() {
     has_been_drawn_ = false;
 }
 Loading::~Loading() {
+    loading_image_->Destroy();
     delete loading_image_;
 }
 

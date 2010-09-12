@@ -11,12 +11,7 @@
 #include <vector>
 #include <string>
 #include "vector2D.h"
-#include "inputmanager.h"
-#include "videomanager.h"
-#include "audiomanager.h"
-#include "textmanager.h"
 #include "scene.h"
-#include "timehandler.h"
 
 using std::vector;
 
@@ -26,6 +21,7 @@ class VideoManager;
 class InputManager;
 class TimeHandler;
 class AudioManager;
+class TextManager;
 class FogManager;
 class Scene;
 

@@ -6,6 +6,7 @@
 // Implementacao da classe Creature.
 //
 
+#include "../../framework/animation.h"
 #include "creature.h"
 #include "worldobject.h"
 #include "mummy.h"

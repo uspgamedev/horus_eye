@@ -29,6 +29,7 @@ namespace scene {
 using namespace framework;
 using namespace sprite;
 using namespace utils;
+using namespace std;
 
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
     AddLayer(world_layer_);
@@ -96,6 +97,8 @@ void World::VerifyCheats() {
 	}
 	if(input->KeyPressed(K_l))
 	    fog_->set_visible(!fog_->IsVisible());
+	if(input->KeyPressed(K_t))
+	    hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 }
 
 Vector2D World::ActualOffset() {

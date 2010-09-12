@@ -8,13 +8,14 @@
 #include <string>
 #include <algorithm>
 #include <SDL/SDL.h>
+#include "scene.h"
 #include "engine.h"
 #include "inputmanager.h"
 #include "videomanager.h"
 #include "audiomanager.h"
-#include "scene.h"
 #include "timehandler.h"
 #include "fogmanager.h"
+#include "textmanager.h"
 
 using namespace std;
 
