@@ -1,5 +1,6 @@
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
+#include "../../framework/textmanager.h"
 #include "../../framework/image.h"
 #include "../../framework/scene.h"
 #include "../scenes/menubuilder.h"
@@ -57,14 +58,11 @@ void finishAndDeleteCurrentScene() {
 }
 
 void LevelManager::ShowIntro() {
-//    Engine::reference()->text_manager()->setFont("data/font/Filmcryptic.ttf", 28, NULL);
-//    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
-//    Image *intro = TEXT_MANAGER()->LoadFile("data/text/intro_en.txt", 'c');
-//    Image *intro = TEXT_MANAGER()->LoadText("Texto\nTexto Grande\nTexto\nTxt\nTexto\n", 'c');
-//    Image *intro = TEXT_MANAGER()->LoadLine("Texto");
-    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
+    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
+    Image *intro = TEXT_MANAGER()->LoadFile("data/text/intro_en.txt", 'c');
+//    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
     Engine::reference()->PushScene(new Loading);
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 30));
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 60));
 }
 
 void LevelManager::ShowEnding() {

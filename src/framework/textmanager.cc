@@ -103,6 +103,7 @@ Image* TextManager::LoadText(string text, char indent) {
     //Blit lines in transparent surface
     for(int i = 0; i<nlines; i++) {
         linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
+        if(linesurf==NULL) continue;
         switch (indent){
             case 'c':
                 rect.x = (video_size.x - linesurf->w)/2;
@@ -152,7 +153,6 @@ Image* TextManager::LoadFile(string path, char indent){
         }
         pos = 0;
         output.append(line);
-        output.append(" \n");
     }
 
     return LoadText(output, indent);
