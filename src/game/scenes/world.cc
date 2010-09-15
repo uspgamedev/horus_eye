@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/scenes/world.cc
-// Implementacao da classe World.
-//
-
 #include <cmath>
 #include <iostream>
 #include "../../framework/engine.h"
@@ -218,19 +210,16 @@ void World::RemoveAll() {
 
 }
 
-#define SQRT_5 2.236067977f
-
-
 Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {
-    Vector2D tx(SQRT_5/4.0f, -SQRT_5/4.0f);
-    Vector2D ty(-SQRT_5/2.0f, -SQRT_5/2.0f);
-    return (tx * screen_coords.x)   +  (ty * screen_coords.y);
+    Vector2D tx(sqrt(5.0)/4.0f, -sqrt(5.0)/4.0f);
+    Vector2D ty(-sqrt(5.0)/2.0f, -sqrt(5.0)/2.0f);
+    return (tx * screen_coords.x) + (ty * screen_coords.y);
 }
 
 Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
     Vector2D tx(54.0f, -27.0f);
     Vector2D ty(-54.0f, -27.0f);
-    return (tx * world_coords.x)   +  (ty * world_coords.y);
+    return (tx * world_coords.x) + (ty * world_coords.y);
 }
 
 Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
