@@ -129,14 +129,14 @@ void World::Update(float delta_t) {
     set_visible(true);
     Scene::Update(delta_t);
 
-    world_layer_->set_offset(ActualOffset());
-    fog_->set_offset(ActualOffset());
-
     HandleCollisions();
 
     RemoveInactiveObjects();
     AddNewWorldObjects();
     
+    world_layer_->set_offset(ActualOffset());
+    fog_->set_offset(ActualOffset());
+
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
