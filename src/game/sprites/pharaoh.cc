@@ -4,6 +4,7 @@
 #include "pharaoh.h"
 #include "weapons/weapon.h"
 #include "mummybuilder.h"
+#include "../../framework/vector2D.h"
 using namespace std;
 using namespace framework;
 using namespace scene;
@@ -58,36 +59,41 @@ void Pharaoh::Update(float delta_t) {
 	}
 }
 
+bool Pharaoh::CanAttackWithMeele(Vector2D diff) {
+	if(diff.length() > weapon_->range()) return false;
+	return weapon_->Available();
+}
+
+bool Pharaoh::CanAttackWithRangedWeapon(Vector2D diff) {
+	if(diff.length() < ranged_weapon_->range()/2.0f) return false;
+	if(diff.length() > ranged_weapon_->range()) return false;
+	return ranged_weapon_->Available();
+}
+
 void Pharaoh::Think(float dt) {
 	time_to_think_ -= dt;
-	if(time_to_think_ <= 0){
+	if(time_to_think_ <= 0) {
 		time_to_think_ = PHARAOH_TIME_TO_THINK;
 		speed_ = original_speed_;
 		VisionStrategy strategy;
-		if(strategy.IsVisible(world_position())){
+		if(strategy.IsVisible(world_position())) {
 			standing_ = false;
 
 			path_ = strategy.Calculate(world_position());
 			UpdateDirection(path_.front());
 
-			Vector2D diff;
-			diff = path_.front() - world_position();
-			if(diff.length() <= weapon_->range() && weapon_->Available()){
+			Vector2D diff = path_.front() - world_position();
+			if(CanAttackWithMeele(diff)){
 				weapon_->Attack();
 				speed_ = 0;
-			}
-			else if((ranged_weapon_->range()/2.0f <= diff.length()) &&
-			        (diff.length() <= ranged_weapon_->range()) &&
-			        ranged_weapon_->Available()) {
+			} else if(CanAttackWithRangedWeapon(diff)) {
 				ranged_weapon_->Attack();
 				speed_ = 0;
-			}
-			else if (summon_weapon_->Available()) {
+			} else if (summon_weapon_->Available()) {
 			    summon_weapon_->Attack();
 				speed_ = 0;
 			}
-		}
-		else if(!standing_){
+		} else if(!standing_) {
 			RandomMovement();
 			last_standing_animation_ = *(standing_animations_[animation_direction_]);
         }

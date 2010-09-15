@@ -1,14 +1,12 @@
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
-
 #include "mummy.h"
-
 namespace framework {
 	class Image;
+	class Vector2D;
 }
 namespace sprite {
 
-class Mummy;
 class Weapon;
 
 class Pharaoh : public Mummy {
@@ -28,6 +26,8 @@ class Pharaoh : public Mummy {
 	double mana_regen_time_;
 
 	void Update(float delta_t);
+	bool CanAttackWithMeele(Vector2D diff);
+	bool CanAttackWithRangedWeapon(Vector2D diff);
     void Think(float dt);
 
 };
