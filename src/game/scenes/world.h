@@ -36,8 +36,9 @@ class World : public framework::Scene {
     void Update(float delta_t);
 
     void AddWorldObject(sprite::WorldObject*, framework::Vector2D pos);
-    void AddNewWorldObjects();
     void AddHero(framework::Vector2D pos);
+
+    void AddNewWorldObjects();
 
     int CountRemainingEnemies();
 	void IncreaseNumberOfEnemies();
@@ -64,16 +65,16 @@ class World : public framework::Scene {
 
     vector<sprite::Mummy *> Mummies();
     
-	//getters
-	sprite::Hero * hero() { return hero_; }
+    //getters
+    sprite::Hero * hero() { return hero_; }
     utils::Fog* fog() {	return fog_; }
     int level_width() {	return level_width_; }
     int level_height() { return level_height_; }
     vector<string> level_matrix() {	return level_matrix_; }
     utils::ImageFactory* image_factory() { return image_factory_; }
 	
-	//setters
-	void set_level_width(int width) { level_width_ = width; }
+    //setters
+    void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(vector<string> matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::Hero *hero) { hero_ = hero; }
@@ -88,12 +89,13 @@ class World : public framework::Scene {
     int level_width_, level_height_;
     vector<string> level_matrix_;
     int	remaining_enemies_, max_enemies_;
-	utils::ImageFactory* image_factory_;
+    utils::ImageFactory* image_factory_;
 
-	Vector2D ActualOffset();
-	void VerifyCheats();
+    Vector2D ActualOffset();
+    bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
+    void VerifyCheats();
     bool VerifyPause();
-	void HandleCollisions();
+    void HandleCollisions();
     void RemoveInactiveObjects();
     void RemoveAll();
 

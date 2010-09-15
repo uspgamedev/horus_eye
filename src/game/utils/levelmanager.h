@@ -21,8 +21,8 @@ namespace utils {
 class LevelManager {
   public:
     static LevelManager* reference() {
-        static LevelManager *r = NULL;
-        return r ? r : r = new LevelManager;
+		static LevelManager* r = new LevelManager();
+        return r;
     }
     void Initialize();
 
@@ -56,7 +56,6 @@ class LevelManager {
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
 	sprite::Hero *hero_;
-
     LevelManager();
 };
 

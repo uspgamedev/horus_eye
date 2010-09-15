@@ -46,58 +46,70 @@ World::~World() {
 }
 
 bool worldObjectIsDead (const WorldObject* value) {
-	bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
-	if (is_dead) delete value;
+    bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
+    if (is_dead) {
+        delete value;
+    }
     return is_dead;
 }
 
-void World::HandleCollisions() {
-	std::list<sprite::WorldObject*>::iterator i, j;
+bool World::verifyCollision(WorldObject *obj1, WorldObject *obj2) {
+    if (obj1 == obj2) {
+        return false;
+    }
+    if (obj2->collision_type() == WorldObject::NO_COLLISION) {
+        return false;
+    }
 
-	// TODO: colisao esta sendo verificada 2x por iteracao, corrigir isso
-	for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-		if ((*i)->collision_type() == WorldObject::MOVEABLE) {
-			for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
-				if ( (*i) != (*j) && (*j)->collision_type() != WorldObject::NO_COLLISION &&
-						(*i)->IsColliding(*j)) {
-					(*i)->HandleCollision(*j);
-					(*j)->HandleCollision(*i);
-				}
-			}
-		}
-	}
+    return obj1->IsColliding(obj2);
+}
+
+void World::HandleCollisions() {
+    std::list<sprite::WorldObject*>::iterator i, j;
+
+    // TODO: colisao esta sendo verificada 2x por iteracao, corrigir isso
+    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
+        if ((*i)->collision_type() == WorldObject::MOVEABLE) {
+            for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
+                if (verifyCollision(*i, *j)) {
+                    (*i)->HandleCollision(*j);
+                    (*j)->HandleCollision(*i);
+                }
+            }
+        }
+    }
 }
 
 void World::VerifyCheats() {
     InputManager *input = Engine::reference()->input_manager();
 
-	if (input->KeyPressed(K_p)) {
-	    LevelManager *level_manager = LevelManager::reference();
-	    level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
-	    level_state_ = LevelManager::FINISH_WARP;
-	} else if (input->KeyPressed(K_o)) {
-	    LevelManager *level_manager = LevelManager::reference();
-	    unsigned int cur_level = level_manager->GetNextLevelID();
-	    if(cur_level > 0) {
-	        level_manager->SetNextLevel(cur_level - 1);
-	        level_state_ = LevelManager::FINISH_WARP;
-	    }
-	}
-	if(input->KeyPressed(K_h)) {
-		hero_->set_life(hero_->max_life());
-		hero_->set_mana(hero_->max_mana());
-	}
-	if(input->KeyPressed(K_l))
-	    fog_->set_visible(!fog_->IsVisible());
-	if(input->KeyPressed(K_t))
-	    hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
+    if (input->KeyPressed(K_p)) {
+        LevelManager *level_manager = LevelManager::reference();
+        level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
+        level_state_ = LevelManager::FINISH_WARP;
+    } else if (input->KeyPressed(K_o)) {
+        LevelManager *level_manager = LevelManager::reference();
+        unsigned int cur_level = level_manager->GetNextLevelID();
+        if(cur_level > 0) {
+            level_manager->SetNextLevel(cur_level - 1);
+            level_state_ = LevelManager::FINISH_WARP;
+        }
+    }
+    if(input->KeyPressed(K_h)) {
+        hero_->set_life(hero_->max_life());
+        hero_->set_mana(hero_->max_mana());
+    }
+    if(input->KeyPressed(K_l))
+        fog_->set_visible(!fog_->IsVisible());
+    if(input->KeyPressed(K_t))
+        hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 }
 
 Vector2D World::ActualOffset() {
-	Vector2D result = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
-	if(hero_) result = result + hero_->position();
+    Vector2D result = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
+    if(hero_) result = result + hero_->position();
 
-	return result;
+    return result;
 }
 
 bool World::VerifyPause() {
@@ -112,7 +124,7 @@ bool World::VerifyPause() {
 
 void World::Update(float delta_t) {
 
-	if(VerifyPause()) return;
+    if(VerifyPause()) return;
 
     set_visible(true);
     Scene::Update(delta_t);
@@ -120,7 +132,7 @@ void World::Update(float delta_t) {
     world_layer_->set_offset(ActualOffset());
     fog_->set_offset(ActualOffset());
 
-	HandleCollisions();
+    HandleCollisions();
 
     RemoveInactiveObjects();
     AddNewWorldObjects();
@@ -128,7 +140,7 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
-	VerifyCheats();
+    VerifyCheats();
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
 
@@ -139,13 +151,13 @@ void World::End() {
 }
 
 void World::IncreaseNumberOfEnemies() {
-	remaining_enemies_++;
-	max_enemies_++;
+    remaining_enemies_++;
+    max_enemies_++;
 }
 
 void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
 
-	new_object-> set_world_position(pos);
+    new_object-> set_world_position(pos);
     new_world_objects.push_front(new_object);
 }
 
@@ -180,30 +192,30 @@ void World::RemoveInactiveObjects() {
     if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD) {
         hero_ = NULL;
     }
-	for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-		if((*i)->status() == WorldObject::STATUS_DEAD) {
-			world_layer_->RemoveSprite(*i);
-			fog_->RemoveLightSource(*i);
-		}
+    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
+        if((*i)->status() == WorldObject::STATUS_DEAD) {
+            world_layer_->RemoveSprite(*i);
+            fog_->RemoveLightSource(*i);
+        }
     }
-	world_objects_.remove_if(worldObjectIsDead);
+    world_objects_.remove_if(worldObjectIsDead);
 }
 
 void World::RemoveAll() {
 
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-		world_layer_->RemoveSprite(*i);
-		fog_->RemoveLightSource(*i);
-		if ( *i != hero_ ) {
-			delete (*i);
-		}
+        world_layer_->RemoveSprite(*i);
+        fog_->RemoveLightSource(*i);
+        if ( *i != hero_ ) {
+            delete (*i);
+        }
     }
     world_objects_.clear();
     for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {
-		world_layer_->RemoveSprite(*i);
-		fog_->RemoveLightSource(*i);
-		delete (*i);
+        world_layer_->RemoveSprite(*i);
+        fog_->RemoveLightSource(*i);
+        delete (*i);
     }
     collisionless_objects.clear();
     hero_ = NULL;
