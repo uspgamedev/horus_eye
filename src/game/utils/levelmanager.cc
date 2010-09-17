@@ -60,9 +60,14 @@ void finishAndDeleteCurrentScene() {
 void LevelManager::ShowIntro() {
     TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
     Image *intro = TEXT_MANAGER()->LoadFile("data/text/intro_en.txt", 'c');
-//    Image *intro = VIDEO_MANAGER()->LoadImage("data/images/intro_text_en.png");
     Engine::reference()->PushScene(new Loading);
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 60));
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 45));
+}
+
+void LevelManager::ShowCredits() {
+    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
+    Image *intro = TEXT_MANAGER()->LoadFile("data/text/credits_en.txt", 'c');
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 30));
 }
 
 void LevelManager::ShowEnding() {

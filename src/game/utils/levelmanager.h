@@ -35,6 +35,7 @@ class LevelManager {
     } LevelState;
 
     void ShowIntro();
+    void ShowCredits();
     void ShowEnding();
     void ShowGameOver();
 

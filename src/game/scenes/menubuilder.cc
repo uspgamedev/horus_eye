@@ -96,6 +96,8 @@ void MenuBuilder::MainMenuHandler::Handle(int selection) {
             break;
         }
         case MenuBuilder::MAIN_SELECT_ABOUT: {
+            menu_->set_visible(false);
+            LevelManager::reference()->ShowCredits();
             break;
         }
         case MenuBuilder::MAIN_SELECT_EXIT: {
