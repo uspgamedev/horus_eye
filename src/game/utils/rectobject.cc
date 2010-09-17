@@ -1,10 +1,3 @@
-/*
- * rectobject.cc
- *
- *  Created on: 08/07/2010
- *      Author: Kazuo
- */
-
 #include "rectobject.h"
 #include "circleobject.h"
 #include <cmath>
@@ -14,9 +7,7 @@ namespace utils {
 using namespace framework;
 
 bool RectObject::Intersects (const RectObject *rect) const {
-
     return false;
-
 }
 
 bool RectObject::Intersects (const CircleObject *circle) const {
@@ -66,9 +57,7 @@ bool RectObject::Intersects (const CircleObject *circle) const {
 
 
 bool RectObject::Intersects (const CollisionObject *coll_obj) const {
-
     return coll_obj->Intersects(this);
-
 }
 
 

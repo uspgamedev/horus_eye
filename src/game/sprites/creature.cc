@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/sprites/creature.cc
-// Implementacao da classe Creature.
-//
-
 #include "../../framework/animation.h"
 #include "creature.h"
 #include "worldobject.h"
@@ -170,13 +162,14 @@ void Creature::CollideWithRect(const RectObject *rect) {
 
     const CircleObject *circle = (const CircleObject*)bound_;
 
-    Vector2D    line(rect->width(), rect->height()),
-                circ_pos = circle->position(),
-                rect_pos = rect->position();
-    float       left = rect_pos.x - line.x/2,
-                bottom = rect_pos.y - line.y/2,
-                right = left + line.x,
-                top = bottom + line.y;
+    Vector2D line(rect->width(), rect->height());
+    Vector2D circ_pos = circle->position();
+    Vector2D rect_pos = rect->position();
+
+    float left = rect_pos.x - line.x/2;
+    float bottom = rect_pos.y - line.y/2;
+    float right = left + line.x;
+    float top = bottom + line.y;
 
     if (circ_pos.y < top && circ_pos.y > bottom)
         walking_direction_.x = 0;

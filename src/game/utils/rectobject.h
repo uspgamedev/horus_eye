@@ -1,10 +1,3 @@
-/*
- * rectobject.h
- *
- *  Created on: 08/07/2010
- *      Author: Kazuo
- */
-
 #ifndef HORUSEYE_GAME_UTILS_RECTOBJECT_H_
 #define HORUSEYE_GAME_UTILS_RECTOBJECT_H_
 
