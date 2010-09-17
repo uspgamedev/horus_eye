@@ -50,6 +50,8 @@ class Creature : public WorldObject , public framework::Observer {
 		if (mana_ > max_mana_) mana_ = max_mana_;
 	}
     int max_mana() { return  max_mana_; }
+    int sight_count() { return sight_count_; }
+    void set_sight_count(int sight_count) { sight_count_ += sight_count; }
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
     virtual void TakeDamage(int life_points = 1);
@@ -110,7 +112,7 @@ class Creature : public WorldObject , public framework::Observer {
 
     // variaveis
     Vector2D last_stable_position_;
-    int   life_, max_life_, mana_, max_mana_;
+    int   life_, max_life_, mana_, max_mana_, sight_count_;
 	double blink_time_;
     bool blink_;
     float original_speed_, speed_, attack_cool_down_, attack_duration_;

@@ -31,11 +31,13 @@ void ConditionBuilder::IncreaseSightCondition::Update(float dt) {
 }
 
 void ConditionBuilder::IncreaseSightCondition::StartCondition(Creature* obj) {
-	obj->set_light_radius(obj->light_radius() + Constants::SIGHT_POTION_INCREASE); 
+	obj->set_light_radius(obj->light_radius() + Constants::SIGHT_POTION_INCREASE);
+	obj->set_sight_count(1);
 }
 
 void ConditionBuilder::IncreaseSightCondition::EndCondition(Creature* obj) {
-	obj->set_light_radius(obj->light_radius() - Constants::SIGHT_POTION_INCREASE); 
+	obj->set_light_radius(obj->light_radius() - Constants::SIGHT_POTION_INCREASE);
+	obj->set_sight_count(-1);
 }
 
 Condition* ConditionBuilder::increase_sight_condition(Creature *owner) {
