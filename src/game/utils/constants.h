@@ -34,6 +34,7 @@ class Constants {
                        HERO_HOTSPOT_X = 55,
                        HERO_HOTSPOT_Y = 102,
                        HERO_MAX_WEAPONS = 5,
+                       SIGHT_POTION_MAX_STACK = 5,
 
                        LIFE_IMAGE_WIDTH = 49,
                        LIFE_IMAGE_HEIGHT = 49,
@@ -84,6 +85,7 @@ class Constants {
         QUAKE_EXPLOSION_RADIUS,
 
         LIGHT_RADIUS_THRESHOLD,
+        LIGHT_RADIUS_INITIAL,
 
         HERO_SPEED,
 

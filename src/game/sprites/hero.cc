@@ -83,7 +83,7 @@ Hero::Hero(Image* img) {
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
     sight_count_ = 0;
-    light_radius_ = 5.0f;
+    light_radius_ = Constants::LIGHT_RADIUS_INITIAL;
     hit_duration_ = new TimeAccumulator(0);
     bound_ = new CircleObject(0.3f);
     blink_time_ = 0;

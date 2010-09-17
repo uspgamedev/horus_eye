@@ -35,7 +35,7 @@ bool ItemBuilder::RecoverManaEvent::Use (Hero *hero) {
 }
 
 bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
-    if ( hero->sight_count() <= 4 ) {
+    if ( hero->sight_count() < Constants::SIGHT_POTION_MAX_STACK ) {
 	    Condition* condition = condition_builder_.increase_sight_condition(hero);
 	    if (hero->AddCondition(condition)) return true;
 	    else return false;
