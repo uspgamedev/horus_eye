@@ -1,0 +1,16 @@
+#!/bin/bash
+#
+# Horus Eye
+# Copyright (C) 2010  USPGameDev
+#
+# sandbox/ZIndexTest/configure
+# Configura compilacao deste teste
+#
+
+if [ -e ./CMakeLists.base ] && [ -e ./update_cmake ] ; then
+  ./update_cmake
+  cp -r ../../game/data ./
+  cmake .
+else
+  echo "Erro: impossivel configurar! Verifique se os arquivos ./CMakeLists.base e ./update_cmake estao presentes."
+fi

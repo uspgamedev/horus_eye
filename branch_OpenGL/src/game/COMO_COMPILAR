@@ -1,0 +1,30 @@
+Para compilar no GNU/Linux,
+
+1) obtenha o CMake 2.6 ou superior
+
+2) obtenha as bibliotecas: libSDL-1.2, libSDL_image-1.2
+   obs: futuramente precisaremos da libSDL_mixer-1.2 e da libSDL_ttf-1.2, entao
+        ja pode ir baixando ;)
+
+3) va para a pasta horus_eye/trunk/src/game/
+
+4) $ ./configure ( para compilar o editor de fases, rode $ ./configure --editor )
+   $ make
+   # make install
+
+Opcionalmente voce pode usar o CMake para gerar arquivos da sua IDE favorita. Pesquise
+as opcoes do comando cmake -G.
+
+No Windows, voce pode configurar sua IDE por sua propria conta ou usar o CMake para gerar
+os Makefiles ou os arquivos da sua IDE favorita. **O funcionamento do CMake nao foi testado
+no Windows**. No entanto, como o CMake e' tao legal ;), eis o que voce pode tentar:
+
+abra um command prompt na pasta horus_eye\trunk\src\game e digite:
+
+a) se voce usa o MinGW via linha de comando
+cmake -G "MinGW Makefiles" .       (nao esqueca do '.' ali no final)
+
+b) se voce usa o Microsoft Visual C++ 2008 Express
+cmake -G "Visual Studio 9 2008" .  (note o '.' no final)
+
+c) se voce usa outra tecnologia, pesquise as opcoes do comando cmake -G.
