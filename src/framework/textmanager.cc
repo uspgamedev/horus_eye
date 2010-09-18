@@ -1,3 +1,11 @@
+//
+// Horus Eye - Framework
+// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
+//
+// framework/textmanager.cc
+// Implementacao da classe TextManager.
+//
+
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -16,6 +24,9 @@ bool TextManager::Initialize() {
     textColor_.r = 255;
     textColor_.g = 255;
     textColor_.b = 255;
+    transparentColor_.r = 255;
+    transparentColor_.g = 0;
+    transparentColor_.b = 255;
     font_ = TTF_OpenFont( "data/font/Filmcryptic.ttf", 28 );
     return true;
 }
@@ -47,7 +58,7 @@ Image* TextManager::LoadLine(string line) {
     message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
     
     if(img != NULL) {
-        if(!img->SetSurface(message)) {
+        if(!img->setSurface(message)) {
             delete img;
             return NULL;
         }
@@ -85,13 +96,9 @@ Image* TextManager::LoadText(string text, char indent) {
     Vector2D video_size = VIDEO_MANAGER()->video_size();
     video_size.y = nlines*lineskip;
     
-    SDL_Surface *tempSurface = Image::CreateSurface(video_size);
-    SDL_Surface *surface = SDL_DisplayFormatAlpha(tempSurface);
-    SDL_FreeSurface(tempSurface);
-    SDL_Rect fillRect = {0, 0, surface->w, surface->h};
-
-    Uint32 transparentColor = SDL_MapRGBA(surface->format, 0, 0, 0, 255);
-    SDL_FillRect(surface, &fillRect, transparentColor);
+    img->Create(video_size);
+    img->Clear(SDL_MapRGB(img->format() , transparentColor_.r,  transparentColor_.g, transparentColor_.b));
+    img->setColorKey(transparentColor_);
 
     //Blit lines in transparent surface
     for(int i = 0; i<nlines; i++) {
@@ -111,11 +118,9 @@ Image* TextManager::LoadText(string text, char indent) {
                 rect.x = 0;
         }
         rect.y = i*lineskip;
-        SDL_BlitSurface(linesurf, NULL, surface, &rect);
+        img->blitSurface(linesurf, NULL, &rect);
     }
 
-    img->SetSurface(surface);
-    SDL_FreeSurface(surface);
     return img;
 }
 

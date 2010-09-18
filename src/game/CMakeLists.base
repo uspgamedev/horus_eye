@@ -71,6 +71,20 @@ IF(NOT LSDLTTF)
   MESSAGE(FATAL_ERROR "Erro fatal: libSDL_ttf nao encontrada!")
 ENDIF(NOT LSDLTTF)
 
+IF(WIN32)
+  FIND_LIBRARY(LSDLMAIN NAMES SDLmain PATH "${CMAKE_LIBRARY_PATH}")
+  IF(NOT LSDLMAIN)
+    MESSAGE(FATAL_ERROR "Erro fatal: libSDLmain nao encontrada!")
+  ENDIF(NOT LSDLMAIN)
+
+  IF(MINGW)
+    FIND_LIBRARY(LMINGW32 NAMES mingw32 PATH "${CMAKE_LIBRARY_PATH}")
+    IF(NOT LMINGW32)
+      MESSAGE(FATAL_ERROR "Erro fatal: libmingw32 nao encontrada!")
+    ENDIF(NOT LMINGW32)
+  ENDIF(MINGW)
+ENDIF(WIN32)
+
 # pre-processor: #define's
 IF(MSVC)
   FOREACH(d ${DEFS})
