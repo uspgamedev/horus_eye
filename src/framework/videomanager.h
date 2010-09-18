@@ -1,35 +1,46 @@
-#ifndef HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
-#define HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
+#ifndef HORUSEYE_FRAMEWORK_VIDEOMANAGER_H_
+#define HORUSEYE_FRAMEWORK_VIDEOMANAGER_H_
 
-#include <vector>
-#include <SDL/SDL_ttf.h>
+#include <string>
+#include <map>
 #include "vector2D.h"
+using std::string;
+using std::map;
 
-#define TEXT_MANAGER() framework::Engine::reference()->text_manager()
+#define VIDEO_MANAGER() framework::Engine::reference()->video_manager()
 
 namespace framework {
-
 class Image;
-class TextManager{
-    public:
-        TextManager() : font_(NULL) {}
-        ~TextManager() {}
 
-        bool Initialize();
-        bool Destroy();
-        bool setFont(string font, int fontsize, string *style);
-        bool setColor(int r, int g, int b);
-        TTF_Font* getFont();
+// Gerenciador de video
+class VideoManager {
+  public:
+    static const int COLOR_DEPTH = 32;
 
-        Image* LoadLine(string line);
-        Image* LoadText(string text, char indent);
-        Image* LoadFile(string path, char indent);
+    VideoManager() : fullscreen_(false) {}
+    ~VideoManager() {}
 
-    private:
-        TTF_Font *font_;
-        SDL_Color textColor_;
+    bool Initialize(const string& title, const Vector2D& size, bool fullscreen);
+    bool Release();
+    void Render();
+
+    Image* LoadImageFile(const string& filepath);
+    Image* LoadImage(const string& filepath) {
+        return LoadImageFile(filepath);
+    }
+
+    Vector2D video_size() const { return video_size_; }
+    bool fullscreen() const { return fullscreen_; }
+    string title() const { return title_; }
+    Image* backbuffer() const { return NULL; }
+
+  private:
+    Vector2D video_size_;
+    bool fullscreen_;
+    string title_;
+    map<string, Image*> memory_;
 };
 
-} // namespace framework
+}  // namespace framework
 
 #endif
