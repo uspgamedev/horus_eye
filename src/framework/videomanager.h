@@ -1,54 +1,35 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/videomanager.h
-// Definicao da classe VideoManager.
-//
+#ifndef HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
+#define HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
 
-#ifndef HORUSEYE_FRAMEWORK_VIDEOMANAGER_H_
-#define HORUSEYE_FRAMEWORK_VIDEOMANAGER_H_
-
-#include <string>
-#include <map>
+#include <vector>
+#include <SDL/SDL_ttf.h>
 #include "vector2D.h"
-using std::string;
-using std::map;
 
-#define VIDEO_MANAGER() framework::Engine::reference()->video_manager()
+#define TEXT_MANAGER() framework::Engine::reference()->text_manager()
 
 namespace framework {
+
 class Image;
+class TextManager{
+    public:
+        TextManager() : font_(NULL) {}
+        ~TextManager() {}
 
-// Gerenciador de video
-class VideoManager {
-  public:
-    static const int COLOR_DEPTH = 32;
+        bool Initialize();
+        bool Destroy();
+        bool setFont(string font, int fontsize, string *style);
+        bool setColor(int r, int g, int b);
+        TTF_Font* getFont();
 
-    VideoManager() : backbuffer_(NULL), fullscreen_(false) {}
-    ~VideoManager() {}
+        Image* LoadLine(string line);
+        Image* LoadText(string text, char indent);
+        Image* LoadFile(string path, char indent);
 
-    bool Initialize(const string& title, const Vector2D& size, bool fullscreen);
-    bool Release();
-    void Render();
-
-    Image* LoadImage(const string& filepath);
-
-    Vector2D video_size() const { return video_size_; }
-    bool fullscreen() const { return fullscreen_; }
-    string title() const { return title_; }
-    Image* backbuffer() const { return backbuffer_; }
-    Image* screen() const { return screen_; }
-
-  private:
-    Image* backbuffer_;
-    Image* screen_;
-    Vector2D video_size_;
-    bool fullscreen_;
-    string title_;
-    map<string, Image*> memory_;
+    private:
+        TTF_Font *font_;
+        SDL_Color textColor_;
 };
 
-}  // namespace framework
+} // namespace framework
 
 #endif

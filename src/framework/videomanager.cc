@@ -1,11 +1,4 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/videomanager.h
-// Definicao da classe VideoManager.
-//
-
+#include <SDL/SDL_opengl.h>
 #include "videomanager.h"
 #include "image.h"
 
@@ -16,13 +9,33 @@ namespace framework {
 // sucesso.
 bool VideoManager::Initialize(const string& title, const Vector2D& size,
                               bool fullscreen) {
-    screen_ = new Image;
-    if(!screen_->CreateVideoSurface(size, fullscreen))
+    Uint32 flags = SDL_OPENGL;
+    if(fullscreen)
+        flags |= SDL_FULLSCREEN;
+    if(SDL_SetVideoMode(static_cast<int>(size.x), static_cast<int>(size.y),
+            VideoManager::COLOR_DEPTH, flags) == NULL)
         return false;
 
-    backbuffer_ = new Image;
-    if(backbuffer_ == NULL || !backbuffer_->Create(size))
+    glClearColor( 0, 0, 0, 0 );
+
+
+    //Set projection
+    glMatrixMode( GL_PROJECTION );
+    glLoadIdentity();
+    glOrtho( 0, size.x, size.y, 0, -1, 1 );
+
+    //Initialize modelview matrix
+    glMatrixMode( GL_MODELVIEW );
+    glLoadIdentity();
+
+    glEnable(GL_TEXTURE_2D);            // Enable Texture Mapping
+    glEnable(GL_BLEND);
+
+    //If there was any errors
+    if( glGetError() != GL_NO_ERROR )
+    {
         return false;
+    }
 
     SDL_WM_SetCaption(title.c_str(), NULL);
 
@@ -44,28 +57,21 @@ bool VideoManager::Release() {
         delete img;
     }
 
-    if(backbuffer_ != NULL) {
-        backbuffer_->Destroy();
-        delete backbuffer_;
-    }
-
-    delete screen_;
-
     memory_.clear();
     return true;
 }
 
 // Desenha backbuffer na tela
 void VideoManager::Render() {
-    backbuffer_->DrawTo(screen_, Vector2D(0, 0), 0, Image::MIRROR_NONE);
-    SDL_Flip(screen_->data_);
-    backbuffer_->Clear(0);
+    //Update screen
+    SDL_GL_SwapBuffers();
+    glClear( GL_COLOR_BUFFER_BIT );
 }
 
 // Carrega imagem de um arquivo, fazendo o
 // gerenciamento de memoria. Retorna NULL
 // em caso de falha.
-Image* VideoManager::LoadImage(const string& filepath) {
+Image* VideoManager::LoadImageFile(const string& filepath) {
     if(memory_.count(filepath) == 0) {
         Image* img = new Image;
         if(img != NULL) {

@@ -1,11 +1,3 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/textmanager.h
-// Definicao da classe TextManager.
-//
-
 #ifndef HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
 #define HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
 
@@ -36,7 +28,6 @@ class TextManager{
     private:
         TTF_Font *font_;
         SDL_Color textColor_;
-        SDL_Color transparentColor_;
 };
 
 } // namespace framework
