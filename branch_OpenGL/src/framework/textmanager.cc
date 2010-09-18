@@ -58,7 +58,7 @@ Image* TextManager::LoadLine(string line) {
     message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
     
     if(img != NULL) {
-        if(!img->setSurface(message)) {
+        if(!img->SetSurface(message)) {
             delete img;
             return NULL;
         }
@@ -96,9 +96,13 @@ Image* TextManager::LoadText(string text, char indent) {
     Vector2D video_size = VIDEO_MANAGER()->video_size();
     video_size.y = nlines*lineskip;
     
-    img->Create(video_size);
-    img->Clear(SDL_MapRGB(img->format() , transparentColor_.r,  transparentColor_.g, transparentColor_.b));
-    img->setColorKey(transparentColor_);
+    SDL_Surface *surface = Image::CreateSurface(video_size);
+    SDL_Rect fillRect = {0, 0, surface->w, surface->h};
+
+    Uint32 transparentColor = SDL_MapRGB(surface->format,
+            transparentColor_.r,  transparentColor_.g, transparentColor_.b);
+    SDL_FillRect(surface, &fillRect, transparentColor);
+    SDL_SetColorKey(surface, SDL_SRCCOLORKEY, transparentColor);
 
     //Blit lines in transparent surface
     for(int i = 0; i<nlines; i++) {
@@ -118,9 +122,11 @@ Image* TextManager::LoadText(string text, char indent) {
                 rect.x = 0;
         }
         rect.y = i*lineskip;
-        img->blitSurface(linesurf, NULL, &rect);
+        SDL_BlitSurface(linesurf, NULL, surface, &rect);
     }
 
+    img->SetSurface(surface);
+    SDL_FreeSurface(surface);
     return img;
 }
 

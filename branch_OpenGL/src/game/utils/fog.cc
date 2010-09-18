@@ -9,6 +9,7 @@
 #include "../../framework/vector2D.h"
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
+#include "../../framework/image.h"
 #include "../scenes/world.h"
 #include "../sprites/worldobject.h"
 #include "../utils/constants.h"
@@ -19,11 +20,7 @@ using namespace framework;
 using namespace sprite;
 using namespace scene;
 
-Fog::Fog() {
-    blank_background_ = new Image;
-    blank_background_->Create(VIDEO_MANAGER()->video_size());
-    blank_background_->Optimize();
-}
+Fog::Fog() {}
 
 Fog::~Fog() {
     map<WorldObject*,Sprite*>::iterator it = light_sources_.begin();
@@ -31,16 +28,13 @@ Fog::~Fog() {
         delete it->second;
         light_sources_.erase(it);
     }
-    if(blank_background_ != NULL) {
-        blank_background_->Destroy();
-        delete blank_background_;
-    }
 }
 
 Sprite* CreateLightSource(float radius) {
     Sprite *sprite = new Sprite;
     sprite->Initialize(WORLD()->CreateFogTransparency(radius));
-    sprite->set_hotspot(sprite->image()->frame_size() * 0.5f);
+	if(sprite->image() != NULL)
+		sprite->set_hotspot(sprite->image()->frame_size() * 0.5f);
     return sprite;
 }
 
@@ -71,12 +65,10 @@ void Fog::Render() {
     Vector2D offset = this->offset();
     map<WorldObject*,Sprite*>::iterator it;
     for(it = light_sources_.begin(); it != light_sources_.end(); ++it) {
+        if(it->first != WORLD()->hero() || it->second->image() == NULL) continue;
         Vector2D off = it->first->position() - it->second->hotspot() - offset;
-        blank_background_->MergeTransparency(it->second->image(), off);
+        it->second->image()->DrawTo(it->second->image(), off, 0, 0);
     }
-    offset = Vector2D();
-    blank_background_->DrawTo(Engine::reference()->video_manager()->backbuffer(), offset, 0, 0 );
-    blank_background_->Clear(0xff000000);
 }
 
 }

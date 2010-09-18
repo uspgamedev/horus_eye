@@ -1,11 +1,3 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/image.h
-// Definicao da classe Image.
-//
-
 #ifndef HORUSEYE_FRAMEWORK_IMAGE_H_
 #define HORUSEYE_FRAMEWORK_IMAGE_H_
 
@@ -23,51 +15,51 @@ namespace framework {
 class Image {
   friend class VideoManager;
   public:
-    typedef Uint32 Color;
-
     typedef Uint8 Mirror;
     static const Mirror MIRROR_NONE = 0;
     static const Mirror MIRROR_HFLIP = 1;
     static const Mirror MIRROR_VFLIP = 2;
 
-    Image() : data_(NULL) {}
+    Image();
     ~Image() {}
 
-    bool Create(const Vector2D& size, uint32 flags);
-    bool Create(const Vector2D& size);
     bool CreateFogTransparency(const Vector2D& ellipse_coef);
     bool Destroy();
-    bool Clear(Color color);
-    bool SetAlpha(Uint8 alpha);
-    bool setColorKey(SDL_Color color);
 
-    void Optimize();
+    void SetColor(Color color);
+    void SetAlpha(float alpha);
 
-    int width() const { return data_ ? data_->w : 0; }
-    int height() const { return data_ ? data_->h : 0; }
-    SDL_PixelFormat* format() {return data_ ? data_->format : 0; }
+    int width() const { return texture_width_; }
+    int height() const { return texture_height_; }
 
-    void set_frame_size(const Vector2D& size) { frame_size_ = size; }
+    void set_frame_size(const Vector2D& size);
     Vector2D frame_size() const { return frame_size_; }
     int FrameCount() const;
-
-    void MergeTransparency(Image* target, Vector2D& offset);
 
     bool DrawTo(Image* dest, const Vector2D& position, int frame_number,
                 Mirror mirror);
 
-    bool setSurface(SDL_Surface *surface);
-    bool blitSurface(SDL_Surface* surface, SDL_Rect* srcrect, SDL_Rect* dstrect); 
+    bool SetSurface(SDL_Surface *surface);
+
+    static SDL_Surface* CreateSurface(const Vector2D& size);
+    static Color CreateColor(float red, float green, float blue);
+	
+	// Backwards compatibility, do not use
+    bool Create(const Vector2D& size, uint32 flags = 0) {
+        set_frame_size(size); return true;
+    }
+    bool Clear(Uint32 color);
 
   private:
-    SDL_Surface *data_;
-    Vector2D frame_size_;
+    Vector2D frame_size_, internal_frame_size_;
+    int texture_width_, texture_height_;
+    uint32 gl_tex_;
+    float color_red_, color_green_, color_blue_, color_alpha_;
+
+    bool CreateTexture(SDL_Surface* data);
 
     // apenas o VideoManager acessa
     bool LoadFromFile(const string& file);
-
-    // apenas o VideoManager acessa
-    bool CreateVideoSurface(const Vector2D& size, bool fullscreen);
 };
 
 }  // namespace framework
