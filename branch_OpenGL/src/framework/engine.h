@@ -51,7 +51,7 @@ class Engine {
     Scene* CurrentScene() const;
     void PopScene();
 
-    int current_fps() { return reported_fps_; }
+    uint32 current_fps() { return reported_fps_; }
 
     // Saida do motor
     void quit() { quit_ = true; }
@@ -70,7 +70,7 @@ class Engine {
     Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;
-    int reported_fps_, frames_since_reset_, last_fps_report_;
+    uint32 reported_fps_, frames_since_reset_, last_fps_report_;
 };
 
 }  // namespace framework

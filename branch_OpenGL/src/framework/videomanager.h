@@ -11,6 +11,7 @@ using std::map;
 
 namespace framework {
 class Image;
+class Texture;
 
 // Gerenciador de video
 class VideoManager {
@@ -24,6 +25,7 @@ class VideoManager {
     bool Release();
     void Render();
 
+    Texture* LoadTextureFromFile(const string& filepath);
     Image* LoadImageFile(const string& filepath);
     Image* LoadImage(const string& filepath) {
         return LoadImageFile(filepath);
@@ -38,7 +40,8 @@ class VideoManager {
     Vector2D video_size_;
     bool fullscreen_;
     string title_;
-    map<string, Image*> memory_;
+    map<string, Texture*> memory_;
+    map<string, Image*> image_memory_;
 };
 
 }  // namespace framework

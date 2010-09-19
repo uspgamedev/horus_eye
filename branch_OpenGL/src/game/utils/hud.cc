@@ -164,7 +164,7 @@ void Hud::Update(float delta_t) {
             enemy_counter_[i]->animation()->set_framelist(enemy_counter_value_[i], -1);
         }
 
-    int fps = Engine::reference()->current_fps();
+    uint32 fps = Engine::reference()->current_fps();
     if(fps > 999) fps = 999;
     for(int i = 2; i >= 0; --i) {
         newval[i] = fps % 10;

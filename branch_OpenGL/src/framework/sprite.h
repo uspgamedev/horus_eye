@@ -18,10 +18,10 @@ namespace framework {
 class Animation;
 class Sprite {
   public:
-    Sprite() { }
+    Sprite() : delete_image_(false) { }
     virtual ~Sprite();
 
-    void Initialize(Image *image);
+    void Initialize(Image *image, bool delete_image = false);
 
     // Acessors e mutators
     Vector2D position() const { return position_; }
@@ -79,7 +79,7 @@ class Sprite {
     Image *image_;
     Image::Mirror mirror_;
     Animation *animation_;
-    bool visible_;
+    bool visible_, delete_image_;
 
 };
 }

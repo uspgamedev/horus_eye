@@ -11,6 +11,8 @@ using std::string;
 
 namespace framework {
 
+class Texture;
+
 // Representa uma imagem na memoria
 class Image {
   friend class VideoManager;
@@ -20,7 +22,7 @@ class Image {
     static const Mirror MIRROR_HFLIP = 1;
     static const Mirror MIRROR_VFLIP = 2;
 
-    Image();
+    Image(Texture* texture = NULL, bool delete_texture = true);
     ~Image() {}
 
     bool CreateFogTransparency(const Vector2D& ellipse_coef);
@@ -29,17 +31,14 @@ class Image {
     void SetColor(Color color);
     void SetAlpha(float alpha);
 
-    int width() const { return texture_width_; }
-    int height() const { return texture_height_; }
+    int width() const;
+    int height() const;
 
-    void set_frame_size(const Vector2D& size);
-    Vector2D frame_size() const { return frame_size_; }
+    void set_render_size(const Vector2D& size) { render_size_ = size; }
+    Vector2D render_size() const { return render_size_; }
     int FrameCount() const;
 
-    bool DrawTo(Image* dest, const Vector2D& position, int frame_number,
-                Mirror mirror);
-
-    bool SetSurface(SDL_Surface *surface);
+    bool DrawTo(const Vector2D& position, int frame_number, Mirror mirror);
 
     static SDL_Surface* CreateSurface(const Vector2D& size);
     static Color CreateColor(float red, float green, float blue);
@@ -49,17 +48,19 @@ class Image {
         set_frame_size(size); return true;
     }
     bool Clear(Uint32 color);
+    bool DrawTo(Image* dest, const Vector2D& position, int frame_number,
+                Mirror mirror) {
+        return DrawTo(position, frame_number, mirror);
+    }
+    void set_frame_size(const Vector2D& size);
+    Vector2D frame_size() const { return render_size_; }
 
   private:
-    Vector2D frame_size_, internal_frame_size_;
-    int texture_width_, texture_height_;
-    uint32 gl_tex_;
-    float color_red_, color_green_, color_blue_, color_alpha_;
-
-    bool CreateTexture(SDL_Surface* data);
-
-    // apenas o VideoManager acessa
-    bool LoadFromFile(const string& file);
+    Texture* texture_;
+    Vector2D render_size_;
+    Color color_;
+    float alpha_;
+    bool delete_texture_;
 };
 
 }  // namespace framework

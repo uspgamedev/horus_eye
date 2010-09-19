@@ -11,6 +11,7 @@
 #include <cstdlib>
 #include "engine.h"
 #include "textmanager.h"
+#include "texture.h"
 
 using namespace std;
 
@@ -49,27 +50,24 @@ TTF_Font* TextManager::getFont(){
 
 
 Image* TextManager::LoadLine(string line) {
-    Image* img = new Image;
+    Image* img = NULL;
     SDL_Surface *message = NULL;
     
     message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
-    
-    if(img != NULL) {
-        if(!img->SetSurface(message)) {
-            delete img;
-            return NULL;
-        }
-//        memory_[text] = img;
-    }
-    else
-        return NULL;
+    Texture *texture = new Texture;
+    bool result = texture->LoadFromSurface(message);
+    SDL_FreeSurface(message);
 
+    if(!result)
+        delete texture;
+    else
+        img = new Image(texture);
     return img;
 //    return memory_[text];
 }
         
 Image* TextManager::LoadText(string text, char indent) {
-    Image *img = new Image;
+    Image *img = NULL;
     string subString, temp(text);
     vector<string> lines;
     int lineskip = TTF_FontLineSkip(font_);
@@ -122,7 +120,11 @@ Image* TextManager::LoadText(string text, char indent) {
         SDL_BlitSurface(linesurf, NULL, surface, &rect);
     }
 
-    img->SetSurface(surface);
+    Texture *texture = new Texture;
+    if(!texture->LoadFromSurface(surface))
+        delete texture;
+    else
+        img = new Image(texture);
     SDL_FreeSurface(surface);
     return img;
 }

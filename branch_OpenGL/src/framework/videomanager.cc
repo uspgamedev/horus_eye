@@ -1,6 +1,7 @@
 #include <SDL/SDL_opengl.h>
 #include "videomanager.h"
 #include "image.h"
+#include "texture.h"
 
 namespace framework {
 
@@ -49,15 +50,21 @@ bool VideoManager::Initialize(const string& title, const Vector2D& size,
 // Termina o gerenciador de video, retornando true em
 // caso de sucesso.
 bool VideoManager::Release() {
-    map<string,Image*>::iterator it;
-
-    for(it = memory_.begin(); it != memory_.end(); ++it) {
+    for(map<string,Image*>::iterator it = image_memory_.begin();
+            it != image_memory_.end(); ++it) {
         Image* img = it->second;
         img->Destroy();
         delete img;
     }
+    image_memory_.clear();
 
-    memory_.clear();
+    for(map<string,Image*>::iterator it = image_memory_.begin();
+            it != image_memory_.end(); ++it) {
+        Image* img = it->second;
+        img->Destroy();
+        delete img;
+    }
+    image_memory_.clear();
     return true;
 }
 
@@ -68,24 +75,31 @@ void VideoManager::Render() {
     glClear( GL_COLOR_BUFFER_BIT );
 }
 
+Texture* VideoManager::LoadTextureFromFile(const string& filepath) {
+    if(memory_.count(filepath) == 0) {
+        Texture* tex = new Texture;
+        if(tex == NULL)
+            return NULL;
+        if(!tex->LoadFromFile(filepath)) {
+            delete tex;
+            return NULL;
+        }
+        memory_[filepath] = tex;
+    }
+    return memory_[filepath];
+}
+
 // Carrega imagem de um arquivo, fazendo o
 // gerenciamento de memoria. Retorna NULL
 // em caso de falha.
 Image* VideoManager::LoadImageFile(const string& filepath) {
-    if(memory_.count(filepath) == 0) {
-        Image* img = new Image;
-        if(img != NULL) {
-            if(!img->LoadFromFile(filepath)) {
-                delete img;
-                return NULL;
-            }
-            memory_[filepath] = img;
-        }
-        else
+    if(image_memory_.count(filepath) == 0) {
+        Texture* tex = LoadTextureFromFile(filepath);
+        if(tex == NULL)
             return NULL;
+        image_memory_[filepath] = new Image(tex, false);
     }
-
-    return memory_[filepath];
+    return image_memory_[filepath];
 }
 
 }  // namespace framework

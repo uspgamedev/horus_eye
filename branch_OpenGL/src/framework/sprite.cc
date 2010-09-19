@@ -7,15 +7,18 @@ namespace framework {
 
 Sprite::~Sprite() {
     if (animation_) delete animation_;
+    if (delete_image_ && image_) delete image_;
 }
 
-void Sprite::Initialize(Image *image)
+void Sprite::Initialize(Image *image, bool delete_image)
 {
     image_ = image;
   	set_zindex(0.0f);
     visible_ = true;
     animation_ = new Animation(50, 0, -1);
     hotspot_ = position_ = Vector2D(0,0);
+    mirror_ = Image::MIRROR_NONE;
+    delete_image_ = delete_image;
 }
 
 void Sprite::SelectAnimation(Animation *animation) {
