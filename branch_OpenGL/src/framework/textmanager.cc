@@ -24,9 +24,6 @@ bool TextManager::Initialize() {
     textColor_.r = 255;
     textColor_.g = 255;
     textColor_.b = 255;
-    transparentColor_.r = 255;
-    transparentColor_.g = 0;
-    transparentColor_.b = 255;
     font_ = TTF_OpenFont( "data/font/Filmcryptic.ttf", 28 );
     return true;
 }
@@ -34,7 +31,7 @@ bool TextManager::Initialize() {
 bool TextManager::Destroy() {
    if(font_ != NULL)
        TTF_CloseFont( font_ );
-   TTF_Quit();   
+   TTF_Quit();
    return true;
 }
 
@@ -95,14 +92,14 @@ Image* TextManager::LoadText(string text, char indent) {
     //Surface transparent
     Vector2D video_size = VIDEO_MANAGER()->video_size();
     video_size.y = nlines*lineskip;
-    
-    SDL_Surface *surface = Image::CreateSurface(video_size);
+
+    SDL_Surface *temp_surface = Image::CreateSurface(video_size);
+    SDL_Surface *surface = SDL_DisplayFormatAlpha(temp_surface);
+    SDL_FreeSurface(temp_surface);
     SDL_Rect fillRect = {0, 0, surface->w, surface->h};
 
-    Uint32 transparentColor = SDL_MapRGB(surface->format,
-            transparentColor_.r,  transparentColor_.g, transparentColor_.b);
+    Uint32 transparentColor = SDL_MapRGBA(surface->format, 0, 0, 0, 255);
     SDL_FillRect(surface, &fillRect, transparentColor);
-    SDL_SetColorKey(surface, SDL_SRCCOLORKEY, transparentColor);
 
     //Blit lines in transparent surface
     for(int i = 0; i<nlines; i++) {
