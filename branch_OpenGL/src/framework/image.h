@@ -28,7 +28,7 @@ class Image {
     bool Destroy();
 
     void SetColor(Color color);
-    bool SetColor(uint32 color);
+    void SetColor(uint32 color);
     void SetAlpha(float alpha);
 
     int width() const;

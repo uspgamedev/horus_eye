@@ -13,7 +13,7 @@ using namespace std;
 // uses this single texture, scaling it in real-time.
 FogManager::FogManager() {
     fog_texture_ = new Texture;
-    stored_size_ = Vector2D(10.0f, 10.0f);
+    stored_size_ = Vector2D(40.0f, 40.0f);
     fog_texture_->CreateFogTransparency(VIDEO_MANAGER()->video_size(), stored_size_);
 }
 

@@ -33,7 +33,7 @@ void Image::SetColor(Color color) {
     color_ = color;
 }
 
-void Image::SetColor(Uint32 val) {
+void Image::SetColor(uint32 val) {
     color_.r = ((val & 0xFF0000) >> 16) / 255.0f;
     color_.g = ((val & 0x00FF00) >>  8) / 255.0f;
     color_.b = ((val & 0x0000FF)      ) / 255.0f;
