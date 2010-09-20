@@ -62,7 +62,7 @@ namespace utils {
         door_image_->set_frame_size(Vector2D(153, 109));
 
         floor_image_ = VIDEO_MANAGER()->LoadImage("data/images/ground2_106x54.png");
-        floor_image_->set_frame_size(Vector2D(106,61));
+        floor_image_->set_frame_size(Vector2D(106,54));
 
         wall_image_ = VIDEO_MANAGER()->LoadImage("data/images/stoneblock3.png");
         wall_image_->set_frame_size(Vector2D(106, 157));
