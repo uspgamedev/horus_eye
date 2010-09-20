@@ -1,4 +1,3 @@
-#include <cmath>
 #include <algorithm>
 #include <iostream>
 #include <SDL/SDL_image.h>
@@ -21,8 +20,8 @@ Image::Image(Texture* texture, bool delete_texture) {
     delete_texture_ = delete_texture;
 }
 
-// Destroi a imagem
-// Retorna true em caso de sucesso
+// Destroys the image and it's texture if delete_texture is true.
+// Returns true on success
 bool Image::Destroy() {
     if(delete_texture_)
         delete texture_;
@@ -32,6 +31,12 @@ bool Image::Destroy() {
 // Sets what color the image is tinted with during rendering.
 void Image::SetColor(Color color) {
     color_ = color;
+}
+
+void Image::SetColor(Uint32 val) {
+    color_.r = ((val & 0xFF0000) >> 16) / 255.0f;
+    color_.g = ((val & 0x00FF00) >>  8) / 255.0f;
+    color_.b = ((val & 0x0000FF)      ) / 255.0f;
 }
 
 // Sets the whole-image alpha value used during rendering.
@@ -60,6 +65,7 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
 int Image::width() const { return texture_->width(); }
 int Image::height() const { return texture_->height(); }
 
+// Wrapper for set_render_size and Texture::set_frame_size
 void Image::set_frame_size(const Vector2D& size) {
     render_size_ = size;
     texture_->set_frame_size(size);
@@ -71,49 +77,8 @@ int Image::FrameCount() const {
     return static_cast<int>(std::max(1.0f / (size.x * size.y), 1.0f));
 }
 
-bool Image::CreateFogTransparency(const Vector2D& ellipse_coef) {
-    //int width = static_cast<int>(2.0f * ellipse_coef.x);
-    //int height = static_cast<int>(2.0f * ellipse_coef.y);
-    int width = static_cast<int>(VIDEO_MANAGER()->video_size().x);
-    int height = static_cast<int>(VIDEO_MANAGER()->video_size().y);
-    SDL_Surface *screen = SDL_GetVideoSurface();
-
-    SDL_Surface *temp = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, VideoManager::COLOR_DEPTH,
-                                 screen->format->Rmask, screen->format->Gmask,
-                                 screen->format->Bmask, screen->format->Amask);
-    if(temp == NULL)
-        return false;
-    SDL_Surface *data = SDL_DisplayFormatAlpha(temp);
-    SDL_FreeSurface(temp);
-    if(data == NULL)
-        return false;
-
-    Vector2D origin = VIDEO_MANAGER()->video_size() * 0.5f;
-
-    // Trava para poder manipular pixels
-    SDL_LockSurface(data);
-    Uint32 *pixels = static_cast<Uint32*>(data->pixels);
-    for (int i = 0; i < height; ++i) {
-        for (int j = 0; j < width; ++j) {
-            Uint8 alpha = SDL_ALPHA_OPAQUE;
-
-            // Formula para detectar se o ponto ta na elipse e outras coisas. Melhorias por favor!
-            Vector2D dist = Vector2D(j + 0.0f, i + 0.0f) - origin;
-            dist.x /= ellipse_coef.x;
-            dist.y /= ellipse_coef.y;
-            float distance = Vector2D::InnerProduct(dist, dist);
-            if(distance <= 1)
-                alpha -= static_cast<Uint8>(SDL_ALPHA_OPAQUE * exp(-distance * 5.5412635451584261462455391880218));
-            pixels[i * width + j] = alpha << data->format->Ashift;
-        }
-    }
-    SDL_UnlockSurface(data);
-    bool ret = texture_->LoadFromSurface(data);
-    set_frame_size(Vector2D(texture_->width(), texture_->height()));
-    SDL_FreeSurface(data);
-    return ret;
-}
-
+// Returns a new SDL_Surface with width size.x and height size.y,
+// flag SDL_SRCCOLORKEY and depth VideoManager::COLOR_DEPTH.
 SDL_Surface* Image::CreateSurface(const Vector2D& size) {
     SDL_Surface *screen = SDL_GetVideoSurface();
     if(screen == NULL)
@@ -132,21 +97,13 @@ SDL_Surface* Image::CreateSurface(const Vector2D& size) {
     return data;
 }
 
+// Returns a Color with values red, green and blue.
 Color Image::CreateColor(float red, float green, float blue) {
     Color color;
     color.r = red;
     color.g = green;
     color.b = blue;
     return color;
-}
-
-bool Image::Clear(Uint32 val) {
-    Color color;
-	color.r = ((val & 0xFF0000) >> 16) / 255.0f;
-	color.g = ((val & 0x00FF00) >>  8) / 255.0f;
-	color.b = ((val & 0x0000FF)      ) / 255.0f;
-    SetColor(color);
-	return true;
 }
 
 }  // namespace framework

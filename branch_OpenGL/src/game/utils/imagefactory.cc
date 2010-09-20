@@ -10,6 +10,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/image.h"
+#include "../../framework/texture.h"
 
 using namespace framework;
 namespace utils {
@@ -17,17 +18,21 @@ namespace utils {
         hero_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3.png");
         hero_image_->set_frame_size(Vector2D(110, 110));
 
-        mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3_bw.png");
-        mummy_image_->set_frame_size(Vector2D(110, 110));
-
         ranged_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3_red.png");
         ranged_mummy_image_->set_frame_size(Vector2D(110, 110));
 
-        big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/big_mummy_193x193.png");
-        big_mummy_image_->set_frame_size(Vector2D(193, 193));
+        Texture* mummy_texture = VIDEO_MANAGER()->LoadTextureFromFile("data/images/sprite-sheet_MOD3_bw.png");
+        mummy_texture->set_frame_size(Vector2D(110, 110));
 
-		pharaoh_image_ = VIDEO_MANAGER()->LoadImage("data/images/pharaoh_193x193.png");
-        pharaoh_image_->set_frame_size(Vector2D(193, 193));
+        mummy_image_ = new Image(mummy_texture);
+        mummy_image_->set_render_size(Vector2D(110, 110));
+
+        big_mummy_image_ = new Image(mummy_texture);
+        big_mummy_image_->set_render_size(Vector2D(193, 193));
+
+		pharaoh_image_ = new Image(mummy_texture);
+        pharaoh_image_->set_render_size(Vector2D(193, 193));
+        pharaoh_image_->SetColor(Image::CreateColor(1.0f, 0.2f, 0.2f));
 
         magicmissile_image_ = VIDEO_MANAGER()->LoadImage("data/images/blue_fire_ball.png");
         magicmissile_image_->set_frame_size( Vector2D(32, 32) );

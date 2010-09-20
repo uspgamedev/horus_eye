@@ -7,6 +7,7 @@
 
 namespace framework {
 
+// Represents an OpenGL texture
 class Texture {
   public:
     Texture() : texture_(0) {
@@ -20,6 +21,7 @@ class Texture {
 
     bool LoadFromSurface(SDL_Surface* data);
     bool LoadFromFile(std::string filepath);
+    bool CreateFogTransparency(const Vector2D& size, const Vector2D& ellipse_coef);
 
     uint32 texture() { return texture_; }
     int width() const { return texture_width_; }

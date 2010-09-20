@@ -1,4 +1,5 @@
-#include <iostream>
+#include <cmath>
+#include <cstdio>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_opengl.h>
 #include "texture.h"
@@ -50,6 +51,9 @@ bool Texture::DrawTo(const Vector2D& position,  const Vector2D& size,
     return true;
 }
 
+// Loads the texture from the given surface. Surface is used only as a
+// reference and necessary data is copied.
+// Returns true on success, false otherwise.
 bool Texture::LoadFromSurface(SDL_Surface* data) {
     if(data == NULL)
         return false;
@@ -89,7 +93,7 @@ bool Texture::LoadFromSurface(SDL_Surface* data) {
                 break;
 
             default:
-                std::cout << "Image bpp of " << bpp << "%d unusable" << std::endl;
+                printf("Image bpp of %d unusable\n", bpp);
                 free(raw);
                 return false;
                 break;
@@ -117,7 +121,7 @@ bool Texture::LoadFromSurface(SDL_Surface* data) {
     GLenum errorCode = glGetError();
     if ( errorCode != 0 ) {
         if ( errorCode == GL_OUT_OF_MEMORY )
-            std::cout << "Out of texture memory!" << std::endl;
+            printf("Out of texture memory!\n");
         free(raw);
         return false;
     }
@@ -127,7 +131,7 @@ bool Texture::LoadFromSurface(SDL_Surface* data) {
     errorCode = glGetError();
     if ( errorCode != 0 ) {
         if ( errorCode == GL_OUT_OF_MEMORY )
-            std::cout << "Out of texture memory!" << std::endl;
+            printf("Out of texture memory!\n");
         return false;
     }
 
@@ -143,10 +147,51 @@ bool Texture::LoadFromFile(std::string filepath) {
     return result;
 }
 
+bool Texture::CreateFogTransparency(const Vector2D& size, const Vector2D& ellipse_coef) {
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
+    SDL_Surface *screen = SDL_GetVideoSurface();
+
+    SDL_Surface *temp = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, screen->format->BitsPerPixel,
+                                 screen->format->Rmask, screen->format->Gmask,
+                                 screen->format->Bmask, screen->format->Amask);
+    if(temp == NULL)
+        return false;
+    SDL_Surface *data = SDL_DisplayFormatAlpha(temp);
+    SDL_FreeSurface(temp);
+    if(data == NULL)
+        return false;
+
+    Vector2D origin = size * 0.5f;
+
+    // Locks the surface so we can manage the pixel data.
+    SDL_LockSurface(data);
+    Uint32 *pixels = static_cast<Uint32*>(data->pixels);
+    for (int i = 0; i < height; ++i) {
+        for (int j = 0; j < width; ++j) {
+            Uint8 alpha = SDL_ALPHA_OPAQUE;
+
+            // Formulae to detect if the point is inside the ellipse.
+            Vector2D dist = Vector2D(j + 0.0f, i + 0.0f) - origin;
+            dist.x /= ellipse_coef.x;
+            dist.y /= ellipse_coef.y;
+            float distance = Vector2D::InnerProduct(dist, dist);
+            if(distance <= 1)
+                alpha -= static_cast<Uint8>(SDL_ALPHA_OPAQUE * exp(-distance * 5.5412635451584261462455391880218));
+            pixels[i * width + j] = alpha << data->format->Ashift;
+        }
+    }
+    SDL_UnlockSurface(data);
+    bool ret = LoadFromSurface(data);
+    SDL_FreeSurface(data);
+    return ret;
+}
+
 void Texture::set_frame_size(const Vector2D& size) {
     frame_size_.x = size.x / texture_width_;
     frame_size_.y = size.y / texture_height_;
 }
+
 Vector2D Texture::frame_size() const {
     Vector2D size;
     size.x = frame_size_.x * texture_width_;

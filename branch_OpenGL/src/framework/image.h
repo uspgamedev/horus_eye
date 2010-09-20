@@ -25,10 +25,10 @@ class Image {
     Image(Texture* texture = NULL, bool delete_texture = true);
     ~Image() {}
 
-    bool CreateFogTransparency(const Vector2D& ellipse_coef);
     bool Destroy();
 
     void SetColor(Color color);
+    bool SetColor(uint32 color);
     void SetAlpha(float alpha);
 
     int width() const;
@@ -43,16 +43,23 @@ class Image {
     static SDL_Surface* CreateSurface(const Vector2D& size);
     static Color CreateColor(float red, float green, float blue);
 	
-	// Backwards compatibility, do not use
+    void set_frame_size(const Vector2D& size);
+
+	// Deprecated. Calls set_frame_size and always return true.
     bool Create(const Vector2D& size, uint32 flags = 0) {
         set_frame_size(size); return true;
     }
-    bool Clear(Uint32 color);
+
+    // Deprecated. Calls SetColor and always return true.
+    bool Clear(Uint32 color) { SetColor(color); return true; }
+
+    // Deprecated. Calls DrawTo with the dest argument.
     bool DrawTo(Image* dest, const Vector2D& position, int frame_number,
                 Mirror mirror) {
         return DrawTo(position, frame_number, mirror);
     }
-    void set_frame_size(const Vector2D& size);
+
+    // Deprecated. Wrapper for render_size()
     Vector2D frame_size() const { return render_size_; }
 
   private:
