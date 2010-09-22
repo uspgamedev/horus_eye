@@ -109,6 +109,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 			case WALL: {
 				wall_matrix[i][j] = new Wall(image_factory->WallImage());
 				world_->AddWorldObject(wall_matrix[i][j], position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
 			case HERO: {
