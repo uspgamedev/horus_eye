@@ -50,27 +50,6 @@ TTF_Font* TextManager::getFont(){
     return font_;
 }
 
-
-Image* TextManager::LoadLine(string line) {
-    Image* img = new Image;
-    SDL_Surface *message = NULL;
-    
-    message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
-    
-    if(img != NULL) {
-        if(!img->setSurface(message)) {
-            delete img;
-            return NULL;
-        }
-//        memory_[text] = img;
-    }
-    else
-        return NULL;
-
-    return img;
-//    return memory_[text];
-}
-        
 Image* TextManager::LoadText(string text, char indent) {
     Image *img = new Image;
     string subString, temp(text);
