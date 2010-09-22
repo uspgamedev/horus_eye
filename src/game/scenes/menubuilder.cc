@@ -7,6 +7,7 @@
 
 #include "menubuilder.h"
 #include "../../framework/engine.h"
+#include "../../framework/textmanager.h"
 #include "../utils/levelmanager.h"
 #include "world.h"
 #include "menuhandler.h"
@@ -141,12 +142,13 @@ Menu *MenuBuilder::BuildPauseMenu () {
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::MAIN_SELECT_NUM; ++i) {
         Sprite *options_sprite = new Sprite;
+        TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/continue.png"));
+            options_sprite->Initialize(TEXT_MANAGER()->LoadLine("Continue"));
             break;
         case MenuBuilder::PAUSE_SELECT_EXIT_GAME:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/gameexit.png"));
+            options_sprite->Initialize(TEXT_MANAGER()->LoadLine("Exit"));
             break;
         }
         menu->set_option_sprite(i, options_sprite);
