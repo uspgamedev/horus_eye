@@ -1,11 +1,3 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/textmanager.cc
-// Implementacao da classe TextManager.
-//
-
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -27,7 +19,7 @@ bool TextManager::Initialize() {
     transparentColor_.r = 255;
     transparentColor_.g = 0;
     transparentColor_.b = 255;
-    font_ = TTF_OpenFont( "data/font/Filmcryptic.ttf", 28 );
+    font_ = TTF_OpenFont( "data/font/Filmcryptic.ttf", 60 );
     return true;
 }
 
@@ -50,6 +42,42 @@ TTF_Font* TextManager::getFont(){
     return font_;
 }
 
+Image* TextManager::LoadLine(string line) {
+    Image* img = new Image;
+    SDL_Surface *message = NULL;
+    
+    message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
+    
+    if(img != NULL) {
+        if(!img->setSurface(message)) {
+            delete img;
+            return NULL;
+        }
+    }
+    else
+        return NULL;
+
+    return img;
+}
+
+Image* TextManager::LoadFancyLine(string line) {
+    Image* img = new Image;
+    SDL_Surface *message = NULL;
+    
+    message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
+    
+    if(img != NULL) {
+        if(!img->setSurface(message)) {
+            delete img;
+            return NULL;
+        }
+    }
+    else
+        return NULL;
+
+    return img;
+}
+        
 Image* TextManager::LoadText(string text, char indent) {
     Image *img = new Image;
     string subString, temp(text);
@@ -97,13 +125,37 @@ Image* TextManager::LoadText(string text, char indent) {
                 rect.x = 0;
         }
         rect.y = i*lineskip;
+        
+        textColor_.r = 212;
+        textColor_.g = 170;
+        textColor_.b = 0;
+        rect.x += 3;
+        rect.y += 4;
+        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
+        if(linesurf==NULL) continue;
+        img->blitSurface(linesurf, NULL, &rect);
+        textColor_.r = 85;
+        textColor_.g = 68;
+        textColor_.b = 0;
+        rect.x -= 1.5;
+        rect.y -= 2;
+        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
+        if(linesurf==NULL) continue;
+        img->blitSurface(linesurf, NULL, &rect);
+        textColor_.r = 255;
+        textColor_.g = 255;
+        textColor_.b = 255;
+        rect.x -= 1.5;
+        rect.y -= 2;
+        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
+        if(linesurf==NULL) continue;
         img->blitSurface(linesurf, NULL, &rect);
     }
 
     return img;
 }
 
-Image* TextManager::LoadFile(string path, char indent){
+Image* TextManager::LoadFile(string path, char indent) {
     FILE* txtFile;
     char buffer[MAXLINE];
     int fontwidth = 24;

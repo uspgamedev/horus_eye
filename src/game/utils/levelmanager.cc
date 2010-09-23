@@ -65,7 +65,7 @@ void LevelManager::ShowIntro() {
 }
 
 void LevelManager::ShowCredits() {
-    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
+    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 70, NULL);
     Image *intro = TEXT_MANAGER()->LoadFile("data/text/credits_en.txt", 'c');
     Engine::reference()->PushScene(new ScrollingImageScene(NULL, intro, 30));
 }

@@ -1,11 +1,3 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/textmanager.h
-// Definicao da classe TextManager.
-//
-
 #ifndef HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
 #define HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
 
@@ -29,6 +21,7 @@ class TextManager{
         bool setColor(int r, int g, int b);
         TTF_Font* getFont();
 
+        Image* LoadFancyLine(string line);
         Image* LoadText(string text, char indent);
         Image* LoadFile(string path, char indent);
 
