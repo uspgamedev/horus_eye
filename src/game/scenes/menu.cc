@@ -90,8 +90,15 @@ void Menu::DecideWhereOptionsGo() {
 }
 
 void Menu::InitialSelection() {
-    if (selection_sprite_ && content_box_defined_)
-        selection_sprite_->set_position(selection_pos_[0]);
+    if (selection_sprite_ && content_box_defined_) {
+        float selection_height = content_box_.height()/selection_num_,
+              selection_width = content_box_.right()-content_box_.left();
+        framework::Vector2D offset(
+                (selection_width - selection_sprite_->image()->width())/2.0f,
+                (selection_height - selection_sprite_->image()->height())/2.0f
+        );
+        selection_sprite_->set_position(selection_pos_[0] + offset);
+    }
 }
 
 bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {

@@ -28,7 +28,7 @@ using namespace utils;
 #define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
 #define PAUSE_TOP               VIDEO_MANAGER()->video_size().y/2.0f
 #define PAUSE_LEFT              VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
-#define PAUSE_BOTTOM            MENU_TOP + MenuBuilder::MAIN_SELECT_NUM*RECT_HEIGHT
+#define PAUSE_BOTTOM            MENU_TOP + MenuBuilder::PAUSE_SELECT_NUM*RECT_HEIGHT*1.5f
 #define PAUSE_RIGHT             VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
 
 Menu *MenuBuilder::BuildMainMenu () {

@@ -47,7 +47,14 @@ class Menu: public framework::Scene {
             options_sprite_[index] = sprite;
             (*layers_.begin())->AddSprite(sprite);
             sprite->set_zindex(10.0f);
-            sprite->set_position(selection_pos_[index]);
+            float selection_height = content_box_.height()/selection_num_,
+                  selection_width = content_box_.right()-content_box_.left();
+            framework::Vector2D offset(
+                    (selection_width - sprite->image()->width())/2.0f,
+                    (selection_height - sprite->image()->height())/2.0f
+            );
+            sprite->set_position(selection_pos_[index] + offset);
+
         }
     }
     void AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {

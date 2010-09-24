@@ -84,7 +84,7 @@ Image* TextManager::LoadFancyLine(string line) {
 
     rect.x = 2;
     rect.y = 6;
-    size.x = 2*message->w;
+    size.x = message->w;
     size.y = TTF_FontLineSkip(font_)+12;
 
     img->Create(size);
