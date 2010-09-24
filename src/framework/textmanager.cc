@@ -63,17 +63,41 @@ Image* TextManager::LoadLine(string line) {
 Image* TextManager::LoadFancyLine(string line) {
     Image* img = new Image;
     SDL_Surface *message = NULL;
-    
-    message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
-    
-    if(img != NULL) {
-        if(!img->setSurface(message)) {
-            delete img;
-            return NULL;
-        }
-    }
-    else
-        return NULL;
+    SDL_Surface *message_dark = NULL;
+    SDL_Surface *message_light = NULL;
+    Vector2D size;
+    SDL_Color color;
+    color.r = 255;
+    color.g = 255;
+    color.b = 255;
+    SDL_Rect rect;
+
+    message = TTF_RenderText_Solid( font_, line.c_str(), color );
+    color.r = 212;
+    color.g = 170;
+    color.b = 0;
+    message_light = TTF_RenderText_Solid( font_, line.c_str(), color );
+    color.r = 85;
+    color.g = 68;
+    color.b = 0;
+    message_dark = TTF_RenderText_Solid( font_, line.c_str(), color );
+
+    rect.x = 3;
+    rect.y = 4;
+    size.x = message->w + 3;
+    size.y = TTF_FontLineSkip(font_) + 4;
+
+    img->Create(size);
+    img->Clear(SDL_MapRGB(img->format() , transparentColor_.r,  transparentColor_.g, transparentColor_.b));
+    img->setColorKey(transparentColor_);
+
+    img->blitSurface(message_light, NULL, &rect);
+    rect.x = 1.5;
+    rect.y = 2;
+    img->blitSurface(message_dark, NULL, &rect);
+    rect.x = 0;
+    rect.y = 0;
+    img->blitSurface(message, NULL, &rect);
 
     return img;
 }
@@ -124,31 +148,7 @@ Image* TextManager::LoadText(string text, char indent) {
             default:
                 rect.x = 0;
         }
-        rect.y = i*lineskip;
-        
-        textColor_.r = 212;
-        textColor_.g = 170;
-        textColor_.b = 0;
-        rect.x += 3;
-        rect.y += 4;
-        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
-        if(linesurf==NULL) continue;
-        img->blitSurface(linesurf, NULL, &rect);
-        textColor_.r = 85;
-        textColor_.g = 68;
-        textColor_.b = 0;
-        rect.x -= 1.5;
-        rect.y -= 2;
-        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
-        if(linesurf==NULL) continue;
-        img->blitSurface(linesurf, NULL, &rect);
-        textColor_.r = 255;
-        textColor_.g = 255;
-        textColor_.b = 255;
-        rect.x -= 1.5;
-        rect.y -= 2;
-        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
-        if(linesurf==NULL) continue;
+        rect.y = i*lineskip;    
         img->blitSurface(linesurf, NULL, &rect);
     }
 

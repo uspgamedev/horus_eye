@@ -22,6 +22,7 @@ class TextManager{
         TTF_Font* getFont();
 
         Image* LoadFancyLine(string line);
+        Image* LoadLine(string line);
         Image* LoadText(string text, char indent);
         Image* LoadFile(string path, char indent);
 
