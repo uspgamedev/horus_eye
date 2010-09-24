@@ -92,11 +92,11 @@ Image* TextManager::LoadFancyLine(string line) {
     img->setColorKey(transparentColor_);
 
     img->blitSurface(message_light, NULL, &rect);
-    rect.x -= 1.5;
-    rect.y -= 1.5;
+    rect.x -= 1.0;
+    rect.y -= 1.0;
     img->blitSurface(message_dark, NULL, &rect);
-    rect.x -= 0.5;
-    rect.y -= 0.5;
+    rect.x -= 1.0;
+    rect.y -= 1.0;
     img->blitSurface(message, NULL, &rect);
 
     return img;
