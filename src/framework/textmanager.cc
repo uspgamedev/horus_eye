@@ -46,7 +46,7 @@ Image* TextManager::LoadLine(string line) {
     Image* img = new Image;
     SDL_Surface *message = NULL;
     
-    message = TTF_RenderText_Solid( font_, line.c_str(), textColor_ );
+    message = TTF_RenderText_Blended( font_, line.c_str(), textColor_ );
     
     if(img != NULL) {
         if(!img->setSurface(message)) {
