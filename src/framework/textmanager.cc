@@ -82,21 +82,21 @@ Image* TextManager::LoadFancyLine(string line) {
     color.b = 0;
     message_dark = TTF_RenderText_Solid( font_, line.c_str(), color );
 
-    rect.x = 3;
-    rect.y = 4;
-    size.x = message->w + 3;
-    size.y = TTF_FontLineSkip(font_) + 4;
+    rect.x = 2;
+    rect.y = 6;
+    size.x = 2*message->w;
+    size.y = TTF_FontLineSkip(font_)+12;
 
     img->Create(size);
     img->Clear(SDL_MapRGB(img->format() , transparentColor_.r,  transparentColor_.g, transparentColor_.b));
     img->setColorKey(transparentColor_);
 
     img->blitSurface(message_light, NULL, &rect);
-    rect.x = 1.5;
-    rect.y = 2;
+    rect.x -= 1.5;
+    rect.y -= 1.5;
     img->blitSurface(message_dark, NULL, &rect);
-    rect.x = 0;
-    rect.y = 0;
+    rect.x -= 0.5;
+    rect.y -= 0.5;
     img->blitSurface(message, NULL, &rect);
 
     return img;

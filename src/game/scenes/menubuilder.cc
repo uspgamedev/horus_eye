@@ -142,7 +142,7 @@ Menu *MenuBuilder::BuildPauseMenu () {
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::MAIN_SELECT_NUM; ++i) {
         Sprite *options_sprite = new Sprite;
-        TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 50, NULL);
+        TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 70, NULL);
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
             options_sprite->Initialize(TEXT_MANAGER()->LoadFancyLine("Continue"));
