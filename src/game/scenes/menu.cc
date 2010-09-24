@@ -79,6 +79,37 @@ void Menu::Update(float delta_t) {
         handler_->Handle(selection_);
 }
 
+void Menu::set_content_box(framework::Frame content_box) {
+    content_box_ = content_box;
+    content_box_defined_ = true;
+    DecideWhereOptionsGo();
+}
+void Menu::set_selection_sprite(framework::Sprite *sprite) {
+    selection_sprite_ = sprite;
+    (*layers_.begin())->AddSprite(sprite);
+    sprite->set_zindex(0.0f);
+    InitialSelection();
+}
+void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
+    if (index >= 0 && index < selection_num_ && content_box_defined_) {
+        options_sprite_[index] = sprite;
+        (*layers_.begin())->AddSprite(sprite);
+        sprite->set_zindex(10.0f);
+        float selection_height = content_box_.height()/selection_num_,
+              selection_width = content_box_.right()-content_box_.left();
+        framework::Vector2D offset(
+                (selection_width - sprite->image()->width())/2.0f,
+                (selection_height - sprite->image()->height())/2.0f
+        );
+        sprite->set_position(selection_pos_[index] + offset);
+
+    }
+}
+void Menu::AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {
+    (*layers_.begin())->AddSprite(sprite);
+    sprite->set_position(pos);
+    sprite->set_zindex(-10.0f);
+}
 
 void Menu::DecideWhereOptionsGo() {
     float selection_height = content_box_.height()/selection_num_, y;
