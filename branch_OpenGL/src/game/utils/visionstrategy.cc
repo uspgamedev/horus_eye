@@ -23,6 +23,8 @@ bool solid(char obj){
     return false;
 }
 
+#define TO_MATRIX(value) static_cast<int>(value + 0.5f)
+
 bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     World *world = WORLD();
     vector<string> matrix = world->level_matrix();
@@ -36,22 +38,29 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
-    for (int i = 0; i < (int)matrix.size(); i++) {
-        for (int j = 0; j < (int)matrix[i].size(); j++) {
-            if(solid(matrix[i][j])){
-                float x = static_cast<float>(j);
-                float y = static_cast<float>(matrix.size() - i - 1);
+    Vector2D ipos1(TO_MATRIX(position1.x), matrix.size() - TO_MATRIX(position1.y) - 1);
+    Vector2D ipos2(TO_MATRIX(position2.x), matrix.size() - TO_MATRIX(position2.y) - 1);
+    Vector2D dir = ipos2 - ipos1;
+    int step_i = dir.y >= 0 ? 1 : -1,
+        step_j = dir.x >= 0 ? 1 : -1;
+    int height = max(dir.y >= 0 ? (int)dir.y : (int)-dir.y, 1);
+    int proportion = abs(dir.y != 0 ? (int)(dir.x/dir.y) : (int)(dir.x));
+    int k = (int)ipos1.x;
+    int i, j = k;
 
-                Vector2D a = Vector2D(x - 0.5f, y - 0.5f);
-                Vector2D b = Vector2D(x - 0.5f, y + 0.5f);
-                Vector2D c = Vector2D(x + 0.5f, y + 0.5f);
-                Vector2D d = Vector2D(x + 0.5f, y - 0.5f);
-                if (GPintersect(a, b, position1, position2)) return false;
-                if (GPintersect(b, c, position1, position2)) return false;
-                if (GPintersect(c, d, position1, position2)) return false;
-                if (GPintersect(d, a, position1, position2)) return false;
-            }
+    /*printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
+    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
+    printf("height=%d\nproportion=%d\n", height, proportion);*/
+    for (int di = 0; di < height; di++) {
+        for (int dj = 0; dj <= proportion; dj++) {
+            i = ipos1.y + di*step_i;
+            j = k + dj*step_j;
+            //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
+            if(solid(matrix[i][j]))
+                return false;
         }
+        if (proportion > 0)
+            k = j;
     }
     return true;
 }
