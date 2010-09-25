@@ -5,7 +5,6 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/inputmanager.h"
-#include "../../framework/fogmanager.h"
 #include "world.h"
 #include "imagescene.h"
 #include "menu.h"

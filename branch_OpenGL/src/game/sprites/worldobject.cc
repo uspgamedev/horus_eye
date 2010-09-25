@@ -72,7 +72,7 @@ void WorldObject::Render(Image *back_buffer, Vector2D &offset, float color_coef)
         // Next, you check if the light source is visible
         // floor ignores this check for performance reasons
         if(!(collision_type_ & NO_COLLISION))
-            if(!vision.IsVisible((*it)->world_position(), this->world_position()))
+            if(!vision.IsLightVisible((*it)->world_position(), this->world_position()))
                 continue;
 
         // Now we calculate how much this light source illuminates this object
