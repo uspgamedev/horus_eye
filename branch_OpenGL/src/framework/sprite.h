@@ -62,7 +62,7 @@ class Sprite {
     void SelectAnimation(Animation *animation);
     Animation* animation() { return animation_; }
 
-    virtual void Render(Image *back_buffer, Vector2D &offset);
+    virtual void Render(Image *back_buffer, Vector2D &offset, float color_coef = 1.0f);
 
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);

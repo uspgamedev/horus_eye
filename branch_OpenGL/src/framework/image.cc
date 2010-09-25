@@ -49,7 +49,7 @@ void Image::SetAlpha(float alpha) {
 // copia esta imagem numa outra
 // Retorna true em caso de sucesso
 bool Image::DrawTo(const Vector2D& position, int frame_number,
-                   Mirror mirror) {
+                   Mirror mirror, float color_coef) {
     Vector2D flip = render_size(), target = position;
     if(mirror & MIRROR_HFLIP) {
         target.x += frame_size().x;
@@ -59,7 +59,8 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
         target.y += frame_size().y;
         flip.y *= -1;
     }
-    return texture_->DrawTo(target, flip, frame_number, color_, alpha_);
+    Color color = CreateColor(color_.r * color_coef, color_.g * color_coef, color_.b * color_coef);
+    return texture_->DrawTo(target, flip, frame_number, color, alpha_);
 }
 
 int Image::width() const { return texture_->width(); }

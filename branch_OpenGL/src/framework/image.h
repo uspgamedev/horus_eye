@@ -38,7 +38,7 @@ class Image {
     Vector2D render_size() const { return render_size_; }
     int FrameCount() const;
 
-    bool DrawTo(const Vector2D& position, int frame_number, Mirror mirror);
+    bool DrawTo(const Vector2D& position, int frame_number, Mirror mirror, float color_coef = 1.0f);
 
     static SDL_Surface* CreateSurface(const Vector2D& size);
     static Color CreateColor(float red, float green, float blue);

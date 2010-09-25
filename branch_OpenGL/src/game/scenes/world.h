@@ -9,7 +9,6 @@
 
 namespace utils {
 class Hud;
-class Fog;
 class ImageFactory;
 }
 namespace sprite {
@@ -40,6 +39,10 @@ class World : public framework::Scene {
 
     void AddNewWorldObjects();
 
+    void AddLightSource(sprite::WorldObject*);
+    void RemoveLightSource(sprite::WorldObject*);
+    void UpdateLightSource(sprite::WorldObject*);
+
     int CountRemainingEnemies();
 	void IncreaseNumberOfEnemies();
     int max_enemies() { return max_enemies_; }
@@ -61,17 +64,18 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
     static Vector2D FromScreenCoordinates(Vector2D screen_coords);
 
-    static Image* CreateFogTransparency(float radius);
+    //static Image* CreateFogTransparency(float radius);
+    static Vector2D FogEllipseCoordinates(float radius);
 
     vector<sprite::Mummy *> Mummies();
     
     //getters
     sprite::Hero * hero() { return hero_; }
-    utils::Fog* fog() {	return fog_; }
     int level_width() {	return level_width_; }
     int level_height() { return level_height_; }
     vector<string> level_matrix() {	return level_matrix_; }
     utils::ImageFactory* image_factory() { return image_factory_; }
+    std::list<sprite::WorldObject*>& light_sources() { return light_sources_; }
 	
     //setters
     void set_level_width(int width) { level_width_ = width; }
@@ -81,11 +85,10 @@ class World : public framework::Scene {
 
   protected:
     sprite::Hero *hero_;
-    std::list<sprite::WorldObject*> world_objects_, collisionless_objects, new_world_objects;
+    std::list<sprite::WorldObject*> world_objects_, collisionless_objects, new_world_objects, light_sources_;
     framework::Layer *world_layer_;
     framework::Sprite *hero_fog_;
     utils::Hud *hud_;
-    utils::Fog *fog_;
     int level_width_, level_height_;
     vector<string> level_matrix_;
     int	remaining_enemies_, max_enemies_;
