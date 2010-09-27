@@ -10,6 +10,7 @@
 #include"geometryprimitives.h"
 #include"../scenes/world.h"
 #include"../sprites/hero.h"
+#include <cmath>
 
 using namespace std;
 using namespace scene;
@@ -28,8 +29,6 @@ bool wall(char obj){
     return false;
 }
 
-#define TO_MATRIX(value) static_cast<int>(value + 0.5f)
-
 bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     World *world = WORLD();
     vector<string> matrix = world->level_matrix();
@@ -43,34 +42,29 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
-    Vector2D ipos1(TO_MATRIX(position1.x), matrix.size() - TO_MATRIX(position1.y) - 1);
-    Vector2D ipos2(TO_MATRIX(position2.x), matrix.size() - TO_MATRIX(position2.y) - 1);
-    Vector2D dir = ipos2 - ipos1;
-    int step_i = dir.y >= 0 ? 1 : -1,
-        step_j = dir.x >= 0 ? 1 : -1;
-    int height = max(dir.y >= 0 ? (int)dir.y : (int)-dir.y, 1);
-    int proportion = abs(dir.y != 0 ? (int)(dir.x/dir.y) : (int)(dir.x));
-    int k = (int)ipos1.x;
-    int i, j = k;
+    for (int i = 0; i < (int)matrix.size(); i++) {
+        for (int j = 0; j < (int)matrix[i].size(); j++) {
+            if(solid(matrix[i][j])){
+                float x = static_cast<float>(j);
+                float y = static_cast<float>(matrix.size() - i - 1);
 
-    /*printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
-    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
-    printf("height=%d\nproportion=%d\n", height, proportion);*/
-    for (int di = 0; di < height; di++) {
-        for (int dj = 0; dj <= proportion; dj++) {
-            i = ipos1.y + di*step_i;
-            j = k + dj*step_j;
-            //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
-            if(solid(matrix[i][j]))
-                return false;
+                Vector2D a = Vector2D(x - 0.5f, y - 0.5f);
+                Vector2D b = Vector2D(x - 0.5f, y + 0.5f);
+                Vector2D c = Vector2D(x + 0.5f, y + 0.5f);
+                Vector2D d = Vector2D(x + 0.5f, y - 0.5f);
+                if (GPintersect(a, b, position1, position2)) return false;
+                if (GPintersect(b, c, position1, position2)) return false;
+                if (GPintersect(c, d, position1, position2)) return false;
+                if (GPintersect(d, a, position1, position2)) return false;
+            }
         }
-        if (proportion > 0)
-            k = j;
     }
     return true;
 }
 
-bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2){
+#define TO_MATRIX(value) static_cast<int>(value + 0.5f)
+
+bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     World *world = WORLD();
     vector<string> matrix = world->level_matrix();
 
@@ -83,30 +77,53 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2){
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
+    // Matrix positions of the objects.
     Vector2D ipos1(TO_MATRIX(position1.x), matrix.size() - TO_MATRIX(position1.y) - 1);
     Vector2D ipos2(TO_MATRIX(position2.x), matrix.size() - TO_MATRIX(position2.y) - 1);
-    Vector2D dir = ipos2 - ipos1;
-    int step_i = dir.y >= 0 ? 1 : -1,
-        step_j = dir.x >= 0 ? 1 : -1;
-    int height = max(dir.y >= 0 ? (int)dir.y : (int)-dir.y, 1);
-    int proportion = abs(dir.y != 0 ? (int)(dir.x/dir.y) : (int)(dir.x));
-    int k = (int)ipos1.x;
-    int i, j = k;
+    // Normalized direction vector.
+    Vector2D dir = Vector2D::Normalized(distance);
+    // Step sign for walking through the matrix.
+    int step_i = ipos2.y > ipos1.y ? 1 : (ipos2.y == ipos1.y ? 0 : -1),
+        step_j = ipos2.x > ipos1.x ? 1 : (ipos2.x == ipos1.x ? 0 : -1);
+
+    // Actual position when walking through the path, in both world position
+    // and matrix position.
+    Vector2D ij_pos = position1;
+    int i = (int)ipos1.y,
+        j = (int)ipos1.x;
+
+    // Walks through the path.
+    /*
+    printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
+    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
+    printf("step=[%d][%d]\n", step_i, step_j);
+    printf("dir=(%f, %f])\n", dir.x, dir.y);
+    */
+    while (i != (int)ipos2.y || j != (int)ipos2.x) {
+        //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
+        if (wall(matrix[i][j]) &&
+            (fabs(ipos2.x-j) > 2.0f ||
+            fabs(ipos2.y-i) > 2.0f)) return false;
+        // Distances to the next square: left/rigt or up/down.
+        float dx = fabs((j + 0.5f*step_j - ij_pos.x)/dir.x),
+              dy = fabs(((matrix.size()-i-1) - 0.5f*step_i - ij_pos.y)/dir.y),
+              length;
+        if (!step_i || (step_j && dx <= dy)) {
+            j += step_j;
+            length = dx;
+        }
+        if (!step_j || (step_i && dy <= dx)) {
+            i += step_i;
+            length = dy;
+        }
+        ij_pos = ij_pos + dir*length;
+    }
 
     /*printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
     printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
     printf("height=%d\nproportion=%d\n", height, proportion);*/
-    for (int di = 0; di < height; di++) {
-        for (int dj = 0; dj <= proportion; dj++) {
-            i = ipos1.y + di*step_i;
-            j = k + dj*step_j;
-            //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
-            if((abs((int)ipos2.x - j) > 1 || abs((int)ipos2.y - i) > 1) && wall(matrix[i][j]))
-                return false;
-        }
-        if (proportion > 0 )
-            k = j;
-    }
+    //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
+
     return true;
 }
 
