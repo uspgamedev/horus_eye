@@ -28,6 +28,7 @@ using namespace framework;
 
 #define WALL            		 'W'
 #define DOOR         			 'D'
+#define ENTRY                    'E'
 #define MUMMY           		 'm'
 #define STANDING_MUMMY  		 'M'
 #define RANGED_MUMMY    		 'r'
@@ -108,6 +109,12 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 		switch(token) {
 			case WALL: {
 				wall_matrix[i][j] = new Wall(image_factory->WallImage());
+				world_->AddWorldObject(wall_matrix[i][j], position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
+				break;
+			}
+			case ENTRY: {
+				wall_matrix[i][j] = new Wall(image_factory->EntryImage());
 				world_->AddWorldObject(wall_matrix[i][j], position);
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;

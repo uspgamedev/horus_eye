@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/utils/imagefactory.h
-// Definicao da classe ImageFactory.
-//
-
 #ifndef HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 #define HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 
@@ -35,6 +27,7 @@ class ImageFactory {
     virtual Image* DoorImage();
     virtual Image* FloorImage();
     virtual Image* WallImage();
+    virtual Image* EntryImage();
 
   protected:
     Image* hero_image_;
@@ -54,7 +47,7 @@ class ImageFactory {
     Image* door_image_;
     Image* floor_image_;
     Image* wall_image_;
-
+    Image* entry_image_;
 };
 
 }

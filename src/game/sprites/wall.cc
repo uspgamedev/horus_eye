@@ -19,7 +19,7 @@ using namespace scene;
 #define WALL_WIDTH   106.0
 #define WALL_HEIGHT  157.0
 #define PI          3.1415926535897932384626433832795
-#define TRANSPARENCY_DISTANCE 1.5f
+#define TRANSPARENCY_DISTANCE 1.75f
 
 Wall::Wall(Image* image) {
     Initialize(image);

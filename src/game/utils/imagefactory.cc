@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/utils/imagefactory.h
-// Definicao da classe ImageFactory.
-//
-
 #include "imagefactory.h"
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
@@ -61,6 +53,9 @@ namespace utils {
 
         wall_image_ = VIDEO_MANAGER()->LoadImage("data/images/stoneblock3.png");
         wall_image_->set_frame_size(Vector2D(106, 157));
+
+        entry_image_ = VIDEO_MANAGER()->LoadImage("data/images/door.png");
+        entry_image_->set_frame_size(Vector2D(106, 157));
     }
     Image* ImageFactory::HeroImage(){
         return hero_image_;
@@ -109,6 +104,9 @@ namespace utils {
     }
     Image* ImageFactory::WallImage() {
         return wall_image_;
+    }
+    Image* ImageFactory::EntryImage() {
+        return entry_image_;
     }
 }
 
