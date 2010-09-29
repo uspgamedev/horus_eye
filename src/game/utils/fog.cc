@@ -1,10 +1,4 @@
-/*
- * fog.cc
- *
- *  Created on: 13/08/2010
- *      Author: Henrique
- */
-
+#include <cmath>
 #include "fog.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/engine.h"
@@ -12,6 +6,7 @@
 #include "../scenes/world.h"
 #include "../sprites/worldobject.h"
 #include "../utils/constants.h"
+#include "visionstrategy.h"
 
 namespace utils {
 
@@ -64,6 +59,19 @@ void Fog::UpdateLightSource(WorldObject* obj) {
         } else
             RemoveLightSource(obj);
     }
+}
+
+bool Fog::IsIluminated(sprite::WorldObject* obj) {
+    map<WorldObject*,Sprite*>::iterator it;
+    VisionStrategy vision;
+    for(it = light_sources_.begin(); it != light_sources_.end(); ++it) {
+        Vector2D dist = it->first->world_position() - obj->world_position();
+        if(fabs(dist.x) + fabs(dist.y) > it->first->light_radius() * 2.0f)
+            continue;
+        if(vision.IsLightVisible(it->first->world_position(), obj->world_position()))
+            return true;
+    }
+    return false;
 }
 
 void Fog::Render() {

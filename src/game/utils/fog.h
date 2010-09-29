@@ -28,6 +28,8 @@ class Fog: public framework::Layer {
     void RemoveLightSource(sprite::WorldObject*);
     void UpdateLightSource(sprite::WorldObject*);
 
+    bool IsIluminated(sprite::WorldObject*);
+
     virtual void Render();
 
   private:
