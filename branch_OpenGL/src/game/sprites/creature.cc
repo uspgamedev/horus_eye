@@ -228,8 +228,8 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 	return radianAngle;
 }
 
-void Creature::Render(Image *back_buffer, Vector2D &offset) {
-    if (!blink_) Sprite::Render(back_buffer, offset);
+void Creature::Render(Image *back_buffer, Vector2D &offset, float color_coef) {
+    if (!blink_) WorldObject::Render(back_buffer, offset, color_coef);
 }
 
 }  // namespace sprite

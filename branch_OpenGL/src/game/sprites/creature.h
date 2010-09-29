@@ -94,7 +94,7 @@ class Creature : public WorldObject , public framework::Observer {
     };
 
     virtual void Update(float dt) { UpdateCondition(dt); WorldObject::Update(dt); }
-	virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
+	virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset, float color_coef = 1.0f);
 
     // funcoes
     void AdjustBlink(float delta_t);
