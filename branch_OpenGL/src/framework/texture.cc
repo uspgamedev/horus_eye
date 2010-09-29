@@ -115,8 +115,8 @@ bool Texture::LoadFromSurface(SDL_Surface* data) {
     glGenTextures( 1, &texture );
     glBindTexture( GL_TEXTURE_2D, texture );
     texture_ = static_cast<uint32>(texture);
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
 
     GLenum errorCode = glGetError();
     if ( errorCode != 0 ) {
@@ -125,7 +125,8 @@ bool Texture::LoadFromSurface(SDL_Surface* data) {
         free(raw);
         return false;
     }
-    gluBuild2DMipmaps( GL_TEXTURE_2D, 4, texture_width_, texture_height_, GL_RGBA, GL_UNSIGNED_BYTE, raw);
+    //gluBuild2DMipmaps( GL_TEXTURE_2D, 4, texture_width_, texture_height_, GL_RGBA, GL_UNSIGNED_BYTE, raw);
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA4, texture_width_, texture_height_, 0, GL_RGBA, GL_UNSIGNED_BYTE, raw);
     free(raw);
 
     errorCode = glGetError();
