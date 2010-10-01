@@ -1,10 +1,3 @@
-/*
- * menubuilder.cc
- *
- *  Created on: Sep 10, 2010
- *      Author: kazuo
- */
-
 #include "menubuilder.h"
 #include "../../framework/engine.h"
 #include "../../framework/textmanager.h"
@@ -12,6 +5,7 @@
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
+#include "multipagemenu.h"
 
 namespace scene {
 
@@ -183,7 +177,7 @@ void MenuBuilder::PauseMenuHandler::CleanUp() {
 Menu *MenuBuilder::BuildHelpMenu () {
 
     // Our main menu.
-    Menu *menu = new Menu(1);
+    MultiPageMenu *menu = new MultiPageMenu(1, 1);
 
     // Setting its handler.
     menu->set_handler(new HelpMenuHandler(menu));

@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/scenes/menu.h
-// Definicao da classe Menu.
-//
-
 #include <cstdlib>
 #include <string>
 #include "menu.h"

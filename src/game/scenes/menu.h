@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/scenes/menu.cc
-// Definicao da classe Menu.
-//
-
 #ifndef HORUSEYE_GAME_SCENES_MENU_H_
 #define HORUSEYE_GAME_SCENES_MENU_H_
 
@@ -36,7 +28,7 @@ class Menu: public framework::Scene {
     void set_option_sprite(int index, framework::Sprite *sprite);
     void AddSprite(framework::Sprite *sprite, framework::Vector2D pos);
 
-  private:
+  protected:
 
     void DecideWhereOptionsGo();
     void InitialSelection();
