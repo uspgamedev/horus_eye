@@ -6,6 +6,8 @@
 #include "door.h"
 #include "wall.h"
 #include "../utils/circleobject.h"
+#include "../utils/fog.h"
+#include "../scenes/world.h"
 
 #include <cmath>
 #include <iostream>
@@ -23,7 +25,8 @@ Creature::Creature() : 	WorldObject() {
 	waiting_animation_ = false;
 	blink_time_ = 0;
     blink_ = false;
-	this->collision_type_ = MOVEABLE; 
+	this->collision_type_ = MOVEABLE;
+	hit_duration_ = new TimeAccumulator(0);
 }
 
 Creature::~Creature() {
@@ -229,7 +232,10 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 }
 
 void Creature::Render(Image *back_buffer, Vector2D &offset) {
-    if (!blink_) WorldObject::Render(back_buffer, offset);
+    if (blink_ || !this->visible()) return;
+    //Fog* fog = WORLD()->fog();
+    //if (fog->IsIluminated(this))
+        Sprite::Render(back_buffer, offset);
 }
 
 }  // namespace sprite

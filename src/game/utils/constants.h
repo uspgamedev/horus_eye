@@ -21,14 +21,14 @@ class Constants {
                        EXPLOSION_SPRITE_HEIGHT = 256,
                        EXPLOSION_DURATION = 3000,
                        
-                       PROJECTILE_DAMAGE = 1,
+                       PROJECTILE_DAMAGE = 10,
                        EXPLOSION_DAMAGE = 1,
 
-                       LIFEPOTION_RECOVER_LIFE = 1,
-                       MANAPOTION_RECOVER_MANA = 1,
+                       LIFEPOTION_RECOVER_LIFE = 10,
+                       MANAPOTION_RECOVER_MANA = 10,
                        
-                       HERO_MAX_LIFE = 5,
-                       HERO_MAX_MANA = 5,
+                       HERO_MAX_LIFE = 50,
+                       HERO_MAX_MANA = 50,
                        HERO_WIDTH = 110,
                        HERO_HEIGHT = 110,
                        HERO_HOTSPOT_X = 55,
@@ -43,23 +43,25 @@ class Constants {
                        MANA_METER_OFFSET_X = 20,
                        MANA_METER_OFFSET_Y = -20,                 
 
-					   MUMMY_LIFE = 1,
-					   MUMMY_DAMAGE = 1,
+					   MUMMY_LIFE = 10,
+					   MUMMY_DAMAGE = 10,
 
-                       RANGED_MUMMY_LIFE = 1,
-                       RANGED_MUMMY_DAMAGE = 1,
+                       RANGED_MUMMY_LIFE = 10,
+                       RANGED_MUMMY_DAMAGE = 10,
 
-                       BIG_MUMMY_LIFE = 3,
-                       BIG_MUMMY_DAMAGE = 2,
+                       BIG_MUMMY_LIFE = 30,
+                       BIG_MUMMY_DAMAGE = 15,
 
-                       FIREBALL_EXPLOSION_DAMAGE = 2,
-                       QUAKE_EXPLOSION_DAMAGE = 3,
+                       FIREBALL_EXPLOSION_DAMAGE = 15,
+                       FIREBALL_COST = 10,
+                       QUAKE_EXPLOSION_DAMAGE = 20,
+                       QUAKE_COST = 15,
 
-					   PHARAOH_LIFE = 15,
+					   PHARAOH_LIFE = 175,
 					   PHARAOH_MANA = 10,
 					   PHARAOH_SUMMON_MANA_COST = 3,
-					   PHARAOH_DAMAGE = 2,
-					   PHARAOH_RANGED_DAMAGE = 1;
+					   PHARAOH_DAMAGE = 20,
+					   PHARAOH_RANGED_DAMAGE = 10;
 
 
     const static float

@@ -7,7 +7,7 @@ namespace sprite {
 
 class PharaohRangedWeapon : public Weapon {
   public:
-    PharaohRangedWeapon(Creature* owner, int damage = 1) :
+    PharaohRangedWeapon(Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE) :
         Weapon(owner), damage_(damage) {}
 
     virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }

@@ -53,11 +53,4 @@ void WorldObject::set_world_position(const framework::Vector2D& pos) {
    set_position(World::FromWorldCoordinates(pos));
 }
 
-void WorldObject::Render(Image *back_buffer, Vector2D &offset) {
-    if(!this->visible()) return;
-    Fog* fog = WORLD()->fog();
-    if (fog->IsIluminated(this))
-        Sprite::Render(back_buffer, offset);
-}
-
 }  // namespace sprite

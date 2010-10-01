@@ -65,8 +65,6 @@ class WorldObject : public framework::Sprite {
     // tratamento de colisao
     virtual void HandleCollision(WorldObject* obj);
 
-    virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
-
   protected:
 
     // atributos

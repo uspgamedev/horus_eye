@@ -30,7 +30,7 @@ MagicMissile::~MagicMissile() {}
 
 void MagicMissile::CollidesWith(Mummy *obj) {
     if (this->status_ == WorldObject::STATUS_ACTIVE) {
-        obj->TakeDamage();
+        obj->TakeDamage(damage_);
     }
     Explode();
 }

@@ -91,13 +91,17 @@ void Mummy::HandleCollision(WorldObject* obj) {
 }
 
 void Mummy::TakeDamage(int life_points) {
-    Creature::TakeDamage(life_points);
-    PlayHitSound();
-    if(life_ > 0) {
-        waiting_animation_ = true;
-        this->SelectAnimation(taking_damage_animation_);
+    if(hit_duration_->Expired()) {
+        Creature::TakeDamage(life_points);
+        PlayHitSound();
+        if(life_ > 0) {
+            hit_duration_->Restart(1000);
+            blink_time_ = 0;
+            waiting_animation_ = true;
+            this->SelectAnimation(taking_damage_animation_);
+        }
+        standing_ = false;
     }
-    standing_ = false;
 }
 
 void Mummy::CollidesWith(Mummy *obj) {

@@ -30,7 +30,7 @@ Page::Page (int selection_num, MultiPageMenu *manager)
 
 }
 
-PageMenu::~Page () {
+Page::~Page () {
 
 }
 

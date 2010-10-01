@@ -6,6 +6,7 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../utils/levelmanager.h"
+#include "../utils/tile.h"
 
 namespace utils {
 class Hud;
@@ -70,13 +71,13 @@ class World : public framework::Scene {
     utils::Fog* fog() {	return fog_; }
     int level_width() {	return level_width_; }
     int level_height() { return level_height_; }
-    vector<string> level_matrix() {	return level_matrix_; }
+    utils::GameMap& level_matrix() {	return level_matrix_; }
     utils::ImageFactory* image_factory() { return image_factory_; }
 	
     //setters
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
-    void set_level_matrix(vector<string> matrix) { level_matrix_ = matrix; }
+    void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::Hero *hero) { hero_ = hero; }
 
   protected:
@@ -87,7 +88,7 @@ class World : public framework::Scene {
     utils::Hud *hud_;
     utils::Fog *fog_;
     int level_width_, level_height_;
-    vector<string> level_matrix_;
+    utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;
     utils::ImageFactory* image_factory_;
 

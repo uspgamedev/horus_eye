@@ -25,7 +25,6 @@ Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;
-	hit_duration_ = new TimeAccumulator(0);
 }
 
 Pharaoh::~Pharaoh() {
