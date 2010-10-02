@@ -2,6 +2,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/textmanager.h"
 #include "../utils/levelmanager.h"
+#include "../utils/textloader.h"
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
@@ -53,19 +54,19 @@ Menu *MenuBuilder::BuildMainMenu () {
         Sprite *options_sprite = new Sprite;
         switch (i) {
         case MenuBuilder::MAIN_SELECT_PLAY:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/play.png"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Play"));
             break;
         case MenuBuilder::MAIN_SELECT_HELP:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/help.png"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Help"));
             break;
         case MenuBuilder::MAIN_SELECT_SETTINGS:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/settings.png"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Settings"));
             break;
         case MenuBuilder::MAIN_SELECT_ABOUT:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/credits.png"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Credits"));
             break;
         case MenuBuilder::MAIN_SELECT_EXIT:
-            options_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/exit.png"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Exit"));
             break;
         }
         menu->set_option_sprite(i, options_sprite);
@@ -139,10 +140,10 @@ Menu *MenuBuilder::BuildPauseMenu () {
         TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 70, NULL);
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
-            options_sprite->Initialize(TEXT_MANAGER()->LoadFancyLine("Continue"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Continue"));
             break;
         case MenuBuilder::PAUSE_SELECT_EXIT_GAME:
-            options_sprite->Initialize(TEXT_MANAGER()->LoadFancyLine("Exit"));
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Return to Menu"));
             break;
         }
         menu->set_option_sprite(i, options_sprite);
@@ -182,7 +183,7 @@ Menu *MenuBuilder::BuildHelpMenu () {
     // Setting its handler.
     menu->set_handler(new HelpMenuHandler(menu));
 
-    Image* img = VIDEO_MANAGER()->LoadImage("data/images/exit.png");
+    Image* img = TEXT_LOADER()->GetImage("Back");
 
     // The menu's content box.
     float top = VIDEO_MANAGER()->video_size().y - img->height();

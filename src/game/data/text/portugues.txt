@@ -1,0 +1,14 @@
+#WORDS
+[Play]:Jogar
+[Help]:Ajuda
+[Settings]:Configurações
+[Credits]:Créditos
+[Exit]:Sair
+[Loading]:Carregando...
+[Continue]:Continuar
+[Return to Menu]:Voltar ao Menu
+[Back]:Voltar
+
+#FILES
+[Intro]:data/text/intro_pt_br.txt
+[CreditsFile]:data/text/credits_pt_br.txt

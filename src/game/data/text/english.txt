@@ -1,0 +1,14 @@
+#WORDS
+[Play]:Play
+[Help]:Help
+[Settings]:Settings
+[Credits]:Credits
+[Exit]:Exit
+[Loading]:Loading...
+[Continue]:Continue
+[Return to Menu]:Return to Menu
+[Back]:Back
+
+#FILES
+[Intro]:data/text/intro_en.txt
+[CreditsFile]:data/text/credits_en.txt

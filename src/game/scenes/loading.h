@@ -3,22 +3,15 @@
 
 #include "../../framework/scene.h"
 
-namespace framework {
-class Layer;
-class Image;
-class Sprite;
-}
-
 namespace scene {
 
 class Loading: public framework::Scene {
   public:
     Loading();
-    virtual ~Loading();
+    virtual ~Loading() {}
     virtual void Update(float delta_t);
 
   protected:
-    framework::Image* loading_image_;
     bool has_been_drawn_;
 };
 

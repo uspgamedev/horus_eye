@@ -9,11 +9,15 @@
 #include "../framework/audiomanager.h"
 #include "../framework/vector2D.h"
 #include "utils/levelmanager.h"
+#include "utils/textloader.h"
 
 // funcao principal do programa
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
+}
+utils::TextLoader* text_loader() {
+    return utils::TextLoader::reference();
 }
 
 framework::Engine* engine() {
@@ -23,6 +27,8 @@ framework::Engine* engine() {
 int main(int argc, char *argv[]) {
     engine()->Initialize("Horus Eye", framework::Vector2D(1024, 768), false);
     engine()->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
+
+    text_loader()->Initialize("data/text/english.txt");
 
     level_manager()->Initialize();
 
