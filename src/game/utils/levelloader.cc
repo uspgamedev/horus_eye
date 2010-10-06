@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/scenes/levelloader.cc
-// Definicao da classe LevelLoader.
-//
-
 #include <fstream>
 #include <iostream>
 #include "levelloader.h"
@@ -26,8 +18,6 @@ using namespace std;
 using namespace scene;
 using namespace sprite;
 using namespace framework;
-
-
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (file_name.c_str());

@@ -31,7 +31,7 @@ const float Constants::MANA_BAR_HEIGHT = 15.0f;
 const float Constants::LIGHT_RADIUS_THRESHOLD = 0.25f;
 const float Constants::LIGHT_RADIUS_INITIAL = 6.0f;
 
-const float Constants::HERO_SPEED = 3.0f;
+const float Constants::HERO_SPEED = 3.2f;
 
 const float Constants::PROJECTILE_SPEED = 8.0f;
 const float Constants::PROJECTILE_SPRITE_CENTER_X = 16.0f;

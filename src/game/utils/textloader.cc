@@ -90,7 +90,7 @@ bool TextLoader::Initialize(string language_file) {
         return false;
     char buffer[STRING_LENGTH];
     bool load_from_file = false;
-    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
+    TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 50, NULL);
     while(!feof(file)) {
         fgets(buffer, STRING_LENGTH, file);
         if(is_blank(buffer))

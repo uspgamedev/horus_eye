@@ -19,7 +19,7 @@ bool TextManager::Initialize() {
     transparentColor_.r = 255;
     transparentColor_.g = 0;
     transparentColor_.b = 255;
-    font_ = TTF_OpenFont( "data/font/Filmcryptic.ttf", 60 );
+    font_ = TTF_OpenFont( "data/font/Filmcrypob.ttf", 60 );
     return true;
 }
 
@@ -46,7 +46,7 @@ Image* TextManager::LoadLine(string line) {
     Image* img = new Image;
     SDL_Surface *message = NULL;
     
-    message = TTF_RenderText_Blended( font_, line.c_str(), textColor_ );
+    message = TTF_RenderUTF8_Blended( font_, line.c_str(), textColor_ );
     
     if(img != NULL) {
         if(!img->setSurface(message)) {
@@ -72,15 +72,15 @@ Image* TextManager::LoadFancyLine(string line) {
     color.b = 255;
     SDL_Rect rect;
 
-    message = TTF_RenderText_Solid( font_, line.c_str(), color );
+    message = TTF_RenderUTF8_Solid( font_, line.c_str(), color );
     color.r = 212;
     color.g = 170;
     color.b = 0;
-    message_light = TTF_RenderText_Solid( font_, line.c_str(), color );
+    message_light = TTF_RenderUTF8_Solid( font_, line.c_str(), color );
     color.r = 85;
     color.g = 68;
     color.b = 0;
-    message_dark = TTF_RenderText_Solid( font_, line.c_str(), color );
+    message_dark = TTF_RenderUTF8_Solid( font_, line.c_str(), color );
 
     rect.x = 2;
     rect.y = 6;
@@ -133,7 +133,7 @@ Image* TextManager::LoadText(string text, char indent) {
 
     //Blit lines in transparent surface
     for(int i = 0; i<nlines; i++) {
-        linesurf = TTF_RenderText_Solid( font_, lines[i].c_str(), textColor_ );
+        linesurf = TTF_RenderUTF8_Solid( font_, lines[i].c_str(), textColor_ );
         if(linesurf==NULL) continue;
         switch (indent){
             case 'c':
@@ -158,7 +158,7 @@ Image* TextManager::LoadText(string text, char indent) {
 Image* TextManager::LoadFile(string path, char indent) {
     FILE* txtFile;
     char buffer[MAXLINE];
-    int fontwidth = 24;
+    int fontwidth = 32;
     int screensize = 1024;
     int nchar=0, pos=0, last=0;
     string line, output;

@@ -1,7 +1,3 @@
-/*
- * settings.cc
- */
-
 #include <string>
 #include "settings.h"
 
@@ -29,7 +25,7 @@ Settings::Settings(std::string filename) {
     if (settings==NULL)
     {
         set_resolution(1);
-        set_fullscreen(0);
+        set_fullscreen(false);
     }
     else
     {
