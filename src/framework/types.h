@@ -1,10 +1,7 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/types.h
-// Tipos genericos do framework
-//
+#ifndef HORUSEYE_FRAMEWORK_TYPES_H_
+#define HORUSEYE_FRAMEWORK_TYPES_H_
+
+#include <SDL/SDL.h>
 
 namespace framework {
 
@@ -18,3 +15,5 @@ typedef Sint32 int32;
 typedef Sint64 int64;
 
 }  // namespace framework
+
+#endif

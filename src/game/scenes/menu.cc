@@ -76,6 +76,7 @@ void Menu::set_content_box(framework::Frame content_box) {
     content_box_defined_ = true;
     DecideWhereOptionsGo();
 }
+
 void Menu::set_selection_sprite(framework::Sprite *sprite) {
     selection_sprite_ = sprite;
     (*layers_.begin())->AddSprite(sprite);
@@ -97,6 +98,7 @@ void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
 
     }
 }
+
 void Menu::AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {
     (*layers_.begin())->AddSprite(sprite);
     sprite->set_position(pos);
