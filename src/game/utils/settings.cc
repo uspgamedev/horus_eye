@@ -1,3 +1,7 @@
+/*
+ * settings.cc
+ */
+
 #include <string>
 #include "settings.h"
 
@@ -21,18 +25,33 @@ Vector2D Settings::resolutions_[12] = {
 };
 
 Settings::Settings(std::string filename) {
+    Data data;
     FILE *settings = fopen(filename.c_str(),"rb");
+    if(settings != NULL) {
+        fread(&data, sizeof(Data), 1, settings);
+        fclose(settings);
+        if((strncmp(data.control, "HORUSCONFIGV", 12) != 0)
+                || (data.control[12] - '0' < 1)) {
+            // Invalid file or invalid version
+            settings = NULL;
+        }
+    }
+    // if settings is NULL, use default values.
     if (settings==NULL)
     {
-        set_resolution(1);
-        set_fullscreen(false);
-    }
-    else
-    {
-        fread(&data_, sizeof(Data), 1, settings);
-        resolution_ = data_.resolution;
-        fullscreen_ = data_.fullscreen;
-        fclose(settings);
+        resolution_ = 1;
+        fullscreen_ = false;
+        background_music_ = true;
+        sound_effects_ = true;
+        language_ = 0;
+
+        WriteToDisk();
+    } else {
+        resolution_ = data.resolution;
+        fullscreen_ = data.fullscreen;
+        background_music_ = data.background_music;
+        sound_effects_ = data.sound_effects;
+        language_ = data.language;
     }
 }
 
@@ -40,33 +59,20 @@ Settings::~Settings(){
 }
 
 void Settings::WriteToDisk(){
+    Data data;
 	FILE *settings = fopen("settings.duh","wb");
-	data_.resolution = resolution_;
-	data_.fullscreen = fullscreen_;
-	fwrite(&data_, sizeof(Data), 1, settings);
+	strcpy(data.control, "HORUSCONFIGV1");
+	data.resolution = resolution_;
+	data.fullscreen = fullscreen_;
+	data.background_music = background_music_;
+	data.sound_effects = sound_effects_;
+	data.language = language_;
+	fwrite(&data, sizeof(Data), 1, settings);
 	fclose(settings);
 }
 
-void Settings::set_resolution(int resolution){
-    resolution_ = resolution;
-    WriteToDisk();
-}
-
-Vector2D Settings::resolution(){
+Vector2D Settings::resolution_vector(){
     return resolutions_[resolution_];
-}
-
-void Settings::set_fullscreen(bool fullscreen){
-    fullscreen_ = fullscreen;
-    WriteToDisk();
-}
-
-bool Settings::fullscreen(){
-    return fullscreen_;
-}
-
-int Settings::resolution_int(){
-    return resolution_;
 }
 
 }

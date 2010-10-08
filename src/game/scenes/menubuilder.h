@@ -11,6 +11,10 @@ namespace framework {
 class Image;
 }
 
+namespace utils {
+class Settings;
+}
+
 namespace scene {
 
 class Menu;
@@ -72,13 +76,14 @@ class MenuBuilder {
     };
     class SettingsMenuHandler : public MenuHandler {
       public:
-        SettingsMenuHandler(Menu *menu) : MenuHandler(menu) {}
+        SettingsMenuHandler(Menu *menu);
         ~SettingsMenuHandler() {}
         void Handle(int selection);
         void CleanUp();
         void BuildSprites();
-      private:  
-        static std::string     resolution_[12], settings_[6], on_off_[2], language_[2];
+      private:
+        utils::Settings* settings_;
+        static std::string     resolution_[12], settings_names_[6], on_off_[2], language_[2];
         static int             sprites_active_[5];
         framework::Image *settings_images_[10], *resolution_images_[12], *on_off_images_[3][2], *language_images_[2];
         framework::Sprite *settings_sprites_[10], *resolution_sprites_[12], *on_off_sprites_[3][2], *language_sprites_[2];

@@ -11,22 +11,37 @@ class Settings {
 	Settings(std::string);
 	~Settings();
 	void WriteToDisk();
-	void set_resolution(int resolution);
-	framework::Vector2D resolution();
-	void set_fullscreen(bool fullscreen);
-    bool fullscreen();
-    int resolution_int();
+
+	// Setters
+	void set_resolution(int resolution) { resolution_ = resolution; }
+	void set_fullscreen(bool fullscreen) { fullscreen_ = fullscreen; }
+    void set_background_music(int background_music) {
+        background_music_ = background_music;
+    }
+    void set_sound_effects(bool sound_effects) { sound_effects_ = sound_effects; }
+    void set_language(int language) { language_ = language; }
+
+	// Getters
+    int resolution() { return resolution_; }
+    bool fullscreen() { return fullscreen_; }
+    bool background_music() { return background_music_; }
+    bool sound_effects() { return sound_effects_; }
+    int language() { return language_; }
+
+    framework::Vector2D resolution_vector();
 
   private:
-    int resolution_;
-	bool fullscreen_;
+    int resolution_, language_;
+	bool fullscreen_, background_music_, sound_effects_;
 	static framework::Vector2D resolutions_[12];
 	typedef struct data_{
+	    char control[14];
 	    framework::uint8 resolution;
 	    framework::uint8 fullscreen;
+	    framework::uint8 background_music;
+	    framework::uint8 sound_effects;
+	    framework::uint8 language;
 	} Data;
-
-	Data data_;
 };
 }
 

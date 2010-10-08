@@ -22,7 +22,7 @@ framework::Engine* engine() {
 
 int main(int argc, char *argv[]) {
     Settings settings = Settings(std::string("settings.duh"));
-    engine()->Initialize("Horus Eye", settings.resolution(), settings.fullscreen());
+    engine()->Initialize("Horus Eye", settings.resolution_vector(), settings.fullscreen());
     //engine()->Initialize("Horus Eye", framework::Vector2D(800, 600), false);
     engine()->audio_manager()->LoadMusic("data/musics/bgmusic.wav")->PlayForever();
 
