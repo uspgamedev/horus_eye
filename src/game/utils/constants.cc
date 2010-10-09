@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/utils/constants.cc
-// Implementacao da classe Constants.
-//
-
 #include "constants.h"
 
 namespace utils {
@@ -25,10 +17,12 @@ const float Constants::FLOOR_HOTSPOT_Y =  54.0f/2.0f;
 const float Constants::WALL_HOTSPOT_X = 106.0f/2.0f;
 const float Constants::WALL_HOTSPOT_Y = 157.0f - 27.0f;
 
-const float Constants::LIFE_BAR_WIDTH = 200.0f;
-const float Constants::LIFE_BAR_HEIGHT = 15.0f;
-const float Constants::MANA_BAR_WIDTH = 200.0f;
-const float Constants::MANA_BAR_HEIGHT = 15.0f;
+const float Constants::LIFE_BAR_WIDTH = 22.0f;
+const float Constants::LIFE_BAR_HEIGHT = 456.0f;
+const float Constants::MANA_BAR_WIDTH = 22.0f;
+const float Constants::MANA_BAR_HEIGHT = 465.0f;
+const float Constants::TOTEM_WIDTH = 72.0f;
+const float Constants::TOTEM_HEIGHT = 518.0f;
 
 const float Constants::LIGHT_RADIUS_THRESHOLD = 0.25f;
 const float Constants::LIGHT_RADIUS_INITIAL = 6.0f;

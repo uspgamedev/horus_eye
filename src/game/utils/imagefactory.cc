@@ -2,6 +2,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/image.h"
+#include "constants.h"
 
 using namespace framework;
 namespace utils {
@@ -56,6 +57,15 @@ namespace utils {
 
         entry_image_ = VIDEO_MANAGER()->LoadImage("data/images/door.png");
         entry_image_->set_frame_size(Vector2D(106, 157));
+
+        life_bar_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_life_bar.png");
+        life_bar_image_->set_frame_size(Vector2D(Constants::LIFE_BAR_WIDTH, Constants::LIFE_BAR_HEIGHT));
+        
+        mana_bar_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_mana_bar.png");
+        mana_bar_image_->set_frame_size(Vector2D(Constants::MANA_BAR_WIDTH, Constants::MANA_BAR_HEIGHT));
+
+        totem_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_totem.png");
+        totem_image_->set_frame_size(Vector2D(72, 518));
     }
     Image* ImageFactory::HeroImage(){
         return hero_image_;
@@ -86,6 +96,15 @@ namespace utils {
     }
     Image* ImageFactory::QuakeImage() {
         return quake_image_;
+    }
+    Image* ImageFactory::LifeBarImage() {
+        return life_bar_image_;
+    }
+    Image* ImageFactory::ManaBarImage() {
+        return mana_bar_image_;
+    }
+    Image* ImageFactory::TotemImage() {
+        return totem_image_;
     }
     Image* ImageFactory::LifePotionImage() {
         return life_potion_image_;

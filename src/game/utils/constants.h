@@ -1,11 +1,3 @@
-//
-// Horus Eye
-// Copyright (C) 2010  USPGameDev
-//
-// game/utils/constants.h
-// Definicao da classe Constants.
-//
-
 #ifndef HORUSEYE_GAME_UTILS_CONSTANTS_H_
 #define HORUSEYE_GAME_UTILS_CONSTANTS_H_
 
@@ -36,12 +28,12 @@ class Constants {
                        HERO_MAX_WEAPONS = 5,
                        SIGHT_POTION_MAX_STACK = 5,
 
-                       LIFE_IMAGE_WIDTH = 49,
-                       LIFE_IMAGE_HEIGHT = 49,
-                       LIFE_METER_OFFSET_X = -20,
-                       LIFE_METER_OFFSET_Y = -20,
-                       MANA_METER_OFFSET_X = 20,
-                       MANA_METER_OFFSET_Y = -20,                 
+                       LIFE_BAR_OFFSET_X = 36,
+                       LIFE_BAR_OFFSET_Y = 56,
+                       MANA_BAR_OFFSET_X = 36,
+                       MANA_BAR_OFFSET_Y = 56,                 
+                       TOTEM_OFFSET_X = 36,
+                       TOTEM_OFFSET_Y = 36,
 
 					   MUMMY_LIFE = 10,
 					   MUMMY_DAMAGE = 10,
@@ -84,6 +76,8 @@ class Constants {
         LIFE_BAR_HEIGHT,
         MANA_BAR_WIDTH,
         MANA_BAR_HEIGHT,
+        TOTEM_WIDTH,
+        TOTEM_HEIGHT,
         
         FIREBALL_EXPLOSION_RADIUS,
         QUAKE_EXPLOSION_RADIUS,
