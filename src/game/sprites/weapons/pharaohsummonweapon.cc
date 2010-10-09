@@ -32,18 +32,18 @@ void PharaohSummonWeapon::Attack() {
        So in this example, we will summon a big mummy.
        */
     int choice = rand()%100;
-    utils::ImageFactory image_factory;
+    utils::ImageFactory *image_factory = world->image_factory();
     MummyBuilder mummy_builder;
     if (choice < SUMMON_RANGED_CHANCE) {
-        world->AddWorldObject(mummy_builder.RangedMummy(image_factory.RangedMummyImage()), mummyPos);
+        world->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();
     }
     else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-        world->AddWorldObject(mummy_builder.BigMummy(image_factory.BigMummyImage()), mummyPos);
+        world->AddWorldObject(mummy_builder.BigMummy(image_factory->BigMummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();
     }
     else {
-        world->AddWorldObject(mummy_builder.WalkingMummy(image_factory.MummyImage()), mummyPos);
+        world->AddWorldObject(mummy_builder.WalkingMummy(image_factory->MummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();
     }
 

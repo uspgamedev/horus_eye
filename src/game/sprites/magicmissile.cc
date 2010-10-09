@@ -4,6 +4,7 @@
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
+#include "../scenes/world.h"
 
 using namespace framework;
 using namespace utils;
@@ -19,8 +20,8 @@ namespace sprite {
 MagicMissile::MagicMissile(Vector2D & dir) :
         Projectile(Constants::PROJECTILE_DAMAGE, Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir)
 {
-    ImageFactory image_factory;
-    Initialize( image_factory.MagicMissileImage() );
+    ImageFactory *image_factory = WORLD()->image_factory();
+    Initialize( image_factory->MagicMissileImage() );
     set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
     bound_ = new CircleObject(0.15f);
     light_radius_ = 1.0f;

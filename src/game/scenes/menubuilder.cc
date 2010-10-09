@@ -16,7 +16,7 @@ using namespace utils;
 using namespace std;
 
 #define RECT_WIDTH              266
-#define RECT_HEIGHT             90
+#define RECT_HEIGHT             60
 #define SET_RECT_WIDTH          266
 #define SET_RECT_HEIGHT         70
 #define SELECTION_WIDTH         864

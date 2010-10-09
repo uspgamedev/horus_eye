@@ -9,6 +9,7 @@
 #define HORUSEYE_GAME_UTILS_FOG_H_
 
 #include "../../framework/layer.h"
+#include "tile.h"
 #include <map>
 
 namespace sprite {
@@ -29,12 +30,16 @@ class Fog: public framework::Layer {
     void UpdateLightSource(sprite::WorldObject*);
 
     bool IsIluminated(sprite::WorldObject*);
+    void UpdateVisibility();
 
     virtual void Render();
+
+    void set_debug() { debug_ = true; } // TODO remover debug
 
   private:
     framework::Image* blank_background_;
     map<sprite::WorldObject*, framework::Sprite*> light_sources_;
+    bool debug_; // TODO remover debug
 };
 
 }

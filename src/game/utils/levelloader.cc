@@ -32,7 +32,7 @@ void LevelLoader::LoadMatrix(string file_name) {
 			file >> raw_matrix[i];
 			matrix[i] = TileRow(width);
 			for (int j = 0; j < width; j++) {
-			    matrix[i][j] = Tile(i, j, raw_matrix[i][j]);
+			    matrix[i][j] = new Tile(i, j, raw_matrix[i][j]);
 			}
 		}
 
@@ -54,7 +54,7 @@ bool LevelLoader::InRange (int i,int j) {
 }
 
 bool LevelLoader::IsWall(int i, int j) {
-	return InRange(i,j) ? world_->level_matrix()[i][j].object() == WALL : false;
+	return InRange(i,j) ? world_->level_matrix()[i][j]->object() == WALL : false;
 }
 
 void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
@@ -62,7 +62,7 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 	
 	for (int i = 0; i < (int)matrix.size(); ++i) {
 		for (int j = 0; j < (int)matrix[i].size(); ++j) {
-			if(matrix[i][j].object() == WALL) {
+			if(matrix[i][j]->object() == WALL) {
 				if(IsWall(i, j-1)) {
 					if(IsWall(i+1, j)) {
 						wall_matrix[i][j]->set_type(Wall::MIDDLE);
@@ -154,7 +154,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 			}
 			case DOOR: {
 				GameMap& matrix = world_->level_matrix();
-				if(j < world_->level_width()-1 && matrix[i][j+1].object() == DOOR) {
+				if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
 					Vector2D pos = position + Vector2D(0.5, 0);
 					world_->AddWorldObject(new Door(image_factory->DoorImage()), pos);
 
@@ -193,7 +193,7 @@ void LevelLoader::Load(string file_name) {
 
 	for (int i = 0; i < (int)matrix.size(); ++i) {
 		for (int j = 0; j < (int)matrix[i].size(); ++j) {
-			char token = matrix[i][j].object();
+			char token = matrix[i][j]->object();
 			Vector2D position ((float)j, (float)(world_->level_height() - i - 1));
 
 			TokenToWorldObject(token, i, j, position, wall_matrix);

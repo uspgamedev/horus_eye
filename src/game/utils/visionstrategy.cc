@@ -38,7 +38,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
 
     for (int i = 0; i < (int)matrix.size(); i++) {
         for (int j = 0; j < (int)matrix[i].size(); j++) {
-            if(solid(matrix[i][j].object())){
+            if(solid(matrix[i][j]->object())){
                 float x = static_cast<float>(j);
                 float y = static_cast<float>(matrix.size() - i - 1);
 
@@ -95,7 +95,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     */
     while (i != (int)ipos2.y || j != (int)ipos2.x) {
         //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
-        if (wall(matrix[i][j].object())) return false;
+        if (wall(matrix[i][j]->object())) return false;
         // Distances to the next square: left/rigt or up/down.
         float dx = fabs((j + 0.5f*step_j - ij_pos.x)/dir.x),
               dy = fabs(((matrix.size()-i-1) - 0.5f*step_i - ij_pos.y)/dir.y),

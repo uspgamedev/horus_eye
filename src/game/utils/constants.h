@@ -72,6 +72,8 @@ class Constants {
         
         CONDITION_DURATION,
 
+        FLOOR_WIDTH,
+        FLOOR_HEIGHT,
         FLOOR_HOTSPOT_X,
         FLOOR_HOTSPOT_Y,
 

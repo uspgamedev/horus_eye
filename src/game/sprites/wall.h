@@ -16,6 +16,10 @@ class Animation;
 class Image;
 }
 
+namespace utils {
+class Tile;
+}
+
 namespace sprite {
 
 class Wall : public WorldObject {
@@ -26,12 +30,15 @@ class Wall : public WorldObject {
     Wall(framework::Image* image);
     ~Wall();
     virtual void Update(float dt);
+    virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
     virtual void HandleCollision(WorldObject *);
     void set_type(WallType);
 
     WallType wall_type_;
 
   private:
+
+    void CheckType();
 
     class Square {
       public:
@@ -50,7 +57,9 @@ class Wall : public WorldObject {
 
     Square transparency_square_;
 
-    framework::Animation *visible_animation_, *transparent_animation_;
+    utils::Tile *tile_;
+    framework::Animation *visible_animation_, *transparent_animation_,
+                         *dark_visible_animation_, *dark_transparent_animation_;
 };
 
 }

@@ -17,6 +17,8 @@ const float Constants::DOOR_BOUND_HEIGHT = 1.0f;
 
 const float Constants::CONDITION_DURATION = 30.0f;
 
+const float Constants::FLOOR_WIDTH = 106.0f;
+const float Constants::FLOOR_HEIGHT =  54.0f;
 const float Constants::FLOOR_HOTSPOT_X = 106.0f/2.0f;
 const float Constants::FLOOR_HOTSPOT_Y =  54.0f/2.0f;
 

@@ -32,8 +32,8 @@ MummyProjectile::MummyProjectile(Vector2D & dir, int damage) :
         Projectile(damage, Constants::PROJECTILE_SPEED,
                         Constants::PROJECTILE_DURATION, dir)
 {
-    ImageFactory image_factory;
-    Initialize( image_factory.MummyProjectileImage() );
+    ImageFactory *image_factory = WORLD()->image_factory();
+    Initialize( image_factory->MummyProjectileImage() );
 	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
 
     this->bound_ = new CircleObject(0.15f);

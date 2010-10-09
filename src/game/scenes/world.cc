@@ -103,6 +103,9 @@ void World::VerifyCheats() {
         fog_->set_visible(!fog_->IsVisible());
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
+    if(input->KeyPressed(K_z))
+        fog_->set_debug();
+
 }
 
 Vector2D World::ActualOffset() {
@@ -136,6 +139,7 @@ void World::Update(float delta_t) {
     
     world_layer_->set_offset(ActualOffset());
     fog_->set_offset(ActualOffset());
+    fog_->UpdateVisibility();
 
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
@@ -148,6 +152,9 @@ void World::Update(float delta_t) {
 
 void World::End() {
     this->RemoveAll();
+    for (int i = 0; i < (int)level_matrix_.size(); i++)
+        for (int j = 0; j < (int)level_matrix_[i].size(); j++)
+            delete level_matrix_[i][j];
 }
 
 void World::IncreaseNumberOfEnemies() {

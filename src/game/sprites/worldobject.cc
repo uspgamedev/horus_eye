@@ -10,6 +10,7 @@
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/fog.h"
+#include "../utils/tile.h"
 
 namespace sprite {
 
@@ -51,6 +52,22 @@ void WorldObject::HandleCollision(WorldObject* obj) {
 void WorldObject::set_world_position(const framework::Vector2D& pos) {
    bound_->set_position(pos);
    set_position(World::FromWorldCoordinates(pos));
+}
+
+
+void WorldObject::Render(Image *back_buffer, Vector2D &offset) {
+
+    World *world = WORLD();
+    GameMap& map = world->level_matrix();
+
+    TilePos pos = Tile::ToTilePos(world_position());
+
+    pos.i = map.size() - pos.i - 1;
+
+    Tile*   obj_tile = Tile::GetFromMapPosition(world->level_matrix(), pos);
+
+    if (obj_tile && obj_tile->visible()) Sprite::Render(back_buffer, offset);
+
 }
 
 }  // namespace sprite
