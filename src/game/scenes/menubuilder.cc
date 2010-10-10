@@ -1,9 +1,11 @@
+#include <sstream>
 #include "menubuilder.h"
 #include "../../framework/engine.h"
 #include "../../framework/textmanager.h"
 #include "../utils/levelmanager.h"
 #include "../utils/textloader.h"
 #include "../utils/settings.h"
+#include "../utils/constants.h"
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
@@ -21,30 +23,27 @@ using namespace std;
 #define SET_RECT_HEIGHT         70
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
+
 #define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.3f
-#define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_BOTTOM             MENU_TOP + MenuBuilder::MAIN_SELECT_NUM*RECT_HEIGHT
+#define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
+
 #define PAUSE_TOP               VIDEO_MANAGER()->video_size().y/2.0f
-#define PAUSE_LEFT              VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define PAUSE_BOTTOM            MENU_TOP + MenuBuilder::PAUSE_SELECT_NUM*RECT_HEIGHT*1.5f
+#define PAUSE_LEFT              VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define PAUSE_RIGHT             VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
-#define SET_TOP                 VIDEO_MANAGER()->video_size().y/4.0f + 120
-#define SET_LEFT                VIDEO_MANAGER()->video_size().x/10.0f - SET_RECT_WIDTH/2.0f
-#define SET_BOTTOM              MENU_TOP + MenuBuilder::SETTINGS_SELECT_NUM*SET_RECT_HEIGHT
-#define SET_RIGHT               VIDEO_MANAGER()->video_size().x/2.0f + SET_RECT_WIDTH/2.0f
+
+#define SET_TOP                 VIDEO_MANAGER()->video_size().y / 8.0f
+#define SET_BOTTOM              VIDEO_MANAGER()->video_size().y * (7.0f / 8.0f)
+#define SET_LEFT                VIDEO_MANAGER()->video_size().x * 0.25f
+#define SET_RIGHT               VIDEO_MANAGER()->video_size().x * 0.50f
+
 #define NUM_RESOL               12
 #define NUM_ON_OFF              2
 
-string  MenuBuilder::SettingsMenuHandler::resolution_[12] = {"800x600", "1024x768", "1280x720", 
-                "1280x800", "1280x960", "1280x1024", 
-                 "1366x768", "1440x900", "1600x900", 
-                  "1600x1080", "1920x1080", "1920x1200"};
-string  MenuBuilder::SettingsMenuHandler::settings_names_[6] = {"Resolution", "Fullscreen", "Music", 
-                "Sound Effects", "Language", "Exit"};
-string  MenuBuilder::SettingsMenuHandler::on_off_[2] = {"Off", "On" };
-string  MenuBuilder::SettingsMenuHandler::language_[2] = {"English", "Portugues" };
-int     MenuBuilder::SettingsMenuHandler::sprites_active_[5] = {0,0,0,0,0};
+//========================
+//   MainMenu
 
 Menu *MenuBuilder::BuildMainMenu () {
 
@@ -89,8 +88,16 @@ Menu *MenuBuilder::BuildMainMenu () {
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Exit"));
             break;
         }
+        options_sprite->set_hotspot(Vector2D(options_sprite->image()->width() * 0.5f, 0.0f));
         menu->set_option_sprite(i, options_sprite);
     }
+
+    Image *img = TEXT_LOADER()->GetImage("DevelopedBy");
+    Sprite *developed = new Sprite;
+    developed->Initialize(img);
+    developed->set_hotspot(Vector2D(0, img->height()));
+    menu->AddSprite(developed, Vector2D(15.0f, VIDEO_MANAGER()->video_size().y));
+    developed->set_zindex(Menu::OPTION_ZINDEX * 0.5f);
 
     return menu;
 }
@@ -129,8 +136,10 @@ void MenuBuilder::MainMenuHandler::Handle(int selection) {
     }
 }
 
+//========================
+//   PauseMenu
+
 Menu *MenuBuilder::BuildPauseMenu () {
-TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
     // Our main menu.
     Menu *menu = new Menu(MenuBuilder::PAUSE_SELECT_NUM);
 
@@ -158,9 +167,8 @@ TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
     menu->AddSprite(bg, Vector2D());
 
     // The sprite of each option.
-    for (int i = 0; i < MenuBuilder::MAIN_SELECT_NUM; ++i) {
+    for (int i = 0; i < MenuBuilder::PAUSE_SELECT_NUM; ++i) {
         Sprite *options_sprite = new Sprite;
-        TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 70, NULL);
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Continue"));
@@ -169,6 +177,7 @@ TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Return to Menu"));
             break;
         }
+        options_sprite->set_hotspot(Vector2D(options_sprite->image()->width() * 0.5f, 0.0f));
         menu->set_option_sprite(i, options_sprite);
     }
 
@@ -198,6 +207,9 @@ void MenuBuilder::PauseMenuHandler::CleanUp() {
     delete bg_img_;
 }
 
+//========================
+//   HelpMenu
+
 Menu *MenuBuilder::BuildHelpMenu () {
 
     // Our main menu.
@@ -226,6 +238,7 @@ Menu *MenuBuilder::BuildHelpMenu () {
 
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width() * 0.5f, 0.0f));
     menu->set_option_sprite(0, options_sprite);
 
     return menu;
@@ -235,10 +248,17 @@ void MenuBuilder::HelpMenuHandler::Handle(int selection) {
     menu_->Finish();
 }
 
+//========================
+//   SettingsMenu
+
+string  MenuBuilder::SettingsMenuHandler::settings_names_[MenuBuilder::SETTINGS_SELECT_NUM] = {
+     "Resolution", "Fullscreen", "Music", "Sound Effects", "Language", "BLANK", "Apply", "Back"};
+string  MenuBuilder::SettingsMenuHandler::on_off_[2] = {"Off", "On" };
+
 MenuBuilder::SettingsMenuHandler::SettingsMenuHandler(Menu *menu) : MenuHandler(menu) {
     for(int i = 0; i < 5; ++i)
         sprites_active_[i] = 0;
-    settings_ = new Settings(std::string("settings.duh"));
+    settings_ = new Settings();
 }
 
 Menu *MenuBuilder::BuildSettingsMenu () {
@@ -257,14 +277,9 @@ Menu *MenuBuilder::BuildSettingsMenu () {
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
     selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
-    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH/2.0f-RECT_WIDTH),( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
+    float hotspot_x = selection_sprite->image()->width() * 0.45f;
+    selection_sprite->set_hotspot(Vector2D(hotspot_x,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
     menu->set_selection_sprite(selection_sprite);
-
-    // The game logo.
-    Sprite *logo = new Sprite;
-    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_560x334_black.png"));
-    logo->set_hotspot(Vector2D(logo->image()->width() * 0.5f, 0));
-    menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
     
     // The sprite of each option.
     settings_handler_->BuildSprites();
@@ -309,8 +324,13 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection) {
             language_sprites_[sprites_active_[4]]->set_visible(true);
             break;
         }
-        case MenuBuilder::SETTINGS_SELECT_EXIT: {
+        case MenuBuilder::SETTINGS_SELECT_APPLY: {
             settings_->WriteToDisk();
+            utils::LevelManager::reference()->QueueRestartGame();
+            framework::Engine::reference()->quit();
+            break;
+        }
+        case MenuBuilder::SETTINGS_SELECT_EXIT: {
             menu_->Finish();
             break;
         }
@@ -321,27 +341,40 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection) {
 }
 
 void MenuBuilder::SettingsMenuHandler::BuildSprites() {
-    TEXT_MANAGER()->setFont("data/font/Filmcryptic.ttf", 50, NULL);
+    TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 50, NULL);
     
+    Sprite *options[MenuBuilder::SETTINGS_SELECT_NUM];
+
     // Creates the sprites for the setting names
     for (int i = 0; i < MenuBuilder::SETTINGS_SELECT_NUM; ++i) {
-        settings_sprites_[i] = new Sprite;
-        settings_images_[i] = TEXT_MANAGER()->LoadLine(settings_names_[i]);
-        settings_sprites_[i]->Initialize(settings_images_[i]);
-        settings_sprites_[i]->set_hotspot(Vector2D(settings_images_[i]->width() * 0.5f, 0));
-        menu_->set_option_sprite(i, settings_sprites_[i]);
+        if(settings_names_[i].compare("BLANK") == 0)
+            continue;
+        Image* img = TEXT_LOADER()->GetImage(settings_names_[i]);
+        options[i] = new Sprite;
+        options[i]->Initialize(img);
+        options[i]->set_hotspot(Vector2D(img->width(), 0.0f));
+        menu_->set_option_sprite(i, options[i]);
     }
+
+    float second_column_x = VIDEO_MANAGER()->video_size().x * 0.75f;
 
     // Get current resolution
     sprites_active_[0] = settings_->resolution();
-    
+
+    const Vector2D *resolutions = settings_->ResolutionList();
+
+    resolution_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Sprite*)));
+    resolution_images_ = static_cast<Image**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Image*)));
+
     // Creates the resolution names vector.
-    for (int i = 0; i < 12; ++i) {
+    for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         resolution_sprites_[i] = new Sprite;
-        resolution_images_[i] = TEXT_MANAGER()->LoadLine(resolution_[i]);
+        std::ostringstream stm;
+        stm << static_cast<int>(resolutions[i].x) << "x" << static_cast<int>(resolutions[i].y);
+        resolution_images_[i] = TEXT_MANAGER()->LoadFancyLine(stm.str());
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
         resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, 0));
-        menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (SET_RIGHT+10, SET_TOP+14));
+        menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (second_column_x, options[0]->position().y));
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
     }
     
@@ -352,21 +385,25 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
             on_off_sprites_[i][j] = new Sprite;
-            on_off_images_[i][j] = TEXT_MANAGER()->LoadLine(on_off_[j]);
-            on_off_sprites_[i][j]->Initialize(on_off_images_[i][j]);
-            on_off_sprites_[i][j]->set_hotspot(Vector2D(on_off_images_[i][j]->width() * 0.5f, 0));
-            menu_->AddSprite(on_off_sprites_[i][j], framework::Vector2D (SET_RIGHT+10, SET_TOP+(i+1)*75+14));
+            Image *img = TEXT_LOADER()->GetImage(on_off_[j]);
+            on_off_sprites_[i][j]->Initialize(img);
+            on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, 0));
+            menu_->AddSprite(on_off_sprites_[i][j], framework::Vector2D (second_column_x, options[i+1]->position().y));
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
         }
     }
     
+    const string *language_name = settings_->LanguageNameList();
+    language_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_LANGUAGES * sizeof(Sprite*)));
+    language_images_ = static_cast<Image**>(malloc(Settings::NUM_LANGUAGES * sizeof(Image*)));
+
     sprites_active_[4] = settings_->language();
-    for (int i = 0; i < 2; ++i) {
+    for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
         language_sprites_[i] = new Sprite;
-        language_images_[i] = TEXT_MANAGER()->LoadLine(language_[i]);
+        language_images_[i] = TEXT_MANAGER()->LoadFancyLine(language_name[i]);
         language_sprites_[i]->Initialize(language_images_[i]);
         language_sprites_[i]->set_hotspot(Vector2D(language_images_[i]->width() * 0.5f, 0));
-        menu_->AddSprite(language_sprites_[i], framework::Vector2D (SET_RIGHT+10, SET_TOP+4*75+14));
+        menu_->AddSprite(language_sprites_[i], framework::Vector2D (second_column_x, options[4]->position().y));
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }
     
@@ -374,10 +411,20 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
 
 void MenuBuilder::SettingsMenuHandler::CleanUp() {
     delete settings_;
-    for ( int i = 0; i < 10; ++i ) {
-        //settings_images_[i]->Destroy();
-        //delete settings_images_[i];
+
+    free(resolution_sprites_);
+    for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
+        resolution_images_[i]->Destroy();
+        delete resolution_images_[i];
     }
+    free(resolution_images_);
+
+    free(language_sprites_);
+    for(int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
+        language_images_[i]->Destroy();
+        delete language_images_[i];
+    }
+    free(language_images_);
 }
 
 }

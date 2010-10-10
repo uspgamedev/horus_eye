@@ -7,6 +7,8 @@ namespace scene {
 
 class Menu;
 
+// A MenuHandler is what decides what happens when the user presses enter
+// or clicks on an option of a Menu.
 class MenuHandler {
   public:
     virtual ~MenuHandler () {}

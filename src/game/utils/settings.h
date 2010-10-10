@@ -1,14 +1,13 @@
 #ifndef HORUSEYE_GAME_UTILS_SETTINGS_H_
 #define HORUSEYE_GAME_UTILS_SETTINGS_H_
 
-#include <string>
 #include "../../framework/vector2D.h"
 #include "../../framework/types.h"
 namespace utils {
 
 class Settings {
   public:
-	Settings(std::string);
+	Settings();
 	~Settings();
 	void WriteToDisk();
 
@@ -27,13 +26,21 @@ class Settings {
     bool background_music() { return background_music_; }
     bool sound_effects() { return sound_effects_; }
     int language() { return language_; }
+    const framework::Vector2D& resolution_vector();
+    const std::string& language_file();
 
-    framework::Vector2D resolution_vector();
+
+    const static int NUM_RESOLUTIONS = 12;
+    static const framework::Vector2D* ResolutionList() { return resolutions_; }
+    const static int NUM_LANGUAGES = 2;
+    static const std::string* LanguageList() { return languages_; }
+    static const std::string* LanguageNameList() { return languages_names_; }
 
   private:
     int resolution_, language_;
 	bool fullscreen_, background_music_, sound_effects_;
-	static framework::Vector2D resolutions_[12];
+	static framework::Vector2D resolutions_[NUM_RESOLUTIONS];
+	static std::string languages_[NUM_LANGUAGES], languages_names_[NUM_LANGUAGES];
 	typedef struct data_{
 	    char control[14];
 	    framework::uint8 resolution;

@@ -9,6 +9,7 @@
 #include "../../utils/visionstrategy.h"
 #include "../../utils/imagefactory.h"
 #include "../../utils/constants.h"
+#include "../../utils/settings.h"
 
 namespace sprite {
 
@@ -29,7 +30,9 @@ void HeroExplosionWeapon::Attack(){
         Animation *animation = new Animation(8, 0, 1, 2, 3, 4, 5, -1);
         Explosion * explosion = new Explosion(imfac->QuakeImage(), animation, Constants::QUAKE_EXPLOSION_RADIUS, Constants::QUAKE_EXPLOSION_DAMAGE);
         world_->AddWorldObject(explosion, explosionPosition);
-        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        utils::Settings settings;
+        if(settings.sound_effects())
+            Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
         hero_->StartExplosion();
         hero_->set_mana(hero_->mana() - cost_);
     }

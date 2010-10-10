@@ -104,7 +104,13 @@ bool TextLoader::Initialize(string language_file) {
                 val = TEXT_MANAGER()->LoadFile(key_val(buffer).c_str(), 'c');
             else
                 val = TEXT_MANAGER()->LoadFancyLine(key_val(buffer).c_str());
+
+            if(text_images_.count(name.c_str()) && text_images_[name.c_str()] != NULL) {
+                text_images_[name.c_str()]->Destroy();
+                delete text_images_[name.c_str()];
+            }
             text_images_[name.c_str()] = val;
+
         } else {
             // Syntax error!
         }

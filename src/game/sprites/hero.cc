@@ -20,6 +20,7 @@
 #include "mummyprojectile.h"
 #include "mummy.h"
 #include "../utils/constants.h"
+#include "../utils/settings.h"
 #include "weapons/herobaseweapon.h"
 #include <cmath>
 #include <iostream>
@@ -111,7 +112,9 @@ void Hero::ChangeSecondaryWeapon(int slot) {
 void Hero::TakeDamage(int life_points) {
     if(hit_duration_->Expired()) {
         Creature::TakeDamage(life_points);
-        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
+        Settings settings;
+        if(settings.sound_effects())
+            Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
         hit_duration_->Restart(2000);
         blink_time_ = 0;
     }

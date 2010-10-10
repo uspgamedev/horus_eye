@@ -16,6 +16,7 @@
 #include "../utils/geometryprimitives.h"
 #include "../utils/visionstrategy.h"
 #include "../utils/constants.h"
+#include "../utils/settings.h"
 #include "mummy.h"
 #include "projectile.h"
 #include "explosion.h"
@@ -206,7 +207,9 @@ void Mummy::PlayHitSound() const {
     int id = 1 + (rand() % 4);
 
     ss << "data/samples/hit" << id << ".wav";
-    Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
+    Settings settings;
+    if(settings.sound_effects())
+        Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
 }
 
 }

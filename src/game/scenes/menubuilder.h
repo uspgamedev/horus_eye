@@ -47,6 +47,8 @@ class MenuBuilder {
         SETTINGS_SELECT_MUSIC,
         SETTINGS_SELECT_SOUNDS,
         SETTINGS_SELECT_LANGUAGE,
+        SETTINGS_SELECT_BLANK_SPACE,
+        SETTINGS_SELECT_APPLY,
         SETTINGS_SELECT_EXIT,
         SETTINGS_SELECT_NUM
     } SettingsMenuSelection;
@@ -83,10 +85,10 @@ class MenuBuilder {
         void BuildSprites();
       private:
         utils::Settings* settings_;
-        static std::string     resolution_[12], settings_names_[6], on_off_[2], language_[2];
-        static int             sprites_active_[5];
-        framework::Image *settings_images_[10], *resolution_images_[12], *on_off_images_[3][2], *language_images_[2];
-        framework::Sprite *settings_sprites_[10], *resolution_sprites_[12], *on_off_sprites_[3][2], *language_sprites_[2];
+        static std::string settings_names_[SETTINGS_SELECT_NUM], on_off_[2];
+        int sprites_active_[5];
+        framework::Image **resolution_images_, **language_images_;
+        framework::Sprite **resolution_sprites_, *on_off_sprites_[3][2], **language_sprites_;
     };
 };
 

@@ -25,10 +25,11 @@ class VideoManager {
   public:
     static const int COLOR_DEPTH = 32;
 
-    VideoManager() : backbuffer_(NULL), fullscreen_(false) {}
+    VideoManager() : backbuffer_(NULL), screen_(NULL), fullscreen_(false) {}
     ~VideoManager() {}
 
     bool Initialize(const string& title, const Vector2D& size, bool fullscreen);
+    bool ChangeResolution(const Vector2D& size, bool fullscreen);
     bool Release();
     void Render();
 

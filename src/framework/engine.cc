@@ -66,6 +66,7 @@ void Engine::Run() {
     SDL_Event event;
     float delta_t, total_fps = 0;
 
+    quit_ = false;
     while(!quit_) {
         DeleteFinishedScenes();
 
@@ -128,15 +129,14 @@ void Engine::Run() {
             }
         }
     }
-}
-
-void Engine::Release() {
     for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
         scene_list_[i]->Finish();
         delete scene_list_[i];
     }
     scene_list_.clear();
+}
 
+void Engine::Release() {
     delete time_handler_;
     delete input_manager_;
     delete fog_manager_;

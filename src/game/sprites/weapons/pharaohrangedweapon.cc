@@ -6,6 +6,7 @@
 #include "../mummyprojectile.h"
 #include "../../../framework/engine.h"
 #include "../../../framework/audiomanager.h"
+#include "../../utils/settings.h"
 
 namespace sprite {
 
@@ -29,7 +30,9 @@ void PharaohRangedWeapon::Attack(){
     world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);
     world->AddWorldObject(new sprite::MummyProjectile(offsetleft, damage_), pos);
     world->AddWorldObject(new sprite::MummyProjectile(offsetright, damage_), pos);
-    framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    utils::Settings settings;
+    if(settings.sound_effects())
+        framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     ((Mummy*)owner_)->StartAttack(hero);
 }

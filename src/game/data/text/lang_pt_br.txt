@@ -8,6 +8,16 @@
 [Continue]:Continuar
 [Return to Menu]:Voltar ao Menu
 [Back]:Voltar
+[DevelopedBy]:Desenvolvido por USPGameDev
+
+[Resolution]:Resolução
+[Fullscreen]:Tela Cheia
+[Music]:Música
+[Sound Effects]:Efeitos Sonoros
+[Language]:Idioma
+[Apply]:Aplicar
+[On]:Ligado
+[Off]:Desligado
 
 #FILES
 [Intro]:data/text/intro_pt_br.txt

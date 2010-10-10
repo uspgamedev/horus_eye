@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_GAME_UTILS_CONSTANTS_H_
 #define HORUSEYE_GAME_UTILS_CONSTANTS_H_
 
+#include <string>
+
 namespace utils {
 
 class Constants {
@@ -118,6 +120,10 @@ class Constants {
 		POTION_SPRITE_CENTER_X,
         POTION_SPRITE_CENTER_Y,
 		POTION_HEIGHT;
+
+    const static std::string
+        CONFIGURATION_FILE,
+        BACKGROUND_MUSIC;
 
 
   private:

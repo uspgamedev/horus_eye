@@ -16,20 +16,30 @@ namespace framework {
 // sucesso.
 bool VideoManager::Initialize(const string& title, const Vector2D& size,
                               bool fullscreen) {
-    screen_ = new Image;
+    ChangeResolution(size, fullscreen);
+    SDL_WM_SetCaption(title.c_str(), NULL);
+    title_ = title;
+
+    return true;
+}
+
+// Changes the resolution to the requested value.
+// Returns true on success.
+bool VideoManager::ChangeResolution(const Vector2D& size, bool fullscreen) {
+    if(screen_ == NULL) screen_ = new Image;
     if(!screen_->CreateVideoSurface(size, fullscreen))
         return false;
 
+    if(backbuffer_ != NULL) {
+        backbuffer_->Destroy();
+        delete backbuffer_;
+    }
     backbuffer_ = new Image;
-    if(backbuffer_ == NULL || !backbuffer_->Create(size))
+    if(backbuffer_ == NULL || !backbuffer_->Create(size)) {
         return false;
-
-    SDL_WM_SetCaption(title.c_str(), NULL);
-
+    }
     video_size_ = size;
     fullscreen_ = fullscreen;
-    title_ = title;
-
     return true;
 }
 

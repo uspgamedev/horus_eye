@@ -20,13 +20,13 @@ class Menu: public framework::Scene {
 
     void Update (float delta_t);
 
-    void set_handler(MenuHandler* handler) {
-        handler_ = handler;
-    }
+    void set_handler(MenuHandler* handler);
     void set_content_box(framework::Frame content_box);
     void set_selection_sprite(framework::Sprite *sprite);
     void set_option_sprite(int index, framework::Sprite *sprite);
     void AddSprite(framework::Sprite *sprite, framework::Vector2D pos);
+
+    const static float OPTION_ZINDEX;
 
   protected:
 

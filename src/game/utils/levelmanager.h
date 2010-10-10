@@ -49,7 +49,11 @@ class LevelManager {
 	void Finish();
     ~LevelManager();
 
+    void QueueRestartGame() { restart_game_ = true; }
+    bool RestartGameQueued() { return restart_game_; }
+
   private:
+    void LoadLevelList(std::string);
     void LoadNextLevel();
 
     scene::World* current_level_;
@@ -58,6 +62,7 @@ class LevelManager {
     unsigned int level_list_iterator_;
 	sprite::Hero *hero_;
     LevelManager();
+    bool restart_game_;
 };
 
 }

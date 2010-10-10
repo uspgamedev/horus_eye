@@ -1,15 +1,12 @@
-/*
- * settings.cc
- */
-
 #include <string>
 #include "settings.h"
+#include "constants.h"
 
 namespace utils {
 
 using namespace framework;
 
-Vector2D Settings::resolutions_[12] = {
+Vector2D Settings::resolutions_[] = {
         Vector2D(800.0f,600.0f),
         Vector2D(1024.0f,768.0f),
         Vector2D(1280.0f,720.0f),
@@ -24,9 +21,18 @@ Vector2D Settings::resolutions_[12] = {
         Vector2D(1920.0f,1200.0f)
 };
 
-Settings::Settings(std::string filename) {
+std::string Settings::languages_[] = {
+        "data/text/lang_en.txt",
+        "data/text/lang_pt_br.txt"
+};
+
+std::string Settings::languages_names_[] = {
+        "English", "Portugues"
+};
+
+Settings::Settings() {
     Data data;
-    FILE *settings = fopen(filename.c_str(),"rb");
+    FILE *settings = fopen(Constants::CONFIGURATION_FILE.c_str(),"rb");
     if(settings != NULL) {
         fread(&data, sizeof(Data), 1, settings);
         fclose(settings);
@@ -60,7 +66,7 @@ Settings::~Settings(){
 
 void Settings::WriteToDisk(){
     Data data;
-	FILE *settings = fopen("settings.duh","wb");
+	FILE *settings = fopen(Constants::CONFIGURATION_FILE.c_str(),"wb");
 	strcpy(data.control, "HORUSCONFIGV1");
 	data.resolution = resolution_;
 	data.fullscreen = fullscreen_;
@@ -71,8 +77,12 @@ void Settings::WriteToDisk(){
 	fclose(settings);
 }
 
-Vector2D Settings::resolution_vector(){
+const Vector2D& Settings::resolution_vector(){
     return resolutions_[resolution_];
+}
+
+const std::string& Settings::language_file() {
+    return languages_[language_];
 }
 
 }

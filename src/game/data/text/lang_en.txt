@@ -8,6 +8,16 @@
 [Continue]:Continue
 [Return to Menu]:Return to Menu
 [Back]:Back
+[DevelopedBy]:Developed by USPGameDev
+
+[Resolution]:Resolution
+[Fullscreen]:Fullscreen
+[Music]:Music
+[Sound Effects]:Sound Effects
+[Language]:Language
+[Apply]:Apply
+[On]:On
+[Off]:Off
 
 #FILES
 [Intro]:data/text/intro_en.txt

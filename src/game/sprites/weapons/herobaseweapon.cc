@@ -5,6 +5,7 @@
 #include "../../../framework/engine.h"
 #include "../../scenes/world.h"
 #include "../magicmissile.h"
+#include "../../utils/settings.h"
 
 namespace sprite {
 
@@ -21,7 +22,9 @@ void HeroBaseWeapon::Attack(){
              pos = hero_->world_position();
     MagicMissile * projectile = new MagicMissile(versor);
     world_->AddWorldObject(projectile, pos);
-    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    utils::Settings settings;
+    if(settings.sound_effects())
+        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     hero_->StartAttack();
 }
 

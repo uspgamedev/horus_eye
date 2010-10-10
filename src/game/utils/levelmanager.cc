@@ -29,27 +29,33 @@ namespace utils {
 LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
-
-    MenuBuilder builder;
-	ifstream list ("data/level_list.txt");
-    if(list.is_open()) {
-		int level_count;
-		list >> level_count;
-        for(int i = 0; i < level_count; ++i) {
-			string filename;
-			list >> filename;
-            level_list_.push_back(filename);
-        }
-		list.close();
-    } else {
-		cout << "CANNOT OPEN data/level_list.txt" << endl;
-		exit(0);
-	}
+    restart_game_ = false;
+    LoadLevelList("data/level_list.txt");
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
+
+	MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
     Engine::reference()->PushScene(menu_);
+}
+
+void LevelManager::LoadLevelList(std::string file) {
+    level_list_.clear();
+    ifstream list (file.c_str());
+    if(list.is_open()) {
+        int level_count;
+        list >> level_count;
+        for(int i = 0; i < level_count; ++i) {
+            string filename;
+            list >> filename;
+            level_list_.push_back(filename);
+        }
+        list.close();
+    } else {
+        cout << "CANNOT OPEN " << file << endl;
+        exit(0);
+    }
 }
 
 void finishAndDeleteCurrentScene() {

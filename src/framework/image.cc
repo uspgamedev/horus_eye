@@ -231,6 +231,8 @@ bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
     if(fullscreen)
         flags |= SDL_FULLSCREEN;
 
+    if(SDL_VideoModeOK(width, height, VideoManager::COLOR_DEPTH, flags) == 0)
+        return false;
     data_ = SDL_SetVideoMode(width, height, VideoManager::COLOR_DEPTH, flags);
 
     return (data_ != NULL);

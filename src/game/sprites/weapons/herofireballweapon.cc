@@ -9,6 +9,7 @@
 #include "../../scenes/world.h"
 #include "../explosion.h"
 #include "../fireball.h"
+#include "../../utils/settings.h"
 
 namespace sprite {
 
@@ -30,7 +31,9 @@ void HeroFireballWeapon::Attack() {
     Explosion *explosion = new Explosion(factory->ExplosionImage(), animation, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
     Fireball *fireball = new Fireball(versor, explosion);
     world_->AddWorldObject(fireball, pos);
-    Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    utils::Settings settings;
+    if(settings.sound_effects())
+        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     hero_->StartExplosion();
     hero_->set_mana(hero_->mana() - cost_);
 }
