@@ -69,14 +69,19 @@ void Menu::Update(float delta_t) {
         } while(options_sprite_[selection_] == NULL);
     }
 
+    int modifier = 0;
+
+    if (input->KeyPressed(K_RIGHT)) modifier++;
+    if (input->KeyPressed(K_LEFT)) modifier--;
+
     bool on_selection = CheckMouse(mouse_pos);
     set_visible(true);
 
     Select();
 
-    if (input->KeyPressed(K_RETURN) ||
+    if (input->KeyPressed(K_RETURN) || modifier ||
         (on_selection && input->MouseUp(M_BUTTON_LEFT)))
-        handler_->Handle(selection_);
+        handler_->Handle(selection_, modifier);
 }
 
 // Sets the handler the Menu will call on input.

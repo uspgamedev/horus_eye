@@ -66,7 +66,7 @@ class MenuBuilder {
       public:
         MainMenuHandler(Menu *menu) : MenuHandler(menu) {}
         ~MainMenuHandler() {}
-        void Handle(int selection);
+        void Handle(int selection, int modifier = 0);
         void CleanUp() {}
     };
     class PauseMenuHandler : public MenuHandler {
@@ -74,7 +74,7 @@ class MenuBuilder {
         PauseMenuHandler(Menu *menu, framework::Image *bg_img)
             : MenuHandler(menu), bg_img_(bg_img) {}
         ~PauseMenuHandler() {}
-        void Handle(int selection);
+        void Handle(int selection, int modifier = 0);
         void CleanUp();
       private:
         framework::Image *bg_img_;
@@ -83,21 +83,21 @@ class MenuBuilder {
       public:
         PageManagerHandler(Menu *menu) : MenuHandler(menu) {}
         ~PageManagerHandler() {}
-        void Handle(int selection);
+        void Handle(int selection, int modifier = 0);
         void CleanUp() {}
     };
     class HelpMenuHandler : public MenuHandler {
       public:
         HelpMenuHandler(Menu *menu) : MenuHandler(menu) {}
         ~HelpMenuHandler() {}
-        void Handle(int selection);
+        void Handle(int selection, int modifier = 0);
         void CleanUp() {}
     };
     class SettingsMenuHandler : public MenuHandler {
       public:
         SettingsMenuHandler(Menu *menu);
         ~SettingsMenuHandler() {}
-        void Handle(int selection);
+        void Handle(int selection, int modifier = 0);
         void CleanUp();
         void BuildSprites();
       private:

@@ -13,7 +13,7 @@ class MenuHandler {
   public:
     virtual ~MenuHandler () {}
 
-    virtual void Handle (int selection) = 0;
+    virtual void Handle (int selection, int modifier = 0) = 0;
     virtual void CleanUp () = 0;
 
   protected:

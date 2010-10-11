@@ -107,7 +107,8 @@ Menu *MenuBuilder::BuildMainMenu () {
     return menu;
 }
 
-void MenuBuilder::MainMenuHandler::Handle(int selection) {
+void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
+    if (modifier) return;
     switch (selection) {
         case MenuBuilder::MAIN_SELECT_PLAY: {
             menu_->set_visible(false);
@@ -190,7 +191,8 @@ Menu *MenuBuilder::BuildPauseMenu () {
 
 }
 
-void MenuBuilder::PauseMenuHandler::Handle(int selection) {
+void MenuBuilder::PauseMenuHandler::Handle(int selection, int modifier) {
+    if (modifier) return;
     switch (selection) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE: {
             menu_->Finish();
@@ -531,7 +533,8 @@ Menu *MenuBuilder::BuildHelpPage6 (PageManager *manager) {
     return page;
 }
 
-void MenuBuilder::PageManagerHandler::Handle(int selection) {
+void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
+    if (modifier) return;
     MenuBuilder builder;
     switch(selection){
         case (0): {
@@ -564,7 +567,7 @@ void MenuBuilder::PageManagerHandler::Handle(int selection) {
     }
 }
 
-void MenuBuilder::HelpMenuHandler::Handle(int selection) {
+void MenuBuilder::HelpMenuHandler::Handle(int selection, int modifier) {
     switch(selection){
         case MenuBuilder::HELP_SELECT_BACK: {
             menu_->Finish();
@@ -623,39 +626,45 @@ Menu *MenuBuilder::BuildSettingsMenu () {
     return menu;
 }
 
-void MenuBuilder::SettingsMenuHandler::Handle(int selection) {
+void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
+   if (!modifier) modifier = 1;
    switch (selection) {
         case MenuBuilder::SETTINGS_SELECT_RESOLUTION: {
             resolution_sprites_[sprites_active_[0]]->set_visible(false);
-            sprites_active_[0] = (sprites_active_[0] + 1)%NUM_RESOL;
+            sprites_active_[0] = (sprites_active_[0] + modifier)%NUM_RESOL;
+            if (sprites_active_[0] < 0) sprites_active_[0] += NUM_RESOL;
             settings_->set_resolution(sprites_active_[0]);
             resolution_sprites_[sprites_active_[0]]->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_FULLSCREEN: {
             on_off_sprites_[0][sprites_active_[1]]->set_visible(false);
-            sprites_active_[1] = (sprites_active_[1] + 1)%NUM_ON_OFF;
+            sprites_active_[1] = (sprites_active_[1] + modifier)%NUM_ON_OFF;
+            if (sprites_active_[1] < 0) sprites_active_[1] += NUM_ON_OFF;
             settings_->set_fullscreen(sprites_active_[1]);
             on_off_sprites_[0][sprites_active_[1]]->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_MUSIC: {
             on_off_sprites_[1][sprites_active_[2]]->set_visible(false);
-            sprites_active_[2] = (sprites_active_[2] + 1)%NUM_ON_OFF;
+            sprites_active_[2] = (sprites_active_[2] + modifier)%NUM_ON_OFF;
+            if (sprites_active_[2] < 0) sprites_active_[2] += NUM_ON_OFF;
             settings_->set_background_music(sprites_active_[2]);
             on_off_sprites_[1][sprites_active_[2]]->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_SOUNDS: {
             on_off_sprites_[2][sprites_active_[3]]->set_visible(false);
-            sprites_active_[3] = (sprites_active_[3] + 1)%NUM_ON_OFF;
+            sprites_active_[3] = (sprites_active_[3] + modifier)%NUM_ON_OFF;
+            if (sprites_active_[3] < 0) sprites_active_[3] += NUM_ON_OFF;
             settings_->set_sound_effects(sprites_active_[3]);
             on_off_sprites_[2][sprites_active_[3]]->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_LANGUAGE: {
             language_sprites_[sprites_active_[4]]->set_visible(false);
-            sprites_active_[4] = (sprites_active_[4] + 1)%NUM_ON_OFF;
+            sprites_active_[4] = (sprites_active_[4] + modifier)%NUM_ON_OFF;
+            if (sprites_active_[4] < 0) sprites_active_[4] += NUM_ON_OFF;
             settings_->set_language(sprites_active_[4]);
             language_sprites_[sprites_active_[4]]->set_visible(true);
             break;
