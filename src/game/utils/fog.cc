@@ -22,7 +22,6 @@ Fog::Fog() {
     blank_background_ = new Image;
     blank_background_->Create(VIDEO_MANAGER()->video_size());
     blank_background_->Optimize();
-    debug_ = false; // TODO remover debug
 }
 
 Fog::~Fog() {
@@ -87,10 +86,7 @@ bool IsNear(const TilePos &origin, const TilePos &pos, float radius) {
     else return false;
 }
 
-#define LOG(code) if (debug) { code }
-
-// TODO remover debug
-void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius, bool debug) {
+void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
 
     list<Tile*>     queue;
     Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
@@ -99,38 +95,23 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius, bool deb
 
     origin_world_pos.y = map.size() - origin_world_pos.y - 1;
     queue.push_back(origin);
-    LOG(
-        puts("Spreading light...");
-    )
 
     while (queue.size() > 0) {
         Tile *tile = *(queue.begin());
         queue.pop_front();
         if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
-            LOG(
-                printf("[%d][%d] -> %c\n", tile->i(), tile->j(), tile->object());
-            )
             tile->Check();
             Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
             tile_world_pos.y = map.size() - tile_world_pos.y - 1;
             bool is_obstacle = (tile->object() == WALL) || (tile->object() == ENTRY),
                  is_visible = vision.IsLightVisible(origin_world_pos, tile_world_pos);
-            LOG(
-                printf("obstacle -> %d\nvisible -> %d\n", is_obstacle, is_visible);
-            )
             if (is_obstacle || is_visible) {
                 tile->set_visible(true);
                 if (!is_obstacle)
                     for (int dir = Tile::BEGIN; dir < Tile::END; ++dir) {
-                        LOG(
-                            printf("Looking at direction %d\n", dir);
-                        )
                         Tile *next = tile->Next(map, (Tile::TileDir)dir);
                         if (next && !next->checked()) {
                             queue.push_back(next);
-                            LOG(
-                                puts("Inserted on queue.");
-                            )
                         }
                     }
             }
@@ -153,8 +134,7 @@ void Fog::UpdateVisibility() {
     hero_pos.i =  map.size() - hero_pos.i - 1;
 
     Tile::CleanVisibility(map);
-    SpreadLight(map, hero_pos, 1.5f*hero->light_radius(), debug_);
-    debug_ = false;
+    SpreadLight(map, hero_pos, 1.5f*hero->light_radius());
 
 }
 

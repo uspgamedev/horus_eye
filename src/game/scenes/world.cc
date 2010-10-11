@@ -103,8 +103,6 @@ void World::VerifyCheats() {
         fog_->set_visible(!fog_->IsVisible());
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
-    if(input->KeyPressed(K_z))
-        fog_->set_debug();
 
 }
 

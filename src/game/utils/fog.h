@@ -34,12 +34,9 @@ class Fog: public framework::Layer {
 
     virtual void Render();
 
-    void set_debug() { debug_ = true; } // TODO remover debug
-
   private:
     framework::Image* blank_background_;
     map<sprite::WorldObject*, framework::Sprite*> light_sources_;
-    bool debug_; // TODO remover debug
 };
 
 }
