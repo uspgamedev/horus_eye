@@ -1,37 +1,46 @@
+#FONTS
+[FontA]{50}c+:data/font/Filmcrypob.ttf
+[FontB]{50}c:data/font/Filmcryptic.ttf
+
 #WORDS
-[Play]:Play
-[Help]:Help
-[Settings]:Settings
-[Credits]:Credits
-[Exit]:Exit
-[Loading]:Loading...
-[Continue]:Continue
-[Return to Menu]:Return to Menu
-[Back]:Back
+[Play]{FontA}:Play
+[Help]{FontA}:Help
+[Settings]{FontA}:Settings
+[Credits]{FontA}:Credits
+[Exit]{FontA}:Exit
+[Loading]{FontA}:Loading...
+[Continue]{FontA}:Continue
+[Return to Menu]{FontA}:Return to Menu
+[Back]{FontA}:Back
 
-[Help1]:Help
-[Help2]:Buttons
-[W]:Go Up
-[A]:Go Left
-[S]:Go Down
-[D]:Go Right
-[Q]:Previous Spell
-[E]:Next Spell
-[Mouse Left]:Shot fire ball
-[Mouse Right]:Shot spell
-[Help3]:Spells
-[Help4]:Items
-[Help5]:Interface
+[Help1]{FontA}:Help
+[Help2]{FontA}:Buttons
+[W]{FontA}:Go Up
+[A]{FontA}:Go Left
+[S]{FontA}:Go Down
+[D]{FontA}:Go Right
+[Q]{FontA}:Previous Spell
+[E]{FontA}:Next Spell
+[Mouse Left]{FontA}:Shot fire ball
+[Mouse Right]{FontA}:Shot spell
+[Help3]{FontA}:Spells
+[Help4]{FontA}:Itens
+[Help5]{FontA}:Mummies
+[Help6]{FontA}:Interface
 
-[Resolution]:Resolution
-[Fullscreen]:Fullscreen
-[Music]:Music
-[Sound Effects]:Sound Effects
-[Language]:Language
-[Apply]:Apply
-[On]:On
-[Off]:Off
+[Resolution]{FontA}:Resolution
+[Fullscreen]{FontA}:Fullscreen
+[Music]{FontA}:Music
+[Sound Effects]{FontA}:Sound Effects
+[Language]{FontA}:Language
+[Apply]{FontA}:Apply
+
+[On]{FontB}:On
+[Off]{FontB}:Off
+
+[English]{FontB}:English
+[Portugues]{FontB}:Português
 
 #FILES
-[Intro]:data/text/intro_en.txt
-[CreditsFile]:data/text/credits_en.txt
+[Intro]{FontA}:data/text/intro_en.txt
+[CreditsFile]{FontA}:data/text/credits_en.txt

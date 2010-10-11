@@ -1,37 +1,46 @@
+#FONTS
+[FontA]{50}c+:data/font/Filmcrypob.ttf
+[FontB]{50}c:data/font/Filmcryptic.ttf
+
 #WORDS
-[Play]:Jogar
-[Help]:Ajuda
-[Settings]:Configurações
-[Credits]:Créditos
-[Exit]:Sair
-[Loading]:Carregando...
-[Continue]:Continuar
-[Return to Menu]:Voltar ao Menu
-[Back]:Voltar
+[Play]{FontA}:Jogar
+[Help]{FontA}:Ajuda
+[Settings]{FontA}:Configurações
+[Credits]{FontA}:Créditos
+[Exit]{FontA}:Sair
+[Loading]{FontA}:Carregando...
+[Continue]{FontA}:Continuar
+[Return to Menu]{FontA}:Voltar ao Menu
+[Back]{FontA}:Voltar
 
-[Help1]:Ajuda
-[Help2]:Botões
-[W]:Ir para cima
-[A]:Ir para esquerda
-[S]:Ir para baixo
-[D]:Ir para direita
-[Q]:Magia Anterior
-[E]:Próxima magia
-[Mouse Left]:Atirar bola de fogo
-[Mouse Right]:Atirar magia
-[Help3]:Magias
-[Help4]:Itens
-[Help5]:Interface
+[Help1]{FontA}:Ajuda
+[Help2]{FontA}:Botões
+[W]{FontA}:Ir para cima
+[A]{FontA}:Ir para esquerda
+[S]{FontA}:Ir para baixo
+[D]{FontA}:Ir para direita
+[Q]{FontA}:Magia Anterior
+[E]{FontA}:Próxima magia
+[Mouse Left]{FontA}:Atirar bola de fogo
+[Mouse Right]{FontA}:Atirar magia
+[Help3]{FontA}:Magias
+[Help4]{FontA}:Itens
+[Help5]{FontA}:Múmias
+[Help6]{FontA}:Interface
 
-[Resolution]:Resolução
-[Fullscreen]:Tela Cheia
-[Music]:Música
-[Sound Effects]:Efeitos Sonoros
-[Language]:Idioma
-[Apply]:Aplicar
-[On]:Ligado
-[Off]:Desligado
+[Resolution]{FontA}:Resolução
+[Fullscreen]{FontA}:Tela Cheia
+[Music]{FontA}:Música
+[Sound Effects]{FontA}:Efeitos Sonoros
+[Language]{FontA}:Idioma
+[Apply]{FontA}:Aplicar
+
+[On]{FontB}:Ligado
+[Off]{FontB}:Desligado
+
+[English]{FontB}:English
+[Portugues]{FontB}:Português
 
 #FILES
-[Intro]:data/text/intro_pt_br.txt
-[CreditsFile]:data/text/credits_pt_br.txt
+[Intro]{FontA}:data/text/intro_pt_br.txt
+[CreditsFile]{FontA}:data/text/credits_pt_br.txt

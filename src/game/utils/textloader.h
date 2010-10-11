@@ -22,12 +22,48 @@ class TextLoader {
 
     bool Initialize(std::string language_file);
     framework::Image* GetImage(std::string text);
+    void SetFont(std::string font);
 
     bool Clear();
 
   private:
     TextLoader();
+
+    class Font {
+      public:
+        Font(std::string filepath, int size, char indent, bool style);
+        ~Font() {}
+        framework::Image* LoadText(std::string str);
+        framework::Image* LoadFile(std::string filepath);
+
+        void SetFont();
+        static bool IsFont(char *);
+
+      private:
+        std::string filepath_;
+        int size_;
+        char indent_;
+        bool style_;
+    };
+    class Word {
+      public:
+        Word(char* str);
+        ~Word() {}
+
+        std::string& name() { return name_; }
+        std::string& font() { return font_; }
+        std::string& text() { return text_; }
+
+        static bool IsWord(char *);
+
+      private:
+        std::string name_, font_, text_;
+    };
+    void LoadFont(char *str);
+
     std::map<std::string, framework::Image*> text_images_;
+    std::map<std::string, TextLoader::Font*> fonts_;
+
 };
 
 }

@@ -104,7 +104,7 @@ class MenuBuilder {
         utils::Settings* settings_;
         static std::string settings_names_[SETTINGS_SELECT_NUM], on_off_[2];
         int sprites_active_[5];
-        framework::Image **resolution_images_, **language_images_;
+        framework::Image **resolution_images_;
         framework::Sprite **resolution_sprites_, *on_off_sprites_[3][2], **language_sprites_;
     };
 };

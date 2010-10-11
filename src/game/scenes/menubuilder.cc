@@ -670,8 +670,6 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
 }
 
 void MenuBuilder::SettingsMenuHandler::BuildSprites() {
-    TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 50, NULL);
-    
     Sprite *options[MenuBuilder::SETTINGS_SELECT_NUM];
 
     // Creates the sprites for the setting names
@@ -695,12 +693,13 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     resolution_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Sprite*)));
     resolution_images_ = static_cast<Image**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Image*)));
 
+    TEXT_LOADER()->SetFont("FontB");
     // Creates the resolution names vector.
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         resolution_sprites_[i] = new Sprite;
         std::ostringstream stm;
         stm << static_cast<int>(resolutions[i].x) << "x" << static_cast<int>(resolutions[i].y);
-        resolution_images_[i] = TEXT_MANAGER()->LoadFancyLine(stm.str());
+        resolution_images_[i] = TEXT_MANAGER()->LoadLine(stm.str());
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
         resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, 0));
         menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (second_column_x, options[0]->position().y));
@@ -724,14 +723,13 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     
     const string *language_name = settings_->LanguageNameList();
     language_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_LANGUAGES * sizeof(Sprite*)));
-    language_images_ = static_cast<Image**>(malloc(Settings::NUM_LANGUAGES * sizeof(Image*)));
 
     sprites_active_[4] = settings_->language();
     for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
         language_sprites_[i] = new Sprite;
-        language_images_[i] = TEXT_MANAGER()->LoadFancyLine(language_name[i]);
-        language_sprites_[i]->Initialize(language_images_[i]);
-        language_sprites_[i]->set_hotspot(Vector2D(language_images_[i]->width() * 0.5f, 0));
+        Image* img = TEXT_LOADER()->GetImage(language_name[i]);
+        language_sprites_[i]->Initialize(img);
+        language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, 0));
         menu_->AddSprite(language_sprites_[i], framework::Vector2D (second_column_x, options[4]->position().y));
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }
@@ -749,11 +747,6 @@ void MenuBuilder::SettingsMenuHandler::CleanUp() {
     free(resolution_images_);
 
     free(language_sprites_);
-    for(int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
-        language_images_[i]->Destroy();
-        delete language_images_[i];
-    }
-    free(language_images_);
 }
 
 }
