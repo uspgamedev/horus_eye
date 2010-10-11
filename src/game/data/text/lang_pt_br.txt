@@ -21,8 +21,7 @@
 [Mouse Right]:Atirar magia
 [Help3]:Magias
 [Help4]:Itens
-[Help5]:Múmias
-[Help6]:Interface
+[Help5]:Interface
 
 [Resolution]:Resolução
 [Fullscreen]:Tela Cheia

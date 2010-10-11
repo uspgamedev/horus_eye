@@ -26,7 +26,7 @@ void HeroExplosionWeapon::Attack(){
     Vector2D explosionPosition = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
     float distance = (hero_->world_position() - explosionPosition).length();
     VisionStrategy vs;
-    if (distance <= 5 && vs.IsVisible(explosionPosition)) {
+    if (distance <= range() && vs.IsVisible(explosionPosition)) {
         Animation *animation = new Animation(8, 0, 1, 2, 3, 4, 5, -1);
         Explosion * explosion = new Explosion(imfac->QuakeImage(), animation, Constants::QUAKE_EXPLOSION_RADIUS, Constants::QUAKE_EXPLOSION_DAMAGE);
         world_->AddWorldObject(explosion, explosionPosition);

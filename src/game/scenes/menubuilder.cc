@@ -5,6 +5,7 @@
 #include "../../framework/scene.h"
 #include "../../framework/animation.h"
 #include "../utils/levelmanager.h"
+#include "../utils/imagefactory.h"
 #include "../utils/textloader.h"
 #include "../utils/settings.h"
 #include "../utils/constants.h"
@@ -220,7 +221,7 @@ void MenuBuilder::PauseMenuHandler::CleanUp() {
 Menu *MenuBuilder::BuildHelpMenu () {
 
     // Create Page Manager.
-    PageManager *manager = new PageManager(6);
+    PageManager *manager = new PageManager(5);
 
     // Setting its handler.
     manager->set_handler(new PageManagerHandler(manager));
@@ -259,6 +260,27 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
     
+    ImageFactory img_fac;
+
+    // A hero animated sprite.
+    Sprite *hero_sprite = new Sprite;
+    hero_sprite->Initialize(img_fac.HeroImage());
+    hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
+    page->AddSprite(hero_sprite, Vector2D(0.0f, hero_sprite->image()->frame_size().y));
+
+    // A dying mummy sprite.
+    Sprite *mummy_sprite = new Sprite;
+    mummy_sprite->Initialize(img_fac.MummyImage());
+    mummy_sprite->SelectAnimation(new Animation(10, 4, 4, 4, 4, 4, 80, 81, 82, 83, 84, 90, 91, -1));
+    page->AddSprite(mummy_sprite, Vector2D(mummy_sprite->image()->frame_size().x*0.8f,
+                                           mummy_sprite->image()->frame_size().y*1.2f));
+
+    // A door sprite.
+    Sprite *door_sprite = new Sprite;
+    door_sprite->Initialize(img_fac.DoorImage());
+    page->AddSprite(door_sprite, Vector2D(door_sprite->image()->frame_size().x*0.3f,
+                                          door_sprite->image()->frame_size().y*3.3f));
+
     return page;
 }
 
@@ -499,40 +521,6 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     return page;
 }
 
-Menu *MenuBuilder::BuildHelpPage6 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::LAST_PAGE, manager);
-
-    // Setting its handler.
-    page->set_handler(new HelpMenuHandler(page));
-
-    Image* img = TEXT_LOADER()->GetImage("Back");
-    Sprite *options_sprite = new Sprite;
-    options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
-    
-    float top = VIDEO_MANAGER()->video_size().y - img->height();
-    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
-    
-    // Setting the selection sprite.
-    Sprite *selection_sprite = new Sprite;
-    selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
-    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
-    
-    // Set page menu
-    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_selection_sprite(selection_sprite);
-    page->set_option_sprite(0, options_sprite);
-    
-    // The menu content
-    Sprite *title = new Sprite;
-    title->Initialize(TEXT_LOADER()->GetImage("Help6"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
-    
-    return page;
-}
-
 void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
     if (modifier) return;
     MenuBuilder builder;
@@ -555,10 +543,6 @@ void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
         }
         case (4): {
             Engine::reference()->PushScene(builder.BuildHelpPage5(static_cast<PageManager*> (menu_)));
-            break;
-        }
-        case (5): {
-            Engine::reference()->PushScene(builder.BuildHelpPage6(static_cast<PageManager*> (menu_)));
             break;
         }
         default: {

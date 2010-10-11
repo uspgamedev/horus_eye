@@ -20,9 +20,8 @@
 [Mouse Left]:Shot fire ball
 [Mouse Right]:Shot spell
 [Help3]:Spells
-[Help4]:Itens
-[Help5]:Mummies
-[Help6]:Interface
+[Help4]:Items
+[Help5]:Interface
 
 [Resolution]:Resolution
 [Fullscreen]:Fullscreen

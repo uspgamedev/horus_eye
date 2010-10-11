@@ -12,7 +12,7 @@ class HeroExplosionWeapon : public Weapon {
   public:
     HeroExplosionWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {}
 
-    virtual float range(){ return 0.0f; }
+    virtual float range() { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
     virtual void Attack();
     virtual bool Available();
 
