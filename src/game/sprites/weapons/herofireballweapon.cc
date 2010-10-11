@@ -10,6 +10,8 @@
 #include "../explosion.h"
 #include "../fireball.h"
 #include "../../utils/settings.h"
+#include "../hero.h"
+
 
 namespace sprite {
 
@@ -36,7 +38,15 @@ void HeroFireballWeapon::Attack() {
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     hero_->StartExplosion();
     hero_->set_mana(hero_->mana() - cost_);
+
 }
+
+
+HeroFireballWeapon::HeroFireballWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
+    ImageFactory factory;
+    icon_ = factory.FireballIconImage();
+}
+
 
 bool HeroFireballWeapon::Available() {
 

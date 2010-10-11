@@ -24,6 +24,8 @@ class Hud: public framework::Layer {
     Sprite* life_bar_;
     Sprite* mana_bar_;
     Sprite* totem_[2];
+    Image* weapon_icon_;
+    map<Image*, Sprite*> icon_added;
 
     Sprite *enemy_counter_[7], *fps_meter_[3];
     int enemy_counter_value_[7], fps_meter_value_[3];

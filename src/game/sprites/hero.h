@@ -22,6 +22,7 @@ class Hero : public Creature {
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();
     void StartExplosion();
+    Weapon* secondary_weapon() { return secondary_weapon_; }
 
   private:
     framework::Vector2D screen_center_;

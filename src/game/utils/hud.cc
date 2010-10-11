@@ -7,6 +7,7 @@
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"
 #include "constants.h"
+#include "../sprites/weapons/weapon.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
 #define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT
@@ -53,6 +54,7 @@ Hud::Hud(World* world) {
     Image* totem_image_;
     Image* back_image;
     Image* eye_image;
+     
     
     //Criando sprites da life bar
     ImageFactory img_fac;
@@ -90,6 +92,9 @@ Hud::Hud(World* world) {
     mummy_counter->Initialize(mummy_counter_image);
     mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
 
+    weapon_icon_ = NULL;
+
+    
     // setando posicoes
     eye->set_position(Vector2D(VIDEO_X/2, VIDEO_Y));
     backLeft->set_position(Vector2D(VIDEO_X/2 - eye_image->width()/2, VIDEO_Y));
@@ -133,11 +138,14 @@ Hud::Hud(World* world) {
 }
 
 Hud::~Hud() {
+    
 }
 
 void Hud::Update(float delta_t) {
     Layer::Update(delta_t);
     World* world = WORLD();
+
+
 
     int digit[7], enemy_number;
     enemy_number = (enemy_number = world->CountRemainingEnemies()) > 999 ? 999 : enemy_number;
@@ -165,12 +173,15 @@ void Hud::Update(float delta_t) {
         }
     }
 
+    if (weapon_icon_ != NULL) {
+        icon_added[weapon_icon_]->set_visible(false);
+    }
+
     if(world->hero() != NULL) {
+        weapon_icon_ = world->hero()->secondary_weapon()->icon();
         if (world->hero()->life() > 0) {
             float new_height = ((float)world->hero()->life() * LIFE_BAR_HEIGHT) / ((float)world->hero()->max_life());
-
             life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
-
             life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, new_height));
         }
         if (world->hero()->mana() > 0) {
@@ -182,6 +193,18 @@ void Hud::Update(float delta_t) {
             mana_bar_->set_visible(false);
         }
     }
+
+    if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {
+        Sprite* s = new Sprite;
+        s->Initialize(weapon_icon_);
+        s->set_hotspot(Vector2D(weapon_icon_->width()/2, weapon_icon_->height()/2));
+        s->set_position(Vector2D(VIDEO_X/2 - 5, VIDEO_Y - 47));
+        
+        AddSprite(s);
+        icon_added[weapon_icon_] = s;
+    } 
+    icon_added[weapon_icon_]->set_visible(true);
+
 }
 
 }

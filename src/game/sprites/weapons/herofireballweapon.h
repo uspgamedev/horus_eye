@@ -10,7 +10,7 @@ class Hero;
 
 class HeroFireballWeapon : public Weapon {
   public:
-    HeroFireballWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {}
+    HeroFireballWeapon(Hero* owner);
 
     virtual float range(){ return 0.0f; }
     virtual void Attack();

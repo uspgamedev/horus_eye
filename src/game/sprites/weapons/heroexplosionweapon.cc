@@ -20,8 +20,8 @@ using utils::Constants;
 
 void HeroExplosionWeapon::Attack(){
     InputManager *input_ = Engine::reference()->input_manager();
-    World *world_ = WORLD();
-    ImageFactory *imfac = world_->image_factory();
+    World *world = WORLD();
+    ImageFactory *imfac = world->image_factory();
     
     Vector2D explosionPosition = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
     float distance = (hero_->world_position() - explosionPosition).length();
@@ -29,13 +29,22 @@ void HeroExplosionWeapon::Attack(){
     if (distance <= range() && vs.IsVisible(explosionPosition)) {
         Animation *animation = new Animation(8, 0, 1, 2, 3, 4, 5, -1);
         Explosion * explosion = new Explosion(imfac->QuakeImage(), animation, Constants::QUAKE_EXPLOSION_RADIUS, Constants::QUAKE_EXPLOSION_DAMAGE);
-        world_->AddWorldObject(explosion, explosionPosition);
+        world->AddWorldObject(explosion, explosionPosition);
         utils::Settings settings;
         if(settings.sound_effects())
             Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
         hero_->StartExplosion();
         hero_->set_mana(hero_->mana() - cost_);
     }
+
+}
+
+
+
+
+HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
+    ImageFactory imfac;
+    icon_ = imfac.EarthquakeIconImage();
 }
 
 bool HeroExplosionWeapon::Available() {

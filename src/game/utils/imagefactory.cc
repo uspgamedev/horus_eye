@@ -76,8 +76,18 @@ namespace utils {
         mummy_counter_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_mummy_counter.png");
         mummy_counter_image_->set_frame_size(Vector2D(190, 138));
 
-
-
+        earthquake_icon_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_magic_rock.png");
+        earthquake_icon_image_->set_frame_size(Vector2D(25, 35));
+        
+        fireball_icon_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_magic_fire.png");
+        fireball_icon_image_->set_frame_size(Vector2D(25, 35));
+    }
+    
+    Image* ImageFactory::FireballIconImage() {
+        return fireball_icon_image_;
+    }
+    Image* ImageFactory::EarthquakeIconImage() {
+        return earthquake_icon_image_;
     }
     Image* ImageFactory::HeroImage(){
         return hero_image_;
@@ -85,9 +95,9 @@ namespace utils {
     Image* ImageFactory::BigMummyImage(){
         return big_mummy_image_;
     }
-	Image* ImageFactory::PharaohImage(){
-		return pharaoh_image_;
-	}
+    Image* ImageFactory::PharaohImage(){
+        return pharaoh_image_;
+    }
     Image* ImageFactory::MummyImage(){
         return mummy_image_;
     }
