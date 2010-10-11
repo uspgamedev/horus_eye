@@ -15,7 +15,7 @@ class ImageFactory {
     virtual Image* MummyImage();
     virtual Image* RangedMummyImage();
     virtual Image* BigMummyImage();
-	virtual Image* PharaohImage();
+    virtual Image* PharaohImage();
     virtual Image* MagicMissileImage();
     virtual Image* FireballImage();
     virtual Image* MummyProjectileImage();
@@ -31,13 +31,16 @@ class ImageFactory {
     virtual Image* FloorImage();
     virtual Image* WallImage();
     virtual Image* EntryImage();
+    virtual Image* BackImage();
+    virtual Image* EyeImage();
+    virtual Image* MummyCounterImage();
 
   protected:
     Image* hero_image_;
     Image* mummy_image_;
     Image* ranged_mummy_image_;
     Image* big_mummy_image_;
-	Image* pharaoh_image_;
+    Image* pharaoh_image_;
     Image* projectile_image_;
     Image* magicmissile_image_;
     Image* mummy_projectile_image_;
@@ -54,6 +57,9 @@ class ImageFactory {
     Image* floor_image_;
     Image* wall_image_;
     Image* entry_image_;
+    Image* back_image_;
+    Image* eye_image_;
+    Image* mummy_counter_image_;
 };
 
 }

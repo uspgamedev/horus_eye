@@ -32,6 +32,9 @@
 #define FPS_BAR_OFFSET_X  10
 #define FPS_BAR_OFFSET_Y  30
 
+#define VIDEO_Y VIDEO_MANAGER()->video_size().y 
+#define VIDEO_X VIDEO_MANAGER()->video_size().x 
+
 #define NUMBER_WIDTH 18
 #define NUMBER_HEIGHT 16
 
@@ -48,6 +51,8 @@ Hud::Hud(World* world) {
     Image* life_bar_image_;
     Image* mana_bar_image_;
     Image* totem_image_;
+    Image* back_image;
+    Image* eye_image;
     
     //Criando sprites da life bar
     ImageFactory img_fac;
@@ -56,23 +61,53 @@ Hud::Hud(World* world) {
     life_bar_ = new Sprite;
     life_bar_->Initialize(life_bar_image_);
     life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, LIFE_BAR_HEIGHT));
-    life_bar_->set_position(Vector2D(VIDEO_MANAGER()->video_size().x - LIFE_BAR_OFFSET_X, VIDEO_MANAGER()->video_size().y - LIFE_BAR_OFFSET_Y));
+    life_bar_->set_position(Vector2D(VIDEO_X - LIFE_BAR_OFFSET_X, VIDEO_Y - LIFE_BAR_OFFSET_Y));
     AddSprite(life_bar_);
+    
     
     mana_bar_image_ = img_fac.ManaBarImage();
     mana_bar_ = new Sprite;
     mana_bar_->Initialize(mana_bar_image_);
     mana_bar_->set_hotspot(Vector2D(MANA_BAR_WIDTH/2, MANA_BAR_HEIGHT));
-    mana_bar_->set_position(Vector2D(MANA_BAR_OFFSET_X , VIDEO_MANAGER()->video_size().y - MANA_BAR_OFFSET_Y));
+    mana_bar_->set_position(Vector2D(MANA_BAR_OFFSET_X , VIDEO_Y - MANA_BAR_OFFSET_Y));
     AddSprite(mana_bar_);
+
+    back_image = img_fac.BackImage();
+    Sprite *backLeft = new Sprite();
+    backLeft->Initialize(back_image);
+    backLeft->set_hotspot(Vector2D(back_image->width(), back_image->height()));
+    Sprite *backRight = new Sprite();
+    backRight->Initialize(back_image);
+    backRight->set_hotspot(Vector2D(0, back_image->height()));
+
+    eye_image = img_fac.EyeImage();
+    Sprite *eye = new Sprite();
+    eye->Initialize(eye_image);
+    eye->set_hotspot(Vector2D(eye_image->width()/2, eye_image->height()));
+
+    Image *mummy_counter_image = img_fac.MummyCounterImage();
+    Sprite *mummy_counter = new Sprite();
+    mummy_counter->Initialize(mummy_counter_image);
+    mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
+
+    // setando posicoes
+    eye->set_position(Vector2D(VIDEO_X/2, VIDEO_Y));
+    backLeft->set_position(Vector2D(VIDEO_X/2 - eye_image->width()/2, VIDEO_Y));
+    backRight->set_position(Vector2D(VIDEO_X/2 + eye_image->width()/2, VIDEO_Y));
+    mummy_counter->set_position(Vector2D(VIDEO_X/2 + eye_image->width()/2, VIDEO_Y));
+
+    AddSprite(backLeft);
+    AddSprite(backRight);
+    AddSprite(eye);
+    AddSprite(mummy_counter);
 
     totem_image_ = img_fac.TotemImage();
     for (int i = 0; i < 2; i++) {
         totem_[i] = new Sprite;
         totem_[i]->Initialize(totem_image_);
         totem_[i]->set_hotspot(Vector2D(TOTEM_WIDTH/2, TOTEM_HEIGHT));
-        if (i == 0) totem_[i]->set_position(Vector2D(TOTEM_OFFSET_X , VIDEO_MANAGER()->video_size().y - TOTEM_OFFSET_Y));
-        if (i == 1) totem_[i]->set_position(Vector2D(VIDEO_MANAGER()->video_size().x - TOTEM_OFFSET_X , VIDEO_MANAGER()->video_size().y - TOTEM_OFFSET_Y));
+        if (i == 0) totem_[i]->set_position(Vector2D(TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y));
+        if (i == 1) totem_[i]->set_position(Vector2D(VIDEO_X - TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y));
         totem_[i]->set_zindex(-1.0f);
         AddSprite(totem_[i]);
     }

@@ -66,6 +66,18 @@ namespace utils {
 
         totem_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_totem.png");
         totem_image_->set_frame_size(Vector2D(72, 518));
+
+        eye_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_eye.png");
+        eye_image_->set_frame_size(Vector2D(200, 80));
+        
+        back_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_horizontal_barx10.png");
+        back_image_->set_frame_size(Vector2D(1150, 80));
+
+        mummy_counter_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_mummy_counter.png");
+        mummy_counter_image_->set_frame_size(Vector2D(190, 138));
+
+
+
     }
     Image* ImageFactory::HeroImage(){
         return hero_image_;
@@ -126,6 +138,15 @@ namespace utils {
     }
     Image* ImageFactory::EntryImage() {
         return entry_image_;
+    }
+    Image* ImageFactory::BackImage() {
+        return back_image_;
+    }
+    Image* ImageFactory::EyeImage() {
+        return eye_image_;
+    }
+    Image* ImageFactory::MummyCounterImage() {
+        return mummy_counter_image_;
     }
 }
 
