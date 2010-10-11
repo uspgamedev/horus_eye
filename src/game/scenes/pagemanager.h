@@ -1,10 +1,11 @@
 #ifndef HORUSEYE_GAME_SCENES_MULTIPAGEMENU_H_
 #define HORUSEYE_GAME_SCENES_MULTIPAGEMENU_H_
 
-#include "../../framework/scene.h"
+#include <vector>
 #include "../../framework/frame.h"
 #include "menuhandler.h"
 #include "menu.h"
+using namespace std;
 
 namespace framework {
 class Sprite;
@@ -13,17 +14,24 @@ class Image;
 
 namespace scene {
 
-class MultiPageMenu : public Menu {
+class PageManager : public Menu {
   public:
+    typedef enum {
+        START_PAGE=0,
+        EXIT_PAGE,
+        LEFT_PAGE,
+        RIGHT_PAGE
+    }FinishState;
 
-    MultiPageMenu (int selection_num, int page_num);
-    virtual ~MultiPageMenu ();
+    PageManager (int page_num);
+    virtual ~PageManager ();
 
     void Update (float delta_t);
+    void setFinishState(int state);
 
   private:
 
-    int page_num_, page_;
+    int page_num_, page_, state_;
 
 };
 

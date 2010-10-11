@@ -63,10 +63,11 @@ void Menu::Update(float delta_t) {
         do {
             selection_ = selection_ - 1 < 0 ? selection_num_ - 1 : selection_ - 1;
         } while(options_sprite_[selection_] == NULL);
-    if (input->KeyPressed(K_DOWN))
+    if (input->KeyPressed(K_DOWN)){
         do {
             selection_ = (selection_ + 1) % selection_num_;
         } while(options_sprite_[selection_] == NULL);
+    }
 
     bool on_selection = CheckMouse(mouse_pos);
     set_visible(true);

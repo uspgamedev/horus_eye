@@ -1,9 +1,8 @@
-
-
 #ifndef HORUSEYE_GAME_SCENES_MENUBUILDER_H_
 #define HORUSEYE_GAME_SCENES_MENUBUILDER_H_
 
 #include "menuhandler.h"
+#include "pagemanager.h"
 #include <vector>
 #include "../../framework/sprite.h"
 
@@ -26,6 +25,9 @@ class MenuBuilder {
     Menu *BuildMainMenu();
     Menu *BuildPauseMenu();
     Menu *BuildHelpMenu();
+    Menu *BuildHelpPage1(PageManager *manager);
+    Menu *BuildHelpPage2(PageManager *manager);
+    Menu *BuildHelpPage3(PageManager *manager);
     Menu *BuildSettingsMenu();
   private:
     typedef enum {
@@ -41,6 +43,11 @@ class MenuBuilder {
         PAUSE_SELECT_EXIT_GAME,
         PAUSE_SELECT_NUM
     } PauseMenuSelection;
+    typedef enum {
+        HELP_SELECT_BACK = 0,
+        HELP_SELECT_LEFT,
+        HELP_SELECT_RIGHT
+    } HelpMenuSelection;
     typedef enum {
         SETTINGS_SELECT_RESOLUTION = 0,
         SETTINGS_SELECT_FULLSCREEN,
@@ -68,6 +75,13 @@ class MenuBuilder {
         void CleanUp();
       private:
         framework::Image *bg_img_;
+    };
+    class PageManagerHandler : public MenuHandler {
+      public:
+        PageManagerHandler(Menu *menu) : MenuHandler(menu) {}
+        ~PageManagerHandler() {}
+        void Handle(int selection);
+        void CleanUp() {}
     };
     class HelpMenuHandler : public MenuHandler {
       public:

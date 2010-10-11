@@ -5,7 +5,7 @@
 #include "../../framework/frame.h"
 #include "menuhandler.h"
 #include "menu.h"
-#include "multipagemenu.h"
+#include "pagemanager.h"
 
 namespace framework {
 class Sprite;
@@ -16,15 +16,23 @@ namespace scene {
 
 class Page : public Menu {
   public:
+    typedef enum {
+        FIRST_PAGE=0,
+        LAST_PAGE,
+        NORMAL_PAGE,
+        SOLO_PAGE
+    }PageTypes;
 
-    Page (int selection_num, MultiPageMenu *manager);
+    Page (int selection_num, int page_num, PageManager *manager);
     virtual ~Page ();
 
     void Update (float delta_t);
+    int CheckMouse (framework::Vector2D &mouse_pos);
 
   private:
 
-    MultiPageMenu *manager_;
+    PageManager *manager_;
+    int page_type_;
 
 };
 
