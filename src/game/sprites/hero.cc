@@ -190,7 +190,7 @@ void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition() -
+    float attackAngle = GetAttackingAngle(input_->GetMousePosition() -
             screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;

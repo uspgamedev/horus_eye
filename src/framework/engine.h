@@ -38,7 +38,7 @@ class Engine {
     AudioManager *audio_manager() { return audio_manager_; }
     TextManager *text_manager() { return text_manager_; }
     FogManager *fog_manager() { return fog_manager_; }
-    Vector2D window_size() { return window_size_; }
+    Vector2D window_size();
 
     // Gerenciamento do motor
     bool Initialize(std::string windowTitle, Vector2D windowSize, bool fullscreen);
@@ -67,7 +67,7 @@ class Engine {
     AudioManager *audio_manager_;
     TextManager *text_manager_;
     FogManager *fog_manager_;
-    Vector2D window_size_;
+    //Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;
     int reported_fps_, frames_since_reset_, last_fps_report_;

@@ -215,7 +215,7 @@ void Creature::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
-int Creature::GetAttackingAnimationIndex(double angle) {
+int Creature::GetAttackingAnimationIndex(float angle) {
     int degreeAngle = (int)((angle / PI) * 360);
     degreeAngle += 45;
     int animationIndex = degreeAngle / 90;

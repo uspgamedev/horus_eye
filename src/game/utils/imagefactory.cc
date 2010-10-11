@@ -10,17 +10,17 @@ namespace utils {
         hero_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3.png");
         hero_image_->set_frame_size(Vector2D(110, 110));
 
-        mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3_bw.png");
-        mummy_image_->set_frame_size(Vector2D(110, 110));
+        mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mummy_blue_120x140.png");
+        mummy_image_->set_frame_size(Vector2D(120, 140));
 
-        ranged_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3_red.png");
-        ranged_mummy_image_->set_frame_size(Vector2D(110, 110));
+        ranged_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mummy_red_120x140.png");
+        ranged_mummy_image_->set_frame_size(Vector2D(120, 140));
 
-        big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/big_mummy_193x193.png");
-        big_mummy_image_->set_frame_size(Vector2D(193, 193));
+        big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mummy_green_204x238.png");
+        big_mummy_image_->set_frame_size(Vector2D(204, 238));
 
-		pharaoh_image_ = VIDEO_MANAGER()->LoadImage("data/images/pharaoh_193x193.png");
-        pharaoh_image_->set_frame_size(Vector2D(193, 193));
+		pharaoh_image_ = VIDEO_MANAGER()->LoadImage("data/images/pharaoh_120x140.png");
+        pharaoh_image_->set_frame_size(Vector2D(120, 140));
 
         magicmissile_image_ = VIDEO_MANAGER()->LoadImage("data/images/blue_fire_ball.png");
         magicmissile_image_->set_frame_size( Vector2D(32, 32) );
@@ -50,7 +50,7 @@ namespace utils {
         door_image_->set_frame_size(Vector2D(153, 109));
 
         floor_image_ = VIDEO_MANAGER()->LoadImage("data/images/ground2_106x54.png");
-        floor_image_->set_frame_size(Vector2D(106,61));
+        floor_image_->set_frame_size(Vector2D(106,54));
 
         wall_image_ = VIDEO_MANAGER()->LoadImage("data/images/stoneblock3.png");
         wall_image_->set_frame_size(Vector2D(106, 157));

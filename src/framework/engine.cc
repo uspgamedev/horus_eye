@@ -19,8 +19,12 @@
 
 using namespace std;
 
-namespace framework
-{
+namespace framework {
+
+
+Vector2D Engine::window_size() {
+    return video_manager_->video_size();
+}
 
 bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen) {
     quit_ = false;
@@ -35,7 +39,7 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     text_manager_ = new TextManager();
     text_manager_->Initialize();
     scene_list_.clear();
-    window_size_ = windowSize;
+    //window_size_ = windowSize;
 
     frames_since_reset_ = reported_fps_ = 0;
     if(time_handler_ != NULL)
