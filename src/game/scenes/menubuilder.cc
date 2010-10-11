@@ -561,7 +561,7 @@ void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
             Engine::reference()->PushScene(builder.BuildHelpPage6(static_cast<PageManager*> (menu_)));
             break;
         }
-        default:{
+        default: {
             break;
         }
     }

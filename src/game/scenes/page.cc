@@ -69,6 +69,7 @@ void Page::Update(float delta_t) {
     
 
     if (input->KeyPressed(K_ESCAPE)) {
+        manager_->setFinishState(PageManager::EXIT_PAGE);
         Finish();
         return;
     }
