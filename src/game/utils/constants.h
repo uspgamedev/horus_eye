@@ -31,11 +31,11 @@ class Constants {
                        SIGHT_POTION_MAX_STACK = 5,
 
                        LIFE_BAR_OFFSET_X = 36,
-                       LIFE_BAR_OFFSET_Y = 56,
+                       LIFE_BAR_OFFSET_Y = 100,
                        MANA_BAR_OFFSET_X = 36,
-                       MANA_BAR_OFFSET_Y = 56,                 
+                       MANA_BAR_OFFSET_Y = 100,                 
                        TOTEM_OFFSET_X = 36,
-                       TOTEM_OFFSET_Y = 36,
+                       TOTEM_OFFSET_Y = 80,
 
 					   MUMMY_LIFE = 10,
 					   MUMMY_DAMAGE = 10,
