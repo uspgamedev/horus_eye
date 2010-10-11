@@ -93,7 +93,6 @@ Hud::Hud(World* world) {
     mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
 
     weapon_icon_ = NULL;
-
     
     // setando posicoes
     eye->set_position(Vector2D(VIDEO_X/2, VIDEO_Y));
@@ -122,8 +121,8 @@ Hud::Hud(World* world) {
         enemy_counter_[i]->Initialize(number);
             
         enemy_counter_[i]->set_position(Vector2D(
-                ENEMY_COUNTER_OFFSET_X + VIDEO_MANAGER()->video_size().x - NUMBER_WIDTH*(i+1),
-                ENEMY_COUNTER_OFFSET_Y ));
+                VIDEO_X/2 + eye_image->width()/1.1 - NUMBER_WIDTH*(i+1),
+                VIDEO_Y - back_image->height()/2 ));
         AddSprite(enemy_counter_[i]);
         enemy_counter_value_[i] = 0;
     }
@@ -144,8 +143,6 @@ Hud::~Hud() {
 void Hud::Update(float delta_t) {
     Layer::Update(delta_t);
     World* world = WORLD();
-
-
 
     int digit[7], enemy_number;
     enemy_number = (enemy_number = world->CountRemainingEnemies()) > 999 ? 999 : enemy_number;
