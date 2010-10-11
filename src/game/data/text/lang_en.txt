@@ -8,7 +8,6 @@
 [Continue]:Continue
 [Return to Menu]:Return to Menu
 [Back]:Back
-[DevelopedBy]:Developed by USPGameDev
 
 [Help1]:Help
 [Help2]:Buttons

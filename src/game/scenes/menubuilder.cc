@@ -94,12 +94,15 @@ Menu *MenuBuilder::BuildMainMenu () {
         menu->set_option_sprite(i, options_sprite);
     }
 
-    Image *img = TEXT_LOADER()->GetImage("DevelopedBy");
+    //Image *img = TEXT_LOADER()->GetImage("DevelopedBy");
+    Image *img = VIDEO_MANAGER()->LoadImage("data/images/developed_by_uspgamedev1.png");
     Sprite *developed = new Sprite;
     developed->Initialize(img);
     developed->set_hotspot(Vector2D(0, img->height()));
-    menu->AddSprite(developed, Vector2D(15.0f, VIDEO_MANAGER()->video_size().y));
-    developed->set_zindex(Menu::OPTION_ZINDEX * 0.5f);
+    menu->AddSprite(developed,
+                    Vector2D(VIDEO_MANAGER()->video_size().x - img->width() - 15.0f,
+                             VIDEO_MANAGER()->video_size().y));
+    //developed->set_zindex(Menu::OPTION_ZINDEX * 0.5f);
 
     return menu;
 }
