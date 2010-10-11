@@ -96,7 +96,7 @@ void Mummy::TakeDamage(int life_points) {
         Creature::TakeDamage(life_points);
         PlayHitSound();
         if(life_ > 0) {
-            hit_duration_->Restart(1000);
+            hit_duration_->Restart(300);
             blink_time_ = 0;
             waiting_animation_ = true;
             this->SelectAnimation(taking_damage_animation_);
