@@ -10,6 +10,21 @@
 [Back]:Voltar
 [DevelopedBy]:Desenvolvido por USPGameDev
 
+[Help1]:Ajuda
+[Help2]:Botões
+[W]:Ir para cima
+[A]:Ir para esquerda
+[S]:Ir para baixo
+[D]:Ir para direita
+[Q]:Magia Anterior
+[E]:Próxima magia
+[Mouse Left]:Atirar bola de fogo
+[Mouse Right]:Atirar magia
+[Help3]:Magias
+[Help4]:Itens
+[Help5]:Múmias
+[Help6]:Interface
+
 [Resolution]:Resolução
 [Fullscreen]:Tela Cheia
 [Music]:Música

@@ -28,6 +28,9 @@ class MenuBuilder {
     Menu *BuildHelpPage1(PageManager *manager);
     Menu *BuildHelpPage2(PageManager *manager);
     Menu *BuildHelpPage3(PageManager *manager);
+    Menu *BuildHelpPage4(PageManager *manager);
+    Menu *BuildHelpPage5(PageManager *manager);
+    Menu *BuildHelpPage6(PageManager *manager);
     Menu *BuildSettingsMenu();
   private:
     typedef enum {

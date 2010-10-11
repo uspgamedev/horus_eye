@@ -215,7 +215,7 @@ void MenuBuilder::PauseMenuHandler::CleanUp() {
 Menu *MenuBuilder::BuildHelpMenu () {
 
     // Create Page Manager.
-    PageManager *manager = new PageManager(3);
+    PageManager *manager = new PageManager(6);
 
     // Setting its handler.
     manager->set_handler(new PageManagerHandler(manager));
@@ -233,8 +233,10 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     Image* img = TEXT_LOADER()->GetImage("Back");
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
+    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
     
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
@@ -248,57 +250,10 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     
     // The menu content
     Sprite *title = new Sprite;
-    title->Initialize(TEXT_MANAGER()->LoadFancyLine("Help - Buttons"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, 0)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
-
-    Image *keys = VIDEO_MANAGER()->LoadImage("data/images/buttons.png");
-    long width=keys->width(), height=keys->height()/6.0f;
-    keys->set_frame_size(Vector2D(width, height));
+    title->Initialize(TEXT_LOADER()->GetImage("Help1"));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
     
-    Sprite *key_w = new Sprite;
-    key_w->Initialize(keys);
-    key_w->set_hotspot(Vector2D(0, height*0.5f));
-    page->AddSprite(key_w, Vector2D(0, 100));
-
-    Sprite *textkey_w = new Sprite;
-    textkey_w->Initialize(TEXT_MANAGER()->LoadFancyLine("Go Up"));
-    textkey_w->set_hotspot(Vector2D(0, textkey_w->image()->height()*0.5f));
-    page->AddSprite(textkey_w, Vector2D(width+10, 100));
-
-    Sprite *key_a = new Sprite;
-    key_a->Initialize(keys);
-    key_a->set_hotspot(Vector2D(0, height*0.5f));
-    key_a->SelectAnimation(new Animation(30, 1, -1));
-    page->AddSprite(key_a, Vector2D(0, 100+(height+10)));
-    
-    Sprite *textkey_a = new Sprite;
-    textkey_a->Initialize(TEXT_MANAGER()->LoadFancyLine("Go Left"));
-    textkey_a->set_hotspot(Vector2D(0, textkey_a->image()->height()*0.5f));
-    page->AddSprite(textkey_a, Vector2D(width+10, 100+(height+10)));
-
-    Sprite *key_s = new Sprite;
-    key_s->Initialize(keys);
-    key_s->set_hotspot(Vector2D(0, height*0.5f));
-    key_s->SelectAnimation(new Animation(30, 2, -1));
-    page->AddSprite(key_s, Vector2D(0, 100+2*(height+10)));
-    
-    Sprite *textkey_s = new Sprite;
-    textkey_s->Initialize(TEXT_MANAGER()->LoadFancyLine("Go Down"));
-    textkey_s->set_hotspot(Vector2D(0, textkey_s->image()->height()*0.5f));
-    page->AddSprite(textkey_s, Vector2D(width+10, 100+2*(height+10)));
-
-    Sprite *key_d = new Sprite;
-    key_d->Initialize(keys);
-    key_d->set_hotspot(Vector2D(0, height*0.5f));
-    key_d->SelectAnimation(new Animation(30, 3, -1));
-    page->AddSprite(key_d, Vector2D(0, 100+3*(height+10)));
-    
-    Sprite *textkey_d = new Sprite;
-    textkey_d->Initialize(TEXT_MANAGER()->LoadFancyLine("Go Right"));
-    textkey_d->set_hotspot(Vector2D(0, textkey_d->image()->height()*0.5f));
-    page->AddSprite(textkey_d, Vector2D(width+10, 100+3*(height+10)));
-
     return page;
 }
 
@@ -312,6 +267,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     Image* img = TEXT_LOADER()->GetImage("Back");
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
     
@@ -326,16 +282,219 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->set_option_sprite(0, options_sprite);
     
     // The menu content
-    Sprite *content = new Sprite;
-    content->Initialize(VIDEO_MANAGER()->LoadImage("data/images/horus_tutorial_ee.png"));
-    content->set_hotspot(Vector2D(content->image()->width() * 0.5f, 0));
+    float second_column = VIDEO_MANAGER()->video_size().x/2.0f;
+    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+
+    //Title
+    Sprite *title = new Sprite;
+    title->Initialize(TEXT_LOADER()->GetImage("Help2"));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+
+    //Keys image
+    Image *keys = VIDEO_MANAGER()->LoadImage("data/images/buttons.png");
+    long keys_width=keys->width(), keys_height=keys->height()/6.0f;
+    keys->set_frame_size(Vector2D(keys_width, keys_height));
     
-    page->AddSprite(content, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
+    //Left column
+    Sprite *key_w = new Sprite;
+    key_w->Initialize(keys);
+    key_w->set_hotspot(Vector2D(0, keys_height*0.5f));
+    page->AddSprite(key_w, Vector2D(0, 1.5*spacing));
+
+    Sprite *textkey_w = new Sprite;
+    textkey_w->Initialize(TEXT_LOADER()->GetImage("W"));
+    textkey_w->set_hotspot(Vector2D(0, textkey_w->image()->height()*0.5f));
+    page->AddSprite(textkey_w, Vector2D(keys_width+10, 1.5*spacing));
+
+    Sprite *key_a = new Sprite;
+    key_a->Initialize(keys);
+    key_a->set_hotspot(Vector2D(0, keys_height*0.5f));
+    key_a->SelectAnimation(new Animation(30, 1, -1));
+    page->AddSprite(key_a, Vector2D(0, 2.5*spacing));
+    
+    Sprite *textkey_a = new Sprite;
+    textkey_a->Initialize(TEXT_LOADER()->GetImage("A"));
+    textkey_a->set_hotspot(Vector2D(0, textkey_a->image()->height()*0.5f));
+    page->AddSprite(textkey_a, Vector2D(keys_width+10, 2.5*spacing));
+
+    Sprite *key_s = new Sprite;
+    key_s->Initialize(keys);
+    key_s->set_hotspot(Vector2D(0, keys_height*0.5f));
+    key_s->SelectAnimation(new Animation(30, 2, -1));
+    page->AddSprite(key_s, Vector2D(0, 3.5*spacing));
+    
+    Sprite *textkey_s = new Sprite;
+    textkey_s->Initialize(TEXT_LOADER()->GetImage("S"));
+    textkey_s->set_hotspot(Vector2D(0, textkey_s->image()->height()*0.5f));
+    page->AddSprite(textkey_s, Vector2D(keys_width+10, 3.5*spacing));
+
+    Sprite *key_d = new Sprite;
+    key_d->Initialize(keys);
+    key_d->set_hotspot(Vector2D(0, keys_height*0.5f));
+    key_d->SelectAnimation(new Animation(30, 3, -1));
+    page->AddSprite(key_d, Vector2D(0, 4.5*spacing));
+    
+    Sprite *textkey_d = new Sprite;
+    textkey_d->Initialize(TEXT_LOADER()->GetImage("D"));
+    textkey_d->set_hotspot(Vector2D(0, textkey_d->image()->height()*0.5f));
+    page->AddSprite(textkey_d, Vector2D(keys_width+10, 4.5*spacing));
+
+    //Right Column
+    Sprite *key_q = new Sprite;
+    key_q->Initialize(keys);
+    key_q->set_hotspot(Vector2D(0, keys_height*0.5f));
+    key_q->SelectAnimation(new Animation(30, 4, -1));
+    page->AddSprite(key_q, Vector2D(second_column, 1.5*spacing));
+    
+    Sprite *textkey_q = new Sprite;
+    textkey_q->Initialize(TEXT_LOADER()->GetImage("Q"));
+    textkey_q->set_hotspot(Vector2D(0, textkey_q->image()->height()*0.5f));
+    page->AddSprite(textkey_q, Vector2D(second_column+keys_width+10, 1.5*spacing));
+
+    Sprite *key_e = new Sprite;
+    key_e->Initialize(keys);
+    key_e->set_hotspot(Vector2D(0, keys_height*0.5f));
+    key_e->SelectAnimation(new Animation(30, 5, -1));
+    page->AddSprite(key_e, Vector2D(second_column, 2.5*spacing));
+    
+    Sprite *textkey_e = new Sprite;
+    textkey_e->Initialize(TEXT_LOADER()->GetImage("E"));
+    textkey_e->set_hotspot(Vector2D(0, textkey_e->image()->height()*0.5f));
+    page->AddSprite(textkey_e, Vector2D(second_column+keys_width+10, 2.5*spacing));
+
+    Image *mouse = VIDEO_MANAGER()->LoadImage("data/images/mouse.png");
+    long mouse_width=mouse->width(), mouse_height=mouse->height()/3.0f;
+    mouse->set_frame_size(Vector2D(mouse_width, mouse_height));
+
+    Sprite *mouse_left = new Sprite;
+    mouse_left->Initialize(mouse);
+    mouse_left->set_hotspot(Vector2D(0, mouse_height*0.5f));
+    mouse_left->SelectAnimation(new Animation(2, 0, 1, -1));
+    page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
+
+    Sprite *textmouse_left = new Sprite;
+    textmouse_left->Initialize(TEXT_LOADER()->GetImage("Mouse Left"));
+    textmouse_left->set_hotspot(Vector2D(0, textmouse_left->image()->height()*0.5f));
+    page->AddSprite(textmouse_left, Vector2D(second_column+mouse_width+10, 3.5*spacing));
+
+    Sprite *mouse_right = new Sprite;
+    mouse_right->Initialize(mouse);
+    mouse_right->set_hotspot(Vector2D(0, mouse_height*0.5f));
+    mouse_right->SelectAnimation(new Animation(2, 0, 2, -1));
+    page->AddSprite(mouse_right, Vector2D(second_column, 4.5*spacing));
+
+    Sprite *textmouse_right = new Sprite;
+    textmouse_right->Initialize(TEXT_LOADER()->GetImage("Mouse Right"));
+    textmouse_right->set_hotspot(Vector2D(0, textmouse_right->image()->height()*0.5f));
+    page->AddSprite(textmouse_right, Vector2D(second_column+mouse_width+10, 4.5*spacing));
 
     return page;
 }
 
 Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
+
+    Page *page = new Page(1, Page::NORMAL_PAGE, manager);
+
+    // Setting its handler.
+    page->set_handler(new HelpMenuHandler(page));
+
+    Image* img = TEXT_LOADER()->GetImage("Back");
+    Sprite *options_sprite = new Sprite;
+    options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
+    
+    float top = VIDEO_MANAGER()->video_size().y - img->height();
+    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+    
+    // Setting the selection sprite.
+    Sprite *selection_sprite = new Sprite;
+    selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
+    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
+    
+    // Set page menu
+    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
+    page->set_selection_sprite(selection_sprite);
+    page->set_option_sprite(0, options_sprite);
+    
+    // The menu content
+    Sprite *title = new Sprite;
+    title->Initialize(TEXT_LOADER()->GetImage("Help3"));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+    
+    return page;
+}
+
+Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
+
+    Page *page = new Page(1, Page::NORMAL_PAGE, manager);
+
+    // Setting its handler.
+    page->set_handler(new HelpMenuHandler(page));
+
+    Image* img = TEXT_LOADER()->GetImage("Back");
+    Sprite *options_sprite = new Sprite;
+    options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
+    
+    float top = VIDEO_MANAGER()->video_size().y - img->height();
+    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+    
+    // Setting the selection sprite.
+    Sprite *selection_sprite = new Sprite;
+    selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
+    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
+    
+    // Set page menu
+    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
+    page->set_selection_sprite(selection_sprite);
+    page->set_option_sprite(0, options_sprite);
+    
+    // The menu content
+    Sprite *title = new Sprite;
+    title->Initialize(TEXT_LOADER()->GetImage("Help4"));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+    
+    return page;
+}
+
+Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
+
+    Page *page = new Page(1, Page::NORMAL_PAGE, manager);
+
+    // Setting its handler.
+    page->set_handler(new HelpMenuHandler(page));
+
+    Image* img = TEXT_LOADER()->GetImage("Back");
+    Sprite *options_sprite = new Sprite;
+    options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
+    
+    float top = VIDEO_MANAGER()->video_size().y - img->height();
+    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+    
+    // Setting the selection sprite.
+    Sprite *selection_sprite = new Sprite;
+    selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
+    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
+    
+    // Set page menu
+    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
+    page->set_selection_sprite(selection_sprite);
+    page->set_option_sprite(0, options_sprite);
+    
+    // The menu content
+    Sprite *title = new Sprite;
+    title->Initialize(TEXT_LOADER()->GetImage("Help5"));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+    
+    return page;
+}
+
+Menu *MenuBuilder::BuildHelpPage6 (PageManager *manager) {
 
     Page *page = new Page(1, Page::LAST_PAGE, manager);
 
@@ -345,8 +504,10 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     Image* img = TEXT_LOADER()->GetImage("Back");
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
+    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
     
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
@@ -359,15 +520,13 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     page->set_option_sprite(0, options_sprite);
     
     // The menu content
-    Sprite *content = new Sprite;
-    content->Initialize(VIDEO_MANAGER()->LoadImage("data/images/horus_tutorial_ee.png"));
-    content->set_hotspot(Vector2D(content->image()->width() * 0.5f, 0));
-
-    page->AddSprite(content, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
+    Sprite *title = new Sprite;
+    title->Initialize(TEXT_LOADER()->GetImage("Help6"));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
     
     return page;
 }
-
 
 void MenuBuilder::PageManagerHandler::Handle(int selection) {
     MenuBuilder builder;
@@ -382,6 +541,18 @@ void MenuBuilder::PageManagerHandler::Handle(int selection) {
         }
         case (2): {
             Engine::reference()->PushScene(builder.BuildHelpPage3(static_cast<PageManager*> (menu_)));
+            break;
+        }
+        case (3): {
+            Engine::reference()->PushScene(builder.BuildHelpPage4(static_cast<PageManager*> (menu_)));
+            break;
+        }
+        case (4): {
+            Engine::reference()->PushScene(builder.BuildHelpPage5(static_cast<PageManager*> (menu_)));
+            break;
+        }
+        case (5): {
+            Engine::reference()->PushScene(builder.BuildHelpPage6(static_cast<PageManager*> (menu_)));
             break;
         }
         default:{

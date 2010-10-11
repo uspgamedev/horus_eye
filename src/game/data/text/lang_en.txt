@@ -10,6 +10,21 @@
 [Back]:Back
 [DevelopedBy]:Developed by USPGameDev
 
+[Help1]:Help
+[Help2]:Buttons
+[W]:Go Up
+[A]:Go Left
+[S]:Go Down
+[D]:Go Right
+[Q]:Previous Spell
+[E]:Next Spell
+[Mouse Left]:Shot fire ball
+[Mouse Right]:Shot spell
+[Help3]:Spells
+[Help4]:Itens
+[Help5]:Mummies
+[Help6]:Interface
+
 [Resolution]:Resolution
 [Fullscreen]:Fullscreen
 [Music]:Music

@@ -20,7 +20,8 @@ class PageManager : public Menu {
         START_PAGE=0,
         EXIT_PAGE,
         LEFT_PAGE,
-        RIGHT_PAGE
+        RIGHT_PAGE,
+        WAITING
     }FinishState;
 
     PageManager (int page_num);

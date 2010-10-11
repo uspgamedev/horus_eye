@@ -56,9 +56,10 @@ void PageManager::Update(float delta_t) {
         }
         case PageManager::LEFT_PAGE: {
             page_--;
+            state_ = WAITING;
             //Defense against page badly declared
             if(page_<0){
-                printf("Pages exploded left\n");
+                printf("Pages exploded left %d of %d\n", page_, page_num_);
                 Finish();
             }else
                 handler_->Handle(page_);
@@ -66,12 +67,16 @@ void PageManager::Update(float delta_t) {
         }
         case PageManager::RIGHT_PAGE: {
             page_++;
+            state_ = WAITING;
             //Defense against page badly declared
             if(page_>=page_num_){
-                printf("Pages exploded right\n");
+                printf("Pages exploded right %d of %d\n", page_, page_num_);
                 Finish();
             }else
                 handler_->Handle(page_);
+            break;
+        }
+        case PageManager::WAITING: {
             break;
         }
         default: {
