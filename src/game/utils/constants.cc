@@ -27,7 +27,7 @@ const float Constants::TOTEM_HEIGHT = 518.0f;
 const float Constants::LIGHT_RADIUS_THRESHOLD = 0.25f;
 const float Constants::LIGHT_RADIUS_INITIAL = 6.0f;
 
-const float Constants::HERO_SPEED = 3.2f;
+const float Constants::HERO_SPEED = 4.0f;
 
 const float Constants::PROJECTILE_SPEED = 8.0f;
 const float Constants::PROJECTILE_SPRITE_CENTER_X = 16.0f;
@@ -49,15 +49,15 @@ const float Constants::SIGHT_POTION_INCREASE = 1.2f;
 const float Constants::MUMMY_SIGHT_RANGE = 20.0f;
 
 const float Constants::MUMMY_RADIUS = 0.3f;
-const float Constants::MUMMY_SPEED = 2.0f;
+const float Constants::MUMMY_SPEED = 2.9f;
 
 const float Constants::RANGED_MUMMY_RANGE = 5.0f;
 
 const float Constants::BIG_MUMMY_RADIUS = 0.5f;
-const float Constants::BIG_MUMMY_SPEED = 1.7f;
+const float Constants::BIG_MUMMY_SPEED = 2.0f;
 
 const float Constants::PHARAOH_RADIUS = 0.45f;
-const float Constants::PHARAOH_SPEED = 2.8f;
+const float Constants::PHARAOH_SPEED = 3.3f;
 const float Constants::PHARAOH_SUMMON_RANGE = 2.0f;
 const float Constants::PHARAOH_MANA_REGEN_RATE = 2.0f;
 
