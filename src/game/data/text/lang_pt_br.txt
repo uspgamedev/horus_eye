@@ -33,6 +33,12 @@
 [HelpStairs2]{FontC}:só podem ser acessadas quando todos os
 [HelpStairs3]{FontC}:inimigos forem derrotados.
 
+[Help StandardSpell]{FontC}:Ataque básico, de longo alcance.
+[Help Earthquake1]{FontC}:Alcance limitado, dano por área.
+[Help Earthquake2]{FontC}:Custa 25% da mana.
+[Help Fireball1]{FontC}:Ataque explosivo de longo alcance.
+[Help Fireball2]{FontC}:Custa 20% da mana.
+
 [Resolution]{FontA}:Resolução
 [Fullscreen]{FontA}:Tela Cheia
 [Music]{FontA}:Música

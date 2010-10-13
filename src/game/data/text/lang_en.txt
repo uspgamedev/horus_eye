@@ -37,6 +37,12 @@
 [HelpStairs2]{FontC}:only be accessed if all enemies have been
 [HelpStairs3]{FontC}:destroyed.
 
+[Help StandardSpell]{FontC}:Basic, ranged attack.
+[Help Earthquake1]{FontC}:Limited range, area damage.
+[Help Earthquake2]{FontC}:Costs 25% mana.
+[Help Fireball1]{FontC}:Ranged attack, explodes on contact.
+[Help Fireball2]{FontC}:Costs 20% mana.
+
 // Settings
 [Resolution]{FontA}:Resolution
 [Fullscreen]{FontA}:Fullscreen
