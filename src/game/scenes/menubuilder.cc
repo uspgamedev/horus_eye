@@ -242,7 +242,7 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
-    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+    Vector2D spacing = VIDEO_MANAGER()->video_size()*(1.0f/6.0f);
     
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
@@ -258,7 +258,7 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Help"));
     title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing.y*0.5f));
     
     ImageFactory img_fac;
 
@@ -266,20 +266,30 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     Sprite *hero_sprite = new Sprite;
     hero_sprite->Initialize(img_fac.HeroImage());
     hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
-    page->AddSprite(hero_sprite, Vector2D(0.0f, hero_sprite->image()->frame_size().y));
+    page->AddSprite(hero_sprite, Vector2D(0.0f, spacing.y));
 
     // A dying mummy sprite.
     Sprite *mummy_sprite = new Sprite;
     mummy_sprite->Initialize(img_fac.MummyImage());
     mummy_sprite->SelectAnimation(new Animation(10, 4, 4, 4, 4, 4, 80, 81, 82, 83, 84, 90, 91, -1));
-    page->AddSprite(mummy_sprite, Vector2D(mummy_sprite->image()->frame_size().x*0.8f,
-                                           mummy_sprite->image()->frame_size().y*1.2f));
+    page->AddSprite(mummy_sprite, Vector2D(spacing.x, spacing.y*2.0f));
 
     // A door sprite.
     Sprite *door_sprite = new Sprite;
     door_sprite->Initialize(img_fac.DoorImage());
-    page->AddSprite(door_sprite, Vector2D(door_sprite->image()->frame_size().x*0.3f,
-                                          door_sprite->image()->frame_size().y*3.3f));
+    page->AddSprite(door_sprite, Vector2D(spacing.x/2.0f, spacing.y*3.5f));
+
+    Sprite *objective_text[3];
+    for (int i = 0; i < 3; ++i)
+        objective_text[i] = new Sprite;
+
+    objective_text[0]->Initialize(TEXT_LOADER()->GetImage("HelpObjective1"));
+    page->AddSprite(objective_text[0], Vector2D(spacing.x*3.0f, spacing.y*1.5f));
+    objective_text[1]->Initialize(TEXT_LOADER()->GetImage("HelpObjective2"));
+    page->AddSprite(objective_text[1], Vector2D(spacing.x*3.0f, spacing.y*2.0f));
+    objective_text[2]->Initialize(TEXT_LOADER()->GetImage("HelpObjective3"));
+    page->AddSprite(objective_text[2], Vector2D(spacing.x*3.0f, spacing.y*2.5f));
+
 
     return page;
 }

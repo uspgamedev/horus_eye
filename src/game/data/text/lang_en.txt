@@ -1,6 +1,7 @@
 #FONTS
 [FontA]{50}c+:data/font/Filmcrypob.ttf
 [FontB]{50}c:data/font/Filmcryptic.ttf
+[FontC]{30}c:data/font/Filmcryptic.ttf
 
 #WORDS
 [Play]{FontA}:Play
@@ -25,7 +26,9 @@
 [Spells]{FontA}:Spells
 [Itens]{FontA}:Items
 [Interface]{FontA}:Interface
-[HelpObjective]{FontB}:Destroy all enemies in order to gain access to the next floor.
+[HelpObjective1]{FontC}:Destroy all enemies in
+[HelpObjective2]{FontC}:order to gain access to
+[HelpObjective3]{FontC}:the next floor.
 [HelpStairs]{FontB}:The stairs lead to the next floor. They can only be accessed if all enemies have been destroyed.
 
 [Resolution]{FontA}:Resolution

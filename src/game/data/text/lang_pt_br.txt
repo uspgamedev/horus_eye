@@ -1,6 +1,7 @@
 #FONTS
 [FontA]{50}c+:data/font/Filmcrypob.ttf
 [FontB]{50}c:data/font/Filmcryptic.ttf
+[FontC]{30}c:data/font/Filmcryptic.ttf
 
 #WORDS
 [Play]{FontA}:Jogar
@@ -25,7 +26,9 @@
 [Spells]{FontA}:Magias
 [Itens]{FontA}:Itens
 [Interface]{FontA}:Interface
-[HelpObjective]{FontB}:Destrua todos os inimigos para ganhar acesso ao próximo andar.
+[HelpObjective1]{FontC}:Destrua todos os inimigos
+[HelpObjective2]{FontC}:para ganhar acesso ao próximo
+[HelpObjective3]{FontC}:andar.
 [HelpStairs]{FontB}:As escadas levam ao próximo andar. Elas só podem ser acessadas quando todos os inimigos forem derrotados.
 
 [Resolution]{FontA}:Resolução
