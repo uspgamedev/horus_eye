@@ -4,12 +4,17 @@
 #include "../../utils/imagefactory.h"
 #include "../../utils/visionstrategy.h"
 #include "../mummybuilder.h"
+#include "../../utils/tile.h"
 
 #define SUMMON_RANGED_CHANCE  30
 #define SUMMON_BIG_CHANCE     20
 
 using namespace sprite;
 using framework::Vector2D;
+
+bool isObstacle(utils::Tile* tile) {
+    return (tile->object() == WALL || tile->object() == DOOR || tile->object() == ENTRY);
+}
 
 void PharaohSummonWeapon::Attack() {
     scene::World *world = WORLD();
@@ -18,8 +23,11 @@ void PharaohSummonWeapon::Attack() {
     Vector2D direction = Vector2D::Normalized(hero->world_position() - owner_->world_position());
     Vector2D mummyPos = direction*range() + owner_->world_position();
 
-    utils::VisionStrategy strategy;
-    if(!strategy.IsVisible(owner_->world_position(), mummyPos))
+    utils::GameMap& map = world->level_matrix();
+    utils::Tile *tile = utils::Tile::GetFromWorldPosition(map, mummyPos);
+    if(isObstacle(tile) || isObstacle(tile->Up(map)) || isObstacle(tile->Down(map))
+            || isObstacle(tile->Left(map)) || isObstacle(tile->Right(map)) )
+    //if(!strategy.IsVisible(owner_->world_position(), mummyPos))
         mummyPos = owner_->world_position();
     /* The choice of mummy type to summon here is based on a discrete percent probability.
        A value in the range [0, 100[ is chosen randomly, and then depending on where it
