@@ -279,16 +279,22 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     door_sprite->Initialize(img_fac.DoorImage());
     page->AddSprite(door_sprite, Vector2D(spacing.x/2.0f, spacing.y*3.5f));
 
-    Sprite *objective_text[3];
-    for (int i = 0; i < 3; ++i)
+    Sprite *objective_text[6];
+    for (int i = 0; i < 6; ++i)
         objective_text[i] = new Sprite;
 
-    objective_text[0]->Initialize(TEXT_LOADER()->GetImage("HelpObjective1"));
-    page->AddSprite(objective_text[0], Vector2D(spacing.x*3.0f, spacing.y*1.5f));
-    objective_text[1]->Initialize(TEXT_LOADER()->GetImage("HelpObjective2"));
-    page->AddSprite(objective_text[1], Vector2D(spacing.x*3.0f, spacing.y*2.0f));
-    objective_text[2]->Initialize(TEXT_LOADER()->GetImage("HelpObjective3"));
-    page->AddSprite(objective_text[2], Vector2D(spacing.x*3.0f, spacing.y*2.5f));
+    objective_text[0]->Initialize(TEXT_LOADER()->GetImage("Objective"));
+    page->AddSprite(objective_text[0], Vector2D(spacing.x*2.0f, spacing.y*1.0f));
+    objective_text[1]->Initialize(TEXT_LOADER()->GetImage("HelpObjective1"));
+    page->AddSprite(objective_text[1], Vector2D(spacing.x*2.0f, spacing.y*2.0f));
+    objective_text[2]->Initialize(TEXT_LOADER()->GetImage("HelpObjective2"));
+    page->AddSprite(objective_text[2], Vector2D(spacing.x*2.0f, spacing.y*2.5f));
+    objective_text[3]->Initialize(TEXT_LOADER()->GetImage("HelpStairs1"));
+    page->AddSprite(objective_text[3], Vector2D(spacing.x*2.0f, spacing.y*3.5f));
+    objective_text[4]->Initialize(TEXT_LOADER()->GetImage("HelpStairs2"));
+    page->AddSprite(objective_text[4], Vector2D(spacing.x*2.0f, spacing.y*4.0f));
+    objective_text[5]->Initialize(TEXT_LOADER()->GetImage("HelpStairs3"));
+    page->AddSprite(objective_text[5], Vector2D(spacing.x*2.0f, spacing.y*4.5f));
 
 
     return page;

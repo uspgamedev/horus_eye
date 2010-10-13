@@ -26,10 +26,12 @@
 [Spells]{FontA}:Spells
 [Itens]{FontA}:Items
 [Interface]{FontA}:Interface
-[HelpObjective1]{FontC}:Destroy all enemies in
-[HelpObjective2]{FontC}:order to gain access to
-[HelpObjective3]{FontC}:the next floor.
-[HelpStairs]{FontB}:The stairs lead to the next floor. They can only be accessed if all enemies have been destroyed.
+[Objective]{FontC}:Objective:
+[HelpObjective1]{FontC}:Destroy all enemies in order to gain access to
+[HelpObjective2]{FontC}:the next floor.
+[HelpStairs1]{FontC}:The stairs lead to the next floor. They can
+[HelpStairs2]{FontC}:only be accessed if all enemies have been
+[HelpStairs3]{FontC}:destroyed.
 
 [Resolution]{FontA}:Resolution
 [Fullscreen]{FontA}:Fullscreen

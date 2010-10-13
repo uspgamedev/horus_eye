@@ -26,10 +26,12 @@
 [Spells]{FontA}:Magias
 [Itens]{FontA}:Itens
 [Interface]{FontA}:Interface
-[HelpObjective1]{FontC}:Destrua todos os inimigos
-[HelpObjective2]{FontC}:para ganhar acesso ao próximo
-[HelpObjective3]{FontC}:andar.
-[HelpStairs]{FontB}:As escadas levam ao próximo andar. Elas só podem ser acessadas quando todos os inimigos forem derrotados.
+[Objective]{FontC}:Objetivo:
+[HelpObjective1]{FontC}:Destrua todos os inimigos para ganhar
+[HelpObjective2]{FontC}:acesso ao próximo andar.
+[HelpStairs1]{FontC}:As escadas levam ao próximo andar. Elas
+[HelpStairs2]{FontC}:só podem ser acessadas quando todos os
+[HelpStairs3]{FontC}:inimigos forem derrotados.
 
 [Resolution]{FontA}:Resolução
 [Fullscreen]{FontA}:Tela Cheia
