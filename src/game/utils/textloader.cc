@@ -22,7 +22,7 @@ TextLoader::~TextLoader() {
 
 // Returns true if the first character in the string is a newline or \0
 bool is_blank(char* str) {
-    return (str[0] == '\n' || str[0] == '\0');
+    return (str[0] == '\n' || str[0] == '\0' || str[0] == '/');
 }
 
 // Returns true if the string matches the criteria of being a title

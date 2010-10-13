@@ -478,7 +478,7 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
 
     Sprite *magic_missile = new Sprite;
     magic_missile->Initialize(img_fac.MagicMissileImage());
-    page->AddSprite(magic_missile, Vector2D(0.0f, 2*spacing));
+    page->AddSprite(magic_missile, Vector2D(113.0f, 2.5f*spacing));
 
     Sprite *fire_ball = new Sprite;
     fire_ball->Initialize(img_fac.ExplosionImage());
