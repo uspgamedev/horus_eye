@@ -25,6 +25,8 @@
 [Spells]{FontA}:Magias
 [Itens]{FontA}:Itens
 [Interface]{FontA}:Interface
+[HelpObjective]{FontB}:Destrua todos os inimigos para ganhar acesso ao próximo andar.
+[HelpStairs]{FontB}:As escadas levam ao próximo andar. Elas só podem ser acessadas quando todos os inimigos forem derrotados.
 
 [Resolution]{FontA}:Resolução
 [Fullscreen]{FontA}:Tela Cheia

@@ -23,8 +23,10 @@
 [Shoot spell]{FontA}:Shoot spell
 [Buttons]{FontA}:Buttons
 [Spells]{FontA}:Spells
-[Itens]{FontA}:Itens
+[Itens]{FontA}:Items
 [Interface]{FontA}:Interface
+[HelpObjective]{FontB}:Destroy all enemies in order to gain access to the next floor.
+[HelpStairs]{FontB}:The stairs lead to the next floor. They can only be accessed if all enemies have been destroyed.
 
 [Resolution]{FontA}:Resolution
 [Fullscreen]{FontA}:Fullscreen
