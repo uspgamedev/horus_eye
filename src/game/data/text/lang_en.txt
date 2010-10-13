@@ -13,20 +13,18 @@
 [Return to Menu]{FontA}:Return to Menu
 [Back]{FontA}:Back
 
-[Help1]{FontA}:Help
-[Help2]{FontA}:Buttons
-[W]{FontA}:Go Up
-[A]{FontA}:Go Left
-[S]{FontA}:Go Down
-[D]{FontA}:Go Right
-[Q]{FontA}:Previous Spell
-[E]{FontA}:Next Spell
-[Mouse Left]{FontA}:Shot fire ball
-[Mouse Right]{FontA}:Shot spell
-[Help3]{FontA}:Spells
-[Help4]{FontA}:Itens
-[Help5]{FontA}:Mummies
-[Help6]{FontA}:Interface
+[Move Up]{FontB}:Move Up
+[Move Left]{FontB}:Move Left
+[Move Down]{FontB}:Move Down
+[Move Right]{FontB}:Move Right
+[Previous Spell]{FontB}:Previous Spell
+[Next Spell]{FontB}:Next Spell
+[Shoot fire ball]{FontB}:Shoot fire ball
+[Shoot spell]{FontB}:Shoot spell
+[Buttons]{FontB}:Buttons
+[Spells]{FontB}:Spells
+[Itens]{FontB}:Itens
+[Interface]{FontB}:Interface
 
 [Resolution]{FontA}:Resolution
 [Fullscreen]{FontA}:Fullscreen

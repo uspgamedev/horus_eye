@@ -13,20 +13,18 @@
 [Return to Menu]{FontA}:Voltar ao Menu
 [Back]{FontA}:Voltar
 
-[Help1]{FontA}:Ajuda
-[Help2]{FontA}:Botões
-[W]{FontA}:Ir para cima
-[A]{FontA}:Ir para esquerda
-[S]{FontA}:Ir para baixo
-[D]{FontA}:Ir para direita
-[Q]{FontA}:Magia Anterior
-[E]{FontA}:Próxima magia
-[Mouse Left]{FontA}:Atirar bola de fogo
-[Mouse Right]{FontA}:Atirar magia
-[Help3]{FontA}:Magias
-[Help4]{FontA}:Itens
-[Help5]{FontA}:Múmias
-[Help6]{FontA}:Interface
+[Move Up]{FontB}:Ir para cima
+[Move Left]{FontB}:Ir para esquerda
+[Move Down]{FontB}:Ir para baixo
+[Move Right]{FontB}:Ir para direita
+[Previous Spell]{FontB}:Magia Anterior
+[Next Spell]{FontB}:Próxima Magia
+[Shot fire ball]{FontB}:Atirar vola de fogo
+[Shot spell]{FontB}:Atirar magia
+[Buttons]{FontB}:Botões
+[Spells]{FontB}:Magias
+[Itens]{FontB}:Itens
+[Interface]{FontB}:Interface
 
 [Resolution]{FontA}:Resolução
 [Fullscreen]{FontA}:Tela Cheia
