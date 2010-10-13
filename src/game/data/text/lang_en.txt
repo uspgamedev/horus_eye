@@ -13,18 +13,18 @@
 [Return to Menu]{FontA}:Return to Menu
 [Back]{FontA}:Back
 
-[Move Up]{FontB}:Move Up
-[Move Left]{FontB}:Move Left
-[Move Down]{FontB}:Move Down
-[Move Right]{FontB}:Move Right
-[Previous Spell]{FontB}:Previous Spell
-[Next Spell]{FontB}:Next Spell
-[Shoot fire ball]{FontB}:Shoot fire ball
-[Shoot spell]{FontB}:Shoot spell
-[Buttons]{FontB}:Buttons
-[Spells]{FontB}:Spells
-[Itens]{FontB}:Itens
-[Interface]{FontB}:Interface
+[Move Up]{FontA}:Move Up
+[Move Left]{FontA}:Move Left
+[Move Down]{FontA}:Move Down
+[Move Right]{FontA}:Move Right
+[Previous Spell]{FontA}:Previous Spell
+[Next Spell]{FontA}:Next Spell
+[Shoot magic missile]{FontA}:Shoot magic missile
+[Shoot spell]{FontA}:Shoot spell
+[Buttons]{FontA}:Buttons
+[Spells]{FontA}:Spells
+[Itens]{FontA}:Itens
+[Interface]{FontA}:Interface
 
 [Resolution]{FontA}:Resolution
 [Fullscreen]{FontA}:Fullscreen

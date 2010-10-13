@@ -397,18 +397,18 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     Sprite *mouse_left = new Sprite;
     mouse_left->Initialize(mouse);
     mouse_left->set_hotspot(Vector2D(0, mouse_height*0.5f));
-    mouse_left->SelectAnimation(new Animation(2, 0, 1, -1));
+    mouse_left->SelectAnimation(new Animation(2, 0, 2, -1));
     page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
 
     Sprite *textmouse_left = new Sprite;
-    textmouse_left->Initialize(TEXT_LOADER()->GetImage("Shoot fire ball"));
+    textmouse_left->Initialize(TEXT_LOADER()->GetImage("Shoot magic missile"));
     textmouse_left->set_hotspot(Vector2D(0, textmouse_left->image()->height()*0.5f));
     page->AddSprite(textmouse_left, Vector2D(second_column+mouse_width+10, 3.5*spacing));
 
     Sprite *mouse_right = new Sprite;
     mouse_right->Initialize(mouse);
     mouse_right->set_hotspot(Vector2D(0, mouse_height*0.5f));
-    mouse_right->SelectAnimation(new Animation(2, 0, 2, -1));
+    mouse_right->SelectAnimation(new Animation(2, 0, 1, -1));
     page->AddSprite(mouse_right, Vector2D(second_column, 4.5*spacing));
 
     Sprite *textmouse_right = new Sprite;
@@ -450,6 +450,30 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
     
+    ImageFactory img_fac;
+    
+    // A hero animated sprite.
+    Sprite *hero_sprite = new Sprite;
+    hero_sprite->Initialize(img_fac.HeroImage());
+    hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
+    page->AddSprite(hero_sprite, Vector2D(0.0f, spacing));
+    
+                //hero_sprite->image()->frame_size().y));
+
+    Sprite *magic_missile = new Sprite;
+    magic_missile->Initialize(img_fac.MagicMissileImage());
+    page->AddSprite(magic_missile, Vector2D(0.0f, 2*spacing));
+
+    Sprite *fire_ball = new Sprite;
+    fire_ball->Initialize(img_fac.ExplosionImage());
+    fire_ball->SelectAnimation(new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1));
+    page->AddSprite(fire_ball, Vector2D(0.0f, 3*spacing));
+
+    Sprite *earthquake = new Sprite;
+    earthquake->Initialize(img_fac.QuakeImage());
+    earthquake->SelectAnimation(new Animation(8, 0, 1, 2, 3, 4, 5, -1));
+    page->AddSprite(earthquake, Vector2D(0.0f, 4*spacing));
+
     return page;
 }
 

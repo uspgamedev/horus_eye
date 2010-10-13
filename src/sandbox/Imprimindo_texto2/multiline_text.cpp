@@ -225,7 +225,7 @@ int main( int argc, char* args[] )
 
     //Render the text
     message = renderText("Texto\nTexto\nTexto\nTexto\nTexto");
-    bigtext = TTF_RenderText_Solid( font, "Big Text with 5 lines", textColor );
+    bigtext = TTF_RenderText_Solid( font, "Big Text with 5 lines Texto Grandão Créditos Caça", textColor );
 
     //If there was an error in rendering the text
     if( message == NULL )
