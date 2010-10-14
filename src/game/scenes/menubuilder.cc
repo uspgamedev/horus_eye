@@ -591,10 +591,10 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
     text_sight1->Initialize(TEXT_LOADER()->GetImage("Help Sight1"));
     page->AddSprite(text_sight1, Vector2D(100, 3*spacing));
 
-/*    Sprite *text_sight2 = new Sprite;
-    text_life2->Initialize(TEXT_LOADER()->GetImage("Help Sight2"));
+    Sprite *text_sight2 = new Sprite;
+    text_sight2->Initialize(TEXT_LOADER()->GetImage("Help Sight2"));
     page->AddSprite(text_sight2, Vector2D(100, 3.5*spacing));
-*/
+
     return page;
 }
 
