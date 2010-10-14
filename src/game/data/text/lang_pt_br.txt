@@ -55,6 +55,14 @@
 [Help Sight2]{FontC}:Aumenta o raio de visão do herói
 
 [Interface]{FontA}:Interface
+[Mana Bar]{FontC}:Barra de Mana
+[Life Bar]{FontC}:Barra de Vida
+[Hero]{FontC}:Herói
+[Type of Spell]{FontC}:Tipo de
+[Spell]{FontC}:Magia
+[Missing]{FontC}:Contador
+[Mummies]{FontC}:de Múmias
+[Counter]{FontC}:Restantes
 
 // Settings
 [Resolution]{FontA}:Resolução

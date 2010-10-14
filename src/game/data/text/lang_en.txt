@@ -55,6 +55,14 @@
 [Help Sight2]{FontC}:Increases hero's range of vision
 
 [Interface]{FontA}:Interface
+[Mana Bar]{FontC}:Mana Bar
+[Life Bar]{FontC}:Life Bar
+[Hero]{FontC}:Hero
+[Type of]{FontC}:Type of
+[Spell]{FontC}:Spell
+[Missing]{FontC}:Missing
+[Mummies]{FontC}:Mummies
+[Counter]{FontC}:Counter
 
 // Settings
 [Resolution]{FontA}:Resolution

@@ -611,8 +611,10 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
-    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
-    
+    Vector2D middle = VIDEO_MANAGER()->video_size();
+    middle.x = middle.x*0.5f;
+    middle.y = middle.y*0.5f;
+
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
     selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
@@ -631,8 +633,46 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
 
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Interface"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, 0.0f)); 
+    page->AddSprite(title, Vector2D(middle.x, 0));
+
+    Sprite *mana = new Sprite;
+    mana->Initialize(TEXT_LOADER()->GetImage("Mana Bar"));
+    page->AddSprite(mana, Vector2D(middle.x-220, middle.y-215));
+    
+    Sprite *life = new Sprite;
+    life->Initialize(TEXT_LOADER()->GetImage("Life Bar"));
+    life->set_hotspot(Vector2D(life->image()->width(), 0));
+    page->AddSprite(life, Vector2D(middle.x+220, middle.y-215));
+    
+    Sprite *hero = new Sprite;
+    hero->Initialize(TEXT_LOADER()->GetImage("Hero"));
+    page->AddSprite(hero, Vector2D(middle.x+90, middle.y-50));
+    
+    Sprite *spell1 = new Sprite;
+    spell1->Initialize(TEXT_LOADER()->GetImage("Type of"));
+    spell1->set_hotspot(Vector2D(spell1->image()->width()*0.5f, 0));
+    page->AddSprite(spell1, Vector2D(middle.x, middle.y+80));
+    
+    Sprite *spell2 = new Sprite;
+    spell2->Initialize(TEXT_LOADER()->GetImage("Spell"));
+    spell2->set_hotspot(Vector2D(spell2->image()->width()*0.5f, 0));
+    page->AddSprite(spell2, Vector2D(middle.x, middle.y+110));
+    
+    Sprite *counter1 = new Sprite;
+    counter1->Initialize(TEXT_LOADER()->GetImage("Missing"));
+    counter1->set_hotspot(Vector2D(counter1->image()->width()*0.5f, 0));
+    page->AddSprite(counter1, Vector2D(middle.x+120, middle.y+40));
+    
+    Sprite *counter2 = new Sprite;
+    counter2->Initialize(TEXT_LOADER()->GetImage("Mummies"));
+    counter2->set_hotspot(Vector2D(counter2->image()->width()*0.5f, 0));
+    page->AddSprite(counter2, Vector2D(middle.x+120, middle.y+70));
+    
+    Sprite *counter3 = new Sprite;
+    counter3->Initialize(TEXT_LOADER()->GetImage("Counter"));
+    counter3->set_hotspot(Vector2D(counter3->image()->width()*0.5f, 0));
+    page->AddSprite(counter3, Vector2D(middle.x+120, middle.y+100));
     
     return page;
 }
