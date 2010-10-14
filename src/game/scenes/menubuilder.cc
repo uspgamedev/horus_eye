@@ -521,6 +521,23 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
     title->Initialize(TEXT_LOADER()->GetImage("Itens"));
     title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
+
+    ImageFactory img_fac;
+
+    Sprite *life = new Sprite;
+    life->Initialize(img_fac.LifePotionImage());
+    life->set_hotspot(Vector2D(life->image()->width() * 0.5f, life->image()->height() * 0.5f));
+    page->AddSprite(life, Vector2D(50, 2.5*spacing));
+    
+    Sprite *mana = new Sprite;
+    mana->Initialize(img_fac.ManaPotionImage());
+    mana->set_hotspot(Vector2D(mana->image()->width() * 0.5f, mana->image()->height() * 0.5f));
+    page->AddSprite(mana, Vector2D(50, 3.5*spacing));
+    
+    Sprite *sight = new Sprite;
+    sight->Initialize(img_fac.SightPotionImage());
+    sight->set_hotspot(Vector2D(sight->image()->width() * 0.5f, sight->image()->height() * 0.5f));
+    page->AddSprite(sight, Vector2D(50, 4.5*spacing));
     
     return page;
 }
@@ -551,6 +568,11 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     page->set_option_sprite(0, options_sprite);
     
     // The menu content
+    Sprite *hud = new Sprite;
+    hud->Initialize(VIDEO_MANAGER()->LoadImage("data/images/hud_help.png"));
+    hud->set_hotspot(Vector2D(hud->image()->width()*0.5f, hud->image()->height()*0.5f));
+    page->AddSprite(hud, Vector2D(VIDEO_MANAGER()->video_size().x*0.5f, VIDEO_MANAGER()->video_size().y*0.5f));
+
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Interface"));
     title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
