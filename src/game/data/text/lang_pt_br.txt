@@ -61,7 +61,7 @@
 [Type of]{FontC}:Tipo de
 [Spell]{FontC}:Magia
 [Missing]{FontC}:Contador
-[Mummies]{FontC}:de Múmias
+[Mummies]{FontC}:de Inimigos
 [Counter]{FontC}:Restantes
 
 // Settings

@@ -60,8 +60,8 @@
 [Hero]{FontC}:Hero
 [Type of]{FontC}:Type of
 [Spell]{FontC}:Spell
-[Missing]{FontC}:Missing
-[Mummies]{FontC}:Mummies
+[Missing]{FontC}:Remaining
+[Mummies]{FontC}:Enemies
 [Counter]{FontC}:Counter
 
 // Settings
