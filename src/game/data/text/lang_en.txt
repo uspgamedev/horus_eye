@@ -2,6 +2,7 @@
 [FontA]{50}c+:data/font/Filmcrypob.ttf
 [FontB]{50}c:data/font/Filmcryptic.ttf
 [FontC]{30}c:data/font/Filmcryptic.ttf
+[FontD]{30}c+:data/font/Filmcrypob.ttf
 
 #WORDS
 // Main Menu
@@ -18,18 +19,6 @@
 [Back]{FontA}:Back
 
 // Help Menu
-[Move Up]{FontA}:Move Up
-[Move Left]{FontA}:Move Left
-[Move Down]{FontA}:Move Down
-[Move Right]{FontA}:Move Right
-[Previous Spell]{FontA}:Previous Spell
-[Next Spell]{FontA}:Next Spell
-[Shoot magic missile]{FontA}:Shoot magic missile
-[Shoot spell]{FontA}:Shoot spell
-[Buttons]{FontA}:Buttons
-[Spells]{FontA}:Spells
-[Itens]{FontA}:Itens
-[Interface]{FontA}:Interface
 [Objective]{FontC}:Objective:
 [HelpObjective1]{FontC}:Destroy all enemies in order to gain access to
 [HelpObjective2]{FontC}:the next floor.
@@ -37,11 +26,35 @@
 [HelpStairs2]{FontC}:only be accessed if all enemies have been
 [HelpStairs3]{FontC}:destroyed.
 
+[Buttons]{FontA}:Buttons
+[Move Up]{FontC}:Move Up
+[Move Left]{FontC}:Move Left
+[Move Down]{FontC}:Move Down
+[Move Right]{FontC}:Move Right
+[Previous Spell]{FontC}:Previous Spell
+[Next Spell]{FontC}:Next Spell
+[Shoot magic]{FontC}:Shoot magic
+[Shoot spell]{FontC}:Shoot spell
+
+[Spells]{FontA}:Spells
+[Help Magic]{FontD}:Magic Missile
 [Help StandardSpell]{FontC}:Basic, ranged attack.
-[Help Earthquake1]{FontC}:Limited range, area damage.
-[Help Earthquake2]{FontC}:Costs 25% mana.
+[Help Fireball0]{FontD}:Fireball
 [Help Fireball1]{FontC}:Ranged attack, explodes on contact.
 [Help Fireball2]{FontC}:Costs 20% mana.
+[Help Earthquake0]{FontD}:Earthquake
+[Help Earthquake1]{FontC}:Limited range, area damage.
+[Help Earthquake2]{FontC}:Costs 25% mana.
+
+[Itens]{FontA}:Itens
+[Help Life1]{FontD}:Life Potion
+[Help Life2]{FontC}:Recovers 20% of hero's life
+[Help Mana1]{FontD}:Mana Potion
+[Help Mana2]{FontC}:Recovers 25% of hero's mana
+[Help Sight1]{FontD}:Sight Potion
+[Help Sight2]{FontC}:Increases hero's range of vision
+
+[Interface]{FontA}:Interface
 
 // Settings
 [Resolution]{FontA}:Resolution

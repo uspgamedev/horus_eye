@@ -417,7 +417,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
 
     Sprite *textmouse_left = new Sprite;
-    textmouse_left->Initialize(TEXT_LOADER()->GetImage("Shoot magic missile"));
+    textmouse_left->Initialize(TEXT_LOADER()->GetImage("Shoot magic"));
     textmouse_left->set_hotspot(Vector2D(0, textmouse_left->image()->height()*0.5f));
     page->AddSprite(textmouse_left, Vector2D(second_column+mouse_width+10, 3.5*spacing));
 
@@ -448,7 +448,7 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
-    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+    float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
     
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
@@ -472,21 +472,53 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     Sprite *hero_sprite = new Sprite;
     hero_sprite->Initialize(img_fac.HeroImage());
     hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
-    page->AddSprite(hero_sprite, Vector2D(0.0f, 2*spacing));
+    page->AddSprite(hero_sprite, Vector2D(0.0f, 1*spacing));
     
     Sprite *magic_missile = new Sprite;
     magic_missile->Initialize(img_fac.MagicMissileImage());
-    page->AddSprite(magic_missile, Vector2D(113.0f, 2.5f*spacing));
+    page->AddSprite(magic_missile, Vector2D(110.0f, 1.5f*spacing));
+    
+    Sprite *text_magic0 = new Sprite;
+    text_magic0->Initialize(TEXT_LOADER()->GetImage("Help Magic"));
+    page->AddSprite(text_magic0, Vector2D(270.0f, spacing));
+    
+    Sprite *text_magic = new Sprite;
+    text_magic->Initialize(TEXT_LOADER()->GetImage("Help StandardSpell"));
+    page->AddSprite(text_magic, Vector2D(270.0f, 1.5f*spacing));
 
     Sprite *fire_ball = new Sprite;
     fire_ball->Initialize(img_fac.ExplosionImage());
     fire_ball->SelectAnimation(new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1));
-    page->AddSprite(fire_ball, Vector2D(0.0f, 3*spacing));
+    page->AddSprite(fire_ball, Vector2D(0.0f, 2*spacing));
+    
+    Sprite *text_fire0 = new Sprite;
+    text_fire0->Initialize(TEXT_LOADER()->GetImage("Help Fireball0"));
+    page->AddSprite(text_fire0, Vector2D(270.0f, 2*spacing));
+
+    Sprite *text_fire1 = new Sprite;
+    text_fire1->Initialize(TEXT_LOADER()->GetImage("Help Fireball1"));
+    page->AddSprite(text_fire1, Vector2D(270.0f, 2.4*spacing));
+
+    Sprite *text_fire2 = new Sprite;
+    text_fire2->Initialize(TEXT_LOADER()->GetImage("Help Fireball2"));
+    page->AddSprite(text_fire2, Vector2D(270.0f, 2.7*spacing));
 
     Sprite *earthquake = new Sprite;
     earthquake->Initialize(img_fac.QuakeImage());
     earthquake->SelectAnimation(new Animation(8, 0, 1, 2, 3, 4, 5, -1));
-    page->AddSprite(earthquake, Vector2D(0.0f, 4*spacing));
+    page->AddSprite(earthquake, Vector2D(0.0f, 3*spacing));
+
+    Sprite *text_earthquake0 = new Sprite;
+    text_earthquake0->Initialize(TEXT_LOADER()->GetImage("Help Earthquake0"));
+    page->AddSprite(text_earthquake0, Vector2D(270.0f, 3*spacing));
+
+    Sprite *text_earthquake1 = new Sprite;
+    text_earthquake1->Initialize(TEXT_LOADER()->GetImage("Help Earthquake1"));
+    page->AddSprite(text_earthquake1, Vector2D(270.0f, 3.4*spacing));
+
+    Sprite *text_earthquake2 = new Sprite;
+    text_earthquake2->Initialize(TEXT_LOADER()->GetImage("Help Earthquake2"));
+    page->AddSprite(text_earthquake2, Vector2D(270.0f, 3.7*spacing));
 
     return page;
 }
@@ -504,7 +536,7 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
     options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
-    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
+    float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
     
     // Setting the selection sprite.
     Sprite *selection_sprite = new Sprite;
@@ -527,18 +559,42 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
     Sprite *life = new Sprite;
     life->Initialize(img_fac.LifePotionImage());
     life->set_hotspot(Vector2D(life->image()->width() * 0.5f, life->image()->height() * 0.5f));
-    page->AddSprite(life, Vector2D(50, 2.5*spacing));
-    
+    page->AddSprite(life, Vector2D(50, 1.5*spacing));
+ 
+    Sprite *text_life1 = new Sprite;
+    text_life1->Initialize(TEXT_LOADER()->GetImage("Help Life1"));
+    page->AddSprite(text_life1, Vector2D(100, 1*spacing));
+
+    Sprite *text_life2 = new Sprite;
+    text_life2->Initialize(TEXT_LOADER()->GetImage("Help Life2"));
+    page->AddSprite(text_life2, Vector2D(100.0f, 1.5*spacing));
+
     Sprite *mana = new Sprite;
     mana->Initialize(img_fac.ManaPotionImage());
     mana->set_hotspot(Vector2D(mana->image()->width() * 0.5f, mana->image()->height() * 0.5f));
-    page->AddSprite(mana, Vector2D(50, 3.5*spacing));
-    
+    page->AddSprite(mana, Vector2D(50, 2.5*spacing));
+ 
+    Sprite *text_mana1 = new Sprite;
+    text_mana1->Initialize(TEXT_LOADER()->GetImage("Help Mana1"));
+    page->AddSprite(text_mana1, Vector2D(100, 2*spacing));
+
+    Sprite *text_mana2 = new Sprite;
+    text_mana2->Initialize(TEXT_LOADER()->GetImage("Help Mana2"));
+    page->AddSprite(text_mana2, Vector2D(100.0f, 2.5*spacing));
+
     Sprite *sight = new Sprite;
     sight->Initialize(img_fac.SightPotionImage());
     sight->set_hotspot(Vector2D(sight->image()->width() * 0.5f, sight->image()->height() * 0.5f));
-    page->AddSprite(sight, Vector2D(50, 4.5*spacing));
-    
+    page->AddSprite(sight, Vector2D(50, 3.5*spacing));
+ 
+    Sprite *text_sight1 = new Sprite;
+    text_sight1->Initialize(TEXT_LOADER()->GetImage("Help Sight1"));
+    page->AddSprite(text_sight1, Vector2D(100, 3*spacing));
+
+/*    Sprite *text_sight2 = new Sprite;
+    text_life2->Initialize(TEXT_LOADER()->GetImage("Help Sight2"));
+    page->AddSprite(text_sight2, Vector2D(100, 3.5*spacing));
+*/
     return page;
 }
 
