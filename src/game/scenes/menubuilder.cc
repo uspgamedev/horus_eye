@@ -472,10 +472,8 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     Sprite *hero_sprite = new Sprite;
     hero_sprite->Initialize(img_fac.HeroImage());
     hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
-    page->AddSprite(hero_sprite, Vector2D(0.0f, spacing));
+    page->AddSprite(hero_sprite, Vector2D(0.0f, 2*spacing));
     
-                //hero_sprite->image()->frame_size().y));
-
     Sprite *magic_missile = new Sprite;
     magic_missile->Initialize(img_fac.MagicMissileImage());
     page->AddSprite(magic_missile, Vector2D(113.0f, 2.5f*spacing));

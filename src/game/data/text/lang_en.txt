@@ -28,7 +28,7 @@
 [Shoot spell]{FontA}:Shoot spell
 [Buttons]{FontA}:Buttons
 [Spells]{FontA}:Spells
-[Itens]{FontA}:Items
+[Itens]{FontA}:Itens
 [Interface]{FontA}:Interface
 [Objective]{FontC}:Objective:
 [HelpObjective1]{FontC}:Destroy all enemies in order to gain access to
