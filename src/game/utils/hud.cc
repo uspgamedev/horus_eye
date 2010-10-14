@@ -177,9 +177,12 @@ void Hud::Update(float delta_t) {
     if(world->hero() != NULL) {
         weapon_icon_ = world->hero()->secondary_weapon()->icon();
         if (world->hero()->life() > 0) {
+            life_bar_->set_visible(true);
             float new_height = ((float)world->hero()->life() * LIFE_BAR_HEIGHT) / ((float)world->hero()->max_life());
             life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
             life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, new_height));
+        } else {
+            life_bar_->set_visible(false);
         }
         if (world->hero()->mana() > 0) {
             mana_bar_->set_visible(true);
