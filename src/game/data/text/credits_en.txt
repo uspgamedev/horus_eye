@@ -33,7 +33,7 @@ Samuel Plaça de Paula
 
 Thiago de Gouveia Nunes
 
-Vinícius Kiwi Daros
+Vinícius K. Daros
 
 Wilson Kazuo Mizutani
 
@@ -62,6 +62,8 @@ Special Thanks
 Giuliano Salcas Olguin
 
 Prof. Flávio Soares Corrêa da Silva
+
+Prof. José Coelho de Pina
 
 Beatriz Lyssa Takahashi Meylan
 
