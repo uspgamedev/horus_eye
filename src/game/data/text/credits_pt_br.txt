@@ -11,7 +11,7 @@ André Spanguero Kanayama
 
 Bruno Vercelino da Hora
 
-David Macedo da Conceição
+David Macedo
 
 Felipe Maia
 
@@ -35,7 +35,7 @@ Samuel Plaça de Paula
 
 Thiago de Gouveia Nunes
 
-Vinícius Kiwi Daros
+Vinícius K. Daros
 
 Wilson Kazuo Mizutani
 
@@ -62,9 +62,9 @@ Toshi Kurauchi
 Agradecimentos Especiais
 
 
-Giuliano Salcas Olguin
+Giuliano Olguin
 
-Prof. Flávio Soares Corrêa da Silva
+Prof. Flávio Soares
 
 Beatriz Lyssa Takahashi Meylan
 
