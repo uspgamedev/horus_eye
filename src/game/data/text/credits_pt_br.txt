@@ -15,11 +15,9 @@ David Macedo da Conceição
 
 Felipe Maia
 
-Felipe Simionato Solferini
+Fernando Omar Aluani
 
-Fernando Aluani
-
-Gustavo Teixeira
+Gustavo Teixeira da Cunha Coelho
 
 Henrique Gemignani Passos Lima
 
@@ -35,7 +33,7 @@ Samuel Plaça de Paula
 
 Thiago de Gouveia Nunes
 
-Vinícius K. Daros
+Vinícius Kiwi Daros
 
 Wilson Kazuo Mizutani
 
@@ -47,7 +45,7 @@ pelo USPGameDev
 
 Bruno "Btco" Oliveira
 
-Felipe Solferini
+Felipe Simionato Solferini
 
 Gregory De Bonis
 
@@ -62,9 +60,9 @@ Toshi Kurauchi
 Agradecimentos Especiais
 
 
-Giuliano Olguin
+Giuliano Salcas Olguin
 
-Prof. Flávio Soares
+Prof. Flávio Soares Corrêa da Silva
 
 Beatriz Lyssa Takahashi Meylan
 
