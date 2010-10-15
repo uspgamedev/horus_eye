@@ -70,7 +70,7 @@ void LevelManager::ShowIntro() {
 }
 
 void LevelManager::ShowCredits() {
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("CreditsFile"), 30));
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("CreditsFile"), 55));
 }
 
 void LevelManager::ShowEnding() {

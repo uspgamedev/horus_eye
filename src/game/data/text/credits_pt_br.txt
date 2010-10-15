@@ -5,7 +5,6 @@ Créditos
 Membros do USPGameDev
 
 
-
 Alexandre Martins
 
 André Spanguero Kanayama
@@ -16,13 +15,15 @@ David Macedo
 
 Felipe Maia
 
+Felipe Simionato Solferini
+
 Fernando Aluani
 
 Gustavo Teixeira
 
-Henrique Stagni
-
 Henrique Gemignani Passos Lima
+
+Henrique Stagni
 
 Natan Costa Lima
 
@@ -30,33 +31,23 @@ Natasha Higa
 
 Renan Teruo Carneiro
 
-Rodrigo de Paula
-
 Samuel Plaça de Paula
 
 Thiago de Gouveia Nunes
 
-Vinícius Daros
+Vinícius K. Daros
 
 Wilson Kazuo Mizutani
 
 
 
-Membros que já passaram pelo USPGameDev
-
+Membros que já passaram
+pelo USPGameDev
 
 
 Bruno "Btco" Oliveira
 
-Caio Salgado
-
-Diogo Kykuta
-
-Felipe Simionato Solferini
-
-Felipe Amado
-
-Francisco Caio Lima Paiva
+Felipe Solferini
 
 Gregory De Bonis
 
@@ -64,21 +55,22 @@ Lucas Gassert
 
 Luciana Kayo
 
+Toshi Kurauchi
 
 
-Agradecimentos
 
+Agradecimentos Especiais
 
 
 Giuliano Olguin
 
-Prof. Flávio Correa
+Prof. Flávio Soares
 
-Prof. Flávio Ulhoa Coelho
+Beatriz Lyssa Takahashi Meylan
 
-Garota do Inglês do Vinícius
+Instituto de Matemática e Estatística - USP
 
-Instituto de Matemática e Estatística
+Escola Politécnica - USP
 
-Escola Politécnica
+Faculdade de Arquitetura e Urbanismo - USP
 
