@@ -124,7 +124,8 @@ class Constants {
 
     const static std::string
         CONFIGURATION_FILE,
-        BACKGROUND_MUSIC;
+        BACKGROUND_MUSIC,
+        VERSION;
 
 
   private:

@@ -67,5 +67,5 @@ const float Constants::POTION_HEIGHT = 16.0f;
 
 const std::string Constants::CONFIGURATION_FILE = "settings.bin";
 const std::string Constants::BACKGROUND_MUSIC = "data/musics/bgmusic.wav";
-
+const std::string Constants::VERSION = "v1.0.1";
 }

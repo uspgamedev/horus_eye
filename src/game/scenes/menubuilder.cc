@@ -94,6 +94,15 @@ Menu *MenuBuilder::BuildMainMenu () {
         options_sprite->set_hotspot(Vector2D(options_sprite->image()->width() * 0.5f, 0.0f));
         menu->set_option_sprite(i, options_sprite);
     }
+    
+    TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 45, NULL);
+    Image *img_version = TEXT_MANAGER()->LoadLine(Constants::VERSION);
+    Sprite *version = new Sprite;
+    version->Initialize(img_version);
+    version->set_hotspot(Vector2D(0, img_version->height()));
+    menu->AddSprite(version,
+                    Vector2D(0,
+                             VIDEO_MANAGER()->video_size().y));
 
     //Image *img = TEXT_LOADER()->GetImage("DevelopedBy");
     Image *img = VIDEO_MANAGER()->LoadImage("data/images/developed_by_uspgamedev1.png");

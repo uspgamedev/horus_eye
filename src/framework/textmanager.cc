@@ -102,7 +102,7 @@ Image* TextManager::LoadFancyLine(string line) {
     return img;
 }
         
-Image* TextManager::LoadText(string text, char indent) {
+Image* TextManager::LoadText(string text, char indent, float width = -1) {
     Image *img = new Image;
     string subString, temp(text);
     vector<string> lines;
@@ -125,6 +125,8 @@ Image* TextManager::LoadText(string text, char indent) {
     
     //Surface transparent
     Vector2D video_size = VIDEO_MANAGER()->video_size();
+    if(width>0)
+        video_size.x = width;
     video_size.y = nlines*lineskip;
     
     img->Create(video_size);

@@ -23,7 +23,7 @@ class TextManager{
 
         Image* LoadFancyLine(string line);
         Image* LoadLine(string line);
-        Image* LoadText(string text, char indent);
+        Image* LoadText(string text, char indent, float width);
         Image* LoadFile(string path, char indent);
 
     private:
