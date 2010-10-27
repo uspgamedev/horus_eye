@@ -1,0 +1,154 @@
+#include <cstdlib>
+#include <cmath>
+#include <list>
+#include <vector>
+#include "fog.h"
+#include "../../framework/vector2D.h"
+#include "../../framework/engine.h"
+#include "../../framework/videomanager.h"
+#include "../scenes/world.h"
+#include "../sprites/worldobject.h"
+#include "../utils/constants.h"
+#include "visionstrategy.h"
+
+namespace utils {
+
+using namespace std;
+using namespace framework;
+using namespace sprite;
+using namespace scene;
+
+Fog::Fog() {
+    blank_background_ = new Image;
+    blank_background_->Create(VIDEO_MANAGER()->video_size());
+    blank_background_->Optimize();
+}
+
+Fog::~Fog() {
+    map<WorldObject*,Sprite*>::iterator it = light_sources_.begin();
+    if(it != light_sources_.end()) {
+        delete it->second;
+        light_sources_.erase(it);
+    }
+    if(blank_background_ != NULL) {
+        blank_background_->Destroy();
+        delete blank_background_;
+    }
+}
+
+Sprite* CreateLightSource(float radius) {
+    Sprite *sprite = new Sprite;
+    sprite->Initialize(WORLD()->CreateFogTransparency(radius));
+    sprite->set_hotspot(sprite->image()->frame_size() * 0.5f);
+    return sprite;
+}
+
+void Fog::AddLightSource(WorldObject* obj) {
+    if(obj->light_radius() > Constants::LIGHT_RADIUS_THRESHOLD)
+        if(this->light_sources_.count(obj) == 0)
+            light_sources_[obj] = CreateLightSource(obj->light_radius());
+}
+void Fog::RemoveLightSource(WorldObject* obj) {
+    map<WorldObject*,Sprite*>::iterator it = light_sources_.find(obj);
+    if(it != light_sources_.end()) {
+        delete it->second;
+        light_sources_.erase(it);
+    }
+}
+void Fog::UpdateLightSource(WorldObject* obj) {
+    if(this->light_sources_.count(obj) > 0) {
+        if(obj->light_radius() > Constants::LIGHT_RADIUS_THRESHOLD) {
+            delete light_sources_[obj];
+            light_sources_[obj] = CreateLightSource(obj->light_radius());
+        } else
+            RemoveLightSource(obj);
+    }
+}
+
+bool Fog::IsIluminated(sprite::WorldObject* obj) {
+    map<WorldObject*,Sprite*>::iterator it;
+    VisionStrategy vision;
+    for(it = light_sources_.begin(); it != light_sources_.end(); ++it) {
+        Vector2D dist = it->first->world_position() - obj->world_position();
+        if(fabs(dist.x) + fabs(dist.y) > it->first->light_radius() * 2.0f)
+            continue;
+        if(vision.IsLightVisible(it->first->world_position(), obj->world_position()))
+            return true;
+    }
+    return false;
+}
+
+bool IsNear(const TilePos &origin, const TilePos &pos, float radius) {
+    if ((float)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
+        return true;
+    else if ((Tile::FromTilePos(pos) - Tile::FromTilePos(origin)).length() <= radius )
+        return true;
+    else return false;
+}
+
+void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
+
+    list<Tile*>     queue;
+    Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
+    Tile            *origin = Tile::GetFromMapPosition(map, origin_pos);
+    VisionStrategy  vision;
+
+    origin_world_pos.y = map.size() - origin_world_pos.y - 1;
+    queue.push_back(origin);
+
+    while (queue.size() > 0) {
+        Tile *tile = *(queue.begin());
+        queue.pop_front();
+        if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
+            tile->Check();
+            Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
+            tile_world_pos.y = map.size() - tile_world_pos.y - 1;
+            bool is_obstacle = (tile->object() == WALL) || (tile->object() == ENTRY),
+                 is_visible = vision.IsLightVisible(origin_world_pos, tile_world_pos);
+            if (is_obstacle || is_visible) {
+                tile->set_visible(true);
+                if (!is_obstacle)
+                    for (int dir = Tile::BEGIN; dir < Tile::END; ++dir) {
+                        Tile *next = tile->Next(map, (Tile::TileDir)dir);
+                        if (next && !next->checked()) {
+                            queue.push_back(next);
+                        }
+                    }
+            }
+        }
+    }
+
+}
+
+void Fog::UpdateVisibility() {
+
+    World *world = WORLD();
+    Hero *hero = world->hero();
+
+    if(!hero) return;
+
+    GameMap& map = world->level_matrix();
+
+    TilePos hero_pos = Tile::ToTilePos(hero->world_position());
+
+    hero_pos.i =  map.size() - hero_pos.i - 1;
+
+    Tile::CleanVisibility(map);
+    SpreadLight(map, hero_pos, 1.5f*hero->light_radius());
+
+}
+
+void Fog::Render() {
+    if(!visible_) return;
+    Vector2D offset = this->offset();
+    map<WorldObject*,Sprite*>::iterator it;
+    for(it = light_sources_.begin(); it != light_sources_.end(); ++it) {
+        Vector2D off = it->first->position() - it->second->hotspot() - offset;
+        blank_background_->MergeTransparency(it->second->image(), off);
+    }
+    offset = Vector2D();
+    blank_background_->DrawTo(Engine::reference()->video_manager()->backbuffer(), offset, 0, 0 );
+    blank_background_->Clear(0xff000000);
+}
+
+}

@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="horus_eye" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin\Debug\horus_eye" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Debug\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+				</Compiler>
+				<Linker>
+					<Add option="-lmingw32 -lSDL -lSDLmain -lSDL_image -lSDL_mixer" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="bin\Release\horus_eye" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj\Release\" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+		</Compiler>
+		<Linker>
+			<Add option="-lSDL -lSDLmain -lSDL_image" />
+		</Linker>
+		<Unit filename="..\src\framework\animation.cc" />
+		<Unit filename="..\src\framework\animation.h" />
+		<Unit filename="..\src\framework\audiomanager.cc" />
+		<Unit filename="..\src\framework\audiomanager.h" />
+		<Unit filename="..\src\framework\engine.cc" />
+		<Unit filename="..\src\framework\engine.h" />
+		<Unit filename="..\src\framework\frame.cc" />
+		<Unit filename="..\src\framework\frame.h" />
+		<Unit filename="..\src\framework\image.cc" />
+		<Unit filename="..\src\framework\image.h" />
+		<Unit filename="..\src\framework\inputmanager.cc" />
+		<Unit filename="..\src\framework\inputmanager.h" />
+		<Unit filename="..\src\framework\keys.h" />
+		<Unit filename="..\src\framework\layer.cc" />
+		<Unit filename="..\src\framework\layer.h" />
+		<Unit filename="..\src\framework\music.cc" />
+		<Unit filename="..\src\framework\music.h" />
+		<Unit filename="..\src\framework\observer.h" />
+		<Unit filename="..\src\framework\sample.cc" />
+		<Unit filename="..\src\framework\sample.h" />
+		<Unit filename="..\src\framework\scene.cc" />
+		<Unit filename="..\src\framework\scene.h" />
+		<Unit filename="..\src\framework\sprite.cc" />
+		<Unit filename="..\src\framework\sprite.h" />
+		<Unit filename="..\src\framework\timeaccumulator.cc" />
+		<Unit filename="..\src\framework\timeaccumulator.h" />
+		<Unit filename="..\src\framework\timehandler.cc" />
+		<Unit filename="..\src\framework\timehandler.h" />
+		<Unit filename="..\src\framework\types.h" />
+		<Unit filename="..\src\framework\vector2D.cc" />
+		<Unit filename="..\src\framework\vector2D.h" />
+		<Unit filename="..\src\framework\videomanager.cc" />
+		<Unit filename="..\src\framework\videomanager.h" />
+		<Unit filename="..\src\game\CMakeLists.base" />
+		<Unit filename="..\src\game\COMO_COMPILAR" />
+		<Unit filename="..\src\game\LEIAME" />
+		<Unit filename="..\src\game\configure" />
+		<Unit filename="..\src\game\data\LEIAME" />
+		<Unit filename="..\src\game\data\images\block.png" />
+		<Unit filename="..\src\game\data\images\brighteye.png" />
+		<Unit filename="..\src\game\data\images\chao106x106.png" />
+		<Unit filename="..\src\game\data\images\chao41x41.png" />
+		<Unit filename="..\src\game\data\images\egyptian-flying-blinking.gif" />
+		<Unit filename="..\src\game\data\images\eye_animation.png" />
+		<Unit filename="..\src\game\data\images\fire_ball.png" />
+		<Unit filename="..\src\game\data\images\hero.png" />
+		<Unit filename="..\src\game\data\images\heroteste.png" />
+		<Unit filename="..\src\game\data\images\mage_74x74.png" />
+		<Unit filename="..\src\game\data\images\mage_red_74x74.png" />
+		<Unit filename="..\src\game\data\images\stairs.png" />
+		<Unit filename="..\src\game\data\images\stoneblock.png" />
+		<Unit filename="..\src\game\data\images\stoneblock110x106.png" />
+		<Unit filename="..\src\game\data\images\walls.png" />
+		<Unit filename="..\src\game\data\images\walls_corner.png" />
+		<Unit filename="..\src\game\data\levels\level_test.txt" />
+		<Unit filename="..\src\game\data\musics\LEGAL.txt" />
+		<Unit filename="..\src\game\data\musics\bgmusic.wav" />
+		<Unit filename="..\src\game\main.cc" />
+		<Unit filename="..\src\game\scenes\LEIAME" />
+		<Unit filename="..\src\game\scenes\world.cc" />
+		<Unit filename="..\src\game\scenes\world.h" />
+		<Unit filename="..\src\game\sprites\LEIAME" />
+		<Unit filename="..\src\game\sprites\creature.cc" />
+		<Unit filename="..\src\game\sprites\creature.h" />
+		<Unit filename="..\src\game\sprites\door.cc" />
+		<Unit filename="..\src\game\sprites\door.h" />
+		<Unit filename="..\src\game\sprites\floor.cc" />
+		<Unit filename="..\src\game\sprites\floor.h" />
+		<Unit filename="..\src\game\sprites\hero.cc" />
+		<Unit filename="..\src\game\sprites\hero.h" />
+		<Unit filename="..\src\game\sprites\mummy.cc" />
+		<Unit filename="..\src\game\sprites\mummy.h" />
+		<Unit filename="..\src\game\sprites\projectile.cc" />
+		<Unit filename="..\src\game\sprites\projectile.h" />
+		<Unit filename="..\src\game\sprites\wall.cc" />
+		<Unit filename="..\src\game\sprites\wall.h" />
+		<Unit filename="..\src\game\sprites\worldobject.cc" />
+		<Unit filename="..\src\game\sprites\worldobject.h" />
+		<Unit filename="..\src\game\update_cmake" />
+		<Unit filename="..\src\game\utils\circleobject.cc" />
+		<Unit filename="..\src\game\utils\circleobject.h" />
+		<Unit filename="..\src\game\utils\collisionobject.h" />
+		<Unit filename="..\src\game\utils\constants.h" />
+		<Unit filename="..\src\game\utils\editor\editorloader.cc" />
+		<Unit filename="..\src\game\utils\editor\editorloader.h" />
+		<Unit filename="..\src\game\utils\editor\editorobject.cc" />
+		<Unit filename="..\src\game\utils\editor\editorobject.h" />
+		<Unit filename="..\src\game\utils\editor\worldeditor.cc" />
+		<Unit filename="..\src\game\utils\editor\worldeditor.h" />
+		<Unit filename="..\src\game\utils\hud.cc" />
+		<Unit filename="..\src\game\utils\hud.h" />
+		<Unit filename="..\src\game\utils\imagefactory.cc" />
+		<Unit filename="..\src\game\utils\imagefactory.h" />
+		<Unit filename="..\src\game\utils\levelloader.cc" />
+		<Unit filename="..\src\game\utils\levelloader.h" />
+		<Unit filename="..\src\game\utils\rectobject.cc" />
+		<Unit filename="..\src\game\utils\rectobject.h" />
+		<Unit filename="..\src\game\utils\visionstrategy.cc" />
+		<Unit filename="..\src\game\utils\visionstrategy.h" />
+		<Extensions>
+			<code_completion />
+			<debugger />
+			<envvars />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

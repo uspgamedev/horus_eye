@@ -1,0 +1,30 @@
+Compilling on GNU/Linus:
+
+1) Get CMake 2.6 or a higher version
+
+2) Get the folowing libraries: libSDL-1.2, libSDL_image-1.2, libSDL_mixer-1.2 e
+libSDL_ttf-1.2
+
+3) Go to the folowing directory: horus_eye/trunk/src/game/
+
+4) $ ./configure
+   $ make
+   # make install
+
+Optionally, you can use CMake to generate files for your favorite IDE. Search
+for cmake -G options.
+
+On Windows, you can configure your IDE by your own or use CMake to generate
+the Makefiles or your favorite IDE files.
+**Our CMake files were not completely test on Windows**.
+But, CMake is really cool ;) and you can try this:
+
+Open a shell prompt, go to horus_eye\trunk\src\game and:
+
+a) If you use MinGW command line:
+cmake -G "MinGW Makefiles" .       (Do not forget the '.' at the end)
+
+b) If you use Microsoft Visual C++ 2008 Express:
+cmake -G "Visual Studio 9 2008" .  (Notice the '.' at the end)
+
+c) If you use anything else, search about other options with cmake -G command.
