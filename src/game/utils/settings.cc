@@ -1,6 +1,14 @@
 #include <string>
+#include <sstream>
 #include "settings.h"
 #include "constants.h"
+
+#ifdef WIN32
+#include <windows.h>
+#include <shlobj.h>
+#include <direct.h>
+#pragma comment(lib, "shell32.lib")
+#endif
 
 namespace utils {
 
@@ -32,7 +40,8 @@ std::string Settings::languages_names_[] = {
 
 Settings::Settings() {
     Data data;
-    FILE *settings = fopen(Constants::CONFIGURATION_FILE.c_str(),"rb");
+	SetSettingsPath(); 
+	FILE *settings = fopen(configuration_file_path_.c_str(),"rb");
     if(settings != NULL) {
         fread(&data, sizeof(Data), 1, settings);
         fclose(settings);
@@ -66,7 +75,9 @@ Settings::~Settings(){
 
 void Settings::WriteToDisk(){
     Data data;
-	FILE *settings = fopen(Constants::CONFIGURATION_FILE.c_str(),"wb");
+	FILE *settings = fopen(configuration_file_path_.c_str(),"wb");
+	if(settings == NULL)
+		return;
 	strcpy(data.control, "HORUSCONFIGV1");
 	data.resolution = resolution_;
 	data.fullscreen = fullscreen_;
@@ -83,6 +94,22 @@ const Vector2D& Settings::resolution_vector(){
 
 const std::string& Settings::language_file() {
     return languages_[language_];
+}
+
+void Settings::SetSettingsPath() {
+    std::ostringstream stm;
+
+#ifdef WIN32
+    CHAR my_documents[MAX_PATH];
+    HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, my_documents);
+	stm << my_documents << "/Horus Eye/";
+	if(GetFileAttributes(stm.str().c_str()) == INVALID_FILE_ATTRIBUTES)
+		mkdir(stm.str().c_str());
+#else
+	stm << "./";
+#endif
+	stm << Constants::CONFIGURATION_FILE;
+	configuration_file_path_ = stm.str();
 }
 
 }

@@ -65,7 +65,7 @@ const float Constants::POTION_SPRITE_CENTER_X = 15.0f;
 const float Constants::POTION_SPRITE_CENTER_Y = 15.0f;
 const float Constants::POTION_HEIGHT = 16.0f;
 
-const std::string Constants::CONFIGURATION_FILE = "settings.duh";
+const std::string Constants::CONFIGURATION_FILE = "settings.bin";
 const std::string Constants::BACKGROUND_MUSIC = "data/musics/bgmusic.wav";
 
 }

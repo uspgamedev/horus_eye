@@ -3,6 +3,7 @@
 
 #include "../../framework/vector2D.h"
 #include "../../framework/types.h"
+
 namespace utils {
 
 class Settings {
@@ -41,6 +42,8 @@ class Settings {
 	bool fullscreen_, background_music_, sound_effects_;
 	static framework::Vector2D resolutions_[NUM_RESOLUTIONS];
 	static std::string languages_[NUM_LANGUAGES], languages_names_[NUM_LANGUAGES];
+	void SetSettingsPath();
+	std::string configuration_file_path_;
 	typedef struct data_{
 	    char control[14];
 	    framework::uint8 resolution;
