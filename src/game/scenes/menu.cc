@@ -21,6 +21,7 @@ using namespace utils;
 #define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
 #define MENU_BOTTOM         MENU_TOP + Menu::MAIN_SELECT_NUM*RECT_HEIGHT
 #define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
+#define SELECTION_SPRITES   2
 
 const float Menu::OPTION_ZINDEX = 10.0f;
 
@@ -30,7 +31,9 @@ Menu::Menu (int selection_num)
     selection_num_ = selection_num;
     handler_ = NULL;
     content_box_defined_ = false;
-    selection_sprite_ = NULL;
+    for (int i = 0; i < SELECTION_SPRITES ; i++) {
+        selection_sprite_[i] = NULL;
+    }
     options_sprite_ = static_cast<Sprite**>(malloc(selection_num*sizeof(Sprite*)));
     for(int i = 0; i < selection_num_; ++i)
         options_sprite_[i] = NULL;
@@ -97,9 +100,19 @@ void Menu::set_content_box(framework::Frame content_box) {
 }
 
 void Menu::set_selection_sprite(framework::Sprite *sprite) {
-    selection_sprite_ = sprite;
+    selection_sprite_[0] = sprite;
+    selection_sprite_[1] = NULL;
     (*layers_.begin())->AddSprite(sprite);
     sprite->set_zindex(0.0f);
+    InitialSelection();
+}
+
+void Menu::set_selection_sprite(framework::Sprite *sprite[]) {
+    for (int i = 0; i < SELECTION_SPRITES; i++) {
+        selection_sprite_[i] = sprite[i];
+        (*layers_.begin())->AddSprite(sprite[i]);
+        sprite[i]->set_zindex(0.0f);
+    }
     InitialSelection();
 }
 
@@ -112,7 +125,6 @@ void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
                 (content_box_.right()-content_box_.left()) * 0.5f,
                 0.0f);
         sprite->set_position(selection_pos_[index] + offset);
-
     }
 }
 
@@ -123,7 +135,8 @@ void Menu::AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {
 }
 
 void Menu::DecideWhereOptionsGo() {
-    float selection_height = content_box_.height()/selection_num_, y;
+    float selection_height = content_box_.height()/selection_num_;
+    float y;
     for (int i = 0; i < selection_num_; ++i) {
         y = content_box_.top() + static_cast<float>(i)*selection_height;
         selection_pos_[i] = Vector2D(content_box_.left(), y);
@@ -132,14 +145,17 @@ void Menu::DecideWhereOptionsGo() {
 }
 
 void Menu::InitialSelection() {
-    if (selection_sprite_ && content_box_defined_) {
-        float selection_height = content_box_.height()/selection_num_,
-              selection_width = content_box_.right()-content_box_.left();
-        framework::Vector2D offset(
-                (selection_width - selection_sprite_->image()->width())/2.0f,
-                (selection_height - selection_sprite_->image()->height())/2.0f
-        );
-        selection_sprite_->set_position(selection_pos_[0] + offset);
+    for (int i = 0; i < SELECTION_SPRITES; i++) {
+        if (selection_sprite_[i] != NULL && content_box_defined_) {
+            //float selection_height = content_box_.height()/selection_num_,
+            //      selection_width = content_box_.right()-content_box_.left();
+            //framework::Vector2D offset(
+            //        (selection_width - selection_sprite_[i]->image()->width())/2.0f,
+            //        (selection_height - selection_sprite_[i]->image()->height())/2.0f
+            //);
+            //framework::Vector2D offset(0.0f, 0.0f);
+            selection_sprite_[i]->set_position(selection_pos_[0]/* + offset*/);
+        }
     }
 }
 
@@ -169,7 +185,13 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
 }
 
 void Menu::Select () {
-    selection_sprite_->set_position(selection_pos_[selection_]);
+    for (int i = 0; i < SELECTION_SPRITES; i++) {
+        if (selection_sprite_[i] != NULL) {
+            Vector2D pos = selection_pos_[selection_];
+            pos.x = pos.x + i*270;
+            selection_sprite_[i]->set_position(pos);
+        }
+    }
 }
 
 }

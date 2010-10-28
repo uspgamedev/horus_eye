@@ -36,6 +36,7 @@ class ImageFactory {
     virtual Image* MummyCounterImage();
     virtual Image* FireballIconImage();
     virtual Image* EarthquakeIconImage();
+    virtual Image* MenuEyeImage();
 
   protected:
     Image* hero_image_;
@@ -64,7 +65,7 @@ class ImageFactory {
     Image* mummy_counter_image_;
     Image* fireball_icon_image_;
     Image* earthquake_icon_image_;
-
+    Image* menu_eye_image_;
 };
 
 }

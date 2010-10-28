@@ -44,6 +44,7 @@ using namespace std;
 
 #define NUM_RESOL               12
 #define NUM_ON_OFF              2
+#define SELECTION_SPRITE        2
 
 //========================
 //   MainMenu
@@ -59,10 +60,16 @@ Menu *MenuBuilder::BuildMainMenu () {
     // The menu's content box.
     menu->set_content_box(Frame(MENU_LEFT, MENU_TOP, MENU_RIGHT, MENU_BOTTOM));
 
+    ImageFactory image_factory;
+
     // Setting the selection sprite.
-    Sprite *selection_sprite = new Sprite;
-    selection_sprite->Initialize(VIDEO_MANAGER()->LoadImage("data/images/selection.png"));
-    selection_sprite->set_hotspot(Vector2D((SELECTION_WIDTH-RECT_WIDTH)/2.0f,( SELECTION_HEIGHT-RECT_HEIGHT)/2.0f));
+    Sprite *selection_sprite[SELECTION_SPRITE];
+    for (int i = 0; i < SELECTION_SPRITE; i++) {
+        selection_sprite[i] = new Sprite;
+        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
+        selection_sprite[i]->set_hotspot(Vector2D(128.0f - i * 128, 18.0f));
+        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, -1));
+    }
     menu->set_selection_sprite(selection_sprite);
 
     // The game logo.

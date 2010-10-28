@@ -23,6 +23,7 @@ class Menu: public framework::Scene {
     void set_handler(MenuHandler* handler);
     void set_content_box(framework::Frame content_box);
     void set_selection_sprite(framework::Sprite *sprite);
+    void set_selection_sprite(framework::Sprite *sprite[]);
     void set_option_sprite(int index, framework::Sprite *sprite);
     void AddSprite(framework::Sprite *sprite, framework::Vector2D pos);
 
@@ -36,11 +37,11 @@ class Menu: public framework::Scene {
     bool CheckMouse (framework::Vector2D &mouse_pos);
     void Select ();
 
-    bool                content_box_defined_;
-    int                 selection_, selection_num_;
-    MenuHandler         *handler_;
-    framework::Sprite   *selection_sprite_,
-                        **options_sprite_;
+    bool content_box_defined_;
+    int selection_, selection_num_;
+    MenuHandler *handler_;
+    framework::Sprite *selection_sprite_[2];
+    framework::Sprite **options_sprite_;
     framework::Vector2D *selection_pos_;
     framework::Frame    content_box_;
 

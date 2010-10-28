@@ -81,6 +81,9 @@ namespace utils {
         
         fireball_icon_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_magic_fire.png");
         fireball_icon_image_->set_frame_size(Vector2D(25, 35));
+
+        menu_eye_image_ = VIDEO_MANAGER()->LoadImage("data/images/eye.png");
+        menu_eye_image_->set_frame_size(Vector2D(128.0f, 96.0f));
     }
     
     Image* ImageFactory::FireballIconImage() {
@@ -157,6 +160,9 @@ namespace utils {
     }
     Image* ImageFactory::MummyCounterImage() {
         return mummy_counter_image_;
+    }
+    Image* ImageFactory::MenuEyeImage() {
+        return menu_eye_image_;
     }
 }
 
