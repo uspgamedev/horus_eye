@@ -142,7 +142,9 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
+#ifdef DEBUG
     VerifyCheats();
+#endif
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
 
