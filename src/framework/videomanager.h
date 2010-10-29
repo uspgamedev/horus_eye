@@ -20,7 +20,7 @@ class VideoManager {
     VideoManager() : backbuffer_(NULL), screen_(NULL), fullscreen_(false) {}
     ~VideoManager() {}
 
-    bool Initialize(const string& title, const Vector2D& size, bool fullscreen);
+	bool Initialize(const string& title, const Vector2D& size, bool fullscreen, const string& icon);
     bool ChangeResolution(const Vector2D& size, bool fullscreen);
     bool Release();
     void Render();

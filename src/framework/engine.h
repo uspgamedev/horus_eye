@@ -34,7 +34,7 @@ class Engine {
     Vector2D window_size();
 
     // Gerenciamento do motor
-    bool Initialize(std::string windowTitle, Vector2D windowSize, bool fullscreen);
+	bool Initialize(std::string windowTitle, Vector2D windowSize, bool fullscreen, std::string icon = std::string());
 
     void Run();
     void Release();

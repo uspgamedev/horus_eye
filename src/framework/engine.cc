@@ -26,11 +26,11 @@ Vector2D Engine::window_size() {
     return video_manager_->video_size();
 }
 
-bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen) {
+bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen, std::string icon) {
     quit_ = false;
     video_manager_ = new VideoManager();
     SDL_Init(SDL_INIT_EVERYTHING);
-    video_manager_->Initialize(windowTitle, windowSize, fullscreen);
+    video_manager_->Initialize(windowTitle, windowSize, fullscreen, icon);
     input_manager_ = new InputManager();
     time_handler_ = new TimeHandler();
     audio_manager_ = new AudioManager();

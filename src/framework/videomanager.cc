@@ -7,8 +7,12 @@ namespace framework {
 // resolucao para o programa. Retorna true em caso de
 // sucesso.
 bool VideoManager::Initialize(const string& title, const Vector2D& size,
-                              bool fullscreen) {
+                              bool fullscreen, const string& icon) {
+
     ChangeResolution(size, fullscreen);
+	if(icon.length() > 0) {
+		SDL_WM_SetIcon(SDL_LoadBMP(icon.c_str()), NULL);
+	}
     SDL_WM_SetCaption(title.c_str(), NULL);
     title_ = title;
 

@@ -39,7 +39,7 @@ void StartGame() {
 
 int main(int argc, char *argv[]) {
     framework::Vector2D default_resolution = framework::Vector2D(1024, 768);
-    engine()->Initialize("Horus Eye", default_resolution, false);
+    engine()->Initialize("Horus Eye", default_resolution, false, "data/images/eye.bmp");
     do {
         StartGame();
         engine()->Run();
