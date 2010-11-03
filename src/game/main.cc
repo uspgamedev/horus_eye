@@ -1,5 +1,6 @@
 
 #include <string>
+#include "config.h"
 #include "../framework/engine.h"
 #include "../framework/videomanager.h"
 #include "../framework/audiomanager.h"

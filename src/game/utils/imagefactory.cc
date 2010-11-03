@@ -1,4 +1,5 @@
 #include "imagefactory.h"
+#include "../config.h"
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/image.h"
