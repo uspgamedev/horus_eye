@@ -16,6 +16,7 @@ class TimeHandler;
 class AudioManager;
 class TextManager;
 class FogManager;
+class PathManager;
 class Scene;
 
 class Engine {
@@ -31,10 +32,14 @@ class Engine {
     AudioManager *audio_manager() { return audio_manager_; }
     TextManager *text_manager() { return text_manager_; }
     FogManager *fog_manager() { return fog_manager_; }
+	PathManager *path_manager() { return path_manager_; }
     Vector2D window_size();
 
     // Gerenciamento do motor
-	bool Initialize(std::string windowTitle, Vector2D windowSize, bool fullscreen, std::string icon = std::string());
+	bool Initialize(std::string windowTitle, Vector2D windowSize, 
+		bool fullscreen,
+		std::string base_path = std::string("./"),
+		std::string icon = std::string());
 
     void Run();
     void Release();
@@ -60,6 +65,7 @@ class Engine {
     AudioManager *audio_manager_;
     TextManager *text_manager_;
     FogManager *fog_manager_;
+	PathManager *path_manager_;
     //Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;

@@ -1,4 +1,6 @@
 #include "videomanager.h"
+#include "pathmanager.h"
+#include "engine.h"
 #include "image.h"
 
 namespace framework {
@@ -72,10 +74,11 @@ void VideoManager::Render() {
 // gerenciamento de memoria. Retorna NULL
 // em caso de falha.
 Image* VideoManager::LoadImage(const string& filepath) {
+	std::string fullpath = PATH_MANAGER()->ResolvePath(filepath);
     if(memory_.count(filepath) == 0) {
         Image* img = new Image;
         if(img != NULL) {
-            if(!img->LoadFromFile(filepath)) {
+            if(!img->LoadFromFile(fullpath)) {
                 delete img;
                 return NULL;
             }

@@ -108,6 +108,11 @@ void Settings::SetSettingsPath() {
 #else
 	stm << "./";
 #endif
+
+	std::ostringstream path_to_path_file;
+	path_to_path_file << stm.str() << Constants::ROOT_PATH_FILE;
+	root_file_path_ = path_to_path_file.str();
+
 	stm << Constants::CONFIGURATION_FILE;
 	configuration_file_path_ = stm.str();
 }

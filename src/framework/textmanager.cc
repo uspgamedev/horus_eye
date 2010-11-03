@@ -3,6 +3,7 @@
 #include <cstdlib>
 #include "engine.h"
 #include "textmanager.h"
+#include "pathmanager.h"
 
 using namespace std;
 
@@ -165,7 +166,9 @@ Image* TextManager::LoadFile(string path, char indent) {
     int nchar=0, pos=0, last=0;
     string line, output;
 
-    txtFile = fopen(path.c_str(), "r");
+	std::string fullpath = PATH_MANAGER()->ResolvePath(path);
+
+    txtFile = fopen(fullpath.c_str(), "r");
     if(txtFile==NULL) return NULL;
 
     nchar = screensize/fontwidth;

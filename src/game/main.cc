@@ -40,7 +40,22 @@ void StartGame() {
 
 int main(int argc, char *argv[]) {
     framework::Vector2D default_resolution = framework::Vector2D(1024, 768);
-    engine()->Initialize("Horus Eye", default_resolution, false, "data/images/eye.bmp");
+
+	Settings settings = Settings();
+	char rootpath[1024];
+	strcpy(rootpath, "./");
+	FILE *root_file = fopen(settings.root_file_path().c_str(), "r");
+	if(root_file != NULL) {
+		fgets(rootpath, 1024, root_file);
+		fclose(root_file);
+		int i = strlen(rootpath) - 1;
+		if(rootpath[i] != '/' && rootpath[i] != '\\') {
+			rootpath[i + 1] = '/';
+			rootpath[i + 2] = '\0';
+		}
+	}
+
+    engine()->Initialize("Horus Eye", default_resolution, false, rootpath, "data/images/eye.bmp");
     do {
         StartGame();
         engine()->Run();

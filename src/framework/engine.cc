@@ -1,10 +1,3 @@
-//
-// Horus Eye - Framework
-// Copyright (C) 2010  Nucleo de Desenvolvimento de Jogos da USP
-//
-// framework/engine.cc
-// Implementacao da classe Engine (motor do jogo).
-//
 #include <string>
 #include <algorithm>
 #include <SDL/SDL.h>
@@ -16,6 +9,7 @@
 #include "timehandler.h"
 #include "fogmanager.h"
 #include "textmanager.h"
+#include "pathmanager.h"
 
 using namespace std;
 
@@ -26,7 +20,8 @@ Vector2D Engine::window_size() {
     return video_manager_->video_size();
 }
 
-bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen, std::string icon) {
+bool Engine::Initialize(string windowTitle, Vector2D windowSize, 
+						bool fullscreen, std::string base_path, std::string icon) {
     quit_ = false;
     video_manager_ = new VideoManager();
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -38,6 +33,7 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize, bool fullscreen
     audio_manager_->Initialize();
     text_manager_ = new TextManager();
     text_manager_->Initialize();
+	path_manager_ = new PathManager(base_path);
     scene_list_.clear();
     //window_size_ = windowSize;
 

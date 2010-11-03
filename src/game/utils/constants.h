@@ -123,6 +123,7 @@ class Constants {
 		POTION_HEIGHT;
 
     const static std::string
+		ROOT_PATH_FILE,
         CONFIGURATION_FILE,
         BACKGROUND_MUSIC,
         VERSION;

@@ -1,6 +1,8 @@
 #include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include "audiomanager.h"
+#include "pathmanager.h"
+#include "engine.h"
 #include "sample.h"
 #include "music.h"
 
@@ -51,8 +53,9 @@ void AudioManager::ReleaseMusics() {
 }
 
 Sample* AudioManager::LoadSample(const std::string& filepath) {
+	std::string fullpath = PATH_MANAGER()->ResolvePath(filepath);
     if(sample_data_.find(filepath) == sample_data_.end()) {
-        Sample *sample = new Sample(filepath);
+        Sample *sample = new Sample(fullpath);
         if(sample)
             sample_data_[filepath] = sample;
     }
@@ -61,8 +64,9 @@ Sample* AudioManager::LoadSample(const std::string& filepath) {
 }
 
 Music* AudioManager::LoadMusic(const std::string& filepath) {
+	std::string fullpath = PATH_MANAGER()->ResolvePath(filepath);
     if(music_data_.find(filepath) == music_data_.end()) {
-        Music *music = new Music(filepath);
+        Music *music = new Music(fullpath);
         if(music)
             music_data_[filepath] = music;
     }
