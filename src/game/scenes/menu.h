@@ -5,6 +5,10 @@
 #include "../../framework/frame.h"
 #include "menuhandler.h"
 
+#define ALIGNMENT_LEFT   (-1)
+#define ALIGNMENT_CENTER  0
+#define ALIGNMENT_RIGHT   1
+
 namespace framework {
 class Sprite;
 class Image;
@@ -22,6 +26,8 @@ class Menu: public framework::Scene {
 
     void set_handler(MenuHandler* handler);
     void set_content_box(framework::Frame content_box);
+
+    void set_content_box(framework::Frame content_box, int alignment);
     void set_selection_sprite(framework::Sprite *sprite);
     void set_selection_sprite(framework::Sprite *sprite[]);
     void set_option_sprite(int index, framework::Sprite *sprite);
@@ -31,7 +37,7 @@ class Menu: public framework::Scene {
 
   protected:
 
-    void DecideWhereOptionsGo();
+    void DecideWhereOptionsGo(int alignment);
     void InitialSelection();
 
     bool CheckMouse (framework::Vector2D &mouse_pos);

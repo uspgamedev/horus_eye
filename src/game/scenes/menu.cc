@@ -94,9 +94,13 @@ void Menu::set_handler(MenuHandler* handler) {
 }
 
 void Menu::set_content_box(framework::Frame content_box) {
+    set_content_box(content_box, ALIGNMENT_CENTER);
+}
+
+void Menu::set_content_box(framework::Frame content_box, int alignment) {
     content_box_ = content_box;
     content_box_defined_ = true;
-    DecideWhereOptionsGo();
+    DecideWhereOptionsGo(alignment);
 }
 
 void Menu::set_selection_sprite(framework::Sprite *sprite) {
@@ -121,10 +125,7 @@ void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
         options_sprite_[index] = sprite;
         (*layers_.begin())->AddSprite(sprite);
         sprite->set_zindex(OPTION_ZINDEX);
-        framework::Vector2D offset(
-                (content_box_.right()-content_box_.left()) * 0.5f,
-                0.0f);
-        sprite->set_position(selection_pos_[index] + offset);
+        sprite->set_position(selection_pos_[index]);
     }
 }
 
@@ -134,12 +135,22 @@ void Menu::AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {
     sprite->set_zindex(-OPTION_ZINDEX);
 }
 
-void Menu::DecideWhereOptionsGo() {
+void Menu::DecideWhereOptionsGo(int alignment) {
     float selection_height = content_box_.height()/selection_num_;
     float y;
     for (int i = 0; i < selection_num_; ++i) {
         y = content_box_.top() + static_cast<float>(i)*selection_height;
-        selection_pos_[i] = Vector2D(content_box_.left(), y);
+        switch (alignment) {
+            case ALIGNMENT_LEFT:
+                selection_pos_[i] = Vector2D(content_box_.left(), y);
+                break;
+            case ALIGNMENT_CENTER:
+                selection_pos_[i] = Vector2D((content_box_.right()+content_box_.left()) * 0.5 , y);
+                break;
+            case ALIGNMENT_RIGHT:
+                selection_pos_[i] = Vector2D(content_box_.right(), y);
+                break;
+        }
     }
     InitialSelection();
 }
@@ -147,14 +158,7 @@ void Menu::DecideWhereOptionsGo() {
 void Menu::InitialSelection() {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
         if (selection_sprite_[i] != NULL && content_box_defined_) {
-            //float selection_height = content_box_.height()/selection_num_,
-            //      selection_width = content_box_.right()-content_box_.left();
-            //framework::Vector2D offset(
-            //        (selection_width - selection_sprite_[i]->image()->width())/2.0f,
-            //        (selection_height - selection_sprite_[i]->image()->height())/2.0f
-            //);
-            //framework::Vector2D offset(0.0f, 0.0f);
-            selection_sprite_[i]->set_position(selection_pos_[0]/* + offset*/);
+            selection_sprite_[i]->set_position(selection_pos_[0]);
         }
     }
 }
@@ -180,7 +184,6 @@ bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
         }
         else on_selection = false;
     }
-
     return on_selection;
 }
 
@@ -188,7 +191,8 @@ void Menu::Select () {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
         if (selection_sprite_[i] != NULL) {
             Vector2D pos = selection_pos_[selection_];
-            pos.x = pos.x + i*270;
+            float offset = options_sprite_[selection_]->image()->frame_size().x / 2 ;
+            pos.x = pos.x + i * -offset + (1 - i) * offset;
             selection_sprite_[i]->set_position(pos);
         }
     }

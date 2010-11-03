@@ -111,20 +111,6 @@ bool Image::setColorKey(SDL_Color color) {
 // Retorna true em caso de sucesso
 bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
                    Mirror mirror) {
-    // frame_number invalido!
-    if (frame_number < 0 || frame_number >= FrameCount()){
-        printf("width %d height %d x %f y %f",width(),height(),frame_size_.x,frame_size_.y);
-        printf("%d frame image %d count\n",frame_number,FrameCount());exit(-1);
-
-        return false;
-    }
-
-    // destino e' valido?
-    if(dest == NULL || dest->data_ == NULL){
-        printf("%d FERROU\n",frame_number);exit(-1);
-        return false;
-    }
-
     // obtendo coordenadas do frame_number
     int frame_width = static_cast<int>(frame_size_.x);
     int frame_height = static_cast<int>(frame_size_.y);
