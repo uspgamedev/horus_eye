@@ -1,0 +1,13 @@
+
+// Project configurations.
+
+#define GAME_VERSION "@GAME_VERSION@"
+#define SRC_DIR      "@PROJECT_SOURCE_DIR@/"
+#ifdef INSTALL
+#   define BIN_DIR   //"@GAME_FINAL_DIR@/"
+#else
+#   define BIN_DIR   "@PROJECT_BINARY_DIR@/"
+#endif
+
+
+
