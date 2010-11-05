@@ -3,6 +3,7 @@
 #include "../../framework/image.h"
 #include "../../framework/textmanager.h"
 #include "../../framework/engine.h"
+#include "../../framework/pathmanager.h"
 
 namespace utils {
 
@@ -80,7 +81,7 @@ bool TextLoader::Word::IsWord(char* str) {
 
 // Fills the map with the information on the given file
 bool TextLoader::Initialize(string language_file) {
-    FILE* file = fopen(language_file.c_str(), "r");
+    FILE* file = fopen(PATH_MANAGER()->ResolvePath(language_file).c_str(), "r");
     if(file == NULL)
         return false;
 

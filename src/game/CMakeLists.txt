@@ -159,10 +159,15 @@ IF(UNIX)
 
   INSTALL(CODE "MESSAGE(\"Creating files at ${GAME_FINAL_DIR}...\")")
   INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"cmake\" \"-E\" \"copy\" \"${GAME_INSTALL_DIR}/${GAME_UNIXNAME}\" \"${GAME_FINAL_DIR}/${GAME_UNIXNAME}\")")
-  #TODO arquivo com o path do data!
+  INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"mkdir\" \"$ENV{HOME}/.horus_eye\")")
+  #INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"chmod\" \"777\" \"$ENV{HOME}/.horus_eye\")")
+  INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"chown\" \"$ENV{USER}\" \"$ENV{HOME}/.horus_eye\")")
+  INSTALL(CODE "EXECUTE_PROCESS(COMMAND \"echo\" \"-n\" \"${GAME_INSTALL_DIR}/\" OUTPUT_FILE \"$ENV{HOME}/.horus_eye/rootpath.txt\")")
 
   INSTALL(CODE "MESSAGE(\"Done! Please run ${GAME_UNIXNAME} to start ${GAME_NAME}.\")")
 ENDIF(UNIX)
+
+SET(USER_HOME "$ENV{HOME}")
 
 CONFIGURE_FILE(
     "${PROJECT_SOURCE_DIR}/config.h.in"

@@ -1,5 +1,6 @@
 #include <string>
 #include <sstream>
+#include "../config.h"
 #include "settings.h"
 #include "constants.h"
 
@@ -76,8 +77,12 @@ Settings::~Settings(){
 void Settings::WriteToDisk(){
     Data data;
 	FILE *settings = fopen(configuration_file_path_.c_str(),"wb");
-	if(settings == NULL)
-		return;
+	if(settings == NULL) {
+#ifdef DEBUG
+	    printf("Couldn't open file: %s\n", configuration_file_path_.c_str());
+#endif
+	    return;
+	}
 	strcpy(data.control, "HORUSCONFIGV1");
 	data.resolution = resolution_;
 	data.fullscreen = fullscreen_;
@@ -106,7 +111,7 @@ void Settings::SetSettingsPath() {
 	if(GetFileAttributes(stm.str().c_str()) == INVALID_FILE_ATTRIBUTES)
 		mkdir(stm.str().c_str());
 #else
-	stm << "./";
+	stm << USER_HOME << "/.horus_eye/";
 #endif
 
 	std::ostringstream path_to_path_file;

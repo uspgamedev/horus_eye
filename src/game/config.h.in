@@ -3,6 +3,6 @@
 
 #define GAME_VERSION "@GAME_VERSION@"
 
-
+#define USER_HOME    "@USER_HOME@"
 
 

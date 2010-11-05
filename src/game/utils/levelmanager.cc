@@ -1,6 +1,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 #include "../../framework/textmanager.h"
+#include "../../framework/pathmanager.h"
 #include "../../framework/image.h"
 #include "../../framework/scene.h"
 #include "../scenes/menubuilder.h"
@@ -40,7 +41,8 @@ void LevelManager::Initialize() {
     Engine::reference()->PushScene(menu_);
 }
 
-void LevelManager::LoadLevelList(std::string file) {
+void LevelManager::LoadLevelList(std::string relative_file) {
+    string file = PATH_MANAGER()->ResolvePath(relative_file);
     level_list_.clear();
     ifstream list (file.c_str());
     if(list.is_open()) {

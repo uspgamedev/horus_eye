@@ -1,6 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include "levelloader.h"
+#include "../../framework/engine.h"
+#include "../../framework/pathmanager.h"
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../sprites/mummy.h"
@@ -20,7 +22,7 @@ using namespace sprite;
 using namespace framework;
 
 void LevelLoader::LoadMatrix(string file_name) {
-	ifstream file (file_name.c_str());
+	ifstream file (PATH_MANAGER()->ResolvePath(file_name).c_str());
 
 	if(file.is_open()){
 		int width, height;

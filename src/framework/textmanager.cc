@@ -20,7 +20,7 @@ bool TextManager::Initialize() {
     transparentColor_.r = 255;
     transparentColor_.g = 0;
     transparentColor_.b = 255;
-    font_ = TTF_OpenFont( "data/font/Filmcrypob.ttf", 60 );
+    font_ = NULL;
     return true;
 }
 
@@ -32,7 +32,7 @@ bool TextManager::Destroy() {
 }
 
 bool TextManager::setFont(string font, int fontsize, string *style) {
-    font_ = TTF_OpenFont( font.c_str(), fontsize );
+    font_ = TTF_OpenFont( PATH_MANAGER()->ResolvePath(font).c_str(), fontsize );
     if(style != NULL){
 
     }
