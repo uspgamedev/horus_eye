@@ -86,6 +86,7 @@ class Tile {
         case UP_LEFT: return Up(map)->Left(map); break;
         case DOWN_RIGHT: return Down(map)->Right(map); break;
         case DOWN_LEFT: return Down(map)->Left(map); break;
+        default:;
         }
         return NULL;
     }

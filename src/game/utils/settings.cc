@@ -43,6 +43,9 @@ Settings::Settings() {
     Data data;
 	SetSettingsPath(); 
 	FILE *settings = fopen(configuration_file_path_.c_str(),"rb");
+    if(settings == NULL) {
+        settings = fopen(Constants::CONFIGURATION_FILE.c_str(), "rb");
+    }
     if(settings != NULL) {
         fread(&data, sizeof(Data), 1, settings);
         fclose(settings);
@@ -77,6 +80,9 @@ Settings::~Settings(){
 void Settings::WriteToDisk(){
     Data data;
 	FILE *settings = fopen(configuration_file_path_.c_str(),"wb");
+	if(settings == NULL) {
+	    settings = fopen(Constants::CONFIGURATION_FILE.c_str(), "wb");
+	}
 	if(settings == NULL) {
 #ifdef DEBUG
 	    printf("Couldn't open file: %s\n", configuration_file_path_.c_str());
