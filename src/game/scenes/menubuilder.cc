@@ -6,6 +6,7 @@
 #include "../../framework/animation.h"
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
+#include "../utils/hudimagefactory.h"
 #include "../utils/textloader.h"
 #include "../utils/settings.h"
 #include "../utils/constants.h"
@@ -46,6 +47,29 @@ using namespace std;
 #define NUM_ON_OFF              2
 #define SELECTION_SPRITE        2
 
+
+
+void MenuBuilder::CreateSelectionSprites(Menu* menu) {
+    Image* menu_eye_image = VIDEO_MANAGER()->LoadImage("data/images/eye.png");
+    menu_eye_image->set_frame_size(Vector2D(128.0f, 96.0f));
+
+    Sprite *selection_sprite[SELECTION_SPRITE];
+    for (int i = 0; i < SELECTION_SPRITE; i++) {
+        selection_sprite[i] = new Sprite;
+        Vector2D frame_size = menu_eye_image->frame_size();
+        selection_sprite[i]->Initialize(menu_eye_image);
+        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
+        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
+                                                            7, 8, 9, 10, 11,
+                                                            12, 13, 14, 15,
+                                                            16, 17, 18, 19,
+                                                            20, 21, 22, 23,
+                                                            24, 25, 26, 27,
+                                                            28, -1));
+    }
+    menu->set_selection_sprite(selection_sprite);
+}
+
 //========================
 //   MainMenu
 
@@ -61,22 +85,7 @@ Menu *MenuBuilder::BuildMainMenu () {
     menu->set_content_box(Frame(MENU_LEFT, MENU_TOP, MENU_RIGHT, MENU_BOTTOM));
 
     // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    menu->set_selection_sprite(selection_sprite);
+    CreateSelectionSprites(menu);
 
     // The game logo.
     Sprite *logo = new Sprite;
@@ -183,22 +192,7 @@ Menu *MenuBuilder::BuildPauseMenu () {
     menu->set_content_box(Frame(PAUSE_LEFT, PAUSE_TOP, PAUSE_RIGHT, PAUSE_BOTTOM));
 
     // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    menu->set_selection_sprite(selection_sprite);
+    CreateSelectionSprites(menu);
 
     // The pause bg sprite.
     Sprite *bg = new Sprite;;
@@ -276,28 +270,13 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     float top = VIDEO_MANAGER()->video_size().y - img->height();
     Vector2D spacing = VIDEO_MANAGER()->video_size()*(1.0f/6.0f);
     
-    // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    
     // Set page menu
     page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_selection_sprite(selection_sprite);
     page->set_option_sprite(0, options_sprite);
     
+    // Setting the selection sprite.
+    CreateSelectionSprites(page);
+
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Help"));
@@ -357,28 +336,13 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, options_sprite->image()->height() / 2.0f));
     
     float top = VIDEO_MANAGER()->video_size().y - img->height();
-    
-    // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    
     // Set page menu
     page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_selection_sprite(selection_sprite);
     page->set_option_sprite(0, options_sprite);
+    
+    // Setting the selection sprite.
+    CreateSelectionSprites(page);
+    
     
     // The menu content
     float second_column = VIDEO_MANAGER()->video_size().x/2.0f;
@@ -506,28 +470,13 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     float top = VIDEO_MANAGER()->video_size().y - img->height();
     float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
     
-    // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    
     // Set page menu
     page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_selection_sprite(selection_sprite);
     page->set_option_sprite(0, options_sprite);
     
+    // Setting the selection sprite.
+    CreateSelectionSprites(page);
+
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Spells"));
@@ -606,28 +555,13 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
     float top = VIDEO_MANAGER()->video_size().y - img->height();
     float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
     
-    // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    
     // Set page menu
     page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_selection_sprite(selection_sprite);
     page->set_option_sprite(0, options_sprite);
     
+    // Setting the selection sprite.
+    CreateSelectionSprites(page);
+
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Itens"));
@@ -695,27 +629,12 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     middle.x = middle.x*0.5f;
     middle.y = middle.y*0.5f;
 
-    // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    
     // Set page menu
     page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_selection_sprite(selection_sprite);
     page->set_option_sprite(0, options_sprite);
+
+    // Setting the selection sprite.
+    CreateSelectionSprites(page);
     
     // The menu content
     Sprite *hud = new Sprite;
@@ -845,22 +764,7 @@ Menu *MenuBuilder::BuildSettingsMenu () {
     menu->set_content_box(Frame(SET_LEFT, SET_TOP, SET_RIGHT, SET_BOTTOM), ALIGNMENT_CENTER);
 
     // Setting the selection sprite.
-    ImageFactory image_factory;
-    Sprite *selection_sprite[SELECTION_SPRITE];
-    for (int i = 0; i < SELECTION_SPRITE; ++i) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = image_factory.MenuEyeImage()->frame_size();
-        selection_sprite[i]->Initialize(image_factory.MenuEyeImage());
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, frame_size.y / 2));
-        selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1));
-    }
-    menu->set_selection_sprite(selection_sprite);
+    CreateSelectionSprites(menu);
     
     // The sprite of each option.
     settings_handler_->BuildSprites();

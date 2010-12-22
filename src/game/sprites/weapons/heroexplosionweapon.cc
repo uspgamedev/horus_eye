@@ -8,6 +8,7 @@
 #include "../explosion.h"
 #include "../../utils/visionstrategy.h"
 #include "../../utils/imagefactory.h"
+#include "../../utils/hudimagefactory.h"
 #include "../../utils/constants.h"
 #include "../../utils/settings.h"
 
@@ -39,11 +40,8 @@ void HeroExplosionWeapon::Attack(){
 
 }
 
-
-
-
 HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
-    ImageFactory imfac;
+    HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
 

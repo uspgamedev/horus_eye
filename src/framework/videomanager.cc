@@ -18,6 +18,12 @@ bool VideoManager::Initialize(const string& title, const Vector2D& size,
     SDL_WM_SetCaption(title.c_str(), NULL);
     title_ = title;
 
+    blank_image_ = new Image;
+    blank_image_->Create(Vector2D(200,200));
+    blank_image_->set_frame_size(Vector2D(50, 50));
+    blank_image_->Clear(0x00FF00);
+
+
     return true;
 }
 

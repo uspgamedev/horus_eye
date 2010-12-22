@@ -32,10 +32,12 @@ class VideoManager {
     string title() const { return title_; }
     Image* backbuffer() const { return backbuffer_; }
     Image* screen() const { return screen_; }
+    Image* blank_image() const { return blank_image_; }
 
   private:
     Image* backbuffer_;
     Image* screen_;
+    Image* blank_image_;
     Vector2D video_size_;
     bool fullscreen_;
     string title_;

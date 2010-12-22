@@ -5,7 +5,7 @@
 #include "../../framework/animation.h"
 #include "../../framework/videomanager.h"
 #include "../scenes/world.h"
-#include "../utils/imagefactory.h"
+#include "../utils/hudimagefactory.h"
 #include "constants.h"
 #include "../sprites/weapons/weapon.h"
 
@@ -57,7 +57,7 @@ Hud::Hud(World* world) {
      
     
     //Criando sprites da life bar
-    ImageFactory img_fac;
+    HudImageFactory img_fac;
 
     life_bar_image_ = img_fac.LifeBarImage();
     life_bar_ = new Sprite;
@@ -77,28 +77,28 @@ Hud::Hud(World* world) {
     back_image = img_fac.BackImage();
     Sprite *backLeft = new Sprite();
     backLeft->Initialize(back_image);
-    backLeft->set_hotspot(Vector2D(back_image->width(), back_image->height()));
+    if(back_image) backLeft->set_hotspot(Vector2D(back_image->width(), back_image->height()));
     Sprite *backRight = new Sprite();
     backRight->Initialize(back_image);
-    backRight->set_hotspot(Vector2D(0, back_image->height()));
+    if(back_image) backRight->set_hotspot(Vector2D(0, back_image->height()));
 
     eye_image = img_fac.EyeImage();
     Sprite *eye = new Sprite();
     eye->Initialize(eye_image);
-    eye->set_hotspot(Vector2D(eye_image->width()/2, eye_image->height()));
+    if(eye_image) eye->set_hotspot(Vector2D(eye_image->width()/2, eye_image->height()));
 
     Image *mummy_counter_image = img_fac.MummyCounterImage();
     Sprite *mummy_counter = new Sprite();
     mummy_counter->Initialize(mummy_counter_image);
-    mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
+    if(mummy_counter_image) mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
 
     weapon_icon_ = NULL;
     
     // setando posicoes
     eye->set_position(Vector2D(VIDEO_X/2, VIDEO_Y));
-    backLeft->set_position(Vector2D(VIDEO_X/2 - eye_image->width()/2, VIDEO_Y));
-    backRight->set_position(Vector2D(VIDEO_X/2 + eye_image->width()/2, VIDEO_Y));
-    mummy_counter->set_position(Vector2D(VIDEO_X/2 + eye_image->width()/2, VIDEO_Y));
+    backLeft->set_position(Vector2D(VIDEO_X/2 - (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
+    backRight->set_position(Vector2D(VIDEO_X/2 + (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
+    mummy_counter->set_position(Vector2D(VIDEO_X/2 + (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
 
     AddSprite(backLeft);
     AddSprite(backRight);
@@ -121,8 +121,8 @@ Hud::Hud(World* world) {
         enemy_counter_[i]->Initialize(number);
             
         enemy_counter_[i]->set_position(Vector2D(
-                VIDEO_X/2 + eye_image->width()/1.1 - NUMBER_WIDTH*(i+1),
-                VIDEO_Y - back_image->height()/2 ));
+                VIDEO_X/2 + (eye_image ? eye_image->width()/1.1 : 0) - NUMBER_WIDTH*(i+1),
+                VIDEO_Y - (back_image ? back_image->height()/2 : 0) ));
         AddSprite(enemy_counter_[i]);
         enemy_counter_value_[i] = 0;
     }
@@ -175,11 +175,13 @@ void Hud::Update(float delta_t) {
     }
 
     if(world->hero() != NULL) {
-        weapon_icon_ = world->hero()->secondary_weapon()->icon();
+        if(world->hero()->secondary_weapon() != NULL)
+            weapon_icon_ = world->hero()->secondary_weapon()->icon();
+
         if (world->hero()->life() > 0) {
             life_bar_->set_visible(true);
             float new_height = ((float)world->hero()->life() * LIFE_BAR_HEIGHT) / ((float)world->hero()->max_life());
-            life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
+            if(life_bar_->image()) life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
             life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, new_height));
         } else {
             life_bar_->set_visible(false);
@@ -187,7 +189,7 @@ void Hud::Update(float delta_t) {
         if (world->hero()->mana() > 0) {
             mana_bar_->set_visible(true);
             float new_height = ((float)world->hero()->mana() * MANA_BAR_HEIGHT) / ((float)world->hero()->max_mana());
-            mana_bar_->image()->set_frame_size(Vector2D(MANA_BAR_WIDTH, new_height));
+            if(mana_bar_->image()) mana_bar_->image()->set_frame_size(Vector2D(MANA_BAR_WIDTH, new_height));
             mana_bar_->set_hotspot(Vector2D(MANA_BAR_WIDTH/2, new_height));
         } else {
             mana_bar_->set_visible(false);
@@ -197,13 +199,15 @@ void Hud::Update(float delta_t) {
     if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {
         Sprite* s = new Sprite;
         s->Initialize(weapon_icon_);
+
         s->set_hotspot(Vector2D(weapon_icon_->width()/2, weapon_icon_->height()/2));
         s->set_position(Vector2D(VIDEO_X/2 - 5, VIDEO_Y - 47));
         
         AddSprite(s);
         icon_added[weapon_icon_] = s;
-    } 
-    icon_added[weapon_icon_]->set_visible(true);
+    }
+    if(weapon_icon_)
+        icon_added[weapon_icon_]->set_visible(true);
 
 }
 

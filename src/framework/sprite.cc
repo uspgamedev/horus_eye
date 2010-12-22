@@ -24,9 +24,14 @@ void Sprite::SelectAnimation(Animation *animation) {
 
 void Sprite::Render(Image *back_buffer, Vector2D &offset) {
     if (visible_) {
-        int frame_number = animation_->get_current_frame();
-        image_->DrawTo(back_buffer, position_ - hotspot_ - offset, frame_number,
-                       mirror_);
+        if(image_ != NULL) {
+            int frame_number = animation_->get_current_frame();
+            image_->DrawTo(back_buffer, position_ - hotspot_ - offset,
+                    frame_number, mirror_);
+        } else {
+            VIDEO_MANAGER()->blank_image()->DrawTo(back_buffer,
+                    position_ - hotspot_ - offset, 0, 0);
+        }
     }
 }
 

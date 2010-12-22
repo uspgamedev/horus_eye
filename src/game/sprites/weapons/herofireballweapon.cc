@@ -5,6 +5,7 @@
 #include "../../../framework/animation.h"
 #include "../../../framework/engine.h"
 #include "../../utils/imagefactory.h"
+#include "../../utils/hudimagefactory.h"
 #include "../../utils/constants.h"
 #include "../../scenes/world.h"
 #include "../explosion.h"
@@ -43,7 +44,7 @@ void HeroFireballWeapon::Attack() {
 
 
 HeroFireballWeapon::HeroFireballWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
-    ImageFactory factory;
+    HudImageFactory factory;
     icon_ = factory.FireballIconImage();
 }
 

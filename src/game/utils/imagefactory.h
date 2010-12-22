@@ -23,20 +23,11 @@ class ImageFactory {
     virtual Image* QuakeImage();
     virtual Image* LifePotionImage();
     virtual Image* ManaPotionImage();
-    virtual Image* LifeBarImage();
-    virtual Image* ManaBarImage();
-    virtual Image* TotemImage();
     virtual Image* SightPotionImage();
     virtual Image* DoorImage();
     virtual Image* FloorImage();
     virtual Image* WallImage();
     virtual Image* EntryImage();
-    virtual Image* BackImage();
-    virtual Image* EyeImage();
-    virtual Image* MummyCounterImage();
-    virtual Image* FireballIconImage();
-    virtual Image* EarthquakeIconImage();
-    virtual Image* MenuEyeImage();
 
   protected:
     Image* hero_image_;
@@ -51,21 +42,12 @@ class ImageFactory {
     Image* explosion_image_;
     Image* quake_image_;
     Image* life_potion_image_;
-    Image* life_bar_image_;
-    Image* mana_bar_image_;
-    Image* totem_image_;
     Image* mana_potion_image_;
     Image* sight_potion_image_;
     Image* door_image_;
     Image* floor_image_;
     Image* wall_image_;
     Image* entry_image_;
-    Image* back_image_;
-    Image* eye_image_;
-    Image* mummy_counter_image_;
-    Image* fireball_icon_image_;
-    Image* earthquake_icon_image_;
-    Image* menu_eye_image_;
 };
 
 }

@@ -161,17 +161,20 @@ void Hero::GetKeys() {
         animation_direction_ += Animation_::RIGHT;
         num_dirs++;
     }
-    if (input_->KeyPressed(K_e)) {
-        int next_slot = slot_selected_;
-        do next_slot = (next_slot+1)%Constants::HERO_MAX_WEAPONS;
-        while (!weapons_.count(next_slot));
-        ChangeSecondaryWeapon(next_slot);
-    }
-    if (input_->KeyPressed(K_q)) {
-        int next_slot = slot_selected_;
-        do next_slot = next_slot-1 < 0 ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
-        while (!weapons_.count(next_slot));
-        ChangeSecondaryWeapon(next_slot);
+
+    if(weapons_.size() > 0) {
+        if (input_->KeyPressed(K_e)) {
+            int next_slot = slot_selected_;
+            do next_slot = (next_slot+1)%Constants::HERO_MAX_WEAPONS;
+            while (!weapons_.count(next_slot));
+            ChangeSecondaryWeapon(next_slot);
+        }
+        if (input_->KeyPressed(K_q)) {
+            int next_slot = slot_selected_;
+            do next_slot = next_slot-1 < 0 ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
+            while (!weapons_.count(next_slot));
+            ChangeSecondaryWeapon(next_slot);
+        }
     }
 
     last_standing_animation_ = *(standing_animations_[animation_direction_]);
