@@ -6,7 +6,7 @@ Para compilar no GNU/Linux,
 
 3) Vá para a pasta horus_eye/trunk/src/game/
 
-4) $ ./configure
+4) $ cmake . (Não esqueça o '.' no final)
    $ make
    # make install
 
