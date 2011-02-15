@@ -33,7 +33,7 @@ class MenuBuilder {
     Menu *BuildHelpPage6(PageManager *manager);
     Menu *BuildSettingsMenu();
   private:
-    void CreateSelectionSprites(Menu* menu);
+    void CreateSelectionSprites(Menu* menu, float height = 0);
     typedef enum {
         MAIN_SELECT_PLAY = 0,
         MAIN_SELECT_HELP,

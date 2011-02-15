@@ -29,8 +29,8 @@ PageManager::PageManager (int page_num)
     : Menu(0){
 
     page_num_ = page_num;
-    page_=0;
-    state_=START_PAGE;
+    page_ = 0;
+    state_ = START_PAGE;
 }
 
 PageManager::~PageManager () {
