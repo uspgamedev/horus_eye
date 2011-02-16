@@ -263,9 +263,7 @@ Menu *MenuBuilder::BuildHelpMenu () {
 
 // TODO PLEASE REFACTORATE THIS!!!!
 
-Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::FIRST_PAGE, manager);
+void MenuBuilder::CreateBackButton(Page *page) {
 
     // Setting its handler.
     page->set_handler(new HelpMenuHandler(page));
@@ -273,18 +271,25 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     Image* img = TEXT_LOADER()->GetImage("Back");
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f,
-                                         /*options_sprite->image()->height() / 2.0f*/0));
-    
+    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
+
     float top = VIDEO_MANAGER()->video_size().y - img->height();
-    Vector2D spacing = VIDEO_MANAGER()->video_size()*(1.0f/6.0f);
-    
+
     // Set page menu
     page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
     page->set_option_sprite(0, options_sprite);
-    
+
     // Setting the selection sprite.
     CreateSelectionSprites(page, img->height());
+}
+
+Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
+
+    Page *page = new Page(1, Page::FIRST_PAGE, manager);
+
+    CreateBackButton(page);
+
+    Vector2D spacing = VIDEO_MANAGER()->video_size()*(1.0f/6.0f);
 
     // The menu content
     Sprite *title = new Sprite;
@@ -336,23 +341,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
 
     Page *page = new Page(1, Page::NORMAL_PAGE, manager);
 
-    // Setting its handler.
-    page->set_handler(new HelpMenuHandler(page));
-
-    Image* img = TEXT_LOADER()->GetImage("Back");
-    Sprite *options_sprite = new Sprite;
-    options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f,
-                                         /*options_sprite->image()->height() / 2.0f*/0));
-    
-    float top = VIDEO_MANAGER()->video_size().y - img->height();
-    // Set page menu
-    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_option_sprite(0, options_sprite);
-    
-    // Setting the selection sprite.
-    CreateSelectionSprites(page, img->height());
-    
+    CreateBackButton(page);
     
     // The menu content
     float second_column = VIDEO_MANAGER()->video_size().x/2.0f;
@@ -469,25 +458,10 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
 
     Page *page = new Page(1, Page::NORMAL_PAGE, manager);
 
-    // Setting its handler.
-    page->set_handler(new HelpMenuHandler(page));
+    CreateBackButton(page);
 
-    Image* img = TEXT_LOADER()->GetImage("Back");
-    Sprite *options_sprite = new Sprite;
-    options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f,
-                                         /*options_sprite->image()->height() / 2.0f*/0));
-    
-    float top = VIDEO_MANAGER()->video_size().y - img->height();
     float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
     
-    // Set page menu
-    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_option_sprite(0, options_sprite);
-    
-    // Setting the selection sprite.
-    CreateSelectionSprites(page, img->height());
-
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Spells"));
@@ -555,25 +529,10 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
 
     Page *page = new Page(1, Page::NORMAL_PAGE, manager);
 
-    // Setting its handler.
-    page->set_handler(new HelpMenuHandler(page));
+    CreateBackButton(page);
 
-    Image* img = TEXT_LOADER()->GetImage("Back");
-    Sprite *options_sprite = new Sprite;
-    options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f,
-                                         /*options_sprite->image()->height() / 2.0f*/0));
-    
-    float top = VIDEO_MANAGER()->video_size().y - img->height();
     float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
     
-    // Set page menu
-    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_option_sprite(0, options_sprite);
-    
-    // Setting the selection sprite.
-    CreateSelectionSprites(page, img->height());
-
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Itens"));
@@ -628,26 +587,11 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
 
     Page *page = new Page(1, Page::LAST_PAGE, manager);
 
-    // Setting its handler.
-    page->set_handler(new HelpMenuHandler(page));
-
-    Image* img = TEXT_LOADER()->GetImage("Back");
-    Sprite *options_sprite = new Sprite;
-    options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f,
-                                         /*options_sprite->image()->height() / 2.0f*/0));
+    CreateBackButton(page);
     
-    float top = VIDEO_MANAGER()->video_size().y - img->height();
     Vector2D middle = VIDEO_MANAGER()->video_size();
     middle.x = middle.x*0.5f;
     middle.y = middle.y*0.5f;
-
-    // Set page menu
-    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_option_sprite(0, options_sprite);
-
-    // Setting the selection sprite.
-    CreateSelectionSprites(page, img->height());
     
     // The menu content
     Sprite *hud = new Sprite;

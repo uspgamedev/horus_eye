@@ -17,6 +17,7 @@ class Settings;
 namespace scene {
 
 class Menu;
+class Page;
 
 class MenuBuilder {
   public:
@@ -34,6 +35,7 @@ class MenuBuilder {
     Menu *BuildSettingsMenu();
   private:
     void CreateSelectionSprites(Menu* menu, float height = 0);
+    void CreateBackButton(Page *page);
     typedef enum {
         MAIN_SELECT_PLAY = 0,
         MAIN_SELECT_HELP,
