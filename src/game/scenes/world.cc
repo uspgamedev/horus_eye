@@ -24,6 +24,7 @@ using namespace utils;
 using namespace std;
 
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
+    world_layer_->set_light_type(LIGHT_ILLUMINATED);
     AddLayer(world_layer_);
 
 	image_factory_ = new utils::ImageFactory();
@@ -251,7 +252,7 @@ Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
     return (transformed * (1.0f/60.373835392f));
 }
 
-Image* World::CreateFogTransparency(float radius) {
+Sprite* World::CreateFogTransparency(float radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return Engine::reference()->fog_manager()->GetLightSource(ellipse_coords);
 }

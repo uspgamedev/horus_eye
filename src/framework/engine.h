@@ -49,7 +49,7 @@ class Engine {
     Scene* CurrentScene() const;
     void PopScene();
 
-    int current_fps() { return reported_fps_; }
+    uint32 current_fps() { return reported_fps_; }
 
     // Saida do motor
     void quit() { quit_ = true; }
@@ -69,7 +69,10 @@ class Engine {
     //Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;
-    int reported_fps_, frames_since_reset_, last_fps_report_;
+    uint32 reported_fps_, frames_since_reset_, last_fps_report_;
+
+	Engine() : video_manager_(NULL), input_manager_(NULL), time_handler_(NULL), 
+		audio_manager_(NULL), text_manager_(NULL), fog_manager_(NULL), path_manager_(NULL) {}
 };
 
 }  // namespace framework

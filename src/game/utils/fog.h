@@ -2,13 +2,15 @@
 #define HORUSEYE_GAME_UTILS_FOG_H_
 
 #include "../../framework/layer.h"
-#include "tile.h"
 #include <map>
 
+namespace framework {
+class Sprite;
+class Image;
+}
 namespace sprite {
 class WorldObject;
 }
-
 namespace utils {
 
 using std::map;
@@ -22,13 +24,12 @@ class Fog: public framework::Layer {
     void RemoveLightSource(sprite::WorldObject*);
     void UpdateLightSource(sprite::WorldObject*);
 
-    bool IsIluminated(sprite::WorldObject*);
-    void UpdateVisibility();
+    bool IsIluminated(sprite::WorldObject*) { return true; }
+    void UpdateVisibility() { }
 
     virtual void Render();
 
   private:
-    framework::Image* blank_background_;
     map<sprite::WorldObject*, framework::Sprite*> light_sources_;
 };
 

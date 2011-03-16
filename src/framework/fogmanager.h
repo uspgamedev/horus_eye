@@ -3,19 +3,28 @@
 
 #include <map>
 #include "vector2D.h"
+#include "sprite.h"
 
 namespace framework {
 
 class Image;
+class Texture;
 class FogManager {
   public:
-    FogManager() {}
+    FogManager();
     ~FogManager();
 
-    Image* GetLightSource(const Vector2D& ellipse_coef);
+    void InitializeTexture();
+    void Release();
+
+    Sprite* GetLightSource(const Vector2D& ellipse_coef);
 
   private:
-    std::map<std::pair<int,int>,Image*> fog_list_;
+    Sprite* CreateLightSource(const Vector2D& ellipse_coef);
+
+    Image* fog_texture_;
+    Vector2D stored_size_;
+    std::map<std::pair<int,int>,Sprite*> fog_list_;
 };
 
 }

@@ -62,7 +62,7 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
     static Vector2D FromScreenCoordinates(Vector2D screen_coords);
 
-    static Image* CreateFogTransparency(float radius);
+	static framework::Sprite* CreateFogTransparency(float radius);
 
     vector<sprite::Mummy *> Mummies();
     

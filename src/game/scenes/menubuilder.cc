@@ -10,6 +10,7 @@
 #include "../utils/textloader.h"
 #include "../utils/settings.h"
 #include "../utils/constants.h"
+#include "../../editor/mapeditor.h"
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
@@ -106,6 +107,9 @@ Menu *MenuBuilder::BuildMainMenu () {
         case MenuBuilder::MAIN_SELECT_HELP:
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Help"));
             break;
+        case MenuBuilder::MAIN_SELECT_EDITOR:
+            options_sprite->Initialize(TEXT_LOADER()->GetImage("Editor"));
+            break;
         case MenuBuilder::MAIN_SELECT_SETTINGS:
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Settings"));
             break;
@@ -152,6 +156,12 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
         case MenuBuilder::MAIN_SELECT_HELP: {
             MenuBuilder builder;
             Engine::reference()->PushScene(builder.BuildHelpMenu());
+            menu_->set_visible(false);
+            break;
+        }
+        case MenuBuilder::MAIN_SELECT_EDITOR: {
+            string level = "data/levels/level_4.txt";
+            Engine::reference()->PushScene(new editor::MapEditor(level));
             menu_->set_visible(false);
             break;
         }

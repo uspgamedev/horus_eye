@@ -39,6 +39,7 @@ class MenuBuilder {
     typedef enum {
         MAIN_SELECT_PLAY = 0,
         MAIN_SELECT_HELP,
+        MAIN_SELECT_EDITOR,
         MAIN_SELECT_SETTINGS,
         MAIN_SELECT_ABOUT,
         MAIN_SELECT_EXIT,

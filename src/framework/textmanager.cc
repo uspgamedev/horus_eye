@@ -17,22 +17,22 @@ bool TextManager::Initialize() {
     textColor_.r = 255;
     textColor_.g = 255;
     textColor_.b = 255;
+    font_ = TTF_OpenFont( "data/font/Filmcrypob.ttf", 60 );
     transparentColor_.r = 255;
-    transparentColor_.g = 0;
-    transparentColor_.b = 255;
-    font_ = NULL;
+    transparentColor_.g = 255;
+    transparentColor_.b = 0;
     return true;
 }
 
 bool TextManager::Destroy() {
    if(font_ != NULL)
        TTF_CloseFont( font_ );
-   TTF_Quit();   
+   TTF_Quit();
    return true;
 }
 
 bool TextManager::setFont(string font, int fontsize, string *style) {
-    font_ = TTF_OpenFont( PATH_MANAGER()->ResolvePath(font).c_str(), fontsize );
+    font_ = TTF_OpenFont( font.c_str(), fontsize );
     if(style != NULL){
 
     }
@@ -44,25 +44,21 @@ TTF_Font* TextManager::getFont(){
 }
 
 Image* TextManager::LoadLine(string line) {
-    Image* img = new Image;
     SDL_Surface *message = NULL;
     
     message = TTF_RenderUTF8_Blended( font_, line.c_str(), textColor_ );
-    
-    if(img != NULL) {
-        if(!img->setSurface(message)) {
-            delete img;
-            return NULL;
-        }
-    }
-    else
-        return NULL;
+    Image *img = new Image;
+    bool result = img->LoadFromSurface(message);
+    SDL_FreeSurface(message);
 
+	if(!result) {
+        delete img;
+		img = NULL;
+	}
     return img;
 }
 
 Image* TextManager::LoadFancyLine(string line) {
-    Image* img = new Image;
     SDL_Surface *message = NULL;
     SDL_Surface *message_dark = NULL;
     SDL_Surface *message_light = NULL;
@@ -88,23 +84,31 @@ Image* TextManager::LoadFancyLine(string line) {
     size.x = message->w;
     size.y = TTF_FontLineSkip(font_)+12;
 
-    img->Create(size);
-    img->Clear(SDL_MapRGB(img->format() , transparentColor_.r,  transparentColor_.g, transparentColor_.b));
-    img->setColorKey(transparentColor_);
+    SDL_Surface *temp_surface = Image::CreateSurface(size);
+    SDL_Surface *surface = SDL_DisplayFormatAlpha(temp_surface);
+    SDL_FreeSurface(temp_surface);
+    Uint32 transparentColor = SDL_MapRGBA(surface->format, 0, 0, 0, 0);
+    SDL_FillRect(surface, NULL, transparentColor);
 
-    img->blitSurface(message_light, NULL, &rect);
+    SDL_BlitSurface(message_light, NULL, surface, &rect);
     rect.x -= 1.0;
     rect.y -= 1.0;
-    img->blitSurface(message_dark, NULL, &rect);
+    SDL_BlitSurface(message_dark, NULL, surface, &rect);
     rect.x -= 1.0;
     rect.y -= 1.0;
-    img->blitSurface(message, NULL, &rect);
+    SDL_BlitSurface(message, NULL, surface, &rect);
 
+    Image *img = new Image;
+	if(!img->LoadFromSurface(surface)) {
+		delete img;
+		img = NULL;
+	}
+    SDL_FreeSurface(surface);
     return img;
 }
         
 Image* TextManager::LoadText(string text, char indent, float width = -1) {
-    Image *img = new Image;
+    Image *img = NULL;
     string subString, temp(text);
     vector<string> lines;
     int lineskip = TTF_FontLineSkip(font_);
@@ -129,10 +133,13 @@ Image* TextManager::LoadText(string text, char indent, float width = -1) {
     if(width>0)
         video_size.x = width;
     video_size.y = nlines*lineskip;
-    
-    img->Create(video_size);
-    img->Clear(SDL_MapRGB(img->format() , transparentColor_.r,  transparentColor_.g, transparentColor_.b));
-    img->setColorKey(transparentColor_);
+
+    SDL_Surface *temp_surface = Image::CreateSurface(video_size);
+    SDL_Surface *surface = SDL_DisplayFormatAlpha(temp_surface);
+    SDL_FreeSurface(temp_surface);
+    SDL_Rect fillRect = {0, 0, surface->w, surface->h};
+    Uint32 transparentColor = SDL_MapRGBA(surface->format, 0, 0, 0, 255);
+    SDL_FillRect(surface, &fillRect, transparentColor);
 
     //Blit lines in transparent surface
     for(int i = 0; i<nlines; i++) {
@@ -152,9 +159,15 @@ Image* TextManager::LoadText(string text, char indent, float width = -1) {
                 rect.x = 0;
         }
         rect.y = i*lineskip;    
-        img->blitSurface(linesurf, NULL, &rect);
+        SDL_BlitSurface(linesurf, NULL, surface, &rect);
     }
 
+	img = new Image;
+	if(!img->LoadFromSurface(surface)) {
+        delete img;
+		img = NULL;
+	}
+    SDL_FreeSurface(surface);
     return img;
 }
 

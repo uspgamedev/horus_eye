@@ -4,6 +4,7 @@
 #include <algorithm>
 #include "image.h"
 #include "vector2D.h"
+#include "types.h" 
 
 
 namespace framework {
@@ -11,10 +12,10 @@ namespace framework {
 class Animation;
 class Sprite {
   public:
-    Sprite() { }
+    Sprite();
     virtual ~Sprite();
 
-    void Initialize(Image *image);
+    void Initialize(Image *image, bool delete_image = false);
 
     // Acessors e mutators
     Vector2D position() const { return position_; }
@@ -32,6 +33,12 @@ class Sprite {
     static bool CompareByZIndex(Sprite *a, Sprite *b);
 
     Image *image() { return image_; }
+
+	Color color() { return color_; }
+	void set_color(Color color) { color_ = color; }
+	float alpha() { return alpha_; }
+	void set_alpha(float alpha) { alpha_ = alpha; }
+	void set_size(const Vector2D& size) { size_ = size; }
 
 
     // ======================================================================
@@ -68,11 +75,13 @@ class Sprite {
     float zindex_;
 
   private:
-    Vector2D position_, hotspot_;
+    Vector2D position_, hotspot_, size_;
     Image *image_;
     Image::Mirror mirror_;
+	Color color_;
+	float alpha_;
     Animation *animation_;
-    bool visible_;
+    bool visible_, delete_image_;
 
 };
 }

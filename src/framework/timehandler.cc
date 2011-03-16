@@ -18,7 +18,7 @@ void TimeHandler::Update() {
 }
 
 uint32 TimeHandler::TimeElapsed() {
-    return TimeSince(initial_time_);
+    return current_time_ - initial_time_; //TimeSince(initial_time_);
 }
 
 uint32 TimeHandler::TimeDifference() {
@@ -26,7 +26,7 @@ uint32 TimeHandler::TimeDifference() {
 }
 
 uint32 TimeHandler::TimeSince(uint32 t0) {
-    return current_time_ - t0 - time_paused_;
+    return current_time_ - t0 - time_paused_ - initial_time_;
 }
 
 void TimeHandler::Pause() {

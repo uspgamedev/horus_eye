@@ -8,6 +8,7 @@
 // Main menu
 [Play]{FontA}:Jogar
 [Help]{FontA}:Ajuda
+[Editor]{FontA}:Editor
 [Settings]{FontA}:Configurações
 [Credits]{FontA}:Créditos
 [Exit]{FontA}:Sair

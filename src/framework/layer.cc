@@ -1,6 +1,7 @@
 #include <algorithm>
 #include "layer.h"
 #include "engine.h"
+#include "videomanager.h"
 
 namespace framework {
 
@@ -27,15 +28,14 @@ void Layer::Update(float delta_t) {
 }
 
 void Layer::Render() {
-
-    std::vector<Sprite*>::iterator it = sprite_list_.begin();
-
-    if(visible_)
+    if(visible_) {
+        std::vector<Sprite*>::iterator it = sprite_list_.begin();
+        VIDEO_MANAGER()->set_light_draw_mode(light_type_);
         while (it != sprite_list_.end()) {
-            (*it)->Render(Engine::reference()->video_manager()->backbuffer(),
-                          offset_);
+            (*it)->Render(NULL, offset_);
             ++it;
         }
+    }
 }
 
 void Layer::AddSprite(Sprite* sprite)

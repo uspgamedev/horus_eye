@@ -26,7 +26,11 @@ framework::Engine* engine() {
 
 void StartGame() {
     Settings settings = Settings();
-    engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen());
+
+    // Checks if restarting game. Avoids changing resolution during
+    // startup, to avoid taking longer uselessly.
+    if(level_manager()->RestartGameQueued())
+        engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen());
 
     text_loader()->Initialize(settings.language_file());
 
@@ -39,9 +43,9 @@ void StartGame() {
 
 
 int main(int argc, char *argv[]) {
-    framework::Vector2D default_resolution = framework::Vector2D(1024, 768);
-
 	Settings settings = Settings();
+
+	// Loads rootpath from the file specified on settings
 	char rootpath[1024];
 	strcpy(rootpath, "./");
 	FILE *root_file = fopen(settings.root_file_path().c_str(), "r");
@@ -55,11 +59,20 @@ int main(int argc, char *argv[]) {
 		}
 	}
 
-    engine()->Initialize("Horus Eye", default_resolution, false, rootpath, "data/images/eye.bmp");
+    engine()->Initialize("Horus Eye", settings.resolution_vector(), settings.fullscreen(), rootpath, "data/images/eye.bmp");
     do {
+        // Initializes game data
         StartGame();
+
+        // Transfers control to the framework.
         engine()->Run();
+
+        // Releases data persistant between levels.
         level_manager()->Finish();
+
+        // Releases all loaded textures, to avoid issues when changing resolution.
+        engine()->video_manager()->Release();
+
     } while(level_manager()->RestartGameQueued());
     engine()->Release();
     return 0;

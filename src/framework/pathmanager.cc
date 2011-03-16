@@ -1,5 +1,5 @@
-#include <iostream>
 #include <sstream>
+#include <iostream>
 #include <cstdio>
 #include "pathmanager.h"
 
@@ -10,6 +10,7 @@ namespace framework {
 std::string PathManager::ResolvePath(const std::string& path) {
     std::ostringstream stm;
     stm << base_path_ << path;
+    /*
 #ifdef DEBUG
     cout << "Resolving " << path << " into " << stm.str();
     FILE* fp = fopen(stm.str().c_str(), "r");
@@ -19,6 +20,7 @@ std::string PathManager::ResolvePath(const std::string& path) {
         fclose(fp);
     cout << endl;
 #endif
+*/
 	return stm.str();
 }
 

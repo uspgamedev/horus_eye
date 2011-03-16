@@ -55,7 +55,11 @@ SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
 ../framework/scene.cc ../framework/fogmanager.cc ../framework/inputmanager.h
 ../framework/engine.h ../framework/sample.h ../framework/image.h
 ../framework/audiomanager.cc ../framework/timeaccumulator.h
-../framework/pathmanager.cc ../framework/pathmanager.h )
+../framework/pathmanager.cc ../framework/pathmanager.h ../editor/mapeditor.cc
+../editor/mapeditor.h ../editor/mapobject.cc ../editor/mapobject.h
+../editor/layers/mapspriteslayer.cc ../editor/layers/mapspriteslayer.h
+../editor/layers/maptileslayer.cc ../editor/layers/maptileslayer.h
+../editor/layers/fpsmeter.cc ../editor/layers/fpsmeter.h )
 
 MESSAGE("${GAME_NAME} version ${GAME_VERSION}")
 
@@ -130,12 +134,12 @@ ENDIF(MSVC)
 IF(UNIX)
   ADD_EXECUTABLE(${GAME_UNIXNAME} ${GAME_SRCS})
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m SDL SDL_image SDL_mixer SDL_ttf)
+  TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m SDL SDL_image SDL_mixer SDL_ttf GL GLU)
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
   # Debug target.
   ADD_EXECUTABLE(${GAME_DEBUGNAME} ${GAME_SRCS})
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m SDL SDL_image SDL_mixer SDL_ttf)
+  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m SDL SDL_image SDL_mixer SDL_ttf GL GLU)
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
 ENDIF(UNIX)
 
@@ -158,11 +162,11 @@ IF(WIN32)
     # Release properties
     SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
     SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "/D_CRT_SECURE_NO_DEPRECATE /D__WIN32__ /D__MSVC__ ${CFLAGS} ${CFLAGS_EXTRA}")
-    TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} SDLmain SDL SDL_image SDL_mixer SDL_ttf)
+    TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
     # Debug properties.
     SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
     SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "/D_CRT_SECURE_NO_DEPRECATE /D__WIN32__ /D__MSVC__ ${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
-    TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} SDLmain SDL SDL_image SDL_mixer SDL_ttf)
+    TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
 
   ELSE(MSVC)
 
@@ -173,11 +177,11 @@ IF(WIN32)
 
     SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
     SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
-    TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf)
+    TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
     # Debug.
     SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
     SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
-    TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf)
+    TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
 
     # icone
     EXECUTE_PROCESS(COMMAND ${CMAKE_RC_COMPILER} -O coff -o ./horus_eye.res -i ./horus_eye.rc)

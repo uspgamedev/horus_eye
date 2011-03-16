@@ -17,8 +17,11 @@ namespace utils {
         ranged_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mummy_red_120x140.png");
         if(ranged_mummy_image_) ranged_mummy_image_->set_frame_size(Vector2D(120, 140));
 
-        big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mummy_green_204x238.png");
-        if(big_mummy_image_) big_mummy_image_->set_frame_size(Vector2D(204, 238));
+        big_mummy_image_ = VIDEO_MANAGER()->LoadImage("data/images/mummy_green_120x140.png");
+		if(big_mummy_image_) {
+			big_mummy_image_->set_frame_size(Vector2D(120, 140));
+			big_mummy_image_->set_render_size(Vector2D(204, 238));
+		}
 
 		pharaoh_image_ = VIDEO_MANAGER()->LoadImage("data/images/pharaoh_120x140.png");
         if(pharaoh_image_) pharaoh_image_->set_frame_size(Vector2D(120, 140));

@@ -5,17 +5,25 @@
 
 namespace framework {
 
-Sprite::~Sprite() {
-    if (animation_) delete animation_;
+Sprite::Sprite() : alpha_(1.0f), delete_image_(false) {
+	color_ = Image::CreateColor(1.0f, 1.0f, 1.0f);
 }
 
-void Sprite::Initialize(Image *image)
+Sprite::~Sprite() {
+    if (animation_) delete animation_;
+    if (delete_image_ && image_) delete image_;
+}
+
+void Sprite::Initialize(Image *image, bool delete_image)
 {
     image_ = image;
   	set_zindex(0.0f);
     visible_ = true;
     animation_ = new Animation(50, 0, -1);
     hotspot_ = position_ = Vector2D(0,0);
+    mirror_ = Image::MIRROR_NONE;
+    delete_image_ = delete_image;
+	size_ = image->render_size();
 }
 
 void Sprite::SelectAnimation(Animation *animation) {
@@ -24,14 +32,8 @@ void Sprite::SelectAnimation(Animation *animation) {
 
 void Sprite::Render(Image *back_buffer, Vector2D &offset) {
     if (visible_) {
-        if(image_ != NULL) {
-            int frame_number = animation_->get_current_frame();
-            image_->DrawTo(back_buffer, position_ - hotspot_ - offset,
-                    frame_number, mirror_);
-        } else {
-            VIDEO_MANAGER()->blank_image()->DrawTo(back_buffer,
-                    position_ - hotspot_ - offset, 0, 0);
-        }
+        int frame_number = animation_->get_current_frame();
+        image_->DrawTo(position_ - hotspot_ - offset, frame_number, mirror_, color_, alpha_, size_);
     }
 }
 

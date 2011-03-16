@@ -131,7 +131,9 @@ Hud::Hud(World* world) {
         (fps_meter_[i] = new Sprite)->Initialize(number);
         fps_meter_[i]->set_position(Vector2D(
                         FPS_BAR_OFFSET_X + NUMBER_WIDTH*i + 0.0f, FPS_BAR_OFFSET_Y + 0.0f));
-        //AddSprite(fps_meter_[i]);
+#ifdef DEBUG
+        AddSprite(fps_meter_[i]);
+#endif
         fps_meter_value_[i] = 0;
     }
 }

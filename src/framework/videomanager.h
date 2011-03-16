@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include "types.h"
 #include "vector2D.h"
 using std::string;
 using std::map;
@@ -17,7 +18,7 @@ class VideoManager {
   public:
     static const int COLOR_DEPTH = 32;
 
-    VideoManager() : backbuffer_(NULL), screen_(NULL), fullscreen_(false) {}
+    VideoManager() : fullscreen_(false), light_draw_mode_(LIGHT_IGNORE) {}
     ~VideoManager() {}
 
 	bool Initialize(const string& title, const Vector2D& size, bool fullscreen, const string& icon);
@@ -25,23 +26,28 @@ class VideoManager {
     bool Release();
     void Render();
 
-    Image* LoadImage(const string& filepath);
+    Image* LoadImageFile(const string& filepath);
+    Image* LoadImage(const string& filepath) {
+        return LoadImageFile(filepath);
+    }
 
     Vector2D video_size() const { return video_size_; }
     bool fullscreen() const { return fullscreen_; }
     string title() const { return title_; }
-    Image* backbuffer() const { return backbuffer_; }
-    Image* screen() const { return screen_; }
+    LightType light_draw_mode() { return light_draw_mode_; }
+	Image* backbuffer() const { return NULL; }
+	Image* screen() const { return NULL; }
     Image* blank_image() const { return blank_image_; }
 
+	void set_light_draw_mode(LightType mode) { light_draw_mode_ = mode; }
+
   private:
-    Image* backbuffer_;
-    Image* screen_;
     Image* blank_image_;
     Vector2D video_size_;
     bool fullscreen_;
     string title_;
-    map<string, Image*> memory_;
+    map<string, Image*> image_memory_;
+    LightType light_draw_mode_;
 };
 
 }  // namespace framework

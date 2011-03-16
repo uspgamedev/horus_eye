@@ -8,6 +8,7 @@
 // Main Menu
 [Play]{FontA}:Play
 [Help]{FontA}:Help
+[Editor]{FontA}:Editor
 [Settings]{FontA}:Settings
 [Credits]{FontA}:Credits
 [Exit]{FontA}:Exit

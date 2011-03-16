@@ -233,9 +233,7 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 
 void Creature::Render(Image *back_buffer, Vector2D &offset) {
     if (blink_) return;
-    //Fog* fog = WORLD()->fog();
-    //if (fog->IsIluminated(this))
-        WorldObject::Render(back_buffer, offset);
+    	WorldObject::Render(back_buffer, offset);
 }
 
 }  // namespace sprite

@@ -91,10 +91,6 @@ Hero::Hero(Image* img) {
     slot_selected_ = -1;
     weapon_ = new HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
-
-    // Create the bigger fog image now, so the game doesn't hang during play.
-    for (int i = 1; i <= 5; ++i)
-        World::CreateFogTransparency(light_radius_ + i*Constants::SIGHT_POTION_INCREASE);
 }
 
 void Hero::AddWeapon(int slot, Weapon* weapon) {

@@ -30,6 +30,9 @@ class Scene {
     // Redesenha o grafico da cena.
     void Render();
 
+    // Redesenha as fontes de luz.
+    void RenderLight();
+
     // Getters.
     bool finished() { return finished_; }
 

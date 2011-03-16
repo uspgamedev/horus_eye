@@ -5,6 +5,18 @@
 
 namespace framework {
 
+typedef enum {
+    LIGHT_IGNORE,
+    LIGHT_SOURCE,
+    LIGHT_ILLUMINATED
+} LightType;
+
+typedef struct Color {
+  float r;
+  float g;
+  float b;
+} Color;
+
 typedef Uint8 uint8;
 typedef Uint16 uint16;
 typedef Uint32 uint32;
@@ -16,4 +28,4 @@ typedef Sint64 int64;
 
 }  // namespace framework
 
-#endif
+#endif /* HORUSEYE_FRAMEWORK_TYPES_H_ */

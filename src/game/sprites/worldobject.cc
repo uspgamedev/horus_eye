@@ -48,17 +48,18 @@ void WorldObject::set_world_position(const framework::Vector2D& pos) {
 
 
 void WorldObject::Render(Image *back_buffer, Vector2D &offset) {
+    if(false) {
+        World *world = WORLD();
+        GameMap& map = world->level_matrix();
 
-    World *world = WORLD();
-    GameMap& map = world->level_matrix();
+        TilePos pos = Tile::ToTilePos(world_position());
+        pos.i = map.size() - pos.i - 1;
+        Tile*   obj_tile = Tile::GetFromMapPosition(world->level_matrix(), pos);
+        if (obj_tile && obj_tile->visible()) {
 
-    TilePos pos = Tile::ToTilePos(world_position());
-
-    pos.i = map.size() - pos.i - 1;
-
-    Tile*   obj_tile = Tile::GetFromMapPosition(world->level_matrix(), pos);
-
-    if (obj_tile && obj_tile->visible()) Sprite::Render(back_buffer, offset);
+        }
+    }
+    Sprite::Render(back_buffer, offset);
 
 }
 

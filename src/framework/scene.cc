@@ -26,12 +26,22 @@ void Scene::Update(float delta_t) {
 }
 
 void Scene::Render() {
-
     if (visible_) {
         list<Layer*>::iterator it = layers_.begin();
-
         while (it != layers_.end()) {
-            (*it)->Render();
+            if((*it)->light_type() != LIGHT_SOURCE)
+                (*it)->Render();
+            ++it;
+        }
+    }
+}
+
+void Scene::RenderLight() {
+    if (visible_) {
+        list<Layer*>::iterator it = layers_.begin();
+        while (it != layers_.end()) {
+            if((*it)->light_type() == LIGHT_SOURCE)
+                (*it)->Render();
             ++it;
         }
     }

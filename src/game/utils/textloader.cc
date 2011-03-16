@@ -43,7 +43,7 @@ int title_type(char* str) {
     return 0;
 }
 
-static string key_def = "[]{}:";
+static string key_def = "[]{}:\0";
 TextLoader::Word::Word(char* str) {
     char buffer[STRING_LENGTH];
     strcpy(buffer, str);
@@ -72,7 +72,7 @@ TextLoader::Word::Word(char* str) {
 bool TextLoader::Word::IsWord(char* str) {
     if (str[0] != '[') return false;
     char *tmp = str;
-    for(int i = 1; key_def[i] != '\0'; ++i) {
+    for(int i = 1; i<5/*key_def[i] != '\0'*/; ++i) {
         tmp = strchr(tmp, key_def[i]);
         if(tmp == NULL) return false;
     }
@@ -84,6 +84,8 @@ bool TextLoader::Initialize(string language_file) {
     FILE* file = fopen(PATH_MANAGER()->ResolvePath(language_file).c_str(), "r");
     if(file == NULL)
         return false;
+
+    Clear();
 
     char buffer[STRING_LENGTH];
     int reading_type = 0;
@@ -110,6 +112,9 @@ bool TextLoader::Initialize(string language_file) {
                 val = font->LoadFile(word.text());
             else
                 val = font->LoadText(word.text());
+
+			if(val == NULL)
+				continue;
 
             string name = word.name();
 
@@ -139,8 +144,10 @@ void TextLoader::SetFont(std::string font) {
 bool TextLoader::Clear() {
     map<string, Image*>::iterator it;
     for(it = text_images_.begin(); it != text_images_.end(); ++it) {
-        it->second->Destroy();
-        delete it->second;
+		if(it->second != NULL) {
+			it->second->Destroy();
+			delete it->second;
+		}
     }
     text_images_.clear();
     return true;
@@ -149,7 +156,7 @@ bool TextLoader::Clear() {
 
 //===================================================================
 //  FONT
-static string font_def = "[]{}:";
+static string font_def = "[]{}:\0";
 void TextLoader::LoadFont(char* str) {
     char buffer[STRING_LENGTH];
     strcpy(buffer, str);
@@ -209,7 +216,7 @@ void TextLoader::Font::SetFont() {
 bool TextLoader::Font::IsFont(char *str) {
     if (str[0] != '[') return false;
     char *tmp = str;
-    for(int i = 1; font_def[i] != '\0'; ++i) {
+    for(int i = 1; i<5/*font_def[i] != '\0'*/; ++i) {
         tmp = strchr(tmp, font_def[i]);
         if(tmp == NULL) return false;
     }

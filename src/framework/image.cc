@@ -1,250 +1,341 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
 #include <cmath>
 #include <algorithm>
 #include <SDL/SDL_image.h>
+#include <SDL/SDL_opengl.h>
 #include "frame.h"
 #include "videomanager.h"
+#include "engine.h"
 #include "image.h"
 
 namespace framework {
 
-// Cria uma imagem com tamanho size.
-// Retorna true em caso de sucesso
-bool Image::Create(const Vector2D& size, uint32 flags) {
-    SDL_Surface *screen = SDL_GetVideoSurface();
-    int width = static_cast<int>(size.x);
-    int height = static_cast<int>(size.y);
-    int depth = VideoManager::COLOR_DEPTH;
-
-    if(screen == NULL)
-        return false;
-
-    data_ = SDL_CreateRGBSurface(flags, width, height, depth,
-                                 screen->format->Rmask, screen->format->Gmask,
-                                 screen->format->Bmask, screen->format->Amask);
-
-    set_frame_size(Vector2D(static_cast<float>(this->width()), 
-							static_cast<float>(this->height())));
-    return (data_ != NULL);
-}
-bool Image::Create(const Vector2D& size) {
-    return Create(size, SDL_HWSURFACE | SDL_SRCCOLORKEY);
+Image::Image() {
+    color_ = CreateColor(1.0f, 1.0f, 1.0f);
+    alpha_ = 1.0f;
+	texture_width_ = texture_height_ = 10;
+	texture_ = 0;
+    set_frame_size(Vector2D(width(), height()));
 }
 
-// Destroi a imagem
-// Retorna true em caso de sucesso
+// Destroys the image and it's texture if delete_texture is true.
+// Returns true on success
 bool Image::Destroy() {
-    if (data_ != NULL)
-        SDL_FreeSurface(data_);
-
+	if(texture_ != 0) {
+        glDeleteTextures(1, &texture_);
+		texture_ = 0;
+	}
     return true;
 }
 
-//Define a surface da imagem
-//Retorna true em caso de sucesso
-bool Image::setSurface(SDL_Surface* surface) {
-    if(surface != NULL){
-        data_ = surface;
-        set_frame_size(Vector2D(width(), height()));
+// Sets what color the image is tinted with during rendering.
+void Image::SetColor(Color color) {
+    color_ = color;
+}
+
+void Image::SetColor(uint32 val) {
+    color_.r = ((val & 0xFF0000) >> 16) / 255.0f;
+    color_.g = ((val & 0x00FF00) >>  8) / 255.0f;
+    color_.b = ((val & 0x0000FF)      ) / 255.0f;
+}
+
+// Sets the whole-image alpha value used during rendering.
+void Image::SetAlpha(float alpha) {
+	if(alpha > 1.0f) // Retro-compatibility
+		alpha /= 255.0f;
+    alpha_ = alpha;
+}
+
+bool Image::DrawTo(const Vector2D& position, int frame_number, 
+				   Mirror mirror, const Color& color, float alpha, const Vector2D& draw_size) {
+    Vector2D size = draw_size, target = position;
+
+    Vector2D screen = VIDEO_MANAGER()->video_size();
+    if(target.x > screen.x || target.y > screen.y || target.x + size.x < 0 || target.y + size.y < 0) {
         return true;
     }
-    else
-        return false;
-}
-        
-//Faz um blit de uma surface na surface da imagem
-//Retorna true em caso de sucesso
-bool Image::blitSurface(SDL_Surface* surface, SDL_Rect* srcrect, SDL_Rect* dstrect) {
-    if(surface != NULL && dstrect != NULL){
-        if(SDL_BlitSurface(surface, srcrect, data_, dstrect)==0){
-            return true;
-        }
-        else
-            return false;
+
+    if(mirror & MIRROR_HFLIP) {
+        target.x += frame_size().x;
+        size.x *= -1;
     }
-    else
-        return false;
-}
-
-// Carrega imagem de um arquivo
-// Retorna true em caso de sucesso
-bool Image::LoadFromFile(const string& file) {
-    SDL_Surface *loadedImage = NULL;
-    SDL_Surface *optimizedImage = NULL;
-
-    loadedImage = IMG_Load(file.c_str());
-    if (loadedImage != NULL) {
-        // faz a conversao da imagem
-        optimizedImage = SDL_DisplayFormatAlpha(loadedImage);
-        SDL_FreeSurface(loadedImage);
-
-        // carregou na memoria
-        data_ = optimizedImage;
-        set_frame_size(Vector2D(static_cast<float>(width()), 
-								static_cast<float>(height())));
-        return true;
+    if(mirror & MIRROR_VFLIP) {
+        target.y += frame_size().y;
+        size.y *= -1;
     }
-    else
-        return false;
-}
 
-// Limpa o surface da imagem usando determinada cor
-// Retorna 0 em caso de sucesso e -1 caso contrario.
-bool Image::Clear(Image::Color color) {
-    SDL_Rect rect = {0, 0, width(), height()};
-    return (SDL_FillRect(data_, &rect, color) == 0);
-}
+    int frame_width = static_cast<int>(frame_size().x);
+    int nx = std::max(width()/frame_width, 1);
+    float xpos = frame_size_.x * (frame_number % nx);
+    float ypos = frame_size_.y * (frame_number / nx);
 
-// Define uma transparencia para a imagem inteira.
-// Retorna 0 em caso de sucesso e -1 caso contrario.
-bool Image::SetAlpha(Uint8 alpha) {
-    return SDL_SetAlpha(data_, SDL_RLEACCEL | SDL_SRCALPHA, alpha);
-}
+    float xend = xpos + frame_size_.x;
+    float yend = ypos + frame_size_.y;
 
-//Define a cor de transparencia
-// Retorna 0 em caso de sucesso e -1 caso contrario.
-bool Image::setColorKey(SDL_Color color) { 
-    return SDL_SetColorKey(data_, SDL_SRCCOLORKEY, SDL_MapRGB(data_->format, color.r, color.g, color.b));
-}
-    
+    glTranslatef( target.x, target.y, 0 );
+    GLuint texture = static_cast<GLuint>(texture_);
+    if(texture != 0) {
+        glEnable(GL_TEXTURE_2D);
+        glBindTexture(GL_TEXTURE_2D, texture);
+    } else
+        glDisable(GL_TEXTURE_2D);
 
-// copia esta imagem numa outra
-// Retorna true em caso de sucesso
-bool Image::DrawTo(Image* dest, const Vector2D& position, int frame_number,
-                   Mirror mirror) {
-    // obtendo coordenadas do frame_number
-    int frame_width = static_cast<int>(frame_size_.x);
-    int frame_height = static_cast<int>(frame_size_.y);
-    int nx = width()/frame_width;
-    int xpos = frame_width * (frame_number % nx);
-    int ypos = frame_height * (frame_number / nx);
+    glEnable(GL_BLEND);
+#ifndef WIN32
+    // Windows implementation for OpenGL doesn't include this function.
+    glBlendEquation(GL_FUNC_ADD);
+#endif
+    switch(VIDEO_MANAGER()->light_draw_mode()) {
+    case LIGHT_SOURCE:
+        glBlendFunc(GL_ONE, GL_ONE);
+        break;
+    case LIGHT_ILLUMINATED:
+        glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        break;
+    default: // case LIGHT_IGNORE:
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        break;
+    }
+	glColor4f(color.r * color_.r, color.g * color_.g, color.b * color_.b, alpha_ * alpha);
+    glBegin( GL_QUADS ); //Start quad
+        //Draw square
+        glTexCoord2f(xpos,   ypos);
+        glVertex2f(  0,      0 );
 
-    // calculando rects...
-    SDL_Rect source_rect = {xpos, ypos, frame_width, frame_height};
-    SDL_Rect dest_rect = {static_cast<Sint16>(position.x + 0.5),
-                          static_cast<Sint16>(position.y + 0.5),
-                          frame_width, frame_height};
+        glTexCoord2f(xend,   ypos);
+        glVertex2f(  size.x, 0 );
 
-    // desenhando...
-    SDL_BlitSurface(data_, &source_rect, dest->data_, &dest_rect);
+        glTexCoord2f(xend,   yend);
+        glVertex2f(  size.x, size.y );
 
-    // sucesso!
+        glTexCoord2f(xpos,   yend);
+        glVertex2f(  0,      size.y );
+    glEnd(); //End quad
+    //Reset
+    glDisable(GL_BLEND);
+    glLoadIdentity();
+
     return true;
+
+    //return DrawTo(target, flip, frame_number, color, alpha_);
+}
+
+void Image::set_frame_size(const Vector2D& size) {
+    render_size_ = size;
+    frame_size_.x = size.x / texture_width_;
+    frame_size_.y = size.y / texture_height_;
 }
 
 // devolve o numero de frames que esta imagem armazena
 int Image::FrameCount() const {
-    int size_x = static_cast<int> (frame_size_.x);
-    int size_y = static_cast<int> (frame_size_.y);
-    return std::max((width()/size_x) * (height()/size_y), 1);
+    Vector2D size = frame_size();
+    return static_cast<int>(std::max(1.0f / (size.x * size.y), 1.0f));
 }
 
-void Image::Optimize() {
-    SDL_Surface *optimizedImage = SDL_DisplayFormatAlpha(data_);
-    SDL_FreeSurface(data_);
-    data_ = optimizedImage;
-}
+// Returns a new SDL_Surface with width size.x and height size.y,
+// flag SDL_SRCCOLORKEY and depth VideoManager::COLOR_DEPTH.
+SDL_Surface* Image::CreateSurface(const Vector2D& size) {
+    SDL_Surface *screen = SDL_GetVideoSurface();
+    if(screen == NULL)
+        return NULL;
 
-void Image::MergeTransparency(Image* target, Vector2D& offset) {
-    int offset_x = static_cast<int>(offset.x),
-        offset_y = static_cast<int>(offset.y);
-
-    int start_x = std::max(0, offset_x);
-    int max_x = std::min(offset_x + target->width(), width());
-    int max_y = std::min(offset_y + target->height(), height());
-
-    SDL_LockSurface(data_);
-    SDL_LockSurface(target->data_);
-
-    // Avoids converting the arrays every iteration of the nested for-loop,
-    // increasing the speed a bit.
-    Uint32 *source_pixels = static_cast<Uint32*>(data_->pixels),
-           *target_pixels = static_cast<Uint32*>(target->data_->pixels);
-
-    for (int source_y = std::max(0, offset_y); source_y < max_y; ++source_y) {
-
-        // Avoids recalculating these indexes during the second for-loop, speeding
-        // the process a bit more.
-        int source_index = source_y * data_->w + start_x;
-        int target_index = (source_y - offset_y) * target->data_->w + (start_x - offset_x);
-
-        for (int source_x = start_x; source_x < max_x; ++source_x, ++source_index, ++target_index) {
-			Uint32 this_pixel = source_pixels[source_index];
-            this_pixel = this_pixel & (data_->format->Amask);
-            this_pixel = this_pixel >> data_->format->Ashift;
-            this_pixel = this_pixel << data_->format->Aloss;
-            Uint8 alpha = static_cast<Uint8>(this_pixel);
-
-            Uint32 that_pixel = target_pixels[target_index];
-            that_pixel = that_pixel & (target->data_->format->Amask);
-            that_pixel = that_pixel >> target->data_->format->Ashift;
-            that_pixel = that_pixel << target->data_->format->Aloss;
-            Uint8 thatAlpha = static_cast<Uint8>(that_pixel);
-
-            // On SDL, alpha is stored such as that SDL_ALPHA_OPAQUE is the max value (255).
-            // In order to create the effect of multiple lights, we must first invert the values
-            // (so 255 means fully tranparent), add then and then convert it back to what SDL uses.
-            Uint16 invert = SDL_ALPHA_OPAQUE + SDL_ALPHA_OPAQUE;
-            invert -= (alpha + thatAlpha);
-			if(invert > SDL_ALPHA_OPAQUE)
-				invert = 0;
-			else
-				invert = SDL_ALPHA_OPAQUE - invert;
-
-			source_pixels[source_index] = static_cast<Uint8>(invert) << data_->format->Ashift;
-        }
-    }
-
-    SDL_UnlockSurface(target->data_);
-    SDL_UnlockSurface(data_);
-}
-
-// cria uma superficie de video.
-// Voce nao deve libera-la porque a SDL ja faz isso
-// Devolve true em caso de sucesso
-bool Image::CreateVideoSurface(const Vector2D& size, bool fullscreen) {
     int width = static_cast<int>(size.x);
     int height = static_cast<int>(size.y);
-    Uint32 flags = SDL_HWSURFACE;
+    int depth = VideoManager::COLOR_DEPTH;
+    Uint32 flags = 0;
 
-    if(fullscreen)
-        flags |= SDL_FULLSCREEN;
-
-    if(SDL_VideoModeOK(width, height, VideoManager::COLOR_DEPTH, flags) == 0)
-        return false;
-    data_ = SDL_SetVideoMode(width, height, VideoManager::COLOR_DEPTH, flags);
-
-    return (data_ != NULL);
+    SDL_Surface * data = SDL_CreateRGBSurface(flags, width, height, depth,
+                                 screen->format->Rmask, screen->format->Gmask,
+                                 screen->format->Bmask, screen->format->Amask);
+    return data;
 }
 
-bool Image::CreateFogTransparency(const Vector2D& ellipse_coef) {
-    int width = static_cast<int>(2.0f * ellipse_coef.x);
-    int height = static_cast<int>(2.0f * ellipse_coef.y);
-    if(!Create(ellipse_coef * 2.0f))
+// Returns a Color with values red, green and blue.
+Color Image::CreateColor(float red, float green, float blue) {
+    Color color;
+    color.r = red;
+    color.g = green;
+    color.b = blue;
+    return color;
+}
+
+
+
+
+
+// Loads the texture from the given surface. Surface is used only as a
+// reference and necessary data is copied.
+// Returns true on success, false otherwise.
+bool Image::LoadFromSurface(SDL_Surface* data, bool linear) {
+    fprintf(stderr, "LoadSurface - ");
+    if(data == NULL) {
+        fprintf(stderr, "No Data\n");
+        return false;
+    }
+    if(texture_ != 0) {
+    	fprintf(stderr, "(Del Tex %d) ", texture_);
+        glDeleteTextures(1, &texture_);
+    }
+
+    Uint8 *raw = static_cast<Uint8*>( malloc( data->w * data->h * 4 ) );
+    Uint8 *dstPixel = raw;
+
+    SDL_LockSurface( data );
+    int bpp = data->format->BytesPerPixel;
+    Uint8 *srcPixel;
+    Uint32 truePixel;
+
+    for ( int i = 0; i < data->h ; i++ ) {
+        for ( int j = 0 ; j < data->w ; j++ ) {
+            srcPixel = (Uint8 *)data->pixels + i * data->pitch + j * bpp;
+            switch (bpp) {
+            case 1:
+                truePixel = *srcPixel;
+                break;
+
+            case 2:
+                truePixel = *srcPixel;
+                break;
+
+            case 3:
+                if(SDL_BYTEORDER == SDL_BIG_ENDIAN) {
+                    truePixel = srcPixel[0] << 16 | srcPixel[1] << 8 | srcPixel[2];
+                } else {
+                    truePixel = srcPixel[0] | srcPixel[1] << 8 | srcPixel[2] << 16;
+                }
+                break;
+
+            case 4:
+                truePixel = srcPixel[0] | srcPixel[1] << 8 | srcPixel[2] << 16 | srcPixel[3] << 24;
+                break;
+
+            default:
+            	fprintf(stderr, "Image BPP of %d unsupported\n", bpp);
+                free(raw);
+                return false;
+                break;
+            }
+            // Changing pixel order from RGBA to BGRA.
+            SDL_GetRGBA( truePixel, data->format, &(dstPixel[2]), &(dstPixel[1]), &(dstPixel[0]), &(dstPixel[3]));
+            dstPixel++;
+            dstPixel++;
+            dstPixel++;
+            dstPixel++;
+        }
+    }
+    SDL_UnlockSurface( data );
+    texture_width_ = data->w;
+    texture_height_ = data->h;
+
+    while ( glGetError() ) { ; }
+
+    GLuint texture;
+    glGenTextures( 1, &texture );
+    glBindTexture( GL_TEXTURE_2D, texture );
+    texture_ = static_cast<uint32>(texture);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    if(linear) {
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    } else {
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST );
+        glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST );
+    }
+
+    GLenum errorCode = glGetError();
+    if ( errorCode != 0 ) {
+        if ( errorCode == GL_OUT_OF_MEMORY )
+            fprintf(stderr, "Out of texture memory!\n");
+        else
+        	fprintf(stderr, "Unknown error!\n");
+        free(raw);
+        return false;
+    }
+    // Many VGA works faster if you use BGR instead of RGB
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA8, texture_width_, texture_height_, 0, GL_BGRA, GL_UNSIGNED_BYTE, raw);
+    free(raw);
+
+    errorCode = glGetError();
+    if ( errorCode != 0 ) {
+        if ( errorCode == GL_OUT_OF_MEMORY )
+            fprintf(stderr, "Out of texture memory!\n");
+        else
+        	fprintf(stderr, "Unknown error!\n");
+        return false;
+    }
+
+    frame_size_ = Vector2D(1.0f, 1.0f);
+	render_size_ = Vector2D(texture_width_, texture_height_);
+
+	fprintf(stderr, "Success (ID %d)\n", texture_);
+
+    return true;
+}
+
+bool Image::LoadFromFile(std::string filepath) {
+    SDL_Surface* data = IMG_Load(filepath.c_str());
+    fprintf(stderr, "New Surface from \"%s\", ", filepath.c_str());
+    bool result;
+    if(data == NULL) {
+        fprintf(stderr, "File not found\n");
+        result = false;
+    } else {
+        result = LoadFromSurface(data);
+        SDL_FreeSurface(data);
+    }
+    return result;
+}
+
+bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& ellipse_coef) {
+    int width = static_cast<int>(size.x);
+    int height = static_cast<int>(size.y);
+    SDL_Surface *screen = SDL_GetVideoSurface();
+
+    SDL_Surface *temp = SDL_CreateRGBSurface(SDL_HWSURFACE, width, height, screen->format->BitsPerPixel,
+                                 screen->format->Rmask, screen->format->Gmask,
+                                 screen->format->Bmask, screen->format->Amask);
+    if(temp == NULL)
+        return false;
+    SDL_Surface *data = SDL_DisplayFormatAlpha(temp);
+    SDL_FreeSurface(temp);
+    if(data == NULL)
         return false;
 
-    Optimize();
+    Vector2D origin = size * 0.5f;
 
-    Vector2D origin = ellipse_coef;
-
-    // Trava para poder manipular pixels
-    SDL_LockSurface(data_);
-    Uint32 *pixels = static_cast<Uint32*>(data_->pixels);
+    // Locks the surface so we can manage the pixel data.
+    SDL_LockSurface(data);
+    Uint32 *pixels = static_cast<Uint32*>(data->pixels);
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; ++j) {
-            Uint8 alpha = SDL_ALPHA_OPAQUE;
+            Uint8 alpha = 0;
 
-            // Formula para detectar se o ponto ta na elipse e outras coisas. Melhorias por favor!
+            // Formulae to detect if the point is inside the ellipse.
             Vector2D dist = Vector2D(j + 0.0f, i + 0.0f) - origin;
             dist.x /= ellipse_coef.x;
             dist.y /= ellipse_coef.y;
             float distance = Vector2D::InnerProduct(dist, dist);
             if(distance <= 1)
-                alpha -= static_cast<Uint8>(SDL_ALPHA_OPAQUE * exp(-distance * 5.5412635451584261462455391880218));
-            pixels[i * width + j] = alpha << data_->format->Ashift;
+                alpha = static_cast<Uint8>(SDL_ALPHA_OPAQUE * exp(-distance * 5.5412635451584261462455391880218));
+            pixels[i * width + j] = SDL_MapRGBA(data->format, 0, 0, 0, alpha);
         }
     }
-    SDL_UnlockSurface(data_);
-    return true;
+    SDL_UnlockSurface(data);
+    bool ret = LoadFromSurface(data, true);
+    SDL_FreeSurface(data);
+    return ret;
+}
+
+
+
+Vector2D Image::frame_size() const {
+    Vector2D size;
+    size.x = frame_size_.x * texture_width_;
+    size.y = frame_size_.y * texture_height_;
+    return size;
 }
 
 }  // namespace framework
