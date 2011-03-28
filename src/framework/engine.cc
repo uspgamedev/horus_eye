@@ -111,11 +111,13 @@ void Engine::Run() {
 
         if (!quit_) {
             CurrentScene()->Update(delta_t);
-            CurrentScene()->RenderLight();
-            for (int i = 0; i < static_cast<int>(scene_list_.size()); i++) {
+            //CurrentScene()->RenderLight();
+            for (int i = 0; i < static_cast<int>(scene_list_.size()); i++)
+                if (!scene_list_[i]->finished())
+                    scene_list_[i]->RenderLight();
+            for (int i = 0; i < static_cast<int>(scene_list_.size()); i++)
                 if (!scene_list_[i]->finished())
                     scene_list_[i]->Render();
-            }
 
             // gerenciamento de video
             video_manager_->Render();
