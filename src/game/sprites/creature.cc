@@ -6,7 +6,6 @@
 #include "door.h"
 #include "wall.h"
 #include "../utils/circleobject.h"
-#include "../utils/fog.h"
 #include "../scenes/world.h"
 
 #include <cmath>

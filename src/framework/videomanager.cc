@@ -1,7 +1,6 @@
 #include <SDL/SDL_opengl.h>
 #include "videomanager.h"
 #include "pathmanager.h"
-#include "fogmanager.h"
 #include "engine.h"
 #include "image.h"
 

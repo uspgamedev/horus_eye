@@ -213,7 +213,7 @@ bool Hero::ShootingWithSecondaryWeapon() {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    if (/*!waiting_animation_ && */ status_ == WorldObject::STATUS_ACTIVE) {
+    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         if (ShootingWithWeapon()) {
             weapon_->Attack();
         } else if (ShootingWithSecondaryWeapon()) {

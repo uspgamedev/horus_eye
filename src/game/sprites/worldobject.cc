@@ -1,7 +1,6 @@
 #include "worldobject.h"
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
-#include "../utils/fog.h"
 #include "../utils/tile.h"
 #include "../../framework/light.h"
 

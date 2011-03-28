@@ -7,7 +7,7 @@
 
 namespace framework {
 
-Sprite::Sprite() : alpha_(1.0f), delete_image_(false), light_(NULL) {
+Sprite::Sprite() : light_(NULL), alpha_(1.0f), delete_image_(false) {
 	color_ = Image::CreateColor(1.0f, 1.0f, 1.0f);
 }
 
