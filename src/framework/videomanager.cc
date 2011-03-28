@@ -110,6 +110,21 @@ Image* VideoManager::LoadImageFile(const string& filepath) {
     return image_memory_[filepath];
 }
 
+void VideoManager::set_light_draw_mode(LightType mode) {
+    light_draw_mode_ = mode;
+    switch(light_draw_mode_) {
+    case LIGHT_SOURCE:
+        glBlendFunc(GL_ONE, GL_ONE);
+        break;
+    case LIGHT_ILLUMINATED:
+        glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        break;
+    default: // case LIGHT_IGNORE:
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        break;
+    }
+}
+
 void VideoManager::InitializeLight() {
 	light_size_ = Vector2D(40.0f, 40.0f);
 	if(light_image_ != NULL) {

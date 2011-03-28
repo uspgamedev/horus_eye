@@ -44,7 +44,7 @@ class VideoManager {
 	Frame virtual_bounds() const { return virtual_bounds_; }
 
 	void TranslateTo (Vector2D& offset);
-	void set_light_draw_mode(LightType mode) { light_draw_mode_ = mode; }
+	void set_light_draw_mode(LightType mode);
 
   private:
     Image *blank_image_, *light_image_;

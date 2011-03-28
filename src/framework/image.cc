@@ -85,21 +85,7 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
         glDisable(GL_TEXTURE_2D);
 
     glEnable(GL_BLEND);
-#ifndef WIN32
-    // Windows implementation for OpenGL doesn't include this function.
-    glBlendEquation(GL_FUNC_ADD);
-#endif
-    switch(VIDEO_MANAGER()->light_draw_mode()) {
-    case LIGHT_SOURCE:
-        glBlendFunc(GL_ONE, GL_ONE);
-        break;
-    case LIGHT_ILLUMINATED:
-        glBlendFunc(GL_DST_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        break;
-    default: // case LIGHT_IGNORE:
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        break;
-    }
+
 	glColor4f(color.r * color_.r, color.g * color_.g, color.b * color_.b, alpha_ * alpha);
 
 	glPushMatrix();
