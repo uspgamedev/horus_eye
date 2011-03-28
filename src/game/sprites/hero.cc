@@ -84,7 +84,7 @@ Hero::Hero(Image* img) {
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
     sight_count_ = 0;
-    light_radius_ = Constants::LIGHT_RADIUS_INITIAL;
+    set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     bound_ = new CircleObject(0.3f);
     blink_time_ = 0;
     blink_ = false;
@@ -213,7 +213,7 @@ bool Hero::ShootingWithSecondaryWeapon() {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+    if (/*!waiting_animation_ && */ status_ == WorldObject::STATUS_ACTIVE) {
         if (ShootingWithWeapon()) {
             weapon_->Attack();
         } else if (ShootingWithSecondaryWeapon()) {

@@ -74,7 +74,6 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
     float xend = xpos + frame_size_.x;
     float yend = ypos + frame_size_.y;
 
-    glTranslatef( target.x, target.y, 0 );
     GLuint texture = static_cast<GLuint>(texture_);
     if(texture != 0) {
         glEnable(GL_TEXTURE_2D);
@@ -99,6 +98,9 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
         break;
     }
 	glColor4f(color.r * color_.r, color.g * color_.g, color.b * color_.b, alpha_ * alpha);
+
+	glPushMatrix();
+	glTranslatef( target.x, target.y, 0 );
     glBegin( GL_QUADS ); //Start quad
         //Draw square
         glTexCoord2f(xpos,   ypos);
@@ -115,7 +117,7 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
     glEnd(); //End quad
     //Reset
     glDisable(GL_BLEND);
-    glLoadIdentity();
+    glPopMatrix();
 
     return true;
 

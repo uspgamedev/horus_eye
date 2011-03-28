@@ -24,7 +24,7 @@ MagicMissile::MagicMissile(Vector2D & dir) :
     Initialize( image_factory->MagicMissileImage() );
     set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
     bound_ = new CircleObject(0.15f);
-    light_radius_ = 1.0f;
+    set_light_radius(1.0f);
 }
 
 MagicMissile::~MagicMissile() {}

@@ -66,7 +66,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib SDL_mixer.lib SDL_ttf.lib"
+				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib SDL_mixer.lib SDL_ttf.lib OpenGL32.lib GLU32.lib"
 				LinkIncremental="2"
 				GenerateManifest="true"
 				GenerateDebugInformation="true"
@@ -361,19 +361,11 @@
 			>
 		</File>
 		<File
-			RelativePath=".\src\game\utils\fog.cc"
+			RelativePath=".\src\editor\layers\fpsmeter.cc"
 			>
 		</File>
 		<File
-			RelativePath=".\src\game\utils\fog.h"
-			>
-		</File>
-		<File
-			RelativePath=".\src\framework\fogmanager.cc"
-			>
-		</File>
-		<File
-			RelativePath=".\src\framework\fogmanager.h"
+			RelativePath=".\src\editor\layers\fpsmeter.h"
 			>
 		</File>
 		<File
@@ -434,6 +426,14 @@
 		</File>
 		<File
 			RelativePath=".\src\game\utils\hud.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\game\utils\hudimagefactory.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\game\utils\hudimagefactory.h"
 			>
 		</File>
 		<File
@@ -517,6 +517,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\framework\light.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\light.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\game\scenes\loading.cc"
 			>
 		</File>
@@ -534,6 +542,38 @@
 		</File>
 		<File
 			RelativePath=".\src\game\main.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\mapeditor.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\mapeditor.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\mapobject.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\mapobject.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\layers\mapspriteslayer.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\layers\mapspriteslayer.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\layers\maptileslayer.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\layers\maptileslayer.h"
 			>
 		</File>
 		<File

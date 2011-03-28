@@ -1,11 +1,13 @@
+#include <SDL/SDL_opengl.h>
 #include "sprite.h"
+#include "light.h"
 #include "engine.h"
 #include "videomanager.h"
 #include "animation.h"
 
 namespace framework {
 
-Sprite::Sprite() : alpha_(1.0f), delete_image_(false) {
+Sprite::Sprite() : alpha_(1.0f), delete_image_(false), light_(NULL) {
 	color_ = Image::CreateColor(1.0f, 1.0f, 1.0f);
 }
 
@@ -34,6 +36,16 @@ void Sprite::Render(Image *back_buffer, Vector2D &offset) {
     if (visible_) {
         int frame_number = animation_->get_current_frame();
         image_->DrawTo(position_ - hotspot_ - offset, frame_number, mirror_, color_, alpha_, size_);
+    }
+}
+
+void Sprite::RenderLight(Vector2D &offset) {
+    if (visible_ && light_) {
+		//glPushMatrix();
+		Vector2D pos = position_ - offset;
+		//glTranslatef(pos.x, pos.y, 0);
+        light_->Render(pos);
+		//glPopMatrix();
     }
 }
 

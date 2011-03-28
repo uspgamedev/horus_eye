@@ -33,14 +33,14 @@ SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
 ./sprites/weapons/pharaohsummonweapon.cc ./sprites/weapons/pharaohsummonweapon.h
 ./sprites/weapons/mummyrangedweapon.cc ./sprites/weapons/pharaohrangedweapon.h
 ./sprites/creature.cc ./sprites/mummyprojectile.h ./sprites/itembuilder.h
-./sprites/mummy.cc ./utils/fog.h ./utils/levelloader.cc ./utils/levelmanager.cc
+./sprites/mummy.cc ./utils/levelloader.cc ./utils/levelmanager.cc
 ./utils/rectobject.cc ./utils/hud.cc ./utils/settings.cc
 ./utils/hudimagefactory.cc ./utils/circleobject.h ./utils/geometryprimitives.h
 ./utils/textloader.cc ./utils/levelloader.h ./utils/collisionobject.h
 ./utils/settings.h ./utils/rectobject.h ./utils/tile.cc ./utils/tile.h
 ./utils/imagefactory.cc ./utils/visionstrategy.h ./utils/textloader.h
 ./utils/constants.cc ./utils/circleobject.cc ./utils/constants.h
-./utils/levelmanager.h ./utils/visionstrategy.cc ./utils/fog.cc
+./utils/levelmanager.h ./utils/visionstrategy.cc 
 ./utils/imagefactory.h ./utils/hudimagefactory.h ./utils/hud.h
 ./utils/geometryprimitives.cc ../framework/layer.cc ../framework/layer.h
 ../framework/textmanager.cc ../framework/timeaccumulator.cc ../framework/keys.h
@@ -50,9 +50,9 @@ SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
 ../framework/inputmanager.cc ../framework/scene.h ../framework/types.h
 ../framework/engine.cc ../framework/audiomanager.h ../framework/music.cc
 ../framework/animation.h ../framework/videomanager.cc ../framework/sample.cc
-../framework/fogmanager.h ../framework/music.h ../framework/animation.cc
+../framework/light.h ../framework/music.h ../framework/animation.cc
 ../framework/observer.h ../framework/frame.h ../framework/sprite.h
-../framework/scene.cc ../framework/fogmanager.cc ../framework/inputmanager.h
+../framework/scene.cc ../framework/light.cc ../framework/inputmanager.h
 ../framework/engine.h ../framework/sample.h ../framework/image.h
 ../framework/audiomanager.cc ../framework/timeaccumulator.h
 ../framework/pathmanager.cc ../framework/pathmanager.h ../editor/mapeditor.cc

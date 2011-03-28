@@ -64,6 +64,8 @@ class WorldObject : public framework::Sprite {
     utils::CollisionObject *bound_;
     Status status_;
     CollisionType collision_type_;
+
+  private:
     float light_radius_;
 
 

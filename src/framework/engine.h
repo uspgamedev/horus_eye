@@ -15,7 +15,6 @@ class InputManager;
 class TimeHandler;
 class AudioManager;
 class TextManager;
-class FogManager;
 class PathManager;
 class Scene;
 
@@ -31,7 +30,6 @@ class Engine {
     TimeHandler *time_handler() { return time_handler_; }
     AudioManager *audio_manager() { return audio_manager_; }
     TextManager *text_manager() { return text_manager_; }
-    FogManager *fog_manager() { return fog_manager_; }
 	PathManager *path_manager() { return path_manager_; }
     Vector2D window_size();
 
@@ -64,7 +62,6 @@ class Engine {
     TimeHandler *time_handler_;
     AudioManager *audio_manager_;
     TextManager *text_manager_;
-    FogManager *fog_manager_;
 	PathManager *path_manager_;
     //Vector2D window_size_;
     bool quit_;
@@ -72,7 +69,7 @@ class Engine {
     uint32 reported_fps_, frames_since_reset_, last_fps_report_;
 
 	Engine() : video_manager_(NULL), input_manager_(NULL), time_handler_(NULL), 
-		audio_manager_(NULL), text_manager_(NULL), fog_manager_(NULL), path_manager_(NULL) {}
+		audio_manager_(NULL), text_manager_(NULL), path_manager_(NULL) {}
 };
 
 }  // namespace framework

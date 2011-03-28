@@ -10,7 +10,6 @@
 
 namespace utils {
 class Hud;
-class Fog;
 class ImageFactory;
 }
 namespace sprite {
@@ -62,13 +61,12 @@ class World : public framework::Scene {
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
     static Vector2D FromScreenCoordinates(Vector2D screen_coords);
 
-	static framework::Sprite* CreateFogTransparency(float radius);
+	static const Vector2D ConvertLightRadius(float radius);
 
     vector<sprite::Mummy *> Mummies();
     
     //getters
     sprite::Hero * hero() { return hero_; }
-    utils::Fog* fog() {	return fog_; }
     int level_width() {	return level_width_; }
     int level_height() { return level_height_; }
     utils::GameMap& level_matrix() {	return level_matrix_; }
@@ -86,7 +84,6 @@ class World : public framework::Scene {
     framework::Layer *world_layer_;
     framework::Sprite *hero_fog_;
     utils::Hud *hud_;
-    utils::Fog *fog_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;

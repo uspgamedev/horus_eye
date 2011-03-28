@@ -4,12 +4,13 @@
 #include <algorithm>
 #include "image.h"
 #include "vector2D.h"
-#include "types.h" 
+#include "types.h"
 
 
 namespace framework {
 
 class Animation;
+class Light;
 class Sprite {
   public:
     Sprite();
@@ -39,6 +40,8 @@ class Sprite {
 	float alpha() { return alpha_; }
 	void set_alpha(float alpha) { alpha_ = alpha; }
 	void set_size(const Vector2D& size) { size_ = size; }
+	Light* light() { return light_; }
+	void set_light(Light* light) { light_ = light; }
 
 
     // ======================================================================
@@ -63,6 +66,7 @@ class Sprite {
     Animation* animation() { return animation_; }
 
     virtual void Render(Image *back_buffer, Vector2D &offset);
+	void RenderLight(Vector2D &offset);
 
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
@@ -72,6 +76,7 @@ class Sprite {
     void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
     bool withinScreen(Vector2D &offset);
 
+	Light *light_;
     float zindex_;
 
   private:

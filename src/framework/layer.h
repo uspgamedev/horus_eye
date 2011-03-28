@@ -36,6 +36,7 @@ class Layer {
 
     // Desenha a camada.
     virtual void Render();
+	virtual void RenderLight();
 
   protected:
     // Estrutura basica para armazenar os Sprites. Nao definitivo.

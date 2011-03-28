@@ -3,6 +3,7 @@
 #include "../utils/circleobject.h"
 #include "../utils/fog.h"
 #include "../utils/tile.h"
+#include "../../framework/light.h"
 
 namespace sprite {
 
@@ -28,7 +29,19 @@ void WorldObject::Update(float dt) {
 
 void WorldObject::set_light_radius(float radius) {
     light_radius_ = radius;
-    WORLD()->fog()->UpdateLightSource(this);
+	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
+		if(!light_) {
+			light_ = new Light;
+		}
+		Vector2D dimension = World::ConvertLightRadius(light_radius_);
+		light_->set_dimension(dimension);
+
+	} else {
+		if(light_) {
+			delete light_;
+			light_ = NULL;
+		}
+	}
 }
 
 bool WorldObject::IsColliding(WorldObject* obj) const {

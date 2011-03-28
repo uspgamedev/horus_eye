@@ -60,8 +60,7 @@ bool VideoManager::ChangeResolution(const Vector2D& size, bool fullscreen) {
     fullscreen_ = fullscreen;
 
     // Changing to and from fullscreen destroys all textures, so we must recreate them.
-    if(Engine::reference()->fog_manager() != NULL)
-        Engine::reference()->fog_manager()->InitializeTexture();
+	InitializeLight();
     return true;
 }
 
@@ -101,6 +100,15 @@ Image* VideoManager::LoadImageFile(const string& filepath) {
         image_memory_[filepath] = img;
     }
     return image_memory_[filepath];
+}
+
+void VideoManager::InitializeLight() {
+	light_size_ = Vector2D(40.0f, 40.0f);
+	if(light_image_ != NULL) {
+		delete light_image_;
+	}
+    light_image_ = new Image;
+    light_image_->CreateFogTransparency(light_size_ * 4.0f, light_size_);
 }
 
 }  // namespace framework

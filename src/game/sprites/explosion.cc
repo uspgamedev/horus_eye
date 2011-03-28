@@ -22,7 +22,7 @@ Explosion::Explosion(Image *image, Animation *animation, float radius, float dam
 	set_hotspot(Vector2D(CENTER_X, CENTER_Y));
 	damage_ = damage;
 	bound_ = new CircleObject(radius / 2);
-    light_radius_ = 1.3*radius;
+	set_light_radius(1.3*radius);
 	collision_type_ = MOVEABLE;
     animation->AddObserver(this);
     SelectAnimation(animation);
