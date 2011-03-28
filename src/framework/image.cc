@@ -52,8 +52,11 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
 				   Mirror mirror, const Color& color, float alpha, const Vector2D& draw_size) {
     Vector2D size = draw_size, target = position;
 
-    Vector2D screen = VIDEO_MANAGER()->video_size();
-    if(target.x > screen.x || target.y > screen.y || target.x + size.x < 0 || target.y + size.y < 0) {
+    //Vector2D screen = VIDEO_MANAGER()->video_size();
+    Frame bounds = VIDEO_MANAGER()->virtual_bounds();
+    //if(target.x > screen.x || target.y > screen.y || target.x + size.x < 0 || target.y + size.y < 0) {
+    if (target.x > bounds.right() || target.y > bounds.bottom() ||
+        target.x + size.x < bounds.left() || target.y + size.y < bounds.top() ) {
         return true;
     }
 

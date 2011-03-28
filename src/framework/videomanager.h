@@ -5,6 +5,7 @@
 #include <map>
 #include "types.h"
 #include "vector2D.h"
+#include "frame.h"
 using std::string;
 using std::map;
 
@@ -40,12 +41,15 @@ class VideoManager {
     Image* blank_image() const { return blank_image_; }
 	Image* light_image() const { return light_image_; }
 	Vector2D light_size() const { return light_size_; }
+	Frame virtual_bounds() const { return virtual_bounds_; }
 
+	void TranslateTo (Vector2D& offset);
 	void set_light_draw_mode(LightType mode) { light_draw_mode_ = mode; }
 
   private:
     Image *blank_image_, *light_image_;
     Vector2D video_size_, light_size_;
+    Frame virtual_bounds_;
     bool fullscreen_;
     string title_;
     map<string, Image*> image_memory_;

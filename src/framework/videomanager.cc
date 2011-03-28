@@ -57,6 +57,7 @@ bool VideoManager::ChangeResolution(const Vector2D& size, bool fullscreen) {
 
     video_size_ = size;
     fullscreen_ = fullscreen;
+    virtual_bounds_ = Frame(0, 0, video_size_.x, video_size_.y);
 
     // Changing to and from fullscreen destroys all textures, so we must recreate them.
 	InitializeLight();
@@ -74,6 +75,14 @@ bool VideoManager::Release() {
     }
     image_memory_.clear();
     return true;
+}
+
+void VideoManager::TranslateTo(Vector2D& offset) {
+    glLoadIdentity();
+    glTranslatef(offset.x, offset.y, 0);
+    this->virtual_bounds_ = Frame(-offset.x, -offset.y,
+                                  -offset.x+video_size_.x,
+                                  -offset.y+video_size_.y);
 }
 
 // Desenha backbuffer na tela

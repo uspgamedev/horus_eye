@@ -32,11 +32,15 @@ void Layer::Render() {
     if(visible_) {
         std::vector<Sprite*>::iterator it = sprite_list_.begin();
         VIDEO_MANAGER()->set_light_draw_mode(light_type_);
+        //glPushMatrix();
 		//glTranslatef( -offset_.x, -offset_.y, 0 );
+        Vector2D pos = Vector2D()-offset_;
+        VIDEO_MANAGER()->TranslateTo(pos);
         while (it != sprite_list_.end()) {
             (*it)->Render(NULL, offset_);
             ++it;
         }
+        //glPopMatrix();
 		//glLoadIdentity();
     }
 }

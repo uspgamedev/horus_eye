@@ -35,7 +35,8 @@ void Sprite::SelectAnimation(Animation *animation) {
 void Sprite::Render(Image *back_buffer, Vector2D &offset) {
     if (visible_) {
         int frame_number = animation_->get_current_frame();
-        image_->DrawTo(position_ - hotspot_ - offset, frame_number, mirror_, color_, alpha_, size_);
+        //image_->DrawTo(position_ - hotspot_ - offset, frame_number, mirror_, color_, alpha_, size_);
+        image_->DrawTo(position_ - hotspot_, frame_number, mirror_, color_, alpha_, size_);
     }
 }
 
