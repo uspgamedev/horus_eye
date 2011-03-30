@@ -6,6 +6,7 @@
 #include <SDL/SDL.h>
 #include "vector2D.h"
 #include "types.h"
+#include "drawable.h"
 #include "videomanager.h"
 
 using std::string;
@@ -15,7 +16,7 @@ namespace framework {
 //class Texture;
 
 // Representa uma imagem na memoria
-class Image {
+class Image : public Drawable {
   friend class VideoManager;
   public:
     typedef Uint8 Mirror;

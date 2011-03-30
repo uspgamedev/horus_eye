@@ -183,7 +183,7 @@ void Hud::Update(float delta_t) {
         if (world->hero()->life() > 0) {
             life_bar_->set_visible(true);
             float new_height = ((float)world->hero()->life() * LIFE_BAR_HEIGHT) / ((float)world->hero()->max_life());
-            if(life_bar_->image()) life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
+            //if(life_bar_->image()) life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
             life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, new_height));
         } else {
             life_bar_->set_visible(false);
@@ -191,7 +191,7 @@ void Hud::Update(float delta_t) {
         if (world->hero()->mana() > 0) {
             mana_bar_->set_visible(true);
             float new_height = ((float)world->hero()->mana() * MANA_BAR_HEIGHT) / ((float)world->hero()->max_mana());
-            if(mana_bar_->image()) mana_bar_->image()->set_frame_size(Vector2D(MANA_BAR_WIDTH, new_height));
+            //if(mana_bar_->image()) mana_bar_->image()->set_frame_size(Vector2D(MANA_BAR_WIDTH, new_height));
             mana_bar_->set_hotspot(Vector2D(MANA_BAR_WIDTH/2, new_height));
         } else {
             mana_bar_->set_visible(false);

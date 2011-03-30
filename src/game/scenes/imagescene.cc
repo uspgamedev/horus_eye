@@ -29,7 +29,7 @@ ImageScene::ImageScene(framework::Image *background, framework::Image *image) {
         Sprite *img_sprite = new Sprite;
         img_sprite->Initialize(image);
         Vector2D pos = VIDEO_MANAGER()->video_size();
-        pos.x = pos.x/2.0f - img_sprite->image()->width()/2.0f;
+        pos.x = pos.x/2.0f - img_sprite->size().x/2.0f;
         pos.y = 0;
         img_sprite->set_position(pos);
         scene_layers_[IMG]->AddSprite(img_sprite);

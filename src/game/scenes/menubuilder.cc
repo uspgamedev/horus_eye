@@ -94,7 +94,7 @@ Menu *MenuBuilder::BuildMainMenu () {
     // The game logo.
     Sprite *logo = new Sprite;
     logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_560x334_black.png"));
-    logo->set_hotspot(Vector2D(logo->image()->width() * 0.5f, 0));
+    logo->set_hotspot(Vector2D(logo->size().x * 0.5f, 0));
     menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
 
     // The sprite of each option.
@@ -120,8 +120,8 @@ Menu *MenuBuilder::BuildMainMenu () {
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Exit"));
             break;
         }
-        options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2,
-                                             /*options_sprite->image()->height()/2*/0));
+        options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2,
+                                             /*options_sprite->size().y/2*/0));
         menu->set_option_sprite(i, options_sprite);
     }
     
@@ -225,8 +225,8 @@ Menu *MenuBuilder::BuildPauseMenu () {
             options_sprite->Initialize(TEXT_LOADER()->GetImage("Return to Menu"));
             break;
         }
-        options_sprite->set_hotspot(Vector2D(options_sprite->image()->width() * 0.5f,
-                                             /*options_sprite->image()->height() * 0.5f*/0));
+        options_sprite->set_hotspot(Vector2D(options_sprite->size().x * 0.5f,
+                                             /*options_sprite->size().y * 0.5f*/0));
         menu->set_option_sprite(i, options_sprite);
     }
 
@@ -281,7 +281,7 @@ void MenuBuilder::CreateBackButton(Page *page) {
     Image* img = TEXT_LOADER()->GetImage("Back");
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->image()->width()/2.0f, 0));
+    options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2.0f, 0));
 
     float top = VIDEO_MANAGER()->video_size().y - img->height();
 
@@ -304,7 +304,7 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Help"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing.y*0.5f));
     
     ImageFactory img_fac;
@@ -360,7 +360,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     //Title
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Buttons"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
 
     //Keys image
@@ -376,7 +376,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
 
     Sprite *textkey_w = new Sprite;
     textkey_w->Initialize(TEXT_LOADER()->GetImage("Move Up"));
-    textkey_w->set_hotspot(Vector2D(0, textkey_w->image()->height()*0.5f));
+    textkey_w->set_hotspot(Vector2D(0, textkey_w->size().y*0.5f));
     page->AddSprite(textkey_w, Vector2D(keys_width+10, 1.5*spacing));
 
     Sprite *key_a = new Sprite;
@@ -387,7 +387,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     
     Sprite *textkey_a = new Sprite;
     textkey_a->Initialize(TEXT_LOADER()->GetImage("Move Left"));
-    textkey_a->set_hotspot(Vector2D(0, textkey_a->image()->height()*0.5f));
+    textkey_a->set_hotspot(Vector2D(0, textkey_a->size().y*0.5f));
     page->AddSprite(textkey_a, Vector2D(keys_width+10, 2.5*spacing));
 
     Sprite *key_s = new Sprite;
@@ -398,7 +398,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     
     Sprite *textkey_s = new Sprite;
     textkey_s->Initialize(TEXT_LOADER()->GetImage("Move Down"));
-    textkey_s->set_hotspot(Vector2D(0, textkey_s->image()->height()*0.5f));
+    textkey_s->set_hotspot(Vector2D(0, textkey_s->size().y*0.5f));
     page->AddSprite(textkey_s, Vector2D(keys_width+10, 3.5*spacing));
 
     Sprite *key_d = new Sprite;
@@ -409,7 +409,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     
     Sprite *textkey_d = new Sprite;
     textkey_d->Initialize(TEXT_LOADER()->GetImage("Move Right"));
-    textkey_d->set_hotspot(Vector2D(0, textkey_d->image()->height()*0.5f));
+    textkey_d->set_hotspot(Vector2D(0, textkey_d->size().y*0.5f));
     page->AddSprite(textkey_d, Vector2D(keys_width+10, 4.5*spacing));
 
     //Right Column
@@ -421,7 +421,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     
     Sprite *textkey_q = new Sprite;
     textkey_q->Initialize(TEXT_LOADER()->GetImage("Previous Spell"));
-    textkey_q->set_hotspot(Vector2D(0, textkey_q->image()->height()*0.5f));
+    textkey_q->set_hotspot(Vector2D(0, textkey_q->size().y*0.5f));
     page->AddSprite(textkey_q, Vector2D(second_column+keys_width+10, 1.5*spacing));
 
     Sprite *key_e = new Sprite;
@@ -432,7 +432,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     
     Sprite *textkey_e = new Sprite;
     textkey_e->Initialize(TEXT_LOADER()->GetImage("Next Spell"));
-    textkey_e->set_hotspot(Vector2D(0, textkey_e->image()->height()*0.5f));
+    textkey_e->set_hotspot(Vector2D(0, textkey_e->size().y*0.5f));
     page->AddSprite(textkey_e, Vector2D(second_column+keys_width+10, 2.5*spacing));
 
     Image *mouse = VIDEO_MANAGER()->LoadImage("data/images/mouse.png");
@@ -447,7 +447,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
 
     Sprite *textmouse_left = new Sprite;
     textmouse_left->Initialize(TEXT_LOADER()->GetImage("Shoot magic"));
-    textmouse_left->set_hotspot(Vector2D(0, textmouse_left->image()->height()*0.5f));
+    textmouse_left->set_hotspot(Vector2D(0, textmouse_left->size().y*0.5f));
     page->AddSprite(textmouse_left, Vector2D(second_column+mouse_width+10, 3.5*spacing));
 
     Sprite *mouse_right = new Sprite;
@@ -458,7 +458,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
 
     Sprite *textmouse_right = new Sprite;
     textmouse_right->Initialize(TEXT_LOADER()->GetImage("Shoot spell"));
-    textmouse_right->set_hotspot(Vector2D(0, textmouse_right->image()->height()*0.5f));
+    textmouse_right->set_hotspot(Vector2D(0, textmouse_right->size().y*0.5f));
     page->AddSprite(textmouse_right, Vector2D(second_column+mouse_width+10, 4.5*spacing));
 
     return page;
@@ -475,7 +475,7 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Spells"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
     
     ImageFactory img_fac;
@@ -546,14 +546,14 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
     // The menu content
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Itens"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, title->image()->height() * 0.5f)); 
+    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
 
     ImageFactory img_fac;
 
     Sprite *life = new Sprite;
     life->Initialize(img_fac.LifePotionImage());
-    life->set_hotspot(Vector2D(life->image()->width() * 0.5f, life->image()->height() * 0.5f));
+    life->set_hotspot(Vector2D(life->size().x * 0.5f, life->size().y * 0.5f));
     page->AddSprite(life, Vector2D(50, 1.5*spacing));
  
     Sprite *text_life1 = new Sprite;
@@ -566,7 +566,7 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
 
     Sprite *mana = new Sprite;
     mana->Initialize(img_fac.ManaPotionImage());
-    mana->set_hotspot(Vector2D(mana->image()->width() * 0.5f, mana->image()->height() * 0.5f));
+    mana->set_hotspot(Vector2D(mana->size().x * 0.5f, mana->size().y * 0.5f));
     page->AddSprite(mana, Vector2D(50, 2.5*spacing));
  
     Sprite *text_mana1 = new Sprite;
@@ -579,7 +579,7 @@ Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
 
     Sprite *sight = new Sprite;
     sight->Initialize(img_fac.SightPotionImage());
-    sight->set_hotspot(Vector2D(sight->image()->width() * 0.5f, sight->image()->height() * 0.5f));
+    sight->set_hotspot(Vector2D(sight->size().x * 0.5f, sight->size().y * 0.5f));
     page->AddSprite(sight, Vector2D(50, 3.5*spacing));
  
     Sprite *text_sight1 = new Sprite;
@@ -606,12 +606,12 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     // The menu content
     Sprite *hud = new Sprite;
     hud->Initialize(VIDEO_MANAGER()->LoadImage("data/images/hud_help.png"));
-    hud->set_hotspot(Vector2D(hud->image()->width()*0.5f, hud->image()->height()*0.5f));
+    hud->set_hotspot(Vector2D(hud->size().x*0.5f, hud->size().y*0.5f));
     page->AddSprite(hud, Vector2D(VIDEO_MANAGER()->video_size().x*0.5f, VIDEO_MANAGER()->video_size().y*0.5f));
 
     Sprite *title = new Sprite;
     title->Initialize(TEXT_LOADER()->GetImage("Interface"));
-    title->set_hotspot(Vector2D(title->image()->width() * 0.5f, 0.0f)); 
+    title->set_hotspot(Vector2D(title->size().x * 0.5f, 0.0f)); 
     page->AddSprite(title, Vector2D(middle.x, 0));
 
     Sprite *mana = new Sprite;
@@ -620,7 +620,7 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     
     Sprite *life = new Sprite;
     life->Initialize(TEXT_LOADER()->GetImage("Life Bar"));
-    life->set_hotspot(Vector2D(life->image()->width(), 0));
+    life->set_hotspot(Vector2D(life->size().x, 0));
     page->AddSprite(life, Vector2D(middle.x+220, middle.y-215));
     
     Sprite *hero = new Sprite;
@@ -629,27 +629,27 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     
     Sprite *spell1 = new Sprite;
     spell1->Initialize(TEXT_LOADER()->GetImage("Type of"));
-    spell1->set_hotspot(Vector2D(spell1->image()->width()*0.5f, 0));
+    spell1->set_hotspot(Vector2D(spell1->size().x*0.5f, 0));
     page->AddSprite(spell1, Vector2D(middle.x, middle.y+80));
     
     Sprite *spell2 = new Sprite;
     spell2->Initialize(TEXT_LOADER()->GetImage("Spell"));
-    spell2->set_hotspot(Vector2D(spell2->image()->width()*0.5f, 0));
+    spell2->set_hotspot(Vector2D(spell2->size().x*0.5f, 0));
     page->AddSprite(spell2, Vector2D(middle.x, middle.y+110));
     
     Sprite *counter1 = new Sprite;
     counter1->Initialize(TEXT_LOADER()->GetImage("Missing"));
-    counter1->set_hotspot(Vector2D(counter1->image()->width()*0.5f, 0));
+    counter1->set_hotspot(Vector2D(counter1->size().x*0.5f, 0));
     page->AddSprite(counter1, Vector2D(middle.x+120, middle.y+40));
     
     Sprite *counter2 = new Sprite;
     counter2->Initialize(TEXT_LOADER()->GetImage("Mummies"));
-    counter2->set_hotspot(Vector2D(counter2->image()->width()*0.5f, 0));
+    counter2->set_hotspot(Vector2D(counter2->size().x*0.5f, 0));
     page->AddSprite(counter2, Vector2D(middle.x+120, middle.y+70));
     
     Sprite *counter3 = new Sprite;
     counter3->Initialize(TEXT_LOADER()->GetImage("Counter"));
-    counter3->set_hotspot(Vector2D(counter3->image()->width()*0.5f, 0));
+    counter3->set_hotspot(Vector2D(counter3->size().x*0.5f, 0));
     page->AddSprite(counter3, Vector2D(middle.x+120, middle.y+100));
     
     return page;

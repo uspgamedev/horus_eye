@@ -191,7 +191,7 @@ void Menu::Select () {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
         if (selection_sprite_[i] != NULL) {
             Vector2D pos = selection_pos_[selection_];
-            float offset = options_sprite_[selection_]->image()->frame_size().x / 2 ;
+            float offset = options_sprite_[selection_]->size().x / 2 ;
             pos.x = pos.x + i * -offset + (1 - i) * offset;
             selection_sprite_[i]->set_position(pos);
         }

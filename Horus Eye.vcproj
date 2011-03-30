@@ -329,6 +329,10 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\framework\drawable.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\framework\engine.cc"
 			>
 		</File>

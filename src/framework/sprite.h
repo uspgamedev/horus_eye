@@ -9,6 +9,7 @@
 
 namespace framework {
 
+class Drawable;
 class Animation;
 class Light;
 class Sprite {
@@ -33,13 +34,17 @@ class Sprite {
     void set_zindex(float z) { zindex_= z; }
     static bool CompareByZIndex(Sprite *a, Sprite *b);
 
-    Image *image() { return image_; }
+    //Image *image() { return image_; }
 
 	Color color() { return color_; }
 	void set_color(Color color) { color_ = color; }
+	
 	float alpha() { return alpha_; }
 	void set_alpha(float alpha) { alpha_ = alpha; }
+
+	const Vector2D size() { return size_; }
 	void set_size(const Vector2D& size) { size_ = size; }
+	
 	Light* light() { return light_; }
 	void set_light(Light* light) { light_ = light; }
 
@@ -81,7 +86,8 @@ class Sprite {
 
   private:
     Vector2D position_, hotspot_, size_;
-    Image *image_;
+    //Image *image_;
+	Drawable *image_;
     Image::Mirror mirror_;
 	Color color_;
 	float alpha_;

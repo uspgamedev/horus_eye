@@ -1,5 +1,6 @@
 #include <SDL/SDL_opengl.h>
 #include "sprite.h"
+#include "drawable.h"
 #include "light.h"
 #include "engine.h"
 #include "videomanager.h"
