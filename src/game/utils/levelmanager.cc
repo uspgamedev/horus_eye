@@ -68,11 +68,11 @@ void finishAndDeleteCurrentScene() {
 
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(new Loading);
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("Intro"), 45));
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45));
 }
 
 void LevelManager::ShowCredits() {
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("CreditsFile"), 55));
+    Engine::reference()->PushScene(new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("CreditsFile")), 55));
 }
 
 void LevelManager::ShowEnding() {

@@ -278,7 +278,7 @@ void MenuBuilder::CreateBackButton(Page *page) {
     // Setting its handler.
     page->set_handler(new HelpMenuHandler(page));
 
-    Image* img = TEXT_LOADER()->GetImage("Back");
+    Drawable* img = TEXT_LOADER()->GetImage("Back");
     Sprite *options_sprite = new Sprite;
     options_sprite->Initialize(img);
     options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2.0f, 0));
@@ -806,7 +806,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < MenuBuilder::SETTINGS_SELECT_NUM; ++i) {
         if(settings_names_[i].compare("BLANK") == 0)
             continue;
-        Image* img = TEXT_LOADER()->GetImage(settings_names_[i]);
+        Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
         options[i] = new Sprite;
         options[i]->Initialize(img);
         options[i]->set_hotspot(Vector2D(img->width() / 2, /*img->height() / 2*/0));
@@ -843,7 +843,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
             on_off_sprites_[i][j] = new Sprite;
-            Image *img = TEXT_LOADER()->GetImage(on_off_[j]);
+            Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
             on_off_sprites_[i][j]->Initialize(img);
             on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
             menu_->AddSprite(on_off_sprites_[i][j], framework::Vector2D (second_column_x, options[i+1]->position().y));
@@ -857,7 +857,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     sprites_active_[4] = settings_->language();
     for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
         language_sprites_[i] = new Sprite;
-        Image* img = TEXT_LOADER()->GetImage(language_name[i]);
+        Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
         language_sprites_[i]->Initialize(img);
         language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
         menu_->AddSprite(language_sprites_[i], framework::Vector2D (second_column_x, options[4]->position().y));

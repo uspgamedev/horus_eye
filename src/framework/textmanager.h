@@ -9,8 +9,8 @@
 
 namespace framework {
 
-class Image;
-class TextManager{
+class Text;
+class TextManager {
     public:
         TextManager() : font_(NULL) {}
         ~TextManager() {}
@@ -26,10 +26,23 @@ class TextManager{
         Image* LoadText(string text, char indent, float width);
         Image* LoadFile(string path, char indent);
 
+		Text* GetText(string text);
+
+		Vector2D GetLetterSize(char letter);
+
     private:
         TTF_Font *font_;
         SDL_Color textColor_;
         SDL_Color transparentColor_;
+
+		void LoadFont(string font, int fontsize);
+		
+		typedef struct {
+			int id;
+			Image ** letters;
+		} Font;
+		Font current_font_;
+		std::map<string,Font> fonts_;
 };
 
 } // namespace framework

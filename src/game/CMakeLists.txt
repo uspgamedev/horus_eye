@@ -59,7 +59,7 @@ SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
 ../editor/mapeditor.h ../editor/mapobject.cc ../editor/mapobject.h
 ../editor/layers/mapspriteslayer.cc ../editor/layers/mapspriteslayer.h
 ../editor/layers/maptileslayer.cc ../editor/layers/maptileslayer.h
-../editor/layers/fpsmeter.cc ../editor/layers/fpsmeter.h )
+../editor/layers/fpsmeter.cc ../editor/layers/fpsmeter.h ../framework/text.cc ../framework/text.h )
 
 MESSAGE("${GAME_NAME} version ${GAME_VERSION}")
 

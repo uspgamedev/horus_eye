@@ -11,12 +11,12 @@ namespace scene {
 using namespace framework;
 
 Loading::Loading() {
-    Image* loading_image = TEXT_LOADER()->GetImage("Loading");
+    Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
 
     Sprite* text_sprite = new Sprite;
     text_sprite->Initialize(loading_image);
 
-    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->frame_size()
+    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->render_size()
             - Vector2D(10.0f, 10.0f);
     text_sprite->set_position(position);
 

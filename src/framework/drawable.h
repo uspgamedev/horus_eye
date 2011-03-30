@@ -14,6 +14,13 @@ class Drawable {
 			return false;
 	}
 
+	virtual Vector2D render_size() const { return Vector2D(); }
+
+	// DEPRECATED DO NOT USE OR DIE LOLOL
+	virtual int width() const { return (int)(render_size().x); }
+	virtual int height() const { return (int)(render_size().y); }
+	virtual bool Destroy() { return false; }
+
   protected:
 	Drawable() {}
 };

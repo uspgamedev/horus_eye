@@ -17,7 +17,7 @@ Sprite::~Sprite() {
     if (delete_image_ && image_) delete image_;
 }
 
-void Sprite::Initialize(Image *image, bool delete_image)
+void Sprite::Initialize(Drawable *image, bool delete_image)
 {
     image_ = image;
   	set_zindex(0.0f);

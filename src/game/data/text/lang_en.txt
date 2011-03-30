@@ -77,7 +77,7 @@
 
 // Language list
 [English]{FontB}:English
-[Portugues]{FontB}:Português
+[Portugues]{FontB}:Portugues
 
 #FILES
 [Intro]{FontA}:data/text/intro_en.txt

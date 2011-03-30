@@ -5,6 +5,8 @@
 #include <map>
 
 namespace framework {
+class Text;
+class Drawable;
 class Image;
 }
 
@@ -21,7 +23,7 @@ class TextLoader {
     ~TextLoader();
 
     bool Initialize(std::string language_file);
-    framework::Image* GetImage(std::string text);
+    framework::Drawable* GetImage(std::string text);
     void SetFont(std::string font);
 
     bool Clear();
@@ -33,7 +35,7 @@ class TextLoader {
       public:
         Font(std::string filepath, int size, char indent, bool style);
         ~Font() {}
-        framework::Image* LoadText(std::string str);
+        framework::Drawable* LoadText(std::string str);
         framework::Image* LoadFile(std::string filepath);
 
         void SetFont();
@@ -61,7 +63,7 @@ class TextLoader {
     };
     void LoadFont(char *str);
 
-    std::map<std::string, framework::Image*> text_images_;
+    std::map<std::string, framework::Drawable*> text_images_;
     std::map<std::string, TextLoader::Font*> fonts_;
 
 };

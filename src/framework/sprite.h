@@ -17,7 +17,7 @@ class Sprite {
     Sprite();
     virtual ~Sprite();
 
-    void Initialize(Image *image, bool delete_image = false);
+    void Initialize(Drawable *image, bool delete_image = false);
 
     // Acessors e mutators
     Vector2D position() const { return position_; }

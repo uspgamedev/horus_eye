@@ -4,6 +4,7 @@
 #include "../../framework/textmanager.h"
 #include "../../framework/engine.h"
 #include "../../framework/pathmanager.h"
+#include "../../framework/text.h"
 
 namespace utils {
 
@@ -107,7 +108,7 @@ bool TextLoader::Initialize(string language_file) {
             TextLoader::Word word = Word(buffer);
             TextLoader::Font* font = fonts_[word.font()];
 
-            Image* val;
+            Drawable* val;
             if(reading_type == 2)
                 val = font->LoadFile(word.text());
             else
@@ -132,7 +133,7 @@ bool TextLoader::Initialize(string language_file) {
     return true;
 }
 
-Image* TextLoader::GetImage(string text) {
+Drawable* TextLoader::GetImage(string text) {
     return text_images_[text];
 }
 
@@ -142,7 +143,7 @@ void TextLoader::SetFont(std::string font) {
 }
 
 bool TextLoader::Clear() {
-    map<string, Image*>::iterator it;
+    map<string, Drawable*>::iterator it;
     for(it = text_images_.begin(); it != text_images_.end(); ++it) {
 		if(it->second != NULL) {
 			it->second->Destroy();
@@ -199,7 +200,8 @@ TextLoader::Font::Font(std::string filepath, int size, char indent, bool style) 
     indent_ = indent;
     style_ = style;
 }
-Image* TextLoader::Font::LoadText(string str) {
+Drawable* TextLoader::Font::LoadText(string str) {
+	return TEXT_MANAGER()->GetText(str);
     SetFont();
     if(style_)
         return TEXT_MANAGER()->LoadFancyLine(str.c_str());

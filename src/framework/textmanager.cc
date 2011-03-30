@@ -1,9 +1,11 @@
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
+#include <SDL/SDL_opengl.h>
 #include "engine.h"
 #include "textmanager.h"
 #include "pathmanager.h"
+#include "text.h"
 
 using namespace std;
 
@@ -21,6 +23,9 @@ bool TextManager::Initialize() {
     transparentColor_.r = 255;
     transparentColor_.g = 255;
     transparentColor_.b = 0;
+
+	LoadFont("data/font/Filmcrypob.ttf", 60);
+	current_font_ = fonts_["data/font/Filmcrypob.ttf"];
     return true;
 }
 
@@ -33,6 +38,8 @@ bool TextManager::Destroy() {
 
 bool TextManager::setFont(string font, int fontsize, string *style) {
     font_ = TTF_OpenFont( font.c_str(), fontsize );
+	LoadFont(font.c_str(), fontsize);
+	current_font_ = fonts_[font.c_str()];
     if(style != NULL){
 
     }
@@ -206,5 +213,41 @@ Image* TextManager::LoadFile(string path, char indent) {
 
     return LoadText(output, indent);
 }
+
+Text* TextManager::GetText(string text) {
+	return new Text(text, current_font_.id);
+}
+
+Vector2D TextManager::GetLetterSize(char letter) {
+	return current_font_.letters[letter]->render_size();
+}
+
+void TextManager::LoadFont(string path, int fontsize) {
+	if(fonts_.count(path) > 0)
+		return;
+
+	TTF_Font *ttf_font = TTF_OpenFont( path.c_str(), fontsize );
+	char str[2];
+	int c;
+	Font font;
+	font.id = glGenLists(256);
+	font.letters = new Image*[256];
+	Vector2D blank;
+	Color color = Image::CreateColor(1.0f, 1.0f, 1.0f);
+	str[1] = '\0';
+	for(c = 1; c < 256; c++) {
+		str[0] = (char)(c);
+		SDL_Surface *letter = TTF_RenderUTF8_Blended( ttf_font, str, textColor_ );
+		font.letters[c] = new Image;
+		font.letters[c]->LoadFromSurface(letter);
+		SDL_FreeSurface(letter);
+		glNewList(font.id + c, GL_COMPILE);
+			font.letters[c]->DrawTo(blank, 0, 0, color, 1.0f, font.letters[c]->render_size());
+			glTranslatef(font.letters[c]->render_size().x, 0, 0);
+		glEndList();
+	}
+	fonts_[path] = font;
+}
+
 
 } // namespace framework
