@@ -70,7 +70,7 @@
 				LinkIncremental="2"
 				GenerateManifest="true"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				EntryPointSymbol=""
 				TargetMachine="1"
 			/>
@@ -282,6 +282,10 @@
 		</File>
 		<File
 			RelativePath=".\src\game\utils\circleobject.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\game\CMakeLists.txt"
 			>
 		</File>
 		<File
@@ -762,6 +766,14 @@
 		</File>
 		<File
 			RelativePath=".\src\framework\sprite.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\text.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\text.h"
 			>
 		</File>
 		<File
