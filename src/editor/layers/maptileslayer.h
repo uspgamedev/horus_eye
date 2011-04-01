@@ -8,7 +8,7 @@ namespace editor {
 
 class MapTilesLayer : public MapEditor::MapLayer {
   public:
-    MapTilesLayer(MapEditor::MapMatrix *matrix);
+    MapTilesLayer(MapEditor::MapMatrix *matrix, MapEditor* editor);
     virtual ~MapTilesLayer();
     void Update(float delta_t);
     void Render();

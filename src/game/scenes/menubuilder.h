@@ -33,7 +33,7 @@ class MenuBuilder {
     Menu *BuildHelpPage5(PageManager *manager);
     Menu *BuildHelpPage6(PageManager *manager);
     Menu *BuildSettingsMenu();
-  private:
+  protected:
     void CreateSelectionSprites(Menu* menu, float height = 0);
     void CreateBackButton(Page *page);
     typedef enum {

@@ -19,6 +19,14 @@
 [Return to Menu]{FontA}:Voltar ao Menu
 [Back]{FontA}:Voltar
 
+// Editor Menu
+[Continue]{FontA}:Continuar
+[New]{FontA}:Criar Novo Mapa..
+[Save]{FontA}:Salvar Mapa
+[Load]{FontA}:Carregar Mapa...
+[Quit]{FontA}:Sair (sem salvar)
+[SaveQuit]{FontA}:Salvar e Sair
+
 // Help Menu
 [Objective]{FontC}:Objetivo:
 [HelpObjective1]{FontC}:Destrua todos os inimigos para ganhar

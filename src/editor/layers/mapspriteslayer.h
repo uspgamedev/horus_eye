@@ -8,8 +8,9 @@ namespace editor {
 
 class MapSpritesLayer : public MapEditor::MapLayer {
   public:
-    MapSpritesLayer(MapEditor::MapMatrix *matrix);
+    MapSpritesLayer(MapEditor* editor);
     virtual ~MapSpritesLayer();
+	void LoadMapMatrix(MapEditor::MapMatrix *matrix);
     void Update(float delta_t);
     void CenterAt(framework::Vector2D& center);
     MapObject* Select(framework::Vector2D& pos);

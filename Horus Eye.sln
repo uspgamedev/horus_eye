@@ -1,7 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus Eye", "Horus Eye.vcproj", "{88426421-C8EA-4013-B7F8-6A07ADD23469}"
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Horus Eye", "Horus Eye.vcxproj", "{88426421-C8EA-4013-B7F8-6A07ADD23469}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,9 +21,9 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		AMDCaPersistentConfig = Release|Win32
-		AMDCaPersistentStartup = Horus Eye
 		AMDCaProjectFile = D:\stuff\programming\projects\gamedev\CodeAnalyst\Horus Eye.caw
+		AMDCaPersistentStartup = Horus Eye
+		AMDCaPersistentConfig = Release|Win32
 	EndGlobalSection
 	GlobalSection(SubversionScc) = preSolution
 		Svn-Managed = True

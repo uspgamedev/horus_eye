@@ -19,6 +19,14 @@
 [Return to Menu]{FontA}:Return to Menu
 [Back]{FontA}:Back
 
+// Editor Menu
+[Continue]{FontA}:Continue
+[New]{FontA}:Create New Map...
+[Save]{FontA}:Save Map
+[Load]{FontA}:Load Map...
+[Quit]{FontA}:Quit (without saving)
+[SaveQuit]{FontA}:Save and Quit
+
 // Help Menu
 [Objective]{FontC}:Objective:
 [HelpObjective1]{FontC}:Destroy all enemies in order to gain access to

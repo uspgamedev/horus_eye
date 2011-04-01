@@ -8,14 +8,32 @@
 #include "layers/maptileslayer.h"
 #include "layers/mapspriteslayer.h"
 #include "layers/fpsmeter.h"
+#include "scenes/editormenu.h"
 
 using namespace std;
 using namespace framework;
 
 namespace editor {
 
-MapEditor::MapEditor(std::string& file_name) : Scene(), map_filename_(file_name) {
-    ifstream file (file_name.c_str());
+MapEditor::MapEditor() : Scene() {
+	map_loaded_ = false;
+    main_layer_ = tiles_layer_ = new MapTilesLayer(&map_matrix_, this);
+    sprites_layer_ = new MapSpritesLayer(this);
+    sprites_layer_->set_visible(false);
+    scale_level_ = 0;
+    offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
+    AddLayer(sprites_layer_);
+    AddLayer(tiles_layer_);
+    AddLayer(new FPSMeter);
+    selected_object_ = NULL;
+}
+
+MapEditor::~MapEditor() {
+}
+
+void MapEditor::LoadMap(std::string& file_name) {
+	map_filename_ = file_name;
+	ifstream file (file_name.c_str());
     if(file.is_open()){
         file >> width_ >> height_;
         vector<string> raw_matrix (height_);
@@ -29,40 +47,26 @@ MapEditor::MapEditor(std::string& file_name) : Scene(), map_filename_(file_name)
             }
         }
         file.close();
+		map_loaded_ = true;
+		sprites_layer_->LoadMapMatrix(&map_matrix_);
+		offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
     } else {
         cout << "CANNOT OPEN FILE: " << file_name << endl;
+		map_loaded_ = false;
         exit(0);
     }
-    main_layer_ = tiles_layer_ = new MapTilesLayer(&map_matrix_);
-    sprites_layer_ = new MapSpritesLayer(&map_matrix_);
-    sprites_layer_->set_visible(false);
-    scale_level_ = 0;
-    offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
-    AddLayer(sprites_layer_);
-    AddLayer(tiles_layer_);
-    AddLayer(new FPSMeter);
-    selected_object_ = NULL;
 }
 
-MapEditor::~MapEditor() {
-}
-/*TODO: "menu" do editor, parecido com o Pause do world, porem com mais opcoes: (pelo menos essas)
-		-Close menu (voltar pro editor)
-		-New Map
-		-Load Map
-		-Save Map
-		-Quit without saving
-		-Save and quit
-		
-		lembrando q ai o ESC abriria esse menu de "pause" em vez de sair do editor direto.
-		
-		talvez algum opcao ou grafico nele pra mostrar os comando de teclado...*/
 void MapEditor::Update(float delta_t) {
     Scene::Update(delta_t);
-    InputManager *input = framework::Engine::reference()->input_manager();
-    if(input->KeyPressed(framework::K_ESCAPE))
-        Finish();
 
+    InputManager *input = framework::Engine::reference()->input_manager();
+    if(input->KeyPressed(framework::K_ESCAPE) || map_loaded_ == false) {
+		EditorMenuBuilder builder;
+        Engine::reference()->PushScene(builder.BuildEditorMenu(this));
+	}
+	if (!map_loaded_) return;
+	
 	if(input->KeyPressed(framework::K_MINUS))
         scale_level_--;
 	else if(input->KeyPressed(framework::K_EQUALS))
@@ -123,7 +127,7 @@ void MapEditor::Update(float delta_t) {
         main_layer_->set_visible(true);
     }
 	else if (input->KeyPressed(framework::K_HOME)) {
-		this->saveMap();
+		this->SaveMap();
 	}
 
 }
@@ -161,7 +165,9 @@ void MapEditor::processKeyEditCommands() {
 	}
 }
 
-void MapEditor::saveMap() {
+void MapEditor::SaveMap() {
+	if (!map_loaded_) return;
+
 	ofstream file (map_filename_.c_str());
     if(file.is_open()){
         file << width_ << " " << height_ << "\n";

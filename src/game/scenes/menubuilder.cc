@@ -160,8 +160,7 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
-            string level = "data/levels/level_4.txt";
-            Engine::reference()->PushScene(new editor::MapEditor(level));
+            Engine::reference()->PushScene(new editor::MapEditor());
             menu_->set_visible(false);
             break;
         }
