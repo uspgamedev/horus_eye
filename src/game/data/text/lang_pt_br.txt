@@ -27,6 +27,11 @@
 [Quit]{FontA}:Sair (sem salvar)
 [SaveQuit]{FontA}:Salvar e Sair
 
+// Editor - Load Map Menu
+[Change]{FontA}:Selecionar Mapa
+[Load]{FontA}:Carregar Mapa
+[Back]{FontA}:Voltar
+
 // Help Menu
 [Objective]{FontC}:Objetivo:
 [HelpObjective1]{FontC}:Destrua todos os inimigos para ganhar

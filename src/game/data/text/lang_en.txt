@@ -27,6 +27,11 @@
 [Quit]{FontA}:Quit (without saving)
 [SaveQuit]{FontA}:Save and Quit
 
+// Editor - Load Map Menu
+[Change]{FontA}:Change Map
+[Load]{FontA}:Load Map
+[Back]{FontA}:Back
+
 // Help Menu
 [Objective]{FontC}:Objective:
 [HelpObjective1]{FontC}:Destroy all enemies in order to gain access to

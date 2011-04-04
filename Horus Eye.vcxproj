@@ -310,6 +310,10 @@
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\game\data\text\lang_en.txt" />
+    <None Include="src\game\data\text\lang_pt_br.txt" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
