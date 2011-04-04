@@ -22,27 +22,17 @@ using namespace framework;
 using namespace utils;
 using namespace std;
 
-#define RECT_WIDTH              266
-#define RECT_HEIGHT             60
+#define RECT_WIDTH              260
+#define RECT_HEIGHT             50
 #define SET_RECT_WIDTH          266
 #define SET_RECT_HEIGHT         70
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
 
-#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.3f
-#define MENU_BOTTOM             MENU_TOP + MenuBuilder::MAIN_SELECT_NUM*RECT_HEIGHT
+#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.0f - (EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT/2.0f)
+#define MENU_BOTTOM             MENU_TOP + EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT
 #define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
-#define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
-
-#define PAUSE_TOP               VIDEO_MANAGER()->video_size().y/2.0f
-#define PAUSE_BOTTOM            MENU_TOP + MenuBuilder::PAUSE_SELECT_NUM*RECT_HEIGHT*1.5f
-#define PAUSE_LEFT              VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
-#define PAUSE_RIGHT             VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
-
-#define SET_TOP                 VIDEO_MANAGER()->video_size().y / 8.0f
-#define SET_BOTTOM              VIDEO_MANAGER()->video_size().y * (7.0f / 8.0f)
-#define SET_LEFT                VIDEO_MANAGER()->video_size().x * 0.25f
-#define SET_RIGHT               VIDEO_MANAGER()->video_size().x * 0.40f
+#define MENU_RIGHT              MENU_LEFT + RECT_WIDTH
 
 
 //========================
@@ -65,8 +55,7 @@ scene::Menu *EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
     menu->set_content_box(Frame(MENU_LEFT, MENU_TOP, MENU_RIGHT, MENU_BOTTOM));
 
     // Setting the selection sprite.
-    CreateSelectionSprites(menu,
-                           (MENU_BOTTOM-MENU_TOP)/MenuBuilder::MAIN_SELECT_NUM);
+    CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::EDITOR_SELECT_NUM);
 
     Sprite *bg = new Sprite;;
     bg->Initialize(bg_img);
@@ -95,8 +84,7 @@ scene::Menu *EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
             options_sprite->Initialize(TEXT_LOADER()->GetImage("SaveQuit"));
             break;
         }
-		options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2,
-                                             /*options_sprite->image()->height()/2*/0));
+		options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2, 0));
         menu->set_option_sprite(i, options_sprite);
     }
 
