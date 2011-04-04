@@ -9,6 +9,7 @@
 #include "layers/mapspriteslayer.h"
 #include "layers/fpsmeter.h"
 #include "scenes/editormenu.h"
+#include "../game/utils/levelmanager.h"
 
 using namespace std;
 using namespace framework;
@@ -26,6 +27,8 @@ MapEditor::MapEditor() : Scene() {
     AddLayer(tiles_layer_);
     AddLayer(new FPSMeter);
     selected_object_ = NULL;
+
+	utils::LevelManager::reference()->LoadLevelList("data/level_list.txt", map_list_);
 }
 
 MapEditor::~MapEditor() {
@@ -183,5 +186,6 @@ void MapEditor::SaveMap() {
         cout << "CANNOT OPEN FILE: " << map_filename_ << endl;
     }
 }
+
 
 }

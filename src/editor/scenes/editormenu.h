@@ -36,7 +36,7 @@ class EditorMenuBuilder : scene::MenuBuilder {
 	/*List of Build Functions: creates each menu*/
     scene::Menu *BuildEditorMenu(MapEditor* editor);
     scene::Menu *BuildNewMapMenu();
-	scene::Menu *BuildLoadMapMenu();
+	scene::Menu *BuildLoadMapMenu(MapEditor* editor);
 
   protected:
 	/*List of Editor Menu enumerations definitions*/
@@ -49,6 +49,15 @@ class EditorMenuBuilder : scene::MenuBuilder {
 		EDITOR_SELECT_SAVE_AND_QUIT,
         EDITOR_SELECT_NUM
     } EditorMenuSelection;
+	
+	typedef enum {
+		LOAD_MAP_SELECT_CHANGE = 0,
+		LOAD_MAP_SELECT_BLANK1,
+		LOAD_MAP_SELECT_BLANK2,
+		LOAD_MAP_SELECT_LOAD,
+		LOAD_MAP_SELECT_BACK,
+		LOAD_MAP_SELECT_NUM
+	} LoadMapMenuSelection;
 
 	/*List of Editor Menu Handler classes*/
 	class EditorMenuHandler : public scene::MenuHandler {
@@ -61,6 +70,22 @@ class EditorMenuBuilder : scene::MenuBuilder {
 	  private:
 		framework::Image* bg_img_;
 		MapEditor* editor_;
+    };
+
+	class LoadMapMenuHandler : public scene::MenuHandler {
+      public:
+        LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor, framework::Image *bg_img);
+        ~LoadMapMenuHandler() {}
+        void Handle(int selection, int modifier = 0);
+        void CleanUp();
+		void BuildSprites();
+	  private:
+		framework::Image* bg_img_;
+		MapEditor* editor_;
+		std::vector<std::string> map_list_;
+		framework::Image **level_images_;
+		framework::Sprite **level_sprites_;
+		int selected_level_;
     };
 };
 

@@ -31,7 +31,7 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
-    LoadLevelList("data/level_list.txt");
+    LoadLevelList("data/level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
@@ -41,9 +41,9 @@ void LevelManager::Initialize() {
     Engine::reference()->PushScene(menu_);
 }
 
-void LevelManager::LoadLevelList(std::string relative_file) {
+void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::string>& level_list) {
     string file = PATH_MANAGER()->ResolvePath(relative_file);
-    level_list_.clear();
+    level_list.clear();
     ifstream list (file.c_str());
     if(list.is_open()) {
         int level_count;
@@ -51,7 +51,7 @@ void LevelManager::LoadLevelList(std::string relative_file) {
         for(int i = 0; i < level_count; ++i) {
             string filename;
             list >> filename;
-            level_list_.push_back(filename);
+            level_list.push_back(filename);
         }
         list.close();
     } else {

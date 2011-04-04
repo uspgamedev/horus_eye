@@ -18,6 +18,7 @@ class MapEditor : public framework::Scene {
 	void LoadMap(std::string& file_name);
 	void SaveMap();
 	bool map_loaded() { return this->map_loaded_; }
+	std::vector<std::string>& map_list() { return this->map_list_; }
 
     typedef std::vector< std::vector<MapObject*> > MapMatrix;
 
@@ -48,6 +49,7 @@ class MapEditor : public framework::Scene {
     MapMatrix map_matrix_;
     MapLayer *main_layer_, *tiles_layer_, *sprites_layer_;
 	std::string map_filename_;
+	std::vector<std::string> map_list_;
 
 	void processKeyEditCommands();
 };
