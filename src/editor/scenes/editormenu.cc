@@ -203,12 +203,13 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
 }
 
 void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) {
-    if (modifier) return;
+    if (!modifier) modifier = 1;
     switch (selection) {
         case EditorMenuBuilder::LOAD_MAP_SELECT_CHANGE: {
 			level_sprites_[selected_level_]->set_visible(false);
-			selected_level_++;
-			if (selected_level_ >= map_list_.size())	selected_level_ = 0;
+			selected_level_ += modifier;
+			if (selected_level_ < 0) { selected_level_ = map_list_.size() - 1; }
+			if (selected_level_ >= map_list_.size()) { selected_level_ = 0; }
             level_sprites_[selected_level_]->set_visible(true);
             break;
         }

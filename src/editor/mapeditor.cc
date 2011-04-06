@@ -21,8 +21,6 @@ MapEditor::MapEditor() : Scene() {
     main_layer_ = tiles_layer_ = new MapTilesLayer(&map_matrix_, this);
     sprites_layer_ = new MapSpritesLayer(this);
     sprites_layer_->set_visible(false);
-    scale_level_ = 0;
-    offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
     AddLayer(sprites_layer_);
     AddLayer(tiles_layer_);
     AddLayer(new FPSMeter);
@@ -35,6 +33,16 @@ MapEditor::~MapEditor() {
 }
 
 void MapEditor::LoadMap(std::string& file_name) {
+	if (map_loaded_) {
+		RemoveLayer(sprites_layer_);
+		delete sprites_layer_;
+		sprites_layer_ = new MapSpritesLayer(this);
+		sprites_layer_->set_visible(false);
+		AddLayer(sprites_layer_);
+		tiles_layer_->set_visible(true);
+		main_layer_ = tiles_layer_;
+	}
+
 	map_filename_ = file_name;
 	ifstream file (file_name.c_str());
     if(file.is_open()){
@@ -53,6 +61,7 @@ void MapEditor::LoadMap(std::string& file_name) {
 		map_loaded_ = true;
 		sprites_layer_->LoadMapMatrix(&map_matrix_);
 		offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
+		scale_level_ = 0;
     } else {
         cout << "CANNOT OPEN FILE: " << file_name << endl;
 		map_loaded_ = false;
@@ -101,6 +110,11 @@ void MapEditor::Update(float delta_t) {
 		drag_click_ = false;
     }
     offset_ = offset_ - main_layer_->ModifyMovement(movement);
+	if (offset_.x < 0) offset_.x = 0;
+	if (offset_.y < 0) offset_.y = 0;
+	if (offset_.x > width_) offset_.x = width_;
+	if (offset_.y > height_) offset_.y = height_;
+
     tiles_layer_->CenterAt(offset_);
     sprites_layer_->CenterAt(offset_);
 
