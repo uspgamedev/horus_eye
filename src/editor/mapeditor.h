@@ -48,6 +48,7 @@ class MapEditor : public framework::Scene {
 	MapObject* selected_object_;
     MapMatrix map_matrix_;
     MapLayer *main_layer_, *tiles_layer_, *sprites_layer_;
+	framework::Layer *fps_layer_;
 	std::string map_filename_;
 	std::vector<std::string> map_list_;
 

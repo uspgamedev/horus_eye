@@ -19,11 +19,8 @@ namespace editor {
 MapEditor::MapEditor() : Scene() {
 	map_loaded_ = false;
     main_layer_ = tiles_layer_ = new MapTilesLayer(&map_matrix_, this);
-    sprites_layer_ = new MapSpritesLayer(this);
-    sprites_layer_->set_visible(false);
-    AddLayer(sprites_layer_);
     AddLayer(tiles_layer_);
-    AddLayer(new FPSMeter);
+	fps_layer_ = new FPSMeter;
     selected_object_ = NULL;
 
 	utils::LevelManager::reference()->LoadLevelList("data/level_list.txt", map_list_);
@@ -36,12 +33,14 @@ void MapEditor::LoadMap(std::string& file_name) {
 	if (map_loaded_) {
 		RemoveLayer(sprites_layer_);
 		delete sprites_layer_;
-		sprites_layer_ = new MapSpritesLayer(this);
-		sprites_layer_->set_visible(false);
-		AddLayer(sprites_layer_);
-		tiles_layer_->set_visible(true);
-		main_layer_ = tiles_layer_;
+		RemoveLayer(fps_layer_);
 	}
+	sprites_layer_ = new MapSpritesLayer(this);
+	sprites_layer_->set_visible(false);
+	AddLayer(sprites_layer_);
+	AddLayer(fps_layer_);
+	tiles_layer_->set_visible(true);
+	main_layer_ = tiles_layer_;
 
 	map_filename_ = file_name;
 	ifstream file (file_name.c_str());
