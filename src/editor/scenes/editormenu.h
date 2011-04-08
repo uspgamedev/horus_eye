@@ -8,6 +8,7 @@
 #include "../../framework/sprite.h"
 
 namespace framework {
+class Drawable;
 class Image;
 }
 
@@ -83,7 +84,7 @@ class EditorMenuBuilder : scene::MenuBuilder {
 		framework::Image* bg_img_;
 		MapEditor* editor_;
 		std::vector<std::string> map_list_;
-		framework::Image **level_images_;
+		framework::Drawable **level_images_;
 		framework::Sprite **level_sprites_;
 		int selected_level_;
     };

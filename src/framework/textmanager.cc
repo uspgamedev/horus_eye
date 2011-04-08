@@ -5,7 +5,9 @@
 #include "engine.h"
 #include "textmanager.h"
 #include "pathmanager.h"
+#include "videomanager.h"
 #include "text.h"
+#include "font.h"
 
 using namespace std;
 
@@ -15,57 +17,23 @@ using namespace std;
 namespace framework{
 
 bool TextManager::Initialize() {
-    TTF_Init();
-    textColor_.r = 255;
-    textColor_.g = 255;
-    textColor_.b = 255;
-    font_ = TTF_OpenFont( "data/font/Filmcrypob.ttf", 60 );
-    transparentColor_.r = 255;
-    transparentColor_.g = 255;
-    transparentColor_.b = 0;
-
-	LoadFont("data/font/Filmcrypob.ttf", 60);
-	current_font_ = fonts_["data/font/Filmcrypob.ttf"];
+	TTF_Init();
     return true;
 }
 
 bool TextManager::Destroy() {
-   if(font_ != NULL)
-       TTF_CloseFont( font_ );
-   TTF_Quit();
-   return true;
+	TTF_Quit();
+	return true;
 }
 
-bool TextManager::setFont(string font, int fontsize, string *style) {
-    font_ = TTF_OpenFont( font.c_str(), fontsize );
-	LoadFont(font.c_str(), fontsize);
-	current_font_ = fonts_[font.c_str()];
-    if(style != NULL){
 
-    }
-    return true;
-}
+// TODO: implement this as flag on Text
+static Image* LoadFancyLine(string line) {
 
-TTF_Font* TextManager::getFont(){
-    return font_;
-}
-
-Image* TextManager::LoadLine(string line) {
-    SDL_Surface *message = NULL;
-    
-    message = TTF_RenderUTF8_Blended( font_, line.c_str(), textColor_ );
-    Image *img = new Image;
-    bool result = img->LoadFromSurface(message);
-    SDL_FreeSurface(message);
-
-	if(!result) {
-        delete img;
-		img = NULL;
-	}
-    return img;
-}
-
-Image* TextManager::LoadFancyLine(string line) {
+        TTF_Font *font_;
+        SDL_Color textColor_;
+        SDL_Color transparentColor_;
+	
     SDL_Surface *message = NULL;
     SDL_Surface *message_dark = NULL;
     SDL_Surface *message_light = NULL;
@@ -113,140 +81,48 @@ Image* TextManager::LoadFancyLine(string line) {
     SDL_FreeSurface(surface);
     return img;
 }
-        
-Image* TextManager::LoadText(string text, char indent, float width = -1) {
-    Image *img = NULL;
-    string subString, temp(text);
+
+
+Text* TextManager::GetText(string text, string fonttag, int width) {
+	string subString;
     vector<string> lines;
-    int lineskip = TTF_FontLineSkip(font_);
-    int nlines=0, n=0;
-    SDL_Surface* linesurf = NULL;
-    SDL_Rect rect;
-    rect.x = 0;
-    rect.y = 0;
-
-    //Split lines
-    n = temp.find("\n");
-    while(n!=-1) {
-        subString = temp.substr(0, n);
-        lines.push_back(subString);
-        temp = temp.substr(n+1, string::npos);
-        n = temp.find("\n");
-        nlines++;
-    }
-    
-    //Surface transparent
-    Vector2D video_size = VIDEO_MANAGER()->video_size();
-    if(width>0)
-        video_size.x = width;
-    video_size.y = nlines*lineskip;
-
-    SDL_Surface *temp_surface = Image::CreateSurface(video_size);
-    SDL_Surface *surface = SDL_DisplayFormatAlpha(temp_surface);
-    SDL_FreeSurface(temp_surface);
-    SDL_Rect fillRect = {0, 0, surface->w, surface->h};
-    Uint32 transparentColor = SDL_MapRGBA(surface->format, 0, 0, 0, 255);
-    SDL_FillRect(surface, &fillRect, transparentColor);
-
-    //Blit lines in transparent surface
-    for(int i = 0; i<nlines; i++) {
-        linesurf = TTF_RenderUTF8_Solid( font_, lines[i].c_str(), textColor_ );
-        if(linesurf==NULL) continue;
-        switch (indent){
-            case 'c':
-                rect.x = (video_size.x - linesurf->w)/2;
-                break;
-            case 'l':
-                rect.x = 0;
-                break;
-            case 'r':
-                rect.x = video_size.x - linesurf->w;
-                break;
-            default:
-                rect.x = 0;
-        }
-        rect.y = i*lineskip;    
-        SDL_BlitSurface(linesurf, NULL, surface, &rect);
-    }
-
-	img = new Image;
-	if(!img->LoadFromSurface(surface)) {
-        delete img;
-		img = NULL;
+	Font *font = fonttag.size() > 0 ? fonts_[fonttag] : current_font_;
+	int screensize = ((width == -1) ? static_cast<int>(VIDEO_MANAGER()->video_size().x) : width) - 200;
+	int cur_width = 0, last_break = 0;
+	for(int i = 0; i < text.length(); i++) {
+		if(text[i] == '\n' || (text[i] == ' ' && cur_width > screensize)) {
+			subString = text.substr(last_break, i - last_break);
+			lines.push_back(subString);
+			last_break = i + 1;
+			cur_width = 0;
+		} else {
+			cur_width += static_cast<int>(font->GetLetterSize(text[i]).x);
+		}
 	}
-    SDL_FreeSurface(surface);
-    return img;
+	if(cur_width > 0) {
+		subString = text.substr(last_break, text.length());
+		lines.push_back(subString);
+	}
+
+	return new Text(lines, font);
 }
-
-Image* TextManager::LoadFile(string path, char indent) {
-    FILE* txtFile;
-    char buffer[MAXLINE];
-    int fontwidth = 32;
-    int screensize = 1024;
-    int nchar=0, pos=0, last=0;
-    string line, output;
-
+Text* TextManager::GetTextFromFile(string path, string font, int width) {
 	std::string fullpath = PATH_MANAGER()->ResolvePath(path);
-
-    txtFile = fopen(fullpath.c_str(), "r");
-    if(txtFile==NULL) return NULL;
-
-    nchar = screensize/fontwidth;
-
+	FILE* txtFile = fopen(fullpath.c_str(), "r");
+	if(txtFile==NULL) return NULL;
+	char buffer[MAXLINE];
+	string line, output;
     while(fgets(buffer, 200, txtFile)!=NULL){
         line=buffer;
-        while(pos!=-1){
-            pos = line.find(" ", last+1);
-            if(pos >= nchar){
-                output.append(line.substr(0, last));
-                output.append("\n");
-                line = line.substr(last+1, string::npos);
-                last=0;
-            }
-            else{
-                last = pos;
-            }
-        }
-        pos = 0;
         output.append(line);
     }
-
-    return LoadText(output, indent);
+	return GetText(output, font, width);
 }
 
-Text* TextManager::GetText(string text) {
-	return new Text(text, current_font_.id);
-}
-
-Vector2D TextManager::GetLetterSize(char letter) {
-	return current_font_.letters[letter]->render_size();
-}
-
-void TextManager::LoadFont(string path, int fontsize) {
-	if(fonts_.count(path) > 0)
+void TextManager::AddFont(string name, string path, int size, char ident, bool fancy) {
+	if(fonts_.count(name) > 0)
 		return;
-
-	TTF_Font *ttf_font = TTF_OpenFont( path.c_str(), fontsize );
-	char str[2];
-	int c;
-	Font font;
-	font.id = glGenLists(256);
-	font.letters = new Image*[256];
-	Vector2D blank;
-	Color color = Image::CreateColor(1.0f, 1.0f, 1.0f);
-	str[1] = '\0';
-	for(c = 1; c < 256; c++) {
-		str[0] = (char)(c);
-		SDL_Surface *letter = TTF_RenderUTF8_Blended( ttf_font, str, textColor_ );
-		font.letters[c] = new Image;
-		font.letters[c]->LoadFromSurface(letter);
-		SDL_FreeSurface(letter);
-		glNewList(font.id + c, GL_COMPILE);
-			font.letters[c]->DrawTo(blank, 0, 0, color, 1.0f, font.letters[c]->render_size());
-			glTranslatef(font.letters[c]->render_size().x, 0, 0);
-		glEndList();
-	}
-	fonts_[path] = font;
+	fonts_[name] = current_font_ = new Font(path, size, ident, fancy);
 }
 
 

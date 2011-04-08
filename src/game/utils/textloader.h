@@ -24,7 +24,7 @@ class TextLoader {
 
     bool Initialize(std::string language_file);
     framework::Drawable* GetImage(std::string text);
-    void SetFont(std::string font);
+    //void SetFont(std::string font);
 
     bool Clear();
 
@@ -35,10 +35,7 @@ class TextLoader {
       public:
         Font(std::string filepath, int size, char indent, bool style);
         ~Font() {}
-        framework::Drawable* LoadText(std::string str);
-        framework::Image* LoadFile(std::string filepath);
 
-        void SetFont();
         static bool IsFont(char *);
 
       private:
@@ -61,7 +58,7 @@ class TextLoader {
       private:
         std::string name_, font_, text_;
     };
-    void LoadFont(char *str);
+    void ReadFont(char *str);
 
     std::map<std::string, framework::Drawable*> text_images_;
     std::map<std::string, TextLoader::Font*> fonts_;

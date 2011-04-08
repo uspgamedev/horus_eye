@@ -337,6 +337,14 @@
 			>
 		</File>
 		<File
+			RelativePath=".\src\editor\scenes\editormenu.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\editor\scenes\editormenu.h"
+			>
+		</File>
+		<File
 			RelativePath=".\src\framework\engine.cc"
 			>
 		</File>
@@ -366,6 +374,14 @@
 		</File>
 		<File
 			RelativePath=".\src\game\sprites\floor.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\font.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\font.h"
 			>
 		</File>
 		<File

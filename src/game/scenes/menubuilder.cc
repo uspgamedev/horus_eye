@@ -4,6 +4,7 @@
 #include "../../framework/textmanager.h"
 #include "../../framework/scene.h"
 #include "../../framework/animation.h"
+#include "../../framework/text.h"
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
 #include "../utils/hudimagefactory.h"
@@ -124,9 +125,7 @@ Menu *MenuBuilder::BuildMainMenu () {
                                              /*options_sprite->size().y/2*/0));
         menu->set_option_sprite(i, options_sprite);
     }
-    
-    TEXT_MANAGER()->setFont("data/font/Filmcrypob.ttf", 45, NULL);
-    Image *img_version = TEXT_MANAGER()->LoadLine(Constants::VERSION);
+	Drawable *img_version = TEXT_MANAGER()->GetText(Constants::VERSION, "FontD");
     Sprite *version = new Sprite;
     version->Initialize(img_version);
     version->set_hotspot(Vector2D(0, img_version->height()));
@@ -820,15 +819,15 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     const Vector2D *resolutions = settings_->ResolutionList();
 
     resolution_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Sprite*)));
-    resolution_images_ = static_cast<Image**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Image*)));
+    resolution_images_ = static_cast<Drawable**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Drawable*)));
 
-    TEXT_LOADER()->SetFont("FontB");
+    //TEXT_LOADER()->SetFont("FontB");
     // Creates the resolution names vector.
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         resolution_sprites_[i] = new Sprite;
         std::ostringstream stm;
         stm << static_cast<int>(resolutions[i].x) << "x" << static_cast<int>(resolutions[i].y);
-        resolution_images_[i] = TEXT_MANAGER()->LoadLine(stm.str());
+        resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), "FontB");
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
         resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, /*resolution_images_[i]->height() * 0.5f*/0));
         menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (second_column_x, options[0]->position().y));

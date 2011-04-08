@@ -4,6 +4,9 @@
 #include "../../framework/textmanager.h"
 #include "../../framework/scene.h"
 #include "../../framework/animation.h"
+#include "../../framework/image.h"
+#include "../../framework/text.h"
+#include "../../framework/drawable.h"
 #include "../../game/utils/levelmanager.h"
 #include "../../game/utils/imagefactory.h"
 #include "../../game/utils/hudimagefactory.h"
@@ -145,7 +148,7 @@ EditorMenuBuilder::LoadMapMenuHandler::LoadMapMenuHandler(scene::Menu *menu, Map
 				map_list_ = editor->map_list();
 				selected_level_ = 0;
 
-				level_images_ = static_cast<Image**>(malloc(map_list_.size() * sizeof(Image*)));
+				level_images_ = static_cast<Drawable**>(malloc(map_list_.size() * sizeof(Drawable*)));
 				level_sprites_ = static_cast<Sprite**>(malloc(map_list_.size() * sizeof(Sprite*)));
 			}
 
@@ -230,14 +233,12 @@ void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) 
 }
 
 void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
-	TEXT_LOADER()->SetFont("FontB");
-
     // Creates the level images vector.
 	for (int i = 0; i < map_list_.size(); ++i) {
         level_sprites_[i] = new Sprite;
         std::ostringstream stm;
         stm << map_list_[i];
-        level_images_[i] = TEXT_MANAGER()->LoadLine(stm.str());
+        level_images_[i] = TEXT_MANAGER()->GetText(stm.str(), "FontB");
         level_sprites_[i]->Initialize(level_images_[i]);
         level_sprites_[i]->set_hotspot(Vector2D(0, 0));
 		menu_->AddSprite(level_sprites_[i], framework::Vector2D ((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),

@@ -102,23 +102,25 @@ bool TextLoader::Initialize(string language_file) {
 
         if(reading_type == 3) {
             if(TextLoader::Font::IsFont(buffer))
-                LoadFont(buffer);
+                ReadFont(buffer);
 
         } else if(TextLoader::Word::IsWord(buffer)) {
             TextLoader::Word word = Word(buffer);
-            TextLoader::Font* font = fonts_[word.font()];
+            //TextLoader::Font* font = fonts_[word.font()];
 
             Drawable* val;
-            if(reading_type == 2)
-                val = font->LoadFile(word.text());
+            if(reading_type == 2) // Reading tags of {FROM_FILE} type.
+				val = TEXT_MANAGER()->GetTextFromFile(word.text(), word.font());
             else
-                val = font->LoadText(word.text());
+				val = TEXT_MANAGER()->GetText(word.text(), word.font());
 
-			if(val == NULL)
+			if(val == NULL) // Don't store NULL drawables. 
 				continue;
 
             string name = word.name();
 
+			// Defensive Programming! Erase previous drawable with same name 
+			// before overwriting.
             if(text_images_.count(name) && text_images_[name] != NULL) {
                 text_images_[name]->Destroy();
                 delete text_images_[name];
@@ -134,13 +136,13 @@ bool TextLoader::Initialize(string language_file) {
 }
 
 Drawable* TextLoader::GetImage(string text) {
-    return text_images_[text];
+		return text_images_[text];
 }
 
-void TextLoader::SetFont(std::string font) {
+/*void TextLoader::SetFont(std::string font) {
     if(fonts_.count(font))
         fonts_[font]->SetFont();
-}
+}*/
 
 bool TextLoader::Clear() {
     map<string, Drawable*>::iterator it;
@@ -158,7 +160,7 @@ bool TextLoader::Clear() {
 //===================================================================
 //  FONT
 static string font_def = "[]{}:\0";
-void TextLoader::LoadFont(char* str) {
+void TextLoader::ReadFont(char* str) {
     char buffer[STRING_LENGTH];
     strcpy(buffer, str);
 
@@ -191,6 +193,7 @@ void TextLoader::LoadFont(char* str) {
     end =   strchr(buffer + 1, '\n');
     if(end != NULL) end[0] = '\0';
 
+	TEXT_MANAGER()->AddFont(name, resp + 1, font_size, ident, style);
     fonts_[name] = new Font(resp + 1, font_size, ident, style);
 }
 
@@ -199,21 +202,6 @@ TextLoader::Font::Font(std::string filepath, int size, char indent, bool style) 
     size_ = size;
     indent_ = indent;
     style_ = style;
-}
-Drawable* TextLoader::Font::LoadText(string str) {
-	return TEXT_MANAGER()->GetText(str);
-    SetFont();
-    if(style_)
-        return TEXT_MANAGER()->LoadFancyLine(str.c_str());
-    else
-        return TEXT_MANAGER()->LoadLine(str.c_str());
-}
-Image* TextLoader::Font::LoadFile(string filepath) {
-    SetFont();
-    return TEXT_MANAGER()->LoadFile(filepath.c_str(), indent_);
-}
-void TextLoader::Font::SetFont() {
-    TEXT_MANAGER()->setFont(filepath_, size_, NULL);
 }
 bool TextLoader::Font::IsFont(char *str) {
     if (str[0] != '[') return false;
