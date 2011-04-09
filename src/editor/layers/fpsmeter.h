@@ -3,18 +3,20 @@
 
 #include "../../framework/layer.h"
 #include "../../framework/sprite.h"
+#include "../../framework/animationset.h"
 
 namespace editor {
 
 class FPSMeter : public framework::Layer {
   public:
     FPSMeter();
-    virtual ~FPSMeter() {}
+    virtual ~FPSMeter();
     virtual void Update(float delta_t);
 
   private:
-    framework::Sprite *fps_meter_[3];
-    int fps_meter_value_[3];
+    framework::Sprite       *fps_meter_[3];
+    framework::uint32       fps_meter_value_[3];
+    framework::AnimationSet *numbers_;
 };
 
 }

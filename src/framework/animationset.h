@@ -5,43 +5,46 @@
 #include <map>
 #include <vector>
 #include <utility>
+#include "modifier.h"
+#include "animation.h"
 
 namespace framework {
-
-class Animation;
 
 class AnimationSet {
 
   public:
 
-    AnimationSet(size_t size);
-    virtual ~AnimationSet();
+    AnimationSet();
+    ~AnimationSet();
+
+    // Deletes all this AnimationSet's content from memory.
+    // Use with caution.
+    void Release();
 
     // Returns the animation indexed by index, or NULL if it is not there.
-    Animation* Get(int index);
+    Animation::FrameSequence* Get(size_t index);
 
-    // Adds a animation to the set, naming it for later requests.
-    void Add(std::string name, Animation* animation);
+    // Adds a modifier sequence to the set, naming it for later requests.
+    void Add(std::string name, Animation::FrameSequence *sequence);
+    void Add(std::string name, ...);
 
     // Searches for the animation using the given name.
     // Returns it if it is found or NULL if else.
-    Animation* Search(std::string name);
+    Animation::FrameSequence* Search(std::string name);
 
-    // Uses the given index to optimize access to the animations identified by
-    // the given name.
-    // The caller should be counscious of the given indexes for later use
+    // Optimizes access to the animations identified by the given name.
+    // The caller should be counscious of the returned indexes for later use
     // of these animations through the Get() method.
-    // Returns true if the animation was successfully indexed or false if else.
-    bool MakeIndex(int index, std::string name);
+    // Returns the generated index or -1 if the animation was not found.
+    uint32 MakeIndex(std::string name);
 
   private:
 
-    typedef std::map<std::string,Animation*> AnimationMap;
-    typedef std::vector<Animation*> IndexArray;
+    typedef std::map<std::string,Animation::FrameSequence*> SequenceMap;
+    typedef std::vector<Animation::FrameSequence*> IndexArray;
 
-    size_t size_;
-    AnimationMap animations_;
-    IndexArray indexed_animations_;
+    SequenceMap sequences_;
+    IndexArray indexed_sequences_;
 
 };
 

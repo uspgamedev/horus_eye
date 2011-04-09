@@ -19,10 +19,6 @@ namespace framework {
 class Image : public Drawable {
   friend class VideoManager;
   public:
-    typedef Uint8 Mirror;
-    static const Mirror MIRROR_NONE = 0;
-    static const Mirror MIRROR_HFLIP = 1;
-    static const Mirror MIRROR_VFLIP = 2;
 
     Image();
 	~Image() {}

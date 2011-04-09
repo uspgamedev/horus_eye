@@ -8,46 +8,37 @@
 
 namespace framework {
 
-Sprite::Sprite() : light_(NULL), alpha_(1.0f), delete_image_(false) {
-	color_ = Image::CreateColor(1.0f, 1.0f, 1.0f);
-}
+Sprite::Sprite() : light_(NULL), modifier_(), delete_image_(false) {}
 
 Sprite::~Sprite() {
     if (animation_) delete animation_;
     if (delete_image_ && image_) delete image_;
 }
 
-void Sprite::Initialize(Drawable *image, bool delete_image)
+void Sprite::Initialize(Drawable *image, AnimationSet *set, bool delete_image)
 {
     image_ = image;
   	set_zindex(0.0f);
     visible_ = true;
-    animation_ = new Animation(50, 0, -1);
+    animation_ = new Animation(10, set);
     hotspot_ = position_ = Vector2D(0,0);
-    mirror_ = Image::MIRROR_NONE;
+    //mirror_ = Image::MIRROR_NONE;
     delete_image_ = delete_image;
 	size_ = image->render_size();
 }
 
-void Sprite::SelectAnimation(Animation *animation) {
-    animation_ = animation;
-}
-
-void Sprite::Render(Image *back_buffer, Vector2D &offset) {
+void Sprite::Render() {
     if (visible_) {
         int frame_number = animation_->get_current_frame();
-        //image_->DrawTo(position_ - hotspot_ - offset, frame_number, mirror_, color_, alpha_, size_);
-        image_->DrawTo(position_ - hotspot_, frame_number, mirror_, color_, alpha_, size_);
+        Modifier *modifier = animation_->get_current_modifier();
+        image_->DrawTo(position_ - hotspot_, frame_number, modifier, size_);
     }
 }
 
 void Sprite::RenderLight(Vector2D &offset) {
     if (visible_ && light_) {
-		//glPushMatrix();
 		Vector2D pos = position_ - offset;
-		//glTranslatef(pos.x, pos.y, 0);
         light_->Render(pos);
-		//glPopMatrix();
     }
 }
 

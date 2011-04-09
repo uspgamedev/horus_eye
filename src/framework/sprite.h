@@ -5,19 +5,23 @@
 #include "image.h"
 #include "vector2D.h"
 #include "types.h"
+#include "animation.h"
 
 
 namespace framework {
 
 class Drawable;
-class Animation;
+//class Animation;
+class Modifier;
 class Light;
+class AnimationSet;
 class Sprite {
   public:
     Sprite();
     virtual ~Sprite();
 
-    void Initialize(Drawable *image, bool delete_image = false);
+    virtual void Initialize(Drawable *image, AnimationSet *set = NULL,
+                    bool delete_image = false);
 
     // Acessors e mutators
     Vector2D position() const { return position_; }
@@ -36,11 +40,19 @@ class Sprite {
 
     //Image *image() { return image_; }
 
-	Color color() { return color_; }
-	void set_color(Color color) { color_ = color; }
+	Color color() {
+	    return modifier_ ? modifier_->color() : WHITE;
+	}
+	void set_color(Color color) {
+	    if(modifier_) modifier_->set_color(color);
+	}
 	
-	float alpha() { return alpha_; }
-	void set_alpha(float alpha) { alpha_ = alpha; }
+	float alpha() {
+	    return modifier_ ? modifier_->alpha() : 1.0f;
+	}
+	void set_alpha(float alpha) {
+	    if (modifier_) modifier_->set_alpha(alpha);
+	}
 
 	const Vector2D size() { return size_; }
 	void set_size(const Vector2D& size) { size_ = size; }
@@ -67,19 +79,30 @@ class Sprite {
     //bool SelectAnimation(int animation_id);
 
     // ======================================================================
-    void SelectAnimation(Animation *animation);
-    Animation* animation() { return animation_; }
+    //void SelectAnimation(Animation *animation);
+    void SelectAnimation(std::string animation_name) {
+        animation_->Select(animation_name);
+    }
+    void SelectAnimation(int animation_index) {
+        animation_->Select(animation_index);
+    }
+    void SetAnimationFPS(int fps) { animation_->set_fps(fps); }
+    float GetAnimationFPS() const { return animation_->fps(); }
+    void AddObserverToAnimation(Observer *observer) {
+        animation_->AddObserver(observer);
+    }
+    int GetAnimationFrameNumber() const { return animation_->n_frames(); }
+    //Animation* animation() { return animation_; }
 
-    virtual void Render(Image *back_buffer, Vector2D &offset);
+    virtual void Render();
 	void RenderLight(Vector2D &offset);
 
     // Realiza a atualizacao com base na variacao de tempo (delta_t)
     virtual void Update(float delta_t);
 
   protected:
-    Image::Mirror mirror() const { return mirror_; }
-    void set_mirror(Image::Mirror mirror) { mirror_ = mirror; }
-    bool withinScreen(Vector2D &offset);
+    Mirror mirror() const { return modifier_->mirror(); }
+    void set_mirror(Mirror mirror) { modifier_->set_mirror(mirror); }
 
 	Light *light_;
     float zindex_;
@@ -88,10 +111,11 @@ class Sprite {
     Vector2D position_, hotspot_, size_;
     //Image *image_;
 	Drawable *image_;
-    Image::Mirror mirror_;
-	Color color_;
-	float alpha_;
+    //Image::Mirror mirror_;
+	//Color color_;
+	//float alpha_;
     Animation *animation_;
+    Modifier *modifier_;
     bool visible_, delete_image_;
 
 };

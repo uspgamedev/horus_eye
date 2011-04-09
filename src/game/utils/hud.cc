@@ -152,6 +152,8 @@ void Hud::Update(float delta_t) {
     digit[1] = (enemy_number / 10) % 10;
     digit[0] = enemy_number % 10;
 
+    // TODO: fixme (Contadores)
+    /*
     for(int i = 0; i < 3; ++i) {
         if(digit[i] != enemy_counter_value_[i]) {
             enemy_counter_value_[i] = digit[i];
@@ -170,7 +172,7 @@ void Hud::Update(float delta_t) {
             fps_meter_value_[i] = digit[i];
             fps_meter_[i]->animation()->set_framelist(fps_meter_value_[i], -1);
         }
-    }
+    } */
 
     if (weapon_icon_ != NULL) {
         icon_added[weapon_icon_]->set_visible(false);

@@ -3,6 +3,7 @@
 
 #include "vector2D.h"
 #include "types.h"
+#include "modifier.h"
 
 namespace framework {
 
@@ -13,6 +14,15 @@ class Drawable {
 		const Color& color, float alpha, const Vector2D& draw_size) {
 			return false;
 	}
+	virtual bool DrawTo(const Vector2D& position, int frame_number, Modifier *modifier,
+        const Vector2D& draw_size) {
+	    if (modifier != NULL)
+	        return DrawTo(position, frame_number, modifier->mirror(),
+                      modifier->color(), modifier->alpha(), draw_size);
+	    else
+	        return DrawTo(position, frame_number, MIRROR_NONE,
+                      WHITE, 1.0f, draw_size);
+    }
 
 	virtual Vector2D render_size() const { return Vector2D(); }
 

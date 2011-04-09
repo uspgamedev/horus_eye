@@ -21,7 +21,7 @@ class Page : public Menu {
         LAST_PAGE,
         NORMAL_PAGE,
         SOLO_PAGE
-    }PageTypes;
+    } PageTypes;
 
     Page (int selection_num, int page_num, PageManager *manager);
     virtual ~Page ();

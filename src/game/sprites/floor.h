@@ -4,7 +4,7 @@
 #include "worldobject.h"
 namespace framework {
 	class Image;
-	class Animation;
+    class AnimationSet;
 };
 namespace utils {
     class Tile;
@@ -14,13 +14,18 @@ namespace sprite {
 class Floor : public WorldObject {
 
   public:
+    // TODO FIXME remake light system!!!
     Floor(framework::Image* image);
     virtual void Update(float delta_t);
-    virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
+
+    static void InitializeAnimations();
+    static void ReleaseAnimations();
 
   private:
     utils::Tile *tile_;
-    framework::Animation *clear_, *dark_;
+
+    static framework::AnimationSet  *ANIMATIONS;
+    static framework::uint32        CLEAR, DARK;
 
 };
 

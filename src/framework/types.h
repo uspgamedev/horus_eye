@@ -17,6 +17,9 @@ typedef struct Color {
   float b;
 } Color;
 
+//static Color BLACK = {0.0f, 0.0f, 0.0f};
+static Color WHITE = {1.0f, 1.0f, 1.0f};
+
 typedef Uint8 uint8;
 typedef Uint16 uint16;
 typedef Uint32 uint32;
@@ -25,6 +28,11 @@ typedef Sint8 int8;
 typedef Sint16 int16;
 typedef Sint32 int32;
 typedef Sint64 int64;
+
+typedef Uint8 Mirror;
+static const Mirror MIRROR_NONE = 0;
+static const Mirror MIRROR_HFLIP = 1;
+static const Mirror MIRROR_VFLIP = 2;
 
 }  // namespace framework
 

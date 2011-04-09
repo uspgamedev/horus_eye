@@ -25,22 +25,29 @@ using namespace scene;
 Wall::Wall(Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
-    visible_animation_ = new Animation(50, 0, -1);
+
+    // TODO: fixme (Wall Transparency)
+    /* visible_animation_ = new Animation(50, 0, -1);
     transparent_animation_ = new Animation(50, 1, -1);
     dark_visible_animation_ = new Animation(50, 5, -1);
     dark_transparent_animation_ = new Animation(50, 6, -1);
+    SelectAnimation(visible_animation_); */
     collision_type_ = STATIC;
-    SelectAnimation(visible_animation_);
     bound_ = new RectObject(1.0f, 1.0f);
     tile_ = NULL;
 }
 Wall::~Wall() {
-    SelectAnimation(visible_animation_);
-    delete transparent_animation_;
+    // TODO: fixme (Wall Transparency)
+//    SelectAnimation(visible_animation_);
+//    delete transparent_animation_;
 }
 
 void Wall::set_type(WallType walltype) {
     wall_type_ = walltype;
+
+    // TODO: fixme (Wall Transparency)
+    /*
+
     SelectAnimation(visible_animation_);
     delete transparent_animation_;
     delete dark_transparent_animation_;
@@ -66,7 +73,7 @@ void Wall::set_type(WallType walltype) {
     }
     transparent_animation_ = new Animation(50, type, -1);
     dark_transparent_animation_ = new Animation(50, 5 + type, -1);
-    transparency_square_ = Square(topleft, botright);
+    transparency_square_ = Square(topleft, botright); */
 }
 
 bool IsWall(Tile *tile) {
@@ -105,6 +112,9 @@ void Wall::Update(float delta_t) {
     //CheckType();
     if(!tile_)
         tile_ = Tile::GetFromWorldPosition(world->level_matrix(), world_position());
+
+    // TODO: fixme (Wall Transparency)
+    /*
     if(world->hero() != NULL) {
         Vector2D distance = world->hero()->world_position() - world_position();
         if(transparency_square_.Contains(distance)) {
@@ -119,15 +129,11 @@ void Wall::Update(float delta_t) {
             else
                 SelectAnimation(dark_visible_animation_);
         }
-    }
+    }*/
 }
 
 void Wall::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
-}
-
-void Wall::Render(Image *back_buffer, Vector2D &offset) {
-    Sprite::Render(back_buffer, offset);
 }
 
 }

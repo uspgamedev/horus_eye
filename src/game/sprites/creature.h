@@ -12,11 +12,12 @@
 
 namespace framework {
 class TimeAccumulator;
+class Animation;
+class AnimationSet;
 }
 
 namespace sprite {
 
-using framework::Animation;
 using framework::Vector2D;
 
 class Weapon;
@@ -27,6 +28,10 @@ class Creature : public WorldObject , public framework::Observer {
   public:
     Creature();
     virtual ~Creature();
+
+    void Initialize(framework::Drawable *image,
+                    framework::AnimationSet *set = NULL,
+                    bool delete_image = false);
 
     int life() { return life_; }
 	void set_life(int life) {
@@ -55,17 +60,36 @@ class Creature : public WorldObject , public framework::Observer {
 
     virtual void HandleCollision(WorldObject *);
 
+    static void InitializeAnimations();
+    static void ReleaseAnimations();
+
+
+    // TODO: fixme
+    static framework::AnimationSet *GET_ANIMATIONS() { return ANIMATIONS; }
+
   protected:
 	bool waiting_animation_;
     int animation_direction_;
     int direction_mapping_[8];
+    /*
     Animation *last_standing_animation_;
     Animation ** standing_animations_[16];
     Animation ** walking_animations_[16];
     Animation * attacking_animations_[8];
     Animation * taking_damage_animation_;
     Animation * dying_animation_;
+    */
     Weapon *weapon_;
+
+    int last_standing_animation_;
+
+    static int standing_animations_[16];
+    static int walking_animations_[16];
+    static int attacking_animations_[8];
+    static int taking_damage_animation_;
+    static int dying_animation_;
+
+    static framework::AnimationSet *ANIMATIONS;
 
     Vector2D directions_[4];
     
@@ -86,7 +110,7 @@ class Creature : public WorldObject , public framework::Observer {
     };
 
     virtual void Update(float dt) { UpdateCondition(dt); WorldObject::Update(dt); }
-	virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
+	virtual void Render();
 
     // funcoes
     void AdjustBlink(float delta_t);
@@ -94,13 +118,13 @@ class Creature : public WorldObject , public framework::Observer {
     void Tick();
     float GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(float angle);
-    void InitializeStandingAnimations();
-    void InitializeWalkingAnimations();
-    void InitializeAttackingAnimations();
     virtual framework::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
     void CollideWithRect(const utils::RectObject*);
+    static void InitializeStandingAnimations();
+    static void InitializeWalkingAnimations();
+    static void InitializeAttackingAnimations();
 
     // variaveis
     Vector2D last_stable_position_;

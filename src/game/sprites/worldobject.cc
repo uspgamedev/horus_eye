@@ -59,8 +59,8 @@ void WorldObject::set_world_position(const framework::Vector2D& pos) {
 }
 
 
-void WorldObject::Render(Image *back_buffer, Vector2D &offset) {
-    if(false) {
+void WorldObject::Render() {
+    if(false) { // TODO: fixme
         World *world = WORLD();
         GameMap& map = world->level_matrix();
 
@@ -71,7 +71,7 @@ void WorldObject::Render(Image *back_buffer, Vector2D &offset) {
 
         }
     }
-    Sprite::Render(back_buffer, offset);
+    Sprite::Render();
 
 }
 

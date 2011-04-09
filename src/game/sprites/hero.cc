@@ -44,7 +44,7 @@ Hero::Hero(Image* img) {
         utils::ImageFactory img_fac;
         img = img_fac.HeroImage();
     }
-    Initialize(img);
+    Initialize(img, ANIMATIONS);
 
     directions_[Direction_::RIGHT] = Vector2D(1, -1);
     directions_[Direction_::LEFT] = Vector2D(-1, 1);
@@ -52,15 +52,17 @@ Hero::Hero(Image* img) {
     directions_[Direction_::UP] = Vector2D(1, 1);
 
     // Animations
+    /*
     InitializeStandingAnimations();
     InitializeWalkingAnimations();
     InitializeAttackingAnimations();
 
     dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
+    */
 
     screen_center_ = Engine::reference()->window_size() * .5;
 
-    dying_animation_->AddObserver(this);
+    //dying_animation_->AddObserver(this);
 
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
@@ -72,7 +74,8 @@ Hero::Hero(Image* img) {
     direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
     animation_direction_ = 0;
-    last_standing_animation_ = *standing_animations_[Animation_::DOWN];
+    //last_standing_animation_ = *standing_animations_[Animation_::DOWN];
+    last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
@@ -173,7 +176,9 @@ void Hero::GetKeys() {
         }
     }
 
-    last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    //last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    if (animation_direction_)
+        last_standing_animation_ = standing_animations_[animation_direction_];
 
 
     Vector2D dir (0, 0);
@@ -193,8 +198,9 @@ void Hero::StartAttack() {
             screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    //last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+    last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
+    this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
 void Hero::StartExplosion() {
@@ -221,7 +227,11 @@ void Hero::Update(float delta_t) {
         } else {
             Creature::Move(this->GetWalkingDirection(), delta_t);
             this->GetKeys();
-            this->SelectAnimation(*walking_animations_[animation_direction_]);
+            //this->SelectAnimation(*walking_animations_[animation_direction_]);
+            if (animation_direction_)
+                this->SelectAnimation(walking_animations_[animation_direction_]);
+            else
+                this->SelectAnimation(last_standing_animation_);
         }
     }
     AdjustBlink(delta_t);

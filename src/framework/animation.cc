@@ -4,11 +4,12 @@
 #include <stdarg.h>
 #include "animation.h"
 #include "observer.h"
+#include "animationset.h"
 namespace framework {
 
 #define ANIMATION_BUFFER_SIZE 256
 
-
+/*
 Animation::Animation(float fps, ...) {
     int i = 0;
     static int tmp_frame_list[ANIMATION_BUFFER_SIZE];
@@ -26,15 +27,20 @@ Animation::Animation(float fps, ...) {
     }
 
     CopyFrameList(tmp_frame_list, i);
-    fps_ = fps;
+    period_ = 1.0/fps;
     elapsed_time_ = 0;
     current_frame_ = 0;
 }
+*/
 
-Animation::~Animation() {
-    delete[] frames_;
-}
+Animation::Animation(float fps, AnimationSet *set)
+    : period_(1.0f/fps), frames_(NULL), animation_set_(set),
+      current_frame_(0) {}
 
+
+Animation::~Animation() {}
+
+/*
 void Animation::set_framelist(int frame1, ...) {
     int i = 1;
     static int tmp_frame_list[ANIMATION_BUFFER_SIZE];
@@ -53,6 +59,7 @@ void Animation::set_framelist(int frame1, ...) {
     CopyFrameList(tmp_frame_list, i);
 }
 
+
 void Animation::CopyFrameList(int frame_list[], int n_frames) {
     if(frames_ != NULL)
         delete[] frames_;
@@ -60,13 +67,47 @@ void Animation::CopyFrameList(int frame_list[], int n_frames) {
     frames_ = new int[n_frames];
     memcpy(frames_, frame_list, n_frames_ * sizeof(int));
 }
+*/
+
+int Animation::get_current_frame() {
+    if (frames_) {
+        AnimationFrame *frame = frames_->at(current_frame_);
+        if (frame)
+            return frame->frame();
+        else return 0;
+    }
+    else return 0;
+}
+
+void Animation::Select(std::string name) {
+    if (animation_set_) {
+        FrameSequence *new_frames = animation_set_->Search(name);
+        if (frames_ != new_frames) {
+            frames_ = new_frames;
+            current_frame_ = 0;
+            elapsed_time_ = 0;
+        }
+    }
+}
+
+void Animation::Select(int index) {
+    if (animation_set_) {
+        FrameSequence *new_frames = animation_set_->Get(index);
+        if (frames_ != new_frames) {
+            frames_ = new_frames;
+            current_frame_ = 0;
+            elapsed_time_ = 0;
+        }
+    }
+}
 
 void Animation::Update(float delta_t) {
+    if (!frames_) return;
     elapsed_time_ += delta_t;
-    if (elapsed_time_ >= 1 / fps_) {
-        current_frame_ = (current_frame_ + 1) % n_frames_;
+    if (elapsed_time_ >= period_) {
+        current_frame_ = (current_frame_ + 1) % frames_->size();
         if (current_frame_ == 0) NotifyAllObservers();
-        elapsed_time_ = 0;
+        elapsed_time_ -= period_;
     }
 }
 

@@ -30,7 +30,7 @@ class WorldObject : public framework::Sprite {
     virtual CollisionType collision_type() const { return collision_type_; }
     virtual Status status() const { return status_; }
     virtual void Update(float dt);
-    virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
+    virtual void Render();
     virtual float light_radius(){ return light_radius_; }
     virtual void set_light_radius(float radius);
 

@@ -212,7 +212,9 @@ void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) 
 			level_sprites_[selected_level_]->set_visible(false);
 			selected_level_ += modifier;
 			if (selected_level_ < 0) { selected_level_ = map_list_.size() - 1; }
-			if (selected_level_ >= map_list_.size()) { selected_level_ = 0; }
+			if (selected_level_ >= static_cast<int>(map_list_.size())) {
+			    selected_level_ = 0;
+			}
             level_sprites_[selected_level_]->set_visible(true);
             break;
         }
@@ -234,7 +236,7 @@ void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) 
 
 void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
     // Creates the level images vector.
-	for (int i = 0; i < map_list_.size(); ++i) {
+	for (size_t i = 0; i < map_list_.size(); ++i) {
         level_sprites_[i] = new Sprite;
         std::ostringstream stm;
         stm << map_list_[i];
@@ -243,7 +245,7 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
         level_sprites_[i]->set_hotspot(Vector2D(0, 0));
 		menu_->AddSprite(level_sprites_[i], framework::Vector2D ((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),
 																  MENU_TOP + RECT_HEIGHT));
-        if ( i != selected_level_ ) level_sprites_[i]->set_visible(false);
+        if ( static_cast<int>(i) != selected_level_ ) level_sprites_[i]->set_visible(false);
     }
 }
 void EditorMenuBuilder::LoadMapMenuHandler::CleanUp() {
@@ -251,7 +253,7 @@ void EditorMenuBuilder::LoadMapMenuHandler::CleanUp() {
     delete bg_img_;
 
 	free(level_sprites_);
-    for(int i = 0; i < map_list_.size(); ++i) {
+    for(size_t i = 0; i < map_list_.size(); ++i) {
         level_images_[i]->Destroy();
         delete level_images_[i];
     }

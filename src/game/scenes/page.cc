@@ -41,7 +41,8 @@ Page::Page (int selection_num, int page_type, PageManager *manager)
         Sprite *left_arrow = new Sprite;
         left_arrow->Initialize(arrow);
         left_arrow->set_hotspot(Vector2D(0.0, arrow->height()));
-        left_arrow->SelectAnimation(new Animation(30, 1, -1));
+        // TODO FIXME
+        //left_arrow->SelectAnimation(new Animation(30, 1, -1));
         AddSprite(left_arrow, Vector2D(0.0, VIDEO_MANAGER()->video_size().y));
     }
     if(page_type != Page::LAST_PAGE && page_type_!=SOLO_PAGE){

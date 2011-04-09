@@ -10,6 +10,9 @@
 #include "../scenes/imagescene.h"
 #include "../scenes/scrollingimagescene.h"
 #include "../scenes/loading.h"
+#include "../sprites/creature.h"
+#include "../sprites/explosion.h"
+#include "../sprites/floor.h"
 #include "../sprites/weapons/herofireballweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
 #include "../sprites/weapons/heroexplosionweapon.h"
@@ -35,6 +38,9 @@ void LevelManager::Initialize() {
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
+	Creature::InitializeAnimations();
+    Explosion::InitializeAnimations();
+    Floor::InitializeAnimations();
 
 	MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
@@ -147,6 +153,9 @@ void LevelManager::LoadNextLevel() {
 void LevelManager::Finish() {
 	if (hero_)
 		delete hero_;
+	Creature::ReleaseAnimations();
+    Explosion::ReleaseAnimations();
+    Floor::ReleaseAnimations();
 }
 
 LevelManager::~LevelManager() {}

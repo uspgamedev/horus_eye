@@ -1,6 +1,7 @@
 #include "explosion.h"
 #include "mummy.h"
 #include "../../framework/animation.h"
+#include "../../framework/animationset.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
@@ -16,21 +17,46 @@ using namespace utils;
 
 namespace sprite {
 
-Explosion::Explosion(Image *image, Animation *animation, float radius, float damage) 
+AnimationSet*   Explosion::ANIMATIONS = NULL;
+const int       Explosion::HERO_FIREBALL_WEAPON = 0;
+const int       Explosion::HERO_EXPLOSION_WEAPON = 1;
+uint32          Explosion::WEAPON_ANIMATIONS[2];
+
+
+Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 {
-    Initialize(image);
+    Initialize(image, ANIMATIONS);
 	set_hotspot(Vector2D(CENTER_X, CENTER_Y));
 	damage_ = damage;
 	bound_ = new CircleObject(radius / 2);
 	set_light_radius(1.3*radius);
 	collision_type_ = MOVEABLE;
-    animation->AddObserver(this);
-    SelectAnimation(animation);
+	AddObserverToAnimation(this);
+    SelectAnimation(WEAPON_ANIMATIONS[animation]);
 
-    expansion_speed_ = (radius / 2) / (animation->n_frames() / animation->fps());
+    expansion_speed_ = (radius / 2) /
+            (GetAnimationFrameNumber() / GetAnimationFPS());
 }
 
 Explosion::~Explosion() {}
+
+void Explosion::InitializeAnimations() {
+    ANIMATIONS = new AnimationSet();
+    ANIMATIONS->Add("HERO_FIREBALL_WEAPON", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
+    WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] =
+            ANIMATIONS->MakeIndex("HERO_FIREBALL_WEAPON");
+    ANIMATIONS->Add("HERO_EXPLOSION_WEAPON", 0, 1, 2, 3, 4, 5, -1);
+    WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] =
+            ANIMATIONS->MakeIndex("HERO_EXPLOSION_WEAPON");
+}
+
+void Explosion::ReleaseAnimations() {
+    ANIMATIONS->Release();
+    delete ANIMATIONS;
+    ANIMATIONS = NULL;
+    WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] = -1;
+    WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] = -1;
+}
 
 void Explosion::Tick() {
     this->status_ = WorldObject::STATUS_DEAD;

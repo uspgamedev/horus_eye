@@ -40,7 +40,7 @@ static int WaitingTime () {
 }
 
 Mummy::Mummy(Image* img) {
-    Initialize(img);
+    Initialize(img, ANIMATIONS);
 	bound_ = NULL;
 
     World *world = ((World *)Engine::reference()->CurrentScene());
@@ -50,9 +50,11 @@ Mummy::Mummy(Image* img) {
     directions_[Direction_::UP] =    world->FromScreenLinearCoordinates(Vector2D(0.0f, -0.5f));
 
     // Animations
+    /*
     InitializeStandingAnimations();
     InitializeWalkingAnimations();
     InitializeAttackingAnimations();
+    */
     
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
@@ -62,19 +64,20 @@ Mummy::Mummy(Image* img) {
     direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
     direction_mapping_[6] = Animation_::DOWN;
     direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
-
+    /*
 	for(int i = 0;i < 8;i++) 
 		attacking_animations_[i]->set_fps(5);
 
     taking_damage_animation_ = new Animation(10, 80, 81, 82, -1);
     dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
-
+    */
     animation_direction_ = 0;
-    last_standing_animation_ = *standing_animations_[Animation_::DOWN];
-
+    //last_standing_animation_ = *standing_animations_[Animation_::DOWN];
+    last_standing_animation_ = standing_animations_[Animation_::DOWN];
+    /*
     taking_damage_animation_->AddObserver(this);
     dying_animation_->AddObserver(this);
-
+    */
     this->SelectAnimation(last_standing_animation_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
@@ -114,7 +117,8 @@ void Mummy::StartAttack(Creature* obj) {
     float attackAngle = GetAttackingAngle(obj->position() - position());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+    //last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
+    last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
@@ -145,7 +149,8 @@ void Mummy::UpdateDirection(Vector2D destiny){
 
     Vector2D dir_ = path_.front() - world_position(); 
     last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
-    last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    //last_standing_animation_ = *(standing_animations_[animation_direction_]);
+    last_standing_animation_ = (standing_animations_[animation_direction_]);
 
 }
 
@@ -170,7 +175,8 @@ void Mummy::Think(float dt) {
 		}
         else if(!standing_){
             RandomMovement();
-            last_standing_animation_ = *(standing_animations_[animation_direction_]);
+            //last_standing_animation_ = *(standing_animations_[animation_direction_]);
+            last_standing_animation_ = (standing_animations_[animation_direction_]);
         }
     }
 }
@@ -196,7 +202,8 @@ void Mummy::Update(float delta_t) {
 
 	        Creature::Move(this->GetWalkingDirection(), delta_t);
 	        walking_direction_ = last_direction_;
-	        this->SelectAnimation(*walking_animations_[animation_direction_]);
+	        //this->SelectAnimation(*walking_animations_[animation_direction_]);
+	        this->SelectAnimation(walking_animations_[animation_direction_]);
 		}
     }
 

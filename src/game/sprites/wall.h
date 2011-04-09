@@ -22,7 +22,6 @@ class Wall : public WorldObject {
     Wall(framework::Image* image);
     ~Wall();
     virtual void Update(float dt);
-    virtual void Render(framework::Image *back_buffer, framework::Vector2D &offset);
     virtual void HandleCollision(WorldObject *);
     void set_type(WallType);
 

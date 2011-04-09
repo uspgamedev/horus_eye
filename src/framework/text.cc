@@ -5,7 +5,7 @@
 namespace framework {
 
 Text::Text(std::string message, Font *font) : font_(font) {
-	int i;
+	size_t i;
 	message_.push_back(message);
 	width_ = 0;
 	line_height_ = height_ = 
@@ -17,7 +17,8 @@ Text::Text(std::string message, Font *font) : font_(font) {
 }
 
 Text::Text(std::vector<std::string> message, Font *font) : font_(font) {
-	int i, j, width, size;
+	size_t i;
+	int    j, width, size;
 	width_ = 0;
 	height_ = 0;
 	line_height_ = 0;
@@ -55,7 +56,7 @@ bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror,
 	Font::IdentType ident = font_->ident();
 	glTranslatef( position.x, position.y, 0 );
 	glListBase(font_->id());
-	for(int i = 0; i < message_.size(); ++i) {
+	for(size_t i = 0; i < message_.size(); ++i) {
 		if(message_[i].length() > 0) {
 			glPushMatrix();
 			switch(ident) {

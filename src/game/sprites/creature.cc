@@ -1,4 +1,5 @@
 #include "../../framework/animation.h"
+#include "../../framework/animationset.h"
 #include "creature.h"
 #include "worldobject.h"
 #include "mummy.h"
@@ -18,7 +19,15 @@ using namespace utils;
 
 namespace sprite {
 
-Creature::Creature() : 	WorldObject() { 
+int Creature::standing_animations_[16];
+int Creature::walking_animations_[16];
+int Creature::attacking_animations_[8];
+int Creature::taking_damage_animation_ = -1;
+int Creature::dying_animation_ = -1;
+
+AnimationSet* Creature::ANIMATIONS = NULL;
+
+Creature::Creature() : WorldObject() {
 	last_stable_position_ = Vector2D(0,0);
 	hit_duration_ = NULL;
 	waiting_animation_ = false;
@@ -33,9 +42,10 @@ Creature::~Creature() {
     if (hit_duration_) delete hit_duration_;
 
     // Para evitar double free.
-    SelectAnimation(NULL);
+    //SelectAnimation(NULL);
 
-    // Remove todas as animaÃ§Ãµes.
+    // Remove todas as animações.
+    /*
     for (int i = 0; i < 8; i++) {
         delete *standing_animations_[direction_mapping_[i]];
         free(standing_animations_[direction_mapping_[i]]);
@@ -47,14 +57,21 @@ Creature::~Creature() {
         delete attacking_animations_[i];
     }
     delete dying_animation_;
+    */
 
 }
+
+void Creature::Initialize(Drawable *image, AnimationSet *set,
+                          bool delete_image) {
+    Sprite::Initialize(image, set, delete_image);
+    AddObserverToAnimation(this);
+}
+
 
 bool deletecondition(Condition *condition) {
 	bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
 	if (is_finished) delete condition;
     return is_finished;
-
 }
 
 bool Creature::AddCondition(Condition* new_condition) {
@@ -94,61 +111,124 @@ void Creature::TakeDamage(int life_points) {
     }
 }
 
-void Creature::InitializeAttackingAnimations() {
-    attacking_animations_[6] = new Animation(10, 44, 54, 64, 74, -1);
-    attacking_animations_[4] = new Animation(10, 47, 57, 67, 77, -1);
-    attacking_animations_[0] = new Animation(10, 42, 52, 62, 72, -1);
-    attacking_animations_[2] = new Animation(10, 40, 50, 60, 70, -1);
-    attacking_animations_[7] = new Animation(10, 43, 53, 63, 73, -1);
-    attacking_animations_[5] = new Animation(10, 46, 56, 66, 76, -1);
-    attacking_animations_[1] = new Animation(10, 41, 51, 61, 71, -1);
-    attacking_animations_[3] = new Animation(10, 48, 58, 68, 78, -1);
-
-    for (int i = 0; i < 8; i++) {
-        attacking_animations_[i]->AddObserver(this);
+void Creature::InitializeAnimations() {
+    if (ANIMATIONS == NULL) {
+        ANIMATIONS = new AnimationSet();
+        InitializeAttackingAnimations();
+        InitializeWalkingAnimations();
+        InitializeStandingAnimations();
+        ANIMATIONS->Add("TAKING_DAMAGE", 80, 81, 82, -1);
+        taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
+        ANIMATIONS->Add("DYING", 80, 81, 82, 83, 84, 90, 91, -1);
+        dying_animation_ = ANIMATIONS->MakeIndex("DYING");
     }
 }
 
+void Creature::ReleaseAnimations() {
+    ANIMATIONS->Release();
+    delete ANIMATIONS;
+    ANIMATIONS = NULL;
+}
+
+void Creature::InitializeAttackingAnimations() {
+    ANIMATIONS->Add("ATTACKING_DOWN", 44, 54, 64, 74, -1);
+    attacking_animations_[6] = ANIMATIONS->MakeIndex("ATTACKING_DOWN");
+    ANIMATIONS->Add("ATTACKING_LEFT", 44, 47, 57, 67, 77, -1);
+    attacking_animations_[4] = ANIMATIONS->MakeIndex("ATTACKING_LEFT");
+    ANIMATIONS->Add("ATTACKING_RIGHT", 42, 52, 62, 72, -1);
+    attacking_animations_[0] = ANIMATIONS->MakeIndex("ATTACKING_RIGHT");
+    ANIMATIONS->Add("ATTACKING_UP", 40, 50, 60, 70, -1);
+    attacking_animations_[2] = ANIMATIONS->MakeIndex("ATTACKING_UP");
+    ANIMATIONS->Add("ATTACKING_DOWN_RIGHT", 43, 53, 63, 73, -1);
+    attacking_animations_[7] = ANIMATIONS->MakeIndex("ATTACKING_DOWN_RIGHT");
+    ANIMATIONS->Add("ATTACKING_DOWN_LEFT", 46, 56, 66, 76, -1);
+    attacking_animations_[5] = ANIMATIONS->MakeIndex("ATTACKING_DOWN_LEFT");
+    ANIMATIONS->Add("ATTACKING_UP_RIGHT", 41, 51, 61, 71, -1);
+    attacking_animations_[1] = ANIMATIONS->MakeIndex("ATTACKING_UP_RIGHT");
+    ANIMATIONS->Add("ATTACKING_UP_LEFT", 48, 58, 68, 78, -1);
+    attacking_animations_[3] = ANIMATIONS->MakeIndex("ATTACKING_UP_LEFT");
+}
+
 void Creature::InitializeWalkingAnimations() {
+    /*
     for (int i = 0; i < 16; i++) {
-        walking_animations_[i] = (Animation **) malloc (sizeof (Animation *));
+        walking_animations__[i] = (Animation **) malloc (sizeof (Animation *));
         *walking_animations_[i] = NULL;
     }
-    *walking_animations_[Animation_::DOWN] = new Animation(10, 4, 14, 24, 34, -1);
-    *walking_animations_[Animation_::LEFT] = new Animation(10, 7, 17, 27, 37, -1);
-    *walking_animations_[Animation_::RIGHT] = new Animation(10, 2, 12, 22, 32, -1);
-    *walking_animations_[Animation_::UP] = new Animation(10, 0, 10, 20, 30, -1);
-    *walking_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(10, 3, 13, 23, 33, -1);
-    *walking_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(10, 6, 16, 26, 36, -1);
-    *walking_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(10, 1, 11, 21, 31, -1);
-    *walking_animations_[Animation_::UP | Animation_::LEFT] = new Animation(10, 8, 18, 28, 38, -1);
+    */
+    for (int i = 0; i < 16; i++)
+        walking_animations_[i] = -1;
+    ANIMATIONS->Add("WALKING_DOWN", 4, 14, 24, 34, -1);
+    walking_animations_[Animation_::DOWN] = ANIMATIONS->MakeIndex("WALKING_DOWN");
+    ANIMATIONS->Add("WALKING_LEFT", 7, 17, 27, 37, -1);
+    walking_animations_[Animation_::LEFT] = ANIMATIONS->MakeIndex("WALKING_LEFT");
+    ANIMATIONS->Add("WALKING_RIGHT", 2, 12, 22, 32, -1);
+    walking_animations_[Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_RIGHT");
+    ANIMATIONS->Add("WALKING_UP", 0, 10, 20, 30, -1);
+    walking_animations_[Animation_::UP] = ANIMATIONS->MakeIndex("WALKING_UP");
+    ANIMATIONS->Add("WALKING_DOWN_RIGHT", 3, 13, 23, 33, -1);
+    walking_animations_[Animation_::DOWN | Animation_::RIGHT] =
+            ANIMATIONS->MakeIndex("WALKING_DOWN_RIGHT");
+    ANIMATIONS->Add("WALKING_DOWN_LEFT", 6, 16, 26, 36, -1);
+    walking_animations_[Animation_::DOWN | Animation_::LEFT] =
+            ANIMATIONS->MakeIndex("WALKING_DOWN_LEFT");
+    ANIMATIONS->Add("WALKING_UP_RIGHT", 1, 11, 21, 31, -1);
+    walking_animations_[Animation_::UP | Animation_::RIGHT] =
+            ANIMATIONS->MakeIndex("WALKING_UP_RIGHT");
+    ANIMATIONS->Add("WALKING_UP_LEFT", 8, 18, 28, 38, -1);
+    walking_animations_[Animation_::UP | Animation_::LEFT] =
+            ANIMATIONS->MakeIndex("WALKING_UP_LEFT");
+    /*
     for (int i = 0; i < 16; i++) {
         if (*walking_animations_[i] == NULL) {
             free(walking_animations_[i]);
             walking_animations_[i] = &last_standing_animation_;
         }
     }
+    */
 }
 
 void Creature::InitializeStandingAnimations() {
+    /*
     for (int i = 0; i < 16; i++) {
         standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
         *standing_animations_[i] = NULL;
     }
-    *standing_animations_[Animation_::DOWN] = new Animation(0, 4, -1);
-    *standing_animations_[Animation_::LEFT] = new Animation(0, 7, -1);
-    *standing_animations_[Animation_::RIGHT] = new Animation(0, 2, -1);
-    *standing_animations_[Animation_::UP] = new Animation(0, 0, -1);
-    *standing_animations_[Animation_::DOWN | Animation_::RIGHT] = new Animation(0, 3, -1);
-    *standing_animations_[Animation_::DOWN | Animation_::LEFT] = new Animation(0, 6, -1);
-    *standing_animations_[Animation_::UP | Animation_::RIGHT] = new Animation(0, 1, -1);
-    *standing_animations_[Animation_::UP | Animation_::LEFT] = new Animation(0, 8, -1);
+    */
+    for (int i = 0; i < 16; i++)
+        standing_animations_[i] = -1;
+    ANIMATIONS->Add("STANDING_DOWN", 4, -1);
+    standing_animations_[Animation_::DOWN] =
+            ANIMATIONS->MakeIndex("STANDING_DOWN");
+    ANIMATIONS->Add("STANDING_LEFT", 7, -1);
+    standing_animations_[Animation_::LEFT] =
+            ANIMATIONS->MakeIndex("STANDING_LEFT");
+    ANIMATIONS->Add("STANDING_RIGHT", 2, -1);
+    standing_animations_[Animation_::RIGHT] =
+            ANIMATIONS->MakeIndex("STANDING_RIGHT");
+    ANIMATIONS->Add("STANDING_UP", 0, -1);
+    standing_animations_[Animation_::UP] =
+            ANIMATIONS->MakeIndex("STANDING_UP");
+    ANIMATIONS->Add("STANDING_DOWN_RIGHT", 3, -1);
+    standing_animations_[Animation_::DOWN | Animation_::RIGHT] =
+            ANIMATIONS->MakeIndex("STANDING_DOWN_RIGHT");
+    ANIMATIONS->Add("STANDING_DOWN_LEFT", 6, -1);
+    standing_animations_[Animation_::DOWN | Animation_::LEFT] =
+            ANIMATIONS->MakeIndex("STANDING_DOWN_LEFT");
+    ANIMATIONS->Add("STANDING_UP_RIGHT", 1, -1);
+    standing_animations_[Animation_::UP | Animation_::RIGHT] =
+            ANIMATIONS->MakeIndex("STANDING_UP_RIGHT");
+    ANIMATIONS->Add("STANDING_UP_LEFT", 8, -1);
+    standing_animations_[Animation_::UP | Animation_::LEFT] =
+            ANIMATIONS->MakeIndex("STANDING_UP_LEFT");
+    /*
     for (int i = 0; i < 16; i++) {
         if (*standing_animations_[i] == NULL) {
             free(standing_animations_[i]);
             standing_animations_[i] = &last_standing_animation_;
         }
     }
+    */
 }
 
 void Creature::Move(Vector2D direction, float delta_t) {
@@ -230,9 +310,9 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 	return radianAngle;
 }
 
-void Creature::Render(Image *back_buffer, Vector2D &offset) {
+void Creature::Render() {
     if (blink_) return;
-    	WorldObject::Render(back_buffer, offset);
+    	WorldObject::Render();
 }
 
 }  // namespace sprite

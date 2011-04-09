@@ -228,7 +228,7 @@ bool Image::LoadFromSurface(SDL_Surface* data, bool linear) {
     texture_ = static_cast<uint32>(texture);
     /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);*/
-	linear = true; /*POG do Omar pra graficos ficarem normais no note...*/
+	//linear = true; /*POG do Omar pra graficos ficarem normais no note...*/
     if(linear) {
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
         glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );

@@ -30,8 +30,11 @@ void HeroFireballWeapon::Attack() {
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
              pos = hero_->world_position();
 
-    Animation *animation = new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
-    Explosion *explosion = new Explosion(factory->ExplosionImage(), animation, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
+    // TODO
+    Explosion *explosion = new Explosion(factory->ExplosionImage(),
+                                         Explosion::HERO_FIREBALL_WEAPON,
+                                         Constants::FIREBALL_EXPLOSION_RADIUS,
+                                         Constants::FIREBALL_EXPLOSION_DAMAGE);
     Fireball *fireball = new Fireball(versor, explosion);
     world_->AddWorldObject(fireball, pos);
     utils::Settings settings;
