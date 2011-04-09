@@ -24,6 +24,8 @@ class Hero : public Creature {
     void StartExplosion();
     Weapon* secondary_weapon() { return secondary_weapon_; }
 
+	void Invulnerable(int time);
+
   private:
     framework::Vector2D screen_center_;
     bool pressed_key_[4];

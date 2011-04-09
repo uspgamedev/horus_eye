@@ -43,11 +43,11 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="0"
 				InlineFunctionExpansion="0"
 				FavorSizeOrSpeed="1"
 				PreprocessorDefinitions="WIN32;DEBUG;"
-				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
 				UsePrecompiledHeader="0"
@@ -119,6 +119,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
+				AdditionalOptions="/MP"
 				Optimization="2"
 				FavorSizeOrSpeed="1"
 				WholeProgramOptimization="true"
@@ -144,7 +145,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib SDL_mixer.lib SDL_ttf.lib OpenGL32.lib glu32.lib"
+				AdditionalOptions="SDL.lib SDLmain.lib SDL_image.lib SDL_mixer.lib SDL_ttf.lib OpenGL32.lib glu32.lib /LTCG"
 				ShowProgress="0"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
@@ -266,6 +267,14 @@
 		</File>
 		<File
 			RelativePath=".\src\framework\animation.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\animationset.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\animationset.h"
 			>
 		</File>
 		<File
@@ -618,6 +627,14 @@
 		</File>
 		<File
 			RelativePath=".\src\game\scenes\menuhandler.h"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\modifier.cc"
+			>
+		</File>
+		<File
+			RelativePath=".\src\framework\modifier.h"
 			>
 		</File>
 		<File

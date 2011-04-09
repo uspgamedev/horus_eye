@@ -45,6 +45,7 @@ void MapEditor::LoadMap(std::string& file_name) {
 	map_filename_ = file_name;
 	ifstream file (file_name.c_str());
     if(file.is_open()){
+		file >> music_;
         file >> width_ >> height_;
         vector<string> raw_matrix (height_);
         map_matrix_ = vector< vector<MapObject*> >(height_);
@@ -186,6 +187,7 @@ void MapEditor::SaveMap() {
 
 	ofstream file (map_filename_.c_str());
     if(file.is_open()){
+		file << music_ << "\n";
         file << width_ << " " << height_ << "\n";
         
         for (int i = 0; i < height_; ++i) {

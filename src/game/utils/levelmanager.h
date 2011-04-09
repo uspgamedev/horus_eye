@@ -6,6 +6,7 @@
 
 namespace scene {
 class World;
+class Loading;
 class Menu;
 }
 
@@ -32,13 +33,13 @@ class LevelManager {
     void ShowEnding();
     void ShowGameOver();
 
-    void StartGame();
     void FinishLevel(LevelState);
 
     scene::World* get_current_level() { return current_level_; }
     void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
     unsigned int GetNextLevelID() { return level_list_iterator_; }
 
+	void LoadNextLevel();
 	void Finish();
     ~LevelManager();
 
@@ -46,11 +47,10 @@ class LevelManager {
     bool RestartGameQueued() { return restart_game_; }
 	void LoadLevelList(std::string, std::vector<std::string>& level_list);
   private:
-    
-    void LoadNextLevel();
 
     scene::World* current_level_;
     scene::Menu* menu_;
+	scene::Loading* loading_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
 	sprite::Hero *hero_;

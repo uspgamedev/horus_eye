@@ -8,6 +8,9 @@
 #include "../utils/levelmanager.h"
 #include "../utils/tile.h"
 
+namespace framework {
+class Music;
+}
 namespace utils {
 class Hud;
 class ImageFactory;
@@ -32,6 +35,8 @@ class World : public framework::Scene {
   public:
     World(sprite::Hero *hero);
     virtual ~World();
+
+	void Start();
 
     void Update(float delta_t);
 
@@ -73,6 +78,7 @@ class World : public framework::Scene {
     utils::ImageFactory* image_factory() { return image_factory_; }
 	
     //setters
+	void set_music(std::string &music);
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
@@ -83,6 +89,7 @@ class World : public framework::Scene {
     std::list<sprite::WorldObject*> world_objects_, collisionless_objects, new_world_objects;
     framework::Layer *world_layer_;
     framework::Sprite *hero_fog_;
+	framework::Music *music_;
     utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
@@ -91,7 +98,7 @@ class World : public framework::Scene {
 
     Vector2D ActualOffset();
     bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
-    void VerifyCheats();
+    void VerifyCheats(float delta_t);
     bool VerifyPause();
     void HandleCollisions();
     void RemoveInactiveObjects();
@@ -100,6 +107,8 @@ class World : public framework::Scene {
   private:
     utils::LevelManager::LevelState level_state_;
     bool good_end_, player_exit_;
+	std::string konami_buffer_;
+	float konami_timeout_;
 
 };  // class World
 

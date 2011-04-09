@@ -1,2 +1,8 @@
 bgmusic.wav created by Ogrebane (Public Domain)
 http://opengameart.org/content/action-theme-song
+
+running_from_something by Augmentality (Brandon Morris) (GNU LGPL 2.0/GNU LGPL 3.0/CC-BY 3.0)
+http://opengameart.org/content/running-from-something
+
+sf2Guile456.mid by Unknown
+http://www.vgmusic.com/music/console/nintendo/snes/index-sz.html [Guile (2)]

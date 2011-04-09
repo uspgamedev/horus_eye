@@ -238,4 +238,8 @@ void Hero::Update(float delta_t) {
     speed_ = original_speed_;
 }
 
+void Hero::Invulnerable(int time) {
+	this->hit_duration_->Restart(time);
+}
+
 }

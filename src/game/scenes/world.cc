@@ -5,6 +5,8 @@
 #include "../../framework/scene.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/inputmanager.h"
+#include "../../framework/music.h"
+#include "../../framework/audiomanager.h"
 #include "world.h"
 #include "imagescene.h"
 #include "menu.h"
@@ -14,6 +16,7 @@
 #include "../utils/hud.h"
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
+#include "../utils/settings.h"
 namespace scene {
 
 using namespace framework;
@@ -21,7 +24,7 @@ using namespace sprite;
 using namespace utils;
 using namespace std;
 
-World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()) {
+World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()), music_(NULL) {
     world_layer_->set_light_type(LIGHT_ILLUMINATED);
     AddLayer(world_layer_);
 
@@ -35,6 +38,7 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer())
     remaining_enemies_ = max_enemies_ = 0;
     level_state_ = LevelManager::NOT_FINISHED;
     player_exit_ = false;
+	konami_timeout_ = 0;
 }
 
 // Destrutor
@@ -76,7 +80,7 @@ void World::HandleCollisions() {
     }
 }
 
-void World::VerifyCheats() {
+void World::VerifyCheats(float delta_t) {
     InputManager *input = Engine::reference()->input_manager();
 
     if (input->KeyPressed(K_p)) {
@@ -98,6 +102,41 @@ void World::VerifyCheats() {
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
+	if(konami_timeout_ >= 0.0f) {
+		konami_timeout_ += delta_t;
+		if(konami_timeout_ > 1.5f) {
+			konami_buffer_.clear();
+		}
+		if(input->KeyPressed(K_UP)) {
+			konami_buffer_.append("U");
+			konami_timeout_ = 0.0f;
+		}
+		if(input->KeyPressed(K_DOWN)) {
+			konami_buffer_.append("D");
+			konami_timeout_ = 0.0f;
+		}
+		if(input->KeyPressed(K_LEFT)) {
+			konami_buffer_.append("L");
+			konami_timeout_ = 0.0f;
+		}
+		if(input->KeyPressed(K_RIGHT)) {
+			konami_buffer_.append("R");
+			konami_timeout_ = 0.0f;
+		}
+		if(input->KeyPressed(K_a)) {
+			konami_buffer_.append("a");
+			konami_timeout_ = 0.0f;
+		}
+		if(input->KeyPressed(K_b)) {
+			konami_buffer_.append("b");
+			konami_timeout_ = 0.0f;
+		}
+		if(konami_buffer_.compare("UUDDLRLRba") == 0) {
+			hero_->Invulnerable(85000);
+			AUDIO_MANAGER()->LoadMusic("data/musics/sf2Guile456.mid")->Play();
+			konami_timeout_ = -1;
+		}
+	}
 }
 
 Vector2D World::ActualOffset() {
@@ -115,6 +154,11 @@ bool World::VerifyPause() {
         return true;
     }
     return false;
+}
+
+void World::Start() {
+	if(music_ != NULL)
+		music_->PlayForever();
 }
 
 void World::Update(float delta_t) {
@@ -136,15 +180,19 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
-#ifdef DEBUG
-    VerifyCheats();
-#endif
+//#ifdef DEBUG
+    VerifyCheats(delta_t);
+//#endif
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
 
 }
 
 void World::End() {
+	if(music_ != NULL)
+		music_->Stop();
+	if(hero_ != NULL)
+		hero_->Invulnerable(0);
     this->RemoveAll();
     for (int i = 0; i < (int)level_matrix_.size(); i++)
         for (int j = 0; j < (int)level_matrix_[i].size(); j++)
@@ -244,6 +292,16 @@ Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
 const Vector2D World::ConvertLightRadius(float radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return ellipse_coords;
+}
+
+void World::set_music(std::string &music) {
+	if(music_ != NULL && music_->IsPlaying()) {
+		music_->Stop();
+	}
+	utils::Settings settings;
+	music_ = settings.background_music()
+		? AUDIO_MANAGER()->LoadMusic(music)
+		: NULL;
 }
 
 } // namespace scene

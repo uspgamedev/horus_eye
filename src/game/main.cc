@@ -33,11 +33,6 @@ void StartGame() {
         engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen());
 
     text_loader()->Initialize(settings.language_file());
-
-    if(settings.background_music())
-        engine()->audio_manager()->LoadMusic(utils::Constants::BACKGROUND_MUSIC)->PlayForever();
-    else
-        engine()->audio_manager()->LoadMusic(utils::Constants::BACKGROUND_MUSIC)->Stop();
     level_manager()->Initialize();
 }
 

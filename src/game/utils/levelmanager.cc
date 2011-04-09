@@ -45,6 +45,8 @@ void LevelManager::Initialize() {
 	MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
     Engine::reference()->PushScene(menu_);
+
+	loading_ = NULL;
 }
 
 void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::string>& level_list) {
@@ -73,7 +75,8 @@ void finishAndDeleteCurrentScene() {
 }
 
 void LevelManager::ShowIntro() {
-    Engine::reference()->PushScene(new Loading);
+    Engine::reference()->PushScene(loading_ = new Loading);
+	level_list_iterator_ = 0;
     Engine::reference()->PushScene(new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45));
 }
 
@@ -82,6 +85,8 @@ void LevelManager::ShowCredits() {
 }
 
 void LevelManager::ShowEnding() {
+	loading_->Finish();
+	loading_ = NULL;
     Engine::reference()->PushScene(new ImageScene(NULL,
             VIDEO_MANAGER()->LoadImage("data/images/you_win.png")));
 }
@@ -89,13 +94,6 @@ void LevelManager::ShowEnding() {
 void LevelManager::ShowGameOver() {
     Engine::reference()->PushScene(new ImageScene(NULL,
             VIDEO_MANAGER()->LoadImage("data/images/game_over.png")));
-}
-
-void LevelManager::StartGame() {
-    if(current_level_ != NULL)
-        return;
-    level_list_iterator_ = 0;
-    LoadNextLevel();
 }
 
 void LevelManager::FinishLevel(LevelState state) {
@@ -115,6 +113,8 @@ void LevelManager::FinishLevel(LevelState state) {
 		hero_ = NULL;
         ShowGameOver();
     case FINISH_QUIT:
+		loading_->Finish();
+		loading_ = NULL;
     case NOT_FINISHED:
 		if (hero_)
 			delete hero_;
@@ -122,7 +122,8 @@ void LevelManager::FinishLevel(LevelState state) {
         return;
     case FINISH_WIN:
     case FINISH_WARP:
-        LoadNextLevel();
+        //LoadNextLevel(); -- The stacked Loading takes care of doing this.
+		break;
     }
 }
 
@@ -146,13 +147,16 @@ void LevelManager::LoadNextLevel() {
     current_level_ = new World(hero_);
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
+	delete loader;
     Engine::reference()->PushScene(current_level_);
-    delete loader;
+	current_level_->Start();
 }
 
 void LevelManager::Finish() {
 	if (hero_)
 		delete hero_;
+	if (loading_)
+		delete loading_;
 	Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
     Floor::ReleaseAnimations();

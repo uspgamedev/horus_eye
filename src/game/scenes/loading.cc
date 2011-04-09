@@ -32,10 +32,10 @@ void Loading::Update(float delta_t) {
     set_visible(true);
     Scene::Update(delta_t);
     if(has_been_drawn_) {
-        Finish();
-        utils::LevelManager::reference()->StartGame();
+        //Finish();
+        utils::LevelManager::reference()->LoadNextLevel();
     }
-    has_been_drawn_ = true;
+    has_been_drawn_ = !has_been_drawn_;
 }
 
 }

@@ -25,6 +25,8 @@ void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (PATH_MANAGER()->ResolvePath(file_name).c_str());
 
 	if(file.is_open()){
+		string music;
+		file >> music;
 		int width, height;
 		file >> width >> height; 
 		vector<string> raw_matrix (height);
@@ -38,6 +40,7 @@ void LevelLoader::LoadMatrix(string file_name) {
 			}
 		}
 
+		world_->set_music(music);
 		world_->set_level_width(width);
 		world_->set_level_height(height);
 		world_->set_level_matrix(matrix);

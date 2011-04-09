@@ -40,6 +40,7 @@ class MapEditor : public framework::Scene {
     };
 
   private:
+	std::string music_;
     int width_, height_;
     int scale_level_;
     framework::Vector2D click_start_position_, last_mouse_position_, offset_;
