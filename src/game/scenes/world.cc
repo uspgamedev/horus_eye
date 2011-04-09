@@ -102,6 +102,9 @@ void World::VerifyCheats(float delta_t) {
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
+
+	// EASTER EGG/TODO: remover antes de qualquer release.
+	// Apagar também Hero::Invulnerable e data/musics/sf2Guile456.mid
 	if(konami_timeout_ >= 0.0f) {
 		konami_timeout_ += delta_t;
 		if(konami_timeout_ > 1.5f) {
@@ -180,9 +183,9 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
-//#ifdef DEBUG
+#ifdef DEBUG
     VerifyCheats(delta_t);
-//#endif
+#endif
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
 
