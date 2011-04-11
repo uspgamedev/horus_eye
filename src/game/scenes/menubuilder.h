@@ -8,6 +8,7 @@
 
 namespace framework {
 class Image;
+class AnimationSet;
 }
 
 namespace utils {
@@ -23,6 +24,8 @@ class MenuBuilder {
   public:
     MenuBuilder () {}
     virtual ~MenuBuilder () {}
+    static void InitializeAnimations();
+    static void ReleaseAnimations();
     Menu *BuildMainMenu();
     Menu *BuildPauseMenu();
     Menu *BuildHelpMenu();
@@ -36,6 +39,13 @@ class MenuBuilder {
   protected:
     void CreateSelectionSprites(Menu* menu, float height = 0);
     void CreateBackButton(Page *page);
+    static framework::AnimationSet  *ANIMATIONS;
+    static framework::uint32        SELECTION_EYE,
+                                    HERO_SHOOTING,
+                                    MUMMY_DYING,
+                                    KEY_FRAMES[6],
+                                    MOUSE_CLICKS[2],
+                                    FIREBALL, EARTHQUAKE;
     typedef enum {
         MAIN_SELECT_PLAY = 0,
         MAIN_SELECT_HELP,

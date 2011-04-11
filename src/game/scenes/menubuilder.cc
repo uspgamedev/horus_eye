@@ -3,7 +3,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/textmanager.h"
 #include "../../framework/scene.h"
-#include "../../framework/animation.h"
+#include "../../framework/animationset.h"
 #include "../../framework/text.h"
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
@@ -49,7 +49,56 @@ using namespace std;
 #define NUM_ON_OFF              2
 #define SELECTION_SPRITE        2
 
+AnimationSet    *MenuBuilder::ANIMATIONS = NULL;
+uint32          MenuBuilder::SELECTION_EYE = -1,
+                MenuBuilder::HERO_SHOOTING = -1,
+                MenuBuilder::MUMMY_DYING = -1,
+                MenuBuilder::KEY_FRAMES[6] = { -1, -1, -1, -1, -1, -1 },
+                MenuBuilder::MOUSE_CLICKS[2] = { -1, -1 },
+                MenuBuilder::FIREBALL = -1,
+                MenuBuilder::EARTHQUAKE = -1;
 
+void MenuBuilder::InitializeAnimations() {
+    ANIMATIONS = new AnimationSet();
+    ANIMATIONS->Add("SELECTION_EYE", 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
+                    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, -1);
+    SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
+    ANIMATIONS->Add("HERO_SHOOTING", 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3,
+                    -1);
+    HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
+    ANIMATIONS->Add("MUMMY_DYING", 4, 4, 4, 4, 4, 80, 81, 82, 83, 84, 90, 91,
+                    -1);
+    MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
+    for (int i = 1; i < 6; ++i) {
+        string name = "KEY_FRAMES_"+string(1, '0'+i);
+        ANIMATIONS->Add(name, i, -1);
+        KEY_FRAMES[i] = ANIMATIONS->MakeIndex(name);
+    }
+    for (int i = 0; i < 2; i++) {
+        string name = "MOUSE_CLICKS_"+string(1, '0'+i);
+        ANIMATIONS->Add(name, 0, 2-i, -1);
+        MOUSE_CLICKS[i] = ANIMATIONS->MakeIndex(name);
+    }
+    ANIMATIONS->Add("FIREBALL", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
+    FIREBALL = ANIMATIONS->MakeIndex("FIREBALL");
+    ANIMATIONS->Add("EARTHQUAKE", 0, 1, 2, 3, 4, 5, -1);
+    EARTHQUAKE = ANIMATIONS->MakeIndex("EARTHQUAKE");
+}
+
+void MenuBuilder::ReleaseAnimations() {
+    ANIMATIONS->Release();
+    delete ANIMATIONS;
+    ANIMATIONS = NULL;
+    SELECTION_EYE = -1;
+    HERO_SHOOTING = -1;
+    MUMMY_DYING = -1;
+    for (int i = 0; i < 6; ++i)
+        KEY_FRAMES[i] = -1;
+    for (int i = 0; i < 2; ++i)
+        MOUSE_CLICKS[i] = -1;
+    FIREBALL = -1;
+    EARTHQUAKE = -1;
+}
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
@@ -60,17 +109,10 @@ void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     for (int i = 0; i < SELECTION_SPRITE; i++) {
         selection_sprite[i] = new Sprite;
         Vector2D frame_size = menu_eye_image->frame_size();
-        selection_sprite[i]->Initialize(menu_eye_image);
+        selection_sprite[i]->Initialize(menu_eye_image, ANIMATIONS);
         selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x,
                                                  height/2));
-        // TODO: fixme
-        /* selection_sprite[i]->SelectAnimation(new Animation(10, 2, 3, 4, 5, 6,
-                                                            7, 8, 9, 10, 11,
-                                                            12, 13, 14, 15,
-                                                            16, 17, 18, 19,
-                                                            20, 21, 22, 23,
-                                                            24, 25, 26, 27,
-                                                            28, -1)); */
+        selection_sprite[i]->SelectAnimation(SELECTION_EYE);
     }
     menu->set_selection_sprite(selection_sprite);
 }
@@ -310,16 +352,14 @@ Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
 
     // A hero animated sprite.
     Sprite *hero_sprite = new Sprite;
-    hero_sprite->Initialize(img_fac.HeroImage());
-    // TODO: fixme
-    //hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
+    hero_sprite->Initialize(img_fac.HeroImage(), ANIMATIONS);
+    hero_sprite->SelectAnimation(HERO_SHOOTING);
     page->AddSprite(hero_sprite, Vector2D(0.0f, spacing.y));
 
     // A dying mummy sprite.
     Sprite *mummy_sprite = new Sprite;
-    mummy_sprite->Initialize(img_fac.MummyImage());
-    // TODO: fixme
-    //mummy_sprite->SelectAnimation(new Animation(10, 4, 4, 4, 4, 4, 80, 81, 82, 83, 84, 90, 91, -1));
+    mummy_sprite->Initialize(img_fac.MummyImage(), ANIMATIONS);
+    mummy_sprite->SelectAnimation(MUMMY_DYING);
     page->AddSprite(mummy_sprite, Vector2D(spacing.x, spacing.y*2.0f));
 
     // A door sprite.
@@ -371,8 +411,9 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     
     //Left column
     Sprite *key_w = new Sprite;
-    key_w->Initialize(keys);
+    key_w->Initialize(keys, ANIMATIONS);
     key_w->set_hotspot(Vector2D(0, keys_height*0.5f));
+    key_w->SelectAnimation(KEY_FRAMES[0]);
     page->AddSprite(key_w, Vector2D(0, 1.5*spacing));
 
     Sprite *textkey_w = new Sprite;
@@ -381,10 +422,9 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(textkey_w, Vector2D(keys_width+10, 1.5*spacing));
 
     Sprite *key_a = new Sprite;
-    key_a->Initialize(keys);
+    key_a->Initialize(keys, ANIMATIONS);
     key_a->set_hotspot(Vector2D(0, keys_height*0.5f));
-    // TODO: fixme
-    //key_a->SelectAnimation(new Animation(30, 1, -1));
+    key_a->SelectAnimation(KEY_FRAMES[1]);
     page->AddSprite(key_a, Vector2D(0, 2.5*spacing));
     
     Sprite *textkey_a = new Sprite;
@@ -393,10 +433,9 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(textkey_a, Vector2D(keys_width+10, 2.5*spacing));
 
     Sprite *key_s = new Sprite;
-    key_s->Initialize(keys);
+    key_s->Initialize(keys, ANIMATIONS);
     key_s->set_hotspot(Vector2D(0, keys_height*0.5f));
-    // TODO: fixme
-    //key_s->SelectAnimation(new Animation(30, 2, -1));
+    key_s->SelectAnimation(KEY_FRAMES[2]);
     page->AddSprite(key_s, Vector2D(0, 3.5*spacing));
     
     Sprite *textkey_s = new Sprite;
@@ -405,10 +444,9 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(textkey_s, Vector2D(keys_width+10, 3.5*spacing));
 
     Sprite *key_d = new Sprite;
-    key_d->Initialize(keys);
+    key_d->Initialize(keys, ANIMATIONS);
     key_d->set_hotspot(Vector2D(0, keys_height*0.5f));
-    // TODO: fixme
-//    key_d->SelectAnimation(new Animation(30, 3, -1));
+    key_d->SelectAnimation(KEY_FRAMES[3]);
     page->AddSprite(key_d, Vector2D(0, 4.5*spacing));
     
     Sprite *textkey_d = new Sprite;
@@ -418,10 +456,9 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
 
     //Right Column
     Sprite *key_q = new Sprite;
-    key_q->Initialize(keys);
+    key_q->Initialize(keys, ANIMATIONS);
     key_q->set_hotspot(Vector2D(0, keys_height*0.5f));
-    // TODO: fixme
-    //key_q->SelectAnimation(new Animation(30, 4, -1));
+    key_q->SelectAnimation(KEY_FRAMES[4]);
     page->AddSprite(key_q, Vector2D(second_column, 1.5*spacing));
     
     Sprite *textkey_q = new Sprite;
@@ -430,10 +467,9 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(textkey_q, Vector2D(second_column+keys_width+10, 1.5*spacing));
 
     Sprite *key_e = new Sprite;
-    key_e->Initialize(keys);
+    key_e->Initialize(keys, ANIMATIONS);
     key_e->set_hotspot(Vector2D(0, keys_height*0.5f));
-    // TODO: fixme
-    //key_e->SelectAnimation(new Animation(30, 5, -1));
+    key_e->SelectAnimation(KEY_FRAMES[5]);
     page->AddSprite(key_e, Vector2D(second_column, 2.5*spacing));
     
     Sprite *textkey_e = new Sprite;
@@ -446,10 +482,10 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     mouse->set_frame_size(Vector2D(mouse_width, mouse_height));
 
     Sprite *mouse_left = new Sprite;
-    mouse_left->Initialize(mouse);
+    mouse_left->Initialize(mouse, ANIMATIONS);
     mouse_left->set_hotspot(Vector2D(0, mouse_height*0.5f));
-    // TODO: fixme
-    //mouse_left->SelectAnimation(new Animation(2, 0, 2, -1));
+    mouse_left->SelectAnimation(MOUSE_CLICKS[0]);
+    mouse_left->SetAnimationFPS(2);
     page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
 
     Sprite *textmouse_left = new Sprite;
@@ -458,10 +494,10 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(textmouse_left, Vector2D(second_column+mouse_width+10, 3.5*spacing));
 
     Sprite *mouse_right = new Sprite;
-    mouse_right->Initialize(mouse);
+    mouse_right->Initialize(mouse, ANIMATIONS);
     mouse_right->set_hotspot(Vector2D(0, mouse_height*0.5f));
-    // TODO: fixme
-    //mouse_right->SelectAnimation(new Animation(2, 0, 1, -1));
+    mouse_right->SelectAnimation(MOUSE_CLICKS[1]);
+    mouse_right->SetAnimationFPS(2);
     page->AddSprite(mouse_right, Vector2D(second_column, 4.5*spacing));
 
     Sprite *textmouse_right = new Sprite;
@@ -490,8 +526,8 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
 
     // A hero animated sprite.
     Sprite *hero_sprite = new Sprite;
-    hero_sprite->Initialize(img_fac.HeroImage());
-    //hero_sprite->SelectAnimation(new Animation(10, 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3, -1));
+    hero_sprite->Initialize(img_fac.HeroImage(), ANIMATIONS);
+    hero_sprite->SelectAnimation(HERO_SHOOTING);
     page->AddSprite(hero_sprite, Vector2D(0.0f, 1*spacing));
     
     Sprite *magic_missile = new Sprite;
@@ -507,9 +543,8 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     page->AddSprite(text_magic, Vector2D(270.0f, 1.5f*spacing));
 
     Sprite *fire_ball = new Sprite;
-    fire_ball->Initialize(img_fac.ExplosionImage());
-    // TODO: fixme
-    //fire_ball->SelectAnimation(new Animation(10, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1));
+    fire_ball->Initialize(img_fac.ExplosionImage(), ANIMATIONS);
+    fire_ball->SelectAnimation(FIREBALL);
     page->AddSprite(fire_ball, Vector2D(0.0f, 2*spacing));
     
     Sprite *text_fire0 = new Sprite;
@@ -525,9 +560,8 @@ Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
     page->AddSprite(text_fire2, Vector2D(270.0f, 2.7*spacing));
 
     Sprite *earthquake = new Sprite;
-    earthquake->Initialize(img_fac.QuakeImage());
-    // TODO: fixme
-    //earthquake->SelectAnimation(new Animation(8, 0, 1, 2, 3, 4, 5, -1));
+    earthquake->Initialize(img_fac.QuakeImage(), ANIMATIONS);
+    earthquake->SelectAnimation(EARTHQUAKE);
     page->AddSprite(earthquake, Vector2D(0.0f, 3*spacing));
 
     Sprite *text_earthquake0 = new Sprite;

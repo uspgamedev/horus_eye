@@ -18,11 +18,14 @@ namespace editor {
 FPSMeter::FPSMeter() {
     Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
-    //numbers_ = new AnimationSet();
-
+    digit_set_ = new AnimationSet();
+    for (int i = 0; i < 10; i++) {
+        string digit_name(1, '0'+i);
+        digit_set_->Add(digit_name, i, -1);
+        digits_[i] = digit_set_->MakeIndex(digit_name);
+    }
     for(int i = 0; i < 3; ++i) {
-       // numbers_->Add(string(1, '0'+i), i, -1);
-        (fps_meter_[i] = new Sprite)->Initialize(number, numbers_);
+        (fps_meter_[i] = new Sprite)->Initialize(number, digit_set_);
         fps_meter_[i]->set_position(Vector2D(
                         FPS_BAR_OFFSET_X + NUMBER_WIDTH*i + 0.0f, FPS_BAR_OFFSET_Y + 0.0f));
         AddSprite(fps_meter_[i]);
@@ -31,12 +34,13 @@ FPSMeter::FPSMeter() {
 }
 
 FPSMeter::~FPSMeter() {
-
+    digit_set_->Release();
+    delete digit_set_;
 }
 
 void FPSMeter::Update(float delta_t) {
     Layer::Update(delta_t);
-    uint32 digit[3];
+    int digit[3];
     int fps = Engine::reference()->current_fps();
     if(fps > 999) fps = 999;
     for(int i = 2; i >= 0; --i) {
@@ -46,8 +50,7 @@ void FPSMeter::Update(float delta_t) {
     for(int i = 0; i < 3; ++i) {
         if(digit[i] != fps_meter_value_[i]) {
             fps_meter_value_[i] = digit[i];
-            // TODO FIXME
-            //fps_meter_[i]->animation()->set_framelist(fps_meter_value_[i], -1);
+            fps_meter_[i]->SelectAnimation(digits_[fps_meter_value_[i]]);
         }
     }
 }

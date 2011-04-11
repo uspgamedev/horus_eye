@@ -15,8 +15,9 @@ class FPSMeter : public framework::Layer {
 
   private:
     framework::Sprite       *fps_meter_[3];
-    framework::uint32       fps_meter_value_[3];
-    framework::AnimationSet *numbers_;
+    int                     fps_meter_value_[3];
+    framework::AnimationSet *digit_set_;
+    framework::uint32       digits_[10];
 };
 
 }

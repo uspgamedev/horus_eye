@@ -41,6 +41,7 @@ void LevelManager::Initialize() {
 	Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
     Floor::InitializeAnimations();
+    MenuBuilder::InitializeAnimations();
 
 	MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
@@ -160,6 +161,7 @@ void LevelManager::Finish() {
 	Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
     Floor::ReleaseAnimations();
+    MenuBuilder::ReleaseAnimations();
 }
 
 LevelManager::~LevelManager() {}
