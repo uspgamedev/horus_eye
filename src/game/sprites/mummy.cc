@@ -17,9 +17,11 @@
 #include "../utils/visionstrategy.h"
 #include "../utils/constants.h"
 #include "../utils/settings.h"
+#include "../utils/imagefactory.h"
 #include "mummy.h"
 #include "projectile.h"
 #include "explosion.h"
+#include "itembuilder.h"
 #include "weapons/weapon.h"
 
 using namespace std;
@@ -103,6 +105,10 @@ void Mummy::TakeDamage(int life_points) {
             blink_time_ = 0;
             waiting_animation_ = true;
             this->SelectAnimation(taking_damage_animation_);
+        }
+        else{
+			this->Die();
+
         }
         standing_ = false;
     }
@@ -207,6 +213,20 @@ void Mummy::Update(float delta_t) {
 		}
     }
 
+}
+
+void Mummy::Die(){
+	int potion = rand()%100;
+		if (potion <=20){
+			ItemBuilder builder;
+			ImageFactory* image_factory = WORLD()->image_factory();
+			if(potion > 10)
+				WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);
+			else if(potion> 5)
+				WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), this->last_stable_position_);
+			else
+				WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), this->last_stable_position_);
+		}
 }
 
 void Mummy::PlayHitSound() const {
