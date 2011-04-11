@@ -8,11 +8,13 @@
 
 namespace framework {
 
-Sprite::Sprite() : light_(NULL), modifier_(), delete_image_(false) {}
+Sprite::Sprite() : light_(NULL), modifier_(new Modifier),
+        delete_image_(false) {}
 
 Sprite::~Sprite() {
     if (animation_) delete animation_;
     if (delete_image_ && image_) delete image_;
+    if (modifier_) delete modifier_;
 }
 
 void Sprite::Initialize(Drawable *image, AnimationSet *set, bool delete_image)
@@ -29,9 +31,11 @@ void Sprite::Initialize(Drawable *image, AnimationSet *set, bool delete_image)
 
 void Sprite::Render() {
     if (visible_) {
-        int frame_number = animation_->get_current_frame();
-        Modifier *modifier = animation_->get_current_modifier();
-        image_->DrawTo(position_ - hotspot_, frame_number, modifier, size_);
+        int frame_number = animation_->GetFrame();
+        Modifier render_mod(*modifier_);
+        Modifier *animation_mod = animation_->get_current_modifier();
+        if (animation_mod) render_mod.Compose(animation_mod);
+        image_->DrawTo(position_ - hotspot_, frame_number, &render_mod, size_);
     }
 }
 

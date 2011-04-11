@@ -35,7 +35,7 @@ Animation::Animation(float fps, ...) {
 
 Animation::Animation(float fps, AnimationSet *set)
     : period_(1.0f/fps), frames_(NULL), animation_set_(set),
-      current_frame_(0) {}
+      current_frame_(0), default_frame_(0) {}
 
 
 Animation::~Animation() {}
@@ -69,14 +69,14 @@ void Animation::CopyFrameList(int frame_list[], int n_frames) {
 }
 */
 
-int Animation::get_current_frame() {
+int Animation::GetFrame() {
     if (frames_) {
         AnimationFrame *frame = frames_->at(current_frame_);
         if (frame)
             return frame->frame();
         else return 0;
     }
-    else return 0;
+    else return default_frame_;
 }
 
 void Animation::Select(std::string name) {

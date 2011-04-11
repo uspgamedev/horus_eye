@@ -28,7 +28,6 @@ void HeroExplosionWeapon::Attack(){
     float distance = (hero_->world_position() - explosionPosition).length();
     VisionStrategy vs;
     if (distance <= range() && vs.IsVisible(explosionPosition)) {
-        // TODO
         Explosion * explosion = new Explosion(imfac->QuakeImage(),
                                               Explosion::HERO_EXPLOSION_WEAPON,
                                               Constants::QUAKE_EXPLOSION_RADIUS,

@@ -103,6 +103,7 @@ class World : public framework::Scene {
     void HandleCollisions();
     void RemoveInactiveObjects();
     void RemoveAll();
+    void UpdateVisibility();
 
   private:
     utils::LevelManager::LevelState level_state_;

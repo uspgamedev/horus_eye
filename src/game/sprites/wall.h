@@ -49,8 +49,10 @@ class Wall : public WorldObject {
     Square transparency_square_;
 
     utils::Tile *tile_;
-    framework::Animation *visible_animation_, *transparent_animation_,
-                         *dark_visible_animation_, *dark_transparent_animation_;
+    int     visible_frame_,
+            transparent_frame_,
+            dark_visible_frame_,
+            dark_transparent_frame_;
 };
 
 }

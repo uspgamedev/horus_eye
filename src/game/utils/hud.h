@@ -28,7 +28,7 @@ class Hud: public framework::Layer {
     map<Image*, Sprite*> icon_added;
 
     Sprite *enemy_counter_[7], *fps_meter_[3];
-    int enemy_counter_value_[7], fps_meter_value_[3];
+    framework::uint32 enemy_counter_value_[7], fps_meter_value_[3];
 };
 
 }

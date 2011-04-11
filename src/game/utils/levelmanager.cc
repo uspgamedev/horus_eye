@@ -40,7 +40,6 @@ void LevelManager::Initialize() {
 	hero_ = NULL;
 	Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
-    Floor::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
 
 	MenuBuilder builder;
@@ -160,7 +159,6 @@ void LevelManager::Finish() {
 		delete loading_;
 	Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
-    Floor::ReleaseAnimations();
     MenuBuilder::ReleaseAnimations();
 }
 

@@ -63,10 +63,6 @@ class Creature : public WorldObject , public framework::Observer {
     static void InitializeAnimations();
     static void ReleaseAnimations();
 
-
-    // TODO: fixme
-    static framework::AnimationSet *GET_ANIMATIONS() { return ANIMATIONS; }
-
   protected:
 	bool waiting_animation_;
     int animation_direction_;
@@ -81,13 +77,13 @@ class Creature : public WorldObject , public framework::Observer {
     */
     Weapon *weapon_;
 
-    int last_standing_animation_;
+    framework::uint32 last_standing_animation_;
 
-    static int standing_animations_[16];
-    static int walking_animations_[16];
-    static int attacking_animations_[8];
-    static int taking_damage_animation_;
-    static int dying_animation_;
+    static framework::uint32 standing_animations_[16];
+    static framework::uint32 walking_animations_[16];
+    static framework::uint32 attacking_animations_[8];
+    static framework::uint32 taking_damage_animation_;
+    static framework::uint32 dying_animation_;
 
     static framework::AnimationSet *ANIMATIONS;
 

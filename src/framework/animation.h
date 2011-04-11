@@ -48,7 +48,10 @@ class Animation {
     float period() { return period_; }
     int n_frames() { return frames_->size(); }
 
-    int get_current_frame();
+    int GetFrame();
+    void set_default_frame(int default_frame) {
+        default_frame_ = default_frame;
+    }
     Modifier* get_current_modifier() {
         return frames_
                 ? frames_->at(current_frame_)->modifier()
@@ -65,6 +68,7 @@ class Animation {
     AnimationSet *animation_set_;
     //int n_frames_;
     int current_frame_;
+    int default_frame_;
     float elapsed_time_;
     std::vector<Observer *> observers;
     void NotifyAllObservers();

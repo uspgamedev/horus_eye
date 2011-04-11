@@ -19,11 +19,11 @@ using namespace utils;
 
 namespace sprite {
 
-int Creature::standing_animations_[16];
-int Creature::walking_animations_[16];
-int Creature::attacking_animations_[8];
-int Creature::taking_damage_animation_ = -1;
-int Creature::dying_animation_ = -1;
+uint32 Creature::standing_animations_[16];
+uint32 Creature::walking_animations_[16];
+uint32 Creature::attacking_animations_[8];
+uint32 Creature::taking_damage_animation_ = -1;
+uint32 Creature::dying_animation_ = -1;
 
 AnimationSet* Creature::ANIMATIONS = NULL;
 

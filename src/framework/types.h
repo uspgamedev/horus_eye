@@ -12,13 +12,15 @@ typedef enum {
 } LightType;
 
 typedef struct Color {
-  float r;
-  float g;
-  float b;
+    Color(float _r = 1.0f, float _g = 1.0f, float _b = 1.0f)
+          : r(_r), g(_g), b(_b) {}
+    float r;
+    float g;
+    float b;
 } Color;
 
 //static Color BLACK = {0.0f, 0.0f, 0.0f};
-static Color WHITE = {1.0f, 1.0f, 1.0f};
+static const Color WHITE(1.0f, 1.0f, 1.0f);
 
 typedef Uint8 uint8;
 typedef Uint16 uint16;

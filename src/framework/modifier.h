@@ -20,6 +20,7 @@ class Modifier {
               Color color = WHITE, float alpha = 1.0) :
                   offset_(offset), size_(size), rotation_(rotation),
                   mirror_(mirror), color_(color), alpha_(alpha) {}
+    Modifier (Modifier &mod); //copia
     ~Modifier () {}
 
     // Getters.
@@ -37,6 +38,8 @@ class Modifier {
     void set_mirror(Mirror mirror) { mirror_ = mirror; }
     void set_color(Color color) { color_ = color; }
     void set_alpha(float alpha) { alpha_ = alpha; }
+
+    void Compose (Modifier *mod2);
 
   private:
 

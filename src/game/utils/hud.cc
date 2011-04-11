@@ -146,18 +146,17 @@ void Hud::Update(float delta_t) {
     Layer::Update(delta_t);
     World* world = WORLD();
 
-    int digit[7], enemy_number;
+    uint32 digit[7], enemy_number;
     enemy_number = (enemy_number = world->CountRemainingEnemies()) > 999 ? 999 : enemy_number;
     digit[2] = enemy_number / 100;
     digit[1] = (enemy_number / 10) % 10;
     digit[0] = enemy_number % 10;
 
-    // TODO: fixme (Contadores)
-    /*
+
     for(int i = 0; i < 3; ++i) {
         if(digit[i] != enemy_counter_value_[i]) {
             enemy_counter_value_[i] = digit[i];
-            enemy_counter_[i]->animation()->set_framelist(enemy_counter_value_[i], -1);
+            enemy_counter_[i]->SetDefaultFrame(enemy_counter_value_[i]);
         }
     }
 
@@ -170,9 +169,9 @@ void Hud::Update(float delta_t) {
     for(int i = 0; i < 3; ++i) {
         if(digit[i] != fps_meter_value_[i]) {
             fps_meter_value_[i] = digit[i];
-            fps_meter_[i]->animation()->set_framelist(fps_meter_value_[i], -1);
+            fps_meter_[i]->SetDefaultFrame(fps_meter_value_[i]);
         }
-    } */
+    }
 
     if (weapon_icon_ != NULL) {
         icon_added[weapon_icon_]->set_visible(false);

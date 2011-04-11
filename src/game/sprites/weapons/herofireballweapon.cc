@@ -29,8 +29,6 @@ void HeroFireballWeapon::Attack() {
     // Ajuste da altura do projetil.
     Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
              pos = hero_->world_position();
-
-    // TODO
     Explosion *explosion = new Explosion(factory->ExplosionImage(),
                                          Explosion::HERO_FIREBALL_WEAPON,
                                          Constants::FIREBALL_EXPLOSION_RADIUS,

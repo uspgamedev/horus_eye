@@ -26,31 +26,21 @@ Wall::Wall(Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
 
-    // TODO: fixme (Wall Transparency)
-    /* visible_animation_ = new Animation(50, 0, -1);
-    transparent_animation_ = new Animation(50, 1, -1);
-    dark_visible_animation_ = new Animation(50, 5, -1);
-    dark_transparent_animation_ = new Animation(50, 6, -1);
-    SelectAnimation(visible_animation_); */
+    visible_frame_ = 0;
+    transparent_frame_ = 1;
+    dark_visible_frame_ = 5;
+    dark_transparent_frame_ = 6;
+    SetDefaultFrame(visible_frame_);
     collision_type_ = STATIC;
     bound_ = new RectObject(1.0f, 1.0f);
     tile_ = NULL;
 }
-Wall::~Wall() {
-    // TODO: fixme (Wall Transparency)
-//    SelectAnimation(visible_animation_);
-//    delete transparent_animation_;
-}
+Wall::~Wall() {}
 
 void Wall::set_type(WallType walltype) {
     wall_type_ = walltype;
 
-    // TODO: fixme (Wall Transparency)
-    /*
-
-    SelectAnimation(visible_animation_);
-    delete transparent_animation_;
-    delete dark_transparent_animation_;
+    SetDefaultFrame(visible_frame_);
     int type = 1;
     Vector2D topleft, botright(TRANSPARENCY_DISTANCE, TRANSPARENCY_DISTANCE);
     switch(wall_type_) {
@@ -71,9 +61,9 @@ void Wall::set_type(WallType walltype) {
             topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE * 0.45f);
             break;
     }
-    transparent_animation_ = new Animation(50, type, -1);
-    dark_transparent_animation_ = new Animation(50, 5 + type, -1);
-    transparency_square_ = Square(topleft, botright); */
+    transparent_frame_ = type;
+    dark_transparent_frame_ = 5 + type;
+    transparency_square_ = Square(topleft, botright);
 }
 
 bool IsWall(Tile *tile) {
@@ -113,23 +103,21 @@ void Wall::Update(float delta_t) {
     if(!tile_)
         tile_ = Tile::GetFromWorldPosition(world->level_matrix(), world_position());
 
-    // TODO: fixme (Wall Transparency)
-    /*
     if(world->hero() != NULL) {
         Vector2D distance = world->hero()->world_position() - world_position();
         if(transparency_square_.Contains(distance)) {
             if(tile_->visible())
-                SelectAnimation(transparent_animation_);
+                SetDefaultFrame(transparent_frame_);
             else
-                SelectAnimation(dark_transparent_animation_);
+                SetDefaultFrame(dark_transparent_frame_);
         }
         else {
             if(tile_->visible())
-                SelectAnimation(visible_animation_);
+                SetDefaultFrame(visible_frame_);
             else
-                SelectAnimation(dark_visible_animation_);
+                SetDefaultFrame(dark_visible_frame_);
         }
-    }*/
+    }
 }
 
 void Wall::HandleCollision(WorldObject* obj) {

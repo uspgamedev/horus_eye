@@ -17,6 +17,7 @@
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
 #include "../utils/settings.h"
+#include "../utils/visionstrategy.h"
 namespace scene {
 
 using namespace framework;
@@ -104,7 +105,7 @@ void World::VerifyCheats(float delta_t) {
 
 
 	// EASTER EGG/TODO: remover antes de qualquer release.
-	// Apagar também Hero::Invulnerable e data/musics/sf2Guile456.mid
+	// Apagar tambÃ©m Hero::Invulnerable e data/musics/sf2Guile456.mid
 	if(konami_timeout_ >= 0.0f) {
 		konami_timeout_ += delta_t;
 		if(konami_timeout_ > 1.5f) {
@@ -164,6 +165,63 @@ void World::Start() {
 		music_->PlayForever();
 }
 
+bool IsNear(const TilePos &origin, const TilePos &pos, float radius) {
+    if ((float)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
+        return true;
+    else if ((Tile::FromTilePos(pos) - Tile::FromTilePos(origin)).length() <= radius )
+        return true;
+    else return false;
+}
+
+void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
+
+    list<Tile*>     queue;
+    Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
+    Tile            *origin = Tile::GetFromMapPosition(map, origin_pos);
+    VisionStrategy  vision;
+
+    origin_world_pos.y = map.size() - origin_world_pos.y - 1;
+    queue.push_back(origin);
+
+    while (queue.size() > 0) {
+        Tile *tile = *(queue.begin());
+        queue.pop_front();
+        if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
+            tile->Check();
+            Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
+            tile_world_pos.y = map.size() - tile_world_pos.y - 1;
+            bool is_obstacle = (tile->object() == WALL) || (tile->object() == ENTRY),
+                 is_visible = vision.IsLightVisible(origin_world_pos, tile_world_pos);
+            if (is_obstacle || is_visible) {
+                tile->set_visible(true);
+                if (!is_obstacle)
+                    for (int dir = Tile::BEGIN; dir < Tile::END; ++dir) {
+                        Tile *next = tile->Next(map, (Tile::TileDir)dir);
+                        if (next && !next->checked()) {
+                            queue.push_back(next);
+                        }
+                    }
+            }
+        }
+    }
+
+}
+
+void World::UpdateVisibility() {
+
+    if(!hero_) return;
+
+    GameMap& map = level_matrix();
+
+    TilePos hero_pos = Tile::ToTilePos(hero_->world_position());
+
+    hero_pos.i =  map.size() - hero_pos.i - 1;
+
+    Tile::CleanVisibility(map);
+    SpreadLight(map, hero_pos, 1.5f*hero_->light_radius());
+
+}
+
 void World::Update(float delta_t) {
 
     if(VerifyPause()) return;
@@ -177,8 +235,7 @@ void World::Update(float delta_t) {
     AddNewWorldObjects();
     
     world_layer_->set_offset(ActualOffset());
-	//TODO: re-implementar isso!
-    //???->UpdateVisibility();
+	UpdateVisibility();
 
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;

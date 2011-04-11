@@ -60,6 +60,9 @@ class Sprite {
 	Light* light() { return light_; }
 	void set_light(Light* light) { light_ = light; }
 
+    Mirror mirror() const { return modifier_->mirror(); }
+    void set_mirror(Mirror mirror) { modifier_->set_mirror(mirror); }
+
 
     // ======================================================================
     // Substituimos o sistema de guardar animacoes no sprite por simplesmente
@@ -92,6 +95,9 @@ class Sprite {
         animation_->AddObserver(observer);
     }
     int GetAnimationFrameNumber() const { return animation_->n_frames(); }
+    void SetDefaultFrame(int frame) {
+        animation_->set_default_frame(frame);
+    }
     //Animation* animation() { return animation_; }
 
     virtual void Render();
@@ -101,8 +107,6 @@ class Sprite {
     virtual void Update(float delta_t);
 
   protected:
-    Mirror mirror() const { return modifier_->mirror(); }
-    void set_mirror(Mirror mirror) { modifier_->set_mirror(mirror); }
 
 	Light *light_;
     float zindex_;

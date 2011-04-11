@@ -43,7 +43,6 @@ class MenuBuilder {
     static framework::uint32        SELECTION_EYE,
                                     HERO_SHOOTING,
                                     MUMMY_DYING,
-                                    KEY_FRAMES[6],
                                     MOUSE_CLICKS[2],
                                     FIREBALL, EARTHQUAKE;
     typedef enum {
