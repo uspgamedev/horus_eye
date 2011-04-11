@@ -18,6 +18,7 @@
 #include "../utils/constants.h"
 #include "../utils/settings.h"
 #include "../utils/imagefactory.h"
+#include "../utils/tile.h"
 #include "mummy.h"
 #include "projectile.h"
 #include "explosion.h"
@@ -192,6 +193,20 @@ void Mummy::Update(float delta_t) {
     if (status_ == WorldObject::STATUS_DEAD) return;
     Creature::Update(delta_t);
     Vector2D dir(0,0);
+
+    World *world = WORLD();
+    if (world) {
+        GameMap& map = world->level_matrix();
+        TilePos mummy_pos = Tile::ToTilePos(world_position());
+        mummy_pos.i =  map.size() - mummy_pos.i - 1;
+        Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
+        if (mummy_tile) {
+            if(mummy_tile->visible())
+                set_visible(true);
+            else
+                set_visible(false);
+        }
+    }
 
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         Think(delta_t);
