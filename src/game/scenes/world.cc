@@ -39,7 +39,7 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer())
     remaining_enemies_ = max_enemies_ = 0;
     level_state_ = LevelManager::NOT_FINISHED;
     player_exit_ = false;
-	konami_timeout_ = 0;
+	konami_used_ = false;
 }
 
 // Destrutor
@@ -106,39 +106,12 @@ void World::VerifyCheats(float delta_t) {
 
 	// EASTER EGG/TODO: remover antes de qualquer release.
 	// Apagar também Hero::Invulnerable e data/musics/sf2Guile456.mid
-	if(konami_timeout_ >= 0.0f) {
-		konami_timeout_ += delta_t;
-		if(konami_timeout_ > 1.5f) {
-			konami_buffer_.clear();
-		}
-		if(input->KeyPressed(K_UP)) {
-			konami_buffer_.append("U");
-			konami_timeout_ = 0.0f;
-		}
-		if(input->KeyPressed(K_DOWN)) {
-			konami_buffer_.append("D");
-			konami_timeout_ = 0.0f;
-		}
-		if(input->KeyPressed(K_LEFT)) {
-			konami_buffer_.append("L");
-			konami_timeout_ = 0.0f;
-		}
-		if(input->KeyPressed(K_RIGHT)) {
-			konami_buffer_.append("R");
-			konami_timeout_ = 0.0f;
-		}
-		if(input->KeyPressed(K_a)) {
-			konami_buffer_.append("a");
-			konami_timeout_ = 0.0f;
-		}
-		if(input->KeyPressed(K_b)) {
-			konami_buffer_.append("b");
-			konami_timeout_ = 0.0f;
-		}
-		if(konami_buffer_.compare("UUDDLRLRba") == 0) {
+	if(!konami_used_) {
+		Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
+		if(input->CheckSequence(konami, 10)) {
 			hero_->Invulnerable(85000);
 			AUDIO_MANAGER()->LoadMusic("data/musics/sf2Guile456.mid")->Play();
-			konami_timeout_ = -1;
+			konami_used_ = true;
 		}
 	}
 }

@@ -108,8 +108,7 @@ class World : public framework::Scene {
   private:
     utils::LevelManager::LevelState level_state_;
     bool good_end_, player_exit_;
-	std::string konami_buffer_;
-	float konami_timeout_;
+	bool konami_used_;
 
 };  // class World
 

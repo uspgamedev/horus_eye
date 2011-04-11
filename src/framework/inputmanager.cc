@@ -7,6 +7,9 @@ InputManager::InputManager() {
     SDL_GetKeyState(&kbsize_);
     keystate_now_ = new bool[kbsize_];
     keystate_last_ = new bool[kbsize_];
+	buffer_end_ = 0;
+	for(int i = 0; i < BUFFER_SIZE; i++)
+		buffer_[i] = K_UNKNOWN;
     
     std::fill(mousestate_now_, mousestate_now_+5, false);
     std::fill(mousestate_last_, mousestate_last_+5, false);
@@ -58,6 +61,17 @@ bool InputManager::KeyUp(Key key) {
     return (!keystate_now_[key] && keystate_last_[key]);
 }
 
+bool InputManager::CheckSequence(Key* sequence, int size) {
+	int iterator = buffer_end_ - 1;
+	for(int seq = size - 1; seq >= 0; seq--) {
+		if(iterator < 0) iterator += BUFFER_SIZE;
+		if(buffer_[iterator] != sequence[seq])
+			return false;
+		iterator--;
+	}
+	return true;
+}
+
 bool InputManager::MousePressed(MouseButton button) {
   return (mousestate_now_[button] && !mousestate_last_[button]);
 }
@@ -90,8 +104,11 @@ void InputManager::SimulateKeyRelease(Key key) {
  
 void InputManager::SimulateKeyPress(Key key) {
     int k = (int)key;
-    if(k >= 0 && k < kbsize_)
+	if(k >= 0 && k < kbsize_) {
         keystate_now_[k] = true;
+		buffer_[buffer_end_] = key;
+		buffer_end_ = (buffer_end_ + 1) % BUFFER_SIZE;
+	}
 }
 
 } //namespace framework
