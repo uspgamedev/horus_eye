@@ -67,8 +67,21 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
     if(mirror & MIRROR_VFLIP) {
         target.y += frame_size().y;
         size.y *= -1;
-    }
+	}
 
+    glColor4f(color.r * color_.r, color.g * color_.g, color.b * color_.b, alpha_ * alpha);
+
+	glPushMatrix();
+	glTranslatef( target.x, target.y, 0 );
+	RawDraw(size, frame_number);
+    //Reset
+    
+    glPopMatrix();
+
+    return true;
+}
+
+void Image::RawDraw(const Vector2D& size, int frame_number) {
     int frame_width = static_cast<int>(frame_size().x);
     int nx = std::max(width()/frame_width, 1);
     float xpos = frame_size_.x * (frame_number % nx);
@@ -84,13 +97,8 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
     } else
         glDisable(GL_TEXTURE_2D);
 
-    glEnable(GL_BLEND);
-
-	glColor4f(color.r * color_.r, color.g * color_.g, color.b * color_.b, alpha_ * alpha);
-
-	glPushMatrix();
-	glTranslatef( target.x, target.y, 0 );
-    glBegin( GL_QUADS ); //Start quad
+	glEnable(GL_BLEND);
+	glBegin( GL_QUADS ); //Start quad
         //Draw square
         glTexCoord2f(xpos,   ypos);
         glVertex2f(  0,      0 );
@@ -103,14 +111,8 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
 
         glTexCoord2f(xpos,   yend);
         glVertex2f(  0,      size.y );
-    glEnd(); //End quad
-    //Reset
-    glDisable(GL_BLEND);
-    glPopMatrix();
-
-    return true;
-
-    //return DrawTo(target, flip, frame_number, color, alpha_);
+    glEnd();
+	glDisable(GL_BLEND);
 }
 
 void Image::set_frame_size(const Vector2D& size) {

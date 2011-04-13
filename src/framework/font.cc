@@ -23,7 +23,7 @@ Font::Font(string path, int fontsize, char ident, bool fancy) {
 		letters_[c]->LoadFromSurface(letter);
 		SDL_FreeSurface(letter);
 		glNewList(id_ + c, GL_COMPILE);
-			letters_[c]->DrawTo(blank, 0, 0, color, 1.0f, letters_[c]->render_size());
+			letters_[c]->RawDraw(letters_[c]->render_size(), 0);
 			glTranslatef(letters_[c]->render_size().x, 0, 0);
 		glEndList();
 	}

@@ -42,6 +42,7 @@ class Image : public Drawable {
 
     bool DrawTo(const Vector2D& position, int frame_number, Mirror mirror, 
 		const Color& color, float alpha, const Vector2D& draw_size);
+	void RawDraw(const Vector2D& draw_size, int frame_number);
 
     bool LoadFromSurface(SDL_Surface* data, bool linear = false);
     bool LoadFromFile(std::string filepath);
