@@ -26,63 +26,6 @@ bool TextManager::Destroy() {
 	return true;
 }
 
-
-// TODO: implement this as flag on Text
-static Image* LoadFancyLine(string line) {
-
-        TTF_Font *font_;
-        SDL_Color textColor_;
-        SDL_Color transparentColor_;
-	
-    SDL_Surface *message = NULL;
-    SDL_Surface *message_dark = NULL;
-    SDL_Surface *message_light = NULL;
-    Vector2D size;
-    SDL_Color color;
-    color.r = 255;
-    color.g = 255;
-    color.b = 255;
-    SDL_Rect rect;
-
-    message = TTF_RenderUTF8_Solid( font_, line.c_str(), color );
-    color.r = 212;
-    color.g = 170;
-    color.b = 0;
-    message_light = TTF_RenderUTF8_Solid( font_, line.c_str(), color );
-    color.r = 85;
-    color.g = 68;
-    color.b = 0;
-    message_dark = TTF_RenderUTF8_Solid( font_, line.c_str(), color );
-
-    rect.x = 2;
-    rect.y = 6;
-    size.x = message->w;
-    size.y = TTF_FontLineSkip(font_)+12;
-
-    SDL_Surface *temp_surface = Image::CreateSurface(size);
-    SDL_Surface *surface = SDL_DisplayFormatAlpha(temp_surface);
-    SDL_FreeSurface(temp_surface);
-    Uint32 transparentColor = SDL_MapRGBA(surface->format, 0, 0, 0, 0);
-    SDL_FillRect(surface, NULL, transparentColor);
-
-    SDL_BlitSurface(message_light, NULL, surface, &rect);
-    rect.x -= 1.0;
-    rect.y -= 1.0;
-    SDL_BlitSurface(message_dark, NULL, surface, &rect);
-    rect.x -= 1.0;
-    rect.y -= 1.0;
-    SDL_BlitSurface(message, NULL, surface, &rect);
-
-    Image *img = new Image;
-	if(!img->LoadFromSurface(surface)) {
-		delete img;
-		img = NULL;
-	}
-    SDL_FreeSurface(surface);
-    return img;
-}
-
-
 Text* TextManager::GetText(string text, string fonttag, int width) {
 	string subString;
     vector<string> lines;

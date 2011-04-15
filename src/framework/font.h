@@ -20,6 +20,7 @@ class Font {
 	int id() { return id_; }
 	IdentType ident() { return ident_; }
 	Vector2D GetLetterSize(unsigned char letter);
+	bool IsFancy() { return fancy_;}
 
   private:
 	int id_;
