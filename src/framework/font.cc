@@ -6,28 +6,21 @@
 
 namespace framework {
 
-Font::Font(string path, int fontsize, char ident, bool fancy) {
-	TTF_Font *ttf_font = TTF_OpenFont( path.c_str(), fontsize );
-	char str[2];
-	int c;
+Font::Font(Image ** letters, int fontsize, char ident, bool fancy) 
+	: size_(fontsize), letters_(letters) {
+
 	id_ = glGenLists(256);
-	letters_ = new Image*[256];
 	Vector2D blank;
-	Color color = Image::CreateColor(1.0f, 1.0f, 1.0f);
-	SDL_Color sdlcolor = { 255, 255, 255 };
-	str[1] = '\0';
-	for(c = 1; c < 256; c++) {
-		str[0] = (char)(c);
-		SDL_Surface *letter = TTF_RenderUTF8_Blended( ttf_font, str, sdlcolor );
-		letters_[c] = new Image;
-		letters_[c]->LoadFromSurface(letter);
-		SDL_FreeSurface(letter);
+	for(int c = 0; c < 256; c++) {
 		glNewList(id_ + c, GL_COMPILE);
-			letters_[c]->RawDraw(letters_[c]->render_size(), 0);
-			glTranslatef(letters_[c]->render_size().x, 0, 0);
+			glPushMatrix();
+			Vector2D lettersize = letters_[c]->render_size() * (size_ * 0.01f);
+			glScalef(lettersize.x, lettersize.y, 1.0f);
+			letters_[c]->RawDraw(0);
+			glPopMatrix();
+			glTranslatef(lettersize.x, 0, 0);
 		glEndList();
 	}
-	TTF_CloseFont( ttf_font );
 	switch(ident) {
 		case 'l':
 			ident_ = LEFT;
@@ -47,7 +40,7 @@ Font::~Font() {
 }
 
 Vector2D Font::GetLetterSize(unsigned char letter) {
-	return letters_[letter]->render_size();
+	return letters_[letter]->render_size() * (size_ * 0.01f);
 }
 
 }  // namespace framework

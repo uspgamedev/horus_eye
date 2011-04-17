@@ -25,6 +25,7 @@ class TextManager {
 
     private:
 		Font *current_font_;
+		std::map<string,Image**> font_images_;
 		std::map<string,Font*> fonts_;
 };
 

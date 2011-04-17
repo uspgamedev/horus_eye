@@ -73,7 +73,8 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
 
 	glPushMatrix();
 	glTranslatef( target.x, target.y, 0 );
-	RawDraw(size, frame_number);
+	glScalef(size.x, size.y, 1);
+	RawDraw(frame_number);
     //Reset
     
     glPopMatrix();
@@ -81,7 +82,7 @@ bool Image::DrawTo(const Vector2D& position, int frame_number,
     return true;
 }
 
-void Image::RawDraw(const Vector2D& size, int frame_number) {
+void Image::RawDraw(int frame_number) {
     int frame_width = static_cast<int>(frame_size().x);
     int nx = std::max(width()/frame_width, 1);
     float xpos = frame_size_.x * (frame_number % nx);
@@ -100,17 +101,17 @@ void Image::RawDraw(const Vector2D& size, int frame_number) {
 	glEnable(GL_BLEND);
 	glBegin( GL_QUADS ); //Start quad
         //Draw square
-        glTexCoord2f(xpos,   ypos);
-        glVertex2f(  0,      0 );
+        glTexCoord2f(xpos, ypos);
+        glVertex2f(  0.0f, 0.0f );
 
-        glTexCoord2f(xend,   ypos);
-        glVertex2f(  size.x, 0 );
+        glTexCoord2f(xend, ypos);
+        glVertex2f(  1.0f, 0.0f );
 
-        glTexCoord2f(xend,   yend);
-        glVertex2f(  size.x, size.y );
+        glTexCoord2f(xend, yend);
+        glVertex2f(  1.0f, 1.0f );
 
-        glTexCoord2f(xpos,   yend);
-        glVertex2f(  0,      size.y );
+        glTexCoord2f(xpos, yend);
+        glVertex2f(  0.0f, 1.0f );
     glEnd();
 	glDisable(GL_BLEND);
 }

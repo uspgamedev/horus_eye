@@ -65,7 +65,31 @@ Text* TextManager::GetTextFromFile(string path, string font, int width) {
 void TextManager::AddFont(string name, string path, int size, char ident, bool fancy) {
 	if(fonts_.count(name) > 0)
 		return;
-	fonts_[name] = current_font_ = new Font(path, size, ident, fancy);
+	Image **font_image = NULL;
+	fprintf(stderr, "Loading new font tag: \"%s\"\n", name.c_str());
+	if(font_images_.count(path) == 0) {
+		// Given file not loaded, loading it.
+		font_image = new Image*[256];
+		TTF_Font *ttf_font = TTF_OpenFont( PATH_MANAGER()->ResolvePath(path).c_str(), 100 );
+		fprintf(stderr, "-- Processing new font file: \"%s\"\n", path.c_str());
+		SDL_Color sdlcolor = { 255, 255, 255 };
+		char str[2];
+		str[1] = '\0'; // End of string
+		for(unsigned int c = 0; c < 256; c++) {
+			// For each possible character in the extended ASCII table, render and store it.
+			// Could be improved to ignore non-renderable characters, like linefeed.
+			str[0] = (char)(c);
+			fprintf(stderr, "\t(%u) \"%c\": ", c, str[0]);
+			SDL_Surface *letter = TTF_RenderUTF8_Blended( ttf_font, str, sdlcolor );
+			font_image[c] = new Image;
+			font_image[c]->LoadFromSurface(letter);
+			SDL_FreeSurface(letter);
+		}
+		TTF_CloseFont( ttf_font );
+		font_images_[path] = font_image;
+	} else
+		font_image = font_images_[path];
+	fonts_[name] = current_font_ = new Font(font_image, size, ident, fancy);
 }
 
 
