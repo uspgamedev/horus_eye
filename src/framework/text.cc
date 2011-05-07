@@ -1,4 +1,7 @@
 #include <SDL/SDL_opengl.h>
+#include "engine.h"
+#include "videomanager.h"
+#include "frame.h"
 #include "text.h"
 #include "font.h"
 
@@ -52,17 +55,23 @@ int Text::height() {
 
 bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror, 
 				  const Color& color, float alpha, const Vector2D& draw_size) {
-	int fancy_line_number = 0;
+	int fancy_line_number = 0, current_height;
 	glPushMatrix();
 	Font::IdentType ident = font_->ident();
 	glTranslatef( position.x, position.y, 0 );
 	glListBase(font_->id());
 	glColor3ub(255, 255, 255);
+	Frame bounds = VIDEO_MANAGER()->virtual_bounds();
+	if (position.x > bounds.right() || position.y > bounds.bottom() ||
+        position.x + width_ < bounds.left() || position.y + height_ < bounds.top() ) {
+        return true;
+    }
 	if (font_->IsFancy())
 		fancy_line_number = 2;
 	for(; fancy_line_number >= 0; fancy_line_number--) {
 		glTranslatef(-1.0f, -1.0f, 0);
 		glPushMatrix();
+		current_height = 0;
 		if (fancy_line_number == 2)
 			glColor3ub(85, 68, 0);
 		else if (fancy_line_number == 1)
@@ -70,7 +79,9 @@ bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror,
 		else if (fancy_line_number == 0)
 			glColor3ub(255, 255, 255);
 		for(size_t i = 0; i < message_.size(); ++i) {
-			if(message_[i].length() > 0) {
+			if(message_[i].length() > 0 &&
+				(position.y + current_height < bounds.bottom() && 
+				position.y + current_height + line_height_ > bounds.top())) {
 				glPushMatrix();
 				switch(ident) {
 					case Font::CENTER:
@@ -84,11 +95,11 @@ bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror,
 				glPopMatrix();
 			}
 			glTranslatef( 0, line_height_, 0);
+			current_height += line_height_;
 		}
 		glPopMatrix();
 	}
 	glPopMatrix();
-	glColor3ub(255, 255, 255);
 	return true;
 }
 
