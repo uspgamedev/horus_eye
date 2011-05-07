@@ -91,7 +91,11 @@ bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror,
 						glTranslatef(this->width_ - this->line_width_[i],0,0);
 						break;
 				}
+#ifdef WIN32
 				glCallLists(message_[i].length(), GL_SHORT, (GLshort *) message_[i].c_str());
+#else
+				glCallLists(message_[i].length(), GL_INT, (GLshort *) message_[i].c_str());
+#endif
 				glPopMatrix();
 			}
 			glTranslatef( 0, line_height_, 0);
