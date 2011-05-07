@@ -125,8 +125,10 @@ class Constants {
     const static std::string
 		ROOT_PATH_FILE,
         CONFIGURATION_FILE,
-        BACKGROUND_MUSIC,
-        VERSION;
+        BACKGROUND_MUSIC;
+
+	const static std::wstring
+		VERSION;
 
 
   private:

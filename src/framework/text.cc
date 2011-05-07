@@ -4,7 +4,7 @@
 
 namespace framework {
 
-Text::Text(std::string message, Font *font) : font_(font) {
+Text::Text(std::wstring message, Font *font) : font_(font) {
 	size_t i;
 	message_.push_back(message);
 	width_ = 0;
@@ -16,7 +16,7 @@ Text::Text(std::string message, Font *font) : font_(font) {
 		width_ += font_->GetLetterSize(message[i]).x;
 }
 
-Text::Text(std::vector<std::string> message, Font *font) : font_(font) {
+Text::Text(std::vector<std::wstring> message, Font *font) : font_(font) {
 	size_t i;
 	int    j, width, size;
 	width_ = 0;
@@ -27,8 +27,8 @@ Text::Text(std::vector<std::string> message, Font *font) : font_(font) {
 		size = 0;
 		message_.push_back(message[j]);
 		height_ += size =
-			(message[j].length() == 0)
-			? (font_->GetLetterSize('\n').y)
+			(message[j].length() == 0 || message[j][0] == L'\0')
+			? (font_->GetLetterSize(L'\n').y)
 			: (font_->GetLetterSize(message[j][0]).y);
 		for(i = 0; i < message[j].length(); i++)
 			width += font_->GetLetterSize(message[j][i]).x;
@@ -80,7 +80,7 @@ bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror,
 						glTranslatef(this->width_ - this->line_width_[i],0,0);
 						break;
 				}
-				glCallLists(message_[i].length(), GL_UNSIGNED_BYTE, (GLubyte *) message_[i].c_str());
+				glCallLists(message_[i].length(), GL_SHORT, (GLshort *) message_[i].c_str());
 				glPopMatrix();
 			}
 			glTranslatef( 0, line_height_, 0);

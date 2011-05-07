@@ -238,9 +238,10 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
     // Creates the level images vector.
 	for (size_t i = 0; i < map_list_.size(); ++i) {
         level_sprites_[i] = new Sprite;
-        std::ostringstream stm;
-        stm << map_list_[i];
-        level_images_[i] = TEXT_MANAGER()->GetText(stm.str(), "FontB");
+        //std::wostringstream stm;
+        //stm << map_list_[i];
+		//TODO: FIX
+        level_images_[i] = TEXT_MANAGER()->GetText(L"MAPTEXT", L"FontB");
         level_sprites_[i]->Initialize(level_images_[i]);
         level_sprites_[i]->set_hotspot(Vector2D(0, 0));
 		menu_->AddSprite(level_sprites_[i], framework::Vector2D ((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),

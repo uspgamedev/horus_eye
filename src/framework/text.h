@@ -11,8 +11,8 @@ namespace framework {
 class Font;
 class Text : public Drawable {
   public:
-	Text(std::string message, Font* font);
-	Text(std::vector<std::string> message, Font* font);
+	Text(std::wstring message, Font* font);
+	Text(std::vector<std::wstring> message, Font* font);
 	~Text() {}
 
 	bool DrawTo(const Vector2D& position, int frame_number, uint8 mirror, 
@@ -25,7 +25,7 @@ class Text : public Drawable {
   private:
     Font* font_;
 	int width_, height_, line_height_;
-	std::vector<std::string> message_;
+	std::vector<std::wstring> message_;
 	std::vector<int> line_width_;
 };
 

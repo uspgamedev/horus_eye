@@ -9,14 +9,16 @@ namespace framework {
 Font::Font(Image ** letters, int fontsize, char ident, bool fancy) 
 	: size_(fontsize), letters_(letters) {
 
-	id_ = glGenLists(256);
+	id_ = glGenLists(65535);
 	Vector2D blank;
-	for(int c = 0; c < 256; c++) {
-		glNewList(id_ + c, GL_COMPILE);
+	for(unsigned int i = 0; i < 65535; i++) {
+		if(letters_[i] == NULL)
+			continue;
+		glNewList(id_ + i, GL_COMPILE);
 			glPushMatrix();
-			Vector2D lettersize = letters_[c]->render_size() * (size_ * 0.01f);
+			Vector2D lettersize = letters_[i]->render_size() * (size_ * 0.01f);
 			glScalef(lettersize.x, lettersize.y, 1.0f);
-			letters_[c]->RawDraw(0);
+			letters_[i]->RawDraw(0);
 			glPopMatrix();
 			glTranslatef(lettersize.x, 0, 0);
 		glEndList();
@@ -40,6 +42,7 @@ Font::~Font() {
 }
 
 Vector2D Font::GetLetterSize(unsigned char letter) {
+	if(letters_[letter] == NULL) return Vector2D(0,0);
 	return letters_[letter]->render_size() * (size_ * 0.01f);
 }
 

@@ -159,7 +159,7 @@ Menu *MenuBuilder::BuildMainMenu () {
                                              /*options_sprite->size().y/2*/0));
         menu->set_option_sprite(i, options_sprite);
     }
-	Drawable *img_version = TEXT_MANAGER()->GetText(Constants::VERSION, "FontD");
+	Drawable *img_version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
     Sprite *version = new Sprite;
     version->Initialize(img_version);
     version->set_hotspot(Vector2D(0, img_version->height()));
@@ -862,9 +862,9 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     // Creates the resolution names vector.
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         resolution_sprites_[i] = new Sprite;
-        std::ostringstream stm;
-        stm << static_cast<int>(resolutions[i].x) << "x" << static_cast<int>(resolutions[i].y);
-        resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), "FontB");
+        std::wostringstream stm;
+        stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
+        resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
         resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, /*resolution_images_[i]->height() * 0.5f*/0));
         menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (second_column_x, options[0]->position().y));

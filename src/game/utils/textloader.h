@@ -12,6 +12,8 @@ class Image;
 
 namespace utils {
 
+using std::wstring;
+
 #define TEXT_LOADER() (utils::TextLoader::reference())
 
 class TextLoader {
@@ -24,6 +26,7 @@ class TextLoader {
 
     bool Initialize(std::string language_file);
     framework::Drawable* GetImage(std::string text);
+	framework::Drawable* GetImage(std::wstring text);
     //void SetFont(std::string font);
 
     bool Clear();
@@ -33,36 +36,25 @@ class TextLoader {
 
     class Font {
       public:
-        Font(std::string filepath, int size, char indent, bool style);
-        ~Font() {}
-
-        static bool IsFont(char *);
-
-      private:
-        std::string filepath_;
-        int size_;
-        char indent_;
-        bool style_;
+        static bool IsFont(wchar_t *);
     };
     class Word {
       public:
-        Word(char* str);
+        Word(wchar_t* str);
         ~Word() {}
 
-        std::string& name() { return name_; }
-        std::string& font() { return font_; }
-        std::string& text() { return text_; }
+        std::wstring& name() { return name_; }
+        std::wstring& font() { return font_; }
+		std::wstring& text() { return text_; }
 
-        static bool IsWord(char *);
+        static bool IsWord(wchar_t *);
 
       private:
-        std::string name_, font_, text_;
+        std::wstring name_, font_, text_;
     };
-    void ReadFont(char *str);
+    void ReadFont(wchar_t *str);
 
-    std::map<std::string, framework::Drawable*> text_images_;
-    std::map<std::string, TextLoader::Font*> fonts_;
-
+    std::map<std::wstring, framework::Drawable*> text_images_;
 };
 
 }
