@@ -33,7 +33,6 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize,
     text_manager_->Initialize();
 	path_manager_ = new PathManager(base_path);
     scene_list_.clear();
-    //window_size_ = windowSize;
 
     frames_since_reset_ = reported_fps_ = 0;
     if(time_handler_ != NULL)
@@ -143,6 +142,9 @@ void Engine::Release() {
 
     audio_manager()->Release();
     delete audio_manager_;
+
+	text_manager_->Release();
+	delete text_manager_;
 
     video_manager()->Release();
     delete video_manager_;

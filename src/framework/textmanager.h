@@ -15,10 +15,10 @@ class Font;
 class TextManager {
     public:
         TextManager() : current_font_(NULL) {}
-        ~TextManager() {}
+        ~TextManager();
 
         bool Initialize();
-        bool Destroy();
+        bool Release();
 
 		Text* GetText(wstring text, wstring font = wstring(), int width = -1);
 		Text* GetTextFromFile(wstring path, wstring font, int width = -1);

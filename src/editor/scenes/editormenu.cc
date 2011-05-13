@@ -87,7 +87,7 @@ scene::Menu *EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
             options_sprite->Initialize(TEXT_LOADER()->GetImage("SaveQuit"));
             break;
         }
-		options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2, 0));
+		options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2, -options_sprite->size().y/2));
         menu->set_option_sprite(i, options_sprite);
     }
 
@@ -195,7 +195,7 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
         }
 
 		if (options_sprite != NULL) {
-			options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2, 0));
+			options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2, -options_sprite->size().y/2));
 			menu->set_option_sprite(i, options_sprite);
 		}
     }
@@ -238,14 +238,13 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
     // Creates the level images vector.
 	for (size_t i = 0; i < map_list_.size(); ++i) {
         level_sprites_[i] = new Sprite;
-        //std::wostringstream stm;
-        //stm << map_list_[i];
-		//TODO: FIX
-        level_images_[i] = TEXT_MANAGER()->GetText(L"MAPTEXT", L"FontB");
+		std::wstring tmpw(map_list_[i].length(), L' '); // Make room for characters
+		std::copy(map_list_[i].begin(), map_list_[i].end(), tmpw.begin());
+        level_images_[i] = TEXT_MANAGER()->GetText(tmpw, L"FontB");
         level_sprites_[i]->Initialize(level_images_[i]);
         level_sprites_[i]->set_hotspot(Vector2D(0, 0));
-		menu_->AddSprite(level_sprites_[i], framework::Vector2D ((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),
-																  MENU_TOP + RECT_HEIGHT));
+		menu_->AddSprite(level_sprites_[i], framework::Vector2D((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),
+																  MENU_TOP + RECT_HEIGHT + 25.0f));
         if ( static_cast<int>(i) != selected_level_ ) level_sprites_[i]->set_visible(false);
     }
 }

@@ -4,6 +4,7 @@
 #include "../framework/engine.h"
 #include "../framework/videomanager.h"
 #include "../framework/audiomanager.h"
+#include "../framework/textmanager.h"
 #include "../framework/vector2D.h"
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
@@ -67,6 +68,7 @@ int main(int argc, char *argv[]) {
 
         // Releases all loaded textures, to avoid issues when changing resolution.
         engine()->video_manager()->Release();
+		engine()->text_manager()->Release();
 
     } while(level_manager()->RestartGameQueued());
     engine()->Release();

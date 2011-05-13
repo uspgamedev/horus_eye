@@ -23,8 +23,26 @@ bool TextManager::Initialize() {
     return true;
 }
 
-bool TextManager::Destroy() {
+TextManager::~TextManager() {
 	TTF_Quit();
+}
+
+bool TextManager::Release() {
+	map<wstring,Font*>::iterator font_it;
+    for(font_it = fonts_.begin(); font_it != fonts_.end(); ++font_it)
+        delete font_it->second;
+    fonts_.clear();
+
+	map<wstring,Image**>::iterator imgs_it;
+    for(imgs_it = font_images_.begin(); imgs_it != font_images_.end(); ++imgs_it) {
+		for(int i = 0; i < 65535; i++)
+			if(imgs_it->second[i] != NULL) {
+				imgs_it->second[i]->Destroy();
+				delete imgs_it->second[i];
+			}
+        delete imgs_it->second;
+    }
+    font_images_.clear();
 	return true;
 }
 
@@ -63,8 +81,6 @@ Text* TextManager::GetTextFromFile(wstring path, wstring font, int width) {
 	return GetText(output, font, width);
 }
 
-//static std::wstring characters_table = 
-// L"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789çàáéíóúâêôãõü,. !?:;/()[]{}%'\"";
 void TextManager::AddFont(wstring name, wstring path, int size, char ident, bool fancy) {
 	if(fonts_.count(name) > 0)
 		return;

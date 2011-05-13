@@ -39,6 +39,7 @@ Font::Font(Image ** letters, int fontsize, char ident, bool fancy)
 }
 
 Font::~Font() {
+	glDeleteLists(id_, 65535);
 }
 
 Vector2D Font::GetLetterSize(unsigned char letter) {
