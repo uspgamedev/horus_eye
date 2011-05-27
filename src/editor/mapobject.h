@@ -41,10 +41,13 @@ class MapObject : public framework::Sprite {
 	int x() { return this->x_; }
 	int y() { return this->y_; }
 	char type() { return this->type_; } 
+	void set_is_in_fill(bool is) { this->is_in_fill_ = is;}
+	bool is_in_fill() { return this->is_in_fill_; }
 
   private:
     int x_, y_;
     char type_;
+	bool is_in_fill_;
     framework::Image *tile_image_, *sprite_image_;
 };
 

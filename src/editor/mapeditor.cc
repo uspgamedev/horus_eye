@@ -1,6 +1,7 @@
 #include <fstream>
 #include <iostream>
 #include <cmath>
+#include <queue>
 #include "../framework/engine.h"
 #include "../framework/inputmanager.h"
 #include "mapeditor.h"
@@ -153,31 +154,67 @@ void MapEditor::processKeyEditCommands() {
 	InputManager *input = framework::Engine::reference()->input_manager();
 
 	char type = '-';
+	bool doFill = false;
 
-	if(input->KeyDown(framework::K_w)) type = 'W';
-	if(input->KeyDown(framework::K_d)) type = 'D';
-	if(input->KeyDown(framework::K_e)) type = 'E';
-	if(input->KeyDown(framework::K_m)) type = 'M';
-	if(input->KeyDown(framework::K_r)) type = 'R';
-	if(input->KeyDown(framework::K_b)) type = 'B';
-	if(input->KeyDown(framework::K_p)) type = 'P';
-	if(input->KeyDown(framework::K_h)) type = 'H';
-	if(input->KeyDown(framework::K_x)) type = 'X';
-	if(input->KeyDown(framework::K_o)) type = 'O';
-	if(input->KeyDown(framework::K_l)) type = 'L';
-	if(input->KeyDown(framework::K_n)) type = 'N';
-	if(input->KeyDown(framework::K_s)) type = 'S';
+	/*object modifier keys*/
+	bool isStanding = !(input->KeyDown(framework::K_LSHIFT) || input->KeyDown(framework::K_RSHIFT));
+
+	/*basic object keys*/
+	if(input->KeyDown(framework::K_w)) type = WALL;
+	if(input->KeyDown(framework::K_d)) type = DOOR;
+	if(input->KeyDown(framework::K_e)) type = ENTRY;
+	if(input->KeyDown(framework::K_m)) type = (isStanding) ? STANDING_MUMMY : MUMMY;
+	if(input->KeyDown(framework::K_r)) type = (isStanding) ? STANDING_RANGED_MUMMY : RANGED_MUMMY;
+	if(input->KeyDown(framework::K_b)) type = (isStanding) ? STANDING_BIG_MUMMY : BIG_MUMMY;
+	if(input->KeyDown(framework::K_p)) type = (isStanding) ? STANDING_PHARAOH : PHARAOH;
+	if(input->KeyDown(framework::K_h)) type = HERO;
+	if(input->KeyDown(framework::K_x)) type = FLOOR;
+	if(input->KeyDown(framework::K_o)) type = EMPTY;
+	if(input->KeyDown(framework::K_l)) type = POTIONL;
+	if(input->KeyDown(framework::K_n)) type = POTIONM;
+	if(input->KeyDown(framework::K_s)) type = POTIONS;	
+
+	/*advanced commands keys*/
+	if(input->KeyDown(framework::K_LCTRL) || input->KeyDown(framework::K_RCTRL)) doFill = true;
 
 	if (selected_object_ && selected_object_->type() != type && type != '-') {
-		int i, j;
-		i = selected_object_->y();
-		j = selected_object_->x();
+		int i, j, selI, selJ, a, b;
+		selI = selected_object_->y();
+		selJ = selected_object_->x();
+		char c = selected_object_->type();
+		MapObject* aux;
+
 		selected_object_->Select(false);
-		sprites_layer_->RemoveSprite(selected_object_);
-		delete selected_object_;
-		map_matrix_[i][j] = new MapObject(i, j, type, width_, height_);
-		sprites_layer_->AddSprite(map_matrix_[i][j]);
-		selected_object_ = map_matrix_[i][j];
+
+		queue<MapObject*> q;
+		q.push(selected_object_);
+
+
+		while (!q.empty()) {
+			aux = q.front();
+			q.pop();
+
+			i = aux->y();
+			j = aux->x();
+			sprites_layer_->RemoveSprite(aux);
+			delete aux;
+			map_matrix_[i][j] = new MapObject(i, j, type, width_, height_);
+			sprites_layer_->AddSprite(map_matrix_[i][j]);
+			map_matrix_[i][j]->set_is_in_fill(false);
+
+			if (doFill) {
+				for (a=-1; a < 2; a++)
+					if (i+a >= 0 && i+a < height_)
+						for (b=-1; b<2; b++)
+							if (j+b >= 0 && j+b < width_ && (i+a == i || j+b == j))
+								if (map_matrix_[i+a][j+b]->type() == c && !map_matrix_[i+a][j+b]->is_in_fill()) {
+									q.push(map_matrix_[i+a][j+b]);
+									map_matrix_[i+a][j+b]->set_is_in_fill(true);
+								}
+			}
+		}
+		
+		selected_object_ = map_matrix_[selI][selJ];
 		selected_object_->Select(true);
 	}
 }

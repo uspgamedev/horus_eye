@@ -13,7 +13,7 @@ namespace editor {
 
 const float MapObject::TileSize = 10.0f;
 
-MapObject::MapObject(int i, int j, char type, int level_width, int level_height) : Sprite(), x_(j), y_(i), type_(type) {
+MapObject::MapObject(int i, int j, char type, int level_width, int level_height) : Sprite(), x_(j), y_(i), type_(type), is_in_fill_(false) {
     tile_image_ = new Image();
     tile_image_->set_render_size(Vector2D(TileSize, TileSize));
     utils::ImageFactory img_factory;
