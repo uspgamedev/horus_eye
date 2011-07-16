@@ -1,6 +1,7 @@
 #include <SDL/SDL_opengl.h>
 #include "videomanager.h"
 #include "pathmanager.h"
+#include <cmath>
 #include "engine.h"
 #include "image.h"
 
@@ -79,7 +80,8 @@ bool VideoManager::Release() {
 
 void VideoManager::TranslateTo(Vector2D& offset) {
     glLoadIdentity();
-    glTranslatef(offset.x, offset.y, 0);
+	// Smaller values causes floating point errors and don't increase the image quality.
+	glTranslatef(floor(offset.x), floor(offset.y), 0);
     this->virtual_bounds_ = Frame(-offset.x, -offset.y,
                                   -offset.x+video_size_.x,
                                   -offset.y+video_size_.y);
