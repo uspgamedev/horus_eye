@@ -227,9 +227,9 @@ Menu *MenuBuilder::BuildPauseMenu () {
 
     // The bg image.
     Image *bg_img = new Image;
-    bg_img->Create(VIDEO_MANAGER()->video_size(), SDL_HWSURFACE);
-    bg_img->Clear(0x808080);
-    bg_img->SetAlpha(128);
+	bg_img->set_frame_size(VIDEO_MANAGER()->video_size());
+    bg_img->set_color(0.5f, 0.5f, 0.5f);
+    bg_img->set_alpha(0.5f);
 
     // Setting its handler.
     menu->set_handler(new PauseMenuHandler(menu, bg_img));

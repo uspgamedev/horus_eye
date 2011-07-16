@@ -20,21 +20,21 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
     sprite_image_ = NULL;
     switch(type_) {
     case WALL:
-        tile_image_->SetColor(Image::CreateColor(0.25f, 0.25f, 0.25f));
+        tile_image_->set_color(Image::CreateColor(0.25f, 0.25f, 0.25f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.WallImage());
             set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
         }
         break;
     case DOOR:
-        tile_image_->SetColor(Image::CreateColor(0.0f, 0.5f, 0.5f));
+        tile_image_->set_color(Image::CreateColor(0.0f, 0.5f, 0.5f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.DoorImage());
             set_hotspot(Vector2D(Constants::DOOR_HOTSPOT_WIDTH, Constants::DOOR_HOTSPOT_HEIGHT));
         }
         break;
     case ENTRY:
-        tile_image_->SetColor(Image::CreateColor(0.33f, 0.33f, 0.25f));
+        tile_image_->set_color(Image::CreateColor(0.33f, 0.33f, 0.25f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.EntryImage());
             set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
@@ -60,21 +60,21 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
         }
     case PHARAOH:
     case STANDING_PHARAOH:
-        tile_image_->SetColor(Image::CreateColor(1.0f, 0.0f, 0.0f));
+        tile_image_->set_color(Image::CreateColor(1.0f, 0.0f, 0.0f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.PharaohImage());
             set_hotspot(Vector2D(sprite_image_->frame_size().x / 2.0f, sprite_image_->frame_size().y*6.0f / 7.0f));
         }
         break;
     case HERO:
-        tile_image_->SetColor(Image::CreateColor(1.0f, 1.0f, 0.0f));
+        tile_image_->set_color(Image::CreateColor(1.0f, 1.0f, 0.0f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.HeroImage());
             set_hotspot(Vector2D(Constants::HERO_HOTSPOT_X, Constants::HERO_HOTSPOT_Y));
         }
         break;
     case FLOOR:
-        tile_image_->SetColor(Image::CreateColor(0.5f, 0.5f, 0.5f));
+        tile_image_->set_color(Image::CreateColor(0.5f, 0.5f, 0.5f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.FloorImage());
             set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
@@ -91,14 +91,14 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
             set_hotspot(Vector2D(Constants::POTION_SPRITE_CENTER_X, Constants::POTION_SPRITE_CENTER_Y + Constants::POTION_HEIGHT));
         }
     case POTIONS:
-        tile_image_->SetColor(Image::CreateColor(0.0f, 1.0f, 0.5f));
+        tile_image_->set_color(Image::CreateColor(0.0f, 1.0f, 0.5f));
         if(sprite_image_ == NULL) {
             Initialize(sprite_image_ = img_factory.SightPotionImage());
             set_hotspot(Vector2D(Constants::POTION_SPRITE_CENTER_X, Constants::POTION_SPRITE_CENTER_Y + Constants::POTION_HEIGHT));
         }
         break;
     default:
-        tile_image_->SetColor(Image::CreateColor(1.0f, 1.0f, 1.0f));
+        tile_image_->set_color(Image::CreateColor(1.0f, 1.0f, 1.0f));
         if(sprite_image_ == NULL) {
             sprite_image_ = tile_image_ = new Image();
             Initialize(sprite_image_);

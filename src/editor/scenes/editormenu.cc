@@ -48,9 +48,9 @@ scene::Menu *EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
 
     // Setting its handler.
 	Image *bg_img = new Image;
-    bg_img->Create(VIDEO_MANAGER()->video_size(), SDL_HWSURFACE);
-    bg_img->Clear(0x404040);
-    bg_img->SetAlpha(0.80f);
+	bg_img->set_frame_size(VIDEO_MANAGER()->video_size());
+    bg_img->set_color(0.25f, 0.25f, 0.25f);
+    bg_img->set_alpha(0.8f);
 
     menu->set_handler(new EditorMenuHandler(menu, editor, bg_img));
 
@@ -159,9 +159,9 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
 
     // Setting its handler.
 	Image *bg_img = new Image;
-    bg_img->Create(VIDEO_MANAGER()->video_size(), SDL_HWSURFACE);
-    bg_img->Clear(0x404040);
-    bg_img->SetAlpha(0.80f);
+	bg_img->set_frame_size(VIDEO_MANAGER()->video_size());
+    bg_img->set_color(0.25f, 0.25f, 0.25f);
+    bg_img->set_alpha(0.8f);
 
 	LoadMapMenuHandler* handler = new LoadMapMenuHandler(menu, editor, bg_img);
     menu->set_handler(handler);

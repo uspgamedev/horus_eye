@@ -11,9 +11,9 @@ using namespace framework;
 
 PauseScene::PauseScene () {
     image_ = new Image;
-    image_->Create(VIDEO_MANAGER()->video_size(), SDL_HWSURFACE);
-    image_->Clear(0x808080);
-    image_->SetAlpha(128);
+	image_->set_frame_size(VIDEO_MANAGER()->video_size());
+    image_->set_color(0.5f, 0.5f, 0.5f);
+    image_->set_alpha(0.5f);
     Layer *layer = new Layer;
     Sprite *sprite = new Sprite;
     sprite->Initialize(image_);

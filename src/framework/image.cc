@@ -12,15 +12,13 @@
 
 namespace framework {
 
-Image::Image() {
+Image::Image() : alpha_(1.0f), texture_width_(10), texture_height_(10) {
     color_ = CreateColor(1.0f, 1.0f, 1.0f);
-    alpha_ = 1.0f;
-	texture_width_ = texture_height_ = 10;
 	texture_ = 0;
     set_frame_size(Vector2D(width(), height()));
 }
 
-// Destroys the image and it's texture if delete_texture is true.
+// Destroys the image.
 // Returns true on success
 bool Image::Destroy() {
 	if(texture_ != 0) {
@@ -30,55 +28,49 @@ bool Image::Destroy() {
     return true;
 }
 
-// Sets what color the image is tinted with during rendering.
-void Image::SetColor(Color color) {
-    color_ = color;
-}
-
 void Image::SetColor(uint32 val) {
     color_.r = ((val & 0xFF0000) >> 16) / 255.0f;
     color_.g = ((val & 0x00FF00) >>  8) / 255.0f;
     color_.b = ((val & 0x0000FF)      ) / 255.0f;
 }
 
-// Sets the whole-image alpha value used during rendering.
-void Image::SetAlpha(float alpha) {
-	if(alpha > 1.0f) // Retro-compatibility
-		alpha /= 255.0f;
-    alpha_ = alpha;
-}
-
 bool Image::DrawTo(const Vector2D& position, int frame_number, 
 				   Mirror mirror, const Color& color, float alpha, const Vector2D& draw_size) {
-    Vector2D size = draw_size, target = position;
 
-    //Vector2D screen = VIDEO_MANAGER()->video_size();
+    Vector2D size = draw_size, 
+			 target = position;
+
     Frame bounds = VIDEO_MANAGER()->virtual_bounds();
-    //if(target.x > screen.x || target.y > screen.y || target.x + size.x < 0 || target.y + size.y < 0) {
     if (target.x > bounds.right() || target.y > bounds.bottom() ||
         target.x + size.x < bounds.left() || target.y + size.y < bounds.top() ) {
-        return true;
+        return false;
     }
 
-    if(mirror & MIRROR_HFLIP) {
+	if(mirror & MIRROR_HFLIP) {
+		// Flip the image horizontally and move it to the right, so it renders at the same place.
         target.x += frame_size().x;
         size.x *= -1;
     }
     if(mirror & MIRROR_VFLIP) {
+		// Flip the image vertically and move it down, so it renders at the same place.
         target.y += frame_size().y;
         size.y *= -1;
 	}
 
+	// Sets the color to tint the image with to the color the image has modified with the color given.
+	// Also sets the alpha.
     glColor4f(color.r * color_.r, color.g * color_.g, color.b * color_.b, alpha_ * alpha);
 
 	glPushMatrix();
+	// Modifies the origin so it points to where this image is to be rendered.
 	glTranslatef( target.x, target.y, 0 );
+	// Modifies the scale so a 1.0f x 1.0f square matches size.
 	glScalef(size.x, size.y, 1);
+	// Now that everything was setup, RawDraw does the dirty job.
 	RawDraw(frame_number);
-    //Reset
     
+	// Reverts the modifications to the origin and scale.
     glPopMatrix();
-
     return true;
 }
 
@@ -117,7 +109,7 @@ void Image::RawDraw(int frame_number) {
 }
 
 void Image::set_frame_size(const Vector2D& size) {
-    render_size_ = size;
+	render_size_ = size;
     frame_size_.x = size.x / texture_width_;
     frame_size_.y = size.y / texture_height_;
 }
@@ -325,8 +317,6 @@ bool Image::CreateFogTransparency(const Vector2D& size, const Vector2D& ellipse_
     SDL_FreeSurface(data);
     return ret;
 }
-
-
 
 Vector2D Image::frame_size() const {
     Vector2D size;
