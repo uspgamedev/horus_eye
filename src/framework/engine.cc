@@ -151,6 +151,8 @@ void Engine::Release() {
     video_manager()->Release();
     delete video_manager_;
 
+    delete animation_parser_;
+
     SDL_Quit();
 }
 

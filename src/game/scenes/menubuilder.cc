@@ -78,8 +78,6 @@ void MenuBuilder::InitializeAnimations() {
 }
 
 void MenuBuilder::ReleaseAnimations() {
-    ANIMATIONS->Release();
-    delete ANIMATIONS;
     ANIMATIONS = NULL;
     SELECTION_EYE = -1;
     HERO_SHOOTING = -1;
