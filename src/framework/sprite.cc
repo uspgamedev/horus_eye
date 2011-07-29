@@ -33,7 +33,7 @@ void Sprite::Render() {
     if (visible_) {
         int frame_number = animation_->GetFrame();
         Modifier render_mod(*modifier_);
-        Modifier *animation_mod = animation_->get_current_modifier();
+        const Modifier *animation_mod = animation_->get_current_modifier();
         if (animation_mod) render_mod.Compose(animation_mod);
         image_->DrawTo(position_ - hotspot_, frame_number, &render_mod, size_);
     }

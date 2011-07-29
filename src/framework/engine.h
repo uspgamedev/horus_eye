@@ -16,6 +16,7 @@ class TimeHandler;
 class AudioManager;
 class TextManager;
 class PathManager;
+class AnimationParser;
 class Scene;
 
 class Engine {
@@ -31,6 +32,7 @@ class Engine {
     AudioManager *audio_manager() { return audio_manager_; }
     TextManager *text_manager() { return text_manager_; }
 	PathManager *path_manager() { return path_manager_; }
+	AnimationParser* animation_parser() { return animation_parser_; }
     Vector2D window_size();
 
     // Gerenciamento do motor
@@ -63,6 +65,7 @@ class Engine {
     AudioManager *audio_manager_;
     TextManager *text_manager_;
 	PathManager *path_manager_;
+	AnimationParser *animation_parser_;
     //Vector2D window_size_;
     bool quit_;
     vector<Scene*> scene_list_;

@@ -13,11 +13,11 @@ class Vector2D {
     ~Vector2D() { }
 
 
-    // Member functions
+    // Member methods
     float length() const;
     float angle() const;
 
-    // Metodos estaticos
+    // Static methods
     static Vector2D Add(Vector2D a, Vector2D b);
     static Vector2D Subtract(Vector2D a, Vector2D b);
     static Vector2D Multiply(Vector2D a, float scalar);
@@ -29,8 +29,8 @@ class Vector2D {
 };
 
 	// Overload de operadores
-	Vector2D operator+(const Vector2D& left_value,
-                   const Vector2D& right_value);
+	Vector2D operator+(const Vector2D &left_value,
+                   const Vector2D &right_value);
 	Vector2D operator-(const Vector2D& left_value,
                    const Vector2D& right_value);
 	Vector2D operator*(const Vector2D& left_value,

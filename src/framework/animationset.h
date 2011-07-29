@@ -38,6 +38,8 @@ class AnimationSet {
     // Returns the generated index or -1 if the animation was not found.
     uint32 MakeIndex(std::string name);
 
+    void Print(FILE *out);
+
   private:
 
     typedef std::map<std::string,Animation::FrameSequence*> SequenceMap;

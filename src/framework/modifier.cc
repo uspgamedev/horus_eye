@@ -12,7 +12,7 @@ Modifier::Modifier (Modifier &mod) :
         color_(mod.color_),
         alpha_(mod.alpha_) {}
 
-void Modifier::Compose(Modifier *mod) {
+void Modifier::Compose(const Modifier *mod) {
     offset_ = offset_ + mod->offset_;
     size_ = Vector2D(size_.x*mod->size_.x,
                      size_.y*mod->size_.y);

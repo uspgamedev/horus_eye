@@ -3,7 +3,7 @@
 
 namespace framework {
 
-// Member functions
+// Member methods
 
 // Devolve a norma do vetor
 float Vector2D::length() const {
@@ -13,7 +13,7 @@ float Vector2D::angle() const {
     return atan2(y, x);
 }
 
-// Metodos estaticos
+// Static methods
 
 // Devolve a + b
 Vector2D Vector2D::Add(Vector2D a, Vector2D b) {

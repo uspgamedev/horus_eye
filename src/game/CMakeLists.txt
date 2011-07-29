@@ -58,6 +58,7 @@ SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
 ../framework/pathmanager.cc ../framework/pathmanager.h ../editor/mapeditor.cc
 ../framework/animationset.h ../framework/animationset.cc ../framework/modifier.h
 ../framework/modifier.cc ../framework/font.h ../framework/font.cc
+../framework/animationparser.h ../framework/animationparser.cc
 ../editor/mapeditor.h ../editor/mapobject.cc ../editor/mapobject.h
 ../editor/mapeditor.cc ../editor/scenes/editormenu.h
 ../editor/scenes/editormenu.cc

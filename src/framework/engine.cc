@@ -9,6 +9,7 @@
 #include "timehandler.h"
 #include "textmanager.h"
 #include "pathmanager.h"
+#include "animationparser.h"
 
 using namespace std;
 
@@ -32,6 +33,7 @@ bool Engine::Initialize(string windowTitle, Vector2D windowSize,
     text_manager_ = new TextManager();
     text_manager_->Initialize();
 	path_manager_ = new PathManager(base_path);
+	animation_parser_ = AnimationParser::reference();
     scene_list_.clear();
 
     frames_since_reset_ = reported_fps_ = 0;

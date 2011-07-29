@@ -52,7 +52,7 @@ class Animation {
     void set_default_frame(int default_frame) {
         default_frame_ = default_frame;
     }
-    Modifier* get_current_modifier() {
+    const Modifier* get_current_modifier() const {
         return frames_
                 ? frames_->at(current_frame_)->modifier()
                 : NULL;

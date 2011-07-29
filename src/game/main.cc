@@ -37,6 +37,8 @@ void StartGame() {
     level_manager()->Initialize();
 }
 
+#include "../framework/animationparser.h"
+#include "../framework/animationset.h"
 
 int main(int argc, char *argv[]) {
 	Settings settings = Settings();

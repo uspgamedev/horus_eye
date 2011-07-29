@@ -62,4 +62,17 @@ uint32 AnimationSet::MakeIndex(string name) {
     return static_cast<uint32>(indexed_sequences_.size()-1);
 }
 
+void AnimationSet::Print(FILE *out) {
+	fprintf(out, "Printing animation set.\n");
+	SequenceMap::iterator it = sequences_.begin();
+	while (it != sequences_.end()) {
+		Animation::FrameSequence *seq = it->second;
+		fprintf(out, "%s:", it->first.c_str());
+		for (size_t i = 0; i < seq->size(); ++i)
+			fprintf(out, " %d", seq->at(i)->frame());
+		fputc(10, out);
+		++it;
+	}
+}
+
 }

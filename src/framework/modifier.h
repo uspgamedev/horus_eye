@@ -39,7 +39,7 @@ class Modifier {
     void set_color(Color color) { color_ = color; }
     void set_alpha(float alpha) { alpha_ = alpha; }
 
-    void Compose (Modifier *mod2);
+    void Compose (const Modifier *mod2);
 
   private:
 

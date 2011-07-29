@@ -4,6 +4,7 @@
 #include "../../framework/textmanager.h"
 #include "../../framework/scene.h"
 #include "../../framework/animationset.h"
+#include "../../framework/animationparser.h"
 #include "../../framework/text.h"
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
@@ -58,9 +59,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-    ANIMATIONS = new AnimationSet();
-    ANIMATIONS->Add("SELECTION_EYE", 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
-                    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, -1);
+	ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/test.and");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     ANIMATIONS->Add("HERO_SHOOTING", 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3,
                     -1);
