@@ -61,19 +61,13 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
 void MenuBuilder::InitializeAnimations() {
 	ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/test.and");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
-    ANIMATIONS->Add("HERO_SHOOTING", 3, 3, 3, 43, 53, 63, 73, 3, 3, 3, 3, 3,
-                    -1);
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
-    ANIMATIONS->Add("MUMMY_DYING", 4, 4, 4, 4, 4, 80, 81, 82, 83, 84, 90, 91,
-                    -1);
+    MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
     for (int i = 0; i < 2; i++) {
         string name = "MOUSE_CLICKS_"+string(1, '0'+i);
-        ANIMATIONS->Add(name, 0, 2-i, -1);
         MOUSE_CLICKS[i] = ANIMATIONS->MakeIndex(name);
     }
-    ANIMATIONS->Add("FIREBALL", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
     FIREBALL = ANIMATIONS->MakeIndex("FIREBALL");
-    ANIMATIONS->Add("EARTHQUAKE", 0, 1, 2, 3, 4, 5, -1);
     EARTHQUAKE = ANIMATIONS->MakeIndex("EARTHQUAKE");
 }
 

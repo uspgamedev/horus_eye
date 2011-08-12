@@ -18,6 +18,7 @@ namespace editor {
 FPSMeter::FPSMeter() {
     Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
+    // TODO: change to opengl lists!
     digit_set_ = new AnimationSet();
     for (int i = 0; i < 10; i++) {
         string digit_name(1, '0'+i);

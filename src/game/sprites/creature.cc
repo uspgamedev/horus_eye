@@ -1,5 +1,7 @@
 #include "../../framework/animation.h"
 #include "../../framework/animationset.h"
+#include "../../framework/animationparser.h"
+#include "../../framework/engine.h"
 #include "creature.h"
 #include "worldobject.h"
 #include "mummy.h"
@@ -113,39 +115,27 @@ void Creature::TakeDamage(int life_points) {
 
 void Creature::InitializeAnimations() {
     if (ANIMATIONS == NULL) {
-        ANIMATIONS = new AnimationSet();
+        ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/creature.and");
         InitializeAttackingAnimations();
         InitializeWalkingAnimations();
         InitializeStandingAnimations();
-        ANIMATIONS->Add("TAKING_DAMAGE", 80, 81, 82, -1);
         taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
-        ANIMATIONS->Add("DYING", 80, 81, 82, 83, 84, 90, 91, -1);
         dying_animation_ = ANIMATIONS->MakeIndex("DYING");
     }
 }
 
 void Creature::ReleaseAnimations() {
-    ANIMATIONS->Release();
-    delete ANIMATIONS;
     ANIMATIONS = NULL;
 }
 
 void Creature::InitializeAttackingAnimations() {
-    ANIMATIONS->Add("ATTACKING_DOWN", 44, 54, 64, 74, -1);
     attacking_animations_[6] = ANIMATIONS->MakeIndex("ATTACKING_DOWN");
-    ANIMATIONS->Add("ATTACKING_LEFT", 44, 47, 57, 67, 77, -1);
     attacking_animations_[4] = ANIMATIONS->MakeIndex("ATTACKING_LEFT");
-    ANIMATIONS->Add("ATTACKING_RIGHT", 42, 52, 62, 72, -1);
     attacking_animations_[0] = ANIMATIONS->MakeIndex("ATTACKING_RIGHT");
-    ANIMATIONS->Add("ATTACKING_UP", 40, 50, 60, 70, -1);
     attacking_animations_[2] = ANIMATIONS->MakeIndex("ATTACKING_UP");
-    ANIMATIONS->Add("ATTACKING_DOWN_RIGHT", 43, 53, 63, 73, -1);
     attacking_animations_[7] = ANIMATIONS->MakeIndex("ATTACKING_DOWN_RIGHT");
-    ANIMATIONS->Add("ATTACKING_DOWN_LEFT", 46, 56, 66, 76, -1);
     attacking_animations_[5] = ANIMATIONS->MakeIndex("ATTACKING_DOWN_LEFT");
-    ANIMATIONS->Add("ATTACKING_UP_RIGHT", 41, 51, 61, 71, -1);
     attacking_animations_[1] = ANIMATIONS->MakeIndex("ATTACKING_UP_RIGHT");
-    ANIMATIONS->Add("ATTACKING_UP_LEFT", 48, 58, 68, 78, -1);
     attacking_animations_[3] = ANIMATIONS->MakeIndex("ATTACKING_UP_LEFT");
 }
 

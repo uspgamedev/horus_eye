@@ -34,6 +34,8 @@ void Image::SetColor(uint32 val) {
     color_.b = ((val & 0x0000FF)      ) / 255.0f;
 }
 
+#include "types.h"
+
 bool Image::DrawTo(const Vector2D& position, int frame_number, 
 				   Mirror mirror, const Color& color, float alpha, const Vector2D& draw_size) {
 

@@ -16,7 +16,7 @@ class Image : public Drawable {
   friend class VideoManager;
   public:
     Image();
-	~Image() {}
+	virtual ~Image() {}
     bool Destroy();
 
 	int width() const { return texture_width_; }
