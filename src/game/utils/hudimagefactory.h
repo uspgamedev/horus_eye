@@ -19,6 +19,7 @@ class HudImageFactory {
     virtual Image* MummyCounterImage();
     virtual Image* FireballIconImage();
     virtual Image* EarthquakeIconImage();
+    virtual Image* LightningIconImage();
     virtual Image* EyeImage();
 
   protected:
@@ -29,6 +30,7 @@ class HudImageFactory {
     Image* mummy_counter_image_;
     Image* fireball_icon_image_;
     Image* earthquake_icon_image_;
+    Image* lightning_icon_image_;
     Image* eye_image_;
 };
 

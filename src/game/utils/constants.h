@@ -14,6 +14,10 @@ class Constants {
                        EXPLOSION_SPRITE_WIDTH = 128,
                        EXPLOSION_SPRITE_HEIGHT = 256,
                        EXPLOSION_DURATION = 3000,
+
+                       LIGHTNING_SPRITE_WIDTH = 64,
+                       LIGHTNING_SPRITE_HEIGHT = 64,
+                       LIGHTNING_DURATION = 3500,
                        
                        PROJECTILE_DAMAGE = 10,
                        EXPLOSION_DAMAGE = 1,
@@ -50,6 +54,8 @@ class Constants {
                        FIREBALL_COST = 10,
                        QUAKE_EXPLOSION_DAMAGE = 20,
                        QUAKE_COST = 15,
+                       LIGHTNING_DAMAGE = 10,
+                       LIGHTNING_COST = 5,
 
 					   PHARAOH_LIFE = 175,
 					   PHARAOH_MANA = 10,
@@ -94,6 +100,11 @@ class Constants {
 		PROJECTILE_SPRITE_CENTER_X,
         PROJECTILE_SPRITE_CENTER_Y,
 		PROJECTILE_HEIGHT,
+
+        LIGHTNING_SPEED,
+		LIGHTNING_SPRITE_CENTER_X,
+        LIGHTNING_SPRITE_CENTER_Y,
+		LIGHTNING_HEIGHT,
 
 		EXPLOSION_SPEED,
 		EXPLOSION_SPRITE_CENTER_X,

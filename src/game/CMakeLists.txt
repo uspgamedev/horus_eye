@@ -5,7 +5,7 @@ PROJECT(horus_eye CXX)
 SET(GAME_UNIXNAME horus_eye)
 SET(GAME_DEBUGNAME horus_eye_debug)
 SET(GAME_NAME "Horus Eye")
-SET(GAME_VERSION "1.0.1")
+SET(GAME_VERSION "1.1.0")
 SET(CMAKE_BUILD_TYPE Release)
 # Arquivos de código fonte vão aqui!
 SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
@@ -32,6 +32,8 @@ SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
 ./sprites/weapons/herobaseweapon.cc ./sprites/weapons/herofireballweapon.cc
 ./sprites/weapons/pharaohsummonweapon.cc ./sprites/weapons/pharaohsummonweapon.h
 ./sprites/weapons/mummyrangedweapon.cc ./sprites/weapons/pharaohrangedweapon.h
+./sprites/weapons/herolightningweapon.cc ./sprites/weapons/herolightningweapon.h
+./sprites/lightningbolt.cc ./sprites/lightningbolt.h
 ./sprites/creature.cc ./sprites/mummyprojectile.h ./sprites/itembuilder.h
 ./sprites/mummy.cc ./utils/levelloader.cc ./utils/levelmanager.cc
 ./utils/rectobject.cc ./utils/hud.cc ./utils/settings.cc

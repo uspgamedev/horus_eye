@@ -16,6 +16,7 @@
 #include "../sprites/weapons/herofireballweapon.h"
 #include "../sprites/weapons/herobaseweapon.h"
 #include "../sprites/weapons/heroexplosionweapon.h"
+#include "../sprites/weapons/herolightningweapon.h"
 #include "levelmanager.h"
 #include "imagefactory.h"
 #include "levelloader.h"
@@ -142,6 +143,7 @@ void LevelManager::LoadNextLevel() {
 		hero_->set_mana(hero_->max_mana());
 		hero_->AddWeapon(0, new HeroFireballWeapon(hero_));
 		hero_->AddWeapon(1, new HeroExplosionWeapon(hero_));
+        hero_->AddWeapon(2, new HeroLightningWeapon(hero_));
 		// Add here the other initial weapons of the hero.
 	}
     current_level_ = new World(hero_);
@@ -153,8 +155,10 @@ void LevelManager::LoadNextLevel() {
 }
 
 void LevelManager::Finish() {
-	if (hero_)
+	if (hero_ != NULL) {
 		delete hero_;
+        hero_ = NULL;
+    }
 	if (loading_)
 		delete loading_;
 	Creature::ReleaseAnimations();

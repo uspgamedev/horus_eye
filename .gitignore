@@ -1,0 +1,10 @@
+
+/Debug
+/DebugFast
+/ipch
+/Release
+/src/game/config.h
+/Horus Eye.vcxproj.user
+*.suo
+*.sdf
+*.vsp

@@ -100,8 +100,6 @@ void Creature::AdjustBlink(float delta_t) {
     }
 }
 
-
-
 void Creature::TakeDamage(int life_points) {
     life_ -= life_points;
     if(life_ <= 0) {

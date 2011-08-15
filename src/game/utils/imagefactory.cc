@@ -61,6 +61,9 @@ namespace utils {
 
         entry_image_ = VIDEO_MANAGER()->LoadImage("data/images/door.png");
         if(entry_image_) entry_image_->set_frame_size(Vector2D(106, 157));
+
+        lightning_image_ = VIDEO_MANAGER()->LoadImage("data/images/lightning_bolt.png");
+        if(lightning_image_) lightning_image_->set_frame_size(Vector2D(64, 64));
     }
     
     Image* ImageFactory::HeroImage(){
@@ -113,6 +116,9 @@ namespace utils {
     }
     Image* ImageFactory::EntryImage() {
         return entry_image_;
+    }
+    Image* ImageFactory::LightningImage() {
+        return lightning_image_;
     }
 }
 
