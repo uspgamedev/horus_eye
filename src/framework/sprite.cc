@@ -1,15 +1,12 @@
-#include <SDL/SDL_opengl.h>
 #include "sprite.h"
 #include "drawable.h"
 #include "light.h"
-#include "engine.h"
-#include "videomanager.h"
 #include "animation.h"
 
 namespace framework {
 
-Sprite::Sprite() : light_(NULL), modifier_(new Modifier),
-        delete_image_(false) {}
+Sprite::Sprite() : image_(NULL), light_(NULL), animation_(NULL), 
+    modifier_(new Modifier), delete_image_(false) {}
 
 Sprite::~Sprite() {
     if (animation_) delete animation_;
@@ -24,7 +21,6 @@ void Sprite::Initialize(Drawable *image, AnimationSet *set, bool delete_image)
     visible_ = true;
     animation_ = new Animation(10, set);
     hotspot_ = position_ = Vector2D(0,0);
-    //mirror_ = Image::MIRROR_NONE;
     delete_image_ = delete_image;
 	size_ = image->render_size();
 }

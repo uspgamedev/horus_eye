@@ -2,8 +2,8 @@
 #define HORUSEYE_FRAMEWORK_SPRITE_H_
 
 #include <algorithm>
-#include "image.h"
 #include "vector2D.h"
+#include "image.h"
 #include "types.h"
 #include "animation.h"
 
@@ -11,15 +11,17 @@
 namespace framework {
 
 class Drawable;
-//class Animation;
 class Modifier;
 class Light;
 class AnimationSet;
+
 class Sprite {
   public:
     Sprite();
     virtual ~Sprite();
 
+    // Initializes the Sprite with a drawable to render and an AnimationSet.
+    // If no AnimationSet is defined, the first frame will be used.
     virtual void Initialize(Drawable *image, AnimationSet *set = NULL,
                     bool delete_image = false);
 
@@ -27,70 +29,51 @@ class Sprite {
     Vector2D position() const { return position_; }
     void set_position(const Vector2D& position) { position_ = position; }
 
+    // Visibility controls wether the Sprite is rendered or not.
     bool visible() const { return visible_; }
     void set_visible(bool visible) { visible_ = visible; }
 
+    // The hotspot controls the offset from the image origin to the sprite position.
     Vector2D hotspot() const { return hotspot_; }
     void set_hotspot(const Vector2D& hotspot) { hotspot_ = hotspot; }
 
-    // zindex: (tras) 0.0 <= zindex <= 1.0 (frente)
+    // The Sprites are rendered in order, with non-decreasing Z-Index. 
     float zindex() const { return zindex_; }
     void set_zindex(float z) { zindex_= z; }
     static bool CompareByZIndex(Sprite *a, Sprite *b);
 
-    //Image *image() { return image_; }
 
-	Color color() {
-	    return modifier_ ? modifier_->color() : WHITE;
-	}
-	void set_color(Color color) {
-	    if(modifier_) modifier_->set_color(color);
-	}
+	Color color() { return modifier_->color(); }
+	void set_color(Color color) { modifier_->set_color(color); }
 	
-	float alpha() {
-	    return modifier_ ? modifier_->alpha() : 1.0f;
-	}
-	void set_alpha(float alpha) {
-	    if (modifier_) modifier_->set_alpha(alpha);
-	}
+	float alpha() { return modifier_->alpha(); }
+	void set_alpha(float alpha) { modifier_->set_alpha(alpha); }
 
 	const Vector2D size() { return size_; }
 	void set_size(const Vector2D& size) { size_ = size; }
 	
+    // The light determines how much this Sprite illuminates the ambient. 
+    // By default, a Sprite has no light.
 	Light* light() { return light_; }
 	void set_light(Light* light) { light_ = light; }
 
+    // The mirror ammount is combined with whatever mirror the image or the animation has.
     Mirror mirror() const { return modifier_->mirror(); }
     void set_mirror(Mirror mirror) { modifier_->set_mirror(mirror); }
 
-
-    // ======================================================================
-    // Substituimos o sistema de guardar animacoes no sprite por simplesmente
-    // atribuir diretamente a animacao desejada.
-    // ======================================================================
-
-    // Devolve um numero negativo caso nao seja possível registrar a animacao.
-    // Caso contrario, devolve um identificador positivo univoco.
-    //int RegisterAnimation(Animation *animation);
-
-    // Recebe um identificador da animacao
-    // Devole true quando a animação for desregistrada e false caso contrario
-    //bool UnregisterAnimation(int animation_id);
-
-    // Recebe um identificador da animacao
-    // Devole true quando a animação for selecionada e false caso contrario
-    //bool SelectAnimation(int animation_id);
-
-    // ======================================================================
-    //void SelectAnimation(Animation *animation);
+    // Changes the current animation to a new animation from the previously selected AnimationSet.
     void SelectAnimation(std::string animation_name) {
         animation_->Select(animation_name);
     }
     void SelectAnimation(int animation_index) {
         animation_->Select(animation_index);
     }
-    void SetAnimationFPS(int fps) { animation_->set_fps(fps); }
+
+
+    void SetAnimationFPS(float fps) { animation_->set_fps(fps); }
     float GetAnimationFPS() const { return animation_->fps(); }
+
+
     void AddObserverToAnimation(Observer *observer) {
         animation_->AddObserver(observer);
     }
@@ -98,26 +81,24 @@ class Sprite {
     void SetDefaultFrame(int frame) {
         animation_->set_default_frame(frame);
     }
-    //Animation* animation() { return animation_; }
 
     virtual void Render();
+
+    // Illuminates the ambient. All lights are rendered before any actual image.
 	void RenderLight(Vector2D &offset);
 
-    // Realiza a atualizacao com base na variacao de tempo (delta_t)
+    // Updates the Sprite based on the time variation.
+    // One of the two main functions of the UGDK Engine. Most of the game logic 
+    // resides within the Update of child classes.
     virtual void Update(float delta_t);
 
   protected:
-
-	Light *light_;
+    Light *light_;
     float zindex_;
 
   private:
     Vector2D position_, hotspot_, size_;
-    //Image *image_;
-	Drawable *image_;
-    //Image::Mirror mirror_;
-	//Color color_;
-	//float alpha_;
+    Drawable *image_;
     Animation *animation_;
     Modifier *modifier_;
     bool visible_, delete_image_;
