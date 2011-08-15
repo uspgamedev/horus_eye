@@ -12,14 +12,39 @@ namespace framework {
 class Observer;
 class AnimationSet;
 
+/*
+ * Represents a sprite's current animation.
+ *
+ * An Animation object contains a sequence of information describing a sprite's visual behaviour
+ * (spritesheet frame, position, rotation, transparency, etc) throughout a corresponding sequence
+ * of the game's update frames. This per-frame information is represented by the class
+ * Animation::AnimationFrame, and the sequence of this information by the Animation::FrameSequence
+ * type.
+ *
+ * Also, an Animation object contains a set of all the possible animations the sprite may need.
+ * This set is represented by the AnimationSet class. Thus, a sprite needs but one Animation object
+ * to access any of the animations it requires, as long as these are all properly registered
+ * in the AnimationSet object given to the Animation object.
+ */
 class Animation {
+
   public:
 
+    /*
+     * Represents the visual behaviour information of a sprite in a single game frame.
+     */
     class AnimationFrame {
+
       public:
+
+        /*
+         * frame: the index of the spritesheet frame that should be rendered.
+         * modifier: a pointer to the Modifier object describing the visual modifiers that
+         *  should be applied to the rendered sprite.
+         */
         AnimationFrame(int frame, Modifier *modifier = NULL)
             : frame_(frame), modifier_(modifier) {}
-        // Getters.
+
         int frame() const { return frame_; }
         Modifier *modifier() const { return modifier_; }
       private:

@@ -1,7 +1,9 @@
 #include "explosion.h"
 #include "mummy.h"
+#include "../../framework/engine.h"
 #include "../../framework/animation.h"
 #include "../../framework/animationset.h"
+#include "../../framework/animationparser.h"
 #include "../../framework/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
@@ -41,18 +43,14 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 Explosion::~Explosion() {}
 
 void Explosion::InitializeAnimations() {
-    ANIMATIONS = new AnimationSet();
-    ANIMATIONS->Add("HERO_FIREBALL_WEAPON", 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, -1);
+    ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/explosion.and");
     WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] =
             ANIMATIONS->MakeIndex("HERO_FIREBALL_WEAPON");
-    ANIMATIONS->Add("HERO_EXPLOSION_WEAPON", 0, 1, 2, 3, 4, 5, -1);
     WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] =
             ANIMATIONS->MakeIndex("HERO_EXPLOSION_WEAPON");
 }
 
 void Explosion::ReleaseAnimations() {
-    ANIMATIONS->Release();
-    delete ANIMATIONS;
     ANIMATIONS = NULL;
     WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] = -1;
     WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] = -1;

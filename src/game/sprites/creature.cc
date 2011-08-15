@@ -148,24 +148,16 @@ void Creature::InitializeWalkingAnimations() {
     */
     for (int i = 0; i < 16; i++)
         walking_animations_[i] = -1;
-    ANIMATIONS->Add("WALKING_DOWN", 4, 14, 24, 34, -1);
     walking_animations_[Animation_::DOWN] = ANIMATIONS->MakeIndex("WALKING_DOWN");
-    ANIMATIONS->Add("WALKING_LEFT", 7, 17, 27, 37, -1);
     walking_animations_[Animation_::LEFT] = ANIMATIONS->MakeIndex("WALKING_LEFT");
-    ANIMATIONS->Add("WALKING_RIGHT", 2, 12, 22, 32, -1);
     walking_animations_[Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_RIGHT");
-    ANIMATIONS->Add("WALKING_UP", 0, 10, 20, 30, -1);
     walking_animations_[Animation_::UP] = ANIMATIONS->MakeIndex("WALKING_UP");
-    ANIMATIONS->Add("WALKING_DOWN_RIGHT", 3, 13, 23, 33, -1);
     walking_animations_[Animation_::DOWN | Animation_::RIGHT] =
             ANIMATIONS->MakeIndex("WALKING_DOWN_RIGHT");
-    ANIMATIONS->Add("WALKING_DOWN_LEFT", 6, 16, 26, 36, -1);
     walking_animations_[Animation_::DOWN | Animation_::LEFT] =
             ANIMATIONS->MakeIndex("WALKING_DOWN_LEFT");
-    ANIMATIONS->Add("WALKING_UP_RIGHT", 1, 11, 21, 31, -1);
     walking_animations_[Animation_::UP | Animation_::RIGHT] =
             ANIMATIONS->MakeIndex("WALKING_UP_RIGHT");
-    ANIMATIONS->Add("WALKING_UP_LEFT", 8, 18, 28, 38, -1);
     walking_animations_[Animation_::UP | Animation_::LEFT] =
             ANIMATIONS->MakeIndex("WALKING_UP_LEFT");
     /*
