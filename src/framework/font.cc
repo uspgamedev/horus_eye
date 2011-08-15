@@ -4,14 +4,16 @@
 #include "font.h"
 #include "image.h"
 
+#define MAX_UNICODE_CODE 18431
+
 namespace framework {
 
 Font::Font(Image ** letters, int fontsize, char ident, bool fancy) 
 	: size_(fontsize), letters_(letters) {
 
-	id_ = glGenLists(65535);
+	id_ = glGenLists(MAX_UNICODE_CODE);
 	Vector2D blank;
-	for(unsigned int i = 0; i < 65535; i++) {
+	for(unsigned int i = 0; i < MAX_UNICODE_CODE; i++) {
 		if(letters_[i] == NULL)
 			continue;
 		glNewList(id_ + i, GL_COMPILE);
@@ -39,7 +41,7 @@ Font::Font(Image ** letters, int fontsize, char ident, bool fancy)
 }
 
 Font::~Font() {
-	glDeleteLists(id_, 65535);
+	glDeleteLists(id_, MAX_UNICODE_CODE);
 }
 
 Vector2D Font::GetLetterSize(unsigned char letter) {
