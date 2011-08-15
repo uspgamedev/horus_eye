@@ -8,7 +8,7 @@ namespace scene {
 class Loading: public framework::Scene {
   public:
     Loading();
-    virtual ~Loading() {}
+    virtual ~Loading();
     virtual void Update(float delta_t);
 
   protected:

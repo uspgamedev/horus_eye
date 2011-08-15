@@ -46,6 +46,9 @@ class LevelManager {
     void QueueRestartGame() { restart_game_ = true; }
     bool RestartGameQueued() { return restart_game_; }
 	void LoadLevelList(std::string, std::vector<std::string>& level_list);
+
+    void InformLoadingDeleted() { loading_ = NULL; }
+
   private:
 
     scene::World* current_level_;

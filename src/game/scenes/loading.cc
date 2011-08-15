@@ -28,6 +28,10 @@ Loading::Loading() {
     has_been_drawn_ = false;
 }
 
+Loading::~Loading() {
+    utils::LevelManager::reference()->InformLoadingDeleted();
+}
+
 void Loading::Update(float delta_t) {
     set_visible(true);
     Scene::Update(delta_t);
