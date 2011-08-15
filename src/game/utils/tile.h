@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_UTILS_TILE_H_
 
 #include <vector>
+#include <cstddef>  // Usado para definir NULL
 
 namespace framework {
 class Vector2D;
