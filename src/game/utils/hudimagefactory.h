@@ -15,6 +15,7 @@ class HudImageFactory {
     virtual Image* LifeBarImage();
     virtual Image* ManaBarImage();
     virtual Image* TotemImage();
+    virtual Image* TotemBottomImage();
     virtual Image* BackImage();
     virtual Image* MummyCounterImage();
     virtual Image* FireballIconImage();
@@ -26,6 +27,7 @@ class HudImageFactory {
     Image* life_bar_image_;
     Image* mana_bar_image_;
     Image* totem_image_;
+    Image* totem_bottom_image_;
     Image* back_image_;
     Image* mummy_counter_image_;
     Image* fireball_icon_image_;

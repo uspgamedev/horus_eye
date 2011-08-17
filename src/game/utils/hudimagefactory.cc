@@ -15,7 +15,8 @@ HudImageFactory::HudImageFactory(){
     if(mana_bar_image_) mana_bar_image_->set_frame_size(Vector2D(Constants::MANA_BAR_WIDTH, Constants::MANA_BAR_HEIGHT));
 
     totem_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_totem.png");
-    if(totem_image_) totem_image_->set_frame_size(Vector2D(72, 518));
+
+    totem_bottom_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_totem_bottom.png");
 
     eye_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_eye.png");
     if(eye_image_) eye_image_->set_frame_size(Vector2D(200, 80));
@@ -44,6 +45,9 @@ Image* HudImageFactory::ManaBarImage() {
 }
 Image* HudImageFactory::TotemImage() {
     return totem_image_;
+}
+Image* HudImageFactory::TotemBottomImage() {
+    return totem_bottom_image_;
 }
 Image* HudImageFactory::EyeImage() {
     return eye_image_;

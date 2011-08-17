@@ -1,9 +1,11 @@
 #include "hud.h"
 #include "../../framework/vector2D.h"
 #include "../../framework/sprite.h"
+#include "../../framework/text.h"
 #include "../../framework/engine.h"
 #include "../../framework/animation.h"
 #include "../../framework/videomanager.h"
+#include "../../framework/modifier.h"
 #include "../scenes/world.h"
 #include "../utils/hudimagefactory.h"
 #include "constants.h"
@@ -49,9 +51,6 @@ Hud::Hud(World* world) {
     Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
 
-    Image* life_bar_image_;
-    Image* mana_bar_image_;
-    Image* totem_image_;
     Image* back_image;
     Image* eye_image;
      
@@ -59,19 +58,14 @@ Hud::Hud(World* world) {
     //Criando sprites da life bar
     HudImageFactory img_fac;
 
-    life_bar_image_ = img_fac.LifeBarImage();
-    life_bar_ = new Sprite;
-    life_bar_->Initialize(life_bar_image_);
-    life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, LIFE_BAR_HEIGHT));
-    life_bar_->set_position(Vector2D(VIDEO_X - LIFE_BAR_OFFSET_X, VIDEO_Y - LIFE_BAR_OFFSET_Y));
+    life_bar_ = new Sprite(life_modifier_ = new Modifier);
+    life_bar_->Initialize(img_fac.LifeBarImage());
+    life_bar_->set_position(VIDEO_X - LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
     AddSprite(life_bar_);
     
-    
-    mana_bar_image_ = img_fac.ManaBarImage();
-    mana_bar_ = new Sprite;
-    mana_bar_->Initialize(mana_bar_image_);
-    mana_bar_->set_hotspot(Vector2D(MANA_BAR_WIDTH/2, MANA_BAR_HEIGHT));
-    mana_bar_->set_position(Vector2D(MANA_BAR_OFFSET_X , VIDEO_Y - MANA_BAR_OFFSET_Y));
+    mana_bar_ = new Sprite(mana_modifier_ = new Modifier);
+    mana_bar_->Initialize(img_fac.ManaBarImage());
+    mana_bar_->set_position(MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
     AddSprite(mana_bar_);
 
     back_image = img_fac.BackImage();
@@ -105,16 +99,32 @@ Hud::Hud(World* world) {
     AddSprite(eye);
     AddSprite(mummy_counter);
 
-    totem_image_ = img_fac.TotemImage();
-    for (int i = 0; i < 2; i++) {
-        totem_[i] = new Sprite;
-        totem_[i]->Initialize(totem_image_);
-        totem_[i]->set_hotspot(Vector2D(TOTEM_WIDTH/2, TOTEM_HEIGHT));
-        if (i == 0) totem_[i]->set_position(Vector2D(TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y));
-        if (i == 1) totem_[i]->set_position(Vector2D(VIDEO_X - TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y));
-        totem_[i]->set_zindex(-1.0f);
-        AddSprite(totem_[i]);
-    }
+    Image* totem_image_ = img_fac.TotemImage(),
+        *totem_bottom_image_ = img_fac.TotemBottomImage();
+
+    if(totem_image_ && totem_bottom_image_)
+        for (int i = 0; i < 2; i++) {
+            Sprite *totem = new Sprite;
+            totem->Initialize(totem_image_);
+            totem->set_hotspot(totem_image_->width() * 0.5f, totem_image_->height() + 0.0f);
+
+            Sprite *totem_bottom = new Sprite;
+            totem_bottom->Initialize(totem_bottom_image_);
+            totem_bottom->set_hotspot(totem_bottom_image_->width() * 0.5f, totem_bottom_image_->height());
+
+            if (i == 0) {
+                totem->set_position(TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y - totem_bottom_image_->height());
+                totem_bottom->set_position(TOTEM_OFFSET_X, VIDEO_Y - TOTEM_OFFSET_Y);
+            }
+            if (i == 1) {
+                totem->set_position(VIDEO_X - TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y - totem_bottom_image_->height());
+                totem_bottom->set_position(VIDEO_X - TOTEM_OFFSET_X, VIDEO_Y - TOTEM_OFFSET_Y);
+            }
+            totem->set_zindex(-1.0f);
+            totem_bottom->set_zindex(1.0f);
+            AddSprite(totem);
+            AddSprite(totem_bottom);
+        }
 
     for(int i = 0; i < 3; ++i) {
         enemy_counter_[i] = new Sprite;
@@ -178,25 +188,15 @@ void Hud::Update(float delta_t) {
     }
 
     if(world->hero() != NULL) {
+        // Update the Selected weapon icon
         if(world->hero()->secondary_weapon() != NULL)
             weapon_icon_ = world->hero()->secondary_weapon()->icon();
 
-        if (world->hero()->life() > 0) {
-            life_bar_->set_visible(true);
-            float new_height = ((float)world->hero()->life() * LIFE_BAR_HEIGHT) / ((float)world->hero()->max_life());
-            //if(life_bar_->image()) life_bar_->image()->set_frame_size(Vector2D(LIFE_BAR_WIDTH, new_height));
-            life_bar_->set_hotspot(Vector2D(LIFE_BAR_WIDTH/2, new_height));
-        } else {
-            life_bar_->set_visible(false);
-        }
-        if (world->hero()->mana() > 0) {
-            mana_bar_->set_visible(true);
-            float new_height = ((float)world->hero()->mana() * MANA_BAR_HEIGHT) / ((float)world->hero()->max_mana());
-            //if(mana_bar_->image()) mana_bar_->image()->set_frame_size(Vector2D(MANA_BAR_WIDTH, new_height));
-            mana_bar_->set_hotspot(Vector2D(MANA_BAR_WIDTH/2, new_height));
-        } else {
-            mana_bar_->set_visible(false);
-        }
+        // Life Bar
+        life_modifier_->set_offset(Vector2D(0.0f, (((float) world->hero()->life()) / world->hero()->max_life()) * LIFE_BAR_HEIGHT) );
+
+        // Mana Bar
+        mana_modifier_->set_offset(Vector2D(0.0f, (((float) world->hero()->mana()) / world->hero()->max_mana()) * MANA_BAR_HEIGHT) );
     }
 
     if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {

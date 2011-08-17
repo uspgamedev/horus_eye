@@ -6,7 +6,9 @@
 
 namespace framework {
 class Sprite;
+class Text;
 class Animation;
+class Modifier;
 }
 
 using framework::Sprite;
@@ -23,9 +25,9 @@ class Hud: public framework::Layer {
   private:
     Sprite* life_bar_;
     Sprite* mana_bar_;
-    Sprite* totem_[2];
     Image* weapon_icon_;
     map<Image*, Sprite*> icon_added;
+    framework::Modifier *life_modifier_, *mana_modifier_;
 
     Sprite *enemy_counter_[7], *fps_meter_[3];
     framework::uint32 enemy_counter_value_[7], fps_meter_value_[3];

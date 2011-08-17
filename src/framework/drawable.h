@@ -17,7 +17,7 @@ class Drawable {
 	virtual bool DrawTo(const Vector2D& position, int frame_number, Modifier *modifier,
         const Vector2D& draw_size) {
 	    if (modifier != NULL)
-	        return DrawTo(position, frame_number, modifier->mirror(),
+            return DrawTo(position - modifier->offset(), frame_number, modifier->mirror(),
                       modifier->color(), modifier->alpha(), draw_size);
 	    else
 	        return DrawTo(position, frame_number, MIRROR_NONE,
