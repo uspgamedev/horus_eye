@@ -21,6 +21,7 @@ void MapTilesLayer::Render() {
     if(!this->IsVisible()) return;
 	if (!editor_->map_loaded()) return;
 
+    VIDEO_MANAGER()->set_light_draw_mode(LIGHT_IGNORE);
     int height = matrix_->size(), width = (*matrix_)[0].size();
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; j++) {
