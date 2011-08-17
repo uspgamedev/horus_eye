@@ -15,7 +15,7 @@ using namespace std;
 //Tamanho máximo de uma linha do arquivo de entrada
 #define MAXLINE 1024
 
-namespace framework{
+namespace ugdk{
 
 bool TextManager::Initialize() {
 	TTF_Init();

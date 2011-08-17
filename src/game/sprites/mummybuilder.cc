@@ -8,7 +8,7 @@
 using namespace sprite;
 using namespace utils;
 
-Mummy * MummyBuilder::StandingMummy(framework::Image *image) {
+Mummy * MummyBuilder::StandingMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);
 	mummy->set_life(Constants::MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
@@ -19,13 +19,13 @@ Mummy * MummyBuilder::StandingMummy(framework::Image *image) {
 	return mummy;
 }
 
-Mummy * MummyBuilder::WalkingMummy(framework::Image *image) {
+Mummy * MummyBuilder::WalkingMummy(ugdk::Image *image) {
 	Mummy* mummy = StandingMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Mummy * MummyBuilder::StandingRangedMummy(framework::Image *image) {
+Mummy * MummyBuilder::StandingRangedMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);
 	mummy->set_life(Constants::RANGED_MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
@@ -36,13 +36,13 @@ Mummy * MummyBuilder::StandingRangedMummy(framework::Image *image) {
 	return mummy;
 }
 
-Mummy * MummyBuilder::RangedMummy(framework::Image *image) {
+Mummy * MummyBuilder::RangedMummy(ugdk::Image *image) {
 	Mummy* mummy = StandingRangedMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Mummy * MummyBuilder::StandingBigMummy(framework::Image *image) {
+Mummy * MummyBuilder::StandingBigMummy(ugdk::Image *image) {
     Mummy *mummy = new Mummy(image);
     mummy->set_life(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
@@ -53,13 +53,13 @@ Mummy * MummyBuilder::StandingBigMummy(framework::Image *image) {
     return mummy;
 }
 
-Mummy * MummyBuilder::BigMummy(framework::Image *image) {
+Mummy * MummyBuilder::BigMummy(ugdk::Image *image) {
 	Mummy* mummy = StandingBigMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Pharaoh * MummyBuilder::StandingPharaoh(framework::Image *image) {
+Pharaoh * MummyBuilder::StandingPharaoh(ugdk::Image *image) {
 	Pharaoh *pharaoh = new Pharaoh(image, Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
@@ -71,7 +71,7 @@ Pharaoh * MummyBuilder::StandingPharaoh(framework::Image *image) {
 	return pharaoh;
 }
 
-Pharaoh * MummyBuilder::WalkingPharaoh(framework::Image *image) {
+Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::Image *image) {
 	Pharaoh* pharaoh = StandingPharaoh(image);
 	pharaoh->set_standing(false);
 	return pharaoh;

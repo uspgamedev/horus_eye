@@ -11,7 +11,7 @@
 #include "../../framework/animationparser.h"
 #include "../../framework/engine.h"
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define CENTER_X    Constants::LIGHTNING_SPRITE_CENTER_X
@@ -56,7 +56,7 @@ void LightningBolt::HandleCollision(WorldObject* obj) {
 
 void LightningBolt::InitializeAnimations() {
     if(ANIMATIONS != NULL) return;
-    ANIMATIONS = framework::Engine::reference()->animation_parser()->Load("data/animations/lightning.and");
+    ANIMATIONS = ugdk::Engine::reference()->animation_parser()->Load("data/animations/lightning.and");
     attacking_animations_[0] = ANIMATIONS->MakeIndex("ATTACKING_LEFT");
     attacking_animations_[1] = ANIMATIONS->MakeIndex("ATTACKING_UP_LEFT");
     attacking_animations_[2] = ANIMATIONS->MakeIndex("ATTACKING_UP");

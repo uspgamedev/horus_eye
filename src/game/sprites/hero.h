@@ -13,7 +13,7 @@ class MummyProjectile;
 class Hero : public Creature {
 
   public:
-    Hero(framework::Image* img = NULL);
+    Hero(ugdk::Image* img = NULL);
     ~Hero() {} 
     void TakeDamage(int life_points = 1);
     virtual void CollidesWith(Mummy *);
@@ -27,7 +27,7 @@ class Hero : public Creature {
 	void Invulnerable(int time);
 
   private:
-    framework::Vector2D screen_center_;
+    ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
     float time_to_recover_speed_;
     std::map<int, Weapon*> weapons_;

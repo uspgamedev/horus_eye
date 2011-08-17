@@ -7,7 +7,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 
 PauseScene::PauseScene () {
     image_ = new Image;

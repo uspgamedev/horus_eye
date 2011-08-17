@@ -4,7 +4,7 @@
 #include "layer.h"
 #include <list>
 
-namespace framework {
+namespace ugdk {
 
 // Classe Scene
 // Representa uma CENA, que contem varias camadas de graficos.

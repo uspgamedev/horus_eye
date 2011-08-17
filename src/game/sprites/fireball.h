@@ -12,7 +12,7 @@ class Mummy;
 
 class Fireball : public MagicMissile {
   public:
-    Fireball(framework::Vector2D &dir, Explosion *explosion);
+    Fireball(ugdk::Vector2D &dir, Explosion *explosion);
     virtual ~Fireball();
 
     virtual void CollidesWith(Mummy * obj) { Explode(); }

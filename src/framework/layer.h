@@ -6,7 +6,7 @@
 #include "vector2D.h"
 #include "sprite.h"
 
-namespace framework {
+namespace ugdk {
 
 // Representa uma camada grafica na qual os Sprites sao desenhados.
 //

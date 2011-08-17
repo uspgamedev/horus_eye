@@ -5,7 +5,7 @@
 #include "projectile.h"
 #include "../../framework/vector2D.h"
 
-namespace framework {
+namespace ugdk {
 class TimeAccumulator;
 class AnimationSet;
 }
@@ -19,7 +19,7 @@ class Creature;
 
 class LightningBolt : public Projectile {
   public:
-    LightningBolt(framework::Vector2D &);
+    LightningBolt(ugdk::Vector2D &);
     ~LightningBolt();
 
     virtual void CollidesWith(Mummy * obj);
@@ -27,8 +27,8 @@ class LightningBolt : public Projectile {
 
   protected:
     void InitializeAnimations();
-    static framework::AnimationSet *ANIMATIONS;
-    static framework::uint32 attacking_animations_[8];
+    static ugdk::AnimationSet *ANIMATIONS;
+    static ugdk::uint32 attacking_animations_[8];
 };
 
 }

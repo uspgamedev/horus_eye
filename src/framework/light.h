@@ -3,7 +3,7 @@
 
 #include "vector2D.h"
 
-namespace framework {
+namespace ugdk {
 
 class Light {
   public:

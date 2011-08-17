@@ -5,9 +5,9 @@
 #include <SDL/SDL_ttf.h>
 #include "vector2D.h"
 
-#define TEXT_MANAGER() framework::Engine::reference()->text_manager()
+#define TEXT_MANAGER() ugdk::Engine::reference()->text_manager()
 
-namespace framework {
+namespace ugdk {
 
 using std::wstring;
 class Text;

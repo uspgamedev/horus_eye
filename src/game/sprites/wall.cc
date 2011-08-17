@@ -12,7 +12,7 @@
 
 namespace sprite {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using namespace scene;
 

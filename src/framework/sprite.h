@@ -8,7 +8,7 @@
 #include "animation.h"
 
 
-namespace framework {
+namespace ugdk {
 
 class Drawable;
 class Modifier;

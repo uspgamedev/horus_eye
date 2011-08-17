@@ -7,17 +7,17 @@
 
 namespace editor {
 
-class FPSMeter : public framework::Layer {
+class FPSMeter : public ugdk::Layer {
   public:
     FPSMeter();
     virtual ~FPSMeter();
     virtual void Update(float delta_t);
 
   private:
-    framework::Sprite       *fps_meter_[3];
+    ugdk::Sprite       *fps_meter_[3];
     int                     fps_meter_value_[3];
-    framework::AnimationSet *digit_set_;
-    framework::uint32       digits_[10];
+    ugdk::AnimationSet *digit_set_;
+    ugdk::uint32       digits_[10];
 };
 
 }

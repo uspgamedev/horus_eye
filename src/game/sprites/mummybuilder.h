@@ -5,7 +5,7 @@
 #include "pharaoh.h"
 #include "../utils/constants.h"
 
-namespace framework{
+namespace ugdk{
 	class Image;
 }
 
@@ -16,14 +16,14 @@ class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    Mummy *StandingMummy(framework::Image* image);
-    Mummy *WalkingMummy(framework::Image* image);
-    Mummy *RangedMummy(framework::Image* image);
-    Mummy *StandingRangedMummy(framework::Image* image);
-    Mummy *BigMummy(framework::Image* image);
-    Mummy *StandingBigMummy(framework::Image* image);
-	Pharaoh *WalkingPharaoh(framework::Image* image);
-	Pharaoh *StandingPharaoh(framework::Image* image);
+    Mummy *StandingMummy(ugdk::Image* image);
+    Mummy *WalkingMummy(ugdk::Image* image);
+    Mummy *RangedMummy(ugdk::Image* image);
+    Mummy *StandingRangedMummy(ugdk::Image* image);
+    Mummy *BigMummy(ugdk::Image* image);
+    Mummy *StandingBigMummy(ugdk::Image* image);
+	Pharaoh *WalkingPharaoh(ugdk::Image* image);
+	Pharaoh *StandingPharaoh(ugdk::Image* image);
 
 };
 

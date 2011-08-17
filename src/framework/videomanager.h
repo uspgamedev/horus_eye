@@ -9,9 +9,9 @@
 using std::string;
 using std::map;
 
-#define VIDEO_MANAGER() framework::Engine::reference()->video_manager()
+#define VIDEO_MANAGER() ugdk::Engine::reference()->video_manager()
 
-namespace framework {
+namespace ugdk {
 class Image;
 
 // Gerenciador de video

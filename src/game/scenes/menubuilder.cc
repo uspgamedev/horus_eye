@@ -20,7 +20,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using namespace std;
 
@@ -812,7 +812,7 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
         case MenuBuilder::SETTINGS_SELECT_APPLY: {
             settings_->WriteToDisk();
             utils::LevelManager::reference()->QueueRestartGame();
-            framework::Engine::reference()->quit();
+            ugdk::Engine::reference()->quit();
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_EXIT: {
@@ -858,7 +858,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
         resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, /*resolution_images_[i]->height() * 0.5f*/0));
-        menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (second_column_x, options[0]->position().y));
+        menu_->AddSprite(resolution_sprites_[i], ugdk::Vector2D (second_column_x, options[0]->position().y));
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
     }
     
@@ -872,7 +872,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
             Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
             on_off_sprites_[i][j]->Initialize(img);
             on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
-            menu_->AddSprite(on_off_sprites_[i][j], framework::Vector2D (second_column_x, options[i+1]->position().y));
+            menu_->AddSprite(on_off_sprites_[i][j], ugdk::Vector2D (second_column_x, options[i+1]->position().y));
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
         }
     }
@@ -886,7 +886,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
         language_sprites_[i]->Initialize(img);
         language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
-        menu_->AddSprite(language_sprites_[i], framework::Vector2D (second_column_x, options[4]->position().y));
+        menu_->AddSprite(language_sprites_[i], ugdk::Vector2D (second_column_x, options[4]->position().y));
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }
     

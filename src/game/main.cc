@@ -21,8 +21,8 @@ utils::TextLoader* text_loader() {
     return utils::TextLoader::reference();
 }
 
-framework::Engine* engine() {
-    return framework::Engine::reference();
+ugdk::Engine* engine() {
+    return ugdk::Engine::reference();
 }
 
 void StartGame() {

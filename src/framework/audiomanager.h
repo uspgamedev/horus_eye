@@ -6,9 +6,9 @@
 #include "music.h"
 #include "sample.h"
 
-#define AUDIO_MANAGER() framework::Engine::reference()->audio_manager()
+#define AUDIO_MANAGER() ugdk::Engine::reference()->audio_manager()
 
-namespace framework {
+namespace ugdk {
 
 // Gerenciador de audio
 class AudioManager {

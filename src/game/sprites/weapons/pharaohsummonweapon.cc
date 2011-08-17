@@ -10,7 +10,7 @@
 #define SUMMON_BIG_CHANCE     20
 
 using namespace sprite;
-using framework::Vector2D;
+using ugdk::Vector2D;
 
 bool isObstacle(utils::Tile* tile) {
     return (tile->object() == WALL || tile->object() == DOOR || tile->object() == ENTRY);

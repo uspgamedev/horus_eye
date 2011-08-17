@@ -12,12 +12,12 @@
 
 namespace sprite {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 
 
-Item::Item(framework::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
+Item::Item(ugdk::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
     Initialize(img);
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     this->bound_ = new CircleObject(0.15f);

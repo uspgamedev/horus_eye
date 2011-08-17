@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-namespace framework {
+namespace ugdk {
 
 // TODO(HenriqueG): descricao de como a classe TimeHandler foi(sera) implementada
 class TimeHandler {

@@ -12,9 +12,9 @@ class MapTilesLayer : public MapEditor::MapLayer {
     virtual ~MapTilesLayer();
     void Update(float delta_t);
     void Render();
-    void CenterAt(framework::Vector2D& center);
-    MapObject* Select(framework::Vector2D& pos);
-    framework::Vector2D ModifyMovement(framework::Vector2D& movement);
+    void CenterAt(ugdk::Vector2D& center);
+    MapObject* Select(ugdk::Vector2D& pos);
+    ugdk::Vector2D ModifyMovement(ugdk::Vector2D& movement);
 };
 
 }

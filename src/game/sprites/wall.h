@@ -3,7 +3,7 @@
 
 #include "worldobject.h"
 
-namespace framework {
+namespace ugdk {
 class Animation;
 class Image;
 }
@@ -19,7 +19,7 @@ class Wall : public WorldObject {
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
-    Wall(framework::Image* image);
+    Wall(ugdk::Image* image);
     ~Wall();
     virtual void Update(float dt);
     virtual void HandleCollision(WorldObject *);
@@ -33,14 +33,14 @@ class Wall : public WorldObject {
 
     class Square {
       public:
-        framework::Vector2D top_left_, bot_right_;
+        ugdk::Vector2D top_left_, bot_right_;
         Square() {}
-        Square(framework::Vector2D& top_left, framework::Vector2D& bot_right) {
+        Square(ugdk::Vector2D& top_left, ugdk::Vector2D& bot_right) {
             top_left_ = top_left;
             bot_right_ = bot_right;
         }
 
-        bool Contains(framework::Vector2D pos) {
+        bool Contains(ugdk::Vector2D pos) {
             return (top_left_.x <= pos.x && pos.x <= bot_right_.x)
                     && (top_left_.y <= pos.y && pos.y <= bot_right_.y);
         }

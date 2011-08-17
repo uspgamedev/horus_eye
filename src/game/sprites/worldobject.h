@@ -19,7 +19,7 @@ class Item;
 
 // Classe WorldObject (abstrata)
 // Representa um objeto do mundo (um bonequinho, uma magia, etc)
-class WorldObject : public framework::Sprite {
+class WorldObject : public ugdk::Sprite {
   public:
     WorldObject();
     virtual ~WorldObject();
@@ -35,10 +35,10 @@ class WorldObject : public framework::Sprite {
     virtual void set_light_radius(float radius);
 
     // atributos
-    virtual framework::Vector2D world_position() const {
+    virtual ugdk::Vector2D world_position() const {
         return bound_->position();
     }
-    virtual void set_world_position(const framework::Vector2D& pos);
+    virtual void set_world_position(const ugdk::Vector2D& pos);
     virtual const utils::CollisionObject * bound() const { return bound_; }
 
     // tratamento de colisao

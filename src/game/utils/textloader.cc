@@ -8,7 +8,7 @@
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 using std::map;
 using std::string;
 

@@ -6,9 +6,9 @@
 #include <map>
 #include <string>
 
-#define ANIMATION_PARSER() (framework::AnimationParser::reference())
+#define ANIMATION_PARSER() (ugdk::AnimationParser::reference())
 
-namespace framework {
+namespace ugdk {
 
 class AnimationSet;
 

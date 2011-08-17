@@ -20,12 +20,12 @@
 #include "../utils/visionstrategy.h"
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
 
-World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()), music_(NULL) {
+World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), music_(NULL) {
     world_layer_->set_light_type(LIGHT_ILLUMINATED);
     AddLayer(world_layer_);
 
@@ -103,17 +103,19 @@ void World::VerifyCheats(float delta_t) {
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
+    if(input->KeyPressed(K_l))
+        world_layer_->set_light_type((world_layer_->light_type() != LIGHT_IGNORE) ? LIGHT_IGNORE : LIGHT_ILLUMINATED);
 
-	// EASTER EGG/TODO: remover antes de qualquer release.
-	// Apagar também Hero::Invulnerable e data/musics/sf2Guile456.mid
-	if(!konami_used_) {
+	// EASTER EGG/TODO: remove before any release!
+	// Also erase data/musics/sf2Guile456.mid
+	/*if(!konami_used_) {
 		Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
 		if(input->CheckSequence(konami, 10)) {
 			hero_->Invulnerable(85000);
 			AUDIO_MANAGER()->LoadMusic("data/musics/sf2Guile456.mid")->Play();
 			konami_used_ = true;
 		}
-	}
+	}*/
 }
 
 Vector2D World::ActualOffset() {
@@ -237,7 +239,7 @@ void World::IncreaseNumberOfEnemies() {
     max_enemies_++;
 }
 
-void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
+void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
 
     new_object-> set_world_position(pos);
     new_world_objects.push_front(new_object);
@@ -260,7 +262,7 @@ void World::AddNewWorldObjects() {
     new_world_objects.clear();
 }
 
-void World::AddHero(framework::Vector2D pos) {
+void World::AddHero(ugdk::Vector2D pos) {
     this->AddWorldObject(hero_, pos);
 }
 

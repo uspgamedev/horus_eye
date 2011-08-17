@@ -10,7 +10,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define RECT_WIDTH          266
@@ -93,17 +93,17 @@ void Menu::set_handler(MenuHandler* handler) {
     handler_ = handler;
 }
 
-void Menu::set_content_box(framework::Frame content_box) {
+void Menu::set_content_box(ugdk::Frame content_box) {
     set_content_box(content_box, ALIGNMENT_CENTER);
 }
 
-void Menu::set_content_box(framework::Frame content_box, int alignment) {
+void Menu::set_content_box(ugdk::Frame content_box, int alignment) {
     content_box_ = content_box;
     content_box_defined_ = true;
     DecideWhereOptionsGo(alignment);
 }
 
-void Menu::set_selection_sprite(framework::Sprite *sprite) {
+void Menu::set_selection_sprite(ugdk::Sprite *sprite) {
     selection_sprite_[0] = sprite;
     selection_sprite_[1] = NULL;
     (*layers_.begin())->AddSprite(sprite);
@@ -111,7 +111,7 @@ void Menu::set_selection_sprite(framework::Sprite *sprite) {
     InitialSelection();
 }
 
-void Menu::set_selection_sprite(framework::Sprite *sprite[]) {
+void Menu::set_selection_sprite(ugdk::Sprite *sprite[]) {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
         selection_sprite_[i] = sprite[i];
         (*layers_.begin())->AddSprite(sprite[i]);
@@ -120,7 +120,7 @@ void Menu::set_selection_sprite(framework::Sprite *sprite[]) {
     InitialSelection();
 }
 
-void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
+void Menu::set_option_sprite(int index, ugdk::Sprite *sprite) {
     if (index >= 0 && index < selection_num_ && content_box_defined_) {
         options_sprite_[index] = sprite;
         (*layers_.begin())->AddSprite(sprite);
@@ -129,7 +129,7 @@ void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
     }
 }
 
-void Menu::AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {
+void Menu::AddSprite(ugdk::Sprite *sprite, ugdk::Vector2D pos) {
     (*layers_.begin())->AddSprite(sprite);
     sprite->set_position(pos);
     sprite->set_zindex(-OPTION_ZINDEX);
@@ -163,7 +163,7 @@ void Menu::InitialSelection() {
     }
 }
 
-bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
+bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
 
     static float    old_x = 0, old_y = 0;
     float           x = mouse_pos.x,

@@ -4,7 +4,7 @@
 #include "timeaccumulator.h"
 #include "engine.h"
 
-namespace framework {
+namespace ugdk {
 
 TimeAccumulator::TimeAccumulator(int duration_miliseconds) {
     handler_ = Engine::reference()->time_handler();

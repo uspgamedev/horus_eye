@@ -1,7 +1,7 @@
 #include <math.h>
 #include "vector2D.h"
 
-namespace framework {
+namespace ugdk {
 
 // Member methods
 

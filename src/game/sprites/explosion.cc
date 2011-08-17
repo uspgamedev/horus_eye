@@ -8,7 +8,7 @@
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define CENTER_X    Constants::EXPLOSION_SPRITE_CENTER_X

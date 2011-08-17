@@ -26,7 +26,7 @@
 #include <iostream>
 
 using namespace std;
-using namespace framework;
+using namespace ugdk;
 using namespace scene;
 using namespace utils;
 

@@ -5,7 +5,7 @@
 #include "../../framework/image.h"
 #include "constants.h"
 
-using namespace framework;
+using namespace ugdk;
 namespace utils {
 HudImageFactory::HudImageFactory(){
     life_bar_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_life_bar.png");

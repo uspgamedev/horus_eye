@@ -8,7 +8,7 @@
 
 using std::vector;
 
-namespace framework {
+namespace ugdk {
 
 class VideoManager;
 class InputManager;

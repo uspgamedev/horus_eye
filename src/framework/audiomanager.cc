@@ -6,7 +6,7 @@
 #include "sample.h"
 #include "music.h"
 
-namespace framework {
+namespace ugdk {
 
 AudioManager::AudioManager() {
 }

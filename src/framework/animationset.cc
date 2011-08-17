@@ -3,7 +3,7 @@
 
 #define ANIMATION_BUFFER_SIZE 256
 
-namespace framework {
+namespace ugdk {
 
 using namespace std;
 

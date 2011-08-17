@@ -5,7 +5,7 @@
 #include "animation.h"
 #include "observer.h"
 #include "animationset.h"
-namespace framework {
+namespace ugdk {
 
 #define ANIMATION_BUFFER_SIZE 256
 

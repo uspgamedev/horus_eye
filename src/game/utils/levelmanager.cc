@@ -24,7 +24,7 @@
 #include <fstream>
 #include <iostream>
 
-using namespace framework;
+using namespace ugdk;
 using namespace std;
 using namespace scene;
 using namespace sprite;

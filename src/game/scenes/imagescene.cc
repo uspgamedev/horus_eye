@@ -11,9 +11,9 @@ namespace scene {
 #define BG  0
 #define IMG 1
 
-using namespace framework;
+using namespace ugdk;
 
-ImageScene::ImageScene(framework::Image *background, framework::Image *image) {
+ImageScene::ImageScene(ugdk::Image *background, ugdk::Image *image) {
     if (background) {
         scene_layers_[BG] = new Layer;
         AddLayer(scene_layers_[BG]); // [0] layer do fundo

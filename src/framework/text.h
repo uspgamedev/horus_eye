@@ -6,7 +6,7 @@
 #include "vector2D.h"
 #include "drawable.h"
 
-namespace framework {
+namespace ugdk {
 
 class Font;
 class Text : public Drawable {

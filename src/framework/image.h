@@ -9,7 +9,7 @@
 #include "drawable.h"
 #include "videomanager.h"
 
-namespace framework {
+namespace ugdk {
 
 // Square with texture implementation of a Drawable.
 class Image : public Drawable {

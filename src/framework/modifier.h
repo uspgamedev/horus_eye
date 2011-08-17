@@ -5,7 +5,7 @@
 #include "vector2D.h"
 #include "types.h"
 
-namespace framework {
+namespace ugdk {
 
 class Modifier {
 

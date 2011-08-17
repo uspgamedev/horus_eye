@@ -3,7 +3,7 @@
 
 #define INCREASE_SIGHT_TIME 3.00
 
-namespace framework{
+namespace ugdk{
 	class Image;
 }
 
@@ -36,19 +36,19 @@ bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
 	else return false;
 }
 
-Item* ItemBuilder::LifePotion(framework::Image* image) {
+Item* ItemBuilder::LifePotion(ugdk::Image* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE));
     return potion;
 }
 
-Item* ItemBuilder::ManaPotion(framework::Image* image) {
+Item* ItemBuilder::ManaPotion(ugdk::Image* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA));
     return potion;
 }
 
-Item* ItemBuilder::SightPotion(framework::Image* image) {
+Item* ItemBuilder::SightPotion(ugdk::Image* image) {
     Item* potion = new Item(image);
     potion->set_event(new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE));
     return potion;

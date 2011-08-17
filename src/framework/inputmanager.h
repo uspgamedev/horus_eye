@@ -5,7 +5,7 @@
 #include "vector2D.h"
 #include "keys.h"
 
-namespace framework {
+namespace ugdk {
 
 #define BUFFER_SIZE 32
 

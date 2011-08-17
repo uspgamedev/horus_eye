@@ -3,7 +3,7 @@
 #include "engine.h"
 #include "videomanager.h"
 
-namespace framework {
+namespace ugdk {
 
 Light::Light() : hotspot_(Vector2D(0,0)) {
 }
