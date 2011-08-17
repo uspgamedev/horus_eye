@@ -1,3 +1,4 @@
+#include <cmath>
 #include "lightningbolt.h"
 #include "mummy.h"
 #include "../../framework/timeaccumulator.h"
