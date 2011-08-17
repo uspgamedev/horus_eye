@@ -18,6 +18,10 @@ class AnimationSet;
 class Sprite {
   public:
     Sprite();
+
+    // This modifier will be deleted together with the Sprite.
+    Sprite(Modifier *modifier);
+
     virtual ~Sprite();
 
     // Initializes the Sprite with a drawable to render and an AnimationSet.
@@ -28,6 +32,7 @@ class Sprite {
     // Acessors e mutators
     Vector2D position() const { return position_; }
     void set_position(const Vector2D& position) { position_ = position; }
+    void set_position(float x, float y) { position_ = Vector2D(x, y); }
 
     // Visibility controls wether the Sprite is rendered or not.
     bool visible() const { return visible_; }
@@ -36,6 +41,7 @@ class Sprite {
     // The hotspot controls the offset from the image origin to the sprite position.
     Vector2D hotspot() const { return hotspot_; }
     void set_hotspot(const Vector2D& hotspot) { hotspot_ = hotspot; }
+    void set_hotspot(float x, float y) { hotspot_ = Vector2D(x, y); }
 
     // The Sprites are rendered in order, with non-decreasing Z-Index. 
     float zindex() const { return zindex_; }
