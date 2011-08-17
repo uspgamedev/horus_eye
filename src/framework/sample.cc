@@ -1,6 +1,6 @@
 #include <algorithm>
 #include "sample.h"
-namespace framework {
+namespace ugdk {
 
 Sample::Sample(const std::string& filepath) : data_(NULL), channel_(-1), volume_(1.0f) {
     data_ = Mix_LoadWAV(filepath.c_str());

@@ -6,7 +6,7 @@
 
 #define MAX_UNICODE_CODE 18431
 
-namespace framework {
+namespace ugdk {
 
 Font::Font(Image ** letters, int fontsize, char ident, bool fancy) 
 	: size_(fontsize), letters_(letters) {

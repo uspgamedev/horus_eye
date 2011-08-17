@@ -3,7 +3,7 @@
 
 #include "timehandler.h"
 
-namespace framework {
+namespace ugdk {
 
 class TimeAccumulator {
   public:

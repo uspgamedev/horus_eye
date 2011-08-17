@@ -13,7 +13,7 @@
 #include "../game/utils/levelmanager.h"
 
 using namespace std;
-using namespace framework;
+using namespace ugdk;
 
 namespace editor {
 
@@ -73,40 +73,40 @@ void MapEditor::LoadMap(std::string& file_name) {
 void MapEditor::Update(float delta_t) {
     Scene::Update(delta_t);
 
-    InputManager *input = framework::Engine::reference()->input_manager();
-    if(input->KeyPressed(framework::K_ESCAPE) || map_loaded_ == false) {
+    InputManager *input = ugdk::Engine::reference()->input_manager();
+    if(input->KeyPressed(ugdk::K_ESCAPE) || map_loaded_ == false) {
 		EditorMenuBuilder builder;
         Engine::reference()->PushScene(builder.BuildEditorMenu(this));
 	}
 	if (!map_loaded_) return;
 	
-	if(input->KeyPressed(framework::K_MINUS))
+	if(input->KeyPressed(ugdk::K_MINUS))
         scale_level_--;
-	else if(input->KeyPressed(framework::K_EQUALS))
+	else if(input->KeyPressed(ugdk::K_EQUALS))
         scale_level_++;
 
     main_layer_->set_scale(exp(scale_level_ * 0.10f));
 
     Vector2D movement;
 
-    if(input->MousePressed(framework::M_BUTTON_RIGHT)) {
+    if(input->MousePressed(ugdk::M_BUTTON_RIGHT)) {
         drag_click_ = false;
         click_start_position_ = input->GetMousePosition();
     }
 
-    if(input->MouseDown(framework::M_BUTTON_RIGHT)) {
+    if(input->MouseDown(ugdk::M_BUTTON_RIGHT)) {
         movement = (input->GetMousePosition() - last_mouse_position_);
         if((click_start_position_ - input->GetMousePosition()).length() > 10.0f)
             drag_click_ = true;
 
     } else {
-        if(input->KeyDown(framework::K_LEFT))
+        if(input->KeyDown(ugdk::K_LEFT))
             movement.x -= 100.0f * delta_t;
-        if(input->KeyDown(framework::K_RIGHT))
+        if(input->KeyDown(ugdk::K_RIGHT))
             movement.x += 100.0f * delta_t;
-        if(input->KeyDown(framework::K_UP))
+        if(input->KeyDown(ugdk::K_UP))
             movement.y -= 100.0f * delta_t;
-        if(input->KeyDown(framework::K_DOWN))
+        if(input->KeyDown(ugdk::K_DOWN))
             movement.y += 100.0f * delta_t;
 		drag_click_ = false;
     }
@@ -120,18 +120,18 @@ void MapEditor::Update(float delta_t) {
     sprites_layer_->CenterAt(offset_);
 
     last_mouse_position_ = input->GetMousePosition();
-    if(input->MouseDown(framework::M_BUTTON_LEFT) && !drag_click_) {
+    if(input->MouseDown(ugdk::M_BUTTON_LEFT) && !drag_click_) {
 		MapObject* new_obj = main_layer_->Select(last_mouse_position_);
         if(selected_object_)
             selected_object_->Select(false);
-        selected_object_ = (new_obj == selected_object_ && input->MousePressed(framework::M_BUTTON_LEFT)) ? NULL : new_obj;
+        selected_object_ = (new_obj == selected_object_ && input->MousePressed(ugdk::M_BUTTON_LEFT)) ? NULL : new_obj;
         if(selected_object_)
             selected_object_->Select(true);
     }
 
 	this->processKeyEditCommands();
 
-    if(input->KeyPressed(framework::K_END)) {
+    if(input->KeyPressed(ugdk::K_END)) {
         main_layer_->set_visible(false);
         if(main_layer_ == tiles_layer_) {
             main_layer_ = sprites_layer_;
@@ -144,38 +144,38 @@ void MapEditor::Update(float delta_t) {
         }
         main_layer_->set_visible(true);
     }
-	else if (input->KeyPressed(framework::K_HOME)) {
+	else if (input->KeyPressed(ugdk::K_HOME)) {
 		this->SaveMap();
 	}
 
 }
 
 void MapEditor::processKeyEditCommands() {
-	InputManager *input = framework::Engine::reference()->input_manager();
+	InputManager *input = ugdk::Engine::reference()->input_manager();
 
 	char type = '-';
 	bool doFill = false;
 
 	/*object modifier keys*/
-	bool isStanding = !(input->KeyDown(framework::K_LSHIFT) || input->KeyDown(framework::K_RSHIFT));
+	bool isStanding = !(input->KeyDown(ugdk::K_LSHIFT) || input->KeyDown(ugdk::K_RSHIFT));
 
 	/*basic object keys*/
-	if(input->KeyDown(framework::K_w)) type = WALL;
-	if(input->KeyDown(framework::K_d)) type = DOOR;
-	if(input->KeyDown(framework::K_e)) type = ENTRY;
-	if(input->KeyDown(framework::K_m)) type = (isStanding) ? STANDING_MUMMY : MUMMY;
-	if(input->KeyDown(framework::K_r)) type = (isStanding) ? STANDING_RANGED_MUMMY : RANGED_MUMMY;
-	if(input->KeyDown(framework::K_b)) type = (isStanding) ? STANDING_BIG_MUMMY : BIG_MUMMY;
-	if(input->KeyDown(framework::K_p)) type = (isStanding) ? STANDING_PHARAOH : PHARAOH;
-	if(input->KeyDown(framework::K_h)) type = HERO;
-	if(input->KeyDown(framework::K_x)) type = FLOOR;
-	if(input->KeyDown(framework::K_o)) type = EMPTY;
-	if(input->KeyDown(framework::K_l)) type = POTIONL;
-	if(input->KeyDown(framework::K_n)) type = POTIONM;
-	if(input->KeyDown(framework::K_s)) type = POTIONS;	
+	if(input->KeyDown(ugdk::K_w)) type = WALL;
+	if(input->KeyDown(ugdk::K_d)) type = DOOR;
+	if(input->KeyDown(ugdk::K_e)) type = ENTRY;
+	if(input->KeyDown(ugdk::K_m)) type = (isStanding) ? STANDING_MUMMY : MUMMY;
+	if(input->KeyDown(ugdk::K_r)) type = (isStanding) ? STANDING_RANGED_MUMMY : RANGED_MUMMY;
+	if(input->KeyDown(ugdk::K_b)) type = (isStanding) ? STANDING_BIG_MUMMY : BIG_MUMMY;
+	if(input->KeyDown(ugdk::K_p)) type = (isStanding) ? STANDING_PHARAOH : PHARAOH;
+	if(input->KeyDown(ugdk::K_h)) type = HERO;
+	if(input->KeyDown(ugdk::K_x)) type = FLOOR;
+	if(input->KeyDown(ugdk::K_o)) type = EMPTY;
+	if(input->KeyDown(ugdk::K_l)) type = POTIONL;
+	if(input->KeyDown(ugdk::K_n)) type = POTIONM;
+	if(input->KeyDown(ugdk::K_s)) type = POTIONS;	
 
 	/*advanced commands keys*/
-	if(input->KeyDown(framework::K_LCTRL) || input->KeyDown(framework::K_RCTRL)) doFill = true;
+	if(input->KeyDown(ugdk::K_LCTRL) || input->KeyDown(ugdk::K_RCTRL)) doFill = true;
 
 	if (selected_object_ && selected_object_->type() != type && type != '-') {
 		int i, j, selI, selJ, a, b;

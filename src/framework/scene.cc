@@ -1,6 +1,6 @@
 #include "scene.h"
 
-namespace framework {
+namespace ugdk {
 
 using namespace std;
 

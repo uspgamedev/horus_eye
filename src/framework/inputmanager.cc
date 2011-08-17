@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "inputmanager.h"
 
-namespace framework {
+namespace ugdk {
 
 InputManager::InputManager() {
     SDL_GetKeyState(&kbsize_);

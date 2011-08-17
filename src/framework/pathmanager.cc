@@ -5,7 +5,7 @@
 
 using namespace std;
 
-namespace framework {
+namespace ugdk {
 
 std::string PathManager::ResolvePath(const std::string& path) {
     std::ostringstream stm;

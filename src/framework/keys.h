@@ -2,7 +2,7 @@
 #define HORUSEYE_FRAMEWORK_KEYS_H_
 
 #include <SDL/SDL.h>
-namespace framework {
+namespace ugdk {
 
 typedef enum {
     K_UNKNOWN = SDLK_UNKNOWN,

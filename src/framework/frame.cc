@@ -1,6 +1,6 @@
 #include "frame.h"
 
-namespace framework {
+namespace ugdk {
 
 // Devolve true se houver colisao entre
 // 'frame' e este retangulo

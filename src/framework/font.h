@@ -4,7 +4,7 @@
 #include <string>
 #include "vector2D.h"
 
-namespace framework {
+namespace ugdk {
 
 using std::string;
 class Image;

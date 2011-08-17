@@ -3,7 +3,7 @@
 #include "engine.h"
 #include "videomanager.h"
 
-namespace framework {
+namespace ugdk {
 
 Layer::~Layer() {
 

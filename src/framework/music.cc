@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "music.h"
 
-namespace framework {
+namespace ugdk {
 
 Mix_Music* Music::playing_music_(NULL);
 

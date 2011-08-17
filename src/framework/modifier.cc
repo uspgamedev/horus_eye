@@ -2,7 +2,7 @@
 #include "modifier.h"
 #include "image.h"
 
-namespace framework {
+namespace ugdk {
 
 Modifier::Modifier (Modifier &mod) :
         offset_(mod.offset_),

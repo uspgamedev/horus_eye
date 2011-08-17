@@ -2,7 +2,7 @@
 #include <SDL/SDL_timer.h>
 #include "timehandler.h"
 
-namespace framework {
+namespace ugdk {
 
 TimeHandler::TimeHandler() {
     last_update_ = current_time_ = initial_time_ = SDL_GetTicks();

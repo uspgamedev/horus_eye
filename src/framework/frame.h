@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_FRAMEWORK_FRAME_H_
 #define HORUSEYE_FRAMEWORK_FRAME_H_
 
-namespace framework {
+namespace ugdk {
 
 // Representa um quadro (retangulo) na tela e/ou numa imagem.
 // Util para trabalhar com animacoes, detectar colisoes

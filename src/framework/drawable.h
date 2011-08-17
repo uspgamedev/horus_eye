@@ -5,7 +5,7 @@
 #include "types.h"
 #include "modifier.h"
 
-namespace framework {
+namespace ugdk {
 
 class Drawable {
   public:

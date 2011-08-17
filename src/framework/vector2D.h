@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_FRAMEWORK_VECTOR2D_H_
 #define HORUSEYE_FRAMEWORK_VECTOR2D_H_
 
-namespace framework {
+namespace ugdk {
 
 // Vetores de 2 dimensoes.
 // As entradas do vetor sao valores float.

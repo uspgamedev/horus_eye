@@ -3,7 +3,7 @@
 
 #include <SDL/SDL.h>
 
-namespace framework {
+namespace ugdk {
 
 typedef enum {
     LIGHT_IGNORE,

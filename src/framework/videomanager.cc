@@ -5,7 +5,7 @@
 #include "engine.h"
 #include "image.h"
 
-namespace framework {
+namespace ugdk {
 
 // Inicializa o gerenciador de video, definindo uma
 // resolucao para o programa. Retorna true em caso de

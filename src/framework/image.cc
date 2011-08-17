@@ -10,7 +10,7 @@
 #include "engine.h"
 #include "image.h"
 
-namespace framework {
+namespace ugdk {
 
 Image::Image() : alpha_(1.0f), texture_width_(10), texture_height_(10) {
     color_ = CreateColor(1.0f, 1.0f, 1.0f);

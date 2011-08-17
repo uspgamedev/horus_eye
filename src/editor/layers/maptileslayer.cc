@@ -3,7 +3,7 @@
 #include "../../framework/engine.h"
 #include "../../framework/videomanager.h"
 
-using namespace framework;
+using namespace ugdk;
 
 namespace editor {
 
@@ -30,14 +30,14 @@ void MapTilesLayer::Render() {
     }
 }
 
-void MapTilesLayer::CenterAt(framework::Vector2D& center) {
+void MapTilesLayer::CenterAt(ugdk::Vector2D& center) {
 	if (!editor_->map_loaded()) return;
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
     set_offset(center * (MapObject::TileSize * scale_) - screen_size * 0.5f);
 }
 
-MapObject* MapTilesLayer::Select(framework::Vector2D& pos) {
+MapObject* MapTilesLayer::Select(ugdk::Vector2D& pos) {
 	if (!editor_->map_loaded()) return NULL;
 
     Vector2D absolute = pos + offset();

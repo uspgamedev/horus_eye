@@ -8,7 +8,7 @@
 #include "modifier.h"
 #include "animation.h"
 
-namespace framework {
+namespace ugdk {
 
 class AnimationSet {
 

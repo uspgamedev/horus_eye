@@ -7,7 +7,7 @@
 #include <cstring>
 #include "modifier.h"
 
-namespace framework {
+namespace ugdk {
 
 class Observer;
 class AnimationSet;

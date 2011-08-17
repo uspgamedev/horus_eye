@@ -13,7 +13,7 @@
 
 using namespace std;
 
-namespace framework {
+namespace ugdk {
 
 
 Vector2D Engine::window_size() {
