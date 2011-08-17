@@ -8,3 +8,5 @@
 *.suo
 *.sdf
 *.vsp
+/src/game/build
+settings.bin
