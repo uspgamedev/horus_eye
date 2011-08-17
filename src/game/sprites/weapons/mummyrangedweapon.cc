@@ -9,7 +9,7 @@
 
 namespace sprite {
 
-using framework::Vector2D;
+using ugdk::Vector2D;
 
 void MummyRangedWeapon::Attack(){
     scene::World *world = WORLD();
@@ -21,7 +21,7 @@ void MummyRangedWeapon::Attack(){
     world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);
     utils::Settings settings;
     if(settings.sound_effects())
-        framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     ((Mummy*)owner_)->StartAttack(hero);
 }

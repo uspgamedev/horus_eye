@@ -7,7 +7,7 @@
 #include "menu.h"
 using namespace std;
 
-namespace framework {
+namespace ugdk {
 class Sprite;
 class Image;
 }

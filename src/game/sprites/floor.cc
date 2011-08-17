@@ -8,7 +8,7 @@
 #include "../scenes/world.h"
 #include <float.h>
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using namespace scene;
 
@@ -17,7 +17,7 @@ namespace sprite {
 #define CLEAR   0
 #define DARK    1
 
-Floor::Floor(framework::Image* image) {
+Floor::Floor(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
     this->collision_type_ = NO_COLLISION;

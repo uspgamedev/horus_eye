@@ -5,7 +5,7 @@
 
 namespace scene {
 
-class Loading: public framework::Scene {
+class Loading: public ugdk::Scene {
   public:
     Loading();
     virtual ~Loading();

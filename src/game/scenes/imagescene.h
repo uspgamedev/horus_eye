@@ -8,15 +8,15 @@
 
 namespace scene {
 
-class ImageScene: public framework::Scene {
+class ImageScene: public ugdk::Scene {
   public:
-    ImageScene(framework::Image *background, framework::Image *image);
+    ImageScene(ugdk::Image *background, ugdk::Image *image);
     virtual ~ImageScene ();
     virtual void Update (float delta_t);
 
   protected:
     void End ();
-    framework::Layer *scene_layers_[2];
+    ugdk::Layer *scene_layers_[2];
 };
 
 }

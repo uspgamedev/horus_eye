@@ -14,14 +14,14 @@ class CollisionObject {
     virtual bool Intersects (const RectObject *)  const { return false; }
     virtual bool Intersects (const CircleObject *) const { return false; }
     virtual bool Intersects (const CollisionObject *) const { return false; }
-    virtual framework::Vector2D position () const { return position_; }
-    virtual void set_position (const framework::Vector2D &position) {
+    virtual ugdk::Vector2D position () const { return position_; }
+    virtual void set_position (const ugdk::Vector2D &position) {
         position_ = position;
     }
   protected:
     CollisionObject() {}
   private:
-    framework::Vector2D position_;
+    ugdk::Vector2D position_;
 };
 
 } // namespace utils

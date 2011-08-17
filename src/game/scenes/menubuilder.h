@@ -6,7 +6,7 @@
 #include <vector>
 #include "../../framework/sprite.h"
 
-namespace framework {
+namespace ugdk {
 class Image;
 class AnimationSet;
 }
@@ -39,8 +39,8 @@ class MenuBuilder {
   protected:
     void CreateSelectionSprites(Menu* menu, float height = 0);
     void CreateBackButton(Page *page);
-    static framework::AnimationSet  *ANIMATIONS;
-    static framework::uint32        SELECTION_EYE,
+    static ugdk::AnimationSet  *ANIMATIONS;
+    static ugdk::uint32        SELECTION_EYE,
                                     HERO_SHOOTING,
                                     MUMMY_DYING,
                                     MOUSE_CLICKS[2],
@@ -84,13 +84,13 @@ class MenuBuilder {
     };
     class PauseMenuHandler : public MenuHandler {
       public:
-        PauseMenuHandler(Menu *menu, framework::Image *bg_img)
+        PauseMenuHandler(Menu *menu, ugdk::Image *bg_img)
             : MenuHandler(menu), bg_img_(bg_img) {}
         ~PauseMenuHandler() {}
         void Handle(int selection, int modifier = 0);
         void CleanUp();
       private:
-        framework::Image *bg_img_;
+        ugdk::Image *bg_img_;
     };
     class PageManagerHandler : public MenuHandler {
       public:
@@ -117,8 +117,8 @@ class MenuBuilder {
         utils::Settings* settings_;
         static std::string settings_names_[SETTINGS_SELECT_NUM], on_off_[2];
         int sprites_active_[5];
-        framework::Drawable **resolution_images_;
-        framework::Sprite **resolution_sprites_, *on_off_sprites_[3][2], **language_sprites_;
+        ugdk::Drawable **resolution_images_;
+        ugdk::Sprite **resolution_sprites_, *on_off_sprites_[3][2], **language_sprites_;
     };
 };
 

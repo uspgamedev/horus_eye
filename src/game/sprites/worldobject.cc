@@ -6,7 +6,7 @@
 
 namespace sprite {
 
-using namespace framework;
+using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
@@ -53,7 +53,7 @@ void WorldObject::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
-void WorldObject::set_world_position(const framework::Vector2D& pos) {
+void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    bound_->set_position(pos);
    set_position(World::FromWorldCoordinates(pos));
 }

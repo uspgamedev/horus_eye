@@ -17,7 +17,7 @@
 namespace sprite {
 
 using namespace scene;
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 

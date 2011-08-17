@@ -14,7 +14,7 @@
 #include <cmath>
 #include <iostream>
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define PI acos(-1.0f)

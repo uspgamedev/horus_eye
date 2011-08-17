@@ -5,7 +5,7 @@
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 namespace sprite {

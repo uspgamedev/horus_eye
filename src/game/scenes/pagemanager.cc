@@ -12,7 +12,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define RECT_WIDTH          266

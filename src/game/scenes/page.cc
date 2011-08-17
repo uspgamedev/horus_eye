@@ -13,7 +13,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define RECT_WIDTH          266
@@ -102,7 +102,7 @@ void Page::Update(float delta_t) {
 }
 
 // Verifica a posição do mouse
-int Page::CheckMouse (framework::Vector2D &mouse_pos) {
+int Page::CheckMouse (ugdk::Vector2D &mouse_pos) {
 
     static float    old_x = 0, old_y = 0;
     float           x = mouse_pos.x,

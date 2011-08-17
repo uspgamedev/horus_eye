@@ -8,7 +8,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 
 Loading::Loading() {
     Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");

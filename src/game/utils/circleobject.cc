@@ -3,7 +3,7 @@
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 
 bool CircleObject::Intersects (const RectObject *rect) const {
 

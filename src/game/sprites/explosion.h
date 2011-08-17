@@ -5,7 +5,7 @@
 #include "../../framework/vector2D.h"
 #include "../../framework/observer.h"
 
-namespace framework {
+namespace ugdk {
 class TimeAccumulator;
 class AnimationSet;
 }
@@ -13,10 +13,10 @@ class AnimationSet;
 namespace sprite {
 
 class Mummy;
-class Explosion : public WorldObject, framework::Observer {
+class Explosion : public WorldObject, ugdk::Observer {
 
   public:
-    Explosion(framework::Image *img, framework::uint32 animation, float radius, float damage);
+    Explosion(ugdk::Image *img, ugdk::uint32 animation, float radius, float damage);
     ~Explosion();
 
     static void InitializeAnimations();
@@ -35,15 +35,15 @@ class Explosion : public WorldObject, framework::Observer {
 
   protected:
 
-    static framework::AnimationSet  *ANIMATIONS;
-    static framework::uint32        WEAPON_ANIMATIONS[2];
+    static ugdk::AnimationSet  *ANIMATIONS;
+    static ugdk::uint32        WEAPON_ANIMATIONS[2];
 
 
   private:
 	int damage_;
     float radius_;
     float expansion_speed_;
-    framework::Vector2D direction_;
+    ugdk::Vector2D direction_;
 };
 
 }

@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #include "mummy.h"
-namespace framework {
+namespace ugdk {
 	class Image;
 	class Vector2D;
 }
@@ -12,7 +12,7 @@ class Weapon;
 class Pharaoh : public Mummy {
 
   public:
-    Pharaoh(framework::Image* image, int life, int mana);
+    Pharaoh(ugdk::Image* image, int life, int mana);
     ~Pharaoh();
 
 	void TakeDamage(int life_points = 1);

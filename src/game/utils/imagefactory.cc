@@ -5,7 +5,7 @@
 #include "../../framework/image.h"
 #include "constants.h"
 
-using namespace framework;
+using namespace ugdk;
 namespace utils {
     ImageFactory::ImageFactory(){
         hero_image_ = VIDEO_MANAGER()->LoadImage("data/images/sprite-sheet_MOD3.png");

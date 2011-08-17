@@ -10,7 +10,7 @@
 #include "condition.h"
 #include "worldobject.h"
 
-namespace framework {
+namespace ugdk {
 class TimeAccumulator;
 class Animation;
 class AnimationSet;
@@ -18,19 +18,19 @@ class AnimationSet;
 
 namespace sprite {
 
-using framework::Vector2D;
+using ugdk::Vector2D;
 
 class Weapon;
 class Door;
 class Wall;
 
-class Creature : public WorldObject , public framework::Observer {
+class Creature : public WorldObject , public ugdk::Observer {
   public:
     Creature();
     virtual ~Creature();
 
-    void Initialize(framework::Drawable *image,
-                    framework::AnimationSet *set = NULL,
+    void Initialize(ugdk::Drawable *image,
+                    ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
     int life() { return life_; }
@@ -77,15 +77,15 @@ class Creature : public WorldObject , public framework::Observer {
     */
     Weapon *weapon_;
 
-    framework::uint32 last_standing_animation_;
+    ugdk::uint32 last_standing_animation_;
 
-    static framework::uint32 standing_animations_[16];
-    static framework::uint32 walking_animations_[16];
-    static framework::uint32 attacking_animations_[8];
-    static framework::uint32 taking_damage_animation_;
-    static framework::uint32 dying_animation_;
+    static ugdk::uint32 standing_animations_[16];
+    static ugdk::uint32 walking_animations_[16];
+    static ugdk::uint32 attacking_animations_[8];
+    static ugdk::uint32 taking_damage_animation_;
+    static ugdk::uint32 dying_animation_;
 
-    static framework::AnimationSet *ANIMATIONS;
+    static ugdk::AnimationSet *ANIMATIONS;
 
     Vector2D directions_[4];
     
@@ -110,11 +110,11 @@ class Creature : public WorldObject , public framework::Observer {
 
     // funcoes
     void AdjustBlink(float delta_t);
-    void Move(framework::Vector2D direction, float delta_t);
+    void Move(ugdk::Vector2D direction, float delta_t);
     void Tick();
     float GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(float angle);
-    virtual framework::Vector2D GetWalkingDirection() {
+    virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
     void CollideWithRect(const utils::RectObject*);
@@ -128,8 +128,8 @@ class Creature : public WorldObject , public framework::Observer {
 	double blink_time_;
     bool blink_;
     float original_speed_, speed_, attack_cool_down_, attack_duration_;
-    framework::TimeAccumulator *hit_duration_;
-    framework::Vector2D walking_direction_, looking_direction_;
+    ugdk::TimeAccumulator *hit_duration_;
+    ugdk::Vector2D walking_direction_, looking_direction_;
     std::list<Condition*> conditions_;
 
 };  // class Creature

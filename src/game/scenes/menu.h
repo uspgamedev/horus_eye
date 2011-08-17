@@ -9,14 +9,14 @@
 #define ALIGNMENT_CENTER  0
 #define ALIGNMENT_RIGHT   1
 
-namespace framework {
+namespace ugdk {
 class Sprite;
 class Image;
 }
 
 namespace scene {
 
-class Menu: public framework::Scene {
+class Menu: public ugdk::Scene {
   public:
 
     Menu (int selection_num);
@@ -25,13 +25,13 @@ class Menu: public framework::Scene {
     void Update (float delta_t);
 
     void set_handler(MenuHandler* handler);
-    void set_content_box(framework::Frame content_box);
+    void set_content_box(ugdk::Frame content_box);
 
-    void set_content_box(framework::Frame content_box, int alignment);
-    void set_selection_sprite(framework::Sprite *sprite);
-    void set_selection_sprite(framework::Sprite *sprite[]);
-    void set_option_sprite(int index, framework::Sprite *sprite);
-    void AddSprite(framework::Sprite *sprite, framework::Vector2D pos);
+    void set_content_box(ugdk::Frame content_box, int alignment);
+    void set_selection_sprite(ugdk::Sprite *sprite);
+    void set_selection_sprite(ugdk::Sprite *sprite[]);
+    void set_option_sprite(int index, ugdk::Sprite *sprite);
+    void AddSprite(ugdk::Sprite *sprite, ugdk::Vector2D pos);
 
     const static float OPTION_ZINDEX;
 
@@ -40,16 +40,16 @@ class Menu: public framework::Scene {
     void DecideWhereOptionsGo(int alignment);
     void InitialSelection();
 
-    bool CheckMouse (framework::Vector2D &mouse_pos);
+    bool CheckMouse (ugdk::Vector2D &mouse_pos);
     void Select ();
 
     bool content_box_defined_;
     int selection_, selection_num_;
     MenuHandler *handler_;
-    framework::Sprite *selection_sprite_[2];
-    framework::Sprite **options_sprite_;
-    framework::Vector2D *selection_pos_;
-    framework::Frame    content_box_;
+    ugdk::Sprite *selection_sprite_[2];
+    ugdk::Sprite **options_sprite_;
+    ugdk::Vector2D *selection_pos_;
+    ugdk::Frame    content_box_;
 
 };
 

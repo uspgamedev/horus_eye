@@ -3,7 +3,7 @@
 
 #include "projectile.h"
 
-namespace framework {
+namespace ugdk {
 class TimeAccumulator;
 }
 
@@ -15,7 +15,7 @@ class Door;
 class MummyProjectile : public Projectile {
 
   public:
-	MummyProjectile(framework::Vector2D &, int damage = 1);
+	MummyProjectile(ugdk::Vector2D &, int damage = 1);
 	~MummyProjectile();
 
 	virtual void CollidesWith(Hero * obj);

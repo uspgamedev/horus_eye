@@ -20,12 +20,12 @@
 #include "../utils/visionstrategy.h"
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
 
-World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()), music_(NULL) {
+World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), music_(NULL) {
     world_layer_->set_light_type(LIGHT_ILLUMINATED);
     AddLayer(world_layer_);
 
@@ -239,7 +239,7 @@ void World::IncreaseNumberOfEnemies() {
     max_enemies_++;
 }
 
-void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
+void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
 
     new_object-> set_world_position(pos);
     new_world_objects.push_front(new_object);
@@ -262,7 +262,7 @@ void World::AddNewWorldObjects() {
     new_world_objects.clear();
 }
 
-void World::AddHero(framework::Vector2D pos) {
+void World::AddHero(ugdk::Vector2D pos) {
     this->AddWorldObject(hero_, pos);
 }
 

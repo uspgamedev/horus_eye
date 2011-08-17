@@ -1,7 +1,7 @@
 #include "fireball.h"
 #include "../scenes/world.h"
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 namespace sprite {

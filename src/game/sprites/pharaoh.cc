@@ -6,7 +6,7 @@
 #include "mummybuilder.h"
 #include "../../framework/vector2D.h"
 using namespace std;
-using namespace framework;
+using namespace ugdk;
 using namespace scene;
 using namespace utils;
 

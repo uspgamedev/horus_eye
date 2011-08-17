@@ -2,7 +2,7 @@
 #define FLOOR_H_
 
 #include "worldobject.h"
-namespace framework {
+namespace ugdk {
 	class Image;
     class AnimationSet;
 };
@@ -14,7 +14,7 @@ namespace sprite {
 class Floor : public WorldObject {
 
   public:
-    Floor(framework::Image* image);
+    Floor(ugdk::Image* image);
     virtual void Update(float delta_t);
 
   private:

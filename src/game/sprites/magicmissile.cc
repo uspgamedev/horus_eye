@@ -6,7 +6,7 @@
 #include "../utils/imagefactory.h"
 #include "../scenes/world.h"
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define CENTER_X    Constants::PROJECTILE_SPRITE_CENTER_X

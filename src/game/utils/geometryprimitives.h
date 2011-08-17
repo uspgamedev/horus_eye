@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_UTILS_GEOMETRYPRIMITIVES_H_
 #define HORUSEYE_GAME_UTILS_GEOMETRYPRIMITIVES_H_
 #include "../../framework/vector2D.h"
-using namespace framework;
+using namespace ugdk;
 
 namespace utils{
 bool GPleft(Vector2D a, Vector2D b, Vector2D c);

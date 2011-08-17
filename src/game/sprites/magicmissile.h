@@ -5,7 +5,7 @@
 #include "projectile.h"
 #include "../../framework/vector2D.h"
 
-namespace framework {
+namespace ugdk {
 class TimeAccumulator;
 }
 
@@ -18,7 +18,7 @@ class Creature;
 
 class MagicMissile : public Projectile {
   public:
-    MagicMissile(framework::Vector2D &);
+    MagicMissile(ugdk::Vector2D &);
     ~MagicMissile();
 
     virtual void CollidesWith(Mummy * obj);

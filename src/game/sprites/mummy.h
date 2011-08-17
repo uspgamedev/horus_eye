@@ -8,7 +8,7 @@
 
 #define TIME_TO_THINK 0.1f
 
-namespace framework {
+namespace ugdk {
 class TimeAccumulator;
 }
 
@@ -19,7 +19,7 @@ class Weapon;
 class Mummy : public Creature {
 
   public:
-    Mummy(framework::Image* img);
+    Mummy(ugdk::Image* img);
     ~Mummy();
 
     virtual void HandleCollision(WorldObject *);
@@ -38,7 +38,7 @@ class Mummy : public Creature {
 
     void StartAttack(Creature* obj);
   protected:
-    framework::TimeAccumulator *interval_;
+    ugdk::TimeAccumulator *interval_;
     float time_to_think_;
     bool standing_;
     Vector2D last_direction_;

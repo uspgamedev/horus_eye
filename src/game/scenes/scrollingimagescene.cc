@@ -5,7 +5,7 @@ namespace scene {
 #define BG  0
 #define IMG 1
 
-using namespace framework;
+using namespace ugdk;
 
 ScrollingImageScene::ScrollingImageScene(Image *background, Image *image, float time) :
          ImageScene(background, image) {

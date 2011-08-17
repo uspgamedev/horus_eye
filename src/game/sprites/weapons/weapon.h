@@ -10,12 +10,12 @@ class Weapon {
 	virtual float range() = 0;
 	virtual void Attack() = 0;
 	virtual bool Available() = 0;
-        framework::Image* icon() { return icon_; }
+        ugdk::Image* icon() { return icon_; }
           
 
   protected:
 	Creature* owner_;
-        framework::Image* icon_;
+        ugdk::Image* icon_;
 };
 
 }//namespace

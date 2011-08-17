@@ -10,7 +10,7 @@
 namespace sprite {
 
 using namespace scene;
-using namespace framework;
+using namespace ugdk;
 using utils::Constants;
 
 void HeroBaseWeapon::Attack(){

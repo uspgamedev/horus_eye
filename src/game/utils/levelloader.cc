@@ -19,7 +19,7 @@ namespace utils {
 using namespace std;
 using namespace scene;
 using namespace sprite;
-using namespace framework;
+using namespace ugdk;
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (PATH_MANAGER()->ResolvePath(file_name).c_str());

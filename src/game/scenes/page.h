@@ -7,7 +7,7 @@
 #include "menu.h"
 #include "pagemanager.h"
 
-namespace framework {
+namespace ugdk {
 class Sprite;
 class Image;
 }
@@ -27,7 +27,7 @@ class Page : public Menu {
     virtual ~Page ();
 
     void Update (float delta_t);
-    int CheckMouse (framework::Vector2D &mouse_pos);
+    int CheckMouse (ugdk::Vector2D &mouse_pos);
 
   private:
 

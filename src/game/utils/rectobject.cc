@@ -4,7 +4,7 @@
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 
 bool RectObject::Intersects (const RectObject *rect) const {
     return false;

@@ -14,11 +14,11 @@ namespace sprite {
 #define BOUND_WIDTH     Constants::DOOR_BOUND_WIDTH
 #define BOUND_HEIGHT    Constants::DOOR_BOUND_HEIGHT
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using namespace scene;
 
-Door::Door(framework::Image* image) {
+Door::Door(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
     this->collision_type_ = STATIC;
