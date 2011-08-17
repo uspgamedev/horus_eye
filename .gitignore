@@ -1,9 +1,15 @@
 
+*~
 /Debug
 /DebugFast
 /ipch
 /Release
 /src/game/config.h
+/src/game/Makefile
+/src/game/cmake*
+/src/game/horus_eye*
+/src/game/CMake*
+!/src/game/CMakeLists.txt
 /Horus Eye.vcxproj.user
 *.suo
 *.sdf

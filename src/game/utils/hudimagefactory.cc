@@ -32,8 +32,8 @@ HudImageFactory::HudImageFactory(){
     fireball_icon_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_magic_fire.png");
     if(fireball_icon_image_) fireball_icon_image_->set_frame_size(Vector2D(25, 35));
 
-    lightning_icon_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_magic_fire.png");
-    if(lightning_icon_image_) fireball_icon_image_->set_frame_size(Vector2D(25, 35));
+    lightning_icon_image_ = VIDEO_MANAGER()->LoadImage("data/images/hud_magic_lightning.png");
+    if(lightning_icon_image_) fireball_icon_image_->set_frame_size(Vector2D(25, 32));
 }
 
 Image* HudImageFactory::LifeBarImage() {
