@@ -15,7 +15,7 @@ class AnimationSet;
 /*
  * Represents a sprite's current animation.
  *
- * An Animation object contains a sequence of information describing a sprite's visual behaviour
+ * An Animation object contains a sequence of information describing a sprite's visual behavior
  * (spritesheet frame, position, rotation, transparency, etc) throughout a corresponding sequence
  * of the game's update frames. This per-frame information is represented by the class
  * Animation::AnimationFrame, and the sequence of this information by the Animation::FrameSequence
@@ -31,7 +31,7 @@ class Animation {
   public:
 
     /*
-     * Represents the visual behaviour information of a sprite in a single game frame.
+     * Represents the visual behavior information of a sprite in a single game frame.
      */
     class AnimationFrame {
 
