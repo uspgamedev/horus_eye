@@ -8,66 +8,7 @@ SET(GAME_NAME "Horus Eye")
 SET(GAME_VERSION "1.1.0")
 SET(CMAKE_BUILD_TYPE Release)
 # Arquivos de código fonte vão aqui!
-SET(GAME_SRCS ./scenes/loading.cc ./scenes/pausescene.cc ./scenes/page.h
-./scenes/world.h ./scenes/imagescene.h ./scenes/loading.h ./scenes/world.cc
-./scenes/menuhandler.h ./scenes/menu.h ./scenes/pagemanager.h
-./scenes/scrollingimagescene.cc ./scenes/menu.cc ./scenes/menubuilder.h
-./scenes/pagemanager.cc ./scenes/scrollingimagescene.h ./scenes/page.cc
-./scenes/menubuilder.cc ./scenes/imagescene.cc ./scenes/pausescene.h ./main.cc
-./config.h ./sprites/mummybuilder.h ./sprites/explosion.h ./sprites/item.h
-./sprites/fireball.cc ./sprites/pharaoh.cc ./sprites/worldobject.h
-./sprites/worldobject.cc ./sprites/itembuilder.cc ./sprites/door.cc
-./sprites/magicmissile.cc ./sprites/hero.h ./sprites/conditionbuilder.h
-./sprites/condition.h ./sprites/hero.cc ./sprites/wall.h
-./sprites/magicmissile.h ./sprites/itemevent.h ./sprites/mummy.h
-./sprites/wall.cc ./sprites/fireball.h ./sprites/projectile.cc
-./sprites/mummybuilder.cc ./sprites/pharaoh.h ./sprites/item.cc
-./sprites/explosion.cc ./sprites/floor.h ./sprites/projectile.h
-./sprites/conditionbuilder.cc ./sprites/floor.cc ./sprites/creature.h
-./sprites/mummyprojectile.cc ./sprites/door.h ./sprites/weapons/weapon.h
-./sprites/weapons/mummyweapon.h ./sprites/weapons/mummyrangedweapon.h
-./sprites/weapons/herofireballweapon.h ./sprites/weapons/pharaohrangedweapon.cc
-./sprites/weapons/mummyweapon.cc ./sprites/weapons/heroexplosionweapon.h
-./sprites/weapons/herobaseweapon.h ./sprites/weapons/heroexplosionweapon.cc
-./sprites/weapons/herobaseweapon.cc ./sprites/weapons/herofireballweapon.cc
-./sprites/weapons/pharaohsummonweapon.cc ./sprites/weapons/pharaohsummonweapon.h
-./sprites/weapons/mummyrangedweapon.cc ./sprites/weapons/pharaohrangedweapon.h
-./sprites/weapons/herolightningweapon.cc ./sprites/weapons/herolightningweapon.h
-./sprites/lightningbolt.cc ./sprites/lightningbolt.h
-./sprites/creature.cc ./sprites/mummyprojectile.h ./sprites/itembuilder.h
-./sprites/mummy.cc ./utils/levelloader.cc ./utils/levelmanager.cc
-./utils/rectobject.cc ./utils/hud.cc ./utils/settings.cc
-./utils/hudimagefactory.cc ./utils/circleobject.h ./utils/geometryprimitives.h
-./utils/textloader.cc ./utils/levelloader.h ./utils/collisionobject.h
-./utils/settings.h ./utils/rectobject.h ./utils/tile.cc ./utils/tile.h
-./utils/imagefactory.cc ./utils/visionstrategy.h ./utils/textloader.h
-./utils/constants.cc ./utils/circleobject.cc ./utils/constants.h
-./utils/levelmanager.h ./utils/visionstrategy.cc 
-./utils/imagefactory.h ./utils/hudimagefactory.h ./utils/hud.h
-./utils/geometryprimitives.cc ../framework/layer.cc ../framework/layer.h
-../framework/textmanager.cc ../framework/timeaccumulator.cc ../framework/keys.h
-../framework/vector2D.h ../framework/videomanager.h ../framework/textmanager.h
-../framework/vector2D.cc ../framework/timehandler.cc ../framework/sprite.cc
-../framework/frame.cc ../framework/timehandler.h ../framework/image.cc
-../framework/inputmanager.cc ../framework/scene.h ../framework/types.h
-../framework/engine.cc ../framework/audiomanager.h ../framework/music.cc
-../framework/animation.h ../framework/videomanager.cc ../framework/sample.cc
-../framework/light.h ../framework/music.h ../framework/animation.cc
-../framework/observer.h ../framework/frame.h ../framework/sprite.h
-../framework/scene.cc ../framework/light.cc ../framework/inputmanager.h
-../framework/engine.h ../framework/sample.h ../framework/image.h
-../framework/audiomanager.cc ../framework/timeaccumulator.h
-../framework/pathmanager.cc ../framework/pathmanager.h ../editor/mapeditor.cc
-../framework/animationset.h ../framework/animationset.cc ../framework/modifier.h
-../framework/modifier.cc ../framework/font.h ../framework/font.cc
-../framework/animationparser.h ../framework/animationparser.cc
-../editor/mapeditor.h ../editor/mapobject.cc ../editor/mapobject.h
-../editor/mapeditor.cc ../editor/scenes/editormenu.h
-../editor/scenes/editormenu.cc
-../editor/layers/mapspriteslayer.cc ../editor/layers/mapspriteslayer.h
-../editor/layers/maptileslayer.cc ../editor/layers/maptileslayer.h
-../editor/layers/fpsmeter.cc ../editor/layers/fpsmeter.h ../framework/text.cc
-../framework/text.h )
+SET(GAME_SRCS ./src/editor/layers/fpsmeter.cc ./src/editor/layers/fpsmeter.h ./src/editor/layers/mapspriteslayer.cc ./src/editor/layers/mapspriteslayer.h ./src/editor/layers/maptileslayer.cc ./src/editor/layers/maptileslayer.h ./src/editor/mapeditor.cc ./src/editor/mapeditor.h ./src/editor/mapobject.cc ./src/editor/mapobject.h ./src/editor/scenes/editormenu.cc ./src/editor/scenes/editormenu.h ./src/framework/animation.cc ./src/framework/animation.h ./src/framework/animationparser.cc ./src/framework/animationparser.h ./src/framework/animationset.cc ./src/framework/animationset.h ./src/framework/audiomanager.cc ./src/framework/audiomanager.h ./src/framework/drawable.h ./src/framework/engine.cc ./src/framework/engine.h ./src/framework/font.cc ./src/framework/font.h ./src/framework/frame.cc ./src/framework/frame.h ./src/framework/image.cc ./src/framework/image.h ./src/framework/inputmanager.cc ./src/framework/inputmanager.h ./src/framework/keys.h ./src/framework/layer.cc ./src/framework/layer.h ./src/framework/light.cc ./src/framework/light.h ./src/framework/modifier.cc ./src/framework/modifier.h ./src/framework/music.cc ./src/framework/music.h ./src/framework/observer.h ./src/framework/pathmanager.cc ./src/framework/pathmanager.h ./src/framework/sample.cc ./src/framework/sample.h ./src/framework/scene.cc ./src/framework/scene.h ./src/framework/sprite.cc ./src/framework/sprite.h ./src/framework/text.cc ./src/framework/text.h ./src/framework/textmanager.cc ./src/framework/textmanager.h ./src/framework/timeaccumulator.cc ./src/framework/timeaccumulator.h ./src/framework/timehandler.cc ./src/framework/timehandler.h ./src/framework/types.h ./src/framework/vector2D.cc ./src/framework/vector2D.h ./src/framework/videomanager.cc ./src/framework/videomanager.h ./src/game/config.h ./src/game/main.cc ./src/game/scenes/imagescene.cc ./src/game/scenes/imagescene.h ./src/game/scenes/loading.cc ./src/game/scenes/loading.h ./src/game/scenes/menu.cc ./src/game/scenes/menu.h ./src/game/scenes/menubuilder.cc ./src/game/scenes/menubuilder.h ./src/game/scenes/menuhandler.h ./src/game/scenes/page.cc ./src/game/scenes/page.h ./src/game/scenes/pagemanager.cc ./src/game/scenes/pagemanager.h ./src/game/scenes/pausescene.cc ./src/game/scenes/pausescene.h ./src/game/scenes/scrollingimagescene.cc ./src/game/scenes/scrollingimagescene.h ./src/game/scenes/world.cc ./src/game/scenes/world.h ./src/game/sprites/condition.h ./src/game/sprites/conditionbuilder.cc ./src/game/sprites/conditionbuilder.h ./src/game/sprites/creature.cc ./src/game/sprites/creature.h ./src/game/sprites/door.cc ./src/game/sprites/door.h ./src/game/sprites/explosion.cc ./src/game/sprites/explosion.h ./src/game/sprites/fireball.cc ./src/game/sprites/fireball.h ./src/game/sprites/floor.cc ./src/game/sprites/floor.h ./src/game/sprites/hero.cc ./src/game/sprites/hero.h ./src/game/sprites/item.cc ./src/game/sprites/item.h ./src/game/sprites/itembuilder.cc ./src/game/sprites/itembuilder.h ./src/game/sprites/itemevent.h ./src/game/sprites/lightningbolt.cc ./src/game/sprites/lightningbolt.h ./src/game/sprites/magicmissile.cc ./src/game/sprites/magicmissile.h ./src/game/sprites/mummy.cc ./src/game/sprites/mummy.h ./src/game/sprites/mummybuilder.cc ./src/game/sprites/mummybuilder.h ./src/game/sprites/mummyprojectile.cc ./src/game/sprites/mummyprojectile.h ./src/game/sprites/pharaoh.cc ./src/game/sprites/pharaoh.h ./src/game/sprites/projectile.cc ./src/game/sprites/projectile.h ./src/game/sprites/wall.cc ./src/game/sprites/wall.h ./src/game/sprites/weapons/herobaseweapon.cc ./src/game/sprites/weapons/herobaseweapon.h ./src/game/sprites/weapons/heroexplosionweapon.cc ./src/game/sprites/weapons/heroexplosionweapon.h ./src/game/sprites/weapons/herofireballweapon.cc ./src/game/sprites/weapons/herofireballweapon.h ./src/game/sprites/weapons/herolightningweapon.cc ./src/game/sprites/weapons/herolightningweapon.h ./src/game/sprites/weapons/mummyrangedweapon.cc ./src/game/sprites/weapons/mummyrangedweapon.h ./src/game/sprites/weapons/mummyweapon.cc ./src/game/sprites/weapons/mummyweapon.h ./src/game/sprites/weapons/pharaohrangedweapon.cc ./src/game/sprites/weapons/pharaohrangedweapon.h ./src/game/sprites/weapons/pharaohsummonweapon.cc ./src/game/sprites/weapons/pharaohsummonweapon.h ./src/game/sprites/weapons/weapon.h ./src/game/sprites/worldobject.cc ./src/game/sprites/worldobject.h ./src/game/utils/circleobject.cc ./src/game/utils/circleobject.h ./src/game/utils/collisionobject.h ./src/game/utils/constants.cc ./src/game/utils/constants.h ./src/game/utils/geometryprimitives.cc ./src/game/utils/geometryprimitives.h ./src/game/utils/hud.cc ./src/game/utils/hud.h ./src/game/utils/hudimagefactory.cc ./src/game/utils/hudimagefactory.h ./src/game/utils/imagefactory.cc ./src/game/utils/imagefactory.h ./src/game/utils/levelloader.cc ./src/game/utils/levelloader.h ./src/game/utils/levelmanager.cc ./src/game/utils/levelmanager.h ./src/game/utils/rectobject.cc ./src/game/utils/rectobject.h ./src/game/utils/settings.cc ./src/game/utils/settings.h ./src/game/utils/textloader.cc ./src/game/utils/textloader.h ./src/game/utils/tile.cc ./src/game/utils/tile.h ./src/game/utils/visionstrategy.cc ./src/game/utils/visionstrategy.h )
 
 MESSAGE("${GAME_NAME} version ${GAME_VERSION}")
 
@@ -192,7 +133,7 @@ IF(WIN32)
     TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
 
     # icone
-    EXECUTE_PROCESS(COMMAND ${CMAKE_RC_COMPILER} -O coff -o ./horus_eye.res -i ./horus_eye.rc)
+    EXECUTE_PROCESS(COMMAND ${CMAKE_RC_COMPILER} -O coff -o horus_eye.res -i ./horus_eye.rc)
     SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "horus_eye.res")
     SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "horus_eye.res")
 
