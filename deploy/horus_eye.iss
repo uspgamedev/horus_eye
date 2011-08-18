@@ -32,7 +32,7 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 
 [Files]
 Source: ..\Release\Horus Eye.exe; DestDir: {app}; Flags: ignoreversion
-Source: ..\game\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ..\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: ..\lib\*.dll; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
