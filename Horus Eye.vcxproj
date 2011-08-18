@@ -333,6 +333,9 @@
     <None Include="src\game\data\text\lang_en.txt" />
     <None Include="src\game\data\text\lang_pt_br.txt" />
   </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="horus_eye.rc" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

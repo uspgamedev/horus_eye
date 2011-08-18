@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{14804803-0D1C-4CF8-933E-8202270C54AF}
 AppName=Horus Eye
-AppVersion=1.0.1
-;AppVerName=Horus Eye Release 1.0
+AppVersion=1.1.0
+;AppVerName=Horus Eye Release 1.1.0
 AppPublisher=USPGameDev
 AppPublisherURL=http://uspgamedev.org/
 AppSupportURL=http://uspgamedev.org/
@@ -20,7 +20,7 @@ OutputBaseFilename=horus_eye
 SetupIconFile=eye.ico
 Compression=lzma
 SolidCompression=true
-AppVerName=1.0.1
+AppVerName=1.1.0
 
 [Languages]
 Name: english; MessagesFile: compiler:Default.isl
@@ -31,23 +31,9 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\Horus Eye.exe; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\jpeg.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\libfreetype-6.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\libogg-0.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\libpng12-0.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\libtiff-3.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\libvorbis-0.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\libvorbisfile-3.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\mikmod.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\SDL.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\SDL_image.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\SDL_mixer.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\SDL_net.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\SDL_ttf.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\smpeg.dll; DestDir: {app}; Flags: ignoreversion
-Source: C:\Users\Gustavo\workspace\horus_eye\trunk\src\game\zlib1.dll; DestDir: {app}; Flags: ignoreversion
+Source: ..\Release\Horus Eye.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: ..\lib\*.dll; DestDir: {app}; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
