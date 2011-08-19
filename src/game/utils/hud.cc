@@ -60,13 +60,13 @@ Hud::Hud(World* world) {
 
     life_bar_ = new Sprite(life_modifier_ = new Modifier);
     life_bar_->Initialize(img_fac.LifeBarImage());
-    life_bar_->set_position(VIDEO_X - LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
+    life_bar_->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
     life_bar_->set_zindex(-0.5f);
     AddSprite(life_bar_);
     
     mana_bar_ = new Sprite(mana_modifier_ = new Modifier);
     mana_bar_->Initialize(img_fac.ManaBarImage());
-    mana_bar_->set_position(MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    mana_bar_->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
     mana_bar_->set_zindex(-0.5f);
     AddSprite(mana_bar_);
 
