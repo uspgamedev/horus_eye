@@ -89,7 +89,7 @@ void TextManager::AddFont(wstring name, wstring path, int size, char ident, bool
 	if(font_images_.count(path) == 0) {
 		// Given file not loaded, loading it.
 		font_image = new Image*[65535];
-		memset(font_image, NULL, 4*65535);
+		memset(font_image, 0, 4*65535);
 		TTF_Font *ttf_font = TTF_OpenFont( PATH_MANAGER()->ResolvePath(path).c_str(), 100 );
 		//fwprintf(stderr, L"-- Processing new font file: \"%s\"\n", path.c_str());
 		SDL_Color sdlcolor = { 255, 255, 255 };
