@@ -20,8 +20,8 @@ Text::Text(std::wstring message, Font *font) : font_(font) {
 }
 
 Text::Text(std::vector<std::wstring> message, Font *font) : font_(font) {
-	size_t i;
-	int    j, width, size;
+	size_t i, j;
+	int    width, size;
 	width_ = 0;
 	height_ = 0;
 	line_height_ = 0;
@@ -89,6 +89,8 @@ bool Text::DrawTo(const Vector2D& position, int frame_number, uint8 mirror,
 						break;
 					case Font::RIGHT:
 						glTranslatef(this->width_ - this->line_width_[i],0,0);
+						break;
+					default:
 						break;
 				}
 #ifdef WIN32

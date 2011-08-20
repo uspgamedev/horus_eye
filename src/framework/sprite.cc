@@ -5,10 +5,10 @@
 
 namespace framework {
 
-Sprite::Sprite() : image_(NULL), light_(NULL), animation_(NULL), 
+Sprite::Sprite() : light_(NULL), image_(NULL), animation_(NULL), 
     modifier_(new Modifier), delete_image_(false) {}
 
-Sprite::Sprite(Modifier *mod) : image_(NULL), light_(NULL), animation_(NULL), 
+Sprite::Sprite(Modifier *mod) : light_(NULL), image_(NULL), animation_(NULL), 
     modifier_(mod), delete_image_(false) {}
 
 Sprite::~Sprite() {

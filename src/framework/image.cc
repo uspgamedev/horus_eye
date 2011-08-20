@@ -157,13 +157,13 @@ Color Image::CreateColor(float red, float green, float blue) {
 // reference and necessary data is copied.
 // Returns true on success, false otherwise.
 bool Image::LoadFromSurface(SDL_Surface* data, bool linear) {
-    fprintf(stderr, "LoadSurface - ");
+	//fprintf(stderr, "LoadSurface - ");
     if(data == NULL) {
-        fprintf(stderr, "No Data\n");
+        //fprintf(stderr, "No Data\n");
         return false;
     }
     if(texture_ != 0) {
-    	fprintf(stderr, "(Del Tex %d) ", texture_);
+    	//fprintf(stderr, "(Del Tex %d) ", texture_);
         glDeleteTextures(1, &texture_);
     }
 
@@ -200,7 +200,7 @@ bool Image::LoadFromSurface(SDL_Surface* data, bool linear) {
                 break;
 
             default:
-            	fprintf(stderr, "Image BPP of %d unsupported\n", bpp);
+            	//fprintf(stderr, "Image BPP of %d unsupported\n", bpp);
                 free(raw);
                 return false;
                 break;
@@ -238,10 +238,10 @@ bool Image::LoadFromSurface(SDL_Surface* data, bool linear) {
 
     GLenum errorCode = glGetError();
     if ( errorCode != 0 ) {
-        if ( errorCode == GL_OUT_OF_MEMORY )
-            fprintf(stderr, "Out of texture memory!\n");
-        else
-        	fprintf(stderr, "Unknown error!\n");
+        //if ( errorCode == GL_OUT_OF_MEMORY )
+        //    fprintf(stderr, "Out of texture memory!\n");
+        //else
+        //	fprintf(stderr, "Unknown error!\n");
         free(raw);
         return false;
     }
@@ -251,27 +251,27 @@ bool Image::LoadFromSurface(SDL_Surface* data, bool linear) {
 
     errorCode = glGetError();
     if ( errorCode != 0 ) {
-        if ( errorCode == GL_OUT_OF_MEMORY )
-            fprintf(stderr, "Out of texture memory!\n");
-        else
-        	fprintf(stderr, "Unknown error!\n");
+        //if ( errorCode == GL_OUT_OF_MEMORY )
+        //    fprintf(stderr, "Out of texture memory!\n");
+        //else
+        //	fprintf(stderr, "Unknown error!\n");
         return false;
     }
 
     frame_size_ = Vector2D(1.0f, 1.0f);
 	render_size_ = Vector2D(texture_width_, texture_height_);
 
-	fprintf(stderr, "Success (ID %d)\n", texture_);
+	//fprintf(stderr, "Success (ID %d)\n", texture_);
 
     return true;
 }
 
 bool Image::LoadFromFile(std::string filepath) {
     SDL_Surface* data = IMG_Load(filepath.c_str());
-    fprintf(stderr, "New Surface from \"%s\", ", filepath.c_str());
+    //fprintf(stderr, "New Surface from \"%s\", ", filepath.c_str());
     bool result;
     if(data == NULL) {
-        fprintf(stderr, "File not found\n");
+        //fprintf(stderr, "File not found\n");
         result = false;
     } else {
         result = LoadFromSurface(data);
