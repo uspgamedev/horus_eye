@@ -32,18 +32,19 @@ Vector2D Creature::directions_[4];
 AnimationSet* Creature::ANIMATIONS = NULL;
 
 Creature::Creature() : WorldObject() {
+    waiting_animation_ = false;
+    weapon_ = NULL;
 	last_stable_position_ = Vector2D(0,0);
-	hit_duration_ = NULL;
-	waiting_animation_ = false;
-    sight_count_ = 0;
-    super_armor_ = 0;
-	blink_time_ = 0;
-    blink_ = false;
-	this->collision_type_ = MOVEABLE;
-	hit_duration_ = new TimeAccumulator(0);
-    blink_time_ = new TimeAccumulator(75);
     mana_regen_ = 0.0f;
+    sight_count_ = 0;
+    super_armor_ = false;
     invulnerability_time_ = 0;
+    blink_ = false;
+
+    blink_time_ = new TimeAccumulator(75);
+    hit_duration_ = new TimeAccumulator(0);
+
+    collision_type_ = MOVEABLE;
 }
 
 Creature::~Creature() {
@@ -267,6 +268,7 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
     }
+    printf("%f\n", radianAngle);
 	return radianAngle;
 }
 

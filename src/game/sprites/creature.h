@@ -116,10 +116,14 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
 
-    // variaveis
+    // The base weapon this creature uses.
     Weapon *weapon_;
+
+    // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
     float life_, max_life_, mana_, max_mana_, mana_regen_;
+
+    // How many sight buffs this creature has.
     int sight_count_;
 
     // When true, this creature does not flinch when hit.
@@ -134,9 +138,18 @@ class Creature : public WorldObject , public ugdk::Observer {
     // Controls when to toggle the blink_ flag.
     ugdk::TimeAccumulator *blink_time_;
 
-    float original_speed_, speed_, attack_cool_down_, attack_duration_;
+    // Controls the invulnerability after being hit.
     ugdk::TimeAccumulator *hit_duration_;
-    ugdk::Vector2D walking_direction_, looking_direction_;
+
+    // How fast this creature moves per second.
+    float speed_;
+
+    // Stores the original speed, so one can alter the speed temporarily.
+    float original_speed_;
+
+    ugdk::Vector2D walking_direction_;
+
+    // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
 
 };  // class Creature

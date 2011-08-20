@@ -112,7 +112,6 @@ void Mummy::UpdateDirection(Vector2D destiny){
 
     Vector2D dir_ = path_.front() - world_position(); 
     last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
-    //last_standing_animation_ = *(standing_animations_[animation_direction_]);
     last_standing_animation_ = (standing_animations_[animation_direction_]);
 
 }
@@ -138,7 +137,6 @@ void Mummy::Think(float dt) {
 		}
         else if(!standing_){
             RandomMovement();
-            //last_standing_animation_ = *(standing_animations_[animation_direction_]);
             last_standing_animation_ = (standing_animations_[animation_direction_]);
         }
     }
@@ -179,7 +177,6 @@ void Mummy::Update(float delta_t) {
 
 	        Creature::Move(this->GetWalkingDirection(), delta_t);
 	        walking_direction_ = last_direction_;
-	        //this->SelectAnimation(*walking_animations_[animation_direction_]);
 	        this->SelectAnimation(walking_animations_[animation_direction_]);
 		}
     }
