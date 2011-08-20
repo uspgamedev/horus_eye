@@ -15,13 +15,10 @@ namespace sprite {
 #define SQRT_3 1.7320508075688772935274463415059
 #define PHARAOH_TIME_TO_THINK 0.05f
 
-//Mana Regen Rate is how many secs to restore 1 mana point.
-#define MANA_REGEN_RATE Constants::PHARAOH_MANA_REGEN_RATE
-
 Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 	life_ = max_life_ = life;
 	mana_ = max_mana_ = mana;
-	mana_regen_time_ = MANA_REGEN_RATE;
+	mana_regen_ = Constants::PHARAOH_MANA_REGEN;
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;
@@ -49,13 +46,7 @@ void Pharaoh::Update(float delta_t) {
 	Mummy::Update(delta_t);
 
 	AdjustBlink(delta_t);
-
-	mana_regen_time_ -= delta_t;
-	if (mana_regen_time_ < 0) {
-		mana_regen_time_ = MANA_REGEN_RATE;
-		mana_++;
-		if (mana_ > max_mana_) mana_ = max_mana_;
-	}
+    set_mana(mana() + mana_regen_ * delta_t);
 }
 
 bool Pharaoh::CanAttackWithMeele(Vector2D diff) {

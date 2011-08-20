@@ -33,20 +33,22 @@ class Creature : public WorldObject , public ugdk::Observer {
                     ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
-    int life() { return life_; }
-	void set_life(int life) {
+    float life() { return life_; }
+	void set_life(float life) {
 		life_ = life;
-		if (life_ < 0) life_ = 0;
+		if (life_ < 0.0f) life_ = 0.0f;
 		if (life_ > max_life_) life_ = max_life_;
 	}
-    int max_life() { return  max_life_; }
-    int mana() { return mana_; }
-	void set_mana(int mana) {
+    float max_life() { return  max_life_; }
+
+    float mana() { return mana_; }
+	void set_mana(float mana) {
 		mana_ = mana;
-		if (mana_ < 0) mana_ = 0;
+		if (mana_ < 0.0f) mana_ = 0.0f;
 		if (mana_ > max_mana_) mana_ = max_mana_;
 	}
     int max_mana() { return  max_mana_; }
+
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
     virtual bool AddCondition(Condition* new_condition);
@@ -67,14 +69,6 @@ class Creature : public WorldObject , public ugdk::Observer {
 	bool waiting_animation_;
     int animation_direction_;
     int direction_mapping_[8];
-    /*
-    Animation *last_standing_animation_;
-    Animation ** standing_animations_[16];
-    Animation ** walking_animations_[16];
-    Animation * attacking_animations_[8];
-    Animation * taking_damage_animation_;
-    Animation * dying_animation_;
-    */
     Weapon *weapon_;
 
     ugdk::uint32 last_standing_animation_;
@@ -124,7 +118,8 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     // variaveis
     Vector2D last_stable_position_;
-    int   life_, max_life_, mana_, max_mana_, sight_count_;
+    float life_, max_life_, mana_, max_mana_, mana_regen_;
+    int sight_count_;
 	double blink_time_;
     bool blink_;
     float original_speed_, speed_, attack_cool_down_, attack_duration_;

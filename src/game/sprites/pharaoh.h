@@ -23,7 +23,6 @@ class Pharaoh : public Mummy {
 
   protected:
 	Weapon *ranged_weapon_, *summon_weapon_;
-	double mana_regen_time_;
 
 	void Update(float delta_t);
 	bool CanAttackWithMeele(Vector2D diff);

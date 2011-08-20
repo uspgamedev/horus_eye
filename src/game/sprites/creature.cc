@@ -37,6 +37,7 @@ Creature::Creature() : WorldObject() {
     blink_ = false;
 	this->collision_type_ = MOVEABLE;
 	hit_duration_ = new TimeAccumulator(0);
+    mana_regen_ = 0.0f;
 }
 
 Creature::~Creature() {

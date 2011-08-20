@@ -52,17 +52,7 @@ Hero::Hero(Image* img) {
     directions_[Direction_::UP] = Vector2D(1, 1);
 
     // Animations
-    /*
-    InitializeStandingAnimations();
-    InitializeWalkingAnimations();
-    InitializeAttackingAnimations();
-
-    dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
-    */
-
     screen_center_ = Engine::reference()->window_size() * .5;
-
-    //dying_animation_->AddObserver(this);
 
     direction_mapping_[0] = Animation_::RIGHT;
     direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
@@ -74,7 +64,6 @@ Hero::Hero(Image* img) {
     direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
     animation_direction_ = 0;
-    //last_standing_animation_ = *standing_animations_[Animation_::DOWN];
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
     for (int i = 0; i < 4; i++) {
@@ -86,6 +75,7 @@ Hero::Hero(Image* img) {
     original_speed_ = speed_ = Constants::HERO_SPEED;
     life_ = max_life_ = MAX_LIFE;
     mana_ = max_mana_ = MAX_MANA;
+    mana_regen_ = Constants::HERO_MANA_REGEN;
     sight_count_ = 0;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     bound_ = new CircleObject(0.3f);
@@ -236,6 +226,7 @@ void Hero::Update(float delta_t) {
     }
     AdjustBlink(delta_t);
     speed_ = original_speed_;
+    set_mana(mana() + mana_regen_ * delta_t);
 }
 
 void Hero::Invulnerable(int time) {
