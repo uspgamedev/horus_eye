@@ -21,11 +21,13 @@ using namespace utils;
 
 namespace sprite {
 
+int Creature::direction_mapping_[8];
 uint32 Creature::standing_animations_[16];
 uint32 Creature::walking_animations_[16];
 uint32 Creature::attacking_animations_[8];
 uint32 Creature::taking_damage_animation_ = -1;
 uint32 Creature::dying_animation_ = -1;
+Vector2D Creature::directions_[4];
 
 AnimationSet* Creature::ANIMATIONS = NULL;
 
@@ -79,7 +81,6 @@ void Creature::AdjustBlink(float delta_t) {
         if (blink_time_->Expired()) {
             blink_ = !blink_;
             blink_time_->Restart();
-            //blink_time_ = 0;
         }
     } else 
         blink_ = false;
@@ -112,6 +113,20 @@ void Creature::InitializeAnimations() {
         InitializeStandingAnimations();
         taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
         dying_animation_ = ANIMATIONS->MakeIndex("DYING");
+
+        directions_[Direction_::RIGHT] = Vector2D(1, -1);
+        directions_[Direction_::LEFT] = Vector2D(-1, 1);
+        directions_[Direction_::DOWN] =  Vector2D(-1, -1);
+        directions_[Direction_::UP] = Vector2D(1, 1);
+
+        direction_mapping_[0] = Animation_::RIGHT;
+        direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
+        direction_mapping_[2] = Animation_::UP;
+        direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
+        direction_mapping_[4] = Animation_::LEFT;
+        direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
+        direction_mapping_[6] = Animation_::DOWN;
+        direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
     }
 }
 

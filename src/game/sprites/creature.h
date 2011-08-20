@@ -71,20 +71,16 @@ class Creature : public WorldObject , public ugdk::Observer {
   protected:
 	bool waiting_animation_;
     int animation_direction_;
-    int direction_mapping_[8];
-    Weapon *weapon_;
-
     ugdk::uint32 last_standing_animation_;
-
+    
+    static int direction_mapping_[8];
     static ugdk::uint32 standing_animations_[16];
     static ugdk::uint32 walking_animations_[16];
     static ugdk::uint32 attacking_animations_[8];
     static ugdk::uint32 taking_damage_animation_;
     static ugdk::uint32 dying_animation_;
-
     static ugdk::AnimationSet *ANIMATIONS;
-
-    Vector2D directions_[4];
+    static ugdk::Vector2D directions_[4];
     
     class Direction_ {
       public:
@@ -121,6 +117,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeAttackingAnimations();
 
     // variaveis
+    Weapon *weapon_;
     Vector2D last_stable_position_;
     float life_, max_life_, mana_, max_mana_, mana_regen_;
     int sight_count_;

@@ -44,22 +44,8 @@ Hero::Hero(Image* img) {
     }
     Initialize(img, ANIMATIONS);
 
-    directions_[Direction_::RIGHT] = Vector2D(1, -1);
-    directions_[Direction_::LEFT] = Vector2D(-1, 1);
-    directions_[Direction_::DOWN] =  Vector2D(-1, -1);
-    directions_[Direction_::UP] = Vector2D(1, 1);
-
     // Animations
     screen_center_ = Engine::reference()->window_size() * .5;
-
-    direction_mapping_[0] = Animation_::RIGHT;
-    direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
-    direction_mapping_[2] = Animation_::UP;
-    direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
-    direction_mapping_[4] = Animation_::LEFT;
-    direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
-    direction_mapping_[6] = Animation_::DOWN;
-    direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
     animation_direction_ = 0;
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
@@ -162,7 +148,6 @@ void Hero::GetKeys() {
         }
     }
 
-    //last_standing_animation_ = *(standing_animations_[animation_direction_]);
     if (animation_direction_)
         last_standing_animation_ = standing_animations_[animation_direction_];
 
@@ -184,7 +169,6 @@ void Hero::StartAttack() {
             screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    //last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
@@ -213,7 +197,6 @@ void Hero::Update(float delta_t) {
         } else {
             Creature::Move(this->GetWalkingDirection(), delta_t);
             this->GetKeys();
-            //this->SelectAnimation(*walking_animations_[animation_direction_]);
             if (animation_direction_)
                 this->SelectAnimation(walking_animations_[animation_direction_]);
             else
