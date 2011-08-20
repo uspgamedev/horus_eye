@@ -36,8 +36,6 @@ namespace sprite {
 
 #define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
-#define MAX_LIFE Constants::HERO_MAX_LIFE
-#define MAX_MANA Constants::HERO_MAX_MANA
 
 Hero::Hero(Image* img) {
     if(img == NULL){
@@ -73,14 +71,16 @@ Hero::Hero(Image* img) {
     set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
 						 static_cast<float>(HERO_HOTSPOT_Y)));
     original_speed_ = speed_ = Constants::HERO_SPEED;
-    life_ = max_life_ = MAX_LIFE;
-    mana_ = max_mana_ = MAX_MANA;
+
+    // Initializing life and mana
+    life_ = max_life_ = Constants::HERO_MAX_LIFE;
+    mana_ = max_mana_ = Constants::HERO_MAX_MANA;
     mana_regen_ = Constants::HERO_MANA_REGEN;
-    sight_count_ = 0;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     bound_ = new CircleObject(0.3f);
-    blink_time_ = 0;
-    blink_ = false;
+    invulnerability_time_ = 2000;
+    super_armor_ = true;
+
     slot_selected_ = -1;
     weapon_ = new HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
@@ -98,16 +98,12 @@ void Hero::ChangeSecondaryWeapon(int slot) {
     }
 }
 
-void Hero::TakeDamage(int life_points) {
-    if(hit_duration_->Expired()) {
-        Creature::TakeDamage(life_points);
-        Settings settings;
-        if(settings.sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
-        hit_duration_->Restart(2000);
-        blink_time_ = 0;
-    }
+void Hero::PlayHitSound() const {
+    Settings settings;
+    if(settings.sound_effects())
+        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
 }
+
 
 void Hero::CollidesWith(Mummy *obj) {
    speed_ /= 1.19f;

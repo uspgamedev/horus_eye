@@ -85,6 +85,7 @@ Mummy::Mummy(Image* img) {
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new TimeAccumulator(0);
+    invulnerability_time_ = 300;
 }
 
 Mummy::~Mummy() {
@@ -97,22 +98,9 @@ void Mummy::HandleCollision(WorldObject* obj) {
     obj->CollidesWith(this);
 }
 
-void Mummy::TakeDamage(int life_points) {
-    if(hit_duration_->Expired()) {
-        Creature::TakeDamage(life_points);
-        PlayHitSound();
-        if(life_ > 0) {
-            hit_duration_->Restart(300);
-            blink_time_ = 0;
-            waiting_animation_ = true;
-            this->SelectAnimation(taking_damage_animation_);
-        }
-        else{
-			this->Die();
-
-        }
-        standing_ = false;
-    }
+void Mummy::TakeDamage(float life_points) {
+    Creature::TakeDamage(life_points);
+    standing_ = false;
 }
 
 void Mummy::CollidesWith(Mummy *obj) {
@@ -124,7 +112,6 @@ void Mummy::StartAttack(Creature* obj) {
     float attackAngle = GetAttackingAngle(obj->position() - position());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    //last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }

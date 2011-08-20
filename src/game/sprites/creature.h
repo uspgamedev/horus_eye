@@ -47,13 +47,16 @@ class Creature : public WorldObject , public ugdk::Observer {
 		if (mana_ < 0.0f) mana_ = 0.0f;
 		if (mana_ > max_mana_) mana_ = max_mana_;
 	}
-    int max_mana() { return  max_mana_; }
+    float max_mana() { return  max_mana_; }
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
+
+    void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
+
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
-    virtual void TakeDamage(int life_points = 1);
+    virtual void TakeDamage(float life_points);
     void set_weapon(Weapon *weapon) { weapon_ = weapon; }
 
     // Colisoes
@@ -101,6 +104,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     virtual void Update(float dt) { UpdateCondition(dt); WorldObject::Update(dt); }
 	virtual void Render();
+    virtual void PlayHitSound() const {}
 
     // funcoes
     void AdjustBlink(float delta_t);
@@ -120,8 +124,19 @@ class Creature : public WorldObject , public ugdk::Observer {
     Vector2D last_stable_position_;
     float life_, max_life_, mana_, max_mana_, mana_regen_;
     int sight_count_;
-	double blink_time_;
+
+    // When true, this creature does not flinch when hit.
+    bool super_armor_;
+
+    // For how much time this creature will be invulnerable after taking a hit.
+    int invulnerability_time_;
+
+    // When true, this Creature is on the invisible part of the blinking effect.
     bool blink_;
+
+    // Controls when to toggle the blink_ flag.
+    ugdk::TimeAccumulator *blink_time_;
+
     float original_speed_, speed_, attack_cool_down_, attack_duration_;
     ugdk::TimeAccumulator *hit_duration_;
     ugdk::Vector2D walking_direction_, looking_direction_;

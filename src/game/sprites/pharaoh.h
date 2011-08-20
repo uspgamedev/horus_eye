@@ -15,7 +15,6 @@ class Pharaoh : public Mummy {
     Pharaoh(ugdk::Image* image, int life, int mana);
     ~Pharaoh();
 
-	void TakeDamage(int life_points = 1);
 	void set_ranged_weapon(Weapon *weapon) { ranged_weapon_ = weapon; }
 	void set_summon_weapon(Weapon *weapon) { summon_weapon_ = weapon; }
 

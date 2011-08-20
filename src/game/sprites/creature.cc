@@ -33,35 +33,20 @@ Creature::Creature() : WorldObject() {
 	last_stable_position_ = Vector2D(0,0);
 	hit_duration_ = NULL;
 	waiting_animation_ = false;
+    sight_count_ = 0;
+    super_armor_ = 0;
 	blink_time_ = 0;
     blink_ = false;
 	this->collision_type_ = MOVEABLE;
 	hit_duration_ = new TimeAccumulator(0);
+    blink_time_ = new TimeAccumulator(75);
     mana_regen_ = 0.0f;
+    invulnerability_time_ = 0;
 }
 
 Creature::~Creature() {
-
     if (hit_duration_) delete hit_duration_;
-
-    // Para evitar double free.
-    //SelectAnimation(NULL);
-
-    // Remove todas as animações.
-    /*
-    for (int i = 0; i < 8; i++) {
-        delete *standing_animations_[direction_mapping_[i]];
-        free(standing_animations_[direction_mapping_[i]]);
-        delete *walking_animations_[direction_mapping_[i]];
-        free(walking_animations_[direction_mapping_[i]]);
-    }
-
-    for (int i = 0; i < 8; i++) {
-        delete attacking_animations_[i];
-    }
-    delete dying_animation_;
-    */
-
+    if (blink_time_) delete blink_time_;
 }
 
 void Creature::Initialize(Drawable *image, AnimationSet *set,
@@ -91,25 +76,32 @@ void Creature::UpdateCondition(float dt) {
 
 void Creature::AdjustBlink(float delta_t) {
     if (!hit_duration_->Expired()) {
-        blink_time_ += delta_t;
-        if (blink_time_ > 0.05) {
+        if (blink_time_->Expired()) {
             blink_ = !blink_;
-            blink_time_ = 0;
+            blink_time_->Restart();
+            //blink_time_ = 0;
         }
-    } else if (blink_) {
+    } else 
         blink_ = false;
-    }
 }
 
-void Creature::TakeDamage(int life_points) {
+void Creature::TakeDamage(float life_points) {
+    if(!hit_duration_->Expired()) return;
+    fprintf(stderr, "Decreasing life of %d from %f to %f (dmg = %f)\n", (int) this, life_, life_ - life_points, life_points);
+    PlayHitSound();
     life_ -= life_points;
-    if(life_ <= 0) {
+    if(life_ <= 0.0f) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
             this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
             this->collision_type_ = WorldObject::NO_COLLISION;
         }
+    } else if(!super_armor_) {
+        waiting_animation_ = true;
+        this->SelectAnimation(taking_damage_animation_);
     }
+    hit_duration_->Restart(invulnerability_time_);
+    blink_time_->Restart();
 }
 
 void Creature::InitializeAnimations() {
@@ -139,12 +131,6 @@ void Creature::InitializeAttackingAnimations() {
 }
 
 void Creature::InitializeWalkingAnimations() {
-    /*
-    for (int i = 0; i < 16; i++) {
-        walking_animations__[i] = (Animation **) malloc (sizeof (Animation *));
-        *walking_animations_[i] = NULL;
-    }
-    */
     for (int i = 0; i < 16; i++)
         walking_animations_[i] = -1;
     walking_animations_[Animation_::DOWN] = ANIMATIONS->MakeIndex("WALKING_DOWN");
@@ -159,23 +145,9 @@ void Creature::InitializeWalkingAnimations() {
             ANIMATIONS->MakeIndex("WALKING_UP_RIGHT");
     walking_animations_[Animation_::UP | Animation_::LEFT] =
             ANIMATIONS->MakeIndex("WALKING_UP_LEFT");
-    /*
-    for (int i = 0; i < 16; i++) {
-        if (*walking_animations_[i] == NULL) {
-            free(walking_animations_[i]);
-            walking_animations_[i] = &last_standing_animation_;
-        }
-    }
-    */
 }
 
 void Creature::InitializeStandingAnimations() {
-    /*
-    for (int i = 0; i < 16; i++) {
-        standing_animations_[i] = (Animation **) malloc (sizeof (Animation *));
-        *standing_animations_[i] = NULL;
-    }
-    */
     for (int i = 0; i < 16; i++)
         standing_animations_[i] = -1;
     ANIMATIONS->Add("STANDING_DOWN", 4, -1);
@@ -202,14 +174,6 @@ void Creature::InitializeStandingAnimations() {
     ANIMATIONS->Add("STANDING_UP_LEFT", 8, -1);
     standing_animations_[Animation_::UP | Animation_::LEFT] =
             ANIMATIONS->MakeIndex("STANDING_UP_LEFT");
-    /*
-    for (int i = 0; i < 16; i++) {
-        if (*standing_animations_[i] == NULL) {
-            free(standing_animations_[i]);
-            standing_animations_[i] = &last_standing_animation_;
-        }
-    }
-    */
 }
 
 void Creature::Move(Vector2D direction, float delta_t) {
@@ -256,7 +220,7 @@ void Creature::CollideWithRect(const RectObject *rect) {
 
 void Creature::Tick() {
     if (status_ == WorldObject::STATUS_DYING) {
-            status_ = WorldObject::STATUS_DEAD;
+        status_ = WorldObject::STATUS_DEAD;
     }
 	waiting_animation_ = false;
 }
@@ -292,8 +256,7 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 }
 
 void Creature::Render() {
-    if (blink_) return;
-    	WorldObject::Render();
+    if (!blink_) WorldObject::Render();
 }
 
 }  // namespace sprite

@@ -39,23 +39,23 @@ class Constants {
                        TOTEM_OFFSET_X = 36,
                        TOTEM_OFFSET_Y = 80,
 
-					   MUMMY_LIFE = 200,
+					   MUMMY_LIFE = 400,
 					   MUMMY_DAMAGE = 200,
 
-                       RANGED_MUMMY_LIFE = 200,
+                       RANGED_MUMMY_LIFE = 400,
                        RANGED_MUMMY_DAMAGE = 200,
 
-                       BIG_MUMMY_LIFE = 600,
+                       BIG_MUMMY_LIFE = 1200,
                        BIG_MUMMY_DAMAGE = 300,
 
-                       FIREBALL_EXPLOSION_DAMAGE = 300,
+                       FIREBALL_EXPLOSION_DAMAGE = 200,
                        FIREBALL_COST = 200,
                        QUAKE_EXPLOSION_DAMAGE = 400,
                        QUAKE_COST = 300,
-                       LIGHTNING_DAMAGE = 200,
+                       LIGHTNING_DAMAGE = 150,
                        LIGHTNING_COST = 100,
 
-					   PHARAOH_LIFE = 3500,
+					   PHARAOH_LIFE = 6000,
 					   PHARAOH_MANA = 200,
 					   PHARAOH_SUMMON_MANA_COST = 60,
 					   PHARAOH_DAMAGE = 400,

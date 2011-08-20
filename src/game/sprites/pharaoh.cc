@@ -22,23 +22,13 @@ Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;
+    invulnerability_time_ = 1000;
+    super_armor_ = true;
 }
 
 Pharaoh::~Pharaoh() {
 	delete ranged_weapon_;
 	delete summon_weapon_;
-}
-
-void Pharaoh::TakeDamage(int life_points) {
-	if(hit_duration_->Expired()){
-		Creature::TakeDamage(life_points);
-		PlayHitSound();
-		if(life_ > 0) {
-			hit_duration_->Restart(1000);
-			blink_time_ = 0;
-		}
-		standing_ = false;
-	}
 }
 
 void Pharaoh::Update(float delta_t) {
