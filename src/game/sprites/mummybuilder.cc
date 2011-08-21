@@ -48,6 +48,7 @@ Mummy * MummyBuilder::StandingBigMummy(ugdk::Image *image) {
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
 	mummy->set_weapon(new MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
+    mummy->set_super_armor(true);
     if(image) mummy->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
 
     return mummy;

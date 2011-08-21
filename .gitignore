@@ -16,3 +16,6 @@
 *.vsp
 /src/game/build
 settings.bin
+
+/Windows Release
+/Default

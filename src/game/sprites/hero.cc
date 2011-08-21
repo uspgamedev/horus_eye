@@ -36,8 +36,6 @@ namespace sprite {
 
 #define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
-#define MAX_LIFE Constants::HERO_MAX_LIFE
-#define MAX_MANA Constants::HERO_MAX_MANA
 
 Hero::Hero(Image* img) {
     if(img == NULL){
@@ -46,35 +44,10 @@ Hero::Hero(Image* img) {
     }
     Initialize(img, ANIMATIONS);
 
-    directions_[Direction_::RIGHT] = Vector2D(1, -1);
-    directions_[Direction_::LEFT] = Vector2D(-1, 1);
-    directions_[Direction_::DOWN] =  Vector2D(-1, -1);
-    directions_[Direction_::UP] = Vector2D(1, 1);
-
     // Animations
-    /*
-    InitializeStandingAnimations();
-    InitializeWalkingAnimations();
-    InitializeAttackingAnimations();
-
-    dying_animation_ = new Animation(10, 80, 81, 82, 83, 84, 90, 91, -1);
-    */
-
     screen_center_ = Engine::reference()->window_size() * .5;
 
-    //dying_animation_->AddObserver(this);
-
-    direction_mapping_[0] = Animation_::RIGHT;
-    direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
-    direction_mapping_[2] = Animation_::UP;
-    direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
-    direction_mapping_[4] = Animation_::LEFT;
-    direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
-    direction_mapping_[6] = Animation_::DOWN;
-    direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
-
     animation_direction_ = 0;
-    //last_standing_animation_ = *standing_animations_[Animation_::DOWN];
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
     for (int i = 0; i < 4; i++) {
@@ -84,13 +57,16 @@ Hero::Hero(Image* img) {
     set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
 						 static_cast<float>(HERO_HOTSPOT_Y)));
     original_speed_ = speed_ = Constants::HERO_SPEED;
-    life_ = max_life_ = MAX_LIFE;
-    mana_ = max_mana_ = MAX_MANA;
-    sight_count_ = 0;
+
+    // Initializing life and mana
+    life_ = max_life_ = Constants::HERO_MAX_LIFE;
+    mana_ = max_mana_ = Constants::HERO_MAX_MANA;
+    mana_regen_ = Constants::HERO_MANA_REGEN;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     bound_ = new CircleObject(0.3f);
-    blink_time_ = 0;
-    blink_ = false;
+    invulnerability_time_ = 2000;
+    super_armor_ = true;
+
     slot_selected_ = -1;
     weapon_ = new HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
@@ -108,16 +84,12 @@ void Hero::ChangeSecondaryWeapon(int slot) {
     }
 }
 
-void Hero::TakeDamage(int life_points) {
-    if(hit_duration_->Expired()) {
-        Creature::TakeDamage(life_points);
-        Settings settings;
-        if(settings.sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
-        hit_duration_->Restart(2000);
-        blink_time_ = 0;
-    }
+void Hero::PlayHitSound() const {
+    Settings settings;
+    if(settings.sound_effects())
+        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
 }
+
 
 void Hero::CollidesWith(Mummy *obj) {
    speed_ /= 1.19f;
@@ -176,7 +148,6 @@ void Hero::GetKeys() {
         }
     }
 
-    //last_standing_animation_ = *(standing_animations_[animation_direction_]);
     if (animation_direction_)
         last_standing_animation_ = standing_animations_[animation_direction_];
 
@@ -198,7 +169,6 @@ void Hero::StartAttack() {
             screen_center_ + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    //last_standing_animation_ = *standing_animations_[direction_mapping_[attackAnimationIndex]];
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
@@ -227,7 +197,6 @@ void Hero::Update(float delta_t) {
         } else {
             Creature::Move(this->GetWalkingDirection(), delta_t);
             this->GetKeys();
-            //this->SelectAnimation(*walking_animations_[animation_direction_]);
             if (animation_direction_)
                 this->SelectAnimation(walking_animations_[animation_direction_]);
             else
@@ -236,6 +205,7 @@ void Hero::Update(float delta_t) {
     }
     AdjustBlink(delta_t);
     speed_ = original_speed_;
+    set_mana(mana() + mana_regen_ * delta_t);
 }
 
 void Hero::Invulnerable(int time) {

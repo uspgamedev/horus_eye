@@ -29,6 +29,9 @@ const float Constants::LIGHT_RADIUS_THRESHOLD = 0.25f;
 const float Constants::LIGHT_RADIUS_INITIAL = 6.0f;
 
 const float Constants::HERO_SPEED = 4.0f;
+const float Constants::HERO_MAX_LIFE = 1000.0f;
+const float Constants::HERO_MAX_MANA = 1000.0f;
+const float Constants::HERO_MANA_REGEN = 10.0f;
 
 const float Constants::PROJECTILE_SPEED = 8.0f;
 const float Constants::PROJECTILE_SPRITE_CENTER_X = 16.0f;
@@ -62,10 +65,11 @@ const float Constants::RANGED_MUMMY_RANGE = 5.0f;
 const float Constants::BIG_MUMMY_RADIUS = 0.5f;
 const float Constants::BIG_MUMMY_SPEED = 2.0f;
 
+
 const float Constants::PHARAOH_RADIUS = 0.45f;
 const float Constants::PHARAOH_SPEED = 3.3f;
 const float Constants::PHARAOH_SUMMON_RANGE = 2.0f;
-const float Constants::PHARAOH_MANA_REGEN_RATE = 2.0f;
+const float Constants::PHARAOH_MANA_REGEN = 20.0f;
 
 const float Constants::POTION_SPRITE_CENTER_X = 15.0f;
 const float Constants::POTION_SPRITE_CENTER_Y = 15.0f;
