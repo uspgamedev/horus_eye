@@ -15,6 +15,7 @@
 *.sdf
 *.vsp
 /src/game/build
+/src/game/config.h
 settings.bin
 
 /Windows Release

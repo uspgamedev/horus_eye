@@ -172,7 +172,7 @@ ENDIF(UNIX)
 SET(USER_HOME "$ENV{HOME}")
 
 CONFIGURE_FILE(
-    "${PROJECT_SOURCE_DIR}/config.h.in"
-    "${PROJECT_SOURCE_DIR}/config.h"
+    "${PROJECT_SOURCE_DIR}/src/game/config.h.in"
+    "${PROJECT_SOURCE_DIR}/src/game/config.h"
 )
 
