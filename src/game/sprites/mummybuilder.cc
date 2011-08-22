@@ -3,7 +3,7 @@
 #include "weapons/mummyrangedweapon.h"
 #include "weapons/pharaohrangedweapon.h"
 #include "weapons/pharaohsummonweapon.h"
-#include "../../framework/image.h"
+#include "ugdk/image.h"
 
 using namespace sprite;
 using namespace utils;

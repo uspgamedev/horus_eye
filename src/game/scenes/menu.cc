@@ -1,9 +1,9 @@
 #include <cstdlib>
 #include <string>
 #include "menu.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
+#include "ugdk/engine.h"
+#include "ugdk/videomanager.h"
+#include "ugdk/inputmanager.h"
 #include "../utils/levelloader.h"
 #include "../utils/levelmanager.h"
 #include "../scenes/imagescene.h"

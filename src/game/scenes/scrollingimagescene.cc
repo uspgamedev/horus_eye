@@ -1,5 +1,5 @@
 #include "scrollingimagescene.h"
-#include "../../framework/engine.h"
+#include "ugdk/engine.h"
 namespace scene {
 
 #define BG  0

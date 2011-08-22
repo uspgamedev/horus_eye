@@ -1,14 +1,14 @@
 #include <cmath>
 #include <iostream>
 
-#include "../../framework/engine.h"
-#include "../../framework/scene.h"
-#include "../../framework/animation.h"
-#include "../../framework/sprite.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/timehandler.h"
-#include "../../framework/audiomanager.h"
+#include "ugdk/engine.h"
+#include "ugdk/scene.h"
+#include "ugdk/animation.h"
+#include "ugdk/sprite.h"
+#include "ugdk/videomanager.h"
+#include "ugdk/inputmanager.h"
+#include "ugdk/timehandler.h"
+#include "ugdk/audiomanager.h"
 
 #include "../scenes/world.h"
 #include "../utils/imagefactory.h"

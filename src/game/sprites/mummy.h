@@ -3,7 +3,7 @@
 
 #include <queue>
 #include "creature.h"
-#include "../../framework/vector2D.h"
+#include "ugdk/vector2D.h"
 #include "../utils/circleobject.h"
 
 #define TIME_TO_THINK 0.1f
