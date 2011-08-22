@@ -268,7 +268,6 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
     }
-    printf("%f\n", radianAngle);
 	return radianAngle;
 }
 
