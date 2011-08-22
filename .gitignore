@@ -21,3 +21,6 @@ settings.bin
 
 /Windows Release
 /Default
+
+/bin
+/tmp
