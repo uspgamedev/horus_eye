@@ -3,8 +3,8 @@
 
 #define StarWars ImageScene
 
-#include "../../framework/scene.h"
-#include "../../framework/image.h"
+#include "ugdk/scene.h"
+#include "ugdk/image.h"
 
 namespace scene {
 

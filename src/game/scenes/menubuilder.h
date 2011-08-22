@@ -4,7 +4,7 @@
 #include "menuhandler.h"
 #include "pagemanager.h"
 #include <vector>
-#include "../../framework/sprite.h"
+#include "ugdk/sprite.h"
 
 namespace ugdk {
 class Image;

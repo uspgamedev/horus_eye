@@ -2,10 +2,10 @@
 #define HORUSEYE_GAME_SPRITE_CREATURE_H_
 
 #include <list>
-#include "../../framework/sprite.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/timeaccumulator.h"
-#include "../../framework/observer.h"
+#include "ugdk/sprite.h"
+#include "ugdk/vector2D.h"
+#include "ugdk/timeaccumulator.h"
+#include "ugdk/observer.h"
 #include "../utils/rectobject.h"
 #include "condition.h"
 #include "worldobject.h"

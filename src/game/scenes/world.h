@@ -3,8 +3,8 @@
 
 #include <list>
 #include <vector>
-#include "../../framework/scene.h"
-#include "../../framework/vector2D.h"
+#include "ugdk/scene.h"
+#include "ugdk/vector2D.h"
 #include "../utils/levelmanager.h"
 #include "../utils/tile.h"
 

@@ -1,8 +1,8 @@
 #ifndef HORUSEYE_GAME_UTILS_SETTINGS_H_
 #define HORUSEYE_GAME_UTILS_SETTINGS_H_
 
-#include "../../framework/vector2D.h"
-#include "../../framework/types.h"
+#include "ugdk/vector2D.h"
+#include "ugdk/types.h"
 
 namespace utils {
 

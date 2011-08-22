@@ -2,8 +2,8 @@
 #define HORUSEYE_GAME_SPRITES_EXPLOSION_H_
 
 #include "worldobject.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/observer.h"
+#include "ugdk/vector2D.h"
+#include "ugdk/observer.h"
 
 namespace ugdk {
 class TimeAccumulator;

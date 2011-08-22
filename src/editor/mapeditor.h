@@ -1,10 +1,11 @@
 #ifndef HORUSEYE_EDITOR_MAPEDITOR_H_
 #define HORUSEYE_EDITOR_MAPEDITOR_H_
 
+#include <cstdlib>
 #include <string>
 #include <vector>
-#include "../framework/scene.h"
-#include "../framework/layer.h"
+#include "ugdk/scene.h"
+#include "ugdk/layer.h"
 
 namespace editor {
 

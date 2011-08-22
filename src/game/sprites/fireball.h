@@ -4,7 +4,7 @@
 #include "worldobject.h"
 #include "explosion.h"
 #include "magicmissile.h"
-#include "../../framework/vector2D.h"
+#include "ugdk/vector2D.h"
 
 namespace sprite {
 

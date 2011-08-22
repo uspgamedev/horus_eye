@@ -1,10 +1,10 @@
 #include "imagescene.h"
-#include "../../framework/engine.h"
-#include "../../framework/layer.h"
-#include "../../framework/sprite.h"
-#include "../../framework/inputmanager.h"
+#include "ugdk/engine.h"
+#include "ugdk/layer.h"
+#include "ugdk/sprite.h"
+#include "ugdk/inputmanager.h"
 #include "../utils/levelmanager.h"
-#include "../../framework/keys.h"
+#include "ugdk/keys.h"
 
 namespace scene {
 

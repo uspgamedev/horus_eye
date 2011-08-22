@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SCENES_LOADING_H_
 #define HORUSEYE_GAME_SCENES_LOADING_H_
 
-#include "../../framework/scene.h"
+#include "ugdk/scene.h"
 
 namespace scene {
 

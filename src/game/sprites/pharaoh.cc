@@ -4,7 +4,7 @@
 #include "pharaoh.h"
 #include "weapons/weapon.h"
 #include "mummybuilder.h"
-#include "../../framework/vector2D.h"
+#include "ugdk/vector2D.h"
 using namespace std;
 using namespace ugdk;
 using namespace scene;

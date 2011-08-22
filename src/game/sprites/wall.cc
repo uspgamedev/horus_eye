@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../../framework/engine.h"
-#include "../../framework/animation.h"
+#include "ugdk/engine.h"
+#include "ugdk/animation.h"
 #include "wall.h"
 #include "hero.h"
 #include "../scenes/world.h"

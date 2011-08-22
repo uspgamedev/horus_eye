@@ -1,8 +1,8 @@
 #include "hudimagefactory.h"
 #include "../config.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/image.h"
+#include "ugdk/engine.h"
+#include "ugdk/videomanager.h"
+#include "ugdk/image.h"
 #include "constants.h"
 
 using namespace ugdk;

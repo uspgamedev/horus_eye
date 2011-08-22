@@ -1,6 +1,6 @@
 #include "door.h"
-#include "../../framework/engine.h"
-#include "../../framework/image.h"
+#include "ugdk/engine.h"
+#include "ugdk/image.h"
 #include "../scenes/world.h"
 #include "../utils/rectobject.h"
 #include "../utils/levelmanager.h"

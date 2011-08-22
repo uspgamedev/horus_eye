@@ -19,9 +19,9 @@
 #define POTIONM                  'N'
 #define POTIONS                  'S'
 
-//#include "../framework/texture.h"
-#include "../framework/image.h"
-#include "../framework/sprite.h"
+//#include "ugdk/texture.h"
+#include "ugdk/image.h"
+#include "ugdk/sprite.h"
 
 namespace editor {
 

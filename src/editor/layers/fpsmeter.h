@@ -1,9 +1,9 @@
 #ifndef HORUSEYE_EDITOR_LAYERS_FPSMETER_H_
 #define HORUSEYE_EDITOR_LAYERS_FPSMETER_H_
 
-#include "../../framework/layer.h"
-#include "../../framework/sprite.h"
-#include "../../framework/animationset.h"
+#include "ugdk/layer.h"
+#include "ugdk/sprite.h"
+#include "ugdk/animationset.h"
 
 namespace editor {
 

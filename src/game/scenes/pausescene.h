@@ -1,7 +1,7 @@
 #ifndef PAUSESCENE_H_
 #define PAUSESCENE_H_
 
-#include "../../framework/scene.h"
+#include "ugdk/scene.h"
 
 namespace ugdk {
 class Image;
