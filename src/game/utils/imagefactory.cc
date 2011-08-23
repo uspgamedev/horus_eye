@@ -29,8 +29,8 @@ namespace utils {
         magicmissile_image_ = VIDEO_MANAGER()->LoadImage("data/images/blue_fire_ball.png");
         if(magicmissile_image_) magicmissile_image_->set_frame_size( Vector2D(32, 32) );
 
-        fireball_image_ = VIDEO_MANAGER()->LoadImage("data/images/fire_ball.png");
-        if(fireball_image_) fireball_image_->set_frame_size( Vector2D(32, 32) );
+        fireball_image_ = VIDEO_MANAGER()->LoadImage("data/images/fireball_0.png");
+        if(fireball_image_) fireball_image_->set_frame_size( Vector2D(64, 64) );
 
         mummy_projectile_image_ = VIDEO_MANAGER()->LoadImage("data/images/green_fire_ball.png");
         if(mummy_projectile_image_) mummy_projectile_image_->set_frame_size( Vector2D(32, 32) );

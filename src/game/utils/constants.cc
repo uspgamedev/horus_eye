@@ -43,6 +43,11 @@ const float Constants::LIGHTNING_SPRITE_CENTER_X = 32.0f;
 const float Constants::LIGHTNING_SPRITE_CENTER_Y = 32.0f;
 const float Constants::LIGHTNING_HEIGHT = 12.0f;
 
+const float Constants::FIREBALL_SPEED = 10.0f;
+const float Constants::FIREBALL_SPRITE_CENTER_X = 32.0f;
+const float Constants::FIREBALL_SPRITE_CENTER_Y = 32.0f;
+const float Constants::FIREBALL_HEIGHT = 12.0f;
+
 const float Constants::EXPLOSION_SPEED = 8.0f;
 const float Constants::EXPLOSION_SPRITE_CENTER_X = 128.0f;
 const float Constants::EXPLOSION_SPRITE_CENTER_Y = 64.0f;

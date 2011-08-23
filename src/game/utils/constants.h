@@ -18,6 +18,10 @@ class Constants {
                        LIGHTNING_SPRITE_WIDTH = 64,
                        LIGHTNING_SPRITE_HEIGHT = 64,
                        LIGHTNING_DURATION = 3500,
+
+                       FIREBALL_SPRITE_WIDTH = 64,
+                       FIREBALL_SPRITE_HEIGHT = 64,
+                       FIREBALL_DURATION = 3500,
                        
                        PROJECTILE_DAMAGE = 200,
 
@@ -107,6 +111,11 @@ class Constants {
         LIGHTNING_SPRITE_CENTER_Y,
 		LIGHTNING_HEIGHT,
 
+        FIREBALL_SPEED,
+		FIREBALL_SPRITE_CENTER_X,
+        FIREBALL_SPRITE_CENTER_Y,
+		FIREBALL_HEIGHT,
+              
 		EXPLOSION_SPEED,
 		EXPLOSION_SPRITE_CENTER_X,
         EXPLOSION_SPRITE_CENTER_Y,

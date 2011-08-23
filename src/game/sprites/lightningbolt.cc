@@ -38,7 +38,7 @@ Projectile(Constants::LIGHTNING_DAMAGE, Constants::LIGHTNING_SPEED, Constants::L
 
     float raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
     float angle = (raw_angle / acos(-1.0f)) + 1.0f;
-    int animation_index = (int)((angle * 4.0f) + 0.25f);
+    int animation_index = (int)((angle * 4.0f) + 0.5f);
     this->SelectAnimation(animation_index % 8);
 }
 

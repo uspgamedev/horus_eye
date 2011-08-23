@@ -10,7 +10,7 @@ namespace sprite {
 
 class Mummy;
 
-class Fireball : public MagicMissile {
+class Fireball : public Projectile {
   public:
     Fireball(ugdk::Vector2D &dir, Explosion *explosion);
     virtual ~Fireball();
@@ -22,6 +22,10 @@ class Fireball : public MagicMissile {
   protected:
     virtual void Explode();
     Explosion *explosion_;
+
+    void InitializeAnimations();
+    static ugdk::AnimationSet *ANIMATIONS;
+    static ugdk::uint32 attacking_animations_[8];
 };
 
 }
