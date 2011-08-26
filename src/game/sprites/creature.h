@@ -2,10 +2,10 @@
 #define HORUSEYE_GAME_SPRITE_CREATURE_H_
 
 #include <list>
-#include "../../framework/sprite.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/timeaccumulator.h"
-#include "../../framework/observer.h"
+#include "ugdk/sprite.h"
+#include "ugdk/vector2D.h"
+#include "ugdk/timeaccumulator.h"
+#include "ugdk/observer.h"
 #include "../utils/rectobject.h"
 #include "condition.h"
 #include "worldobject.h"
@@ -33,25 +33,30 @@ class Creature : public WorldObject , public ugdk::Observer {
                     ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
-    int life() { return life_; }
-	void set_life(int life) {
+    float life() { return life_; }
+	void set_life(float life) {
 		life_ = life;
-		if (life_ < 0) life_ = 0;
+		if (life_ < 0.0f) life_ = 0.0f;
 		if (life_ > max_life_) life_ = max_life_;
 	}
-    int max_life() { return  max_life_; }
-    int mana() { return mana_; }
-	void set_mana(int mana) {
+    float max_life() { return  max_life_; }
+
+    float mana() { return mana_; }
+	void set_mana(float mana) {
 		mana_ = mana;
-		if (mana_ < 0) mana_ = 0;
+		if (mana_ < 0.0f) mana_ = 0.0f;
 		if (mana_ > max_mana_) mana_ = max_mana_;
 	}
-    int max_mana() { return  max_mana_; }
+    float max_mana() { return  max_mana_; }
+
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
+
+    void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
+
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
-    virtual void TakeDamage(int life_points = 1);
+    virtual void TakeDamage(float life_points);
     void set_weapon(Weapon *weapon) { weapon_ = weapon; }
 
     // Colisoes
@@ -66,28 +71,16 @@ class Creature : public WorldObject , public ugdk::Observer {
   protected:
 	bool waiting_animation_;
     int animation_direction_;
-    int direction_mapping_[8];
-    /*
-    Animation *last_standing_animation_;
-    Animation ** standing_animations_[16];
-    Animation ** walking_animations_[16];
-    Animation * attacking_animations_[8];
-    Animation * taking_damage_animation_;
-    Animation * dying_animation_;
-    */
-    Weapon *weapon_;
-
     ugdk::uint32 last_standing_animation_;
-
+    
+    static int direction_mapping_[8];
     static ugdk::uint32 standing_animations_[16];
     static ugdk::uint32 walking_animations_[16];
     static ugdk::uint32 attacking_animations_[8];
     static ugdk::uint32 taking_damage_animation_;
     static ugdk::uint32 dying_animation_;
-
     static ugdk::AnimationSet *ANIMATIONS;
-
-    Vector2D directions_[4];
+    static ugdk::Vector2D directions_[4];
     
     class Direction_ {
       public:
@@ -107,6 +100,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     virtual void Update(float dt) { UpdateCondition(dt); WorldObject::Update(dt); }
 	virtual void Render();
+    virtual void PlayHitSound() const {}
 
     // funcoes
     void AdjustBlink(float delta_t);
@@ -122,14 +116,40 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
 
-    // variaveis
+    // The base weapon this creature uses.
+    Weapon *weapon_;
+
+    // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
-    int   life_, max_life_, mana_, max_mana_, sight_count_;
-	double blink_time_;
+    float life_, max_life_, mana_, max_mana_, mana_regen_;
+
+    // How many sight buffs this creature has.
+    int sight_count_;
+
+    // When true, this creature does not flinch when hit.
+    bool super_armor_;
+
+    // For how much time this creature will be invulnerable after taking a hit.
+    int invulnerability_time_;
+
+    // When true, this Creature is on the invisible part of the blinking effect.
     bool blink_;
-    float original_speed_, speed_, attack_cool_down_, attack_duration_;
+
+    // Controls when to toggle the blink_ flag.
+    ugdk::TimeAccumulator *blink_time_;
+
+    // Controls the invulnerability after being hit.
     ugdk::TimeAccumulator *hit_duration_;
-    ugdk::Vector2D walking_direction_, looking_direction_;
+
+    // How fast this creature moves per second.
+    float speed_;
+
+    // Stores the original speed, so one can alter the speed temporarily.
+    float original_speed_;
+
+    ugdk::Vector2D walking_direction_;
+
+    // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
 
 };  // class Creature

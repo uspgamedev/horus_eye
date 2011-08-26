@@ -1,11 +1,11 @@
 #include <cstdlib>
 #include <string>
 #include "pagemanager.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/sprite.h"
-#include "../../framework/animation.h"
+#include "ugdk/engine.h"
+#include "ugdk/videomanager.h"
+#include "ugdk/inputmanager.h"
+#include "ugdk/sprite.h"
+#include "ugdk/animation.h"
 #include "../utils/levelloader.h"
 #include "../utils/levelmanager.h"
 #include "../scenes/imagescene.h"

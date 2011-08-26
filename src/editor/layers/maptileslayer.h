@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_EDITOR_LAYERS_MAPTILESLAYER_H_
 #define HORUSEYE_EDITOR_LAYERS_MAPTILESLAYER_H_
 
-#include "../../framework/layer.h"
+#include "ugdk/layer.h"
 #include "../mapeditor.h"
 
 namespace editor {

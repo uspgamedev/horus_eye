@@ -2,8 +2,8 @@
 #define HORUSEYE_GAME_SPRITE_HERO_H_
 
 #include "creature.h"
-#include "../../framework/image.h"
-#include "../../framework/vector2D.h"
+#include "ugdk/image.h"
+#include "ugdk/vector2D.h"
 #include <map>
 
 namespace sprite {
@@ -14,8 +14,8 @@ class Hero : public Creature {
 
   public:
     Hero(ugdk::Image* img = NULL);
-    ~Hero() {} 
-    void TakeDamage(int life_points = 1);
+    ~Hero() {}
+
     virtual void CollidesWith(Mummy *);
     virtual void CollidesWith(MummyProjectile *);
     virtual void HandleCollision(WorldObject *);
@@ -35,6 +35,7 @@ class Hero : public Creature {
     Weapon *secondary_weapon_;
 
     virtual void Update(float delta_t);
+    virtual void PlayHitSound() const;
     
     bool ShootingWithWeapon();
     bool ShootingWithSecondaryWeapon();

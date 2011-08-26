@@ -5,7 +5,7 @@
 #include "../../game/scenes/pagemanager.h"
 #include "../../game/scenes/menubuilder.h"
 #include <vector>
-#include "../../framework/sprite.h"
+#include "ugdk/sprite.h"
 
 namespace ugdk {
 class Drawable;

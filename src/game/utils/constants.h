@@ -19,19 +19,17 @@ class Constants {
                        LIGHTNING_SPRITE_HEIGHT = 64,
                        LIGHTNING_DURATION = 3500,
                        
-                       PROJECTILE_DAMAGE = 10,
-                       EXPLOSION_DAMAGE = 1,
+                       PROJECTILE_DAMAGE = 200,
 
-                       LIFEPOTION_RECOVER_LIFE = 10,
-                       MANAPOTION_RECOVER_MANA = 10,
+                       LIFEPOTION_RECOVER_LIFE = 200,
+                       MANAPOTION_RECOVER_MANA = 200,
                        
-                       HERO_MAX_LIFE = 50,
-                       HERO_MAX_MANA = 50,
                        HERO_WIDTH = 110,
                        HERO_HEIGHT = 110,
                        HERO_HOTSPOT_X = 55,
                        HERO_HOTSPOT_Y = 102,
                        HERO_MAX_WEAPONS = 5,
+
                        SIGHT_POTION_MAX_STACK = 5,
 
                        LIFE_BAR_OFFSET_X = 36,
@@ -41,27 +39,27 @@ class Constants {
                        TOTEM_OFFSET_X = 36,
                        TOTEM_OFFSET_Y = 80,
 
-					   MUMMY_LIFE = 10,
-					   MUMMY_DAMAGE = 10,
+					   MUMMY_LIFE = 400,
+					   MUMMY_DAMAGE = 200,
 
-                       RANGED_MUMMY_LIFE = 10,
-                       RANGED_MUMMY_DAMAGE = 10,
+                       RANGED_MUMMY_LIFE = 400,
+                       RANGED_MUMMY_DAMAGE = 200,
 
-                       BIG_MUMMY_LIFE = 30,
-                       BIG_MUMMY_DAMAGE = 15,
+                       BIG_MUMMY_LIFE = 1200,
+                       BIG_MUMMY_DAMAGE = 300,
 
-                       FIREBALL_EXPLOSION_DAMAGE = 15,
-                       FIREBALL_COST = 10,
-                       QUAKE_EXPLOSION_DAMAGE = 20,
-                       QUAKE_COST = 15,
-                       LIGHTNING_DAMAGE = 10,
-                       LIGHTNING_COST = 5,
+                       FIREBALL_EXPLOSION_DAMAGE = 200,
+                       FIREBALL_COST = 200,
+                       QUAKE_EXPLOSION_DAMAGE = 400,
+                       QUAKE_COST = 300,
+                       LIGHTNING_DAMAGE = 150,
+                       LIGHTNING_COST = 100,
 
-					   PHARAOH_LIFE = 175,
-					   PHARAOH_MANA = 10,
-					   PHARAOH_SUMMON_MANA_COST = 3,
-					   PHARAOH_DAMAGE = 20,
-					   PHARAOH_RANGED_DAMAGE = 10;
+					   PHARAOH_LIFE = 6000,
+					   PHARAOH_MANA = 200,
+					   PHARAOH_SUMMON_MANA_COST = 60,
+					   PHARAOH_DAMAGE = 400,
+					   PHARAOH_RANGED_DAMAGE = 200;
 
 
     const static float
@@ -95,6 +93,9 @@ class Constants {
         LIGHT_RADIUS_INITIAL,
 
         HERO_SPEED,
+        HERO_MAX_LIFE,
+        HERO_MAX_MANA,
+        HERO_MANA_REGEN,
 
 		PROJECTILE_SPEED,
 		PROJECTILE_SPRITE_CENTER_X,
@@ -127,7 +128,7 @@ class Constants {
 		PHARAOH_RADIUS,
 		PHARAOH_SPEED,
 		PHARAOH_SUMMON_RANGE,
-		PHARAOH_MANA_REGEN_RATE,
+		PHARAOH_MANA_REGEN,
 
 		POTION_SPRITE_CENTER_X,
         POTION_SPRITE_CENTER_Y,

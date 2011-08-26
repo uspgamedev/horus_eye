@@ -1,0 +1,9 @@
+
+// Project configurations.
+
+#define GAME_VERSION L"@GAME_VERSION@"
+#define USER_HOME "@USER_HOME@"
+
+
+
+

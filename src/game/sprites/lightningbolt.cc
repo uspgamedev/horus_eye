@@ -1,15 +1,15 @@
 #include <cmath>
 #include "lightningbolt.h"
 #include "mummy.h"
-#include "../../framework/timeaccumulator.h"
+#include "ugdk/timeaccumulator.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
 #include "../scenes/world.h"
-#include "../../framework/animation.h"
-#include "../../framework/animationset.h"
-#include "../../framework/animationparser.h"
-#include "../../framework/engine.h"
+#include "ugdk/animation.h"
+#include "ugdk/animationset.h"
+#include "ugdk/animationparser.h"
+#include "ugdk/engine.h"
 
 using namespace ugdk;
 using namespace utils;

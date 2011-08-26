@@ -4,8 +4,8 @@
 #include "../hero.h"
 #include "../mummy.h"
 #include "../mummyprojectile.h"
-#include "../../../framework/engine.h"
-#include "../../../framework/audiomanager.h"
+#include "ugdk/engine.h"
+#include "ugdk/audiomanager.h"
 #include "../../utils/settings.h"
 
 namespace sprite {

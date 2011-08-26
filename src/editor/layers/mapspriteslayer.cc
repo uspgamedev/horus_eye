@@ -1,8 +1,8 @@
 #include "mapspriteslayer.h"
 #include "../mapobject.h"
 #include "../../game/scenes/world.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
+#include "ugdk/engine.h"
+#include "ugdk/videomanager.h"
 
 
 using namespace ugdk;

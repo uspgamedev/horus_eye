@@ -1,18 +1,26 @@
 
+.*.swp
 *~
 /Debug
 /DebugFast
 /ipch
 /Release
-/src/game/config.h
-/src/game/Makefile
-/src/game/cmake*
-/src/game/horus_eye*
-/src/game/CMake*
-!/src/game/CMakeLists.txt
+/config.h
+/Makefile
+/cmake*
+/horus_eye*
+/CMake*
+!/CMakeLists.txt
 /Horus Eye.vcxproj.user
 *.suo
 *.sdf
 *.vsp
 /src/game/build
+/src/game/config.h
 settings.bin
+
+/Windows Release
+/Default
+
+/bin
+/tmp

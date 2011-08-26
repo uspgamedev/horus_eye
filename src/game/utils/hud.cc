@@ -1,11 +1,11 @@
 #include "hud.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/sprite.h"
-#include "../../framework/text.h"
-#include "../../framework/engine.h"
-#include "../../framework/animation.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/modifier.h"
+#include "ugdk/vector2D.h"
+#include "ugdk/sprite.h"
+#include "ugdk/text.h"
+#include "ugdk/engine.h"
+#include "ugdk/animation.h"
+#include "ugdk/videomanager.h"
+#include "ugdk/modifier.h"
 #include "../scenes/world.h"
 #include "../utils/hudimagefactory.h"
 #include "constants.h"
@@ -60,13 +60,13 @@ Hud::Hud(World* world) {
 
     life_bar_ = new Sprite(life_modifier_ = new Modifier);
     life_bar_->Initialize(img_fac.LifeBarImage());
-    life_bar_->set_position(VIDEO_X - LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
+    life_bar_->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
     life_bar_->set_zindex(-0.5f);
     AddSprite(life_bar_);
     
     mana_bar_ = new Sprite(mana_modifier_ = new Modifier);
     mana_bar_->Initialize(img_fac.ManaBarImage());
-    mana_bar_->set_position(MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    mana_bar_->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
     mana_bar_->set_zindex(-0.5f);
     AddSprite(mana_bar_);
 

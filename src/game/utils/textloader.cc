@@ -1,10 +1,10 @@
 #include <cstdio>
 #include "textloader.h"
-#include "../../framework/image.h"
-#include "../../framework/textmanager.h"
-#include "../../framework/engine.h"
-#include "../../framework/pathmanager.h"
-#include "../../framework/text.h"
+#include "ugdk/image.h"
+#include "ugdk/textmanager.h"
+#include "ugdk/engine.h"
+#include "ugdk/pathmanager.h"
+#include "ugdk/text.h"
 
 namespace utils {
 

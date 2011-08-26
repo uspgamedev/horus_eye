@@ -1,8 +1,8 @@
 #include "fpsmeter.h"
-#include "../../framework/image.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/animation.h"
+#include "ugdk/image.h"
+#include "ugdk/engine.h"
+#include "ugdk/videomanager.h"
+#include "ugdk/animation.h"
 
 
 #define FPS_BAR_OFFSET_X  10
