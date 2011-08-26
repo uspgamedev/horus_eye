@@ -97,6 +97,7 @@ void Creature::TakeDamage(float life_points) {
             this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
             this->collision_type_ = WorldObject::NO_COLLISION;
+	    Die();
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;
