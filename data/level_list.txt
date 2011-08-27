@@ -1,6 +1,8 @@
-5
+7
 data/levels/level_1.txt
+data/levels/level_lightningtest.txt
 data/levels/level_2.txt
 data/levels/level_3.txt
+data/levels/level_4.txt
 data/levels/level_turtle.txt
 data/levels/throne_level.txt
