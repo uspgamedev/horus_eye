@@ -1,3 +1,4 @@
+#include <cmath>
 #include "fireball.h"
 #include "../scenes/world.h"
 #include "mummy.h"
