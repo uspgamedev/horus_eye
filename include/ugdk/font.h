@@ -2,7 +2,7 @@
 #define HORUSEYE_FRAMEWORK_FONT_H_
 
 #include <string>
-#include "vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace ugdk {
 

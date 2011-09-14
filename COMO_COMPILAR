@@ -4,9 +4,7 @@ Para compilar no GNU/Linux,
 
 2) Obtenha as bibliotecas: libSDL-1.2, libSDL_image-1.2, libSDL_mixer-1.2 e libSDL_ttf-1.2
 
-3) Vá para a pasta horus_eye/trunk/src/game/
-
-4) $ cmake . (Não esqueça o '.' no final)
+3) $ cmake . (Não esqueça o '.' no final)
    $ make
    # make install
 

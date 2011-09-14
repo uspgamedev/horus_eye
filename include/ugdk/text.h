@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include "vector2D.h"
-#include "drawable.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/drawable.h>
 
 namespace ugdk {
 

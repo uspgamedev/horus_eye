@@ -7,9 +7,7 @@ GNU/Linux:
 2) Get the folowing libraries: libSDL-1.2, libSDL_image-1.2, libSDL_mixer-1.2 e
 libSDL_ttf-1.2
 
-3) Go to the folowing directory: horus_eye/trunk/src/game/
-
-4) $ cmake . (Do not forget the '.' at the end)
+3) $ cmake . (Do not forget the '.' at the end)
    $ make
    # make install
 

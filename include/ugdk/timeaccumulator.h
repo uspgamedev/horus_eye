@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_FRAMEWORK_TIMEACCUMULATOR_H_
 #define HORUSEYE_FRAMEWORK_TIMEACCUMULATOR_H_
 
-#include "timehandler.h"
+#include <ugdk/time/timehandler.h>
 
 namespace ugdk {
 

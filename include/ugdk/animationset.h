@@ -5,7 +5,7 @@
 #include <map>
 #include <vector>
 #include <utility>
-#include "modifier.h"
+#include <ugdk/graphic/modifier.h>
 #include "animation.h"
 
 namespace ugdk {

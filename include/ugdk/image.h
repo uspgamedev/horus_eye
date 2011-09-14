@@ -4,10 +4,10 @@
 #include <string>
 #include <map>
 #include <SDL/SDL.h>
-#include "vector2D.h"
-#include "types.h"
-#include "drawable.h"
-#include "videomanager.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/base/types.h>
+#include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic/videomanager.h>
 
 namespace ugdk {
 

@@ -2,9 +2,9 @@
 #define HORUSEYE_FRAMEWORK_LAYER_H_
 
 #include <vector>
-#include "types.h"
-#include "vector2D.h"
-#include "sprite.h"
+#include <ugdk/base/types.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/action/sprite.h>
 
 namespace ugdk {
 

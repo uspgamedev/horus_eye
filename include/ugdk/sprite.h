@@ -2,9 +2,9 @@
 #define HORUSEYE_FRAMEWORK_SPRITE_H_
 
 #include <algorithm>
-#include "vector2D.h"
-#include "image.h"
-#include "types.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/image.h>
+#include <ugdk/base/types.h>
 #include "animation.h"
 
 

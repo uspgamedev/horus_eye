@@ -2,8 +2,8 @@
 #define HORUSEYE_FRAMEWORK_INPUTMANAGER_H_
 
 #include <SDL/SDL.h>
-#include "vector2D.h"
-#include "keys.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/input/keys.h>
 
 namespace ugdk {
 

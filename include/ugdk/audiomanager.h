@@ -3,8 +3,8 @@
 
 #include <string>
 #include <map>
-#include "music.h"
-#include "sample.h"
+#include <ugdk/audio/music.h>
+#include <ugdk/audio/sample.h>
 
 #define AUDIO_MANAGER() ugdk::Engine::reference()->audio_manager()
 

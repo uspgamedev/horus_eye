@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <SDL/SDL_ttf.h>
-#include "vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 #define TEXT_MANAGER() ugdk::Engine::reference()->text_manager()
 

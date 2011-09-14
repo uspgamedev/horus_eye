@@ -3,9 +3,9 @@
 
 #include <string>
 #include <map>
-#include "types.h"
-#include "vector2D.h"
-#include "frame.h"
+#include <ugdk/base/types.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/math/frame.h>
 using std::string;
 using std::map;
 

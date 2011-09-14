@@ -1,9 +1,9 @@
 #ifndef HORUSEYE_FRAMEWORK_DRAWABLE_H_
 #define HORUSEYE_FRAMEWORK_DRAWABLE_H_
 
-#include "vector2D.h"
-#include "types.h"
-#include "modifier.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/base/types.h>
+#include <ugdk/graphic/modifier.h>
 
 namespace ugdk {
 

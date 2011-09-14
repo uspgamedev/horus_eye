@@ -2,8 +2,8 @@
 #define HORUSEYE_FRAMEWORK_MODIFIER_H_
 
 #include <vector>
-#include "vector2D.h"
-#include "types.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/base/types.h>
 
 namespace ugdk {
 

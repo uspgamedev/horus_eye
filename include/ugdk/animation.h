@@ -5,7 +5,7 @@
 #include <string>
 #include <cstdlib>
 #include <cstring>
-#include "modifier.h"
+#include <ugdk/graphic/modifier.h>
 
 namespace ugdk {
 

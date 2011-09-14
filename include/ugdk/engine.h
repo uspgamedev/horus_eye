@@ -3,8 +3,8 @@
 
 #include <vector>
 #include <string>
-#include "vector2D.h"
-#include "scene.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/action/scene.h>
 
 using std::vector;
 

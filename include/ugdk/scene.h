@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_FRAMEWORK_SCENE_H_
 #define HORUSEYE_FRAMEWORK_SCENE_H_
 
-#include "layer.h"
+#include <ugdk/action/layer.h>
 #include <list>
 
 namespace ugdk {

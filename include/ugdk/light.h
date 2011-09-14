@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_FRAMEWORK_LIGHT_H_
 #define HORUSEYE_FRAMEWORK_LIGHT_H_
 
-#include "vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace ugdk {
 
