@@ -2,7 +2,7 @@
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/tile.h"
-#include "ugdk/light.h"
+#include <ugdk/graphic/light.h>
 
 namespace sprite {
 

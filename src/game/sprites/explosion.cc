@@ -1,10 +1,10 @@
 #include "explosion.h"
 #include "mummy.h"
-#include "ugdk/engine.h"
-#include "ugdk/animation.h"
-#include "ugdk/animationset.h"
-#include "ugdk/animationparser.h"
-#include "ugdk/timeaccumulator.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/action/animationset.h>
+#include <ugdk/util/animationparser.h>
+#include <ugdk/time/timeaccumulator.h>
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 

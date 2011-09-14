@@ -1,8 +1,8 @@
 #include "mummyprojectile.h"
 #include "hero.h"
-#include "ugdk/engine.h"
-#include "ugdk/timeaccumulator.h"
-#include "ugdk/videomanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/time/timeaccumulator.h>
+#include <ugdk/graphic/videomanager.h>
 #include "../scenes/world.h"
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"

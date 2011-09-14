@@ -1,6 +1,6 @@
 #ifndef HORUSEYE_GAME_UTILS_GEOMETRYPRIMITIVES_H_
 #define HORUSEYE_GAME_UTILS_GEOMETRYPRIMITIVES_H_
-#include "ugdk/vector2D.h"
+#include <ugdk/math/vector2D.h>
 using namespace ugdk;
 
 namespace utils{

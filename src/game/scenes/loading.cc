@@ -1,8 +1,8 @@
 #include "loading.h"
-#include "ugdk/image.h"
-#include "ugdk/sprite.h"
-#include "ugdk/engine.h"
-#include "ugdk/videomanager.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
 #include "../utils/levelmanager.h"
 #include "../utils/textloader.h"
 

@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_UTILS_HUD_H_
 #define HORUSEYE_GAME_UTILS_HUD_H_
 
-#include "ugdk/layer.h"
+#include <ugdk/action/layer.h>
 #include "../scenes/world.h"
 
 namespace ugdk {

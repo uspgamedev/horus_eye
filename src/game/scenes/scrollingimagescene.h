@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SCENES_SCROLLINGIMAGESCENE_H_
 
 #include "imagescene.h"
-#include "ugdk/vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace scene {
 

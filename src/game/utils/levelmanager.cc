@@ -1,9 +1,9 @@
-#include "ugdk/engine.h"
-#include "ugdk/videomanager.h"
-#include "ugdk/textmanager.h"
-#include "ugdk/pathmanager.h"
-#include "ugdk/image.h"
-#include "ugdk/scene.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/util/pathmanager.h>
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/scene.h>
 #include "../scenes/menubuilder.h"
 #include "../scenes/menu.h"
 #include "../scenes/world.h"

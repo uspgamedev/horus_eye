@@ -2,15 +2,15 @@
 #include "fireball.h"
 #include "../scenes/world.h"
 #include "mummy.h"
-#include "ugdk/timeaccumulator.h"
+#include <ugdk/time/timeaccumulator.h>
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"
 #include "../scenes/world.h"
-#include "ugdk/animation.h"
-#include "ugdk/animationset.h"
-#include "ugdk/animationparser.h"
-#include "ugdk/engine.h"
+#include <ugdk/action/animation.h>
+#include <ugdk/action/animationset.h>
+#include <ugdk/util/animationparser.h>
+#include <ugdk/base/engine.h>
 
 using namespace ugdk;
 using namespace utils;

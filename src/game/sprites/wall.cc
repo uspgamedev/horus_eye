@@ -1,6 +1,6 @@
 #include <iostream>
-#include "ugdk/engine.h"
-#include "ugdk/animation.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/action/animation.h>
 #include "wall.h"
 #include "hero.h"
 #include "../scenes/world.h"

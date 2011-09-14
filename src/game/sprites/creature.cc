@@ -1,7 +1,7 @@
-#include "ugdk/animation.h"
-#include "ugdk/animationset.h"
-#include "ugdk/animationparser.h"
-#include "ugdk/engine.h"
+#include <ugdk/action/animation.h>
+#include <ugdk/action/animationset.h>
+#include <ugdk/util/animationparser.h>
+#include <ugdk/base/engine.h>
 #include "creature.h"
 #include "worldobject.h"
 #include "mummy.h"

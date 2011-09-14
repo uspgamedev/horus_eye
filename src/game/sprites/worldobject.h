@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
-#include "ugdk/sprite.h"
+#include <ugdk/action/sprite.h>
 #include "../utils/collisionobject.h"
 
 

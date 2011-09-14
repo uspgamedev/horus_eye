@@ -1,9 +1,9 @@
 #include "herofireballweapon.h"
-#include "ugdk/vector2D.h"
-#include "ugdk/inputmanager.h"
-#include "ugdk/audiomanager.h"
-#include "ugdk/animation.h"
-#include "ugdk/engine.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/base/engine.h>
 #include "../../utils/imagefactory.h"
 #include "../../utils/hudimagefactory.h"
 #include "../../utils/constants.h"

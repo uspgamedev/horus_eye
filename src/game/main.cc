@@ -1,11 +1,11 @@
 
 #include <string>
 #include "config.h"
-#include <ugdk/engine.h>
-#include <ugdk/videomanager.h>
-#include <ugdk/audiomanager.h>
-#include <ugdk/textmanager.h>
-#include <ugdk/vector2D.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/math/vector2D.h>
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
@@ -37,8 +37,8 @@ void StartGame() {
     level_manager()->Initialize();
 }
 
-#include "ugdk/animationparser.h"
-#include "ugdk/animationset.h"
+#include <ugdk/util/animationparser.h>
+#include <ugdk/action/animationset.h>
 
 int main(int argc, char *argv[]) {
 	Settings settings = Settings();

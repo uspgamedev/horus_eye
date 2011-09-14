@@ -2,8 +2,8 @@
 #include <iostream>
 #include <cmath>
 #include <queue>
-#include "ugdk/engine.h"
-#include "ugdk/inputmanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/input/inputmanager.h>
 #include "mapeditor.h"
 #include "mapobject.h"
 #include "layers/maptileslayer.h"

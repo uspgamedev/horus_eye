@@ -1,7 +1,7 @@
 #include "floor.h"
-#include "ugdk/videomanager.h"
-#include "ugdk/engine.h"
-#include "ugdk/animationset.h"
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/action/animationset.h>
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/tile.h"

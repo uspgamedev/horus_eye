@@ -1,8 +1,8 @@
 #include <fstream>
 #include <iostream>
 #include "levelloader.h"
-#include "ugdk/engine.h"
-#include "ugdk/pathmanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/util/pathmanager.h>
 #include "../sprites/worldobject.h"
 #include "../sprites/hero.h"
 #include "../sprites/mummy.h"

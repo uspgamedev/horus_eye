@@ -4,8 +4,8 @@
 #include <cstdlib>
 #include <string>
 #include <vector>
-#include "ugdk/scene.h"
-#include "ugdk/layer.h"
+#include <ugdk/action/scene.h>
+#include <ugdk/action/layer.h>
 
 namespace editor {
 

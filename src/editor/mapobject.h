@@ -20,8 +20,8 @@
 #define POTIONS                  'S'
 
 //#include "ugdk/texture.h"
-#include "ugdk/image.h"
-#include "ugdk/sprite.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
 
 namespace editor {
 

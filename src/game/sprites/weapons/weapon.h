@@ -1,6 +1,6 @@
 #ifndef HORUSEYE_GAME_SPRITES_WEAPONS_WEAPON_H_
 #define HORUSEYE_GAME_SPRITES_WEAPONS_WEAPON_H_
-#include "ugdk/image.h"
+#include <ugdk/graphic/image.h>
 
 namespace sprite {
 class Creature;

@@ -1,9 +1,9 @@
 #include "pausescene.h"
-#include "ugdk/image.h"
-#include "ugdk/sprite.h"
-#include "ugdk/layer.h"
-#include "ugdk/inputmanager.h"
-#include "ugdk/engine.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/action/layer.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/base/engine.h>
 
 namespace scene {
 

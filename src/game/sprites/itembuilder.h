@@ -4,7 +4,7 @@
 #include "item.h"
 #include "condition.h"
 #include "conditionbuilder.h"
-#include "ugdk/image.h"
+#include <ugdk/graphic/image.h>
 
 namespace sprite {
 

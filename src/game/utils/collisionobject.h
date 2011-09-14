@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_UTILS_COLLISIONOBJECT_H_
 #define HORUSEYE_GAME_UTILS_COLLISIONOBJECT_H_
 
-#include "ugdk/vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace utils {
 

@@ -1,16 +1,16 @@
 #include <cmath>
 #include <iostream>
 #include <sstream>
-#include "ugdk/engine.h"
-#include "ugdk/scene.h"
-#include "ugdk/image.h"
-#include "ugdk/sprite.h"
-#include "ugdk/animation.h"
-#include "ugdk/videomanager.h"
-#include "ugdk/inputmanager.h"
-#include "ugdk/timehandler.h"
-#include "ugdk/audiomanager.h"
-#include "ugdk/timeaccumulator.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/action/scene.h>
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/time/timehandler.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/time/timeaccumulator.h>
 
 #include "../scenes/world.h"
 #include "../utils/geometryprimitives.h"

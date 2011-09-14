@@ -1,11 +1,11 @@
 #include <sstream>
 #include "menubuilder.h"
-#include "ugdk/engine.h"
-#include "ugdk/textmanager.h"
-#include "ugdk/scene.h"
-#include "ugdk/animationset.h"
-#include "ugdk/animationparser.h"
-#include "ugdk/text.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/action/scene.h>
+#include <ugdk/action/animationset.h>
+#include <ugdk/util/animationparser.h>
+#include <ugdk/graphic/text.h>
 #include "../utils/levelmanager.h"
 #include "../utils/imagefactory.h"
 #include "../utils/hudimagefactory.h"

@@ -1,8 +1,8 @@
 #ifndef HORUSEYE_GAME_SCENES_MENU_H_
 #define HORUSEYE_GAME_SCENES_MENU_H_
 
-#include "ugdk/scene.h"
-#include "ugdk/frame.h"
+#include <ugdk/action/scene.h>
+#include <ugdk/math/frame.h>
 #include "menuhandler.h"
 
 #define ALIGNMENT_LEFT   (-1)

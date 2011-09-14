@@ -1,6 +1,6 @@
 #include "projectile.h"
 #include "mummy.h"
-#include "ugdk/timeaccumulator.h"
+#include <ugdk/time/timeaccumulator.h>
 #include "../utils/circleobject.h"
 #include "../utils/constants.h"
 #include "../utils/imagefactory.h"

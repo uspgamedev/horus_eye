@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SCENES_MULTIPAGEMENU_H_
 
 #include <vector>
-#include "ugdk/frame.h"
+#include <ugdk/math/frame.h>
 #include "menuhandler.h"
 #include "menu.h"
 using namespace std;

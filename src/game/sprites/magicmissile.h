@@ -3,7 +3,7 @@
 #include <set>
 
 #include "projectile.h"
-#include "ugdk/vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace ugdk {
 class TimeAccumulator;

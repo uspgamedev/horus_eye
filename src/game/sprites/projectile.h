@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SPRITES_PROJECTILE_H_
 
 #include "worldobject.h"
-#include "ugdk/vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace ugdk {
 class TimeAccumulator;

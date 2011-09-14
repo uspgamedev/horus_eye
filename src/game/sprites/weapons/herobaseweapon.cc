@@ -1,8 +1,8 @@
 #include "herobaseweapon.h"
-#include "ugdk/vector2D.h"
-#include "ugdk/inputmanager.h"
-#include "ugdk/audiomanager.h"
-#include "ugdk/engine.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/base/engine.h>
 #include "../../scenes/world.h"
 #include "../magicmissile.h"
 #include "../../utils/settings.h"

@@ -2,8 +2,8 @@
 #define HORUSEYE_GAME_SPRITE_HERO_H_
 
 #include "creature.h"
-#include "ugdk/image.h"
-#include "ugdk/vector2D.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/math/vector2D.h>
 #include <map>
 
 namespace sprite {
