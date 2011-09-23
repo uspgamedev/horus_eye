@@ -56,7 +56,7 @@ void LightningBolt::HandleCollision(WorldObject* obj) {
 
 void LightningBolt::InitializeAnimations() {
     if(ANIMATIONS != NULL) return;
-    ANIMATIONS = ugdk::Engine::reference()->animation_loader().Load("data/animations/lightning.and");
+    ANIMATIONS = ugdk::Engine::reference()->animation_loader().Load("data/animations/lightning.gdd");
     attacking_animations_[0] = ANIMATIONS->MakeIndex("ATTACKING_LEFT");
     attacking_animations_[1] = ANIMATIONS->MakeIndex("ATTACKING_UP_LEFT");
     attacking_animations_[2] = ANIMATIONS->MakeIndex("ATTACKING_UP");
