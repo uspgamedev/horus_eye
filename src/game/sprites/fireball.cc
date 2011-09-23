@@ -70,7 +70,7 @@ void Fireball::Update(float delta_t) {
 
 void Fireball::InitializeAnimations() {
     if(ANIMATIONS != NULL) return;
-    ANIMATIONS = ugdk::Engine::reference()->animation_parser()->Load("data/animations/fireball.and");
+    ANIMATIONS = ugdk::Engine::reference()->animation_loader().Load("data/animations/fireball.and");
     attacking_animations_[0] = ANIMATIONS->MakeIndex("ATTACKING_LEFT");
     attacking_animations_[1] = ANIMATIONS->MakeIndex("ATTACKING_UP_LEFT");
     attacking_animations_[2] = ANIMATIONS->MakeIndex("ATTACKING_UP");

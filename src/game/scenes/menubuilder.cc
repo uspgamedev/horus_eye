@@ -59,7 +59,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-	ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/test.and");
+	ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/test.and");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
