@@ -24,3 +24,6 @@ settings.bin
 
 /bin
 /tmp
+/lib/ugdk_d.lib
+/lib/ugdk_d.pdb
+/lib/ugdk.lib
