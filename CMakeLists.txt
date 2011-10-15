@@ -86,6 +86,7 @@ ENDIF(MSVC)
 
 link_directories ("lib")
 include_directories ("include")
+include_directories ("src")
 
 # *nix executable
 IF(UNIX)
