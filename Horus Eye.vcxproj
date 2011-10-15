@@ -90,6 +90,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -177,6 +178,7 @@
     <ClCompile Include="src\game\scenes\pausescene.cc" />
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
+    <ClCompile Include="src\game\sprites\block.cc" />
     <ClCompile Include="src\game\sprites\conditionbuilder.cc" />
     <ClCompile Include="src\game\sprites\creature.cc" />
     <ClCompile Include="src\game\sprites\door.cc" />
@@ -218,6 +220,43 @@
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="include\ugdk\action\animation.h" />
+    <ClInclude Include="include\ugdk\action\animationset.h" />
+    <ClInclude Include="include\ugdk\action\layer.h" />
+    <ClInclude Include="include\ugdk\action\observer.h" />
+    <ClInclude Include="include\ugdk\action\scene.h" />
+    <ClInclude Include="include\ugdk\action\sprite.h" />
+    <ClInclude Include="include\ugdk\audio\audiomanager.h" />
+    <ClInclude Include="include\ugdk\audio\music.h" />
+    <ClInclude Include="include\ugdk\audio\sample.h" />
+    <ClInclude Include="include\ugdk\base\engine.h" />
+    <ClInclude Include="include\ugdk\base\types.h" />
+    <ClInclude Include="include\ugdk\config\config.h" />
+    <ClInclude Include="include\ugdk\graphic\drawable.h" />
+    <ClInclude Include="include\ugdk\graphic\font.h" />
+    <ClInclude Include="include\ugdk\graphic\image.h" />
+    <ClInclude Include="include\ugdk\graphic\light.h" />
+    <ClInclude Include="include\ugdk\graphic\modifier.h" />
+    <ClInclude Include="include\ugdk\graphic\text.h" />
+    <ClInclude Include="include\ugdk\graphic\textmanager.h" />
+    <ClInclude Include="include\ugdk\graphic\videomanager.h" />
+    <ClInclude Include="include\ugdk\input\inputmanager.h" />
+    <ClInclude Include="include\ugdk\input\keys.h" />
+    <ClInclude Include="include\ugdk\math\frame.h" />
+    <ClInclude Include="include\ugdk\math\vector2D.h" />
+    <ClInclude Include="include\ugdk\time\timeaccumulator.h" />
+    <ClInclude Include="include\ugdk\time\timehandler.h" />
+    <ClInclude Include="include\ugdk\util\animationparser.h" />
+    <ClInclude Include="include\ugdk\util\animationprotocol.h" />
+    <ClInclude Include="include\ugdk\util\gamedata.h" />
+    <ClInclude Include="include\ugdk\util\gdd\abstractloader.h" />
+    <ClInclude Include="include\ugdk\util\gdd\cachedloader.h" />
+    <ClInclude Include="include\ugdk\util\gdd\descriptionprotocol.h" />
+    <ClInclude Include="include\ugdk\util\gdd\parser.h" />
+    <ClInclude Include="include\ugdk\util\gdd\parserutility.h" />
+    <ClInclude Include="include\ugdk\util\gdd\reader.h" />
+    <ClInclude Include="include\ugdk\util\gdd\simpleloader.h" />
+    <ClInclude Include="include\ugdk\util\pathmanager.h" />
     <ClInclude Include="src\editor\layers\fpsmeter.h" />
     <ClInclude Include="src\editor\layers\mapspriteslayer.h" />
     <ClInclude Include="src\editor\layers\maptileslayer.h" />
@@ -235,6 +274,7 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\sprites\block.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
     <ClInclude Include="src\game\sprites\conditionbuilder.h" />
     <ClInclude Include="src\game\sprites\creature.h" />

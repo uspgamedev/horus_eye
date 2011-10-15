@@ -15,6 +15,7 @@ class Explosion;
 class MummyProjectile;
 class Wall;
 class Door;
+class Block;
 class Item;
 
 // Classe WorldObject (abstrata)
@@ -46,6 +47,7 @@ class WorldObject : public ugdk::Sprite {
 
     virtual void CollidesWith(Wall* obj) {}
     virtual void CollidesWith(Door* obj) {}
+    virtual void CollidesWith(Block* obj) {}
     virtual void CollidesWith(Creature* obj) {}
     virtual void CollidesWith(Hero* hero) {}
     virtual void CollidesWith(Explosion *explosion) {}

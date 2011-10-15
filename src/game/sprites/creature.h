@@ -23,6 +23,7 @@ using ugdk::Vector2D;
 class Weapon;
 class Door;
 class Wall;
+class Block;
 
 class Creature : public WorldObject , public ugdk::Observer {
   public:
@@ -63,6 +64,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     // Colisoes
     virtual void CollidesWith(Wall *);
     virtual void CollidesWith(Door *);
+    virtual void CollidesWith(Block *);
 
     virtual void HandleCollision(WorldObject *);
 

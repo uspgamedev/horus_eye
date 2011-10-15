@@ -8,6 +8,7 @@
 #include "hero.h"
 #include "door.h"
 #include "wall.h"
+#include "block.h"
 #include "../utils/circleobject.h"
 #include "../scenes/world.h"
 
@@ -248,6 +249,11 @@ void Creature::CollidesWith(Wall * obj) {
 }
 
 void Creature::CollidesWith(Door * obj) {
+    const RectObject *rect = (const RectObject*)obj->bound();
+    CollideWithRect(rect);
+}
+
+void Creature::CollidesWith(Block * obj) {
     const RectObject *rect = (const RectObject*)obj->bound();
     CollideWithRect(rect);
 }
