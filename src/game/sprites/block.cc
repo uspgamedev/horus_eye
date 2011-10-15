@@ -1,7 +1,9 @@
 
 #include "block.h"
-
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/base/engine.h>
 #include "game/sprites/projectile.h"
+#include "game/sprites/wall.h"
 #include "game/utils/rectobject.h"
 #include "game/utils/constants.h"
 
@@ -18,32 +20,63 @@ Block::Block(Image* image) : moving_(false) {
     Vector2D new_size(size().x, size().y * 0.7f);
     set_size(new_size);
 
-    collision_type_ = STATIC;
-    bound_ = new RectObject(1.0f, 1.0f);
+    collision_type_ = MOVEABLE;
+    bound_ = new RectObject(0.95f, 0.95f);
 }
 Block::~Block() {}
+
+#ifdef DEBUG
+void Block::GetKeys() {
+    InputManager *input = Engine::reference()->input_manager();
+    moving_ = true;
+    moving_time_left_ = 0.5f;
+    if(input->KeyDown(ugdk::K_UP)) {
+        moving_toward_ = UP;
+    } else if(input->KeyDown(ugdk::K_DOWN)) {
+        moving_toward_ = DOWN;
+    } else if(input->KeyDown(ugdk::K_RIGHT)) {
+        moving_toward_ = RIGHT;
+    } else if(input->KeyDown(ugdk::K_LEFT)) {
+        moving_toward_ = LEFT;
+    } else {
+        moving_ = false;
+    }
+}
+#endif
+
+void Block::MoveBlock(float delta_t) {
+    moving_time_left_ -= delta_t;
+    Vector2D newpos = this->world_position();
+    switch(moving_toward_) {
+    case RIGHT:
+        newpos.x -= BLOCK_MOVE_SPEED * delta_t;
+        break;
+    case LEFT:
+        newpos.x += BLOCK_MOVE_SPEED * delta_t;
+        break;
+    case UP:
+        newpos.y -= BLOCK_MOVE_SPEED * delta_t;
+        break;
+    case DOWN:
+        newpos.y += BLOCK_MOVE_SPEED * delta_t;
+        break;
+    }
+    set_world_position(newpos);
+    if(moving_time_left_ <= 0.0f) {
+        moving_ = false;
+        last_stable_position_ = world_position();
+    }
+}
 
 void Block::Update(float delta_t) {
     WorldObject::Update(delta_t);
     if(moving_) {
-        moving_time_left_ -= delta_t;
-        Vector2D newpos = this->world_position();
-        switch(moving_toward_) {
-        case RIGHT:
-            newpos.x -= BLOCK_MOVE_SPEED * delta_t;
-            break;
-        case LEFT:
-            newpos.x += BLOCK_MOVE_SPEED * delta_t;
-            break;
-        case UP:
-            newpos.y -= BLOCK_MOVE_SPEED * delta_t;
-            break;
-        case DOWN:
-            newpos.y += BLOCK_MOVE_SPEED * delta_t;
-            break;
-        }
-        set_world_position(newpos);
-        if(moving_time_left_ <= 0.0f) moving_ = false;
+        MoveBlock(delta_t);
+    } else {
+        last_stable_position_ = world_position();
+#ifdef DEBUG
+        GetKeys();
+#endif
     }
 }
 
@@ -66,6 +99,11 @@ void Block::CollidesWith(Projectile * obj) {
 
     moving_ = true;
     moving_time_left_ = 0.5f;
+}
+
+void Block::RevertPosition() {
+    this->set_world_position(last_stable_position_);
+    moving_ = false;
 }
 
 }
