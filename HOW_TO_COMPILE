@@ -4,11 +4,19 @@ GNU/Linux:
 
 1) Get CMake 2.6 or a higher version
 
-2) Get the folowing libraries: libSDL-1.2, libSDL_image-1.2, libSDL_mixer-1.2 e
+2) Get the folowing libraries: libSDL-1.2, libSDL_image-1.2, libSDL_mixer-1.2 and
 libSDL_ttf-1.2
 
-3) $ cmake . (Do not forget the '.' at the end)
-   $ make
+3) Download and compile UGDK with static link type:
+- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.1
+- b. $ cmake -DLINK_TYPE=STATIC -DBUILD_TYPE=RELEASE .
+     $ make
+- c. Copy ugdk/lib/ugdk.a to horus_eye/lib
+
+3) Open a terminal in the same folder of this HOW_TO.
+
+4) $ cmake . (Do not forget the '.' at the end)
+   $ make horus_eye
    # make install
 
 Optionally, you can use CMake to generate files for your favorite IDE. Search
@@ -19,17 +27,19 @@ for cmake -G options.
 Windows
 =======
 
-On Windows, you can configure your IDE by your own or use CMake to generate
-the Makefiles or your favorite IDE files.
-**Our CMake files were not completely test on Windows**.
-But, CMake is really cool ;) and you can try this:
+On Windows, there's a provided Visual Studio 2010 solution. You must have the 
+following headers and libraries installed:
+- SDL 1.2
+- SDL_Image 1.2
+- SDL_Mixer 1.2
+- SDL_TTF 1.2
 
-Open a shell prompt, go to horus_eye\trunk\src\game and:
+You will need to compile the UGDK and copy lib/Release/ugdk.lib to the horus_eye/lib folder.
+UGDK source: https://github.com/uspgamedev/ugdk/tarball/v0.1
 
-a) If you use MinGW command line:
-cmake -G "MinGW Makefiles" .       (Do not forget the '.' at the end)
+If you wish to use MinGW, feel free to generate the Makefile project using CMake.
+You can either use the cmake-gui or open a command prompt in the same folder of 
+this HOW_TO and run: cmake -G "MinGW Makefiles" .
 
-b) If you use Microsoft Visual C++ 2008 Express:
-cmake -G "Visual Studio 9 2008" .  (Notice the '.' at the end)
-
-c) If you use anything else, search about other options with cmake -G command.
+Although CMake has support to generate Visual Studio project files, we have reports
+it doesn't work with our script.

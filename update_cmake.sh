@@ -1,3 +1,4 @@
+#!/bin/bash
 FILES=`find ./src/ | grep "^.*\.\(h\|cc\)$"`
 echo -n "SET(GAME_SRCS " > ./sourcelist.txt
 for f in $FILES; do
