@@ -114,33 +114,31 @@ void Creature::TakeDamage(float life_points) {
     blink_time_->Restart();
 }
 
+// ANIMATION STUFF
+
 void Creature::InitializeAnimations() {
-    if (ANIMATIONS == NULL) {
-        ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/creature.gdd");
-        InitializeAttackingAnimations();
-        InitializeWalkingAnimations();
-        InitializeStandingAnimations();
-        taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
-        dying_animation_ = ANIMATIONS->MakeIndex("DYING");
+    if (ANIMATIONS != NULL) return;
 
-        directions_[Direction_::RIGHT] = Vector2D(1, -1);
-        directions_[Direction_::LEFT] = Vector2D(-1, 1);
-        directions_[Direction_::DOWN] =  Vector2D(-1, -1);
-        directions_[Direction_::UP] = Vector2D(1, 1);
+    ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/creature.gdd");
+    InitializeAttackingAnimations();
+    InitializeWalkingAnimations();
+    InitializeStandingAnimations();
+    taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
+    dying_animation_ = ANIMATIONS->MakeIndex("DYING");
 
-        direction_mapping_[0] = Animation_::RIGHT;
-        direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
-        direction_mapping_[2] = Animation_::UP;
-        direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
-        direction_mapping_[4] = Animation_::LEFT;
-        direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
-        direction_mapping_[6] = Animation_::DOWN;
-        direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
-    }
-}
+    directions_[Direction_::RIGHT] = Vector2D(1, -1);
+    directions_[Direction_::LEFT] = Vector2D(-1, 1);
+    directions_[Direction_::DOWN] =  Vector2D(-1, -1);
+    directions_[Direction_::UP] = Vector2D(1, 1);
 
-void Creature::ReleaseAnimations() {
-    ANIMATIONS = NULL;
+    direction_mapping_[0] = Animation_::RIGHT;
+    direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
+    direction_mapping_[2] = Animation_::UP;
+    direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
+    direction_mapping_[4] = Animation_::LEFT;
+    direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
+    direction_mapping_[6] = Animation_::DOWN;
+    direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 }
 
 void Creature::InitializeAttackingAnimations() {
@@ -155,50 +153,43 @@ void Creature::InitializeAttackingAnimations() {
 }
 
 void Creature::InitializeWalkingAnimations() {
-    for (int i = 0; i < 16; i++)
-        walking_animations_[i] = -1;
-    walking_animations_[Animation_::DOWN] = ANIMATIONS->MakeIndex("WALKING_DOWN");
-    walking_animations_[Animation_::LEFT] = ANIMATIONS->MakeIndex("WALKING_LEFT");
-    walking_animations_[Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_RIGHT");
-    walking_animations_[Animation_::UP] = ANIMATIONS->MakeIndex("WALKING_UP");
-    walking_animations_[Animation_::DOWN | Animation_::RIGHT] =
-            ANIMATIONS->MakeIndex("WALKING_DOWN_RIGHT");
-    walking_animations_[Animation_::DOWN | Animation_::LEFT] =
-            ANIMATIONS->MakeIndex("WALKING_DOWN_LEFT");
-    walking_animations_[Animation_::UP | Animation_::RIGHT] =
-            ANIMATIONS->MakeIndex("WALKING_UP_RIGHT");
-    walking_animations_[Animation_::UP | Animation_::LEFT] =
-            ANIMATIONS->MakeIndex("WALKING_UP_LEFT");
+    for (int i = 0; i < 16; i++) walking_animations_[i] = -1;
+
+    walking_animations_[Animation_::DOWN                    ] = ANIMATIONS->MakeIndex("WALKING_DOWN");
+    walking_animations_[Animation_::UP                      ] = ANIMATIONS->MakeIndex("WALKING_UP");
+    walking_animations_[                   Animation_::LEFT ] = ANIMATIONS->MakeIndex("WALKING_LEFT");
+    walking_animations_[                   Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_RIGHT");
+    walking_animations_[Animation_::DOWN | Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_DOWN_RIGHT");
+    walking_animations_[Animation_::DOWN | Animation_::LEFT ] = ANIMATIONS->MakeIndex("WALKING_DOWN_LEFT");
+    walking_animations_[Animation_::UP   | Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_UP_RIGHT");
+    walking_animations_[Animation_::UP   | Animation_::LEFT ] = ANIMATIONS->MakeIndex("WALKING_UP_LEFT");
 }
 
 void Creature::InitializeStandingAnimations() {
-    for (int i = 0; i < 16; i++)
-        standing_animations_[i] = -1;
+    for (int i = 0; i < 16; i++) standing_animations_[i] = -1;
+
     ANIMATIONS->Add("STANDING_DOWN", 4, -1);
-    standing_animations_[Animation_::DOWN] =
-            ANIMATIONS->MakeIndex("STANDING_DOWN");
     ANIMATIONS->Add("STANDING_LEFT", 7, -1);
-    standing_animations_[Animation_::LEFT] =
-            ANIMATIONS->MakeIndex("STANDING_LEFT");
     ANIMATIONS->Add("STANDING_RIGHT", 2, -1);
-    standing_animations_[Animation_::RIGHT] =
-            ANIMATIONS->MakeIndex("STANDING_RIGHT");
     ANIMATIONS->Add("STANDING_UP", 0, -1);
-    standing_animations_[Animation_::UP] =
-            ANIMATIONS->MakeIndex("STANDING_UP");
     ANIMATIONS->Add("STANDING_DOWN_RIGHT", 3, -1);
-    standing_animations_[Animation_::DOWN | Animation_::RIGHT] =
-            ANIMATIONS->MakeIndex("STANDING_DOWN_RIGHT");
     ANIMATIONS->Add("STANDING_DOWN_LEFT", 6, -1);
-    standing_animations_[Animation_::DOWN | Animation_::LEFT] =
-            ANIMATIONS->MakeIndex("STANDING_DOWN_LEFT");
     ANIMATIONS->Add("STANDING_UP_RIGHT", 1, -1);
-    standing_animations_[Animation_::UP | Animation_::RIGHT] =
-            ANIMATIONS->MakeIndex("STANDING_UP_RIGHT");
     ANIMATIONS->Add("STANDING_UP_LEFT", 8, -1);
-    standing_animations_[Animation_::UP | Animation_::LEFT] =
-            ANIMATIONS->MakeIndex("STANDING_UP_LEFT");
+
+    standing_animations_[Animation_::DOWN                    ] = ANIMATIONS->MakeIndex("STANDING_DOWN");
+    standing_animations_[                   Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_LEFT");
+    standing_animations_[                   Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_RIGHT");
+    standing_animations_[Animation_::UP                      ] = ANIMATIONS->MakeIndex("STANDING_UP");
+    standing_animations_[Animation_::DOWN | Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_DOWN_RIGHT");
+    standing_animations_[Animation_::DOWN | Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_DOWN_LEFT");
+    standing_animations_[Animation_::UP   | Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_UP_RIGHT");
+    standing_animations_[Animation_::UP   | Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_UP_LEFT");
 }
+
+
+
+
 
 void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);

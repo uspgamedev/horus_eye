@@ -69,7 +69,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 
 
     static void InitializeAnimations();
-    static void ReleaseAnimations();
+    static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
   protected:
 	bool waiting_animation_;
