@@ -22,7 +22,7 @@ class Mummy : public Creature {
     Mummy(ugdk::Image* img);
     ~Mummy();
 
-    virtual void HandleCollision(WorldObject *);
+    
     virtual void CollidesWith(Mummy *);
    
 	void set_standing(bool standing) { standing_ = standing; }	

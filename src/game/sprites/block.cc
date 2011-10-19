@@ -14,6 +14,8 @@ namespace sprite {
 using namespace ugdk;
 using namespace utils;
 
+const CollisionMask Block::collision_ = CollisionMask::generate();
+
 Block::Block(Image* image) : moving_(false) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
@@ -78,10 +80,6 @@ void Block::Update(float delta_t) {
         GetKeys();
 #endif
     }
-}
-
-void Block::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
 }
 
 void Block::CollidesWith(Projectile * obj) {

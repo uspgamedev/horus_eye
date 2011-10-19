@@ -59,10 +59,6 @@ void Fireball::Explode() {
     Projectile::Explode();
 }
 
-void Fireball::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 void Fireball::Update(float delta_t) {
 	Projectile::Update(delta_t);
    // this->Move(delta_t);

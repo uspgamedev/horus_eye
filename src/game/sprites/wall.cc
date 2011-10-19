@@ -16,6 +16,8 @@ using namespace ugdk;
 using namespace utils;
 using namespace scene;
 
+const CollisionMask Wall::collision_ = CollisionMask::generate();
+
 #define SQRT_2       1.4142135623730950488016887242097
 #define WALL_WIDTH   106.0
 #define WALL_HEIGHT  157.0
@@ -118,10 +120,6 @@ void Wall::Update(float delta_t) {
                 SetDefaultFrame(dark_visible_frame_);
         }
     }
-}
-
-void Wall::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
 }
 
 }

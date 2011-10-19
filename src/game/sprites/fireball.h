@@ -16,7 +16,7 @@ class Fireball : public Projectile {
     virtual ~Fireball();
 
     virtual void CollidesWith(Mummy * obj) { Explode(); }
-    virtual void HandleCollision(WorldObject *);
+    
     virtual void Update(float);
 
   protected:

@@ -74,8 +74,4 @@ void Explosion::CollidesWith(Mummy *obj) {
     obj->TakeDamage(damage_);
 }
 
-void Explosion::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 }

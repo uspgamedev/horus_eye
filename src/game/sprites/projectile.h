@@ -29,7 +29,9 @@ class Projectile : public WorldObject {
     virtual void CollidesWith(Wall * obj) { Explode(); }
     virtual void CollidesWith(Door * obj) { Explode(); }
     virtual void CollidesWith(Block * obj) { Explode(); }
-    virtual void HandleCollision(WorldObject *);
+
+    
+    
     int damage() { return damage_; }
 
   protected:

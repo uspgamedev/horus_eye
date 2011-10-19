@@ -23,7 +23,7 @@ class LightningBolt : public Projectile {
     ~LightningBolt();
 
     virtual void CollidesWith(Mummy * obj);
-    virtual void HandleCollision(WorldObject *);
+    
 
   protected:
     void InitializeAnimations();

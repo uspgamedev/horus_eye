@@ -36,8 +36,4 @@ void MagicMissile::CollidesWith(Mummy *obj) {
     Explode();
 }
 
-void MagicMissile::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 }

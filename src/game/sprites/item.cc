@@ -37,8 +37,4 @@ void Item::CollidesWith(Hero *obj) {
         this->status_ = WorldObject::STATUS_DEAD;
 }
 
-void Item::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 }

@@ -18,16 +18,21 @@ class Block : public WorldObject {
     ~Block();
 
     virtual void Update(float dt);
-    virtual void HandleCollision(WorldObject *);
+    
 
     virtual void CollidesWith(Projectile * obj);
     virtual void CollidesWith(Wall * obj) { RevertPosition(); }
     virtual void CollidesWith(Door * obj) { RevertPosition(); }
     virtual void CollidesWith(Block * obj) { RevertPosition(); }
+    
 
     enum Direction { LEFT, RIGHT, UP, DOWN };
 
+    static const CollisionMask Collision() { return collision_; }
+    virtual const CollisionMask collision() const { return Block::Collision(); }
+
   private:
+    static const CollisionMask collision_;
 #ifdef DEBUG
     void GetKeys();
 #endif

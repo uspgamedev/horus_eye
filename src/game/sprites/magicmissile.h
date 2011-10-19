@@ -22,7 +22,7 @@ class MagicMissile : public Projectile {
     ~MagicMissile();
 
     virtual void CollidesWith(Mummy * obj);
-    virtual void HandleCollision(WorldObject *);
+    
 };
 
 }

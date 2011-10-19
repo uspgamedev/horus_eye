@@ -13,9 +13,12 @@ class Hero;
 class Door: public sprite::WorldObject {
   public:
     Door(ugdk::Image* image);
-    virtual void HandleCollision(WorldObject *);
-    void CollidesWith(Hero *);
     virtual ~Door() {}
+    
+    void CollidesWith(Hero *);
+
+    
+    
 };
 
 }

@@ -22,6 +22,8 @@ using namespace utils;
 
 namespace sprite {
 
+const CollisionMask Creature::collision_ = CollisionMask::generate();
+
 int Creature::direction_mapping_[8];
 uint32 Creature::standing_animations_[16];
 uint32 Creature::walking_animations_[16];
@@ -46,6 +48,10 @@ Creature::Creature() : WorldObject() {
     hit_duration_ = new TimeAccumulator(0);
 
     collision_type_ = MOVEABLE;
+
+    // Teach this creature how to collides with Walls.
+    known_collisions_[Wall::Collision()] = new Collisions::Rect(this);
+    known_collisions_[Block::Collision()] = new Collisions::Rect(this);
 }
 
 Creature::~Creature() {
@@ -258,10 +264,6 @@ void Creature::CollidesWith(Block * obj) {
     CollideWithRect(rect);
 }
 
-void Creature::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 int Creature::GetAttackingAnimationIndex(float angle) {
     int degreeAngle = (int)((angle / PI) * 360);
     degreeAngle += 45;
@@ -280,6 +282,12 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 
 void Creature::Render() {
     if (!blink_) WorldObject::Render();
+}
+
+
+void Creature::Collisions::Rect::Handle(WorldObject *obj) {
+    const RectObject *rect = (const RectObject*)obj->bound();
+    owner_->CollideWithRect(rect);
 }
 
 }  // namespace sprite

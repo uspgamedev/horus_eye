@@ -181,6 +181,8 @@
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
     <ClCompile Include="src\game\sprites\block.cc" />
+    <ClCompile Include="src\game\sprites\collision\collisionmask.cc" />
+    <ClCompile Include="src\game\sprites\collision\collisionobject.cc" />
     <ClCompile Include="src\game\sprites\conditionbuilder.cc" />
     <ClCompile Include="src\game\sprites\creature.cc" />
     <ClCompile Include="src\game\sprites\door.cc" />
@@ -277,6 +279,8 @@
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
     <ClInclude Include="src\game\sprites\block.h" />
+    <ClInclude Include="src\game\sprites\collision\collisionmask.h" />
+    <ClInclude Include="src\game\sprites\collision\collisionobject.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
     <ClInclude Include="src\game\sprites\conditionbuilder.h" />
     <ClInclude Include="src\game\sprites\creature.h" />
@@ -320,10 +324,6 @@
     <ClInclude Include="src\game\utils\textloader.h" />
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\game\data\text\lang_en.txt" />
-    <None Include="src\game\data\text\lang_pt_br.txt" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="horus_eye.rc" />

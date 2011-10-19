@@ -1,8 +1,11 @@
 #ifndef HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
+#include <map>
 #include <ugdk/action/sprite.h>
-#include "../utils/collisionobject.h"
+#include "game/utils/collisionobject.h"
+#include "game/sprites/collision/collisionmask.h"
+#include "game/sprites/collision/collisionobject.h"
 
 
 namespace sprite {
@@ -45,7 +48,7 @@ class WorldObject : public ugdk::Sprite {
     // tratamento de colisao
     virtual bool IsColliding(WorldObject* obj) const;
 
-    virtual void CollidesWith(Wall* obj) {}
+    /* virtual void CollidesWith(Wall* obj) {}
     virtual void CollidesWith(Door* obj) {}
     virtual void CollidesWith(Block* obj) {}
     virtual void CollidesWith(Creature* obj) {}
@@ -54,20 +57,33 @@ class WorldObject : public ugdk::Sprite {
     virtual void CollidesWith(Projectile *projectile) {}
     virtual void CollidesWith(MummyProjectile *projectile) {}
     virtual void CollidesWith(Mummy *mummy) {}
-    virtual void CollidesWith(Item *lifepotion) {}
+    virtual void CollidesWith(Item *lifepotion) {} */
 
-    virtual void CollidesWith(WorldObject* obj) {}
-    // tratamento de colisao
-    virtual void HandleCollision(WorldObject* obj);
+    //virtual void CollidesWith(WorldObject* obj) = 0;
+
+    /* Should implement this as "obj->CollidesWith(this);".
+       Reference: http://en.wikipedia.org/wiki/Double_dispatch */
+    virtual void HandleCollision(WorldObject *obj) {
+        this->CollidesWith(obj);
+    }
+
+    static const CollisionMask Collision() { return collision_; }
+    virtual const CollisionMask collision() const { return WorldObject::Collision(); }
+    
+    void CollidesWith(WorldObject* obj) {
+        CollisionMask mask = obj->collision();
+        CollisionObject *col = known_collisions_[mask];
+        if(col != NULL) col->Handle(obj);
+    }
 
   protected:
-
-    // atributos
     utils::CollisionObject *bound_;
     Status status_;
     CollisionType collision_type_;
+    std::map<const CollisionMask,CollisionObject*> known_collisions_;
 
   private:
+    static const CollisionMask collision_;
     float light_radius_;
 
 

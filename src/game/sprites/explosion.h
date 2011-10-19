@@ -27,7 +27,9 @@ class Explosion : public WorldObject, ugdk::Observer {
     virtual void Tick();
 
     void CollidesWith(Mummy *);
-    virtual void HandleCollision(WorldObject *);
+
+    
+    
     int damage() { return damage_; }
 
     const static int    HERO_FIREBALL_WEAPON,

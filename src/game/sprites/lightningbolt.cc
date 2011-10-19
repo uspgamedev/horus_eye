@@ -50,10 +50,6 @@ void LightningBolt::CollidesWith(Mummy *obj) {
     }
 }
 
-void LightningBolt::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 void LightningBolt::InitializeAnimations() {
     if(ANIMATIONS != NULL) return;
     ANIMATIONS = ugdk::Engine::reference()->animation_loader().Load("data/animations/lightning.gdd");

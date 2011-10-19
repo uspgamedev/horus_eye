@@ -35,8 +35,4 @@ MummyProjectile::~MummyProjectile() {}
 
 void MummyProjectile::CollidesWith(Hero *obj) { Explode(); }
 
-void MummyProjectile::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 }

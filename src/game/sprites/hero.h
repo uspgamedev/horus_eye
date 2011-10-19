@@ -18,15 +18,20 @@ class Hero : public Creature {
 
     virtual void CollidesWith(Mummy *);
     virtual void CollidesWith(MummyProjectile *);
-    virtual void HandleCollision(WorldObject *);
+    
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();
     void StartExplosion();
     Weapon* secondary_weapon() { return secondary_weapon_; }
 
 	void Invulnerable(int time);
+    static const CollisionMask& collision() { return collision_; }
+    virtual const CollisionMask Collision() const { return Hero::Collision(); }
 
   private:
+    static const CollisionMask collision_;
+
+
     ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
     float time_to_recover_speed_;

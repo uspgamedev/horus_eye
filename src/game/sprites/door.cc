@@ -31,8 +31,4 @@ void Door::CollidesWith(Hero *hero) {
         world->FinishLevel(LevelManager::FINISH_WIN);
 }
 
-void Door::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 }

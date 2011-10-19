@@ -22,12 +22,18 @@ class Wall : public WorldObject {
     Wall(ugdk::Image* image);
     ~Wall();
     virtual void Update(float dt);
-    virtual void HandleCollision(WorldObject *);
+
+    
+    
     void set_type(WallType);
 
     WallType wall_type_;
 
+    static const CollisionMask Collision() { return collision_; }
+    virtual const CollisionMask collision() const { return Wall::Collision(); }
+
   private:
+    static const CollisionMask collision_;
 
     void CheckType();
 

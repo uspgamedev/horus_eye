@@ -63,10 +63,6 @@ Mummy::~Mummy() {
 	WORLD()->DecreaseEnemyCount();
 }
 
-void Mummy::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 void Mummy::TakeDamage(float life_points) {
     Creature::TakeDamage(life_points);
     standing_ = false;

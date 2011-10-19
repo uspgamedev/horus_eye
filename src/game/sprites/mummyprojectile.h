@@ -19,7 +19,7 @@ class MummyProjectile : public Projectile {
 	~MummyProjectile();
 
 	virtual void CollidesWith(Hero * obj);
-	virtual void HandleCollision(WorldObject *);
+	
 };
 
 }

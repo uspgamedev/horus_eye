@@ -17,6 +17,9 @@ class Floor : public WorldObject {
     Floor(ugdk::Image* image);
     virtual void Update(float delta_t);
 
+    
+    virtual void HandleCollision(WorldObject *obj) {}
+
   private:
     utils::Tile *tile_;
 

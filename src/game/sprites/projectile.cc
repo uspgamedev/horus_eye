@@ -48,8 +48,4 @@ void Projectile::Explode() {
     }
 }
 
-void Projectile::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 }

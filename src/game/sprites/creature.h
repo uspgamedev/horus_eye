@@ -66,10 +66,12 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual void CollidesWith(Door *);
     virtual void CollidesWith(Block *);
 
-    virtual void HandleCollision(WorldObject *);
 
     static void InitializeAnimations();
     static void ReleaseAnimations();
+
+    static const CollisionMask& Collision() { return collision_; }
+    virtual const CollisionMask collision() const { return Creature::Collision(); }
 
   protected:
 	bool waiting_animation_;
@@ -84,6 +86,17 @@ class Creature : public WorldObject , public ugdk::Observer {
     static ugdk::uint32 dying_animation_;
     static ugdk::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
+
+    struct Collisions {
+        class Rect : public CollisionObject {
+          public:
+            Rect(Creature* owner) : owner_(owner) {}
+            void Handle(WorldObject* obj);
+
+          protected:
+            Creature *owner_;
+        };
+    };
     
     class Direction_ {
       public:
@@ -154,6 +167,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
+
+  private:
+    static const CollisionMask collision_;
 
 };  // class Creature
 

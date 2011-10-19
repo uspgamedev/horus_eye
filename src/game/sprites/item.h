@@ -17,7 +17,9 @@ class Item: public sprite::WorldObject {
     virtual void set_event(ItemEvent *event) { event_ = event; }
 
     virtual void CollidesWith(Hero *obj);
-    virtual void HandleCollision(WorldObject *);
+
+    
+    
      
   private:
     ItemEvent *event_;

@@ -10,6 +10,9 @@ using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
+
+const CollisionMask WorldObject::collision_ = CollisionMask::generate();
+
 WorldObject::WorldObject()
     : bound_(NULL),
       status_(STATUS_ACTIVE),
@@ -45,12 +48,6 @@ void WorldObject::set_light_radius(float radius) {
 
 bool WorldObject::IsColliding(WorldObject* obj) const {
     return bound_->Intersects(obj->bound());
-}
-
-void WorldObject::HandleCollision(WorldObject* obj) {
-//     double dispatch
-//     http://en.wikipedia.org/wiki/Double_dispatch
-    obj->CollidesWith(this);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
