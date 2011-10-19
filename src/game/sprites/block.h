@@ -13,6 +13,7 @@ namespace sprite {
 class Projectile;
 class Wall;
 class Block : public WorldObject {
+  DEFINE_COLLIDABLE
   public:
     Block(ugdk::Image* image);
     ~Block();
@@ -28,11 +29,7 @@ class Block : public WorldObject {
 
     enum Direction { LEFT, RIGHT, UP, DOWN };
 
-    static const CollisionMask Collision() { return collision_; }
-    virtual const CollisionMask collision() const { return Block::Collision(); }
-
   private:
-    static const CollisionMask collision_;
 #ifdef DEBUG
     void GetKeys();
 #endif

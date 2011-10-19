@@ -26,6 +26,7 @@ class Wall;
 class Block;
 
 class Creature : public WorldObject , public ugdk::Observer {
+  DEFINE_COLLIDABLE
   public:
     Creature();
     virtual ~Creature();
@@ -69,9 +70,6 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     static void InitializeAnimations();
     static void ReleaseAnimations();
-
-    static const CollisionMask& Collision() { return collision_; }
-    virtual const CollisionMask collision() const { return Creature::Collision(); }
 
   protected:
 	bool waiting_animation_;
@@ -167,9 +165,6 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
-
-  private:
-    static const CollisionMask collision_;
 
 };  // class Creature
 
