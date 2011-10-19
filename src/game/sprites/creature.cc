@@ -22,7 +22,8 @@ using namespace utils;
 
 namespace sprite {
 
-const CollisionMask Creature::collision_ = CollisionMask::generate();
+//const CollisionMask Creature::collision_ = CollisionMask::generate();
+INITIALIZE_COLLIDABLE(Creature, NULL);
 
 int Creature::direction_mapping_[8];
 uint32 Creature::standing_animations_[16];
@@ -238,21 +239,6 @@ void Creature::Tick() {
         status_ = WorldObject::STATUS_DEAD;
     }
 	waiting_animation_ = false;
-}
-
-void Creature::CollidesWith(Wall * obj) {
-    const RectObject *rect = (const RectObject*)obj->bound();
-    CollideWithRect(rect);
-}
-
-void Creature::CollidesWith(Door * obj) {
-    const RectObject *rect = (const RectObject*)obj->bound();
-    CollideWithRect(rect);
-}
-
-void Creature::CollidesWith(Block * obj) {
-    const RectObject *rect = (const RectObject*)obj->bound();
-    CollideWithRect(rect);
 }
 
 int Creature::GetAttackingAnimationIndex(float angle) {

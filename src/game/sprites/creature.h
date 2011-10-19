@@ -63,11 +63,6 @@ class Creature : public WorldObject , public ugdk::Observer {
     void set_weapon(Weapon *weapon) { weapon_ = weapon; }
 
     // Colisoes
-    virtual void CollidesWith(Wall *);
-    virtual void CollidesWith(Door *);
-    virtual void CollidesWith(Block *);
-
-
     static void InitializeAnimations();
     static void ReleaseAnimations() { ANIMATIONS = NULL; }
 

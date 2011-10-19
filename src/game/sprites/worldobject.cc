@@ -11,7 +11,7 @@ using namespace scene;
 using namespace utils;
 
 
-const CollisionMask WorldObject::collision_ = CollisionMask::generate();
+INITIALIZE_COLLIDABLE(WorldObject, NULL);
 
 WorldObject::WorldObject()
     : bound_(NULL),

@@ -34,8 +34,8 @@ using namespace utils;
 
 namespace sprite {
 
-
-const CollisionMask Hero::collision_ = CollisionMask::generate();
+//const CollisionMask Hero::collision_ = CollisionMask::generate();
+INITIALIZE_COLLIDABLE(Hero, NULL);
 
 #define SQRT_3 1.7320508075688772935274463415059
 
@@ -204,12 +204,6 @@ void Hero::Update(float delta_t) {
                 this->SelectAnimation(last_standing_animation_);
         }
     }
-
-    const CollisionMask mine = this->collision();
-    const CollisionMask theirs = WorldObject::collision();
-
-    assert(mine != theirs);
-
     AdjustBlink(delta_t);
     speed_ = original_speed_;
     set_mana(mana() + mana_regen_ * delta_t);

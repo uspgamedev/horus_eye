@@ -2,25 +2,28 @@
 #define HORUSEYE_GAME_SPRITE_DOOR_H_
 
 #include "worldobject.h"
-namespace ugdk{
-	class Image;
+
+namespace ugdk {
+class Image;
 }
 
 namespace sprite {
 
-class Hero;
-
 class Door: public sprite::WorldObject {
+  DEFINE_COLLIDABLE
   public:
     Door(ugdk::Image* image);
     virtual ~Door() {}
-    
-    void CollidesWith(Hero *);
 
-    
-    
+    struct Collisions {
+        class Win : public CollisionObject {
+          public:
+            Win() {}
+            void Handle(WorldObject* obj);
+        };
+    };
 };
 
 }
 
-#endif /* DOOR_H_ */
+#endif /* HORUSEYE_GAME_SPRITE_DOOR_H_ */

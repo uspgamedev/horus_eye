@@ -57,21 +57,22 @@ class WorldObject : public ugdk::Sprite {
     // Deprecated. Use CollidesWith(obj) instead.
     virtual void HandleCollision(WorldObject *obj) { this->CollidesWith(obj); }
   
-    void CollidesWith(WorldObject* obj, const CollisionMask *mask = NULL) {
-        CollisionObject *col;
-        if(mask == NULL) col = known_collisions_[obj->collision()];
-        else col = known_collisions_[*mask];
+    void CollidesWith(WorldObject* obj) {
+        CollidesWith(obj, obj->collision());
+    }
 
+    void CollidesWith(WorldObject* obj, const CollisionMask* mask) {
+        CollisionObject *col = known_collisions_[mask];
         if(col != NULL) col->Handle(obj);
-        else if(mask->parent() != NULL) 
-            CollidesWith(obj, mask->parent());
+        //else if(mask.parent() != NULL) 
+        //    CollidesWith(obj, *mask.parent());
     }
 
   protected:
     utils::CollisionObject *bound_;
     Status status_;
     CollisionType collision_type_;
-    std::map<const CollisionMask,CollisionObject*> known_collisions_;
+    std::map<const CollisionMask*,CollisionObject*> known_collisions_;
 
   private:
     float light_radius_;

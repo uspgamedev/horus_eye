@@ -15,7 +15,7 @@ class Tile;
 namespace sprite {
 
 class Wall : public WorldObject {
-
+  DEFINE_COLLIDABLE
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
@@ -29,12 +29,7 @@ class Wall : public WorldObject {
 
     WallType wall_type_;
 
-    static const CollisionMask Collision() { return collision_; }
-    virtual const CollisionMask collision() const { return Wall::Collision(); }
-
   private:
-    static const CollisionMask collision_;
-
     void CheckType();
 
     class Square {

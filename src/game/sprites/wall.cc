@@ -16,7 +16,8 @@ using namespace ugdk;
 using namespace utils;
 using namespace scene;
 
-const CollisionMask Wall::collision_ = CollisionMask::generate();
+//const CollisionMask Wall::collision_ = CollisionMask::generate();
+INITIALIZE_COLLIDABLE(Wall, NULL);
 
 #define SQRT_2       1.4142135623730950488016887242097
 #define WALL_WIDTH   106.0
