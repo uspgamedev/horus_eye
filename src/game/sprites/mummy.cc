@@ -35,6 +35,8 @@ namespace sprite {
 #define SQRT_3 1.7320508075688772935274463415059f
 #define EXP_PARAM (1.0f)
 
+INITIALIZE_COLLIDABLE_NODE(Mummy, Creature);
+
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
 
