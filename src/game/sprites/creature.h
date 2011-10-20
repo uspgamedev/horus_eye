@@ -80,16 +80,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     static ugdk::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
 
-    struct Collisions {
-        class Rect : public CollisionObject {
-          public:
-            Rect(Creature* owner) : owner_(owner) {}
-            void Handle(WorldObject* obj);
 
-          protected:
-            Creature *owner_;
-        };
-    };
+	COLLISION_BEGIN
+		COLLISION_ADD		(Creature, Rect)
+	COLLISION_END
     
     class Direction_ {
       public:

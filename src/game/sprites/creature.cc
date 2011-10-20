@@ -259,8 +259,7 @@ void Creature::Render() {
     if (!blink_) WorldObject::Render();
 }
 
-
-void Creature::Collisions::Rect::Handle(WorldObject *obj) {
+COLLISION_IMPLEMENT(Creature, Rect, obj) {
     const RectObject *rect = (const RectObject*)obj->bound();
     owner_->CollideWithRect(rect);
 }
