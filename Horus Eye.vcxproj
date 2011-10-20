@@ -192,7 +192,7 @@
     <ClCompile Include="src\game\sprites\hero.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\itembuilder.cc" />
-    <ClCompile Include="src\game\sprites\lightningbolt.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\lightningbolt.cc" />
     <ClCompile Include="src\game\sprites\projectiles\magicmissile.cc" />
     <ClCompile Include="src\game\sprites\mummy.cc" />
     <ClCompile Include="src\game\sprites\mummybuilder.cc" />
@@ -292,7 +292,7 @@
     <ClInclude Include="src\game\sprites\item.h" />
     <ClInclude Include="src\game\sprites\itembuilder.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
-    <ClInclude Include="src\game\sprites\lightningbolt.h" />
+    <ClInclude Include="src\game\sprites\projectiles\lightningbolt.h" />
     <ClInclude Include="src\game\sprites\projectiles\magicmissile.h" />
     <ClInclude Include="src\game\sprites\mummy.h" />
     <ClInclude Include="src\game\sprites\mummybuilder.h" />
