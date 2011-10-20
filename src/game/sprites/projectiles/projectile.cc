@@ -52,7 +52,7 @@ void Projectile::Explode() {
     }
 }
 
-void Projectile::Collisions::Damage::Handle(WorldObject *obj) {
+COLLISION_IMPLEMENT(Projectile, Damage, obj) {
 	Creature *creature = (Creature *) obj;
     if (owner_->status_ == WorldObject::STATUS_ACTIVE) {
         creature->TakeDamage(owner_->damage());

@@ -28,7 +28,11 @@ class Projectile : public WorldObject {
     bool exploding_;
 
 	virtual void Explode();
-    struct Collisions {
+	COLLISION_BEGIN
+		COLLISION_ADD_INLINE(Projectile, Explode, owner_->Explode();)
+		COLLISION_ADD		(Projectile, Damage)
+	COLLISION_END
+    /*struct Collisions {
         class Explode : public CollisionObject {
           public:
             Explode(Projectile* onwer) : owner_(onwer) {}
@@ -45,7 +49,7 @@ class Projectile : public WorldObject {
           protected:
             Projectile *owner_;
         };
-    };
+    };*/
 };
 
 }
