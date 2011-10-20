@@ -19,8 +19,6 @@ using namespace utils;
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(MagicMissile, Projectile);
-
 MagicMissile::MagicMissile(Vector2D & dir) :
         Projectile(Constants::PROJECTILE_DAMAGE, Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir)
 {

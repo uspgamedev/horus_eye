@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SPRITES_LIGHTNINGBOLT_H_
 #include <set>
 
-#include "projectile.h"
+#include "game/sprites/projectiles/projectile.h"
 #include <ugdk/math/vector2D.h>
 
 namespace ugdk {

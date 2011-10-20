@@ -10,22 +10,19 @@
 #include <ugdk/time/timehandler.h>
 #include <ugdk/audio/audiomanager.h>
 
-#include "../scenes/world.h"
-#include "../utils/imagefactory.h"
-#include "../utils/circleobject.h"
-#include "item.h"
-#include "hero.h"
-#include "projectile.h"
-#include "explosion.h"
-#include "mummyprojectile.h"
-#include "mummy.h"
-#include "../utils/constants.h"
-#include "../utils/settings.h"
-#include "weapons/herobaseweapon.h"
+#include "game/scenes/world.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/circleobject.h"
+#include "game/sprites/item.h"
+#include "game/sprites/hero.h"
+#include "game/sprites/mummyprojectile.h"
+#include "game/sprites/mummy.h"
+#include "game/utils/constants.h"
+#include "game/utils/settings.h"
+
+#include "game/sprites/weapons/herobaseweapon.h"
 #include <cmath>
 #include <iostream>
-
-#include <assert.h>
 
 using namespace std;
 using namespace ugdk;

@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_MUMMY_PROJECTILE_H_
 #define HORUSEYE_GAME_SPRITES_MUMMY_PROJECTILE_H_
 
-#include "projectile.h"
+#include "game/sprites/projectiles/projectile.h"
 
 namespace ugdk {
 class TimeAccumulator;
