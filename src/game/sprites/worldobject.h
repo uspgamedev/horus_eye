@@ -54,9 +54,6 @@ class WorldObject : public ugdk::Sprite {
     
     virtual bool IsColliding(WorldObject* obj) const;
 
-    // Deprecated. Use CollidesWith(obj) instead.
-    virtual void HandleCollision(WorldObject *obj) { this->CollidesWith(obj); }
-  
     void CollidesWith(WorldObject* obj) {
         CollidesWith(obj, obj->collision());
     }
