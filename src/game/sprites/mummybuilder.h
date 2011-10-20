@@ -3,7 +3,7 @@
 
 #include "mummy.h"
 #include "pharaoh.h"
-#include "../utils/constants.h"
+#include "game/utils/constants.h"
 
 namespace ugdk{
 	class Image;

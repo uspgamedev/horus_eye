@@ -4,7 +4,7 @@
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
 #include "game/sprites/wall.h"
-#include "game/sprites/creature.h"
+#include "game/sprites/creatures/creature.h"
 
 using namespace ugdk;
 using namespace utils;

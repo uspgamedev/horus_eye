@@ -6,10 +6,11 @@
 #include <ugdk/action/animation.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/modifier.h>
-#include "../scenes/world.h"
-#include "../utils/hudimagefactory.h"
-#include "constants.h"
-#include "../sprites/weapons/weapon.h"
+#include "game/scenes/world.h"
+#include "game/utils/hudimagefactory.h"
+#include "game/utils/constants.h"
+#include "game/sprites/weapons/weapon.h"
+#include "game/sprites/creatures/hero.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
 #define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT

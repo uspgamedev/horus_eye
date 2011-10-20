@@ -7,8 +7,8 @@
 #include <ugdk/graphic/image.h>
 #include <ugdk/action/sprite.h>
 #include <ugdk/action/animation.h>
-#include "../utils/levelloader.h"
-#include "../utils/levelmanager.h"
+#include "game/utils/levelloader.h"
+#include "game/utils/levelmanager.h"
 #include "../scenes/imagescene.h"
 
 namespace scene {

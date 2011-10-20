@@ -2,9 +2,9 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
-#include "../utils/tile.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/tile.h"
 #include "../scenes/world.h"
 #include <float.h>
 

@@ -10,11 +10,11 @@
 #include <ugdk/time/timehandler.h>
 #include <ugdk/audio/audiomanager.h>
 
-#include "game/scenes/world.h"
+#include "hero.h"
+
 #include "game/utils/imagefactory.h"
 #include "game/utils/circleobject.h"
 #include "game/sprites/item.h"
-#include "game/sprites/hero.h"
 #include "game/sprites/mummyprojectile.h"
 #include "game/sprites/mummy.h"
 #include "game/utils/constants.h"
@@ -26,7 +26,6 @@
 
 using namespace std;
 using namespace ugdk;
-using namespace scene;
 using namespace utils;
 
 namespace sprite {

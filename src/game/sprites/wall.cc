@@ -2,12 +2,12 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include "wall.h"
-#include "hero.h"
+#include "game/sprites/creatures/hero.h"
 #include "../scenes/world.h"
-#include "../utils/rectobject.h"
-#include "../utils/constants.h"
-#include "../utils/imagefactory.h"
-#include "../utils/tile.h"
+#include "game/utils/rectobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/tile.h"
 
 
 namespace sprite {

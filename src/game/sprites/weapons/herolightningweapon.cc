@@ -10,7 +10,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/projectiles/lightningbolt.h"
 #include "game/utils/settings.h"
-#include "game/sprites/hero.h"
+#include "game/sprites/creatures/hero.h"
 
 
 namespace sprite {

@@ -6,9 +6,9 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
-#include "../utils/rectobject.h"
-#include "condition.h"
-#include "worldobject.h"
+#include "game/utils/rectobject.h"
+#include "game/sprites/condition.h"
+#include "game/sprites/worldobject.h"
 
 namespace ugdk {
 class TimeAccumulator;

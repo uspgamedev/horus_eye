@@ -1,7 +1,7 @@
 #include <math.h>
 #include "item.h"
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
 #include <ugdk/math/vector2D.h>
 
 #define CENTER_X    Constants::POTION_SPRITE_CENTER_X

@@ -1,6 +1,6 @@
 #include "pharaohsummonweapon.h"
 #include "game/scenes/world.h"
-#include "game/sprites/hero.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
 #include "../mummybuilder.h"

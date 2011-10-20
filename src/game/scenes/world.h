@@ -5,8 +5,9 @@
 #include <vector>
 #include <ugdk/action/scene.h>
 #include <ugdk/math/vector2D.h>
-#include "../utils/levelmanager.h"
-#include "../utils/tile.h"
+
+#include "game/utils/levelmanager.h"
+#include "game/utils/tile.h"
 
 namespace ugdk {
 class Music;
@@ -17,6 +18,7 @@ class ImageFactory;
 }
 namespace sprite {
 class Hero;
+class Mummy;
 class WorldObject;
 }
 

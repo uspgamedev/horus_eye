@@ -2,7 +2,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/image.h>
 #include "game/scenes/world.h"
-#include "game/sprites/wall.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/utils/rectobject.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/constants.h"

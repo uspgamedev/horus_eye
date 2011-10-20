@@ -7,17 +7,21 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/audio/audiomanager.h>
+
 #include "world.h"
-#include "imagescene.h"
-#include "menu.h"
-#include "menubuilder.h"
-#include "../sprites/worldobject.h"
-#include "../sprites/hero.h"
-#include "../utils/hud.h"
-#include "../utils/levelmanager.h"
-#include "../utils/imagefactory.h"
-#include "../utils/settings.h"
-#include "../utils/visionstrategy.h"
+
+#include "game/scenes/imagescene.h"
+#include "game/scenes/menu.h"
+#include "game/scenes/menubuilder.h"
+
+#include "game/sprites/worldobject.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/utils/hud.h"
+#include "game/utils/levelmanager.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/settings.h"
+#include "game/utils/visionstrategy.h"
+
 namespace scene {
 
 using namespace ugdk;

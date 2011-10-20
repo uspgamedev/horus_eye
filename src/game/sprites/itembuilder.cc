@@ -1,5 +1,6 @@
 #include "itembuilder.h"
-#include "../utils/constants.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/utils/constants.h"
 
 #define INCREASE_SIGHT_TIME 3.00
 

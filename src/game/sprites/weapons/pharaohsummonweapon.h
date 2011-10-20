@@ -3,7 +3,7 @@
 
 #include "weapon.h"
 #include "game/utils/constants.h"
-#include "../creature.h"
+#include "game/sprites/creatures/creature.h"
 
 namespace sprite {
 

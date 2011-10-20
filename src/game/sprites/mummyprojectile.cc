@@ -1,12 +1,12 @@
 #include "mummyprojectile.h"
-#include "hero.h"
+#include "game/sprites/creatures/hero.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/videomanager.h>
-#include "../scenes/world.h"
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
-#include "../utils/imagefactory.h"
+#include "game/scenes/world.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/imagefactory.h"
 
 using namespace ugdk;
 using namespace scene;

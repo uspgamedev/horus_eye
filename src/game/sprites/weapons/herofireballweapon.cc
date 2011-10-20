@@ -13,7 +13,7 @@
 #include "game/sprites/explosion.h"
 #include "game/sprites/projectiles/fireball.h"
 #include "game/utils/settings.h"
-#include "game/sprites/hero.h"
+#include "game/sprites/creatures/hero.h"
 
 
 namespace sprite {

@@ -1,24 +1,20 @@
+#include <cmath>
+#include <iostream>
+
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/base/engine.h>
-#include "creature.h"
-#include "worldobject.h"
-#include "mummy.h"
-#include "hero.h"
-#include "door.h"
-#include "wall.h"
-#include "block.h"
-#include "../utils/circleobject.h"
-#include "../scenes/world.h"
 
-#include <cmath>
-#include <iostream>
+#include "creature.h"
+
+#include "game/sprites/wall.h"
+#include "game/utils/circleobject.h"
 
 using namespace ugdk;
 using namespace utils;
 
-#define PI acos(-1.0f)
+#define PI 3.1415926535897932384626433832795
 
 namespace sprite {
 

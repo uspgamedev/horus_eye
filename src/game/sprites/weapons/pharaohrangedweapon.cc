@@ -1,7 +1,7 @@
 #include <cmath>
 #include "pharaohrangedweapon.h"
 #include "game/scenes/world.h"
-#include "game/sprites/hero.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/sprites/mummy.h"
 #include "../mummyprojectile.h"
 #include <ugdk/base/engine.h>

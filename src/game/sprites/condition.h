@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_CONDITION_CONDITION_H_
 
 #include <cstdlib>
-#include "../utils/constants.h"
+#include "game/utils/constants.h"
 
 namespace sprite {
 

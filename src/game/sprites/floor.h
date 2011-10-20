@@ -1,30 +1,26 @@
-#ifndef FLOOR_H_
-#define FLOOR_H_
+#ifndef HORUSEYE_GAME_SPRITE_FLOOR_H_
+#define HORUSEYE_GAME_SPRITE_FLOOR_H_
 
-#include "worldobject.h"
+#include "game/sprites/worldobject.h"
+
 namespace ugdk {
 	class Image;
-    class AnimationSet;
 };
 namespace utils {
     class Tile;
 };
+
 namespace sprite {
 
 class Floor : public WorldObject {
-
   public:
     Floor(ugdk::Image* image);
     virtual void Update(float delta_t);
 
-    
-    virtual void HandleCollision(WorldObject *obj) {}
-
   private:
     utils::Tile *tile_;
-
 };
 
 }
 
-#endif /* FLOOR_H_ */
+#endif /* HORUSEYE_GAME_SPRITE_FLOOR_H_ */

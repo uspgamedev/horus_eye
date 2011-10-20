@@ -4,8 +4,8 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
-#include "../utils/levelloader.h"
-#include "../utils/levelmanager.h"
+#include "game/utils/levelloader.h"
+#include "game/utils/levelmanager.h"
 #include "../scenes/imagescene.h"
 
 namespace scene {

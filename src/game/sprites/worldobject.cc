@@ -1,7 +1,8 @@
 #include "worldobject.h"
-#include "../scenes/world.h"
-#include "../utils/circleobject.h"
-#include "../utils/tile.h"
+#include "game/scenes/world.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/tile.h"
+#include "game/utils/constants.h"
 #include <ugdk/graphic/light.h>
 
 namespace sprite {
