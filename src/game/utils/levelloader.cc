@@ -9,6 +9,7 @@
 #include "../sprites/floor.h"
 #include "../sprites/door.h"
 #include "../sprites/wall.h"
+#include "../sprites/block.h"
 #include "../sprites/itembuilder.h"
 #include "../sprites/mummybuilder.h"
 #include "imagefactory.h"
@@ -104,6 +105,11 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
+            case BLOCK: {
+				world_->AddWorldObject(new Block(image_factory->WallImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
+                break;
+            }
 			case HERO: {
 				world_->AddHero(position);
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
