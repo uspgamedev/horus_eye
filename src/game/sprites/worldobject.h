@@ -64,8 +64,8 @@ class WorldObject : public ugdk::Sprite {
     void CollidesWith(WorldObject* obj, const CollisionMask* mask) {
         CollisionObject *col = known_collisions_[mask];
         if(col != NULL) col->Handle(obj);
-        //else if(mask.parent() != NULL) 
-        //    CollidesWith(obj, *mask.parent());
+        else if(mask->parent() != NULL) 
+            CollidesWith(obj, mask->parent());
     }
 
   protected:

@@ -12,25 +12,23 @@ namespace sprite {
     static const CollisionMask* collision_;
 
 
-#define INITIALIZE_COLLIDABLE(CLASS, parent) const CollisionMask* CLASS::collision_ = CollisionMask::generate(parent);
+#define INITIALIZE_COLLIDABLE(CLASS, parent) const CollisionMask* CLASS::collision_ = CollisionMask::Generate(parent);
     
 class CollisionMask {
   public:
     // Generates a new CollisionMask with an unique mask.
-    static const CollisionMask* generate(CollisionMask *parent = NULL);
-    static const CollisionMask* Find(int id) { return cache_[id]; }
+    static const CollisionMask* Generate(const CollisionMask *parent = NULL);
 
     ~CollisionMask() {}
-    CollisionMask* parent() const { return parent_; }
-    void set_parent(CollisionMask* parent) { parent_ = parent; }
+    const CollisionMask* parent() const { return parent_; }
 
   private:
     static int identifier_counter_;
-    CollisionMask(int identifier, CollisionMask* parent = NULL) : identifier_(identifier), parent_(parent) {}
+    CollisionMask(int identifier, const CollisionMask* parent = NULL) : identifier_(identifier), parent_(parent) {}
 
     int identifier_;
-    CollisionMask* parent_;
-    static std::map<int, CollisionMask*> cache_;
+    const CollisionMask* parent_;
+    //static std::map<int, CollisionMask*> cache_;
 };
 
 }

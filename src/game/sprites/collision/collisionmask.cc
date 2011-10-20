@@ -2,10 +2,10 @@
 
 namespace sprite {
 
-const CollisionMask* CollisionMask::generate(CollisionMask *parent) {
+const CollisionMask* CollisionMask::Generate(const CollisionMask *parent) {
     int identifier = identifier_counter_++;
-    cache_[identifier] = new CollisionMask(identifier, parent);
-    return cache_[identifier];
+    //cache_[identifier] = 
+    return new CollisionMask(identifier, parent);
 }
 
 int CollisionMask::identifier_counter_ = 0;
