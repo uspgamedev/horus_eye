@@ -27,7 +27,7 @@ MagicMissile::MagicMissile(Vector2D & dir) :
     set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
     bound_ = new CircleObject(0.15f);
 	set_light_radius(1.0f);
-	known_collisions_[Mummy::Collision()] = new Collisions::Damage(this);
+	known_collisions_[Mummy::Collision()] = new Collisions::DamageAndExplode(this);
 }
 
 }

@@ -31,25 +31,8 @@ class Projectile : public WorldObject {
 	COLLISION_BEGIN
 		COLLISION_ADD_INLINE(Projectile, Explode, owner_->Explode();)
 		COLLISION_ADD		(Projectile, Damage)
+		COLLISION_ADD		(Projectile, DamageAndExplode)
 	COLLISION_END
-    /*struct Collisions {
-        class Explode : public CollisionObject {
-          public:
-            Explode(Projectile* onwer) : owner_(onwer) {}
-			void Handle(WorldObject* obj) { owner_->Explode(); }
-
-          protected:
-            Projectile *owner_;
-        };
-        class Damage : public CollisionObject {
-          public:
-            Damage(Projectile* onwer) : owner_(onwer) {}
-			void Handle(WorldObject* obj);
-
-          protected:
-            Projectile *owner_;
-        };
-    };*/
 };
 
 }
