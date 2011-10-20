@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_MAGICMISSILE_H_
 #define HORUSEYE_GAME_SPRITES_MAGICMISSILE_H_
 
-#include "projectile.h"
+#include "game/sprites/projectile.h"
 
 namespace sprite {
 

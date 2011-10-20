@@ -1,10 +1,12 @@
-#include "magicmissile.h"
-#include "mummy.h"
+
 #include <ugdk/time/timeaccumulator.h>
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
-#include "../utils/imagefactory.h"
-#include "../scenes/world.h"
+
+#include "magicmissile.h"
+#include "game/scenes/world.h"
+#include "game/sprites/mummy.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/imagefactory.h"
 
 using namespace ugdk;
 using namespace utils;

@@ -1,11 +1,13 @@
-#include "herobaseweapon.h"
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/base/engine.h>
-#include "../../scenes/world.h"
-#include "../magicmissile.h"
-#include "../../utils/settings.h"
+
+#include "herobaseweapon.h"
+
+#include "game/scenes/world.h"
+#include "game/sprites/projectiles/magicmissile.h"
+#include "game/utils/settings.h"
 
 namespace sprite {
 

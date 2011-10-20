@@ -4,14 +4,16 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/base/engine.h>
-#include "../../utils/imagefactory.h"
-#include "../../utils/hudimagefactory.h"
-#include "../../utils/constants.h"
-#include "../../scenes/world.h"
-#include "../explosion.h"
-#include "../fireball.h"
-#include "../../utils/settings.h"
-#include "../hero.h"
+
+
+#include "game/utils/imagefactory.h"
+#include "game/utils/hudimagefactory.h"
+#include "game/utils/constants.h"
+#include "game/scenes/world.h"
+#include "game/sprites/explosion.h"
+#include "game/sprites/projectiles/fireball.h"
+#include "game/utils/settings.h"
+#include "game/sprites/hero.h"
 
 
 namespace sprite {

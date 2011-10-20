@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_PROJECTILE_H_
 #define HORUSEYE_GAME_SPRITES_PROJECTILE_H_
 
-#include "worldobject.h"
+#include "game/sprites/worldobject.h"
 #include <ugdk/math/vector2D.h>
 
 namespace ugdk {
