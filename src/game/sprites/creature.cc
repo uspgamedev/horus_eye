@@ -22,8 +22,7 @@ using namespace utils;
 
 namespace sprite {
 
-//const CollisionMask Creature::collision_ = CollisionMask::generate();
-INITIALIZE_COLLIDABLE(Creature, NULL);
+INITIALIZE_COLLIDABLE_NODE(Creature, WorldObject);
 
 int Creature::direction_mapping_[8];
 uint32 Creature::standing_animations_[16];
@@ -52,7 +51,6 @@ Creature::Creature() : WorldObject() {
 
     // Teach this creature how to collides with Walls.
     known_collisions_[Wall::Collision()] = new Collisions::Rect(this);
-    known_collisions_[Block::Collision()] = new Collisions::Rect(this);
 }
 
 Creature::~Creature() {

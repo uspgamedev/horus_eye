@@ -14,8 +14,7 @@ namespace sprite {
 using namespace ugdk;
 using namespace utils;
 
-//const CollisionMask Block::collision_ = CollisionMask::generate();
-INITIALIZE_COLLIDABLE(Block, NULL);
+INITIALIZE_COLLIDABLE_NODE(Block, Wall);
 
 Block::Block(Image* image) : moving_(false) {
     Initialize(image);

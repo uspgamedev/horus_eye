@@ -11,7 +11,7 @@ using namespace scene;
 using namespace utils;
 
 
-INITIALIZE_COLLIDABLE(WorldObject, NULL);
+INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
     : bound_(NULL),

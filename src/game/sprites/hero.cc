@@ -34,8 +34,7 @@ using namespace utils;
 
 namespace sprite {
 
-//const CollisionMask Hero::collision_ = CollisionMask::generate();
-INITIALIZE_COLLIDABLE(Hero, NULL);
+INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 
 #define SQRT_3 1.7320508075688772935274463415059
 

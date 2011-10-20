@@ -9,8 +9,7 @@
 
 namespace sprite {
 
-//const CollisionMask Door::collision_ = CollisionMask::generate(Wall::Collision());
-INITIALIZE_COLLIDABLE(Door, NULL);
+INITIALIZE_COLLIDABLE_NODE(Door, Wall);
 
 #define HOTSPOT_WIDTH   Constants::DOOR_HOTSPOT_WIDTH
 #define HOTSPOT_HEIGHT  Constants::DOOR_HOTSPOT_HEIGHT
