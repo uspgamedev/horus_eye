@@ -15,7 +15,6 @@
 #include "game/utils/imagefactory.h"
 #include "game/utils/circleobject.h"
 #include "game/sprites/item.h"
-#include "game/sprites/mummyprojectile.h"
 #include "game/sprites/mummy.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
@@ -70,6 +69,8 @@ Hero::Hero(Image* img) {
     slot_selected_ = -1;
     weapon_ = new HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
+
+    known_collisions_[Mummy::Collision()] = new Collisions::MummySlow(this);
 }
 
 void Hero::AddWeapon(int slot, Weapon* weapon) {
@@ -91,12 +92,8 @@ void Hero::PlayHitSound() const {
 }
 
 
-void Hero::CollidesWith(Mummy *obj) {
+void Hero::CollisionSlow() {
    speed_ /= 1.19f;
-}
-
-void Hero::CollidesWith(MummyProjectile* obj) {
-    TakeDamage(obj->damage());
 }
 
 void Hero::GetKeys() {

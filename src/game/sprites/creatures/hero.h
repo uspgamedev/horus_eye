@@ -8,16 +8,13 @@
 
 namespace sprite {
 
-class Mummy;
-class MummyProjectile;
 class Hero : public Creature {
   DEFINE_COLLIDABLE
   public:
     Hero(ugdk::Image* img = NULL);
     ~Hero() {}
 
-    virtual void CollidesWith(Mummy *);
-    virtual void CollidesWith(MummyProjectile *);
+    virtual void CollisionSlow();
     
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();
@@ -33,6 +30,10 @@ class Hero : public Creature {
     std::map<int, Weapon*> weapons_;
     int slot_selected_;
     Weapon *secondary_weapon_;
+
+	COLLISION_BEGIN
+        COLLISION_ADD_INLINE (Hero, MummySlow, owner_->CollisionSlow(); )
+	COLLISION_END
 
     virtual void Update(float delta_t);
     virtual void PlayHitSound() const;
