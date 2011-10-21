@@ -1,16 +1,17 @@
 #include <cmath>
-#include "fireball.h"
-#include "../scenes/world.h"
-#include "mummy.h"
 #include <ugdk/time/timeaccumulator.h>
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
-#include "../utils/imagefactory.h"
-#include "../scenes/world.h"
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/base/engine.h>
+
+#include "fireball.h"
+#include "game/scenes/world.h"
+#include "game/sprites/explosion.h"
+#include "game/sprites/creatures/mummy.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/imagefactory.h"
 
 using namespace ugdk;
 using namespace utils;
@@ -37,19 +38,15 @@ Projectile(0.0f, Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir)
     bound_ = new CircleObject(0.25f);
     set_light_radius(1.0f);
 
+    known_collisions_[Mummy::Collision()] = new Collisions::DamageAndExplode(this);
 
     float raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
     float angle = (raw_angle / acos(-1.0f)) + 1.0f;
     int animation_index = (int)((angle * 4.0f) + 0.5f);
     this->SelectAnimation(animation_index % 8);
 
-
     explosion_ = explosion;
 }
-
-Fireball::~Fireball() {
-}
-
 
 void Fireball::Explode() {
     if (explosion_ != NULL) {
@@ -57,15 +54,6 @@ void Fireball::Explode() {
         explosion_ = NULL;
     }
     Projectile::Explode();
-}
-
-void Fireball::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
-void Fireball::Update(float delta_t) {
-	Projectile::Update(delta_t);
-   // this->Move(delta_t);
 }
 
 void Fireball::InitializeAnimations() {

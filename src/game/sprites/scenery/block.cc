@@ -3,8 +3,8 @@
 #include "block.h"
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
-#include "game/sprites/projectile.h"
-#include "game/sprites/wall.h"
+#include "game/sprites/projectiles/projectile.h"
+#include "game/sprites/scenery/wall.h"
 #include "game/utils/rectobject.h"
 #include "game/utils/constants.h"
 
@@ -15,6 +15,8 @@ namespace sprite {
 using namespace ugdk;
 using namespace utils;
 
+INITIALIZE_COLLIDABLE_NODE(Block, Wall);
+
 Block::Block(Image* image) : moving_(false) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
@@ -23,6 +25,9 @@ Block::Block(Image* image) : moving_(false) {
 
     collision_type_ = MOVEABLE;
     bound_ = new RectObject(0.95f, 0.95f);
+
+    known_collisions_[Wall::Collision()] = new Collisions::InvalidMovement(this);
+    known_collisions_[Projectile::Collision()] = new Collisions::Push(this);
 }
 Block::~Block() {}
 
@@ -81,13 +86,8 @@ void Block::Update(float delta_t) {
     }
 }
 
-void Block::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
-void Block::CollidesWith(Projectile * obj) {
+void Block::PushToward(Vector2D &pushdir) {
     if(moving_) return; // One cannot affect a block while it moves.
-    Vector2D pushdir = (obj->world_position() - this->world_position()).Normalize();
 
     if(pushdir.x > fabs(pushdir.y)) 
         moving_toward_ = RIGHT;
@@ -100,6 +100,12 @@ void Block::CollidesWith(Projectile * obj) {
 
     moving_ = true;
     moving_time_left_ = 0.5f;
+}
+
+COLLISION_IMPLEMENT(Block, Push, obj) {
+    Projectile *proj = (Projectile *) obj;
+    Vector2D pushdir = (obj->world_position() - owner_->world_position()).Normalize();
+    owner_->PushToward(pushdir);
 }
 
 void Block::RevertPosition() {

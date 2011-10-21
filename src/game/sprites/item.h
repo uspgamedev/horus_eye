@@ -16,12 +16,13 @@ class Item: public sprite::WorldObject {
     virtual void Update(float delta_t);
     virtual void set_event(ItemEvent *event) { event_ = event; }
 
-    virtual void CollidesWith(Hero *obj);
-    virtual void HandleCollision(WorldObject *);
-     
   private:
     ItemEvent *event_;
     float total_time_;
+
+    COLLISION_BEGIN
+		COLLISION_ADD (Item, Use)
+	COLLISION_END
 };
 
 }

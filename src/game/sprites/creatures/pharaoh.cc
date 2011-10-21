@@ -1,10 +1,14 @@
-#include "../utils/visionstrategy.h"
-#include "../utils/imagefactory.h"
-#include "../utils/constants.h"
-#include "pharaoh.h"
-#include "weapons/weapon.h"
-#include "mummybuilder.h"
+
 #include <ugdk/math/vector2D.h>
+
+#include "pharaoh.h"
+
+#include "game/utils/visionstrategy.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/constants.h"
+#include "game/sprites/weapons/weapon.h"
+#include "game/sprites/mummybuilder.h"
+
 using namespace std;
 using namespace ugdk;
 using namespace scene;

@@ -3,7 +3,7 @@
 #include <ugdk/action/layer.h>
 #include <ugdk/action/sprite.h>
 #include <ugdk/input/inputmanager.h>
-#include "../utils/levelmanager.h"
+#include "game/utils/levelmanager.h"
 #include <ugdk/input/keys.h>
 
 namespace scene {

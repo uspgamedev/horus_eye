@@ -1,14 +1,17 @@
 #include "projectile.h"
-#include "mummy.h"
 #include <ugdk/time/timeaccumulator.h>
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
-#include "../utils/imagefactory.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/imagefactory.h"
+#include "game/sprites/scenery/wall.h"
+#include "game/sprites/creatures/creature.h"
 
 using namespace ugdk;
 using namespace utils;
 
 namespace sprite {
+
+INITIALIZE_COLLIDABLE_NODE(Projectile, WorldObject);
 
 Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
         direction_(Vector2D::Normalized(dir))
@@ -19,6 +22,7 @@ Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
     duration_ = new TimeAccumulator(duration);
     collision_type_ = MOVEABLE;
     exploding_ = false;
+	known_collisions_[Wall::Collision()] = new Collisions::Explode(this);
 }
 
 Projectile::~Projectile() {
@@ -48,8 +52,17 @@ void Projectile::Explode() {
     }
 }
 
-void Projectile::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
+COLLISION_IMPLEMENT(Projectile, Damage, obj) {
+	Creature *creature = (Creature *) obj;
+    if (owner_->status_ == WorldObject::STATUS_ACTIVE)
+        creature->TakeDamage(owner_->damage());
+}
+
+COLLISION_IMPLEMENT(Projectile, DamageAndExplode, obj) {
+	Creature *creature = (Creature *) obj;
+    if (owner_->status_ == WorldObject::STATUS_ACTIVE)
+        creature->TakeDamage(owner_->damage());
+    owner_->Explode();
 }
 
 }

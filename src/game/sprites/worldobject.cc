@@ -1,7 +1,8 @@
 #include "worldobject.h"
-#include "../scenes/world.h"
-#include "../utils/circleobject.h"
-#include "../utils/tile.h"
+#include "game/scenes/world.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/tile.h"
+#include "game/utils/constants.h"
 #include <ugdk/graphic/light.h>
 
 namespace sprite {
@@ -9,6 +10,9 @@ namespace sprite {
 using namespace ugdk;
 using namespace scene;
 using namespace utils;
+
+
+INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
     : bound_(NULL),
@@ -45,12 +49,6 @@ void WorldObject::set_light_radius(float radius) {
 
 bool WorldObject::IsColliding(WorldObject* obj) const {
     return bound_->Intersects(obj->bound());
-}
-
-void WorldObject::HandleCollision(WorldObject* obj) {
-//     double dispatch
-//     http://en.wikipedia.org/wiki/Double_dispatch
-    obj->CollidesWith(this);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {

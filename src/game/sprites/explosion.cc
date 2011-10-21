@@ -1,12 +1,13 @@
 #include "explosion.h"
-#include "mummy.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
+
+#include "game/sprites/creatures/mummy.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
 
 using namespace ugdk;
 using namespace utils;
@@ -38,6 +39,8 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 
     expansion_speed_ = (radius / 2) /
             (GetAnimationFrameNumber() / GetAnimationFPS());
+
+	known_collisions_[Mummy::Collision()] = new Collisions::Damage(this);
 }
 
 Explosion::~Explosion() {}
@@ -70,12 +73,9 @@ void Explosion::Update(float delta_t) {
 	this->RadiusUpdate(delta_t);
 }
 
-void Explosion::CollidesWith(Mummy *obj) {
-    obj->TakeDamage(damage_);
-}
-
-void Explosion::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
+COLLISION_IMPLEMENT(Explosion, Damage, obj) {
+	Creature *creature = (Creature *) obj;
+    creature->TakeDamage(owner_->damage());
 }
 
 }

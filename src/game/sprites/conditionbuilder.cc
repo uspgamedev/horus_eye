@@ -1,7 +1,6 @@
 #include "conditionbuilder.h"
-#include "../utils/constants.h"
-#include "hero.h"
-#include "creature.h"
+#include "game/utils/constants.h"
+#include "game/sprites/creatures/creature.h"
 
 namespace sprite {
 

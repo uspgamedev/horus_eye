@@ -6,9 +6,9 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
-#include "../utils/rectobject.h"
-#include "condition.h"
-#include "worldobject.h"
+#include "game/utils/rectobject.h"
+#include "game/sprites/condition.h"
+#include "game/sprites/worldobject.h"
 
 namespace ugdk {
 class TimeAccumulator;
@@ -26,6 +26,7 @@ class Wall;
 class Block;
 
 class Creature : public WorldObject , public ugdk::Observer {
+  DEFINE_COLLIDABLE
   public:
     Creature();
     virtual ~Creature();
@@ -62,14 +63,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     void set_weapon(Weapon *weapon) { weapon_ = weapon; }
 
     // Colisoes
-    virtual void CollidesWith(Wall *);
-    virtual void CollidesWith(Door *);
-    virtual void CollidesWith(Block *);
-
-    virtual void HandleCollision(WorldObject *);
-
     static void InitializeAnimations();
-    static void ReleaseAnimations();
+    static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
   protected:
 	bool waiting_animation_;
@@ -84,6 +79,11 @@ class Creature : public WorldObject , public ugdk::Observer {
     static ugdk::uint32 dying_animation_;
     static ugdk::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
+
+
+	COLLISION_BEGIN
+		COLLISION_ADD		(Creature, Rect)
+	COLLISION_END
     
     class Direction_ {
       public:

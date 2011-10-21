@@ -10,27 +10,26 @@
 #include <ugdk/time/timehandler.h>
 #include <ugdk/audio/audiomanager.h>
 
-#include "../scenes/world.h"
-#include "../utils/imagefactory.h"
-#include "../utils/circleobject.h"
-#include "item.h"
 #include "hero.h"
-#include "projectile.h"
-#include "explosion.h"
-#include "mummyprojectile.h"
-#include "mummy.h"
-#include "../utils/constants.h"
-#include "../utils/settings.h"
-#include "weapons/herobaseweapon.h"
+
+#include "game/utils/imagefactory.h"
+#include "game/utils/circleobject.h"
+#include "game/sprites/item.h"
+#include "game/sprites/creatures/mummy.h"
+#include "game/utils/constants.h"
+#include "game/utils/settings.h"
+
+#include "game/sprites/weapons/herobaseweapon.h"
 #include <cmath>
 #include <iostream>
 
 using namespace std;
 using namespace ugdk;
-using namespace scene;
 using namespace utils;
 
 namespace sprite {
+
+INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 
 #define SQRT_3 1.7320508075688772935274463415059
 
@@ -70,6 +69,8 @@ Hero::Hero(Image* img) {
     slot_selected_ = -1;
     weapon_ = new HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
+
+    known_collisions_[Mummy::Collision()] = new Collisions::MummySlow(this);
 }
 
 void Hero::AddWeapon(int slot, Weapon* weapon) {
@@ -91,16 +92,8 @@ void Hero::PlayHitSound() const {
 }
 
 
-void Hero::CollidesWith(Mummy *obj) {
+void Hero::CollisionSlow() {
    speed_ /= 1.19f;
-}
-
-void Hero::CollidesWith(MummyProjectile* obj) {
-    TakeDamage(obj->damage());
-}
-
-void Hero::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
 }
 
 void Hero::GetKeys() {

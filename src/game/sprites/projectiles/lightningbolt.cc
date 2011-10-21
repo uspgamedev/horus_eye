@@ -1,15 +1,17 @@
 #include <cmath>
-#include "lightningbolt.h"
-#include "mummy.h"
 #include <ugdk/time/timeaccumulator.h>
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
-#include "../utils/imagefactory.h"
-#include "../scenes/world.h"
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/base/engine.h>
+
+#include "lightningbolt.h"
+
+#include "game/sprites/creatures/mummy.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+#include "game/utils/imagefactory.h"
+#include "game/scenes/world.h"
 
 using namespace ugdk;
 using namespace utils;
@@ -40,18 +42,8 @@ Projectile(Constants::LIGHTNING_DAMAGE, Constants::LIGHTNING_SPEED, Constants::L
     float angle = (raw_angle / acos(-1.0f)) + 1.0f;
     int animation_index = (int)((angle * 4.0f) + 0.5f);
     this->SelectAnimation(animation_index % 8);
-}
 
-LightningBolt::~LightningBolt() {}
-
-void LightningBolt::CollidesWith(Mummy *obj) {
-    if (this->status_ == WorldObject::STATUS_ACTIVE) {
-        obj->TakeDamage(damage_);
-    }
-}
-
-void LightningBolt::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
+	known_collisions_[Mummy::Collision()] = new Collisions::Damage(this);
 }
 
 void LightningBolt::InitializeAnimations() {

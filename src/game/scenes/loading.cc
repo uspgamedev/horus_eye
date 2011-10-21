@@ -3,8 +3,8 @@
 #include <ugdk/action/sprite.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
-#include "../utils/levelmanager.h"
-#include "../utils/textloader.h"
+#include "game/utils/levelmanager.h"
+#include "game/utils/textloader.h"
 
 namespace scene {
 

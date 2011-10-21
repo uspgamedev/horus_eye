@@ -1,45 +1,35 @@
 #include <cmath>
-#include <iostream>
 #include <sstream>
 #include <ugdk/base/engine.h>
-#include <ugdk/action/scene.h>
-#include <ugdk/graphic/image.h>
-#include <ugdk/action/sprite.h>
 #include <ugdk/action/animation.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/input/inputmanager.h>
-#include <ugdk/time/timehandler.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
 
-#include "../scenes/world.h"
-#include "../utils/geometryprimitives.h"
-#include "../utils/visionstrategy.h"
-#include "../utils/constants.h"
-#include "../utils/settings.h"
-#include "../utils/imagefactory.h"
-#include "../utils/tile.h"
 #include "mummy.h"
-#include "projectile.h"
-#include "explosion.h"
-#include "itembuilder.h"
-#include "weapons/weapon.h"
 
-using namespace std;
-using namespace ugdk;
-using namespace scene;
-using namespace utils;
+#include "game/scenes/world.h"
+#include "game/utils/geometryprimitives.h"
+#include "game/utils/visionstrategy.h"
+#include "game/utils/constants.h"
+#include "game/utils/settings.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/tile.h"
+#include "game/sprites/itembuilder.h"
+#include "game/sprites/weapons/weapon.h"
 
 namespace sprite {
 
-#define SQRT_3 1.7320508075688772935274463415059f
+using namespace ugdk;
+using scene::World;
+using namespace utils;
+
 #define EXP_PARAM (1.0f)
+
+INITIALIZE_COLLIDABLE_NODE(Mummy, Creature);
 
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
-
     return (int)(1000*-log(1.0*rand()/RAND_MAX)/EXP_PARAM);
-
 }
 
 Mummy::Mummy(Image* img) {
@@ -55,6 +45,8 @@ Mummy::Mummy(Image* img) {
     standing_ = true;
     interval_ = new TimeAccumulator(0);
     invulnerability_time_ = 300;
+
+	known_collisions_[Mummy::Collision()] = new Collisions::MummyAntiStack(this);
 }
 
 Mummy::~Mummy() {
@@ -63,16 +55,12 @@ Mummy::~Mummy() {
 	WORLD()->DecreaseEnemyCount();
 }
 
-void Mummy::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
-}
-
 void Mummy::TakeDamage(float life_points) {
     Creature::TakeDamage(life_points);
     standing_ = false;
 }
 
-void Mummy::CollidesWith(Mummy *obj) {
+void Mummy::MummyAntiStack(WorldObject *obj) {
     Vector2D deviation = (world_position() - obj->world_position()).Normalize();
     walking_direction_ = (walking_direction_ + deviation*0.9f).Normalize();
 }

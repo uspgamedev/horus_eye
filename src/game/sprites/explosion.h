@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_EXPLOSION_H_
 #define HORUSEYE_GAME_SPRITES_EXPLOSION_H_
 
-#include "worldobject.h"
+#include "game/sprites/worldobject.h"
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/observer.h>
 
@@ -12,7 +12,6 @@ class AnimationSet;
 
 namespace sprite {
 
-class Mummy;
 class Explosion : public WorldObject, ugdk::Observer {
 
   public:
@@ -26,8 +25,6 @@ class Explosion : public WorldObject, ugdk::Observer {
     void Update(float delta_t);
     virtual void Tick();
 
-    void CollidesWith(Mummy *);
-    virtual void HandleCollision(WorldObject *);
     int damage() { return damage_; }
 
     const static int    HERO_FIREBALL_WEAPON,
@@ -38,6 +35,9 @@ class Explosion : public WorldObject, ugdk::Observer {
     static ugdk::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        WEAPON_ANIMATIONS[2];
 
+	COLLISION_BEGIN
+		COLLISION_ADD		(Explosion, Damage)
+	COLLISION_END
 
   private:
 	int damage_;

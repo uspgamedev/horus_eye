@@ -1,7 +1,7 @@
 #include "mummyweapon.h"
-#include "../../scenes/world.h"
-#include "../hero.h"
-#include "../mummy.h"
+#include "game/scenes/world.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/mummy.h"
 
 namespace sprite {
 

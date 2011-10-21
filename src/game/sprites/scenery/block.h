@@ -10,21 +10,13 @@ class Image;
 
 namespace sprite {
 
-class Projectile;
-class Wall;
 class Block : public WorldObject {
+  DEFINE_COLLIDABLE
   public:
     Block(ugdk::Image* image);
     ~Block();
-
     virtual void Update(float dt);
-    virtual void HandleCollision(WorldObject *);
-
-    virtual void CollidesWith(Projectile * obj);
-    virtual void CollidesWith(Wall * obj) { RevertPosition(); }
-    virtual void CollidesWith(Door * obj) { RevertPosition(); }
-    virtual void CollidesWith(Block * obj) { RevertPosition(); }
-
+    
     enum Direction { LEFT, RIGHT, UP, DOWN };
 
   private:
@@ -32,7 +24,13 @@ class Block : public WorldObject {
     void GetKeys();
 #endif
     void MoveBlock(float dt);
+    
     void RevertPosition();
+    void PushToward(ugdk::Vector2D &pushdir);
+    COLLISION_BEGIN
+		COLLISION_ADD_INLINE(Block, InvalidMovement, owner_->RevertPosition(); )
+		COLLISION_ADD		(Block, Push)
+	COLLISION_END
 
     bool moving_;
     float moving_time_left_;

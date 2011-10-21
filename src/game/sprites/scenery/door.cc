@@ -1,13 +1,15 @@
 #include "door.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/image.h>
-#include "../scenes/world.h"
-#include "../utils/rectobject.h"
-#include "../utils/levelmanager.h"
-#include "../utils/constants.h"
-#include <iostream>
+#include "game/scenes/world.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/utils/rectobject.h"
+#include "game/utils/levelmanager.h"
+#include "game/utils/constants.h"
 
 namespace sprite {
+
+INITIALIZE_COLLIDABLE_NODE(Door, Wall);
 
 #define HOTSPOT_WIDTH   Constants::DOOR_HOTSPOT_WIDTH
 #define HOTSPOT_HEIGHT  Constants::DOOR_HOTSPOT_HEIGHT
@@ -23,16 +25,15 @@ Door::Door(ugdk::Image* image) {
     set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
     this->collision_type_ = STATIC;
     bound_ = new RectObject(BOUND_WIDTH, BOUND_HEIGHT);
+
+    Door::collision_;
+    known_collisions_[Hero::Collision()] = new Collisions::Win(this);
 }
 
-void Door::CollidesWith(Hero *hero) {
+COLLISION_IMPLEMENT(Door, Win, obj) {
     World *world = WORLD();
-    if (!world->CountRemainingEnemies())
+    if (world->CountRemainingEnemies() == 0)
         world->FinishLevel(LevelManager::FINISH_WIN);
-}
-
-void Door::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
 }
 
 }

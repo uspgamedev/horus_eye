@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_WEAPONS_HEROBASEWEAPON_H_
 #define HORUSEYE_GAME_SPRITES_WEAPONS_HEROBASEWEAPON_H_
 #include "weapon.h"
-#include "../hero.h"
+#include "game/sprites/creatures/hero.h"
 
 namespace sprite {
 

@@ -1,8 +1,8 @@
 #include <cmath>
 #include "visionstrategy.h"
 #include "geometryprimitives.h"
-#include "../scenes/world.h"
-#include "../sprites/hero.h"
+#include "game/scenes/world.h"
+#include "game/sprites/creatures/hero.h"
 #include "tile.h"
 
 using namespace std;

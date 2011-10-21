@@ -1,8 +1,8 @@
 #ifndef HORUSEYE_GAME_UTILS_VISIONSTRATEGY_H_
 #define HORUSEYE_GAME_UTILS_VISIONSTRATEGY_H_
 
-#include "../scenes/world.h"
-#include<queue>
+#include "game/scenes/world.h"
+#include <queue>
 
 namespace utils {
 

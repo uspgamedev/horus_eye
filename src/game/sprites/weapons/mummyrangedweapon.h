@@ -1,7 +1,8 @@
 #ifndef HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYRANGEDWEAPON_H_
 #define HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYRANGEDWEAPON_H_
-#include "weapon.h"
-#include "../../utils/constants.h"
+
+#include "game/sprites/weapons/weapon.h"
+#include "game/utils/constants.h"
 
 namespace sprite {
 

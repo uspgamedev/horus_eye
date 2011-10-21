@@ -1,4 +1,7 @@
 #include "mummybuilder.h"
+#include "game/sprites/creatures/mummy.h"
+#include "game/sprites/creatures/pharaoh.h"
+#include "game/utils/constants.h"
 #include "weapons/mummyweapon.h"
 #include "weapons/mummyrangedweapon.h"
 #include "weapons/pharaohrangedweapon.h"

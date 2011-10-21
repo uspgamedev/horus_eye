@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
-#include "mummy.h"
+
+#include "game/sprites/creatures/mummy.h"
+
 namespace ugdk {
 	class Image;
 	class Vector2D;

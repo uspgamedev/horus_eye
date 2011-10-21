@@ -1,28 +1,32 @@
+#include <fstream>
+#include <iostream>
+
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/graphic/image.h>
 #include <ugdk/action/scene.h>
-#include "../scenes/menubuilder.h"
-#include "../scenes/menu.h"
-#include "../scenes/world.h"
-#include "../scenes/imagescene.h"
-#include "../scenes/scrollingimagescene.h"
-#include "../scenes/loading.h"
-#include "../sprites/creature.h"
-#include "../sprites/explosion.h"
-#include "../sprites/floor.h"
-#include "../sprites/weapons/herofireballweapon.h"
-#include "../sprites/weapons/herobaseweapon.h"
-#include "../sprites/weapons/heroexplosionweapon.h"
-#include "../sprites/weapons/herolightningweapon.h"
+
 #include "levelmanager.h"
-#include "imagefactory.h"
-#include "levelloader.h"
-#include "textloader.h"
-#include <fstream>
-#include <iostream>
+
+#include "game/scenes/menubuilder.h"
+#include "game/scenes/menu.h"
+#include "game/scenes/world.h"
+#include "game/scenes/imagescene.h"
+#include "game/scenes/scrollingimagescene.h"
+#include "game/scenes/loading.h"
+#include "game/sprites/creatures/creature.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/sprites/explosion.h"
+#include "game/sprites/weapons/herofireballweapon.h"
+#include "game/sprites/weapons/herobaseweapon.h"
+#include "game/sprites/weapons/heroexplosionweapon.h"
+#include "game/sprites/weapons/herolightningweapon.h"
+#include "game/scenes/imagescene.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/levelloader.h"
+#include "game/utils/textloader.h"
 
 using namespace ugdk;
 using namespace std;
