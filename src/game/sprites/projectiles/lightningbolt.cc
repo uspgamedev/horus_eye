@@ -7,7 +7,6 @@
 
 #include "lightningbolt.h"
 
-#include "game/sprites/creatures/mummy.h"
 #include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
@@ -43,7 +42,7 @@ Projectile(Constants::LIGHTNING_DAMAGE, Constants::LIGHTNING_SPEED, Constants::L
     int animation_index = (int)((angle * 4.0f) + 0.5f);
     this->SelectAnimation(animation_index % 8);
 
-	known_collisions_[Mummy::Collision()] = new Collisions::Damage(this);
+	known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
 }
 
 void LightningBolt::InitializeAnimations() {

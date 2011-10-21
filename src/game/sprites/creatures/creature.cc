@@ -8,7 +8,6 @@
 
 #include "creature.h"
 
-#include "game/sprites/scenery/wall.h"
 #include "game/utils/circleobject.h"
 
 using namespace ugdk;
@@ -46,7 +45,7 @@ Creature::Creature() : WorldObject() {
     collision_type_ = MOVEABLE;
 
     // Teach this creature how to collides with Walls.
-    known_collisions_[Wall::Collision()] = new Collisions::Rect(this);
+    known_collisions_[GET_COLLISIONMASK(Wall)] = new Collisions::Rect(this);
 }
 
 Creature::~Creature() {

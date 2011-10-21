@@ -3,7 +3,6 @@
 #include "mummyprojectile.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
@@ -27,7 +26,7 @@ MummyProjectile::MummyProjectile(Vector2D & dir, int damage) :
 	set_hotspot( Vector2D(CENTER_X, CENTER_Y + PROJECTILE_SPRITE_HEIGHT + HEIGHT) );
     bound_ = new CircleObject(0.15f);
     set_light_radius(0.75f);
-    known_collisions_[Hero::Collision()] = new Collisions::DamageAndExplode(this);
+    known_collisions_[GET_COLLISIONMASK(Hero)] = new Collisions::DamageAndExplode(this);
 }
 
 }

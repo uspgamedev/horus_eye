@@ -1,9 +1,6 @@
 #include "projectile.h"
 #include <ugdk/time/timeaccumulator.h>
 #include "game/utils/circleobject.h"
-#include "game/utils/constants.h"
-#include "game/utils/imagefactory.h"
-#include "game/sprites/scenery/wall.h"
 #include "game/sprites/creatures/creature.h"
 
 using namespace ugdk;
@@ -22,7 +19,7 @@ Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
     duration_ = new TimeAccumulator(duration);
     collision_type_ = MOVEABLE;
     exploding_ = false;
-	known_collisions_[Wall::Collision()] = new Collisions::Explode(this);
+	known_collisions_[GET_COLLISIONMASK(Wall)] = new Collisions::Explode(this);
 }
 
 Projectile::~Projectile() {

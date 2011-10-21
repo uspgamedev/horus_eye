@@ -8,7 +8,6 @@
 #include "fireball.h"
 #include "game/scenes/world.h"
 #include "game/sprites/explosion.h"
-#include "game/sprites/creatures/mummy.h"
 #include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
@@ -38,7 +37,7 @@ Projectile(0.0f, Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir)
     bound_ = new CircleObject(0.25f);
     set_light_radius(1.0f);
 
-    known_collisions_[Mummy::Collision()] = new Collisions::DamageAndExplode(this);
+    known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::DamageAndExplode(this);
 
     float raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
     float angle = (raw_angle / acos(-1.0f)) + 1.0f;

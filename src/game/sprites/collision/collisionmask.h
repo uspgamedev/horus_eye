@@ -15,6 +15,9 @@ namespace sprite {
 #define INITIALIZE_COLLIDABLE_ROOT(CLASS) const CollisionMask* CLASS::collision_ = CollisionMaskManager::reference()->Generate( #CLASS );
 #define INITIALIZE_COLLIDABLE_NODE(CLASS, PARENT_CLASS) const CollisionMask* CLASS::collision_ = CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
 
+#define GET_COLLISIONMASK(NAME) CollisionMaskManager::reference()->Generate( #NAME )
+
+
 class CollisionMask;
 class CollisionMaskManager {
   public:

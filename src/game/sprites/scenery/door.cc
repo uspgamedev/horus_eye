@@ -2,7 +2,6 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/image.h>
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/utils/rectobject.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/constants.h"
@@ -27,7 +26,7 @@ Door::Door(ugdk::Image* image) {
     bound_ = new RectObject(BOUND_WIDTH, BOUND_HEIGHT);
 
     Door::collision_;
-    known_collisions_[Hero::Collision()] = new Collisions::Win(this);
+    known_collisions_[GET_COLLISIONMASK(Hero)] = new Collisions::Win(this);
 }
 
 COLLISION_IMPLEMENT(Door, Win, obj) {

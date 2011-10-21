@@ -25,8 +25,8 @@ Block::Block(Image* image) : moving_(false) {
     collision_type_ = MOVEABLE;
     bound_ = new RectObject(0.95f, 0.95f);
 
-    known_collisions_[Wall::Collision()] = new Collisions::InvalidMovement(this);
-    known_collisions_[Projectile::Collision()] = new Collisions::Push(this);
+    known_collisions_[GET_COLLISIONMASK(Wall)] = new Collisions::InvalidMovement(this);
+    known_collisions_[GET_COLLISIONMASK(Projectile)] = new Collisions::Push(this);
 }
 Block::~Block() {}
 

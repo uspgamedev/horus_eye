@@ -40,7 +40,7 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
     expansion_speed_ = (radius / 2) /
             (GetAnimationFrameNumber() / GetAnimationFPS());
 
-	known_collisions_[Mummy::Collision()] = new Collisions::Damage(this);
+	known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
 }
 
 Explosion::~Explosion() {}

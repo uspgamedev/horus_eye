@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
 #include <map>
+#include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/sprite.h>
 #include "game/utils/collisionobject.h"
@@ -65,11 +66,14 @@ class WorldObject : public ugdk::Sprite {
             CollidesWith(obj, mask->parent());
     }
 
+    std::list<const CollisionMask*> get_collisions() { return collisions_; }
+
   protected:
     utils::CollisionObject *bound_;
     Status status_;
     CollisionType collision_type_;
     std::map<const CollisionMask*,CollisionObject*> known_collisions_;
+    std::list<const CollisionMask*> collisions_;
 
   private:
     float light_radius_;

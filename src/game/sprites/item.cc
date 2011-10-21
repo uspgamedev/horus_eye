@@ -26,7 +26,7 @@ Item::Item(ugdk::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
     this->collision_type_ = STATIC;
     this->event_ = NULL;
 
-    known_collisions_[Hero::Collision()] = new Collisions::Use(this);
+    known_collisions_[GET_COLLISIONMASK(Hero)] = new Collisions::Use(this);
 }
 
 void Item::Update(float delta_t) {
