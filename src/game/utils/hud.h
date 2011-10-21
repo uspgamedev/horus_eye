@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_UTILS_HUD_H_
 
 #include <ugdk/action/layer.h>
-#include "../scenes/world.h"
+#include "game/scenes/world.h"
 
 namespace ugdk {
 class Sprite;

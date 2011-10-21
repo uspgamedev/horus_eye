@@ -15,13 +15,8 @@ class Block : public WorldObject {
   public:
     Block(ugdk::Image* image);
     ~Block();
-
     virtual void Update(float dt);
     
-
-    void PushToward(ugdk::Vector2D &pushdir);
-    
-
     enum Direction { LEFT, RIGHT, UP, DOWN };
 
   private:
@@ -29,8 +24,9 @@ class Block : public WorldObject {
     void GetKeys();
 #endif
     void MoveBlock(float dt);
+    
     void RevertPosition();
-
+    void PushToward(ugdk::Vector2D &pushdir);
     COLLISION_BEGIN
 		COLLISION_ADD_INLINE(Block, InvalidMovement, owner_->RevertPosition(); )
 		COLLISION_ADD		(Block, Push)

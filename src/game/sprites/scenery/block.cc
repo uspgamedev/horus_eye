@@ -3,7 +3,7 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
 #include "game/sprites/projectiles/projectile.h"
-#include "game/sprites/wall.h"
+#include "game/sprites/scenery/wall.h"
 #include "game/utils/rectobject.h"
 #include "game/utils/constants.h"
 

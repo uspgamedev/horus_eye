@@ -1,11 +1,12 @@
 #ifndef HORUSEYE_GAME_UTILS_LEVELLOADER_H_
 #define HORUSEYE_GAME_UTILS_LEVELLOADER_H_
-#include<vector>
-#include <string>
-#include "../scenes/world.h"
 
-namespace sprite{
-	class Wall;
+#include <vector>
+#include <string>
+#include "game/scenes/world.h"
+
+namespace sprite {
+class Wall;
 }
 
 namespace utils {

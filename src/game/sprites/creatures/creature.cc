@@ -8,7 +8,7 @@
 
 #include "creature.h"
 
-#include "game/sprites/wall.h"
+#include "game/sprites/scenery/wall.h"
 #include "game/utils/circleobject.h"
 
 using namespace ugdk;
