@@ -1,18 +1,14 @@
 #ifndef MUMMY_BUILDER_H_
 #define MUMMY_BUILDER_H_
 
-#include "mummy.h"
-#include "pharaoh.h"
-#include "game/utils/constants.h"
-
 namespace ugdk{
-	class Image;
+class Image;
 }
 
 namespace sprite {
-
+class Mummy;
+class Pharaoh;
 class MummyBuilder {
-
   public:
     MummyBuilder() {}
 

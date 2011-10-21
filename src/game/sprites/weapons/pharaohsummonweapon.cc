@@ -1,9 +1,11 @@
 #include "pharaohsummonweapon.h"
+
 #include "game/scenes/world.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
-#include "../mummybuilder.h"
+#include "game/sprites/mummybuilder.h"
 #include "game/utils/tile.h"
 
 #define SUMMON_RANGED_CHANCE  30

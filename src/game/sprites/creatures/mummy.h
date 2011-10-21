@@ -43,20 +43,11 @@ class Mummy : public Creature {
 	Weapon *weapon_;
     std::queue<Vector2D> path_;
 
-	void MummyAntiStack(Mummy *);
-    struct Collisions {
-        class MummyAntiStack : public CollisionObject {
-          public:
-            MummyAntiStack(Mummy* owner) : owner_(owner) {}
-            void Handle(WorldObject* obj) {
-				Mummy *mummy = (Mummy*) obj;
-				owner_->MummyAntiStack(mummy);
-			}
-          protected:
-            Mummy *owner_;
-        };
-    };
-	friend class Collisions::MummyAntiStack;
+	void MummyAntiStack(WorldObject *);
+
+	COLLISION_BEGIN
+        COLLISION_ADD_INLINE (Mummy, MummyAntiStack, owner_->MummyAntiStack(obj); )
+	COLLISION_END
 
     virtual void Update(float delta_t);
     virtual void Think(float dt);

@@ -5,7 +5,7 @@
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
 
-#include "game/sprites/mummy.h"
+#include "game/sprites/creatures/mummy.h"
 #include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 

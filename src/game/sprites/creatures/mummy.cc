@@ -60,7 +60,7 @@ void Mummy::TakeDamage(float life_points) {
     standing_ = false;
 }
 
-void Mummy::MummyAntiStack(Mummy *obj) {
+void Mummy::MummyAntiStack(WorldObject *obj) {
     Vector2D deviation = Vector2D::Normalized(world_position() - obj->world_position());
     walking_direction_ = Vector2D::Normalized(walking_direction_ + deviation*0.9f);
 }

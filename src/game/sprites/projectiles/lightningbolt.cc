@@ -7,7 +7,7 @@
 
 #include "lightningbolt.h"
 
-#include "game/sprites/mummy.h"
+#include "game/sprites/creatures/mummy.h"
 #include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"

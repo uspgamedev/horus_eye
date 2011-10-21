@@ -5,7 +5,8 @@
 #include <ugdk/util/pathmanager.h>
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
-#include "game/sprites/mummy.h"
+#include "game/sprites/creatures/mummy.h"
+#include "game/sprites/creatures/pharaoh.h"
 #include "game/sprites/floor.h"
 #include "game/sprites/door.h"
 #include "game/sprites/wall.h"

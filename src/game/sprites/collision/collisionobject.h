@@ -8,12 +8,14 @@ namespace sprite {
 #define COLLISION_ADD(OWNER, NAME) class NAME : public CollisionObject { \
 	protected:	OWNER *owner_; \
 	public:		NAME ( OWNER *onwer) : owner_(onwer) {} \
-	void Handle(WorldObject* obj); };
+	void Handle(WorldObject* obj); }; \
+    friend class NAME;
 
 #define COLLISION_ADD_INLINE(OWNER, NAME, CODE) class NAME : public CollisionObject { \
 	protected:	OWNER *owner_; \
 	public:		NAME ( OWNER *onwer) : owner_(onwer) {} \
-	void Handle(WorldObject* obj) { CODE } };
+	void Handle(WorldObject* obj) { CODE } }; \
+    friend class NAME;
 
 #define COLLISION_IMPLEMENT(ONWER, NAME, DATA) void ONWER::Collisions::NAME::Handle(WorldObject *DATA)
 

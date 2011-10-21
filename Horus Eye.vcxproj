@@ -194,10 +194,10 @@
     <ClCompile Include="src\game\sprites\itembuilder.cc" />
     <ClCompile Include="src\game\sprites\projectiles\lightningbolt.cc" />
     <ClCompile Include="src\game\sprites\projectiles\magicmissile.cc" />
-    <ClCompile Include="src\game\sprites\mummy.cc" />
+    <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
     <ClCompile Include="src\game\sprites\mummybuilder.cc" />
     <ClCompile Include="src\game\sprites\mummyprojectile.cc" />
-    <ClCompile Include="src\game\sprites\pharaoh.cc" />
+    <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\wall.cc" />
     <ClCompile Include="src\game\sprites\weapons\herobaseweapon.cc" />
@@ -294,10 +294,10 @@
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\sprites\projectiles\lightningbolt.h" />
     <ClInclude Include="src\game\sprites\projectiles\magicmissile.h" />
-    <ClInclude Include="src\game\sprites\mummy.h" />
+    <ClInclude Include="src\game\sprites\creatures\mummy.h" />
     <ClInclude Include="src\game\sprites\mummybuilder.h" />
     <ClInclude Include="src\game\sprites\mummyprojectile.h" />
-    <ClInclude Include="src\game\sprites\pharaoh.h" />
+    <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
     <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
     <ClInclude Include="src\game\sprites\wall.h" />
     <ClInclude Include="src\game\sprites\weapons\herobaseweapon.h" />

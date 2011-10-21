@@ -1,10 +1,13 @@
 #ifndef HORUSEYE_GAME_SPRITE_HERO_H_
 #define HORUSEYE_GAME_SPRITE_HERO_H_
 
-#include <ugdk/graphic/image.h>
+#include <map>
 #include <ugdk/math/vector2D.h>
 #include "game/sprites/creatures/creature.h"
-#include <map>
+
+namespace ugdk {
+class Image;
+}
 
 namespace sprite {
 
@@ -14,8 +17,6 @@ class Hero : public Creature {
     Hero(ugdk::Image* img = NULL);
     ~Hero() {}
 
-    virtual void CollisionSlow();
-    
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();
     void StartExplosion();
@@ -31,6 +32,7 @@ class Hero : public Creature {
     int slot_selected_;
     Weapon *secondary_weapon_;
 
+    void CollisionSlow();
 	COLLISION_BEGIN
         COLLISION_ADD_INLINE (Hero, MummySlow, owner_->CollisionSlow(); )
 	COLLISION_END
