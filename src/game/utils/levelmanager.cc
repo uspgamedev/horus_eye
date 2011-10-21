@@ -19,7 +19,6 @@
 #include "game/sprites/creatures/creature.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/explosion.h"
-#include "game/sprites/floor.h"
 #include "game/sprites/weapons/herofireballweapon.h"
 #include "game/sprites/weapons/herobaseweapon.h"
 #include "game/sprites/weapons/heroexplosionweapon.h"
