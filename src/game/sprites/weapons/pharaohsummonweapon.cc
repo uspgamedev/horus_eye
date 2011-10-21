@@ -20,7 +20,7 @@ void PharaohSummonWeapon::Attack() {
     scene::World *world = WORLD();
     Hero* hero = world->hero();
 
-    Vector2D direction = Vector2D::Normalized(hero->world_position() - owner_->world_position());
+    Vector2D direction = (hero->world_position() - owner_->world_position()).Normalize();
     Vector2D mummyPos = direction*range() + owner_->world_position();
 
     utils::GameMap& map = world->level_matrix();

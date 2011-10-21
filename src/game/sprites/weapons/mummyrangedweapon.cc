@@ -15,7 +15,7 @@ void MummyRangedWeapon::Attack(){
     scene::World *world = WORLD();
     Hero* hero = world->hero();
 
-    Vector2D versor = Vector2D::Normalized(hero->world_position() - owner_->world_position());
+    Vector2D versor = (hero->world_position() - owner_->world_position()).Normalize();
     Vector2D pos = owner_->world_position();
 
     world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);

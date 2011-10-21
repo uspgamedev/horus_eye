@@ -73,8 +73,8 @@ void Mummy::TakeDamage(float life_points) {
 }
 
 void Mummy::CollidesWith(Mummy *obj) {
-    Vector2D deviation = Vector2D::Normalized(world_position() - obj->world_position());
-    walking_direction_ = Vector2D::Normalized(walking_direction_ + deviation*0.9f);
+    Vector2D deviation = (world_position() - obj->world_position()).Normalize();
+    walking_direction_ = (walking_direction_ + deviation*0.9f).Normalize();
 }
 
 void Mummy::StartAttack(Creature* obj) {

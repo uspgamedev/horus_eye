@@ -1,4 +1,5 @@
 
+#include <cmath>
 #include "block.h"
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
