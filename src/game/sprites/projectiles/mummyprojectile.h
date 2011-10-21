@@ -3,25 +3,14 @@
 
 #include "game/sprites/projectiles/projectile.h"
 
-namespace ugdk {
-class TimeAccumulator;
-}
-
 namespace sprite {
 
-class Mummy;
-class Wall;
-class Door;
 class MummyProjectile : public Projectile {
-
   public:
 	MummyProjectile(ugdk::Vector2D &, int damage = 1);
-	~MummyProjectile();
-
-	virtual void CollidesWith(Hero * obj);
-	
+    ~MummyProjectile() {}
 };
 
 }
 
-#endif /*MUMMY_PROJECTILE_H_ */
+#endif /* HORUSEYE_GAME_SPRITES_MUMMY_PROJECTILE_H_ */

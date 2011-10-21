@@ -1,7 +1,7 @@
-
 #include <ugdk/time/timeaccumulator.h>
 
 #include "magicmissile.h"
+
 #include "game/scenes/world.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/circleobject.h"

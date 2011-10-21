@@ -196,7 +196,7 @@
     <ClCompile Include="src\game\sprites\projectiles\magicmissile.cc" />
     <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
     <ClCompile Include="src\game\sprites\mummybuilder.cc" />
-    <ClCompile Include="src\game\sprites\mummyprojectile.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\mummyprojectile.cc" />
     <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\wall.cc" />
@@ -296,7 +296,7 @@
     <ClInclude Include="src\game\sprites\projectiles\magicmissile.h" />
     <ClInclude Include="src\game\sprites\creatures\mummy.h" />
     <ClInclude Include="src\game\sprites\mummybuilder.h" />
-    <ClInclude Include="src\game\sprites\mummyprojectile.h" />
+    <ClInclude Include="src\game\sprites\projectiles\mummyprojectile.h" />
     <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
     <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
     <ClInclude Include="src\game\sprites\wall.h" />

@@ -1,11 +1,13 @@
 #include <cmath>
+#include <ugdk/base/engine.h>
+#include <ugdk/audio/audiomanager.h>
+
 #include "pharaohrangedweapon.h"
+
 #include "game/scenes/world.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
-#include "game/sprites/mummyprojectile.h"
-#include <ugdk/base/engine.h>
-#include <ugdk/audio/audiomanager.h>
+#include "game/sprites/projectiles/mummyprojectile.h"
 #include "game/utils/settings.h"
 
 namespace sprite {
