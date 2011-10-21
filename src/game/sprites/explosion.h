@@ -35,17 +35,9 @@ class Explosion : public WorldObject, ugdk::Observer {
     static ugdk::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        WEAPON_ANIMATIONS[2];
 
-    struct Collisions {
-        class Damage : public CollisionObject {
-          public:
-            Damage(Explosion* onwer) : owner_(onwer) {}
-			void Handle(WorldObject* obj);
-
-          protected:
-            Explosion *owner_;
-        };
-    };
-
+	COLLISION_BEGIN
+		COLLISION_ADD		(Explosion, Damage)
+	COLLISION_END
 
   private:
 	int damage_;

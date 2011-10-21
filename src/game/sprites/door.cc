@@ -27,10 +27,10 @@ Door::Door(ugdk::Image* image) {
     bound_ = new RectObject(BOUND_WIDTH, BOUND_HEIGHT);
 
     Door::collision_;
-    known_collisions_[Hero::Collision()] = new Collisions::Win();
+    known_collisions_[Hero::Collision()] = new Collisions::Win(this);
 }
 
-void Door::Collisions::Win::Handle(WorldObject *obj) {
+COLLISION_IMPLEMENT(Door, Win, obj) {
     World *world = WORLD();
     if (world->CountRemainingEnemies() == 0)
         world->FinishLevel(LevelManager::FINISH_WIN);

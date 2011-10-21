@@ -73,7 +73,7 @@ void Explosion::Update(float delta_t) {
 	this->RadiusUpdate(delta_t);
 }
 
-void Explosion::Collisions::Damage::Handle(WorldObject *obj) {
+COLLISION_IMPLEMENT(Explosion, Damage, obj) {
 	Creature *creature = (Creature *) obj;
     creature->TakeDamage(owner_->damage());
 }
