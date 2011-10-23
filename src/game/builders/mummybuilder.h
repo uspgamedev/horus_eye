@@ -1,28 +1,31 @@
-#ifndef MUMMY_BUILDER_H_
-#define MUMMY_BUILDER_H_
+#ifndef HORUS_EYE_GAME_BUILDERS_MUMMY_BUILDER_H_
+#define HORUS_EYE_GAME_BUILDERS_MUMMY_BUILDER_H_
 
-namespace ugdk{
+namespace ugdk {
 class Image;
 }
-
 namespace sprite {
 class Mummy;
 class Pharaoh;
+}
+
+namespace builder {
+
 class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    Mummy *StandingMummy(ugdk::Image* image);
-    Mummy *WalkingMummy(ugdk::Image* image);
-    Mummy *RangedMummy(ugdk::Image* image);
-    Mummy *StandingRangedMummy(ugdk::Image* image);
-    Mummy *BigMummy(ugdk::Image* image);
-    Mummy *StandingBigMummy(ugdk::Image* image);
-	Pharaoh *WalkingPharaoh(ugdk::Image* image);
-	Pharaoh *StandingPharaoh(ugdk::Image* image);
+    sprite::Mummy *StandingMummy(ugdk::Image* image);
+    sprite::Mummy *WalkingMummy(ugdk::Image* image);
+    sprite::Mummy *RangedMummy(ugdk::Image* image);
+    sprite::Mummy *StandingRangedMummy(ugdk::Image* image);
+    sprite::Mummy *BigMummy(ugdk::Image* image);
+    sprite::Mummy *StandingBigMummy(ugdk::Image* image);
+	sprite::Pharaoh *WalkingPharaoh(ugdk::Image* image);
+	sprite::Pharaoh *StandingPharaoh(ugdk::Image* image);
 
 };
 
-}
+} // namespace builder
 
-#endif /* MUMMY_BUILDER_H_ */
+#endif /* HORUS_EYE_GAME_BUILDERS_MUMMY_BUILDER_H_ */

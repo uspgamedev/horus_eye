@@ -43,7 +43,7 @@ void PharaohSummonWeapon::Attack() {
        */
     int choice = rand()%100;
     utils::ImageFactory *image_factory = world->image_factory();
-    MummyBuilder mummy_builder;
+    builder::MummyBuilder mummy_builder;
     if (choice < SUMMON_RANGED_CHANCE) {
         world->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();

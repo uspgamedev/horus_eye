@@ -4,28 +4,17 @@
 #include "game/sprites/condition.h"
 
 namespace sprite {
-
 class Creature;
+}
+
+namespace builder {
 
 class ConditionBuilder {
   public:
     ConditionBuilder() {}
     ~ConditionBuilder() {}
 
-    Condition* increase_sight_condition(Creature *owner);
-
-  protected:
-    class IncreaseSightCondition : public Condition {
-      public:
-      	IncreaseSightCondition(Creature* owner, float time_condition) : 
-      	    Condition(owner), condition_duration_(time_condition) {}
-        void Update(float dt);
-  	    void EndCondition(Creature *creature);
-  	    void StartCondition(Creature *creature);
-        
-      private:
-        float condition_duration_;
-    };
+    sprite::Condition* increase_sight_condition(sprite::Creature *owner);
 };
 
 }

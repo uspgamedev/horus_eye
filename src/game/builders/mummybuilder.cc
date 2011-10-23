@@ -10,6 +10,8 @@
 #include "game/sprites/weapons/pharaohrangedweapon.h"
 #include "game/sprites/weapons/pharaohsummonweapon.h"
 
+namespace builder {
+
 using namespace sprite;
 using utils::Constants;
 
@@ -83,3 +85,4 @@ Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::Image *image) {
 	return pharaoh;
 }
 
+} // namespace builder

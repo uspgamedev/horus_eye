@@ -13,6 +13,7 @@
 #include "game/sprites/scenery/door.h"
 #include "game/sprites/scenery/wall.h"
 #include "game/sprites/scenery/block.h"
+#include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/utils/imagefactory.h"
@@ -91,8 +92,8 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 }
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
-    MummyBuilder mummy_builder;
-    ItemBuilder potion_builder;
+    builder::MummyBuilder mummy_builder;
+    builder::ItemBuilder potion_builder;
     ImageFactory* image_factory = world_->image_factory();
 	if(token != EMPTY) {
 		switch(token) {

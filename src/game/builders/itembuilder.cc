@@ -2,18 +2,35 @@
 
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
+#include "game/sprites/item.h"
+#include "game/sprites/condition.h"
+#include "game/builders/conditionbuilder.h"
 
 #define INCREASE_SIGHT_TIME 3.00
 
-namespace ugdk{
-	class Image;
+namespace ugdk {
+class Image;
 }
 
-namespace sprite {
+namespace builder {
 
 using namespace utils;
+using sprite::Item;
+using sprite::Hero;
+using sprite::Condition;
 
-bool ItemBuilder::RecoverLifeEvent::Use (Hero *hero) {
+
+//=======================================
+class RecoverLifeEvent : public sprite::ItemEvent {
+  public:
+    RecoverLifeEvent (int recover) : recover_(recover) {}
+    bool Use (sprite::Hero *);
+
+  private:
+    int recover_;
+};
+
+bool RecoverLifeEvent::Use (Hero *hero) {
     if (hero->life() < hero->max_life()) {
         hero->set_life(hero->life() + recover_);
         return true;
@@ -21,7 +38,18 @@ bool ItemBuilder::RecoverLifeEvent::Use (Hero *hero) {
     return false;
 }
 
-bool ItemBuilder::RecoverManaEvent::Use (Hero *hero) {
+//=======================================
+class RecoverManaEvent : public sprite::ItemEvent {
+    public:
+    RecoverManaEvent (int recover) : recover_(recover) {}
+    bool Use (sprite::Hero *);
+
+    private:
+    int recover_;
+
+};
+
+bool RecoverManaEvent::Use (Hero *hero) {
     if (hero->mana() < hero->max_mana()) {
         hero->set_mana(hero->mana() + recover_);
         return true;
@@ -29,7 +57,18 @@ bool ItemBuilder::RecoverManaEvent::Use (Hero *hero) {
     return false;
 }
 
-bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
+//=======================================
+class IncreaseSightEvent : public sprite::ItemEvent {
+    public:
+    IncreaseSightEvent (float additional_sight) : additional_sight_(additional_sight) {}
+    bool Use (sprite::Hero *);
+
+    private:
+    float additional_sight_;
+    ConditionBuilder condition_builder_;
+};
+
+bool IncreaseSightEvent::Use (Hero *hero) {
     if ( hero->sight_count() < Constants::SIGHT_POTION_MAX_STACK ) {
 	    Condition* condition = condition_builder_.increase_sight_condition(hero);
 	    if (hero->AddCondition(condition)) return true;
@@ -37,6 +76,8 @@ bool ItemBuilder::IncreaseSightEvent::Use (Hero *hero) {
 	}
 	else return false;
 }
+
+//=======================================
 
 Item* ItemBuilder::LifePotion(ugdk::Image* image) {
     Item* potion = new Item(image);

@@ -1,52 +1,26 @@
-#ifndef HORUSEYE_GAME_SPRITES_ITEMBUILDER_H_
-#define HORUSEYE_GAME_SPRITES_ITEMBUILDER_H_
+#ifndef HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_
+#define HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_
 
-#include "game/sprites/item.h"
-#include "game/sprites/condition.h"
-#include "game/builders/conditionbuilder.h"
-#include <ugdk/graphic/image.h>
+namespace ugdk {
+class Image;
+}
 
 namespace sprite {
+class Item;
+}
+
+namespace builder {
 
 class ItemBuilder {
   public:
     ItemBuilder() {}
     ~ItemBuilder() {}
 
-    Item* LifePotion(ugdk::Image* image);
-    Item* ManaPotion(ugdk::Image* image);
-    Item* SightPotion(ugdk::Image* image);
-
-  protected:
-    class RecoverLifeEvent : public ItemEvent {
-      public:
-        RecoverLifeEvent (int recover) : recover_(recover) {}
-        bool Use (Hero *);
-
-      private:
-        int recover_;
-
-    };
-    class RecoverManaEvent : public ItemEvent {
-      public:
-        RecoverManaEvent (int recover) : recover_(recover) {}
-        bool Use (Hero *);
-
-      private:
-        int recover_;
-
-    };
-    class IncreaseSightEvent : public ItemEvent {
-      public:
-        IncreaseSightEvent (float additional_sight) : additional_sight_(additional_sight) {}
-        bool Use (Hero *);
-
-      private:
-        float additional_sight_;
-        ConditionBuilder condition_builder_;
-    };
+    sprite::Item* LifePotion(ugdk::Image* image);
+    sprite::Item* ManaPotion(ugdk::Image* image);
+    sprite::Item* SightPotion(ugdk::Image* image);
 };
 
 }
 
-#endif /* HORUSEYE_GAME_SPRITES_ITEMBUILDER_H_ */
+#endif /* HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_ */
