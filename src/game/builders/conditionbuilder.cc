@@ -1,4 +1,5 @@
 #include "conditionbuilder.h"
+
 #include "game/utils/constants.h"
 #include "game/sprites/creatures/creature.h"
 

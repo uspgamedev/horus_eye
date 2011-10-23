@@ -1,15 +1,17 @@
+#include <ugdk/graphic/image.h>
+
 #include "mummybuilder.h"
+
 #include "game/sprites/creatures/mummy.h"
 #include "game/sprites/creatures/pharaoh.h"
 #include "game/utils/constants.h"
-#include "weapons/mummyweapon.h"
-#include "weapons/mummyrangedweapon.h"
-#include "weapons/pharaohrangedweapon.h"
-#include "weapons/pharaohsummonweapon.h"
-#include <ugdk/graphic/image.h>
+#include "game/sprites/weapons/mummyweapon.h"
+#include "game/sprites/weapons/mummyrangedweapon.h"
+#include "game/sprites/weapons/pharaohrangedweapon.h"
+#include "game/sprites/weapons/pharaohsummonweapon.h"
 
 using namespace sprite;
-using namespace utils;
+using utils::Constants;
 
 Mummy * MummyBuilder::StandingMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);

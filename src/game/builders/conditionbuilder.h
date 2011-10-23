@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_CONDITIONBUILDER_H_
 #define HORUSEYE_GAME_SPRITES_CONDITIONBUILDER_H_
 
-#include "condition.h"
+#include "game/sprites/condition.h"
 
 namespace sprite {
 

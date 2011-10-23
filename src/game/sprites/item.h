@@ -1,10 +1,10 @@
 #ifndef HORUSEYE_GAME_SPRITES_ITEM_H_
 #define HORUSEYE_GAME_SPRITES_ITEM_H_
 
-#include "worldobject.h"
-#include "itemevent.h"
-#include "conditionbuilder.h"
-#include "condition.h"
+#include "game/sprites/worldobject.h"
+#include "game/sprites/itemevent.h"
+#include "game/builders/conditionbuilder.h"
+#include "game/sprites/condition.h"
 
 namespace sprite {
 

@@ -5,7 +5,7 @@
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
-#include "game/sprites/mummybuilder.h"
+#include "game/builders/mummybuilder.h"
 #include "game/utils/tile.h"
 
 #define SUMMON_RANGED_CHANCE  30

@@ -14,7 +14,7 @@
 #include "game/utils/settings.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
-#include "game/sprites/itembuilder.h"
+#include "game/builders/itembuilder.h"
 #include "game/sprites/weapons/weapon.h"
 
 namespace sprite {
