@@ -181,8 +181,8 @@
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
-    <ClCompile Include="src\game\sprites\collision\collisionmask.cc" />
-    <ClCompile Include="src\game\sprites\collision\collisionobject.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionmask.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
     <ClCompile Include="src\game\sprites\conditionbuilder.cc" />
     <ClCompile Include="src\game\sprites\creatures\creature.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
@@ -279,8 +279,8 @@
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
-    <ClInclude Include="src\game\sprites\collision\collisionmask.h" />
-    <ClInclude Include="src\game\sprites\collision\collisionobject.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionmask.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
     <ClInclude Include="src\game\sprites\conditionbuilder.h" />
     <ClInclude Include="src\game\sprites\creatures\creature.h" />

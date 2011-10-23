@@ -1,21 +1,27 @@
-#ifndef HORUSEYE_GAME_SPRITE_COLLISION_COLLISIONMASK_H_
-#define HORUSEYE_GAME_SPRITE_COLLISION_COLLISIONMASK_H_
+#ifndef PYRAMIDWORKS_COLLISION_COLLISIONMASK_H_
+#define PYRAMIDWORKS_COLLISION_COLLISIONMASK_H_
 
 #include <string>
 #include <map>
 
-namespace sprite {
+namespace pyramidworks {
+namespace collision {
 
 #define DEFINE_COLLIDABLE public: \
-    static const CollisionMask* Collision() { return collision_; } \
-    virtual const CollisionMask* collision() const { return Collision(); } \
+    static const pyramidworks::collision::CollisionMask* Collision() { return collision_; } \
+    virtual const pyramidworks::collision::CollisionMask* collision() const { return Collision(); } \
   private: \
-    static const CollisionMask* collision_;
+    static const pyramidworks::collision::CollisionMask* collision_;
 
-#define INITIALIZE_COLLIDABLE_ROOT(CLASS) const CollisionMask* CLASS::collision_ = CollisionMaskManager::reference()->Generate( #CLASS );
-#define INITIALIZE_COLLIDABLE_NODE(CLASS, PARENT_CLASS) const CollisionMask* CLASS::collision_ = CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
+#define INITIALIZE_COLLIDABLE_ROOT(CLASS) \
+    const pyramidworks::collision::CollisionMask* CLASS::collision_ = \
+    pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS );
 
-#define GET_COLLISIONMASK(NAME) CollisionMaskManager::reference()->Generate( #NAME )
+#define INITIALIZE_COLLIDABLE_NODE(CLASS, PARENT_CLASS) \
+    const pyramidworks::collision::CollisionMask* CLASS::collision_ = \
+    pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
+
+#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Generate( #NAME )
 
 
 class CollisionMask;
@@ -52,6 +58,7 @@ class CollisionMask {
     const CollisionMask* parent_;
 };
 
-}
+} // namespace collision
+} // namespace pyramidworks
 
-#endif /* HORUSEYE_GAME_SPRITE_COLLISION_COLLISIONMASK_H_ */
+#endif /* PYRAMIDWORKS_COLLISION_COLLISIONMASK_H_ */

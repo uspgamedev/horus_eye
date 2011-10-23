@@ -103,7 +103,7 @@ void Block::PushToward(Vector2D &pushdir) {
 
 COLLISION_IMPLEMENT(Block, Push, obj) {
     Projectile *proj = (Projectile *) obj;
-    Vector2D pushdir = (obj->world_position() - owner_->world_position()).Normalize();
+    Vector2D pushdir = (((WorldObject *)obj)->world_position() - owner_->world_position()).Normalize();
     owner_->PushToward(pushdir);
 }
 

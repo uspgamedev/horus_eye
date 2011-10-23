@@ -46,7 +46,7 @@ class Mummy : public Creature {
 	void MummyAntiStack(WorldObject *);
 
 	COLLISION_BEGIN
-        COLLISION_ADD_INLINE (Mummy, MummyAntiStack, owner_->MummyAntiStack(obj); )
+        COLLISION_ADD_INLINE (Mummy, MummyAntiStack, WorldObject *obj = (WorldObject *) data; owner_->MummyAntiStack(obj); )
 	COLLISION_END
 
     virtual void Update(float delta_t);

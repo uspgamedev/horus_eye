@@ -1,7 +1,7 @@
 #include "collisionmask.h"
 
-namespace sprite {
-
+namespace pyramidworks {
+namespace collision {
 
 CollisionMask* CollisionMaskManager::Get(std::string &name) {
 	CollisionMask *mask = cache_[name];
@@ -22,4 +22,5 @@ const CollisionMask* CollisionMaskManager::Generate(std::string name, std::strin
 
 CollisionMaskManager *CollisionMaskManager::reference_ = NULL;
 
-}
+} // namespace collision
+} // namespace pyramidworks

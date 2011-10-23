@@ -6,11 +6,13 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/sprite.h>
 #include "game/utils/collisionobject.h"
-#include "game/sprites/collision/collisionmask.h"
-#include "game/sprites/collision/collisionobject.h"
-
+#include "pyramidworks/collision/collisionmask.h"
+#include "pyramidworks/collision/collisionobject.h"
 
 namespace sprite {
+
+using pyramidworks::collision::CollisionMask;
+using pyramidworks::collision::CollisionObject;
 
 class Creature;
 class Hero;

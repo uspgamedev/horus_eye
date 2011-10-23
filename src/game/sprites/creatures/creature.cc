@@ -255,7 +255,7 @@ void Creature::Render() {
 }
 
 COLLISION_IMPLEMENT(Creature, Rect, obj) {
-    const RectObject *rect = (const RectObject*)obj->bound();
+    const RectObject *rect = (const RectObject*)((WorldObject *)obj)->bound();
     owner_->CollideWithRect(rect);
 }
 
