@@ -30,6 +30,7 @@ class Hero : public Creature {
     float time_to_recover_speed_;
     std::map<int, Weapon*> weapons_;
     int slot_selected_;
+    float light_oscilation_;
     Weapon *secondary_weapon_;
 
     void CollisionSlow();

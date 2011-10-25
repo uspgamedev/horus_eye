@@ -5,7 +5,7 @@
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
-#include "game/sprites/mummybuilder.h"
+#include "game/builders/mummybuilder.h"
 #include "game/utils/tile.h"
 
 #define SUMMON_RANGED_CHANCE  30
@@ -43,7 +43,7 @@ void PharaohSummonWeapon::Attack() {
        */
     int choice = rand()%100;
     utils::ImageFactory *image_factory = world->image_factory();
-    MummyBuilder mummy_builder;
+    builder::MummyBuilder mummy_builder;
     if (choice < SUMMON_RANGED_CHANCE) {
         world->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();

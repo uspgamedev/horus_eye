@@ -1,8 +1,10 @@
 #include <fstream>
 #include <iostream>
-#include "levelloader.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>
+
+#include "levelloader.h"
+
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
@@ -11,10 +13,11 @@
 #include "game/sprites/scenery/door.h"
 #include "game/sprites/scenery/wall.h"
 #include "game/sprites/scenery/block.h"
-#include "game/sprites/itembuilder.h"
-#include "game/sprites/mummybuilder.h"
-#include "imagefactory.h"
-#include "tile.h"
+#include "game/sprites/item.h"
+#include "game/builders/itembuilder.h"
+#include "game/builders/mummybuilder.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/tile.h"
 
 namespace utils {
 
@@ -89,8 +92,8 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 }
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
-    MummyBuilder mummy_builder;
-    ItemBuilder potion_builder;
+    builder::MummyBuilder mummy_builder;
+    builder::ItemBuilder potion_builder;
     ImageFactory* image_factory = world_->image_factory();
 	if(token != EMPTY) {
 		switch(token) {

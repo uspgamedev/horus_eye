@@ -70,6 +70,8 @@ Hero::Hero(Image* img) {
     weapon_ = new HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
 
+    light_oscilation_ = 0.0f;
+
     known_collisions_[Mummy::Collision()] = new Collisions::MummySlow(this);
 }
 
@@ -199,6 +201,15 @@ void Hero::Update(float delta_t) {
     AdjustBlink(delta_t);
     speed_ = original_speed_;
     set_mana(mana() + mana_regen_ * delta_t);
+
+
+    light_oscilation_ += delta_t;
+    if(light_oscilation_ > 0.5f) light_oscilation_ -= 0.5f * 2;
+
+    if(light_oscilation_ < 0)
+        this->set_light_radius(this->light_radius() - delta_t);
+    else
+        this->set_light_radius(this->light_radius() + delta_t);
 }
 
 void Hero::Invulnerable(int time) {
