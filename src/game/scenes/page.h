@@ -1,13 +1,13 @@
 #ifndef HORUSEYE_GAME_SCENES_PAGE_H_
 #define HORUSEYE_GAME_SCENES_PAGE_H_
 
-#include "../../framework/scene.h"
-#include "../../framework/frame.h"
+#include <ugdk/action/scene.h>
+#include <ugdk/math/frame.h>
 #include "menuhandler.h"
 #include "menu.h"
 #include "pagemanager.h"
 
-namespace framework {
+namespace ugdk {
 class Sprite;
 class Image;
 }
@@ -27,7 +27,7 @@ class Page : public Menu {
     virtual ~Page ();
 
     void Update (float delta_t);
-    int CheckMouse (framework::Vector2D &mouse_pos);
+    int CheckMouse (ugdk::Vector2D &mouse_pos);
 
   private:
 

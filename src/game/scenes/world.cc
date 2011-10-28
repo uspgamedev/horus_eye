@@ -1,32 +1,35 @@
 #include <cmath>
 #include <iostream>
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/scene.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/music.h"
-#include "../../framework/audiomanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/action/scene.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/audio/music.h>
+#include <ugdk/audio/audiomanager.h>
+
 #include "world.h"
-#include "imagescene.h"
-#include "menu.h"
-#include "menubuilder.h"
-#include "../sprites/worldobject.h"
-#include "../sprites/hero.h"
-#include "../utils/hud.h"
-#include "../utils/levelmanager.h"
-#include "../utils/imagefactory.h"
-#include "../utils/settings.h"
-#include "../utils/visionstrategy.h"
+
+#include "game/scenes/imagescene.h"
+#include "game/scenes/menu.h"
+#include "game/scenes/menubuilder.h"
+
+#include "game/sprites/worldobject.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/utils/hud.h"
+#include "game/utils/levelmanager.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/settings.h"
+#include "game/utils/visionstrategy.h"
+
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
 
-World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer()), music_(NULL) {
-    world_layer_->set_light_type(LIGHT_ILLUMINATED);
+World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), music_(NULL) {
     AddLayer(world_layer_);
 
 	image_factory_ = new utils::ImageFactory();
@@ -34,7 +37,7 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer())
     hero_ = hero;
 
     hud_ = new utils::Hud(this);
-    AddLayer(hud_);
+    Engine::reference()->PushInterface(hud_);
 
     remaining_enemies_ = max_enemies_ = 0;
     level_state_ = LevelManager::NOT_FINISHED;
@@ -43,8 +46,7 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new framework::Layer())
 }
 
 // Destrutor
-World::~World() {
-}
+World::~World() {}
 
 bool worldObjectIsDead (const WorldObject* value) {
     bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
@@ -73,8 +75,8 @@ void World::HandleCollisions() {
         if ((*i)->collision_type() == WorldObject::MOVEABLE) {
             for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
                 if (verifyCollision(*i, *j)) {
-                    (*i)->HandleCollision(*j);
-                    (*j)->HandleCollision(*i);
+					(*i)->CollidesWith(*j);
+                    (*j)->CollidesWith(*i);
                 }
             }
         }
@@ -103,8 +105,8 @@ void World::VerifyCheats(float delta_t) {
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
-    if(input->KeyPressed(K_l))
-        world_layer_->set_light_type((world_layer_->light_type() != LIGHT_IGNORE) ? LIGHT_IGNORE : LIGHT_ILLUMINATED);
+    //if(input->KeyPressed(K_l))
+    //   world_layer_->set_light_type((world_layer_->light_type() != LIGHT_IGNORE) ? LIGHT_IGNORE : LIGHT_ILLUMINATED);
 
 	// EASTER EGG/TODO: remove before any release!
 	// Also erase data/musics/sf2Guile456.mid
@@ -224,6 +226,10 @@ void World::Update(float delta_t) {
 }
 
 void World::End() {
+    Engine::reference()->RemoveInterface(hud_);
+    delete hud_;
+    hud_ = NULL;
+
 	if(music_ != NULL)
 		music_->Stop();
 	if(hero_ != NULL)
@@ -239,7 +245,7 @@ void World::IncreaseNumberOfEnemies() {
     max_enemies_++;
 }
 
-void World::AddWorldObject(sprite::WorldObject* new_object, framework::Vector2D pos) {
+void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
 
     new_object-> set_world_position(pos);
     new_world_objects.push_front(new_object);
@@ -262,7 +268,7 @@ void World::AddNewWorldObjects() {
     new_world_objects.clear();
 }
 
-void World::AddHero(framework::Vector2D pos) {
+void World::AddHero(ugdk::Vector2D pos) {
     this->AddWorldObject(hero_, pos);
 }
 

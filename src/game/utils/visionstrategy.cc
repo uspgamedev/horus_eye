@@ -1,15 +1,15 @@
 #include <cmath>
 #include "visionstrategy.h"
 #include "geometryprimitives.h"
-#include "../scenes/world.h"
-#include "../sprites/hero.h"
+#include "game/scenes/world.h"
+#include "game/sprites/creatures/hero.h"
 #include "tile.h"
 
 using namespace std;
 using namespace scene;
 using namespace utils;
 using namespace sprite;
-using namespace framework;
+using namespace ugdk;
 
 bool solid(char obj){
     if(obj == 'W') return true;

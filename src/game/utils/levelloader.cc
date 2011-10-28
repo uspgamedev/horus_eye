@@ -1,25 +1,30 @@
 #include <fstream>
 #include <iostream>
+#include <ugdk/base/engine.h>
+#include <ugdk/util/pathmanager.h>
+
 #include "levelloader.h"
-#include "../../framework/engine.h"
-#include "../../framework/pathmanager.h"
-#include "../sprites/worldobject.h"
-#include "../sprites/hero.h"
-#include "../sprites/mummy.h"
-#include "../sprites/floor.h"
-#include "../sprites/door.h"
-#include "../sprites/wall.h"
-#include "../sprites/itembuilder.h"
-#include "../sprites/mummybuilder.h"
-#include "imagefactory.h"
-#include "tile.h"
+
+#include "game/sprites/worldobject.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/mummy.h"
+#include "game/sprites/creatures/pharaoh.h"
+#include "game/sprites/scenery/floor.h"
+#include "game/sprites/scenery/door.h"
+#include "game/sprites/scenery/wall.h"
+#include "game/sprites/scenery/block.h"
+#include "game/sprites/item.h"
+#include "game/builders/itembuilder.h"
+#include "game/builders/mummybuilder.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/tile.h"
 
 namespace utils {
 
 using namespace std;
 using namespace scene;
 using namespace sprite;
-using namespace framework;
+using namespace ugdk;
 
 void LevelLoader::LoadMatrix(string file_name) {
 	ifstream file (PATH_MANAGER()->ResolvePath(file_name).c_str());
@@ -87,8 +92,8 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 }
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
-    MummyBuilder mummy_builder;
-    ItemBuilder potion_builder;
+    builder::MummyBuilder mummy_builder;
+    builder::ItemBuilder potion_builder;
     ImageFactory* image_factory = world_->image_factory();
 	if(token != EMPTY) {
 		switch(token) {
@@ -104,6 +109,11 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
+            case BLOCK: {
+				world_->AddWorldObject(new Block(image_factory->WallImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
+                break;
+            }
 			case HERO: {
 				world_->AddHero(position);
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);

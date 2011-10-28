@@ -5,9 +5,9 @@
 #include "../../game/scenes/pagemanager.h"
 #include "../../game/scenes/menubuilder.h"
 #include <vector>
-#include "../../framework/sprite.h"
+#include <ugdk/action/sprite.h>
 
-namespace framework {
+namespace ugdk {
 class Drawable;
 class Image;
 }
@@ -63,29 +63,29 @@ class EditorMenuBuilder : scene::MenuBuilder {
 	/*List of Editor Menu Handler classes*/
 	class EditorMenuHandler : public scene::MenuHandler {
       public:
-        EditorMenuHandler(scene::Menu *menu, MapEditor* editor, framework::Image *bg_img) : 
+        EditorMenuHandler(scene::Menu *menu, MapEditor* editor, ugdk::Image *bg_img) : 
 			scene::MenuHandler(menu), bg_img_(bg_img), editor_(editor) {}
         ~EditorMenuHandler() {}
         void Handle(int selection, int modifier = 0);
         void CleanUp();
 	  private:
-		framework::Image* bg_img_;
+		ugdk::Image* bg_img_;
 		MapEditor* editor_;
     };
 
 	class LoadMapMenuHandler : public scene::MenuHandler {
       public:
-        LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor, framework::Image *bg_img);
+        LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor, ugdk::Image *bg_img);
         ~LoadMapMenuHandler() {}
         void Handle(int selection, int modifier = 0);
         void CleanUp();
 		void BuildSprites();
 	  private:
-		framework::Image* bg_img_;
+		ugdk::Image* bg_img_;
 		MapEditor* editor_;
 		std::vector<std::string> map_list_;
-		framework::Drawable **level_images_;
-		framework::Sprite **level_sprites_;
+		ugdk::Drawable **level_images_;
+		ugdk::Sprite **level_sprites_;
 		int selected_level_;
     };
 };

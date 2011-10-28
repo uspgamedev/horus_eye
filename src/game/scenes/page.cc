@@ -1,19 +1,19 @@
 #include <cstdlib>
 #include <string>
 #include "page.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/image.h"
-#include "../../framework/sprite.h"
-#include "../../framework/animation.h"
-#include "../utils/levelloader.h"
-#include "../utils/levelmanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/action/animation.h>
+#include "game/utils/levelloader.h"
+#include "game/utils/levelmanager.h"
 #include "../scenes/imagescene.h"
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define RECT_WIDTH          266
@@ -102,7 +102,7 @@ void Page::Update(float delta_t) {
 }
 
 // Verifica a posição do mouse
-int Page::CheckMouse (framework::Vector2D &mouse_pos) {
+int Page::CheckMouse (ugdk::Vector2D &mouse_pos) {
 
     static float    old_x = 0, old_y = 0;
     float           x = mouse_pos.x,

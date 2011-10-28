@@ -1,13 +1,14 @@
 #ifndef HORUSEYE_GAME_UTILS_LEVELMANAGER_H_
 #define HORUSEYE_GAME_UTILS_LEVELMANAGER_H_
 
-#include "../scenes/imagescene.h"
-#include "../sprites/hero.h"
-
 namespace scene {
 class World;
 class Loading;
 class Menu;
+}
+
+namespace sprite {
+class Hero;
 }
 
 namespace utils {

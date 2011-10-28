@@ -1,16 +1,17 @@
 #ifndef HORUSEYE_EDITOR_MAPEDITOR_H_
 #define HORUSEYE_EDITOR_MAPEDITOR_H_
 
+#include <cstdlib>
 #include <string>
 #include <vector>
-#include "../framework/scene.h"
-#include "../framework/layer.h"
+#include <ugdk/action/scene.h>
+#include <ugdk/action/layer.h>
 
 namespace editor {
 
 class MapObject;
 
-class MapEditor : public framework::Scene {
+class MapEditor : public ugdk::Scene {
   public:
     MapEditor();
     virtual ~MapEditor();
@@ -22,18 +23,18 @@ class MapEditor : public framework::Scene {
 
     typedef std::vector< std::vector<MapObject*> > MapMatrix;
 
-    class MapLayer : public framework::Layer {
+    class MapLayer : public ugdk::Layer {
       public:
         virtual ~MapLayer() {}
 		virtual void LoadMapMatrix(MapEditor::MapMatrix *matrix) {}
         virtual void set_scale(float scale) { scale_ = scale; }
-        virtual void CenterAt(framework::Vector2D& center) { set_offset(center); }
+        virtual void CenterAt(ugdk::Vector2D& center) { set_offset(center); }
 
-        virtual MapObject* Select(framework::Vector2D& pos) { return NULL; }
-        virtual framework::Vector2D ModifyMovement(framework::Vector2D& movement) { return movement; }
+        virtual MapObject* Select(ugdk::Vector2D& pos) { return NULL; }
+        virtual ugdk::Vector2D ModifyMovement(ugdk::Vector2D& movement) { return movement; }
 
       protected:
-        MapLayer(MapMatrix *matrix, MapEditor* editor) : framework::Layer(), matrix_(matrix), editor_(editor), scale_(1.0f) {}
+        MapLayer(MapMatrix *matrix, MapEditor* editor) : ugdk::Layer(), matrix_(matrix), editor_(editor), scale_(1.0f) {}
         MapEditor::MapMatrix *matrix_;
 		MapEditor* editor_;
         float scale_;
@@ -43,17 +44,18 @@ class MapEditor : public framework::Scene {
 	std::string music_;
     int width_, height_;
     int scale_level_;
-    framework::Vector2D click_start_position_, last_mouse_position_, offset_;
+    ugdk::Vector2D click_start_position_, last_mouse_position_, offset_;
     bool drag_click_;
 	bool map_loaded_;
 	MapObject* selected_object_;
     MapMatrix map_matrix_;
     MapLayer *main_layer_, *tiles_layer_, *sprites_layer_;
-	framework::Layer *fps_layer_;
+	ugdk::Layer *fps_layer_;
 	std::string map_filename_;
 	std::vector<std::string> map_list_;
 
 	void processKeyEditCommands();
+    void End();
 };
 
 }

@@ -1,13 +1,13 @@
 #include "pausescene.h"
-#include "../../framework/image.h"
-#include "../../framework/sprite.h"
-#include "../../framework/layer.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/engine.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/action/layer.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/base/engine.h>
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 
 PauseScene::PauseScene () {
     image_ = new Image;

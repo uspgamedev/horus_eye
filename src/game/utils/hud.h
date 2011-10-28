@@ -1,21 +1,21 @@
 #ifndef HORUSEYE_GAME_UTILS_HUD_H_
 #define HORUSEYE_GAME_UTILS_HUD_H_
 
-#include "../../framework/layer.h"
-#include "../scenes/world.h"
+#include <ugdk/action/layer.h>
+#include "game/scenes/world.h"
 
-namespace framework {
+namespace ugdk {
 class Sprite;
 class Text;
 class Animation;
 class Modifier;
 }
 
-using framework::Sprite;
-using framework::Animation;
+using ugdk::Sprite;
+using ugdk::Animation;
 
 namespace utils {
-class Hud: public framework::Layer {
+class Hud: public ugdk::Layer {
   public:
     Hud(scene::World*);
     virtual ~Hud();
@@ -27,10 +27,10 @@ class Hud: public framework::Layer {
     Sprite* mana_bar_;
     Image* weapon_icon_;
     map<Image*, Sprite*> icon_added;
-    framework::Modifier *life_modifier_, *mana_modifier_;
+    ugdk::Modifier *life_modifier_, *mana_modifier_;
 
     Sprite *enemy_counter_[7], *fps_meter_[3];
-    framework::uint32 enemy_counter_value_[7], fps_meter_value_[3];
+    ugdk::uint32 enemy_counter_value_[7], fps_meter_value_[3];
 };
 
 }

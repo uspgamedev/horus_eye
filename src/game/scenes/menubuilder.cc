@@ -1,17 +1,17 @@
 #include <sstream>
 #include "menubuilder.h"
-#include "../../framework/engine.h"
-#include "../../framework/textmanager.h"
-#include "../../framework/scene.h"
-#include "../../framework/animationset.h"
-#include "../../framework/animationparser.h"
-#include "../../framework/text.h"
-#include "../utils/levelmanager.h"
-#include "../utils/imagefactory.h"
-#include "../utils/hudimagefactory.h"
-#include "../utils/textloader.h"
-#include "../utils/settings.h"
-#include "../utils/constants.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/action/scene.h>
+#include <ugdk/action/animationset.h>
+#include <ugdk/util/animationparser.h>
+#include <ugdk/graphic/text.h>
+#include "game/utils/levelmanager.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/hudimagefactory.h"
+#include "game/utils/textloader.h"
+#include "game/utils/settings.h"
+#include "game/utils/constants.h"
 #include "../../editor/mapeditor.h"
 #include "world.h"
 #include "menuhandler.h"
@@ -20,7 +20,7 @@
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using namespace std;
 
@@ -59,7 +59,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-	ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/test.and");
+	ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
@@ -173,29 +173,29 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
     if (modifier) return;
     switch (selection) {
         case MenuBuilder::MAIN_SELECT_PLAY: {
-            menu_->set_visible(false);
+            menu_->Hide();
             LevelManager::reference()->ShowIntro();
             break;
         }
         case MenuBuilder::MAIN_SELECT_HELP: {
             MenuBuilder builder;
             Engine::reference()->PushScene(builder.BuildHelpMenu());
-            menu_->set_visible(false);
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
             Engine::reference()->PushScene(new editor::MapEditor());
-            menu_->set_visible(false);
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_SETTINGS: {
             MenuBuilder builder;
             Engine::reference()->PushScene(builder.BuildSettingsMenu());
-            menu_->set_visible(false);
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_ABOUT: {
-            menu_->set_visible(false);
+            menu_->Hide();
             LevelManager::reference()->ShowCredits();
             break;
         }
@@ -467,7 +467,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     mouse_left->Initialize(mouse, ANIMATIONS);
     mouse_left->set_hotspot(Vector2D(0, mouse_height*0.5f));
     mouse_left->SelectAnimation(MOUSE_CLICKS[0]);
-    mouse_left->SetAnimationFPS(2);
+    //mouse_left->SetAnimationFPS(2.0f);
     page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
 
     Sprite *textmouse_left = new Sprite;
@@ -479,7 +479,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     mouse_right->Initialize(mouse, ANIMATIONS);
     mouse_right->set_hotspot(Vector2D(0, mouse_height*0.5f));
     mouse_right->SelectAnimation(MOUSE_CLICKS[1]);
-    mouse_right->SetAnimationFPS(2);
+    //mouse_right->SetAnimationFPS(2);
     page->AddSprite(mouse_right, Vector2D(second_column, 4.5*spacing));
 
     Sprite *textmouse_right = new Sprite;
@@ -812,7 +812,7 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
         case MenuBuilder::SETTINGS_SELECT_APPLY: {
             settings_->WriteToDisk();
             utils::LevelManager::reference()->QueueRestartGame();
-            framework::Engine::reference()->quit();
+            ugdk::Engine::reference()->quit();
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_EXIT: {
@@ -858,7 +858,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
         resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, /*resolution_images_[i]->height() * 0.5f*/0));
-        menu_->AddSprite(resolution_sprites_[i], framework::Vector2D (second_column_x, options[0]->position().y));
+        menu_->AddSprite(resolution_sprites_[i], ugdk::Vector2D (second_column_x, options[0]->position().y));
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
     }
     
@@ -872,7 +872,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
             Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
             on_off_sprites_[i][j]->Initialize(img);
             on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
-            menu_->AddSprite(on_off_sprites_[i][j], framework::Vector2D (second_column_x, options[i+1]->position().y));
+            menu_->AddSprite(on_off_sprites_[i][j], ugdk::Vector2D (second_column_x, options[i+1]->position().y));
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
         }
     }
@@ -886,7 +886,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
         language_sprites_[i]->Initialize(img);
         language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
-        menu_->AddSprite(language_sprites_[i], framework::Vector2D (second_column_x, options[4]->position().y));
+        menu_->AddSprite(language_sprites_[i], ugdk::Vector2D (second_column_x, options[4]->position().y));
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }
     

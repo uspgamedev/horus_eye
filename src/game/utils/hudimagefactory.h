@@ -1,10 +1,10 @@
 #ifndef HORUSEYE_GAME_UTILS_HUDIMAGEFACTORY_H_
 #define HORUSEYE_GAME_UTILS_HUDIMAGEFACTORY_H_
 
-namespace framework {
+namespace ugdk {
 class Image;
 }
-using framework::Image;
+using ugdk::Image;
 namespace utils {
 
 class HudImageFactory {

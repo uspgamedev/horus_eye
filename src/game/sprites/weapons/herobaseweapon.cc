@@ -1,16 +1,18 @@
+#include <ugdk/math/vector2D.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/base/engine.h>
+
 #include "herobaseweapon.h"
-#include "../../../framework/vector2D.h"
-#include "../../../framework/inputmanager.h"
-#include "../../../framework/audiomanager.h"
-#include "../../../framework/engine.h"
-#include "../../scenes/world.h"
-#include "../magicmissile.h"
-#include "../../utils/settings.h"
+
+#include "game/scenes/world.h"
+#include "game/sprites/projectiles/magicmissile.h"
+#include "game/utils/settings.h"
 
 namespace sprite {
 
 using namespace scene;
-using namespace framework;
+using namespace ugdk;
 using utils::Constants;
 
 void HeroBaseWeapon::Attack(){
@@ -18,7 +20,7 @@ void HeroBaseWeapon::Attack(){
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     World *world_ = WORLD();
     // Ajuste da altura do projetil.
-    Vector2D versor = Vector2D::Normalized(WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
+    Vector2D versor = (WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()).Normalize(),
              pos = hero_->world_position();
     MagicMissile * projectile = new MagicMissile(versor);
     world_->AddWorldObject(projectile, pos);

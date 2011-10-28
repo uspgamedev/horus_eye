@@ -1,11 +1,11 @@
 
 #include <string>
 #include "config.h"
-#include "../framework/engine.h"
-#include "../framework/videomanager.h"
-#include "../framework/audiomanager.h"
-#include "../framework/textmanager.h"
-#include "../framework/vector2D.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/math/vector2D.h>
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
@@ -21,8 +21,8 @@ utils::TextLoader* text_loader() {
     return utils::TextLoader::reference();
 }
 
-framework::Engine* engine() {
-    return framework::Engine::reference();
+ugdk::Engine* engine() {
+    return ugdk::Engine::reference();
 }
 
 void StartGame() {
@@ -36,9 +36,6 @@ void StartGame() {
     text_loader()->Initialize(settings.language_file());
     level_manager()->Initialize();
 }
-
-#include "../framework/animationparser.h"
-#include "../framework/animationset.h"
 
 int main(int argc, char *argv[]) {
 	Settings settings = Settings();
@@ -59,6 +56,7 @@ int main(int argc, char *argv[]) {
 
     engine()->Initialize("Horus Eye", settings.resolution_vector(), settings.fullscreen(), rootpath, "data/images/eye.bmp");
     do {
+
         // Initializes game data
         StartGame();
 

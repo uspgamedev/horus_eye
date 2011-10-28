@@ -1,11 +1,11 @@
 #include "mapspriteslayer.h"
 #include "../mapobject.h"
 #include "../../game/scenes/world.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
 
 
-using namespace framework;
+using namespace ugdk;
 
 namespace editor {
 
@@ -30,7 +30,7 @@ void MapSpritesLayer::Update(float delta_t) {
     Layer::Update(delta_t);
 }
 
-void MapSpritesLayer::CenterAt(framework::Vector2D& center) {
+void MapSpritesLayer::CenterAt(ugdk::Vector2D& center) {
 	if (!editor_->map_loaded()) return;
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
@@ -38,7 +38,7 @@ void MapSpritesLayer::CenterAt(framework::Vector2D& center) {
     set_offset(scene::World::FromWorldCoordinates(correct_center) - screen_size * 0.5f);
 }
 
-MapObject* MapSpritesLayer::Select(framework::Vector2D& pos) {
+MapObject* MapSpritesLayer::Select(ugdk::Vector2D& pos) {
 	if (!editor_->map_loaded()) return NULL;
 
     Vector2D    global_screen_coords = pos + offset(),

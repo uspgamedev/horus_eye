@@ -1,27 +1,28 @@
 #ifndef HORUSEYE_GAME_SPRITES_ITEM_H_
 #define HORUSEYE_GAME_SPRITES_ITEM_H_
 
-#include "worldobject.h"
-#include "itemevent.h"
-#include "conditionbuilder.h"
-#include "condition.h"
+#include "game/sprites/worldobject.h"
+#include "game/sprites/itemevent.h"
+#include "game/builders/conditionbuilder.h"
+#include "game/sprites/condition.h"
 
 namespace sprite {
 
 class Item: public sprite::WorldObject {
   public:
-    Item (framework::Image* img);
+    Item (ugdk::Image* img);
     ~Item () { if (event_) delete event_; }
     
     virtual void Update(float delta_t);
     virtual void set_event(ItemEvent *event) { event_ = event; }
 
-    virtual void CollidesWith(Hero *obj);
-    virtual void HandleCollision(WorldObject *);
-     
   private:
     ItemEvent *event_;
     float total_time_;
+
+    COLLISION_BEGIN
+		COLLISION_ADD (Item, Use)
+	COLLISION_END
 };
 
 }

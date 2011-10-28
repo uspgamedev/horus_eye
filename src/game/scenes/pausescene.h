@@ -1,15 +1,15 @@
 #ifndef PAUSESCENE_H_
 #define PAUSESCENE_H_
 
-#include "../../framework/scene.h"
+#include <ugdk/action/scene.h>
 
-namespace framework {
+namespace ugdk {
 class Image;
 }
 
 namespace scene {
 
-class PauseScene: public framework::Scene {
+class PauseScene: public ugdk::Scene {
   public:
     PauseScene ();
     virtual ~PauseScene ();
@@ -18,7 +18,7 @@ class PauseScene: public framework::Scene {
     void End ();
 
   private:
-    framework::Image *image_;
+    ugdk::Image *image_;
 };
 
 }

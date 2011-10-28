@@ -1,14 +1,15 @@
 #include "loading.h"
-#include "../../framework/image.h"
-#include "../../framework/sprite.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../utils/levelmanager.h"
-#include "../utils/textloader.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/action/layer.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include "game/utils/levelmanager.h"
+#include "game/utils/textloader.h"
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 
 Loading::Loading() {
     Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
@@ -20,10 +21,11 @@ Loading::Loading() {
             - Vector2D(10.0f, 10.0f);
     text_sprite->set_position(position);
 
-    Layer * layer = new Layer;
-    layer->AddSprite(text_sprite);
+    layer_ = new Layer;
+    layer_->AddSprite(text_sprite);
+    layer_->set_visible(false);
 
-    AddLayer(layer);
+    Engine::reference()->PushInterface(layer_);
     set_visible(false);
     has_been_drawn_ = false;
 }
@@ -34,12 +36,18 @@ Loading::~Loading() {
 
 void Loading::Update(float delta_t) {
     set_visible(true);
+    layer_->set_visible(true);
     Scene::Update(delta_t);
     if(has_been_drawn_) {
         //Finish();
         utils::LevelManager::reference()->LoadNextLevel();
     }
     has_been_drawn_ = !has_been_drawn_;
+}
+
+void Loading::End() {
+    Engine::reference()->RemoveInterface(layer_);
+    delete layer_;
 }
 
 }

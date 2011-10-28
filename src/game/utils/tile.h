@@ -4,7 +4,7 @@
 #include <vector>
 #include <cstddef>  // Usado para definir NULL
 
-namespace framework {
+namespace ugdk {
 class Vector2D;
 }
 
@@ -27,6 +27,7 @@ namespace utils {
 #define POTIONL                  'L'
 #define POTIONM                  'N'
 #define POTIONS                  'S'
+#define BLOCK                    'K'
 
 class Tile;
 
@@ -93,12 +94,12 @@ class Tile {
     }
 
     static void CleanVisibility(GameMap &map);
-    static TilePos ToTilePos(framework::Vector2D pos);
-    static framework::Vector2D FromTilePos(const TilePos pos);
+    static TilePos ToTilePos(ugdk::Vector2D pos);
+    static ugdk::Vector2D FromTilePos(const TilePos pos);
     static Tile* GetFromMapPosition(GameMap &map, TilePos pos) {
         return SafeGetFromMap(map, pos);
     }
-    static Tile* GetFromWorldPosition(GameMap &map, framework::Vector2D pos);
+    static Tile* GetFromWorldPosition(GameMap &map, ugdk::Vector2D pos);
 
   private:
 

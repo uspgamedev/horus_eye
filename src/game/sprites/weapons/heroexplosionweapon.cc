@@ -1,21 +1,21 @@
 #include "heroexplosionweapon.h"
-#include "../../../framework/vector2D.h"
-#include "../../../framework/inputmanager.h"
-#include "../../../framework/audiomanager.h"
-#include "../../../framework/animation.h"
-#include "../../../framework/engine.h"
-#include "../../scenes/world.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/audio/audiomanager.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/base/engine.h>
+#include "game/scenes/world.h"
 #include "../explosion.h"
-#include "../../utils/visionstrategy.h"
-#include "../../utils/imagefactory.h"
-#include "../../utils/hudimagefactory.h"
-#include "../../utils/constants.h"
-#include "../../utils/settings.h"
+#include "game/utils/visionstrategy.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/hudimagefactory.h"
+#include "game/utils/constants.h"
+#include "game/utils/settings.h"
 
 namespace sprite {
 
 using namespace scene;
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 

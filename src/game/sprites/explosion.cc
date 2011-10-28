@@ -1,14 +1,16 @@
 #include "explosion.h"
-#include "mummy.h"
-#include "../../framework/engine.h"
-#include "../../framework/animation.h"
-#include "../../framework/animationset.h"
-#include "../../framework/animationparser.h"
-#include "../../framework/timeaccumulator.h"
-#include "../utils/circleobject.h"
-#include "../utils/constants.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/action/animationset.h>
+#include <ugdk/util/animationparser.h>
+#include <ugdk/time/timeaccumulator.h>
+#include <ugdk/graphic/light.h>
 
-using namespace framework;
+#include "game/sprites/creatures/mummy.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/constants.h"
+
+using namespace ugdk;
 using namespace utils;
 
 #define CENTER_X    Constants::EXPLOSION_SPRITE_CENTER_X
@@ -32,18 +34,24 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 	damage_ = damage;
 	bound_ = new CircleObject(radius / 2);
 	set_light_radius(1.3*radius);
+
+    Color light_color(1.0f, 0.521568f, 0.082352f);
+    this->light()->set_color(light_color);
+
 	collision_type_ = MOVEABLE;
 	AddObserverToAnimation(this);
     SelectAnimation(WEAPON_ANIMATIONS[animation]);
 
     expansion_speed_ = (radius / 2) /
             (GetAnimationFrameNumber() / GetAnimationFPS());
+
+	known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
 }
 
 Explosion::~Explosion() {}
 
 void Explosion::InitializeAnimations() {
-    ANIMATIONS = Engine::reference()->animation_parser()->Load("data/animations/explosion.and");
+    ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/explosion.gdd");
     WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] =
             ANIMATIONS->MakeIndex("HERO_FIREBALL_WEAPON");
     WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] =
@@ -70,12 +78,9 @@ void Explosion::Update(float delta_t) {
 	this->RadiusUpdate(delta_t);
 }
 
-void Explosion::CollidesWith(Mummy *obj) {
-    obj->TakeDamage(damage_);
-}
-
-void Explosion::HandleCollision(WorldObject* obj) {
-    obj->CollidesWith(this);
+COLLISION_IMPLEMENT(Explosion, Damage, obj) {
+	Creature *creature = (Creature *) obj;
+    creature->TakeDamage(owner_->damage());
 }
 
 }

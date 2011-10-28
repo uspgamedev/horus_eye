@@ -1,12 +1,12 @@
 #include <sstream>
 #include "editormenu.h"
-#include "../../framework/engine.h"
-#include "../../framework/textmanager.h"
-#include "../../framework/scene.h"
-#include "../../framework/animation.h"
-#include "../../framework/image.h"
-#include "../../framework/text.h"
-#include "../../framework/drawable.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/action/scene.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/text.h>
+#include <ugdk/graphic/drawable.h>
 #include "../../game/utils/levelmanager.h"
 #include "../../game/utils/imagefactory.h"
 #include "../../game/utils/hudimagefactory.h"
@@ -21,7 +21,7 @@
 
 namespace editor {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 using namespace std;
 
@@ -143,7 +143,7 @@ void EditorMenuBuilder::EditorMenuHandler::CleanUp() {
 //========================
 //   Load Map Menu
 
-EditorMenuBuilder::LoadMapMenuHandler::LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor, framework::Image *bg_img) : 
+EditorMenuBuilder::LoadMapMenuHandler::LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor, ugdk::Image *bg_img) : 
 			scene::MenuHandler(menu), bg_img_(bg_img), editor_(editor) {
 				map_list_ = editor->map_list();
 				selected_level_ = 0;
@@ -243,7 +243,7 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
         level_images_[i] = TEXT_MANAGER()->GetText(tmpw, L"FontB");
         level_sprites_[i]->Initialize(level_images_[i]);
         level_sprites_[i]->set_hotspot(Vector2D(0, 0));
-		menu_->AddSprite(level_sprites_[i], framework::Vector2D((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),
+		menu_->AddSprite(level_sprites_[i], ugdk::Vector2D((VIDEO_MANAGER()->video_size().x/2.0f)-(level_sprites_[i]->size().x/2.0f),
 																  MENU_TOP + RECT_HEIGHT + 25.0f));
         if ( static_cast<int>(i) != selected_level_ ) level_sprites_[i]->set_visible(false);
     }

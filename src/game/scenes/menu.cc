@@ -1,16 +1,16 @@
 #include <cstdlib>
 #include <string>
 #include "menu.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
-#include "../utils/levelloader.h"
-#include "../utils/levelmanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/input/inputmanager.h>
+#include "game/utils/levelloader.h"
+#include "game/utils/levelmanager.h"
 #include "../scenes/imagescene.h"
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define RECT_WIDTH          266
@@ -38,7 +38,9 @@ Menu::Menu (int selection_num)
     for(int i = 0; i < selection_num_; ++i)
         options_sprite_[i] = NULL;
     selection_pos_ = new Vector2D[selection_num_];
-    AddLayer(new Layer);
+    interface_layer_ = new Layer;
+    Engine *engine = Engine::reference();
+    engine->PushInterface(interface_layer_);
 
 }
 
@@ -49,10 +51,11 @@ Menu::~Menu () {
     }
     delete[] selection_pos_;
     free(options_sprite_);
+    Engine::reference()->RemoveInterface(interface_layer_);
+    delete interface_layer_;
 }
 
 void Menu::Update(float delta_t) {
-
     Scene::Update(delta_t);
     InputManager *input = Engine::reference()->input_manager();
     Vector2D mouse_pos = input->GetMousePosition();
@@ -78,8 +81,8 @@ void Menu::Update(float delta_t) {
     if (input->KeyPressed(K_LEFT)) modifier--;
 
     bool on_selection = CheckMouse(mouse_pos);
-    set_visible(true);
 
+    Show();
     Select();
 
     if (input->KeyPressed(K_RETURN) || modifier ||
@@ -93,44 +96,44 @@ void Menu::set_handler(MenuHandler* handler) {
     handler_ = handler;
 }
 
-void Menu::set_content_box(framework::Frame content_box) {
+void Menu::set_content_box(ugdk::Frame content_box) {
     set_content_box(content_box, ALIGNMENT_CENTER);
 }
 
-void Menu::set_content_box(framework::Frame content_box, int alignment) {
+void Menu::set_content_box(ugdk::Frame content_box, int alignment) {
     content_box_ = content_box;
     content_box_defined_ = true;
     DecideWhereOptionsGo(alignment);
 }
 
-void Menu::set_selection_sprite(framework::Sprite *sprite) {
+void Menu::set_selection_sprite(ugdk::Sprite *sprite) {
     selection_sprite_[0] = sprite;
     selection_sprite_[1] = NULL;
-    (*layers_.begin())->AddSprite(sprite);
+    interface_layer_->AddSprite(sprite);
     sprite->set_zindex(0.0f);
     InitialSelection();
 }
 
-void Menu::set_selection_sprite(framework::Sprite *sprite[]) {
+void Menu::set_selection_sprite(ugdk::Sprite *sprite[]) {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
         selection_sprite_[i] = sprite[i];
-        (*layers_.begin())->AddSprite(sprite[i]);
+        interface_layer_->AddSprite(sprite[i]);
         sprite[i]->set_zindex(0.0f);
     }
     InitialSelection();
 }
 
-void Menu::set_option_sprite(int index, framework::Sprite *sprite) {
+void Menu::set_option_sprite(int index, ugdk::Sprite *sprite) {
     if (index >= 0 && index < selection_num_ && content_box_defined_) {
         options_sprite_[index] = sprite;
-        (*layers_.begin())->AddSprite(sprite);
+        interface_layer_->AddSprite(sprite);
         sprite->set_zindex(OPTION_ZINDEX);
         sprite->set_position(selection_pos_[index]);
     }
 }
 
-void Menu::AddSprite(framework::Sprite *sprite, framework::Vector2D pos) {
-    (*layers_.begin())->AddSprite(sprite);
+void Menu::AddSprite(ugdk::Sprite *sprite, ugdk::Vector2D pos) {
+    interface_layer_->AddSprite(sprite);
     sprite->set_position(pos);
     sprite->set_zindex(-OPTION_ZINDEX);
 }
@@ -163,7 +166,7 @@ void Menu::InitialSelection() {
     }
 }
 
-bool Menu::CheckMouse (framework::Vector2D &mouse_pos) {
+bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
 
     static float    old_x = 0, old_y = 0;
     float           x = mouse_pos.x,
@@ -196,6 +199,23 @@ void Menu::Select () {
             selection_sprite_[i]->set_position(pos);
         }
     }
+}
+
+void Menu::Hide() {
+    this->set_visible(false);
+    interface_layer_->set_visible(false);
+}
+
+void Menu::Show() {
+    this->set_visible(true);
+    interface_layer_->set_visible(true);
+}
+
+void Menu::Toggle() {
+    if(this->visible())
+        Hide();
+    else
+        Show();
 }
 
 }

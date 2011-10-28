@@ -1,14 +1,18 @@
 #include "worldobject.h"
-#include "../scenes/world.h"
-#include "../utils/circleobject.h"
-#include "../utils/tile.h"
-#include "../../framework/light.h"
+#include "game/scenes/world.h"
+#include "game/utils/circleobject.h"
+#include "game/utils/tile.h"
+#include "game/utils/constants.h"
+#include <ugdk/graphic/light.h>
 
 namespace sprite {
 
-using namespace framework;
+using namespace ugdk;
 using namespace scene;
 using namespace utils;
+
+
+INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
     : bound_(NULL),
@@ -47,13 +51,7 @@ bool WorldObject::IsColliding(WorldObject* obj) const {
     return bound_->Intersects(obj->bound());
 }
 
-void WorldObject::HandleCollision(WorldObject* obj) {
-//     double dispatch
-//     http://en.wikipedia.org/wiki/Double_dispatch
-    obj->CollidesWith(this);
-}
-
-void WorldObject::set_world_position(const framework::Vector2D& pos) {
+void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    bound_->set_position(pos);
    set_position(World::FromWorldCoordinates(pos));
 }

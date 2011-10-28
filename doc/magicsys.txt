@@ -1,0 +1,73 @@
+
+---
+
+A idéia toda de remodelar o sistema de magia do Horus é fazer ele ficar mais dinâmico,
+desafiador e divertido.
+
+A primeira idéia é fazer a mana se regenerar o tempo todo. E com isso, todos os ataques
+(ou pelo menos a maioria deles) gastariam alguma quantidade de mana, mesmo que mínima.
+
+Isso gera um problema. O jogador poderia simplesmente ficar esperando sempre que quisesse
+recarregar sua mana.
+
+Para resolver isso, tivemos a idéia de certas magias (as mais fortes), além de gastarem
+mana normalmente, também reduzirem a capacidade total de mana. Essa capacidade só poderia
+ser recuperada se o jogador matasse uma certa quantidade de inimigos. Por segurança, haveria
+um limite para quanto pode ser cortado dessa capacidade para que o jogador não fique
+simplesmente sem mana nenhuma.
+
+Como maneira de simplificar esse esquema, bolamos a idéia de "blocos" de mana. Quando uma
+magia forte fosse usada, ela "quebraria" uma certa quantidade dos blocos de mana que o herói
+possui naquele momento. E quando ele matasse mais alguns inimigos, ele recuperaria um bloco.
+
+A princípio, os blocos terão a imagem de escaravelhos, seguindo a temática egípcia do jogo.
+
+Até aqui é a proposta básica do novo sistema.
+
+---
+
+Como nós gostamos dessa idéia de blocos de mana, idéias mais complexas foram surgindo.
+
+A motivação para essas idéias é que, se o jogador não usa magias fortes, então ele acaba
+atingindo o limite de blocos de mana e cada novo bloco que ele ganha é desperdiçado.
+
+Seria legal dar uma utilidade para esses blocos excedentes!
+
+E a idéia foi a de permitir que o jogador "alocasse" o bloco de mana em alguma skill dele.
+Assim, se ele aloca um bloco de mana na skill "fireball", por exemplo, o que acontece é
+que enquanto esse bloco estiver associado a essa skill as fireballs do herói ficam mais
+fortes.
+
+Na verdade, o que pensamos é fazer os blocos poderem ser alocados em propriedades das
+skills (como dano, tamanho, velocidade, multiplicidade, etc). Assim, uma fireball com
+um bloco de mana alocado para "multiplicidade" vira uma skill que solta duas fireballs
+ao invés de só uma (provavelmente ao custo de mais mana).
+
+Mas essas alocações não são permanentes. Ao custo de quebrar um bloco de mana atualmente
+presente na capacidade de mana do herói, um bloco alocado poderia voltar para a capacidade
+ou ser transferido para outro lugar (outra propriedade da mesma ou de outra skill). Na
+prática, a habilidade de transferir blocos de mana é em si uma magia forte que quebra um
+bloco de mana.
+
+---
+
+Legal! Mas realmente não sabemos como fica a interface para essas features no jogo.
+
+A movimentação de blocos de mana tem que ser simples e intuitiva, além de não gastar
+muito tempo. Seria muito legal o jogador passar por momentos de aperto que envolvessem
+um raciocínio rápido para decidir que blocos de mana locomover ou gastar de maneira a
+melhor lidar com a situação atual.
+
+Uma possibilidade que pensamos é permitir ao jogador estabelecer macros para builds.
+Ou seja, ele define uma configuração de alocações de blocos de mana e associa isso a
+uma hotkey, e quando ele aperta essa hotkey a configuração armazenada nela é ativada,
+gastando os devidos blocos de mana que forem necessários.
+
+O problema dessa idéia é que o jogador só poderia ter um número fixo de configurações
+para definir (algo entre 4 a 10), e então ele acabaria perdendo flexibilidade.
+
+Além isso, precisamos definir como seria o layout desse sistema, e se ele seria
+controlado mais pelo mouse, mais pelo teclado ou pelos dois.
+
+
+

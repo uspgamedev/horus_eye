@@ -1,15 +1,16 @@
 #include "hud.h"
-#include "../../framework/vector2D.h"
-#include "../../framework/sprite.h"
-#include "../../framework/text.h"
-#include "../../framework/engine.h"
-#include "../../framework/animation.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/modifier.h"
-#include "../scenes/world.h"
-#include "../utils/hudimagefactory.h"
-#include "constants.h"
-#include "../sprites/weapons/weapon.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/text.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/action/animation.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/modifier.h>
+#include "game/scenes/world.h"
+#include "game/utils/hudimagefactory.h"
+#include "game/utils/constants.h"
+#include "game/sprites/weapons/weapon.h"
+#include "game/sprites/creatures/hero.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
 #define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT
@@ -41,7 +42,7 @@
 #define NUMBER_WIDTH 18
 #define NUMBER_HEIGHT 16
 
-using namespace framework;
+using namespace ugdk;
 using namespace scene;
 
 namespace utils {
@@ -60,13 +61,13 @@ Hud::Hud(World* world) {
 
     life_bar_ = new Sprite(life_modifier_ = new Modifier);
     life_bar_->Initialize(img_fac.LifeBarImage());
-    life_bar_->set_position(VIDEO_X - LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
+    life_bar_->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
     life_bar_->set_zindex(-0.5f);
     AddSprite(life_bar_);
     
     mana_bar_ = new Sprite(mana_modifier_ = new Modifier);
     mana_bar_->Initialize(img_fac.ManaBarImage());
-    mana_bar_->set_position(MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    mana_bar_->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
     mana_bar_->set_zindex(-0.5f);
     AddSprite(mana_bar_);
 
@@ -198,10 +199,10 @@ void Hud::Update(float delta_t) {
             weapon_icon_ = world->hero()->secondary_weapon()->icon();
 
         // Life Bar
-        life_modifier_->set_offset(Vector2D(0.0f, (((float) world->hero()->life()) / world->hero()->max_life()) * LIFE_BAR_HEIGHT) );
+        life_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->life()) / world->hero()->max_life()) * LIFE_BAR_HEIGHT) );
 
         // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0f, (((float) world->hero()->mana()) / world->hero()->max_mana()) * MANA_BAR_HEIGHT) );
+        mana_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana()) / world->hero()->max_mana()) * MANA_BAR_HEIGHT) );
     }
 
     if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {

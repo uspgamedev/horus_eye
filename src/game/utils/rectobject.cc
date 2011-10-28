@@ -4,10 +4,18 @@
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 
 bool RectObject::Intersects (const RectObject *rect) const {
-    return false;
+    Vector2D    otherpos = rect->position(),
+                thispos  = this->position();
+    if((thispos.x > otherpos.x + rect->width()) ||
+       (thispos.y > otherpos.y + rect->height()) ||
+       (thispos.x + this->width() < otherpos.x) ||
+       (thispos.y + this->height() < otherpos.y))
+        return false;
+    else
+        return true;
 }
 
 bool RectObject::Intersects (const CircleObject *circle) const {

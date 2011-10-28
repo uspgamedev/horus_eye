@@ -1,18 +1,18 @@
 #include <cstdlib>
 #include <string>
 #include "pagemanager.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/inputmanager.h"
-#include "../../framework/sprite.h"
-#include "../../framework/animation.h"
-#include "../utils/levelloader.h"
-#include "../utils/levelmanager.h"
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/input/inputmanager.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/action/animation.h>
+#include "game/utils/levelloader.h"
+#include "game/utils/levelmanager.h"
 #include "../scenes/imagescene.h"
 
 namespace scene {
 
-using namespace framework;
+using namespace ugdk;
 using namespace utils;
 
 #define RECT_WIDTH          266

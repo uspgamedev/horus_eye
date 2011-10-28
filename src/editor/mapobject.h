@@ -19,13 +19,13 @@
 #define POTIONM                  'N'
 #define POTIONS                  'S'
 
-//#include "../framework/texture.h"
-#include "../framework/image.h"
-#include "../framework/sprite.h"
+//#include "ugdk/texture.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/action/sprite.h>
 
 namespace editor {
 
-class MapObject : public framework::Sprite {
+class MapObject : public ugdk::Sprite {
   public:
     const static float TileSize;
 
@@ -34,7 +34,7 @@ class MapObject : public framework::Sprite {
     void Update(float delta_t);
 
     virtual ~MapObject();
-    virtual void Render2D(framework::Vector2D offset, float scale = 1.0f);
+    virtual void Render2D(ugdk::Vector2D offset, float scale = 1.0f);
 
     void Select(bool on);
 
@@ -48,7 +48,7 @@ class MapObject : public framework::Sprite {
     int x_, y_;
     char type_;
 	bool is_in_fill_;
-    framework::Image *tile_image_, *sprite_image_;
+    ugdk::Image *tile_image_, *sprite_image_;
 };
 
 }

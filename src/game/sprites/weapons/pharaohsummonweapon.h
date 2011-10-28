@@ -2,8 +2,8 @@
 #define HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHSUMMONWEAPON_H_
 
 #include "weapon.h"
-#include "../../utils/constants.h"
-#include "../creature.h"
+#include "game/utils/constants.h"
+#include "game/sprites/creatures/creature.h"
 
 namespace sprite {
 

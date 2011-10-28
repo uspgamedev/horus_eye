@@ -3,12 +3,13 @@
 
 #include <list>
 #include <vector>
-#include "../../framework/scene.h"
-#include "../../framework/vector2D.h"
-#include "../utils/levelmanager.h"
-#include "../utils/tile.h"
+#include <ugdk/action/scene.h>
+#include <ugdk/math/vector2D.h>
 
-namespace framework {
+#include "game/utils/levelmanager.h"
+#include "game/utils/tile.h"
+
+namespace ugdk {
 class Music;
 }
 namespace utils {
@@ -17,11 +18,12 @@ class ImageFactory;
 }
 namespace sprite {
 class Hero;
+class Mummy;
 class WorldObject;
 }
 
-using framework::Vector2D;
-using framework::Image;
+using ugdk::Vector2D;
+using ugdk::Image;
 using std::vector;
 
 namespace scene {
@@ -31,7 +33,7 @@ namespace scene {
 // Classe World
 // O World e' uma cena onde o jogo se desencadeara'. O World contem
 // elementos como: heroi, mumias, cenario e hud.
-class World : public framework::Scene {
+class World : public ugdk::Scene {
   public:
     World(sprite::Hero *hero);
     virtual ~World();
@@ -40,8 +42,8 @@ class World : public framework::Scene {
 
     void Update(float delta_t);
 
-    void AddWorldObject(sprite::WorldObject*, framework::Vector2D pos);
-    void AddHero(framework::Vector2D pos);
+    void AddWorldObject(sprite::WorldObject*, ugdk::Vector2D pos);
+    void AddHero(ugdk::Vector2D pos);
 
     void AddNewWorldObjects();
 
@@ -87,9 +89,9 @@ class World : public framework::Scene {
   protected:
     sprite::Hero *hero_;
     std::list<sprite::WorldObject*> world_objects_, collisionless_objects, new_world_objects;
-    framework::Layer *world_layer_;
-    framework::Sprite *hero_fog_;
-	framework::Music *music_;
+    ugdk::Layer *world_layer_;
+    ugdk::Sprite *hero_fog_;
+	ugdk::Music *music_;
     utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;

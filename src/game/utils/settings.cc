@@ -13,7 +13,7 @@
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 
 Vector2D Settings::resolutions_[] = {
         Vector2D(800.0f,600.0f),

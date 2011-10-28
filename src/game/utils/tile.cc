@@ -1,9 +1,9 @@
 #include "tile.h"
-#include "../../framework/vector2D.h"
+#include <ugdk/math/vector2D.h>
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 
 void Tile::CleanVisibility(GameMap& map) {
 
@@ -28,7 +28,7 @@ Vector2D Tile::FromTilePos(TilePos pos) {
     return Vector2D(pos.j, pos.i);
 }
 
-Tile* Tile::GetFromWorldPosition(GameMap &map, framework::Vector2D pos) {
+Tile* Tile::GetFromWorldPosition(GameMap &map, ugdk::Vector2D pos) {
    TilePos map_pos = ToTilePos(pos);
    map_pos.i = map.size() - map_pos.i - 1;
    return GetFromMapPosition(map, map_pos);

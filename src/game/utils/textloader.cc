@@ -1,14 +1,14 @@
 #include <cstdio>
 #include "textloader.h"
-#include "../../framework/image.h"
-#include "../../framework/textmanager.h"
-#include "../../framework/engine.h"
-#include "../../framework/pathmanager.h"
-#include "../../framework/text.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/util/pathmanager.h>
+#include <ugdk/graphic/text.h>
 
 namespace utils {
 
-using namespace framework;
+using namespace ugdk;
 using std::map;
 using std::string;
 

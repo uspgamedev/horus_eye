@@ -14,6 +14,131 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\editor\layers\fpsmeter.cc" />
+    <ClCompile Include="src\editor\layers\mapspriteslayer.cc" />
+    <ClCompile Include="src\editor\layers\maptileslayer.cc" />
+    <ClCompile Include="src\editor\mapeditor.cc" />
+    <ClCompile Include="src\editor\mapobject.cc" />
+    <ClCompile Include="src\editor\scenes\editormenu.cc" />
+    <ClCompile Include="src\game\builders\conditionbuilder.cc" />
+    <ClCompile Include="src\game\builders\itembuilder.cc" />
+    <ClCompile Include="src\game\builders\mummybuilder.cc" />
+    <ClCompile Include="src\game\main.cc" />
+    <ClCompile Include="src\game\scenes\imagescene.cc" />
+    <ClCompile Include="src\game\scenes\loading.cc" />
+    <ClCompile Include="src\game\scenes\menu.cc" />
+    <ClCompile Include="src\game\scenes\menubuilder.cc" />
+    <ClCompile Include="src\game\scenes\page.cc" />
+    <ClCompile Include="src\game\scenes\pagemanager.cc" />
+    <ClCompile Include="src\game\scenes\pausescene.cc" />
+    <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
+    <ClCompile Include="src\game\scenes\world.cc" />
+    <ClCompile Include="src\game\sprites\creatures\creature.cc" />
+    <ClCompile Include="src\game\sprites\creatures\hero.cc" />
+    <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
+    <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
+    <ClCompile Include="src\game\sprites\explosion.cc" />
+    <ClCompile Include="src\game\sprites\item.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\fireball.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\lightningbolt.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\magicmissile.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\mummyprojectile.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
+    <ClCompile Include="src\game\sprites\scenery\block.cc" />
+    <ClCompile Include="src\game\sprites\scenery\door.cc" />
+    <ClCompile Include="src\game\sprites\scenery\floor.cc" />
+    <ClCompile Include="src\game\sprites\scenery\wall.cc" />
+    <ClCompile Include="src\game\sprites\weapons\herobaseweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\heroexplosionweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\herofireballweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\herolightningweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\mummyrangedweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\mummyweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\pharaohrangedweapon.cc" />
+    <ClCompile Include="src\game\sprites\weapons\pharaohsummonweapon.cc" />
+    <ClCompile Include="src\game\sprites\worldobject.cc" />
+    <ClCompile Include="src\game\utils\circleobject.cc" />
+    <ClCompile Include="src\game\utils\constants.cc" />
+    <ClCompile Include="src\game\utils\geometryprimitives.cc" />
+    <ClCompile Include="src\game\utils\hud.cc" />
+    <ClCompile Include="src\game\utils\hudimagefactory.cc" />
+    <ClCompile Include="src\game\utils\imagefactory.cc" />
+    <ClCompile Include="src\game\utils\levelloader.cc" />
+    <ClCompile Include="src\game\utils\levelmanager.cc" />
+    <ClCompile Include="src\game\utils\rectobject.cc" />
+    <ClCompile Include="src\game\utils\settings.cc" />
+    <ClCompile Include="src\game\utils\textloader.cc" />
+    <ClCompile Include="src\game\utils\tile.cc" />
+    <ClCompile Include="src\game\utils\visionstrategy.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionmask.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\editor\layers\fpsmeter.h" />
+    <ClInclude Include="src\editor\layers\mapspriteslayer.h" />
+    <ClInclude Include="src\editor\layers\maptileslayer.h" />
+    <ClInclude Include="src\editor\mapeditor.h" />
+    <ClInclude Include="src\editor\mapobject.h" />
+    <ClInclude Include="src\editor\scenes\editormenu.h" />
+    <ClInclude Include="src\game\builders\conditionbuilder.h" />
+    <ClInclude Include="src\game\builders\itembuilder.h" />
+    <ClInclude Include="src\game\builders\mummybuilder.h" />
+    <ClInclude Include="src\game\config.h" />
+    <ClInclude Include="src\game\scenes\imagescene.h" />
+    <ClInclude Include="src\game\scenes\loading.h" />
+    <ClInclude Include="src\game\scenes\menu.h" />
+    <ClInclude Include="src\game\scenes\menubuilder.h" />
+    <ClInclude Include="src\game\scenes\menuhandler.h" />
+    <ClInclude Include="src\game\scenes\page.h" />
+    <ClInclude Include="src\game\scenes\pagemanager.h" />
+    <ClInclude Include="src\game\scenes\pausescene.h" />
+    <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
+    <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\sprites\condition.h" />
+    <ClInclude Include="src\game\sprites\creatures\creature.h" />
+    <ClInclude Include="src\game\sprites\creatures\hero.h" />
+    <ClInclude Include="src\game\sprites\creatures\mummy.h" />
+    <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
+    <ClInclude Include="src\game\sprites\explosion.h" />
+    <ClInclude Include="src\game\sprites\item.h" />
+    <ClInclude Include="src\game\sprites\itemevent.h" />
+    <ClInclude Include="src\game\sprites\projectiles\fireball.h" />
+    <ClInclude Include="src\game\sprites\projectiles\lightningbolt.h" />
+    <ClInclude Include="src\game\sprites\projectiles\magicmissile.h" />
+    <ClInclude Include="src\game\sprites\projectiles\mummyprojectile.h" />
+    <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
+    <ClInclude Include="src\game\sprites\scenery\block.h" />
+    <ClInclude Include="src\game\sprites\scenery\door.h" />
+    <ClInclude Include="src\game\sprites\scenery\floor.h" />
+    <ClInclude Include="src\game\sprites\scenery\wall.h" />
+    <ClInclude Include="src\game\sprites\weapons\herobaseweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\heroexplosionweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\herofireballweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\herolightningweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\mummyrangedweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\mummyweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\pharaohrangedweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\pharaohsummonweapon.h" />
+    <ClInclude Include="src\game\sprites\weapons\weapon.h" />
+    <ClInclude Include="src\game\sprites\worldobject.h" />
+    <ClInclude Include="src\game\utils\circleobject.h" />
+    <ClInclude Include="src\game\utils\collisionobject.h" />
+    <ClInclude Include="src\game\utils\constants.h" />
+    <ClInclude Include="src\game\utils\geometryprimitives.h" />
+    <ClInclude Include="src\game\utils\hud.h" />
+    <ClInclude Include="src\game\utils\hudimagefactory.h" />
+    <ClInclude Include="src\game\utils\imagefactory.h" />
+    <ClInclude Include="src\game\utils\levelloader.h" />
+    <ClInclude Include="src\game\utils\levelmanager.h" />
+    <ClInclude Include="src\game\utils\rectobject.h" />
+    <ClInclude Include="src\game\utils\settings.h" />
+    <ClInclude Include="src\game\utils\textloader.h" />
+    <ClInclude Include="src\game\utils\tile.h" />
+    <ClInclude Include="src\game\utils\visionstrategy.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionmask.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{88426421-C8EA-4013-B7F8-6A07ADD23469}</ProjectGuid>
     <RootNamespace>Horus Eye</RootNamespace>
@@ -48,16 +173,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup>
     <_ProjectFileVersion>10.0.30319.1</_ProjectFileVersion>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</OutDir>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">DebugFast\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Debug\</IntDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">DebugFast\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">bin\$(Configuration)\</OutDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">bin\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">tmp\$(Configuration)\</IntDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">tmp\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
-    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">true</LinkIncremental>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">false</LinkIncremental>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
     <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">true</GenerateManifest>
-    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</OutDir>
-    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Release\</IntDir>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">bin\$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">tmp\$(Configuration)\</IntDir>
     <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
@@ -68,12 +193,12 @@
     <CodeAnalysisRuleSet Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">AllRules.ruleset</CodeAnalysisRuleSet>
     <CodeAnalysisRules Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
     <CodeAnalysisRuleAssemblies Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" />
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\SDL-1.2.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\SDL-1.2.14\include;$(IncludePath)</IncludePath>
-    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\SDL-1.2.14\include;$(IncludePath)</IncludePath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
-    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">C:\Program Files %28x86%29\Microsoft Visual Studio 10.0\VC\SDL-1.2.14\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\src;$(SolutionDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\src;$(SolutionDir)\include;$(IncludePath)</IncludePath>
+    <IncludePath Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">$(SolutionDir)\src;$(SolutionDir)\include;$(IncludePath)</IncludePath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)\lib;$(LibraryPath)</LibraryPath>
+    <LibraryPath Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">$(SolutionDir)\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -90,6 +215,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -97,7 +223,7 @@
       <EntryPointSymbol>
       </EntryPointSymbol>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;ugdk_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <Profile>true</Profile>
     </Link>
@@ -108,7 +234,7 @@
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
       <PreprocessorDefinitions>WIN32;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <MinimalRebuild>true</MinimalRebuild>
+      <MinimalRebuild>false</MinimalRebuild>
       <BasicRuntimeChecks>Default</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
@@ -117,6 +243,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -124,7 +251,7 @@
       <EntryPointSymbol>
       </EntryPointSymbol>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;ugdk_d.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <Profile>true</Profile>
     </Link>
@@ -146,6 +273,7 @@
       <DebugInformationFormat>
       </DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <DisableSpecificWarnings>4244</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <ShowProgress>NotSet</ShowProgress>
@@ -155,184 +283,11 @@
       <EnableCOMDATFolding>
       </EnableCOMDATFolding>
       <TargetMachine>MachineX86</TargetMachine>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;ugdk.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <Profile>true</Profile>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="src\editor\layers\fpsmeter.cc" />
-    <ClCompile Include="src\editor\layers\mapspriteslayer.cc" />
-    <ClCompile Include="src\editor\layers\maptileslayer.cc" />
-    <ClCompile Include="src\editor\mapeditor.cc" />
-    <ClCompile Include="src\editor\mapobject.cc" />
-    <ClCompile Include="src\editor\scenes\editormenu.cc" />
-    <ClCompile Include="src\framework\animation.cc" />
-    <ClCompile Include="src\framework\animationparser.cc" />
-    <ClCompile Include="src\framework\animationset.cc" />
-    <ClCompile Include="src\framework\audiomanager.cc" />
-    <ClCompile Include="src\framework\engine.cc" />
-    <ClCompile Include="src\framework\font.cc" />
-    <ClCompile Include="src\framework\frame.cc" />
-    <ClCompile Include="src\framework\image.cc" />
-    <ClCompile Include="src\framework\inputmanager.cc" />
-    <ClCompile Include="src\framework\layer.cc" />
-    <ClCompile Include="src\framework\light.cc" />
-    <ClCompile Include="src\framework\modifier.cc" />
-    <ClCompile Include="src\framework\music.cc" />
-    <ClCompile Include="src\framework\pathmanager.cc" />
-    <ClCompile Include="src\framework\sample.cc" />
-    <ClCompile Include="src\framework\scene.cc" />
-    <ClCompile Include="src\framework\sprite.cc" />
-    <ClCompile Include="src\framework\text.cc" />
-    <ClCompile Include="src\framework\textmanager.cc" />
-    <ClCompile Include="src\framework\timeaccumulator.cc" />
-    <ClCompile Include="src\framework\timehandler.cc" />
-    <ClCompile Include="src\framework\vector2D.cc" />
-    <ClCompile Include="src\framework\videomanager.cc" />
-    <ClCompile Include="src\game\main.cc" />
-    <ClCompile Include="src\game\scenes\imagescene.cc" />
-    <ClCompile Include="src\game\scenes\loading.cc" />
-    <ClCompile Include="src\game\scenes\menu.cc" />
-    <ClCompile Include="src\game\scenes\menubuilder.cc" />
-    <ClCompile Include="src\game\scenes\page.cc" />
-    <ClCompile Include="src\game\scenes\pagemanager.cc" />
-    <ClCompile Include="src\game\scenes\pausescene.cc" />
-    <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
-    <ClCompile Include="src\game\scenes\world.cc" />
-    <ClCompile Include="src\game\sprites\conditionbuilder.cc" />
-    <ClCompile Include="src\game\sprites\creature.cc" />
-    <ClCompile Include="src\game\sprites\door.cc" />
-    <ClCompile Include="src\game\sprites\explosion.cc" />
-    <ClCompile Include="src\game\sprites\fireball.cc" />
-    <ClCompile Include="src\game\sprites\floor.cc" />
-    <ClCompile Include="src\game\sprites\hero.cc" />
-    <ClCompile Include="src\game\sprites\item.cc" />
-    <ClCompile Include="src\game\sprites\itembuilder.cc" />
-    <ClCompile Include="src\game\sprites\lightningbolt.cc" />
-    <ClCompile Include="src\game\sprites\magicmissile.cc" />
-    <ClCompile Include="src\game\sprites\mummy.cc" />
-    <ClCompile Include="src\game\sprites\mummybuilder.cc" />
-    <ClCompile Include="src\game\sprites\mummyprojectile.cc" />
-    <ClCompile Include="src\game\sprites\pharaoh.cc" />
-    <ClCompile Include="src\game\sprites\projectile.cc" />
-    <ClCompile Include="src\game\sprites\wall.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herobaseweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\heroexplosionweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herofireballweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herolightningweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\mummyrangedweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\mummyweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\pharaohrangedweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\pharaohsummonweapon.cc" />
-    <ClCompile Include="src\game\sprites\worldobject.cc" />
-    <ClCompile Include="src\game\utils\circleobject.cc" />
-    <ClCompile Include="src\game\utils\constants.cc" />
-    <ClCompile Include="src\game\utils\geometryprimitives.cc" />
-    <ClCompile Include="src\game\utils\hud.cc" />
-    <ClCompile Include="src\game\utils\hudimagefactory.cc" />
-    <ClCompile Include="src\game\utils\imagefactory.cc" />
-    <ClCompile Include="src\game\utils\levelloader.cc" />
-    <ClCompile Include="src\game\utils\levelmanager.cc" />
-    <ClCompile Include="src\game\utils\rectobject.cc" />
-    <ClCompile Include="src\game\utils\settings.cc" />
-    <ClCompile Include="src\game\utils\textloader.cc" />
-    <ClCompile Include="src\game\utils\tile.cc" />
-    <ClCompile Include="src\game\utils\visionstrategy.cc" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\editor\layers\fpsmeter.h" />
-    <ClInclude Include="src\editor\layers\mapspriteslayer.h" />
-    <ClInclude Include="src\editor\layers\maptileslayer.h" />
-    <ClInclude Include="src\editor\mapeditor.h" />
-    <ClInclude Include="src\editor\mapobject.h" />
-    <ClInclude Include="src\editor\scenes\editormenu.h" />
-    <ClInclude Include="src\framework\animation.h" />
-    <ClInclude Include="src\framework\animationparser.h" />
-    <ClInclude Include="src\framework\animationset.h" />
-    <ClInclude Include="src\framework\audiomanager.h" />
-    <ClInclude Include="src\framework\drawable.h" />
-    <ClInclude Include="src\framework\engine.h" />
-    <ClInclude Include="src\framework\font.h" />
-    <ClInclude Include="src\framework\frame.h" />
-    <ClInclude Include="src\framework\image.h" />
-    <ClInclude Include="src\framework\inputmanager.h" />
-    <ClInclude Include="src\framework\keys.h" />
-    <ClInclude Include="src\framework\layer.h" />
-    <ClInclude Include="src\framework\light.h" />
-    <ClInclude Include="src\framework\modifier.h" />
-    <ClInclude Include="src\framework\music.h" />
-    <ClInclude Include="src\framework\observer.h" />
-    <ClInclude Include="src\framework\pathmanager.h" />
-    <ClInclude Include="src\framework\sample.h" />
-    <ClInclude Include="src\framework\scene.h" />
-    <ClInclude Include="src\framework\sprite.h" />
-    <ClInclude Include="src\framework\text.h" />
-    <ClInclude Include="src\framework\textmanager.h" />
-    <ClInclude Include="src\framework\timeaccumulator.h" />
-    <ClInclude Include="src\framework\timehandler.h" />
-    <ClInclude Include="src\framework\types.h" />
-    <ClInclude Include="src\framework\vector2D.h" />
-    <ClInclude Include="src\framework\videomanager.h" />
-    <ClInclude Include="src\game\config.h" />
-    <ClInclude Include="src\game\scenes\imagescene.h" />
-    <ClInclude Include="src\game\scenes\loading.h" />
-    <ClInclude Include="src\game\scenes\menu.h" />
-    <ClInclude Include="src\game\scenes\menubuilder.h" />
-    <ClInclude Include="src\game\scenes\menuhandler.h" />
-    <ClInclude Include="src\game\scenes\page.h" />
-    <ClInclude Include="src\game\scenes\pagemanager.h" />
-    <ClInclude Include="src\game\scenes\pausescene.h" />
-    <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
-    <ClInclude Include="src\game\scenes\world.h" />
-    <ClInclude Include="src\game\sprites\condition.h" />
-    <ClInclude Include="src\game\sprites\conditionbuilder.h" />
-    <ClInclude Include="src\game\sprites\creature.h" />
-    <ClInclude Include="src\game\sprites\door.h" />
-    <ClInclude Include="src\game\sprites\explosion.h" />
-    <ClInclude Include="src\game\sprites\fireball.h" />
-    <ClInclude Include="src\game\sprites\floor.h" />
-    <ClInclude Include="src\game\sprites\hero.h" />
-    <ClInclude Include="src\game\sprites\item.h" />
-    <ClInclude Include="src\game\sprites\itembuilder.h" />
-    <ClInclude Include="src\game\sprites\itemevent.h" />
-    <ClInclude Include="src\game\sprites\lightningbolt.h" />
-    <ClInclude Include="src\game\sprites\magicmissile.h" />
-    <ClInclude Include="src\game\sprites\mummy.h" />
-    <ClInclude Include="src\game\sprites\mummybuilder.h" />
-    <ClInclude Include="src\game\sprites\mummyprojectile.h" />
-    <ClInclude Include="src\game\sprites\pharaoh.h" />
-    <ClInclude Include="src\game\sprites\projectile.h" />
-    <ClInclude Include="src\game\sprites\wall.h" />
-    <ClInclude Include="src\game\sprites\weapons\herobaseweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\heroexplosionweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\herofireballweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\herolightningweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\mummyrangedweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\mummyweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\pharaohrangedweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\pharaohsummonweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\weapon.h" />
-    <ClInclude Include="src\game\sprites\worldobject.h" />
-    <ClInclude Include="src\game\utils\circleobject.h" />
-    <ClInclude Include="src\game\utils\collisionobject.h" />
-    <ClInclude Include="src\game\utils\constants.h" />
-    <ClInclude Include="src\game\utils\geometryprimitives.h" />
-    <ClInclude Include="src\game\utils\hud.h" />
-    <ClInclude Include="src\game\utils\hudimagefactory.h" />
-    <ClInclude Include="src\game\utils\imagefactory.h" />
-    <ClInclude Include="src\game\utils\levelloader.h" />
-    <ClInclude Include="src\game\utils\levelmanager.h" />
-    <ClInclude Include="src\game\utils\rectobject.h" />
-    <ClInclude Include="src\game\utils\settings.h" />
-    <ClInclude Include="src\game\utils\textloader.h" />
-    <ClInclude Include="src\game\utils\tile.h" />
-    <ClInclude Include="src\game\utils\visionstrategy.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\game\data\text\lang_en.txt" />
-    <None Include="src\game\data\text\lang_pt_br.txt" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

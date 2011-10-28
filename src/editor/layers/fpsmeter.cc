@@ -1,8 +1,8 @@
 #include "fpsmeter.h"
-#include "../../framework/image.h"
-#include "../../framework/engine.h"
-#include "../../framework/videomanager.h"
-#include "../../framework/animation.h"
+#include <ugdk/graphic/image.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/action/animation.h>
 
 
 #define FPS_BAR_OFFSET_X  10
@@ -11,7 +11,7 @@
 #define NUMBER_WIDTH 18
 #define NUMBER_HEIGHT 16
 
-using namespace framework;
+using namespace ugdk;
 
 namespace editor {
 

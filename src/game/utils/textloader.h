@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 
-namespace framework {
+namespace ugdk {
 class Text;
 class Drawable;
 class Image;
@@ -25,8 +25,8 @@ class TextLoader {
     ~TextLoader();
 
     bool Initialize(std::string language_file);
-    framework::Drawable* GetImage(std::string text);
-	framework::Drawable* GetImage(std::wstring text);
+    ugdk::Drawable* GetImage(std::string text);
+	ugdk::Drawable* GetImage(std::wstring text);
     //void SetFont(std::string font);
 
     bool Clear();
@@ -54,7 +54,7 @@ class TextLoader {
     };
     void ReadFont(wchar_t *str);
 
-    std::map<std::wstring, framework::Drawable*> text_images_;
+    std::map<std::wstring, ugdk::Drawable*> text_images_;
 };
 
 }

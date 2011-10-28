@@ -1,11 +1,11 @@
 #ifndef HORUSEYE_GAME_SCENES_LOADING_H_
 #define HORUSEYE_GAME_SCENES_LOADING_H_
 
-#include "../../framework/scene.h"
+#include <ugdk/action/scene.h>
 
 namespace scene {
 
-class Loading: public framework::Scene {
+class Loading: public ugdk::Scene {
   public:
     Loading();
     virtual ~Loading();
@@ -13,6 +13,8 @@ class Loading: public framework::Scene {
 
   protected:
     bool has_been_drawn_;
+    ugdk::Layer *layer_;
+    void End();
 };
 
 }

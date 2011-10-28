@@ -1,0 +1,26 @@
+
+# Lightning animation descriptor file.
+
+$ATTACKING_RIGHT
+%number 0 1 2 3
+
+$ATTACKING_DOWN_RIGHT
+%number 4 5 6 7
+
+$ATTACKING_DOWN
+%number 8 9 10 11
+
+$ATTACKING_DOWN_LEFT
+%number 12 13 14 15
+
+$ATTACKING_LEFT
+%number 16 17 18 19
+
+$ATTACKING_UP_LEFT
+%number 20 21 22 23
+
+$ATTACKING_UP
+%number 24 25 26 27
+
+$ATTACKING_UP_RIGHT
+%number 28 29 30 31

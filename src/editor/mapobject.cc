@@ -4,7 +4,7 @@
 #include "../game/utils/constants.h"
 #include "../game/scenes/world.h"
 
-using namespace framework;
+using namespace ugdk;
 using utils::Constants;
 
 namespace editor {
@@ -121,7 +121,7 @@ void MapObject::Update(float delta_t) {
     Sprite::Update(delta_t);
 }
 
-void MapObject::Render2D(framework::Vector2D offset, float scale) {
+void MapObject::Render2D(ugdk::Vector2D offset, float scale) {
 	tile_image_->DrawTo(Vector2D(x_*TileSize, y_*TileSize) * scale - offset, 0, 0, color(), alpha(), tile_image_->frame_size() * scale);
 }
 

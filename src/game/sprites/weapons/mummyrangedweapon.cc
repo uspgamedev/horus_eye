@@ -1,27 +1,28 @@
+#include <ugdk/base/engine.h>
+#include <ugdk/audio/audiomanager.h>
+
 #include "mummyrangedweapon.h"
-#include "../../scenes/world.h"
-#include "../hero.h"
-#include "../mummy.h"
-#include "../mummyprojectile.h"
-#include "../../../framework/engine.h"
-#include "../../../framework/audiomanager.h"
-#include "../../utils/settings.h"
+#include "game/scenes/world.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/mummy.h"
+#include "game/sprites/projectiles/mummyprojectile.h"
+#include "game/utils/settings.h"
 
 namespace sprite {
 
-using framework::Vector2D;
+using ugdk::Vector2D;
 
 void MummyRangedWeapon::Attack(){
     scene::World *world = WORLD();
     Hero* hero = world->hero();
 
-    Vector2D versor = Vector2D::Normalized(hero->world_position() - owner_->world_position());
+    Vector2D versor = (hero->world_position() - owner_->world_position()).Normalize();
     Vector2D pos = owner_->world_position();
 
     world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);
     utils::Settings settings;
     if(settings.sound_effects())
-        framework::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     ((Mummy*)owner_)->StartAttack(hero);
 }
