@@ -37,15 +37,6 @@ void StartGame() {
     level_manager()->Initialize();
 }
 
-#include <ugdk/util/gdd/cachedloader.h>
-#include <ugdk/util/animationprotocol.h>
-#include <ugdk/action/animationset.h>
-
-using ugdk::Animation;
-using ugdk::AnimationSet;
-using ugdk::AnimationProtocol;
-using ugdk::gdd::CachedLoader;
-
 int main(int argc, char *argv[]) {
 	Settings settings = Settings();
 

@@ -2,25 +2,25 @@
 # Fireball animation descriptor file.
 
 $ATTACKING_RIGHT
-%frames 32 33 34 35 36 37 38 39
+%number 32 33 34 35 36 37 38 39
 
 $ATTACKING_DOWN_RIGHT
-%frames 40 41 42 43 44 45 46 47
+%number 40 41 42 43 44 45 46 47
 
 $ATTACKING_DOWN
-%frames 48 49 50 51 52 53 54 55
+%number 48 49 50 51 52 53 54 55
 
 $ATTACKING_DOWN_LEFT
-%frames 56 57 58 59 60 61 62 63
+%number 56 57 58 59 60 61 62 63
 
 $ATTACKING_LEFT
-%frames 0 1 2 3 4 5 6 7
+%number 0 1 2 3 4 5 6 7
 
 $ATTACKING_UP_LEFT
-%frames 8 9 10 11 12 13 14 15
+%number 8 9 10 11 12 13 14 15
 
 $ATTACKING_UP
-%frames 16 17 18 19 20 21 22 23
+%number 16 17 18 19 20 21 22 23
 
 $ATTACKING_UP_RIGHT
-%frames 24 25 26 27 28 29 30 31
+%number 24 25 26 27 28 29 30 31

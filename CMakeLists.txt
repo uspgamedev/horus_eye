@@ -84,6 +84,7 @@ ELSE(MSVC)
   ENDFOREACH(d)
 ENDIF(MSVC)
 
+cmake_policy(SET CMP0015 NEW)
 link_directories ("lib")
 include_directories ("include")
 include_directories ("src")

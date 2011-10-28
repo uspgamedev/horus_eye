@@ -1,118 +1,123 @@
-SET(GAME_SRCS
-./src/editor/layers/fpsmeter.cc
-./src/editor/layers/fpsmeter.h
-./src/editor/layers/mapspriteslayer.cc
-./src/editor/layers/mapspriteslayer.h
-./src/editor/layers/maptileslayer.cc
-./src/editor/layers/maptileslayer.h
-./src/editor/mapeditor.cc
-./src/editor/mapeditor.h
-./src/editor/mapobject.cc
-./src/editor/mapobject.h
-./src/editor/scenes/editormenu.cc
-./src/editor/scenes/editormenu.h
-./src/game/config.h
-./src/game/main.cc
-./src/game/scenes/imagescene.cc
-./src/game/scenes/imagescene.h
-./src/game/scenes/loading.cc
-./src/game/scenes/loading.h
-./src/game/scenes/menu.cc
-./src/game/scenes/menu.h
-./src/game/scenes/menubuilder.cc
-./src/game/scenes/menubuilder.h
-./src/game/scenes/menuhandler.h
-./src/game/scenes/page.cc
-./src/game/scenes/page.h
-./src/game/scenes/pagemanager.cc
-./src/game/scenes/pagemanager.h
-./src/game/scenes/pausescene.cc
-./src/game/scenes/pausescene.h
-./src/game/scenes/scrollingimagescene.cc
-./src/game/scenes/scrollingimagescene.h
-./src/game/scenes/world.cc
-./src/game/scenes/world.h
-./src/game/sprites/condition.h
-./src/game/sprites/conditionbuilder.cc
-./src/game/sprites/conditionbuilder.h
-./src/game/sprites/creature.cc
-./src/game/sprites/creature.h
-./src/game/sprites/door.cc
-./src/game/sprites/door.h
-./src/game/sprites/explosion.cc
-./src/game/sprites/explosion.h
-./src/game/sprites/fireball.cc
-./src/game/sprites/fireball.h
-./src/game/sprites/floor.cc
-./src/game/sprites/floor.h
-./src/game/sprites/hero.cc
-./src/game/sprites/hero.h
-./src/game/sprites/item.cc
-./src/game/sprites/item.h
-./src/game/sprites/itembuilder.cc
-./src/game/sprites/itembuilder.h
-./src/game/sprites/itemevent.h
-./src/game/sprites/lightningbolt.cc
-./src/game/sprites/lightningbolt.h
-./src/game/sprites/magicmissile.cc
-./src/game/sprites/magicmissile.h
-./src/game/sprites/mummy.cc
-./src/game/sprites/mummy.h
-./src/game/sprites/mummybuilder.cc
-./src/game/sprites/mummybuilder.h
-./src/game/sprites/mummyprojectile.cc
-./src/game/sprites/mummyprojectile.h
-./src/game/sprites/pharaoh.cc
-./src/game/sprites/pharaoh.h
-./src/game/sprites/projectile.cc
-./src/game/sprites/projectile.h
-./src/game/sprites/wall.cc
-./src/game/sprites/wall.h
-./src/game/sprites/weapons/herobaseweapon.cc
-./src/game/sprites/weapons/herobaseweapon.h
-./src/game/sprites/weapons/heroexplosionweapon.cc
-./src/game/sprites/weapons/heroexplosionweapon.h
-./src/game/sprites/weapons/herofireballweapon.cc
-./src/game/sprites/weapons/herofireballweapon.h
-./src/game/sprites/weapons/herolightningweapon.cc
-./src/game/sprites/weapons/herolightningweapon.h
-./src/game/sprites/weapons/mummyrangedweapon.cc
-./src/game/sprites/weapons/mummyrangedweapon.h
-./src/game/sprites/weapons/mummyweapon.cc
-./src/game/sprites/weapons/mummyweapon.h
-./src/game/sprites/weapons/pharaohrangedweapon.cc
-./src/game/sprites/weapons/pharaohrangedweapon.h
-./src/game/sprites/weapons/pharaohsummonweapon.cc
-./src/game/sprites/weapons/pharaohsummonweapon.h
-./src/game/sprites/weapons/weapon.h
-./src/game/sprites/worldobject.cc
-./src/game/sprites/worldobject.h
-./src/game/utils/circleobject.cc
-./src/game/utils/circleobject.h
-./src/game/utils/collisionobject.h
-./src/game/utils/constants.cc
-./src/game/utils/constants.h
-./src/game/utils/geometryprimitives.cc
-./src/game/utils/geometryprimitives.h
-./src/game/utils/hud.cc
-./src/game/utils/hud.h
-./src/game/utils/hudimagefactory.cc
-./src/game/utils/hudimagefactory.h
-./src/game/utils/imagefactory.cc
-./src/game/utils/imagefactory.h
-./src/game/utils/levelloader.cc
-./src/game/utils/levelloader.h
-./src/game/utils/levelmanager.cc
-./src/game/utils/levelmanager.h
-./src/game/utils/rectobject.cc
-./src/game/utils/rectobject.h
-./src/game/utils/settings.cc
-./src/game/utils/settings.h
-./src/game/utils/textloader.cc
-./src/game/utils/textloader.h
-./src/game/utils/tile.cc
-./src/game/utils/tile.h
-./src/game/utils/visionstrategy.cc
-./src/game/utils/visionstrategy.h
+SET(GAME_SRCS 
+    ./src/game/config.h 
+    ./src/game/utils/imagefactory.cc 
+    ./src/game/utils/levelloader.cc 
+    ./src/game/utils/visionstrategy.cc 
+    ./src/game/utils/settings.h 
+    ./src/game/utils/constants.cc 
+    ./src/game/utils/levelmanager.cc 
+    ./src/game/utils/circleobject.cc 
+    ./src/game/utils/constants.h 
+    ./src/game/utils/geometryprimitives.cc 
+    ./src/game/utils/textloader.h 
+    ./src/game/utils/visionstrategy.h 
+    ./src/game/utils/tile.h 
+    ./src/game/utils/hud.cc 
+    ./src/game/utils/textloader.cc 
+    ./src/game/utils/collisionobject.h 
+    ./src/game/utils/settings.cc 
+    ./src/game/utils/imagefactory.h 
+    ./src/game/utils/hudimagefactory.h 
+    ./src/game/utils/geometryprimitives.h 
+    ./src/game/utils/circleobject.h 
+    ./src/game/utils/levelmanager.h 
+    ./src/game/utils/tile.cc 
+    ./src/game/utils/levelloader.h 
+    ./src/game/utils/hudimagefactory.cc 
+    ./src/game/utils/hud.h 
+    ./src/game/utils/rectobject.cc 
+    ./src/game/utils/rectobject.h 
+    ./src/game/builders/itembuilder.h 
+    ./src/game/builders/mummybuilder.cc 
+    ./src/game/builders/itembuilder.cc 
+    ./src/game/builders/conditionbuilder.cc 
+    ./src/game/builders/conditionbuilder.h 
+    ./src/game/builders/mummybuilder.h 
+    ./src/game/scenes/scrollingimagescene.h 
+    ./src/game/scenes/pagemanager.h 
+    ./src/game/scenes/menu.cc 
+    ./src/game/scenes/pausescene.h 
+    ./src/game/scenes/menuhandler.h 
+    ./src/game/scenes/imagescene.cc 
+    ./src/game/scenes/menubuilder.h 
+    ./src/game/scenes/page.cc 
+    ./src/game/scenes/scrollingimagescene.cc 
+    ./src/game/scenes/loading.cc 
+    ./src/game/scenes/imagescene.h 
+    ./src/game/scenes/menubuilder.cc 
+    ./src/game/scenes/page.h 
+    ./src/game/scenes/menu.h 
+    ./src/game/scenes/world.cc 
+    ./src/game/scenes/loading.h 
+    ./src/game/scenes/world.h 
+    ./src/game/scenes/pagemanager.cc 
+    ./src/game/scenes/pausescene.cc 
+    ./src/game/main.cc 
+    ./src/game/sprites/condition.h 
+    ./src/game/sprites/worldobject.h 
+    ./src/game/sprites/weapons/weapon.h 
+    ./src/game/sprites/weapons/herofireballweapon.h 
+    ./src/game/sprites/weapons/heroexplosionweapon.h 
+    ./src/game/sprites/weapons/herofireballweapon.cc 
+    ./src/game/sprites/weapons/pharaohrangedweapon.h 
+    ./src/game/sprites/weapons/herobaseweapon.h 
+    ./src/game/sprites/weapons/herobaseweapon.cc 
+    ./src/game/sprites/weapons/mummyweapon.cc 
+    ./src/game/sprites/weapons/heroexplosionweapon.cc 
+    ./src/game/sprites/weapons/mummyrangedweapon.h 
+    ./src/game/sprites/weapons/mummyweapon.h 
+    ./src/game/sprites/weapons/pharaohsummonweapon.h 
+    ./src/game/sprites/weapons/pharaohrangedweapon.cc 
+    ./src/game/sprites/weapons/herolightningweapon.cc 
+    ./src/game/sprites/weapons/herolightningweapon.h 
+    ./src/game/sprites/weapons/mummyrangedweapon.cc 
+    ./src/game/sprites/weapons/pharaohsummonweapon.cc 
+    ./src/game/sprites/worldobject.cc 
+    ./src/game/sprites/item.h 
+    ./src/game/sprites/item.cc 
+    ./src/game/sprites/scenery/wall.cc 
+    ./src/game/sprites/scenery/wall.h 
+    ./src/game/sprites/scenery/block.h 
+    ./src/game/sprites/scenery/floor.cc 
+    ./src/game/sprites/scenery/floor.h 
+    ./src/game/sprites/scenery/door.cc 
+    ./src/game/sprites/scenery/block.cc 
+    ./src/game/sprites/scenery/door.h 
+    ./src/game/sprites/itemevent.h 
+    ./src/game/sprites/creatures/creature.h 
+    ./src/game/sprites/creatures/mummy.h 
+    ./src/game/sprites/creatures/creature.cc 
+    ./src/game/sprites/creatures/pharaoh.h 
+    ./src/game/sprites/creatures/hero.h 
+    ./src/game/sprites/creatures/hero.cc 
+    ./src/game/sprites/creatures/pharaoh.cc 
+    ./src/game/sprites/creatures/mummy.cc 
+    ./src/game/sprites/projectiles/magicmissile.cc 
+    ./src/game/sprites/projectiles/projectile.cc 
+    ./src/game/sprites/projectiles/lightningbolt.h 
+    ./src/game/sprites/projectiles/lightningbolt.cc 
+    ./src/game/sprites/projectiles/fireball.cc 
+    ./src/game/sprites/projectiles/magicmissile.h 
+    ./src/game/sprites/projectiles/fireball.h 
+    ./src/game/sprites/projectiles/mummyprojectile.h 
+    ./src/game/sprites/projectiles/projectile.h 
+    ./src/game/sprites/projectiles/mummyprojectile.cc 
+    ./src/game/sprites/explosion.h 
+    ./src/game/sprites/explosion.cc 
+    ./src/pyramidworks/collision/collisionmask.h 
+    ./src/pyramidworks/collision/collisionmask.cc 
+    ./src/pyramidworks/collision/collisionobject.cc 
+    ./src/pyramidworks/collision/collisionobject.h 
+    ./src/editor/mapobject.cc 
+    ./src/editor/mapeditor.cc 
+    ./src/editor/scenes/editormenu.cc 
+    ./src/editor/scenes/editormenu.h 
+    ./src/editor/layers/mapspriteslayer.h 
+    ./src/editor/layers/fpsmeter.h 
+    ./src/editor/layers/maptileslayer.cc 
+    ./src/editor/layers/mapspriteslayer.cc 
+    ./src/editor/layers/fpsmeter.cc 
+    ./src/editor/layers/maptileslayer.h 
+    ./src/editor/mapeditor.h 
+    ./src/editor/mapobject.h 
 )
-
