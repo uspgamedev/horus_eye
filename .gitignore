@@ -27,4 +27,11 @@ settings.bin
 /lib/ugdk_d.lib
 /lib/ugdk_d.pdb
 /lib/ugdk.lib
+/lib/libugdk.a
+/lib/libugdk_d.a
 /Horus Eye.opensdf
+
+include/link_ugdk
+lib/link_libugdk.a
+lib/link_libugdk_d.a
+
