@@ -4,6 +4,7 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
+#include <ugdk/graphic/light.h>
 
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/circleobject.h"
@@ -33,6 +34,10 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 	damage_ = damage;
 	bound_ = new CircleObject(radius / 2);
 	set_light_radius(1.3*radius);
+
+    Color light_color(1.0f, 0.521568f, 0.082352f);
+    this->light()->set_color(light_color);
+
 	collision_type_ = MOVEABLE;
 	AddObserverToAnimation(this);
     SelectAnimation(WEAPON_ANIMATIONS[animation]);

@@ -4,6 +4,7 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/light.h>
 
 #include "fireball.h"
 #include "game/scenes/world.h"
@@ -36,7 +37,8 @@ Projectile(0.0f, Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir)
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + SPRITE_HEIGHT));
     bound_ = new CircleObject(0.25f);
     set_light_radius(1.0f);
-
+    Color light_color(1.0f, 0.521568f, 0.082352f);
+    this->light()->set_color(light_color);
     known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::DamageAndExplode(this);
 
     float raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
