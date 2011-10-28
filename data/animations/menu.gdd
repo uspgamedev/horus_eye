@@ -2,24 +2,51 @@
 # This is a test.
 $SELECTION_EYE
 @fps 20
-%frames 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
++frame [number 2] [alpha 1.0] [position 0 0]
++frame [number 3] [alpha 1.0] [position 0 1]
++frame [number 4] [alpha 1.0] [position 0 2]
++frame [number 5] [alpha 1.0] [position 0 3]
++frame [number 6] [alpha 1.0] [position 0 4]
++frame [number 7] [alpha 1.0] [position 0 5]
++frame [number 8] [alpha 1.0] [position 0 6]
++frame [number 9] [alpha 1.0] [position 0 7]
++frame [number 10] [alpha 1.0] [position 0 6]
++frame [number 11] [alpha 1.0] [position 0 5]
++frame [number 12] [alpha 1.0] [position 0 4]
++frame [number 13] [alpha 1.0] [position 0 3]
++frame [number 14] [alpha 1.0] [position 0 2]
++frame [number 15] [alpha 1.0] [position 0 1]
++frame [number 16] [alpha 1.0] [position 0 0]
++frame [number 17] [alpha 1.0] [position 0 1]
++frame [number 18] [alpha 1.0] [position 0 2]
++frame [number 19] [alpha 1.0] [position 0 3]
++frame [number 20] [alpha 1.0] [position 0 4]
++frame [number 21] [alpha 1.0] [position 0 5]
++frame [number 22] [alpha 1.0] [position 0 6]
++frame [number 23] [alpha 1.0] [position 0 7]
++frame [number 24] [alpha 1.0] [position 0 6]
++frame [number 25] [alpha 1.0] [position 0 5]
++frame [number 26] [alpha 1.0] [position 0 4]
++frame [number 27] [alpha 1.0] [position 0 3]
++frame [number 28] [alpha 1.0] [position 0 2]
+#%frames 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
 
 $HERO_SHOOTING
-%frames 3 3 3 43 53 63 73 3 3 3 3 3
+%number 3 3 3 43 53 63 73 3 3 3 3 3
 
 $MUMMY_DYING
-%frames 4 4 4 4 4 80 81 82 83 84 90 91
+%number 4 4 4 4 4 80 81 82 83 84 90 91
 
 $MOUSE_CLICKS_0
 @fps 2
-%frames 0 2
+%number 0 2
 
 $MOUSE_CLICKS_1
 @fps 2
-%frames 0 1
+%number 0 1
 
 $FIREBALL
-%frames 0 1 2 3 4 5 6 7 8 9 10 11
+%number 0 1 2 3 4 5 6 7 8 9 10 11
 
 $EARTHQUAKE
-%frames 0 1 2 3 4 5
+%number 0 1 2 3 4 5
