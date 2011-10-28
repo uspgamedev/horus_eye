@@ -47,24 +47,24 @@
 [Move Right]{FontC}:Move Right
 [Previous Spell]{FontC}:Previous Spell
 [Next Spell]{FontC}:Next Spell
-[Shoot magic]{FontC}:Shoot magic
+[Shoot magic]{FontC}:Shoot magic missile
 [Shoot spell]{FontC}:Shoot spell
 
 [Spells]{FontA}:Spells
 [Help Magic]{FontD}:Magic Missile
 [Help StandardSpell]{FontC}:Basic, ranged attack.
 [Help Fireball0]{FontD}:Fireball
-[Help Fireball1]{FontC}:Ranged attack, explodes on contact.
+[Help Fireball1]{FontC}:Projectile, explodes on contact.
 [Help Fireball2]{FontC}:Costs 20% mana.
 [Help Earthquake0]{FontD}:Earthquake
-[Help Earthquake1]{FontC}:Limited range, area damage.
-[Help Earthquake2]{FontC}:Costs 25% mana.
+[Help Earthquake1]{FontC}:Close range, deals high area damage.
+[Help Earthquake2]{FontC}:Costs 20% mana.
 
 [Itens]{FontA}:Itens
 [Help Life1]{FontD}:Life Potion
 [Help Life2]{FontC}:Recovers 20% of hero's life
 [Help Mana1]{FontD}:Mana Potion
-[Help Mana2]{FontC}:Recovers 25% of hero's mana
+[Help Mana2]{FontC}:Recovers 20% of hero's mana
 [Help Sight1]{FontD}:Sight Potion
 [Help Sight2]{FontC}:Increases hero's range of vision
 
@@ -72,7 +72,7 @@
 [Mana Bar]{FontC}:Mana Bar
 [Life Bar]{FontC}:Life Bar
 [Hero]{FontC}:Hero
-[Type of]{FontC}:Type of
+[Type of]{FontC}:Selected
 [Spell]{FontC}:Spell
 [Missing]{FontC}:Remaining
 [Mummies]{FontC}:Enemies
