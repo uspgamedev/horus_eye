@@ -102,12 +102,12 @@ SET(GAME_SRCS
     ./src/game/sprites/projectiles/mummyprojectile.h 
     ./src/game/sprites/projectiles/projectile.h 
     ./src/game/sprites/projectiles/mummyprojectile.cc 
-    ./src/game/sprites/collision/collisionmask.h 
-    ./src/game/sprites/collision/collisionmask.cc 
-    ./src/game/sprites/collision/collisionobject.cc 
-    ./src/game/sprites/collision/collisionobject.h 
     ./src/game/sprites/explosion.h 
     ./src/game/sprites/explosion.cc 
+    ./src/pyramidworks/collision/collisionmask.h 
+    ./src/pyramidworks/collision/collisionmask.cc 
+    ./src/pyramidworks/collision/collisionobject.cc 
+    ./src/pyramidworks/collision/collisionobject.h 
     ./src/editor/mapobject.cc 
     ./src/editor/mapeditor.cc 
     ./src/editor/scenes/editormenu.cc 
