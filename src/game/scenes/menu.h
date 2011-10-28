@@ -12,6 +12,7 @@
 namespace ugdk {
 class Sprite;
 class Image;
+class Layer;
 }
 
 namespace scene {
@@ -33,6 +34,10 @@ class Menu: public ugdk::Scene {
     void set_option_sprite(int index, ugdk::Sprite *sprite);
     void AddSprite(ugdk::Sprite *sprite, ugdk::Vector2D pos);
 
+    void Hide();
+    void Show();
+    void Toggle();
+
     const static float OPTION_ZINDEX;
 
   protected:
@@ -50,6 +55,7 @@ class Menu: public ugdk::Scene {
     ugdk::Sprite **options_sprite_;
     ugdk::Vector2D *selection_pos_;
     ugdk::Frame    content_box_;
+    ugdk::Layer *interface_layer_;
 
 };
 

@@ -37,7 +37,7 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), mus
     hero_ = hero;
 
     hud_ = new utils::Hud(this);
-    AddLayer(hud_);
+    Engine::reference()->PushInterface(hud_);
 
     remaining_enemies_ = max_enemies_ = 0;
     level_state_ = LevelManager::NOT_FINISHED;
@@ -46,8 +46,7 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), mus
 }
 
 // Destrutor
-World::~World() {
-}
+World::~World() {}
 
 bool worldObjectIsDead (const WorldObject* value) {
     bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
@@ -227,6 +226,10 @@ void World::Update(float delta_t) {
 }
 
 void World::End() {
+    Engine::reference()->RemoveInterface(hud_);
+    delete hud_;
+    hud_ = NULL;
+
 	if(music_ != NULL)
 		music_->Stop();
 	if(hero_ != NULL)

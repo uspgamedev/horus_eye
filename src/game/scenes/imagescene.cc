@@ -16,7 +16,7 @@ using namespace ugdk;
 ImageScene::ImageScene(ugdk::Image *background, ugdk::Image *image) {
     if (background) {
         scene_layers_[BG] = new Layer;
-        AddLayer(scene_layers_[BG]); // [0] layer do fundo
+        Engine::reference()->PushInterface(scene_layers_[BG]); // [0] layer do fundo
         Sprite *bg_sprite = new Sprite;
         bg_sprite->Initialize(background);
         scene_layers_[BG]->AddSprite(bg_sprite);
@@ -25,7 +25,7 @@ ImageScene::ImageScene(ugdk::Image *background, ugdk::Image *image) {
 
     if (image) {
         scene_layers_[IMG] = new Layer;
-        AddLayer(scene_layers_[IMG]); // [1] layer da imagem
+        Engine::reference()->PushInterface(scene_layers_[IMG]); // [1] layer da imagem
         Sprite *img_sprite = new Sprite;
         img_sprite->Initialize(image);
         Vector2D pos = VIDEO_MANAGER()->video_size();
@@ -44,6 +44,14 @@ ImageScene::~ImageScene() {}
 void ImageScene::End() {
     Scene::End();
     set_visible(false);
+    if(scene_layers_[BG] != NULL) {
+        Engine::reference()->RemoveInterface(scene_layers_[BG]);
+        delete scene_layers_[BG];
+    }
+    if(scene_layers_[IMG] != NULL) {
+        Engine::reference()->RemoveInterface(scene_layers_[IMG]);
+        delete scene_layers_[IMG];
+    }
 }
 
 void ImageScene::Update(float delta_t) {

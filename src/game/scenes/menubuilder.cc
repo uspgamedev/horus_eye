@@ -173,29 +173,29 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
     if (modifier) return;
     switch (selection) {
         case MenuBuilder::MAIN_SELECT_PLAY: {
-            menu_->set_visible(false);
+            menu_->Hide();
             LevelManager::reference()->ShowIntro();
             break;
         }
         case MenuBuilder::MAIN_SELECT_HELP: {
             MenuBuilder builder;
             Engine::reference()->PushScene(builder.BuildHelpMenu());
-            menu_->set_visible(false);
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
             Engine::reference()->PushScene(new editor::MapEditor());
-            menu_->set_visible(false);
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_SETTINGS: {
             MenuBuilder builder;
             Engine::reference()->PushScene(builder.BuildSettingsMenu());
-            menu_->set_visible(false);
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_ABOUT: {
-            menu_->set_visible(false);
+            menu_->Hide();
             LevelManager::reference()->ShowCredits();
             break;
         }

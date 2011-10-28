@@ -55,6 +55,7 @@ class MapEditor : public ugdk::Scene {
 	std::vector<std::string> map_list_;
 
 	void processKeyEditCommands();
+    void End();
 };
 
 }

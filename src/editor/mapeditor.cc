@@ -20,7 +20,8 @@ namespace editor {
 MapEditor::MapEditor() : Scene() {
 	map_loaded_ = false;
     main_layer_ = tiles_layer_ = new MapTilesLayer(&map_matrix_, this);
-    AddLayer(tiles_layer_);
+    Engine::reference()->PushInterface(tiles_layer_);
+    sprites_layer_ = NULL;
 	fps_layer_ = new FPSMeter;
     selected_object_ = NULL;
 
@@ -30,16 +31,28 @@ MapEditor::MapEditor() : Scene() {
 MapEditor::~MapEditor() {
 }
 
+void MapEditor::End() {
+    Engine::reference()->RemoveInterface(tiles_layer_);
+    if (map_loaded_) {
+        Engine::reference()->RemoveInterface(sprites_layer_);
+        Engine::reference()->RemoveInterface(fps_layer_);
+    }
+
+    delete tiles_layer_;
+    if(sprites_layer_) delete sprites_layer_;
+    delete fps_layer_;
+}
+
 void MapEditor::LoadMap(std::string& file_name) {
 	if (map_loaded_) {
-		RemoveLayer(sprites_layer_);
+		Engine::reference()->RemoveInterface(sprites_layer_);
 		delete sprites_layer_;
-		RemoveLayer(fps_layer_);
+		Engine::reference()->RemoveInterface(fps_layer_);
 	}
 	sprites_layer_ = new MapSpritesLayer(this);
 	sprites_layer_->set_visible(false);
-	AddLayer(sprites_layer_);
-	AddLayer(fps_layer_);
+	Engine::reference()->PushInterface(sprites_layer_);
+	Engine::reference()->PushInterface(fps_layer_);
 	tiles_layer_->set_visible(true);
 	main_layer_ = tiles_layer_;
 
@@ -135,12 +148,12 @@ void MapEditor::Update(float delta_t) {
         main_layer_->set_visible(false);
         if(main_layer_ == tiles_layer_) {
             main_layer_ = sprites_layer_;
-            //this->RemoveLayer(tiles_layer_);
-            //this->AddLayer(main_layer_ = sprites_layer_);
+            //this->Engine::reference()->RemoveInterface(tiles_layer_);
+            //this->Engine::reference()->PushInterface(main_layer_ = sprites_layer_);
         } else {
             main_layer_ = tiles_layer_;
-            //this->RemoveLayer(sprites_layer_);
-            //this->AddLayer(main_layer_ = tiles_layer_);
+            //this->Engine::reference()->RemoveInterface(sprites_layer_);
+            //this->Engine::reference()->PushInterface(main_layer_ = tiles_layer_);
         }
         main_layer_->set_visible(true);
     }
