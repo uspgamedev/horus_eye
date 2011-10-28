@@ -467,7 +467,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     mouse_left->Initialize(mouse, ANIMATIONS);
     mouse_left->set_hotspot(Vector2D(0, mouse_height*0.5f));
     mouse_left->SelectAnimation(MOUSE_CLICKS[0]);
-    mouse_left->SetAnimationFPS(2);
+    //mouse_left->SetAnimationFPS(2.0f);
     page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
 
     Sprite *textmouse_left = new Sprite;
@@ -479,7 +479,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     mouse_right->Initialize(mouse, ANIMATIONS);
     mouse_right->set_hotspot(Vector2D(0, mouse_height*0.5f));
     mouse_right->SelectAnimation(MOUSE_CLICKS[1]);
-    mouse_right->SetAnimationFPS(2);
+    //mouse_right->SetAnimationFPS(2);
     page->AddSprite(mouse_right, Vector2D(second_column, 4.5*spacing));
 
     Sprite *textmouse_right = new Sprite;

@@ -25,7 +25,7 @@ void HeroLightningWeapon::Attack() {
     Vector2D projectile_height(0,Constants::LIGHTNING_SPRITE_CENTER_Y+Constants::LIGHTNING_HEIGHT);
     World *world_ = WORLD();
     // Ajuste da altura do projetil.
-    Vector2D versor = Vector2D::Normalized(World::FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()),
+    Vector2D versor = (World::FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()).Normalize(),
              pos = hero_->world_position();
     LightningBolt *lightning = new LightningBolt(versor);
     world_->AddWorldObject(lightning, pos);

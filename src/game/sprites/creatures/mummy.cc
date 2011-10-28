@@ -14,7 +14,8 @@
 #include "game/utils/settings.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
-#include "game/sprites/itembuilder.h"
+#include "game/sprites/item.h"
+#include "game/builders/itembuilder.h"
 #include "game/sprites/weapons/weapon.h"
 
 namespace sprite {
@@ -61,8 +62,8 @@ void Mummy::TakeDamage(float life_points) {
 }
 
 void Mummy::MummyAntiStack(WorldObject *obj) {
-    Vector2D deviation = Vector2D::Normalized(world_position() - obj->world_position());
-    walking_direction_ = Vector2D::Normalized(walking_direction_ + deviation*0.9f);
+    Vector2D deviation = (world_position() - obj->world_position()).Normalize();
+    walking_direction_ = (walking_direction_ + deviation*0.9f).Normalize();
 }
 
 void Mummy::StartAttack(Creature* obj) {
@@ -174,7 +175,7 @@ void Mummy::Update(float delta_t) {
 void Mummy::Die(){
 	int potion = rand()%100;
 		if (potion <=20){
-			ItemBuilder builder;
+			builder::ItemBuilder builder;
 			ImageFactory* image_factory = WORLD()->image_factory();
 			if(potion > 10)
 				WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);

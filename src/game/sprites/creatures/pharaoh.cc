@@ -7,7 +7,6 @@
 #include "game/utils/imagefactory.h"
 #include "game/utils/constants.h"
 #include "game/sprites/weapons/weapon.h"
-#include "game/sprites/mummybuilder.h"
 
 using namespace std;
 using namespace ugdk;
