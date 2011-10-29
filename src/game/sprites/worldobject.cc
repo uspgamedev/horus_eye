@@ -1,9 +1,11 @@
+#include <ugdk/graphic/light.h>
+#include <pyramidworks/geometry/circle.h>
+
 #include "worldobject.h"
+
 #include "game/scenes/world.h"
-#include "game/utils/circleobject.h"
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
-#include <ugdk/graphic/light.h>
 
 namespace sprite {
 
@@ -11,18 +13,18 @@ using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
-
 INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
-    : bound_(NULL),
-      status_(STATUS_ACTIVE),
+    : status_(STATUS_ACTIVE),
       collision_type_(NO_COLLISION),
-      light_radius_(0.0f)
-{}
+      light_radius_(0.0f) {
+          
+    collision_object_ = new CollisionObject(this);
+}
 
 WorldObject::~WorldObject() {
-    delete bound_;
+    delete collision_object_;
 }
 
 void WorldObject::Update(float dt) {
@@ -48,11 +50,12 @@ void WorldObject::set_light_radius(float radius) {
 }
 
 bool WorldObject::IsColliding(WorldObject* obj) const {
-    return bound_->Intersects(obj->bound());
+    return collision_object_->IsColliding(obj->collision_object_);
+    collision_;
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
-   bound_->set_position(pos);
+   collision_object_->set_position(pos);
    set_position(World::FromWorldCoordinates(pos));
 }
 

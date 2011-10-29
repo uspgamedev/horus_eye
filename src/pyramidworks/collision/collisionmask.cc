@@ -1,4 +1,5 @@
 #include "collisionmask.h"
+#include "pyramidworks/collision/collisionobject.h"
 
 namespace pyramidworks {
 namespace collision {
@@ -18,6 +19,14 @@ const CollisionMask* CollisionMaskManager::Generate(std::string name, std::strin
 	else mask->set_parent(parent_mask);
 
 	return mask;
+}
+
+void CollisionMask::AddObject(CollisionObject *obj) { 
+    objects_.push_front(obj);
+}
+
+void CollisionMask::RemoveObject(CollisionObject *obj) { 
+    objects_.remove(obj); 
 }
 
 CollisionMaskManager *CollisionMaskManager::reference_ = NULL;

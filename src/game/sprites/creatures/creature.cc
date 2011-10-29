@@ -45,7 +45,7 @@ Creature::Creature() : WorldObject() {
     collision_type_ = MOVEABLE;
 
     // Teach this creature how to collides with Walls.
-    known_collisions_[GET_COLLISIONMASK(Wall)] = new Collisions::Rect(this);
+    collision_object_->AddCollision(GET_COLLISIONMASK(Wall), new Collisions::Rect(this));
 }
 
 Creature::~Creature() {

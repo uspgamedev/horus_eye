@@ -6,7 +6,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
-#include "game/utils/rectobject.h"
+#include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 
@@ -114,7 +114,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
-    void CollideWithRect(const utils::RectObject*);
+    void CollideWithRect(const pyramidworks::geometry::Rect*);
     static void InitializeStandingAnimations();
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();

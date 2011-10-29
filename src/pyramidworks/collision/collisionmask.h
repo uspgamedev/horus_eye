@@ -3,6 +3,7 @@
 
 #include <string>
 #include <map>
+#include <list>
 
 namespace pyramidworks {
 namespace collision {
@@ -21,9 +22,10 @@ namespace collision {
     const pyramidworks::collision::CollisionMask* CLASS::collision_ = \
     pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
 
-#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Generate( #NAME )
+#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Get( #NAME )
 
 
+class CollisionObject;
 class CollisionMask;
 class CollisionMaskManager {
   public:
@@ -49,13 +51,19 @@ class CollisionMask {
     const CollisionMask* parent() const { return parent_; }
 	void set_parent(CollisionMask* parent) { parent_ = parent; }
 
+
+    void AddObject(CollisionObject *obj);
+    void RemoveObject(CollisionObject *obj);
+
   private:
 	friend class CollisionMaskManager;
     CollisionMask(std::string name, const CollisionMask* parent = NULL) : name_(name), parent_(parent) {}
 
 	// Unnecessary, used for debugging purposes.
 	std::string name_;
+
     const CollisionMask* parent_;
+    std::list<CollisionObject *> objects_;
 };
 
 } // namespace collision

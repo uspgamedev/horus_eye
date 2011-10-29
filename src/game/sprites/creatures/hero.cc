@@ -9,11 +9,11 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/time/timehandler.h>
 #include <ugdk/audio/audiomanager.h>
+#include <pyramidworks/geometry/circle.h>
 
 #include "hero.h"
 
 #include "game/utils/imagefactory.h"
-#include "game/utils/circleobject.h"
 #include "game/sprites/item.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/constants.h"
@@ -62,7 +62,8 @@ Hero::Hero(Image* img) {
     mana_ = max_mana_ = Constants::HERO_MAX_MANA;
     mana_regen_ = Constants::HERO_MANA_REGEN;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
-    bound_ = new CircleObject(0.3f);
+
+    collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Hero), new pyramidworks::geometry::Circle(0.3f));
     invulnerability_time_ = 2000;
     super_armor_ = true;
 

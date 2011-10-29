@@ -5,13 +5,14 @@
 #include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/sprite.h>
-#include "game/utils/collisionobject.h"
-#include "pyramidworks/collision/collisionmask.h"
 #include "pyramidworks/collision/collisionobject.h"
+#include <pyramidworks/collision/collisionmask.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 namespace sprite {
 
 using pyramidworks::collision::CollisionMask;
+using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
 
 class Creature;
@@ -50,32 +51,17 @@ class WorldObject : public ugdk::Sprite {
     virtual float light_radius() { return light_radius_; }
     virtual void set_light_radius(float radius);
 
-    virtual ugdk::Vector2D world_position() const { return bound_->position(); }
+    virtual ugdk::Vector2D world_position() const { return collision_object_->position(); }
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
-    virtual const utils::CollisionObject * bound() const { return bound_; }
+    virtual const CollisionObject* collision_object() const { return collision_object_; }
     
     virtual bool IsColliding(WorldObject* obj) const;
 
-    void CollidesWith(WorldObject* obj) {
-        CollidesWith(obj, obj->collision());
-    }
-
-    void CollidesWith(WorldObject* obj, const CollisionMask* mask) {
-        CollisionObject *col = known_collisions_[mask];
-        if(col != NULL) col->Handle(obj);
-        else if(mask->parent() != NULL) 
-            CollidesWith(obj, mask->parent());
-    }
-
-    std::list<const CollisionMask*> get_collisions() { return collisions_; }
-
   protected:
-    utils::CollisionObject *bound_;
+    CollisionObject *collision_object_;
     Status status_;
     CollisionType collision_type_;
-    std::map<const CollisionMask*,CollisionObject*> known_collisions_;
-    std::list<const CollisionMask*> collisions_;
 
   private:
     float light_radius_;
