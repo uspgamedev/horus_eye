@@ -11,7 +11,7 @@ class Image;
 namespace sprite {
 
 class Block : public WorldObject {
-  DEFINE_COLLIDABLE
+  
   public:
     Block(ugdk::Image* image);
     ~Block();

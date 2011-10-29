@@ -24,6 +24,7 @@
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
+    <ClCompile Include="src\game\builders\projectilebuilder.cc" />
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
@@ -42,8 +43,6 @@
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\projectiles\fireball.cc" />
     <ClCompile Include="src\game\sprites\projectiles\lightningbolt.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\magicmissile.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\mummyprojectile.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
@@ -85,6 +84,7 @@
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
+    <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
@@ -106,8 +106,6 @@
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\sprites\projectiles\fireball.h" />
     <ClInclude Include="src\game\sprites\projectiles\lightningbolt.h" />
-    <ClInclude Include="src\game\sprites\projectiles\magicmissile.h" />
-    <ClInclude Include="src\game\sprites\projectiles\mummyprojectile.h" />
     <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
     <ClInclude Include="src\game\sprites\scenery\door.h" />

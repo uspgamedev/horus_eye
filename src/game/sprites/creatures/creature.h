@@ -26,7 +26,7 @@ class Wall;
 class Block;
 
 class Creature : public WorldObject , public ugdk::Observer {
-  DEFINE_COLLIDABLE
+  
   public:
     Creature();
     virtual ~Creature();

@@ -15,7 +15,11 @@ using pyramidworks::collision::CollisionMask;
 using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
 
-#define ADD_COLLISIONLOGIC(Class, Logic) collision_object_->AddCollision(GET_COLLISIONMASK(Class), Logic);
+#define ADD_COLLISIONGEOM(Mask, Geom) collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Mask), Geom);
+#define ADD_COLLISIONLOGIC(Mask, Logic) collision_object_->AddCollision(GET_COLLISIONMASK(Mask), Logic);
+
+#define OBJADD_COLLISIONGEOM(obj, Mask, Geom) obj->collision_object()->AddCollisionGeom(GET_COLLISIONMASK(Mask), Geom);
+#define OBJADD_COLLISIONLOGIC(obj, Mask, Logic) obj->collision_object()->AddCollision(GET_COLLISIONMASK(Mask), Logic);
 
 class Creature;
 class Hero;
@@ -29,7 +33,7 @@ class Block;
 class Item;
 
 class WorldObject : public ugdk::Sprite {
-  DEFINE_COLLIDABLE
+  
   public:
     WorldObject();
     virtual ~WorldObject();
@@ -56,7 +60,7 @@ class WorldObject : public ugdk::Sprite {
     virtual ugdk::Vector2D world_position() const { return collision_object_->position(); }
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
-    virtual const CollisionObject* collision_object() const { return collision_object_; }
+    virtual CollisionObject* collision_object() const { return collision_object_; }
     
     virtual bool IsColliding(WorldObject* obj) const;
 

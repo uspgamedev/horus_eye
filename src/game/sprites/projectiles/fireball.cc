@@ -42,7 +42,7 @@ Projectile(0.0f, Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir)
     Color light_color(1.0f, 0.521568f, 0.082352f);
     this->light()->set_color(light_color);
 
-    collision_object_->AddCollision(GET_COLLISIONMASK(Mummy), new Collisions::DamageAndExplode(this));
+    //collision_object_->AddCollision(GET_COLLISIONMASK(Mummy), new Collisions::DamageAndExplode(this));
 
     float raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
     float angle = (raw_angle / acos(-1.0f)) + 1.0f;

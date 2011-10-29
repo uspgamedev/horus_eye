@@ -7,7 +7,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
-#include "game/sprites/projectiles/mummyprojectile.h"
+#include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 
 namespace sprite {
@@ -29,9 +29,10 @@ void PharaohRangedWeapon::Attack(){
     Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
     Vector2D offsetright = Vector2D::Rotate(versor,-angle);
 
-    world->AddWorldObject(new sprite::MummyProjectile(versor, damage_), pos);
-    world->AddWorldObject(new sprite::MummyProjectile(offsetleft, damage_), pos);
-    world->AddWorldObject(new sprite::MummyProjectile(offsetright, damage_), pos);
+    builder::ProjectileBuilder proj(world->image_factory());
+    world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);
+    world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);
+    world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);
     utils::Settings settings;
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();

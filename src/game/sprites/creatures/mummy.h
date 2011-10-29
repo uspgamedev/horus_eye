@@ -18,7 +18,7 @@ namespace sprite {
 class Weapon;
 
 class Mummy : public Creature {
-  DEFINE_COLLIDABLE
+  
   public:
     Mummy(ugdk::Image* img);
     ~Mummy();

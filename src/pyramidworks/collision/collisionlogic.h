@@ -20,6 +20,12 @@ namespace collision {
 
 #define COLLISION_IMPLEMENT(ONWER, NAME, DATA) void ONWER::Collisions::NAME::Handle(void *DATA)
 
+#define COLLISION_DIRECT(OWNER, NAME, ARG) class NAME : public pyramidworks::collision::CollisionLogic { \
+	protected:	OWNER *owner_; \
+	public:		NAME ( OWNER *onwer) : owner_(onwer) {} \
+	void Handle(void*); }; \
+    void NAME::Handle(void* ARG)
+
 class CollisionLogic {
   public:
     CollisionLogic() {}

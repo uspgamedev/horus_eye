@@ -16,15 +16,15 @@ namespace collision {
 class CollisionMask;
 class CollisionLogic;
 
-typedef std::pair<const CollisionMask*, const geometry::GeometricObject*> CollisionGeom;
+typedef std::pair<CollisionMask*, const geometry::GeometricObject*> CollisionGeom;
 
 class CollisionObject {
   public:
-    CollisionObject(void *data = NULL) : data_(data) {}
-    ~CollisionObject() {}
+    CollisionObject(void *data = NULL);
+    ~CollisionObject();
 
     bool CollidesWith(CollisionObject*, const CollisionMask*);
-    bool CollidesWith(CollisionObject* obj) { return CollidesWith(obj, obj->mask_); }
+    bool CollidesWith(CollisionObject* obj) { return CollidesWith(obj, obj->geom_.first); }
 
     ugdk::Vector2D position() const { return position_; }
     void set_position(const ugdk::Vector2D &position) { position_ = position; }
@@ -38,7 +38,7 @@ class CollisionObject {
         known_collisions_[mask] = logic;
     }
 
-    geometry::GeometricObject* geom() const { return geom_; };
+    const geometry::GeometricObject* geom() const { return geom_.second; };
 
   private:
     ugdk::Vector2D position_;
@@ -46,9 +46,11 @@ class CollisionObject {
     void *data_;
 
     // TODO: Undo this simplification.
-    // std::vector< CollisionGeom > collision_types_;
-    CollisionMask* mask_;
-    geometry::GeometricObject* geom_;
+    // std::vector< CollisionGeom > geom_list_;
+    CollisionGeom geom_;
+
+    //CollisionMask* mask_;
+    //geometry::GeometricObject* geom_;
 
     std::map<const CollisionMask*, CollisionLogic*> known_collisions_;
 };

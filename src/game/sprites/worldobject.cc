@@ -51,7 +51,6 @@ void WorldObject::set_light_radius(float radius) {
 
 bool WorldObject::IsColliding(WorldObject* obj) const {
     return collision_object_->IsColliding(obj->collision_object_);
-    collision_;
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {

@@ -1,10 +1,12 @@
 #include <iostream>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
+#include <pyramidworks/geometry/rect.h>
+
 #include "wall.h"
+
 #include "game/sprites/creatures/hero.h"
 #include "game/scenes/world.h"
-#include "game/utils/rectobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
@@ -31,8 +33,9 @@ Wall::Wall(Image* image) {
     dark_transparent_frame_ = 6;
     SetDefaultFrame(visible_frame_);
     collision_type_ = STATIC;
-    bound_ = new RectObject(1.0f, 1.0f);
     tile_ = NULL;
+
+    ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(1.0f, 1.0f));
 }
 Wall::~Wall() {}
 

@@ -47,7 +47,7 @@ Creature::Creature() : WorldObject() {
     collision_type_ = MOVEABLE;
 
     // Teach this creature how to collides with Walls.
-    collision_object_->AddCollision(GET_COLLISIONMASK(Wall), new Collisions::Rect(this));
+    ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
 }
 
 Creature::~Creature() {
@@ -92,7 +92,9 @@ void Creature::AdjustBlink(float delta_t) {
 
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
+#ifdef DEBUG
     fprintf(stderr, "Decreasing life of %ld from %f to %f (dmg = %f)\n", (long) this, life_, life_ - life_points, life_points);
+#endif
     PlayHitSound();
     life_ -= life_points;
     if(life_ <= 0.0f) {

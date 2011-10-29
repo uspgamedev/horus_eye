@@ -12,7 +12,7 @@ class Image;
 namespace sprite {
 
 class Hero : public Creature {
-  DEFINE_COLLIDABLE
+  
   public:
     Hero(ugdk::Image* img = NULL);
     ~Hero() {}

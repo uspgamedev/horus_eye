@@ -7,30 +7,55 @@
 namespace pyramidworks {
 namespace collision {
 
+CollisionObject::CollisionObject(void *data) : data_(data) {
+    CollisionMask* mask = NULL;
+    geometry::GeometricObject* geomobj = NULL;
+    geom_ = CollisionGeom(mask, geomobj);
+}
+
+CollisionObject::~CollisionObject() {
+    std::map<const CollisionMask*, CollisionLogic*>::iterator it;
+    for(it = known_collisions_.begin(); it != known_collisions_.end(); ++it) {
+        delete (*it).second;
+    }
+    known_collisions_.clear();
+
+    if(geom_.second != NULL)
+        delete geom_.second;
+
+    if(geom_.first != NULL)
+        geom_.first->RemoveObject(this);
+}
+
 bool CollisionObject::CollidesWith(CollisionObject* obj, const CollisionMask* mask) {
     CollisionLogic *col = known_collisions_[mask];
-    if(col != NULL) col->Handle(obj->data_);
+    if(col != NULL) {
+        col->Handle(obj->data_);
+        return true;
+    }
     else if(mask->parent() != NULL) 
-        CollidesWith(obj, mask->parent());
+        return CollidesWith(obj, mask->parent());
+    return false;
 }
 
 bool CollisionObject::IsColliding(const CollisionObject* obj) const {
-    return this->geom_->Intersects(obj->geom_);
+    if(this->geom_.second == NULL || obj->geom_.second == NULL) return false;
+    return this->geom_.second->Intersects(obj->geom_.second);
 }
 
 void CollisionObject::AddCollisionGeom(CollisionMask* mask, geometry::GeometricObject* geom) {
     geom->set_position(&this->position_);
-    this->geom_ = geom;
+    this->geom_.second = geom;
 
     SetMask(mask);
     //this->collision_types_.push_back(CollisionGeom(mask, geom));
 }
 
 void CollisionObject::SetMask(CollisionMask* mask) {
-    if(mask_ != NULL)
-        mask_->RemoveObject(this);
+    if(geom_.first != NULL)
+        geom_.first->RemoveObject(this);
 
-    this->mask_ = mask;
+    geom_.first = mask;
     mask->AddObject(this);
 }
 

@@ -1,8 +1,10 @@
-#include "door.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/image.h>
+#include <pyramidworks/geometry/rect.h>
+
+#include "door.h"
+
 #include "game/scenes/world.h"
-#include "game/utils/rectobject.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/constants.h"
 
@@ -23,10 +25,9 @@ Door::Door(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
     this->collision_type_ = STATIC;
-    bound_ = new RectObject(BOUND_WIDTH, BOUND_HEIGHT);
 
-    Door::collision_;
-    known_collisions_[GET_COLLISIONMASK(Hero)] = new Collisions::Win(this);
+    ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(BOUND_WIDTH, BOUND_HEIGHT));
+    ADD_COLLISIONLOGIC(Hero, new Collisions::Win(this));
 }
 
 COLLISION_IMPLEMENT(Door, Win, obj) {

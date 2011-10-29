@@ -6,7 +6,7 @@
 #include "herobaseweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/projectiles/magicmissile.h"
+#include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 
 namespace sprite {
@@ -22,8 +22,9 @@ void HeroBaseWeapon::Attack(){
     // Ajuste da altura do projetil.
     Vector2D versor = (WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()).Normalize(),
              pos = hero_->world_position();
-    MagicMissile * projectile = new MagicMissile(versor);
-    world_->AddWorldObject(projectile, pos);
+
+    builder::ProjectileBuilder proj(world_->image_factory());
+    world_->AddWorldObject(proj.MagicMissile(versor), pos);
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();

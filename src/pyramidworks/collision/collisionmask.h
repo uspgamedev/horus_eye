@@ -8,18 +8,12 @@
 namespace pyramidworks {
 namespace collision {
 
-#define DEFINE_COLLIDABLE public: \
-    static const pyramidworks::collision::CollisionMask* Collision() { return collision_; } \
-    virtual const pyramidworks::collision::CollisionMask* collision() const { return Collision(); } \
-  private: \
-    static const pyramidworks::collision::CollisionMask* collision_;
-
 #define INITIALIZE_COLLIDABLE_ROOT(CLASS) \
-    const pyramidworks::collision::CollisionMask* CLASS::collision_ = \
+    static const pyramidworks::collision::CollisionMask* CollisionMaskInitializer = \
     pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS );
 
 #define INITIALIZE_COLLIDABLE_NODE(CLASS, PARENT_CLASS) \
-    const pyramidworks::collision::CollisionMask* CLASS::collision_ = \
+    static const pyramidworks::collision::CollisionMask* CollisionMaskInitializer = \
     pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
 
 #define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Generate( #NAME )

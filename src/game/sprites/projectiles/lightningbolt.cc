@@ -7,7 +7,7 @@
 
 #include "lightningbolt.h"
 
-#include "game/utils/circleobject.h"
+//#include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
 #include "game/scenes/world.h"
@@ -33,7 +33,9 @@ Projectile(Constants::LIGHTNING_DAMAGE, Constants::LIGHTNING_SPEED, Constants::L
     InitializeAnimations();
     Initialize( image_factory->LightningImage(), ANIMATIONS );
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + SPRITE_HEIGHT));
-    bound_ = new CircleObject(0.25f);
+
+    //todo fix
+    //bound_ = new CircleObject(0.25f);
     set_light_radius(1.0f);
 
 
@@ -42,7 +44,7 @@ Projectile(Constants::LIGHTNING_DAMAGE, Constants::LIGHTNING_SPEED, Constants::L
     int animation_index = (int)((angle * 4.0f) + 0.5f);
     this->SelectAnimation(animation_index % 8);
 
-	known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
+	//known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
 }
 
 void LightningBolt::InitializeAnimations() {

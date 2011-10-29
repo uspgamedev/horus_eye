@@ -75,8 +75,8 @@ void World::HandleCollisions() {
         if ((*i)->collision_type() == WorldObject::MOVEABLE) {
             for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
                 if (verifyCollision(*i, *j)) {
-					(*i)->CollidesWith(*j);
-                    (*j)->CollidesWith(*i);
+                    (*i)->collision_object()->CollidesWith((*j)->collision_object());
+                    (*j)->collision_object()->CollidesWith((*i)->collision_object());
                 }
             }
         }

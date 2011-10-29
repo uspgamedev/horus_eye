@@ -44,8 +44,6 @@ Hero::Hero(Image* img) {
     Initialize(img, ANIMATIONS);
 
     // Animations
-    screen_center_ = Engine::reference()->window_size() * .5;
-
     animation_direction_ = 0;
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
@@ -63,7 +61,6 @@ Hero::Hero(Image* img) {
     mana_regen_ = Constants::HERO_MANA_REGEN;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
-    collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Hero), new pyramidworks::geometry::Circle(0.3f));
     invulnerability_time_ = 2000;
     super_armor_ = true;
 
@@ -73,6 +70,7 @@ Hero::Hero(Image* img) {
 
     light_oscilation_ = 0.0f;
 
+    ADD_COLLISIONGEOM(Hero, new pyramidworks::geometry::Circle(0.3f));
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
@@ -161,8 +159,9 @@ void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
     float attackAngle = GetAttackingAngle(input_->GetMousePosition() -
-            screen_center_ + projectile_height);
+            screen_center + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];

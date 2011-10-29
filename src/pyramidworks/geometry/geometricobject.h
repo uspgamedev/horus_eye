@@ -23,11 +23,13 @@ class GeometricObject {
     }
 
     void set_position(const ugdk::Vector2D *pos) { position_ = pos; }
-    ugdk::Vector2D position() const { return offset_ + *position_; }
+    ugdk::Vector2D position() const { 
+        return (position_ != 0) ? offset_ + *position_ : offset_;
+    }
 
   protected:
     GeometricObject(ugdk::Vector2D offset = ugdk::Vector2D()) 
-        : offset_(offset) {}
+        : position_(0), offset_(offset) {}
 
 
   private:

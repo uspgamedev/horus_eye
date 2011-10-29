@@ -48,7 +48,7 @@ Mummy::Mummy(Image* img) {
     interval_ = new TimeAccumulator(0);
     invulnerability_time_ = 300;
 
-    collision_object_->AddCollision(GET_COLLISIONMASK(Mummy), new Collisions::MummyAntiStack(this));
+    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
 }
 
 Mummy::~Mummy() {

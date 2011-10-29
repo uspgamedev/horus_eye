@@ -10,8 +10,7 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/scenes/world.h"
-#include "game/sprites/explosion.h"
-#include "game/sprites/projectiles/fireball.h"
+#include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 #include "game/sprites/creatures/hero.h"
 
@@ -31,12 +30,9 @@ void HeroFireballWeapon::Attack() {
     // Ajuste da altura do projetil.
     Vector2D versor = (WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()).Normalize(),
              pos = hero_->world_position();
-    Explosion *explosion = new Explosion(factory->ExplosionImage(),
-                                         Explosion::HERO_FIREBALL_WEAPON,
-                                         Constants::FIREBALL_EXPLOSION_RADIUS,
-                                         Constants::FIREBALL_EXPLOSION_DAMAGE);
-    Fireball *fireball = new Fireball(versor, explosion);
-    world_->AddWorldObject(fireball, pos);
+
+    builder::ProjectileBuilder proj(world_->image_factory());
+    world_->AddWorldObject(proj.Fireball(versor), pos);
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();

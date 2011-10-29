@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_FIREBALL_H_
 #define HORUSEYE_GAME_SPRITES_FIREBALL_H_
 
-#include "game/sprites/projectiles/magicmissile.h"
+#include "game/sprites/projectiles/projectile.h"
 #include <ugdk/math/vector2D.h>
 
 namespace sprite {

@@ -1,11 +1,13 @@
 
 #include <cmath>
-#include "block.h"
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
+#include <pyramidworks/geometry/rect.h>
+
+#include "block.h"
+
 #include "game/sprites/projectiles/projectile.h"
 #include "game/sprites/scenery/wall.h"
-#include "game/utils/rectobject.h"
 #include "game/utils/constants.h"
 
 #define BLOCK_MOVE_SPEED 2.0f
@@ -24,10 +26,10 @@ Block::Block(Image* image) : moving_(false) {
     set_size(new_size);
 
     collision_type_ = MOVEABLE;
-    bound_ = new RectObject(0.95f, 0.95f);
 
-    known_collisions_[GET_COLLISIONMASK(Wall)] = new Collisions::InvalidMovement(this);
-    known_collisions_[GET_COLLISIONMASK(Projectile)] = new Collisions::Push(this);
+    ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(0.95f, 0.95f));
+    ADD_COLLISIONLOGIC(Wall, new Collisions::InvalidMovement(this));
+    ADD_COLLISIONLOGIC(Projectile, new Collisions::Push(this));
 }
 Block::~Block() {}
 
