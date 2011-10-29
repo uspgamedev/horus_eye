@@ -8,10 +8,12 @@
 
 #include "creature.h"
 
-#include "game/utils/circleobject.h"
+#include <pyramidworks/geometry/circle.h>
 
 using namespace ugdk;
 using namespace utils;
+
+using pyramidworks::geometry::Circle;
 
 #define PI 3.1415926535897932384626433832795
 
@@ -192,11 +194,11 @@ void Creature::Move(Vector2D direction, float delta_t) {
     set_world_position(position);
 }
 
-void Creature::CollideWithRect(const RectObject *rect) {
+void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
     set_world_position(last_stable_position_);
 
-    const CircleObject *circle = (const CircleObject*)bound_;
+    const Circle *circle = (const Circle*) collision_object_->geom();
 
     Vector2D line(rect->width(), rect->height());
     Vector2D circ_pos = circle->position();
@@ -255,7 +257,9 @@ void Creature::Render() {
 }
 
 COLLISION_IMPLEMENT(Creature, Rect, obj) {
-    const RectObject *rect = (const RectObject*)((WorldObject *)obj)->bound();
+    WorldObject *wobj = (WorldObject *)obj;
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) wobj->collision_object()->geom();
     owner_->CollideWithRect(rect);
 }
 

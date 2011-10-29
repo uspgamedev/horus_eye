@@ -22,7 +22,7 @@ namespace collision {
     const pyramidworks::collision::CollisionMask* CLASS::collision_ = \
     pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
 
-#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Get( #NAME )
+#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Generate( #NAME )
 
 
 class CollisionObject;
@@ -34,7 +34,7 @@ class CollisionMaskManager {
 	}
 
 	CollisionMask* Get(std::string &name);
-	const CollisionMask* Generate(std::string name) { return Get(name); }
+	CollisionMask* Generate(std::string name) { return Get(name); }
 	const CollisionMask* Generate(std::string name, std::string parent);
 
 	~CollisionMaskManager() { reference_ = NULL; }

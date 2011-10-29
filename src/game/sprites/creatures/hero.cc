@@ -73,7 +73,7 @@ Hero::Hero(Image* img) {
 
     light_oscilation_ = 0.0f;
 
-    known_collisions_[Mummy::Collision()] = new Collisions::MummySlow(this);
+    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
 void Hero::AddWeapon(int slot, Weapon* weapon) {

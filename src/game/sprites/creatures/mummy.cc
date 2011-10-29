@@ -5,6 +5,8 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
 
+#include <pyramidworks/geometry/circle.h>
+
 #include "mummy.h"
 
 #include "game/scenes/world.h"
@@ -35,7 +37,6 @@ static int WaitingTime () {
 
 Mummy::Mummy(Image* img) {
     Initialize(img, ANIMATIONS);
-	bound_ = NULL;
 
     // Animations  
     animation_direction_ = 0;
@@ -47,7 +48,7 @@ Mummy::Mummy(Image* img) {
     interval_ = new TimeAccumulator(0);
     invulnerability_time_ = 300;
 
-	known_collisions_[Mummy::Collision()] = new Collisions::MummyAntiStack(this);
+    collision_object_->AddCollision(GET_COLLISIONMASK(Mummy), new Collisions::MummyAntiStack(this));
 }
 
 Mummy::~Mummy() {
@@ -72,6 +73,10 @@ void Mummy::StartAttack(Creature* obj) {
     waiting_animation_ = true;
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+}
+
+void Mummy::set_bound(float radius) {
+    collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Mummy), new pyramidworks::geometry::Circle(radius));
 }
 
 void Mummy::RandomMovement(){

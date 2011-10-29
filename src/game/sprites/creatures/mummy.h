@@ -3,8 +3,8 @@
 
 #include <queue>
 #include <ugdk/math/vector2D.h>
+
 #include "game/sprites/creatures/creature.h"
-#include "game/utils/circleobject.h"
 
 #define TIME_TO_THINK 0.1f
 
@@ -29,10 +29,7 @@ class Mummy : public Creature {
     void set_life(float life) { life_ = life; }
     void TakeDamage(float life_points);
 	void set_weapon(Weapon *weapon) { weapon_ = weapon; }
-    void set_bound(float radius) {
-		if(bound_ != NULL) delete bound_;
-		bound_ = new utils::CircleObject(radius);
-	}
+    void set_bound(float radius);
 
     void StartAttack(Creature* obj);
   protected:

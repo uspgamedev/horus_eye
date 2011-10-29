@@ -5,7 +5,7 @@
 #include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/sprite.h>
-#include "pyramidworks/collision/collisionobject.h"
+#include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmask.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
@@ -14,6 +14,8 @@ namespace sprite {
 using pyramidworks::collision::CollisionMask;
 using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
+
+#define ADD_COLLISIONLOGIC(Class, Logic) collision_object_->AddCollision(GET_COLLISIONMASK(Class), Logic);
 
 class Creature;
 class Hero;

@@ -38,6 +38,8 @@ class CollisionObject {
         known_collisions_[mask] = logic;
     }
 
+    geometry::GeometricObject* geom() const { return geom_; };
+
   private:
     ugdk::Vector2D position_;
 
