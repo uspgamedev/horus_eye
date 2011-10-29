@@ -44,8 +44,6 @@ Creature::Creature() : WorldObject() {
     blink_time_ = new TimeAccumulator(75);
     hit_duration_ = new TimeAccumulator(0);
 
-    collision_type_ = MOVEABLE;
-
     // Teach this creature how to collides with Walls.
     ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
 }
@@ -93,7 +91,8 @@ void Creature::AdjustBlink(float delta_t) {
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    fprintf(stderr, "Decreasing life of %ld from %f to %f (dmg = %f)\n", (long) this, life_, life_ - life_points, life_points);
+    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(), 
+        life_, life_ - life_points, life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;
@@ -101,7 +100,6 @@ void Creature::TakeDamage(float life_points) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
             this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
-            this->collision_type_ = WorldObject::NO_COLLISION;
 	    Die();
         }
     } else if(!super_armor_) {

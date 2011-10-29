@@ -20,7 +20,6 @@ namespace sprite {
 Floor::Floor(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
-    this->collision_type_ = NO_COLLISION;
     tile_ = NULL;
     SetDefaultFrame(CLEAR);
 }

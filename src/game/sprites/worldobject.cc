@@ -17,7 +17,7 @@ INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
     : status_(STATUS_ACTIVE),
-      collision_type_(NO_COLLISION),
+      identifier_("Generic World Object"),
       light_radius_(0.0f) {
           
     collision_object_ = new CollisionObject(this);
@@ -47,10 +47,6 @@ void WorldObject::set_light_radius(float radius) {
 			light_ = NULL;
 		}
 	}
-}
-
-bool WorldObject::IsColliding(WorldObject* obj) const {
-    return collision_object_->IsColliding(obj->collision_object_);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {

@@ -24,7 +24,6 @@ using namespace scene;
 Door::Door(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
-    this->collision_type_ = STATIC;
 
     ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(BOUND_WIDTH, BOUND_HEIGHT));
     ADD_COLLISIONLOGIC(Hero, new Collisions::Win(this));

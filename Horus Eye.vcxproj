@@ -57,6 +57,7 @@
     <ClCompile Include="src\game\sprites\weapons\pharaohrangedweapon.cc" />
     <ClCompile Include="src\game\sprites\weapons\pharaohsummonweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
     <ClCompile Include="src\game\utils\geometryprimitives.cc" />
@@ -121,6 +122,7 @@
     <ClInclude Include="src\game\sprites\weapons\pharaohsummonweapon.h" />
     <ClInclude Include="src\game\sprites\weapons\weapon.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />
     <ClInclude Include="src\pyramidworks\geometry\geometricobject.h" />
     <ClInclude Include="src\game\utils\constants.h" />

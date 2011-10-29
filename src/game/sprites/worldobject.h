@@ -6,6 +6,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/sprite.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionmask.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
@@ -16,10 +17,10 @@ using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
 
 #define ADD_COLLISIONGEOM(Mask, Geom) collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Mask), Geom);
-#define ADD_COLLISIONLOGIC(Mask, Logic) collision_object_->AddCollision(GET_COLLISIONMASK(Mask), Logic);
+#define ADD_COLLISIONLOGIC(Mask, Logic) collision_object_->AddCollisionLogic(GET_COLLISIONMASK(Mask), Logic);
 
 #define OBJADD_COLLISIONGEOM(obj, Mask, Geom) obj->collision_object()->AddCollisionGeom(GET_COLLISIONMASK(Mask), Geom);
-#define OBJADD_COLLISIONLOGIC(obj, Mask, Logic) obj->collision_object()->AddCollision(GET_COLLISIONMASK(Mask), Logic);
+#define OBJADD_COLLISIONLOGIC(obj, Mask, Logic) obj->collision_object()->AddCollisionLogic(GET_COLLISIONMASK(Mask), Logic);
 
 class Creature;
 class Hero;
@@ -38,13 +39,9 @@ class WorldObject : public ugdk::Sprite {
     WorldObject();
     virtual ~WorldObject();
 
-    // Possible collision values. TODO explain better
-    enum CollisionType { NO_COLLISION = 0x1, STATIC = 0x2, MOVEABLE = 0x4 };
-
     // Possible statuses. TODO explain better
     enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
 
-    virtual CollisionType collision_type() const { return collision_type_; }
     virtual Status status() const { return status_; }
 
     // The BIG Awesome update method. TODO explain better
@@ -61,13 +58,11 @@ class WorldObject : public ugdk::Sprite {
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
     virtual CollisionObject* collision_object() const { return collision_object_; }
-    
-    virtual bool IsColliding(WorldObject* obj) const;
 
   protected:
     CollisionObject *collision_object_;
     Status status_;
-    CollisionType collision_type_;
+    std::string identifier_;
 
   private:
     float light_radius_;

@@ -46,6 +46,7 @@ Hero::Hero(Image* img) {
     // Animations
     animation_direction_ = 0;
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
+    identifier_ = "Hero";
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;

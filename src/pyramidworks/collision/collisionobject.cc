@@ -15,9 +15,8 @@ CollisionObject::CollisionObject(void *data) : data_(data) {
 
 CollisionObject::~CollisionObject() {
     std::map<const CollisionMask*, CollisionLogic*>::iterator it;
-    for(it = known_collisions_.begin(); it != known_collisions_.end(); ++it) {
-        delete (*it).second;
-    }
+    for(it = known_collisions_.begin(); it != known_collisions_.end(); ++it)
+        delete it->second;
     known_collisions_.clear();
 
     if(geom_.second != NULL)
@@ -27,20 +26,27 @@ CollisionObject::~CollisionObject() {
         geom_.first->RemoveObject(this);
 }
 
-bool CollisionObject::CollidesWith(CollisionObject* obj, const CollisionMask* mask) {
-    CollisionLogic *col = known_collisions_[mask];
-    if(col != NULL) {
-        col->Handle(obj->data_);
-        return true;
+
+void CollisionObject::SearchCollisions() {
+    std::map<const CollisionMask*, CollisionLogic*>::iterator it;
+    for(it = known_collisions_.begin(); it != known_collisions_.end(); ++it) {
+
+        const CollisionObjectList target_list = it->first->FindCollidingObjects(this);
+        CollisionObjectList::const_iterator obj;
+        for(obj = target_list.begin(); obj != target_list.end(); ++obj)
+            it->second->Handle((*obj)->data_);
     }
-    else if(mask->parent() != NULL) 
-        return CollidesWith(obj, mask->parent());
-    return false;
 }
 
 bool CollisionObject::IsColliding(const CollisionObject* obj) const {
     if(this->geom_.second == NULL || obj->geom_.second == NULL) return false;
     return this->geom_.second->Intersects(obj->geom_.second);
+}
+
+void CollisionObject::AddCollisionLogic(const CollisionMask* mask, CollisionLogic* logic) {
+    CollisionLogic *query = known_collisions_[mask];
+    if( query != NULL ) delete query;
+    known_collisions_[mask] = logic;
 }
 
 void CollisionObject::AddCollisionGeom(CollisionMask* mask, geometry::GeometricObject* geom) {

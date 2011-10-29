@@ -32,7 +32,6 @@ Wall::Wall(Image* image) {
     dark_visible_frame_ = 5;
     dark_transparent_frame_ = 6;
     SetDefaultFrame(visible_frame_);
-    collision_type_ = STATIC;
     tile_ = NULL;
 
     ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(1.0f, 1.0f));

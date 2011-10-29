@@ -5,39 +5,14 @@
 #include <map>
 #include <list>
 
+#include "pyramidworks/collision/collisionmanager.h"
+
 namespace pyramidworks {
 namespace collision {
 
-#define INITIALIZE_COLLIDABLE_ROOT(CLASS) \
-    static const pyramidworks::collision::CollisionMask* CollisionMaskInitializer = \
-    pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS );
-
-#define INITIALIZE_COLLIDABLE_NODE(CLASS, PARENT_CLASS) \
-    static const pyramidworks::collision::CollisionMask* CollisionMaskInitializer = \
-    pyramidworks::collision::CollisionMaskManager::reference()->Generate( #CLASS , #PARENT_CLASS );
-
-#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionMaskManager::reference()->Generate( #NAME )
-
-
 class CollisionObject;
-class CollisionMask;
-class CollisionMaskManager {
-  public:
-	static CollisionMaskManager* reference() {
-		return reference_ ? reference_ : reference_ = new CollisionMaskManager;
-	}
 
-	CollisionMask* Get(std::string &name);
-	CollisionMask* Generate(std::string name) { return Get(name); }
-	const CollisionMask* Generate(std::string name, std::string parent);
-
-	~CollisionMaskManager() { reference_ = NULL; }
-
-  private:
-	CollisionMaskManager() {}
-	std::map<std::string, CollisionMask*> cache_;
-	static CollisionMaskManager *reference_;
-};
+typedef std::list<const CollisionObject *> CollisionObjectList;
 
 class CollisionMask {
   public:
@@ -45,19 +20,20 @@ class CollisionMask {
     const CollisionMask* parent() const { return parent_; }
 	void set_parent(CollisionMask* parent) { parent_ = parent; }
 
+    const CollisionObjectList FindCollidingObjects(CollisionObject *target) const;
 
     void AddObject(CollisionObject *obj);
     void RemoveObject(CollisionObject *obj);
 
   private:
-	friend class CollisionMaskManager;
+	friend class CollisionManager;
     CollisionMask(std::string name, const CollisionMask* parent = NULL) : name_(name), parent_(parent) {}
 
 	// Unnecessary, used for debugging purposes.
 	std::string name_;
 
     const CollisionMask* parent_;
-    std::list<CollisionObject *> objects_;
+    CollisionObjectList objects_;
 };
 
 } // namespace collision

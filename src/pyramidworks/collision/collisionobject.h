@@ -23,26 +23,31 @@ class CollisionObject {
     CollisionObject(void *data = NULL);
     ~CollisionObject();
 
-    bool CollidesWith(CollisionObject*, const CollisionMask*);
-    bool CollidesWith(CollisionObject* obj) { return CollidesWith(obj, obj->geom_.first); }
+    void SearchCollisions();
 
-    ugdk::Vector2D position() const { return position_; }
-    void set_position(const ugdk::Vector2D &position) { position_ = position; }
+    //bool CollidesWith(CollisionObject*, const CollisionMask*);
+    //bool CollidesWith(CollisionObject* obj) { return CollidesWith(obj, obj->geom_.first); }
+
+    void AddCollisionGeom(CollisionMask*, geometry::GeometricObject*);
+    void AddCollisionLogic(const CollisionMask* mask, CollisionLogic* logic);
+
+
 
     bool IsColliding(const CollisionObject*) const;
 
-    void AddCollisionGeom(CollisionMask*, geometry::GeometricObject*);
-    void SetMask(CollisionMask*);
-
-    void AddCollision(const CollisionMask* mask, CollisionLogic* logic) {
-        known_collisions_[mask] = logic;
-    }
+    // Getters and setters
+    ugdk::Vector2D position() const { return position_; }
+    void set_position(const ugdk::Vector2D &position) { position_ = position; }
 
     const geometry::GeometricObject* geom() const { return geom_.second; };
 
   private:
+    void SetMask(CollisionMask*);
+
+
     ugdk::Vector2D position_;
 
+    // Data that is sent to CollisionLogic::Handle
     void *data_;
 
     // TODO: Undo this simplification.

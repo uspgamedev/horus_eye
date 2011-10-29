@@ -48,6 +48,8 @@ Mummy::Mummy(Image* img) {
     interval_ = new TimeAccumulator(0);
     invulnerability_time_ = 300;
 
+    identifier_ = std::string("Mummy");
+
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
 }
 

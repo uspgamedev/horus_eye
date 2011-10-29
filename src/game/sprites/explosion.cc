@@ -38,7 +38,6 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
     Color light_color(1.0f, 0.521568f, 0.082352f);
     this->light()->set_color(light_color);
 
-	collision_type_ = MOVEABLE;
 	AddObserverToAnimation(this);
     SelectAnimation(WEAPON_ANIMATIONS[animation]);
 

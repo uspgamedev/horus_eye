@@ -21,7 +21,6 @@ Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
 	damage_ = damage;
     speed_ = speed;
     duration_ = new TimeAccumulator(duration);
-    collision_type_ = MOVEABLE;
     exploding_ = false;
 
     ADD_COLLISIONLOGIC(Wall, new ProjExplode(this));

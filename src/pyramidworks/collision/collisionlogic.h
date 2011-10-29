@@ -31,7 +31,7 @@ class CollisionLogic {
     CollisionLogic() {}
     virtual ~CollisionLogic() {}
 
-    virtual void Handle(void *data) {}
+    virtual void Handle(void *data) = 0;
 };
 
 } // namespace collision

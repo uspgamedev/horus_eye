@@ -24,7 +24,6 @@ using namespace utils;
 Item::Item(ugdk::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
     Initialize(img);
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
-    this->collision_type_ = STATIC;
     this->event_ = NULL;
 
     ADD_COLLISIONGEOM(Item, new pyramidworks::geometry::Circle(0.15f));

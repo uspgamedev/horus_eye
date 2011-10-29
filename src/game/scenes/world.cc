@@ -56,31 +56,10 @@ bool worldObjectIsDead (const WorldObject* value) {
     return is_dead;
 }
 
-bool World::verifyCollision(WorldObject *obj1, WorldObject *obj2) {
-    if (obj1 == obj2) {
-        return false;
-    }
-    if (obj2->collision_type() == WorldObject::NO_COLLISION) {
-        return false;
-    }
-
-    return obj1->IsColliding(obj2);
-}
-
 void World::HandleCollisions() {
     std::list<sprite::WorldObject*>::iterator i, j;
-
-    // TODO: colisao esta sendo verificada 2x por iteracao, corrigir isso
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        if ((*i)->collision_type() == WorldObject::MOVEABLE) {
-            for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
-                if (verifyCollision(*i, *j)) {
-                    (*i)->collision_object()->CollidesWith((*j)->collision_object());
-                    (*j)->collision_object()->CollidesWith((*i)->collision_object());
-                }
-            }
-        }
-    }
+    for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
+        (*i)->collision_object()->SearchCollisions();
 }
 
 void World::VerifyCheats(float delta_t) {
@@ -257,12 +236,7 @@ void World::AddNewWorldObjects() {
          ++it) {
 
         WorldObject *new_object = *it;
-        if(new_object->collision_type() == WorldObject::NO_COLLISION) {
-            collisionless_objects.push_front(new_object);
-        } else {
-            world_objects_.push_front(new_object);
-        }
-
+        world_objects_.push_front(new_object);
         world_layer_->AddSprite(new_object);
     }
     new_world_objects.clear();
