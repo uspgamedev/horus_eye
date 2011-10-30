@@ -18,10 +18,8 @@
 /src/game/build
 /src/game/config.h
 settings.bin
-
 /Windows Release
 /Default
-
 /bin
 /tmp
 /lib/ugdk_d.lib
@@ -30,8 +28,7 @@ settings.bin
 /lib/libugdk.a
 /lib/libugdk_d.a
 /Horus Eye.opensdf
-
 include/link_ugdk
 lib/link_libugdk.a
 lib/link_libugdk_d.a
-
+/deploy/Output

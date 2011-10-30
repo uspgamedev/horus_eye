@@ -22,6 +22,11 @@ WorldObject::WorldObject()
 {}
 
 WorldObject::~WorldObject() {
+    std::map<const CollisionMask*,CollisionObject*>::iterator it;
+    for(it = known_collisions_.begin(); it != known_collisions_.end(); ++it) {
+        delete it->second;
+    }
+    known_collisions_.clear();
     delete bound_;
 }
 

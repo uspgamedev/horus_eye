@@ -19,7 +19,7 @@ using namespace scene;
 INITIALIZE_COLLIDABLE_NODE(Wall, WorldObject);
 
 #define PI          3.1415926535897932384626433832795
-#define TRANSPARENCY_DISTANCE 1.75f
+#define TRANSPARENCY_DISTANCE 2.25f 
 
 Wall::Wall(Image* image) {
     Initialize(image);
