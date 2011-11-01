@@ -1,5 +1,6 @@
 
 #include <string>
+#include <ctime>
 #include "config.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
@@ -30,8 +31,11 @@ void StartGame() {
 
     // Checks if restarting game. Avoids changing resolution during
     // startup, to avoid taking longer uselessly.
-    if(level_manager()->RestartGameQueued())
-        engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen());
+    if(level_manager()->RestartGameQueued()) {
+        if(engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen()) == false) {
+            // HOLY CRAP, can't use that resolution!
+        }
+    }
 
     text_loader()->Initialize(settings.language_file());
     level_manager()->Initialize();
@@ -53,6 +57,8 @@ int main(int argc, char *argv[]) {
 			rootpath[i + 2] = '\0';
 		}
 	}
+
+    srand(time(NULL));
 
     engine()->Initialize("Horus Eye", settings.resolution_vector(), settings.fullscreen(), rootpath, "data/images/eye.bmp");
     do {

@@ -55,6 +55,8 @@ class Engine {
     Scene* CurrentScene() const;
     void PopScene();
 
+    // TODO: SERIOUSLY FIX THIS. Big fat ugly code to allow some special 
+    // layers to be unnafected by the light system. Meant for user interface.
     void PushInterface(Layer* layer);
     void RemoveInterface(Layer *layer);
 
