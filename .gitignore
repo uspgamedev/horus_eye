@@ -31,4 +31,5 @@ settings.bin
 include/link_ugdk
 lib/link_libugdk.a
 lib/link_libugdk_d.a
+/deploy/vcredist_x86.exe
 /deploy/Output

@@ -33,6 +33,7 @@ Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription
 Source: ..\bin\Release\Horus Eye.exe; DestDir: {app}; Flags: ignoreversion
 Source: ..\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: ..\lib\*.dll; DestDir: {app}; Flags: ignoreversion
+Source: vcredist_x86.exe; DestDir: {app}; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -42,5 +43,6 @@ Name: {commondesktop}\Horus Eye; Filename: {app}\Horus Eye.exe; Tasks: desktopic
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Horus Eye; Filename: {app}\Horus Eye.exe; Tasks: quicklaunchicon; IconIndex: 0
 
 [Run]
+Filename: {app}\vcredist_x86.exe; Parameters: "/q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\; StatusMsg: Installing CRT...
 Filename: {app}\Horus Eye.exe; Description: {cm:LaunchProgram,Horus Eye}; Flags: nowait postinstall skipifsilent
 
