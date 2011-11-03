@@ -2,14 +2,14 @@
 
 #include "pyramidworks/collision/collisionmask.h"
 #include "pyramidworks/collision/collisionlogic.h"
-#include "pyramidworks/geometry/geometricobject.h"
+#include "pyramidworks/geometry/geometricshape.h"
 
 namespace pyramidworks {
 namespace collision {
 
 CollisionObject::CollisionObject(void *data) : data_(data) {
     CollisionMask* mask = NULL;
-    geometry::GeometricObject* geomobj = NULL;
+    geometry::GeometricShape* geomobj = NULL;
     geom_ = CollisionGeom(mask, geomobj);
 }
 
@@ -49,7 +49,7 @@ void CollisionObject::AddCollisionLogic(const CollisionMask* mask, CollisionLogi
     known_collisions_[mask] = logic;
 }
 
-void CollisionObject::AddCollisionGeom(CollisionMask* mask, geometry::GeometricObject* geom) {
+void CollisionObject::AddCollisionGeom(CollisionMask* mask, geometry::GeometricShape* geom) {
     geom->set_position(&this->position_);
     this->geom_.second = geom;
 

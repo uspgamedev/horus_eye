@@ -1,14 +1,14 @@
 #ifndef PYRAMIDWORKS_GEOMETRY_CIRCLE_H_
 #define PYRAMIDWORKS_GEOMETRY_CIRCLE_H_
 
-#include "geometricobject.h"
+#include "geometricshape.h"
 
 namespace pyramidworks {
 namespace geometry {
 
 class Rect;
 
-class Circle : public GeometricObject {
+class Circle : public GeometricShape {
   public:
     Circle(float radius) : radius_(radius) {}
     virtual ~Circle() {}
@@ -18,7 +18,7 @@ class Circle : public GeometricObject {
 
     bool Intersects (const Rect *) const;
     bool Intersects (const Circle *) const;
-    bool Intersects (const GeometricObject *) const;
+    bool Intersects (const GeometricShape *) const;
 
   private:
     float radius_;

@@ -9,13 +9,13 @@ namespace geometry {
 class Circle;
 class Rect;
 
-class GeometricObject {
+class GeometricShape {
   public:
-    virtual ~GeometricObject() {}
+    virtual ~GeometricShape() {}
 
     virtual bool Intersects (const Circle *) const { return false; }
     virtual bool Intersects (const Rect *) const { return false; }
-    virtual bool Intersects (const GeometricObject *obj) const { return false; }
+    virtual bool Intersects (const GeometricShape *obj) const { return false; }
 
     virtual ugdk::Vector2D offset() const { return offset_; }
     virtual void set_offset (const ugdk::Vector2D &offset) {
@@ -28,7 +28,7 @@ class GeometricObject {
     }
 
   protected:
-    GeometricObject(ugdk::Vector2D offset = ugdk::Vector2D()) 
+    GeometricShape(ugdk::Vector2D offset = ugdk::Vector2D()) 
         : position_(0), offset_(offset) {}
 
 

@@ -8,7 +8,7 @@
 namespace pyramidworks {
 
 namespace geometry {
-class GeometricObject;
+class GeometricShape;
 }
 
 namespace collision {
@@ -16,7 +16,7 @@ namespace collision {
 class CollisionMask;
 class CollisionLogic;
 
-typedef std::pair<CollisionMask*, const geometry::GeometricObject*> CollisionGeom;
+typedef std::pair<CollisionMask*, const geometry::GeometricShape*> CollisionGeom;
 
 class CollisionObject {
   public:
@@ -28,7 +28,7 @@ class CollisionObject {
     //bool CollidesWith(CollisionObject*, const CollisionMask*);
     //bool CollidesWith(CollisionObject* obj) { return CollidesWith(obj, obj->geom_.first); }
 
-    void AddCollisionGeom(CollisionMask*, geometry::GeometricObject*);
+    void AddCollisionGeom(CollisionMask*, geometry::GeometricShape*);
     void AddCollisionLogic(const CollisionMask* mask, CollisionLogic* logic);
 
 
@@ -39,7 +39,7 @@ class CollisionObject {
     ugdk::Vector2D position() const { return position_; }
     void set_position(const ugdk::Vector2D &position) { position_ = position; }
 
-    const geometry::GeometricObject* geom() const { return geom_.second; };
+    const geometry::GeometricShape* geom() const { return geom_.second; };
 
   private:
     void SetMask(CollisionMask*);
@@ -55,7 +55,7 @@ class CollisionObject {
     CollisionGeom geom_;
 
     //CollisionMask* mask_;
-    //geometry::GeometricObject* geom_;
+    //geometry::GeometricShape* geom_;
 
     std::map<const CollisionMask*, CollisionLogic*> known_collisions_;
 };

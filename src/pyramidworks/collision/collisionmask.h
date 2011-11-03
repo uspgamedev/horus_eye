@@ -25,15 +25,20 @@ class CollisionMask {
     void AddObject(CollisionObject *obj);
     void RemoveObject(CollisionObject *obj);
 
+#ifdef DEBUG
+    void set_name(std::string &name) { name_ = name; }
+#endif
   private:
 	friend class CollisionManager;
-    CollisionMask(std::string name, const CollisionMask* parent = NULL) : name_(name), parent_(parent) {}
-
-	// Unnecessary, used for debugging purposes.
-	std::string name_;
+    CollisionMask() : parent_(NULL) {}
 
     const CollisionMask* parent_;
     CollisionObjectList objects_;
+
+#ifdef DEBUG
+	// Unnecessary, used for debugging purposes.
+	std::string name_;
+#endif
 };
 
 } // namespace collision

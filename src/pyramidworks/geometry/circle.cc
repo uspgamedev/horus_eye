@@ -16,7 +16,7 @@ bool Circle::Intersects (const Circle *circle) const {
     return distance.length() <= circle->radius_ + this->radius_;
 }
 
-bool Circle::Intersects (const GeometricObject *coll_obj) const {
+bool Circle::Intersects (const GeometricShape *coll_obj) const {
     return coll_obj->Intersects(this);
 }
 

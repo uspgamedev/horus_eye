@@ -17,18 +17,20 @@ CollisionManager::~CollisionManager() {
 
 CollisionMask* CollisionManager::Get(std::string &name) {
 	CollisionMask *mask = cache_[name];
-	if(mask == NULL) cache_[name] = mask = new CollisionMask(name, NULL);
+	if(mask == NULL) {
+        cache_[name] = mask = new CollisionMask();
+#ifdef DEBUG
+        mask->set_name(name);
+#endif
+    }
 	return mask;
 }
 
 const CollisionMask* CollisionManager::Generate(std::string name, std::string parent) {
-	CollisionMask *parent_mask = cache_[parent];
-	if(parent_mask == NULL) parent_mask = Get(parent);
-
-	CollisionMask *mask = cache_[name];
-	if(mask == NULL) cache_[name] = mask = new CollisionMask(name, parent_mask);
-	else mask->set_parent(parent_mask);
-
+	CollisionMask *parent_mask = Get(parent);
+	CollisionMask *mask = Get(name);
+    if(parent_mask != NULL)
+        mask->set_parent(parent_mask);
 	return mask;
 }
 

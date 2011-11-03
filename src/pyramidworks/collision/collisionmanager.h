@@ -26,15 +26,17 @@ class CollisionManager {
 		return reference_ ? reference_ : reference_ = new CollisionManager;
 	}
 
-	CollisionMask* Get(std::string &name);
 	CollisionMask* Generate(std::string name) { return Get(name); }
 	const CollisionMask* Generate(std::string name, std::string parent);
 
 	~CollisionManager();
 
   private:
+    /// Singleton stuff
 	CollisionManager() {}
     static CollisionManager *reference_;
+
+    CollisionMask* Get(std::string &name);
 
 	std::map<std::string, CollisionMask*> cache_;
 };

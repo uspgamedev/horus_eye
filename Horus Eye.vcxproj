@@ -124,7 +124,7 @@
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />
-    <ClInclude Include="src\pyramidworks\geometry\geometricobject.h" />
+    <ClInclude Include="src\pyramidworks\geometry\geometricshape.h" />
     <ClInclude Include="src\game\utils\constants.h" />
     <ClInclude Include="src\game\utils\geometryprimitives.h" />
     <ClInclude Include="src\game\utils\hud.h" />

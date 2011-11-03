@@ -67,7 +67,7 @@ bool Rect::Intersects (const Circle *circle) const {
 }
 
 
-bool Rect::Intersects (const GeometricObject *coll_obj) const {
+bool Rect::Intersects (const GeometricShape *coll_obj) const {
     return coll_obj->Intersects(this);
 }
 
