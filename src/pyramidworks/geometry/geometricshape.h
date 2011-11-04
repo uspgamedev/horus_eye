@@ -13,9 +13,9 @@ class GeometricShape {
   public:
     virtual ~GeometricShape() {}
 
-    virtual bool Intersects (const Circle *) const { return false; }
-    virtual bool Intersects (const Rect *) const { return false; }
-    virtual bool Intersects (const GeometricShape *obj) const { return false; }
+    virtual bool Intersects (const Circle *) const = 0;
+    virtual bool Intersects (const Rect *) const = 0;
+    virtual bool Intersects (const GeometricShape *obj) const = 0;
 
     virtual ugdk::Vector2D offset() const { return offset_; }
     virtual void set_offset (const ugdk::Vector2D &offset) {

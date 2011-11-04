@@ -6,6 +6,7 @@
 
 namespace ugdk {
 class Image;
+class AnimationSet;
 }
 
 namespace utils {
@@ -16,7 +17,7 @@ namespace builder {
 
 class ProjectileBuilder {
   public:
-    ProjectileBuilder(utils::ImageFactory *factory) : factory_(factory) {}
+    ProjectileBuilder(utils::ImageFactory *factory) : factory_(factory) { InitializeAnimations(); }
     ~ProjectileBuilder() {}
 
     sprite::Projectile* MagicMissile(ugdk::Vector2D &dir);
@@ -26,6 +27,10 @@ class ProjectileBuilder {
 
   private:
     utils::ImageFactory *factory_;
+    static ugdk::AnimationSet *fireball_animation_, *lightning_animation_;
+    static ugdk::uint32 fireball_animation_map_[8], lightning_animation_map_[8];
+
+    void InitializeAnimations();
 };
 
 }

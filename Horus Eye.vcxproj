@@ -41,8 +41,7 @@
     <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\fireball.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\lightningbolt.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
@@ -105,8 +104,7 @@
     <ClInclude Include="src\game\sprites\explosion.h" />
     <ClInclude Include="src\game\sprites\item.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
-    <ClInclude Include="src\game\sprites\projectiles\fireball.h" />
-    <ClInclude Include="src\game\sprites\projectiles\lightningbolt.h" />
+    <ClInclude Include="src\game\sprites\projectiles\carrier.h" />
     <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
     <ClInclude Include="src\game\sprites\scenery\door.h" />
@@ -207,13 +205,13 @@
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>WIN32;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
