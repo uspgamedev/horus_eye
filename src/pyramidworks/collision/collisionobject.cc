@@ -27,14 +27,14 @@ CollisionObject::~CollisionObject() {
 }
 
 
-void CollisionObject::SearchCollisions() {
+void CollisionObject::SearchCollisions(std::list<CollisionInstance> &collision_list) {
     std::map<const CollisionMask*, CollisionLogic*>::iterator it;
     for(it = known_collisions_.begin(); it != known_collisions_.end(); ++it) {
 
         const CollisionObjectList target_list = it->first->FindCollidingObjects(this);
         CollisionObjectList::const_iterator obj;
         for(obj = target_list.begin(); obj != target_list.end(); ++obj)
-            it->second->Handle((*obj)->data_);
+            collision_list.push_front(CollisionInstance(it->second, (*obj)->data_));
     }
 }
 

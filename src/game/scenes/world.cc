@@ -8,6 +8,9 @@
 #include <ugdk/audio/music.h>
 #include <ugdk/audio/audiomanager.h>
 
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
+
 #include "world.h"
 
 #include "game/scenes/imagescene.h"
@@ -28,6 +31,7 @@ using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
+using pyramidworks::collision::CollisionInstance;
 
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), music_(NULL) {
     AddLayer(world_layer_);
@@ -57,9 +61,16 @@ bool worldObjectIsDead (const WorldObject* value) {
 }
 
 void World::HandleCollisions() {
+    std::list<CollisionInstance> collision_list;
+
     std::list<sprite::WorldObject*>::iterator i, j;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-        (*i)->collision_object()->SearchCollisions();
+        (*i)->collision_object()->SearchCollisions(collision_list);
+
+    std::list<CollisionInstance>::iterator it;
+    for(it = collision_list.begin(); it != collision_list.end(); ++it) {
+        it->first->Handle(it->second);
+    }
 }
 
 void World::VerifyCheats(float delta_t) {

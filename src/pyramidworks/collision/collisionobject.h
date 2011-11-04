@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <list>
 #include <ugdk/math/vector2D.h>
 
 namespace pyramidworks {
@@ -17,16 +18,14 @@ class CollisionMask;
 class CollisionLogic;
 
 typedef std::pair<CollisionMask*, const geometry::GeometricShape*> CollisionGeom;
+typedef std::pair<CollisionLogic*, void* > CollisionInstance;
 
 class CollisionObject {
   public:
     CollisionObject(void *data = NULL);
     ~CollisionObject();
 
-    void SearchCollisions();
-
-    //bool CollidesWith(CollisionObject*, const CollisionMask*);
-    //bool CollidesWith(CollisionObject* obj) { return CollidesWith(obj, obj->geom_.first); }
+    void SearchCollisions(std::list<CollisionInstance> &collision_list);
 
     void AddCollisionGeom(CollisionMask*, geometry::GeometricShape*);
     void AddCollisionLogic(const CollisionMask* mask, CollisionLogic* logic);
