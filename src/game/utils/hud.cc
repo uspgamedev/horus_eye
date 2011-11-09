@@ -9,7 +9,7 @@
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
-#include "game/skills/weapon.h"
+#include "game/skills/skill.h"
 #include "game/sprites/creatures/hero.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH

@@ -118,7 +118,7 @@
     <ClInclude Include="src\game\skills\mummyweapon.h" />
     <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />
     <ClInclude Include="src\game\skills\pharaohsummonweapon.h" />
-    <ClInclude Include="src\game\skills\weapon.h" />
+    <ClInclude Include="src\game\skills\skill.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />

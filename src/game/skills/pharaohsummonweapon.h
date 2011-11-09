@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHSUMMONWEAPON_H_
 #define HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHSUMMONWEAPON_H_
 
-#include "weapon.h"
+#include "game/skills/skill.h"
 #include "game/utils/constants.h"
 #include "game/sprites/creatures/creature.h"
 

@@ -7,17 +7,17 @@
 #include <ugdk/graphic/image.h>
 #include <ugdk/graphic/text.h>
 #include <ugdk/graphic/drawable.h>
-#include "../../game/utils/levelmanager.h"
-#include "../../game/utils/imagefactory.h"
-#include "../../game/utils/hudimagefactory.h"
-#include "../../game/utils/textloader.h"
-#include "../../game/utils/settings.h"
-#include "../../game/utils/constants.h"
-#include "../mapeditor.h"
-#include "../../game/scenes/world.h"
-#include "../../game/scenes/menuhandler.h"
-#include "../../game/scenes/menu.h"
-#include "../../game/scenes/page.h"
+#include "game/utils/levelmanager.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/hudimagefactory.h"
+#include "game/utils/textloader.h"
+#include "game/utils/settings.h"
+#include "game/utils/constants.h"
+#include "editor/mapeditor.h"
+#include "game/scenes/world.h"
+#include "game/scenes/menuhandler.h"
+#include "game/scenes/menu.h"
+#include "game/scenes/page.h"
 
 namespace editor {
 

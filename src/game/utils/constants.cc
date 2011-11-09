@@ -1,5 +1,5 @@
 #include "constants.h"
-#include "../config.h"
+#include "game/config.h"
 
 namespace utils {
 

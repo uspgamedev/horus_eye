@@ -1,6 +1,6 @@
 #ifndef HORUSEYE_GAME_SPRITES_WEAPONS_HEROEXPLOSIONWEAPON_H_
 #define HORUSEYE_GAME_SPRITES_WEAPONS_HEROEXPLOSIONWEAPON_H_
-#include "weapon.h"
+#include "game/skills/skill.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
 

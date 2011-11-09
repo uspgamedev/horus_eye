@@ -18,7 +18,7 @@
 #include "game/utils/tile.h"
 #include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
-#include "game/skills/weapon.h"
+#include "game/skills/skill.h"
 
 namespace sprite {
 

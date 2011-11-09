@@ -1,7 +1,7 @@
 
 #ifndef HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYWEAPON_H_
 #define HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYWEAPON_H_
-#include "weapon.h"
+#include "game/skills/skill.h"
 
 namespace sprite {
 
