@@ -5,7 +5,7 @@
 #include <ugdk/action/animation.h>
 #include <ugdk/base/engine.h>
 #include "game/scenes/world.h"
-#include "../explosion.h"
+#include "game/sprites/explosion.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"

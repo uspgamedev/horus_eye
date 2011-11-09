@@ -47,14 +47,14 @@
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
     <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herobaseweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\heroexplosionweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herofireballweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herolightningweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\mummyrangedweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\mummyweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\pharaohrangedweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\pharaohsummonweapon.cc" />
+    <ClCompile Include="src\game\skills\herobaseweapon.cc" />
+    <ClCompile Include="src\game\skills\heroexplosionweapon.cc" />
+    <ClCompile Include="src\game\skills\herofireballweapon.cc" />
+    <ClCompile Include="src\game\skills\herolightningweapon.cc" />
+    <ClCompile Include="src\game\skills\mummyrangedweapon.cc" />
+    <ClCompile Include="src\game\skills\mummyweapon.cc" />
+    <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
+    <ClCompile Include="src\game\skills\pharaohsummonweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
@@ -110,15 +110,15 @@
     <ClInclude Include="src\game\sprites\scenery\door.h" />
     <ClInclude Include="src\game\sprites\scenery\floor.h" />
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
-    <ClInclude Include="src\game\sprites\weapons\herobaseweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\heroexplosionweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\herofireballweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\herolightningweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\mummyrangedweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\mummyweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\pharaohrangedweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\pharaohsummonweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\weapon.h" />
+    <ClInclude Include="src\game\skills\herobaseweapon.h" />
+    <ClInclude Include="src\game\skills\heroexplosionweapon.h" />
+    <ClInclude Include="src\game\skills\herofireballweapon.h" />
+    <ClInclude Include="src\game\skills\herolightningweapon.h" />
+    <ClInclude Include="src\game\skills\mummyrangedweapon.h" />
+    <ClInclude Include="src\game\skills\mummyweapon.h" />
+    <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />
+    <ClInclude Include="src\game\skills\pharaohsummonweapon.h" />
+    <ClInclude Include="src\game\skills\weapon.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />
@@ -142,10 +142,14 @@
   <PropertyGroup Label="Globals">
     <ProjectGuid>{88426421-C8EA-4013-B7F8-6A07ADD23469}</ProjectGuid>
     <RootNamespace>Horus Eye</RootNamespace>
-    <SccProjectName>Svn</SccProjectName>
-    <SccAuxPath>Svn</SccAuxPath>
-    <SccLocalPath>Svn</SccLocalPath>
-    <SccProvider>SubversionScc</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccProvider>
+    </SccProvider>
     <Keyword>Win32Proj</Keyword>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />

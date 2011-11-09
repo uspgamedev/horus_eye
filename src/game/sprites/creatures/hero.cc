@@ -19,7 +19,7 @@
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 
-#include "game/sprites/weapons/herobaseweapon.h"
+#include "game/skills/herobaseweapon.h"
 #include <cmath>
 #include <iostream>
 
