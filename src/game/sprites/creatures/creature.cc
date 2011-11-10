@@ -90,10 +90,10 @@ void Creature::AdjustBlink(float delta_t) {
 
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
-    fprintf(stderr, "Decreasing life of %ld from %f to %f (dmg = %f)\n", (long) this, life_, life_ - life_points, life_points);
+    fprintf(stderr, "Decreasing life of %ld from %f to %f (dmg = %f)\n", (long) this, (float)life_, (float)life_ - life_points, life_points);
     PlayHitSound();
     life_ -= life_points;
-    if(life_ <= 0.0f) {
+    if(life_.Empty()) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
             this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;

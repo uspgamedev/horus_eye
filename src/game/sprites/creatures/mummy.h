@@ -26,7 +26,6 @@ class Mummy : public Creature {
     
     void set_standing(bool standing) { standing_ = standing; }	
     void set_speed(float speed) { original_speed_ = speed_ = speed; }
-    void set_life(float life) { life_ = life; }
     void TakeDamage(float life_points);
 	void set_weapon(Weapon *weapon) { weapon_ = weapon; }
     void set_bound(float radius) {

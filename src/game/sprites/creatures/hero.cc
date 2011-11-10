@@ -26,6 +26,7 @@
 using namespace std;
 using namespace ugdk;
 using namespace utils;
+using resource::Life;
 
 namespace sprite {
 
@@ -58,7 +59,7 @@ Hero::Hero(Image* img) {
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     // Initializing life and mana
-    life_ = max_life_ = Constants::HERO_MAX_LIFE;
+    life_ = Life(Constants::HERO_MAX_LIFE);
     mana_ = max_mana_ = Constants::HERO_MAX_MANA;
     mana_regen_ = Constants::HERO_MANA_REGEN;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);

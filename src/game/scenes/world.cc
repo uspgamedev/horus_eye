@@ -99,7 +99,7 @@ void World::VerifyCheats(float delta_t) {
         }
     }
     if(input->KeyPressed(K_h)) {
-        hero_->set_life(hero_->max_life());
+        hero_->life().Fill();
         hero_->set_mana(hero_->max_mana());
     }
     if(input->KeyPressed(K_t))

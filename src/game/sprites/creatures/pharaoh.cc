@@ -12,6 +12,7 @@ using namespace std;
 using namespace ugdk;
 using namespace scene;
 using namespace utils;
+using resource::Life;
 
 namespace sprite {
 
@@ -19,7 +20,7 @@ namespace sprite {
 #define PHARAOH_TIME_TO_THINK 0.05f
 
 Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
-	life_ = max_life_ = life;
+	life_ = Life(life);
 	mana_ = max_mana_ = mana;
 	mana_regen_ = Constants::PHARAOH_MANA_REGEN;
 

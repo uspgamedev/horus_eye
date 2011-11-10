@@ -2,13 +2,16 @@
 #define HORUSEYE_GAME_SPRITE_CREATURE_H_
 
 #include <list>
+
 #include <ugdk/action/sprite.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
+
 #include "game/utils/rectobject.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
+#include <game/resources/life.h>
 
 namespace ugdk {
 class TimeAccumulator;
@@ -35,13 +38,13 @@ class Creature : public WorldObject , public ugdk::Observer {
                     ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
-    float life() { return life_; }
-	void set_life(float life) {
+    resource::Life& life() { return life_; }
+	void set_life(resource::Life &life) {
 		life_ = life;
-		if (life_ < 0.0f) life_ = 0.0f;
-		if (life_ > max_life_) life_ = max_life_;
 	}
-    float max_life() { return  max_life_; }
+	void set_life(float life) {
+	    life_.Set(life);
+	}
 
     float mana() { return mana_; }
 	void set_mana(float mana) {
@@ -124,7 +127,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
-    float life_, max_life_, mana_, max_mana_, mana_regen_;
+
+    resource::Life life_;
+    float /*life_, max_life_,*/ mana_, max_mana_, mana_regen_;
 
     // How many sight buffs this creature has.
     int sight_count_;
