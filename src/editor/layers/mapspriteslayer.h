@@ -2,7 +2,7 @@
 #define HORUSEYE_EDITOR_LAYERS_MAPSPRITESLAYER_H_
 
 #include <ugdk/action/layer.h>
-#include "../mapeditor.h"
+#include "editor/mapeditor.h"
 
 namespace editor {
 

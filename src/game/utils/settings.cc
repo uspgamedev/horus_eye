@@ -1,6 +1,6 @@
 #include <string>
 #include <sstream>
-#include "../config.h"
+#include "game/config.h"
 #include "settings.h"
 #include "constants.h"
 

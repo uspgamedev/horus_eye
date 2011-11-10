@@ -10,7 +10,7 @@
 #include "layers/mapspriteslayer.h"
 #include "layers/fpsmeter.h"
 #include "scenes/editormenu.h"
-#include "../game/utils/levelmanager.h"
+#include "game/utils/levelmanager.h"
 
 using namespace std;
 using namespace ugdk;

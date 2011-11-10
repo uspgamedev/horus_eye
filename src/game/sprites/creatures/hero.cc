@@ -19,7 +19,7 @@
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 
-#include "game/sprites/weapons/herobaseweapon.h"
+#include "game/skills/herobaseweapon.h"
 #include <cmath>
 #include <iostream>
 
@@ -78,8 +78,8 @@ Hero::Hero(Image* img) {
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
-void Hero::AddWeapon(int slot, Weapon* weapon) {
-    if (!weapons_.count(slot)) weapons_[slot] = weapon;
+void Hero::AddWeapon(int slot, CombatArt* combat_art) {
+    if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
 }
 

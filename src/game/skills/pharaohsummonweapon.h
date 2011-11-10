@@ -1,15 +1,15 @@
-#ifndef HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHSUMMONWEAPON_H_
-#define HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHSUMMONWEAPON_H_
+#ifndef HORUSEYE_GAME_SKILLS_PHARAOHSUMMONWEAPON_H_
+#define HORUSEYE_GAME_SKILLS_PHARAOHSUMMONWEAPON_H_
 
-#include "weapon.h"
+#include "game/skills/combatart.h"
 #include "game/utils/constants.h"
 #include "game/sprites/creatures/creature.h"
 
 namespace sprite {
 
-class PharaohSummonWeapon: public sprite::Weapon {
+class PharaohSummonWeapon: public sprite::CombatArt {
   public:
-    PharaohSummonWeapon(Creature* owner) : Weapon(owner) {}
+    PharaohSummonWeapon(Creature* owner) : CombatArt(owner) {}
     virtual ~PharaohSummonWeapon() {}
 
     virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }
@@ -21,4 +21,4 @@ class PharaohSummonWeapon: public sprite::Weapon {
 
 }
 
-#endif /* HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHSUMMONWEAPON_H_ */
+#endif /* HORUSEYE_GAME_SKILLS_PHARAOHSUMMONWEAPON_H_ */

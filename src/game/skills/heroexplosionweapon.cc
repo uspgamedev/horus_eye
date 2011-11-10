@@ -5,7 +5,7 @@
 #include <ugdk/action/animation.h>
 #include <ugdk/base/engine.h>
 #include "game/scenes/world.h"
-#include "../explosion.h"
+#include "game/sprites/explosion.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -42,7 +42,7 @@ void HeroExplosionWeapon::Attack(){
 
 }
 
-HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
+HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
