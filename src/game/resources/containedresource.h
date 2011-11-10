@@ -14,7 +14,7 @@ class ContainedResource : public Resource<resource_t> {
 
   public:
 
-    ContainedResource(resource_t base_value, resource_t min_value, resource_t max_value)
+    explicit ContainedResource(resource_t base_value, resource_t min_value, resource_t max_value)
         : Resource<resource_t>(base_value), min_value_(min_value), max_value_(max_value) {}
 
     ~ContainedResource() {}
@@ -55,6 +55,7 @@ class ContainedResource : public Resource<resource_t> {
     }
     void set_min_value(resource_t min_value) {
         min_value_ = min_value;
+        Normalize();
     }
 
     resource_t max_value() const {
@@ -62,6 +63,7 @@ class ContainedResource : public Resource<resource_t> {
     }
     void set_max_value(resource_t max_value) {
         max_value_ = max_value;
+        Normalize();
     }
 
   protected:

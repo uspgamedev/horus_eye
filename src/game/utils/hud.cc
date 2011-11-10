@@ -202,7 +202,7 @@ void Hud::Update(float delta_t) {
         life_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->life()) / world->hero()->life().max_value()) * LIFE_BAR_HEIGHT) );
 
         // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana()) / world->hero()->max_mana()) * MANA_BAR_HEIGHT) );
+        mana_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana()) / world->hero()->FullMana()) * MANA_BAR_HEIGHT) );
     }
 
     if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {

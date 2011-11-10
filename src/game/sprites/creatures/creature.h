@@ -11,7 +11,7 @@
 #include "game/utils/rectobject.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
-#include <game/resources/life.h>
+#include <game/resources/simpleresource.h>
 
 namespace ugdk {
 class TimeAccumulator;
@@ -38,8 +38,8 @@ class Creature : public WorldObject , public ugdk::Observer {
                     ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
-    resource::Life& life() { return life_; }
-	void set_life(resource::Life &life) {
+    resource::SimpleResource& life() { return life_; }
+	void set_life(resource::SimpleResource &life) {
 		life_ = life;
 	}
 	void set_life(float life) {
@@ -47,12 +47,13 @@ class Creature : public WorldObject , public ugdk::Observer {
 	}
 
     float mana() { return mana_; }
+    void set_mana(resource::SimpleResource &mana) {
+        mana_ = mana;;
+    }
 	void set_mana(float mana) {
-		mana_ = mana;
-		if (mana_ < 0.0f) mana_ = 0.0f;
-		if (mana_ > max_mana_) mana_ = max_mana_;
+		mana_.Set(mana);
 	}
-    float max_mana() { return  max_mana_; }
+    float max_mana() { return mana_.max_value(); }
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
@@ -128,8 +129,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
 
-    resource::Life life_;
-    float /*life_, max_life_,*/ mana_, max_mana_, mana_regen_;
+    resource::SimpleResource life_, mana_;
+    float /*life_, max_life_, mana_, max_mana_, */ mana_regen_;
 
     // How many sight buffs this creature has.
     int sight_count_;

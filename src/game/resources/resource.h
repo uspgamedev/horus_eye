@@ -17,7 +17,7 @@ class Resource {
 
     typedef T resource_t;
 
-    Resource(resource_t base_value) : resource_pool_(base_value) {}
+    explicit Resource(resource_t base_value) : resource_pool_(base_value) {}
 
     virtual ~Resource() {}
 

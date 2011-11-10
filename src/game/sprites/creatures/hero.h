@@ -4,6 +4,8 @@
 #include <map>
 #include <ugdk/math/vector2D.h>
 #include "game/sprites/creatures/creature.h"
+#include <game/resources/resource.h>
+#include <game/resources/blockresource.h>
 
 namespace ugdk {
 class Image;
@@ -16,6 +18,12 @@ class Hero : public Creature {
   public:
     Hero(ugdk::Image* img = NULL);
     ~Hero() {}
+
+    float FullMana();
+    bool HasBreakableManaBlocks(int quantity);
+    void BreakManaBlocks(int quantity);
+    void RepairManaBlocks(int quantity);
+    resource::Resource<int>& mana_regen_ratio() { return mana_regen_ratio_; }
 
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();
@@ -31,6 +39,8 @@ class Hero : public Creature {
     std::map<int, Weapon*> weapons_;
     int slot_selected_;
     float light_oscilation_;
+    resource::CountableResource mana_blocks_;
+    resource::Resource<int> mana_regen_ratio_;
     Weapon *secondary_weapon_;
 
     void CollisionSlow();
