@@ -17,10 +17,10 @@ class Hero : public Creature {
     Hero(ugdk::Image* img = NULL);
     ~Hero() {}
 
-    void AddWeapon(int slot, Weapon* weapon);
+    void AddWeapon(int slot, CombatArt* combat_art);
     void StartAttack();
     void StartExplosion();
-    Weapon* secondary_weapon() { return secondary_weapon_; }
+    CombatArt* secondary_combat_art() { return secondary_weapon_; }
 
 	void Invulnerable(int time);
 
@@ -28,10 +28,10 @@ class Hero : public Creature {
     ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
     float time_to_recover_speed_;
-    std::map<int, Weapon*> weapons_;
+    std::map<int, CombatArt*> weapons_;
     int slot_selected_;
     float light_oscilation_;
-    Weapon *secondary_weapon_;
+    CombatArt *secondary_weapon_;
 
     void CollisionSlow();
 	COLLISION_BEGIN

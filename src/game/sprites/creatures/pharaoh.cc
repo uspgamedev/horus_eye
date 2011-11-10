@@ -6,7 +6,7 @@
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/constants.h"
-#include "game/skills/skill.h"
+#include "game/skills/combatart.h"
 
 using namespace std;
 using namespace ugdk;

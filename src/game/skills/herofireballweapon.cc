@@ -42,7 +42,7 @@ void HeroFireballWeapon::Attack() {
 }
 
 
-HeroFireballWeapon::HeroFireballWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
+HeroFireballWeapon::HeroFireballWeapon(Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
     HudImageFactory factory;
     icon_ = factory.FireballIconImage();
 }

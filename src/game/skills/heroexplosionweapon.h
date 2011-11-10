@@ -1,6 +1,6 @@
-#ifndef HORUSEYE_GAME_SPRITES_WEAPONS_HEROEXPLOSIONWEAPON_H_
-#define HORUSEYE_GAME_SPRITES_WEAPONS_HEROEXPLOSIONWEAPON_H_
-#include "game/skills/skill.h"
+#ifndef HORUSEYE_GAME_SKILLS_HEROEXPLOSIONWEAPON_H_
+#define HORUSEYE_GAME_SKILLS_HEROEXPLOSIONWEAPON_H_
+#include "game/skills/combatart.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
 
@@ -8,7 +8,7 @@ namespace sprite {
 
 class Hero;
 
-class HeroExplosionWeapon : public Weapon {
+class HeroExplosionWeapon : public CombatArt {
   public:
     HeroExplosionWeapon(Hero* owner);
 
@@ -23,4 +23,4 @@ class HeroExplosionWeapon : public Weapon {
 
 }//namespace
 
-#endif /* HORUSEYE_GAME_SPRITES_WEAPONS_HEROBASEWEAPON_H_ */
+#endif /* HORUSEYE_GAME_SKILLS_HEROBASEWEAPON_H_ */

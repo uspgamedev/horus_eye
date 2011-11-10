@@ -96,6 +96,7 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\skills\skill.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
     <ClInclude Include="src\game\sprites\creatures\creature.h" />
     <ClInclude Include="src\game\sprites\creatures\hero.h" />
@@ -118,7 +119,7 @@
     <ClInclude Include="src\game\skills\mummyweapon.h" />
     <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />
     <ClInclude Include="src\game\skills\pharaohsummonweapon.h" />
-    <ClInclude Include="src\game\skills\skill.h" />
+    <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />

@@ -1,13 +1,13 @@
 
-#ifndef HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYWEAPON_H_
-#define HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYWEAPON_H_
-#include "game/skills/skill.h"
+#ifndef HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_
+#define HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_
+#include "game/skills/combatart.h"
 
 namespace sprite {
 
-class MummyWeapon : public Weapon {
+class MummyWeapon : public CombatArt {
   public:
-    MummyWeapon(Creature* owner, int damage = 1) : Weapon(owner), damage_(damage) {}
+    MummyWeapon(Creature* owner, int damage = 1) : CombatArt(owner), damage_(damage) {}
 
     virtual float range(){ return 1.0f; }
     virtual void Attack();
@@ -18,4 +18,4 @@ class MummyWeapon : public Weapon {
 
 }//namespace
 
-#endif /* HORUSEYE_GAME_SPRITES_WEAPONS_MUMMYWEAPON_H_ */
+#endif /* HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_ */

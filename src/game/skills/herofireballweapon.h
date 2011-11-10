@@ -1,13 +1,13 @@
-#ifndef HORUSEYE_GAME_SPRITES_WEAPONS_HEROFIREBALLWEAPON_H_
-#define HORUSEYE_GAME_SPRITES_WEAPONS_HEROFIREBALLWEAPON_H_
+#ifndef HORUSEYE_GAME_SKILLS_HEROFIREBALLWEAPON_H_
+#define HORUSEYE_GAME_SKILLS_HEROFIREBALLWEAPON_H_
 
-#include "game/skills/skill.h"
+#include "game/skills/combatart.h"
 
 namespace sprite {
 
 class Hero;
 
-class HeroFireballWeapon : public Weapon {
+class HeroFireballWeapon : public CombatArt {
   public:
     HeroFireballWeapon(Hero* owner);
 
@@ -24,4 +24,4 @@ class HeroFireballWeapon : public Weapon {
 
 }//namespace
 
-#endif /* HORUSEYE_GAME_SPRITES_WEAPONS_HEROBASEWEAPON_H_ */
+#endif /* HORUSEYE_GAME_SKILLS_HEROBASEWEAPON_H_ */

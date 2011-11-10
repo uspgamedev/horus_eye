@@ -1,14 +1,14 @@
-#ifndef HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHRANGEDWEAPON_H_
-#define HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHRANGEDWEAPON_H_
-#include "game/skills/skill.h"
+#ifndef HORUSEYE_GAME_SKILLS_PHARAOHRANGEDWEAPON_H_
+#define HORUSEYE_GAME_SKILLS_PHARAOHRANGEDWEAPON_H_
+#include "game/skills/combatart.h"
 #include "game/utils/constants.h"
 
 namespace sprite {
 
-class PharaohRangedWeapon : public Weapon {
+class PharaohRangedWeapon : public CombatArt {
   public:
     PharaohRangedWeapon(Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE) :
-        Weapon(owner), damage_(damage) {}
+        CombatArt(owner), damage_(damage) {}
 
     virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }
     virtual void Attack();
@@ -19,4 +19,4 @@ class PharaohRangedWeapon : public Weapon {
 
 }//namespace
 
-#endif /* HORUSEYE_GAME_SPRITES_WEAPONS_PHARAOHRANGEDWEAPON_H_ */
+#endif /* HORUSEYE_GAME_SKILLS_PHARAOHRANGEDWEAPON_H_ */

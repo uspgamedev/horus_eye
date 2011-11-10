@@ -42,7 +42,7 @@ void HeroExplosionWeapon::Attack(){
 
 }
 
-HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : Weapon(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
+HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
