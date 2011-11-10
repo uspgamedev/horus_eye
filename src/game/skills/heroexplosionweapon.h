@@ -5,19 +5,21 @@
 #include "game/utils/constants.h"
 
 namespace sprite {
-
 class Hero;
+}
+
+namespace skills {
 
 class HeroExplosionWeapon : public CombatArt {
   public:
-    HeroExplosionWeapon(Hero* owner);
+    HeroExplosionWeapon(sprite::Hero* owner);
 
     virtual float range() { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
     virtual void Attack();
-    virtual bool Available();
+    virtual bool Available() const;
 
   private:
-    Hero *hero_;
+    sprite::Hero *hero_;
     int cost_;
 };
 

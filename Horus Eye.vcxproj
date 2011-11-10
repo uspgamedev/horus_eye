@@ -96,6 +96,9 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\skills\casttypes\aimedcast.h" />
+    <ClInclude Include="src\game\skills\casttypes\casttype.h" />
+    <ClInclude Include="src\game\skills\casttypes\ressources.h" />
     <ClInclude Include="src\game\skills\skill.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
     <ClInclude Include="src\game\sprites\creatures\creature.h" />
@@ -139,6 +142,9 @@
     <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmask.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{88426421-C8EA-4013-B7F8-6A07ADD23469}</ProjectGuid>

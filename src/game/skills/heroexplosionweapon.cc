@@ -12,7 +12,7 @@
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 
-namespace sprite {
+namespace skills {
 
 using namespace scene;
 using namespace ugdk;
@@ -28,8 +28,8 @@ void HeroExplosionWeapon::Attack(){
     float distance = (hero_->world_position() - explosionPosition).length();
     VisionStrategy vs;
     if (distance <= range() && vs.IsVisible(explosionPosition)) {
-        Explosion * explosion = new Explosion(imfac->QuakeImage(),
-                                              Explosion::HERO_EXPLOSION_WEAPON,
+        sprite::Explosion* explosion = new sprite::Explosion(imfac->QuakeImage(),
+                                              sprite::Explosion::HERO_EXPLOSION_WEAPON,
                                               Constants::QUAKE_EXPLOSION_RADIUS,
                                               Constants::QUAKE_EXPLOSION_DAMAGE);
         world->AddWorldObject(explosion, explosionPosition);
@@ -42,12 +42,12 @@ void HeroExplosionWeapon::Attack(){
 
 }
 
-HeroExplosionWeapon::HeroExplosionWeapon(Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
+HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
 
-bool HeroExplosionWeapon::Available() {
+bool HeroExplosionWeapon::Available() const {
     return hero_->mana() >= cost_;
 }
 

@@ -9,12 +9,17 @@
 #include "game/utils/settings.h"
 
 namespace sprite {
+class Mummy;
+class Hero;
+}
+
+namespace skills {
 
 using ugdk::Vector2D;
 
 void MummyRangedWeapon::Attack(){
     scene::World *world = WORLD();
-    Hero* hero = world->hero();
+    sprite::Hero* hero = world->hero();
 
     Vector2D versor = (hero->world_position() - owner_->world_position()).Normalize();
     Vector2D pos = owner_->world_position();
@@ -25,7 +30,7 @@ void MummyRangedWeapon::Attack(){
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
-    ((Mummy*)owner_)->StartAttack(hero);
+    ((sprite::Mummy*)owner_)->StartAttack(hero);
 }
 
 }

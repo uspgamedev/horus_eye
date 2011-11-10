@@ -4,12 +4,15 @@
 #include "game/sprites/creatures/mummy.h"
 
 namespace ugdk {
-	class Image;
-	class Vector2D;
+class Image;
+class Vector2D;
 }
-namespace sprite {
 
+namespace skills {
 class CombatArt;
+}
+
+namespace sprite {
 
 class Pharaoh : public Mummy {
 
@@ -17,13 +20,13 @@ class Pharaoh : public Mummy {
     Pharaoh(ugdk::Image* image, int life, int mana);
     ~Pharaoh();
 
-	void set_ranged_weapon(CombatArt *weapon) { ranged_weapon_ = weapon; }
-	void set_summon_weapon(CombatArt *weapon) { summon_weapon_ = weapon; }
+	void set_ranged_weapon(skills::CombatArt *weapon) { ranged_weapon_ = weapon; }
+	void set_summon_weapon(skills::CombatArt *weapon) { summon_weapon_ = weapon; }
 
-	void StartSummonMummy(Creature* target);
+	void StartSummonMummy(sprite::Creature* target);
 
   protected:
-	CombatArt *ranged_weapon_, *summon_weapon_;
+	skills::CombatArt *ranged_weapon_, *summon_weapon_;
 
 	void Update(float delta_t);
 	bool CanAttackWithMeele(Vector2D diff);

@@ -4,13 +4,18 @@
 #include "game/sprites/creatures/mummy.h"
 
 namespace sprite {
+class Hero;
+class Mummy;
+}
+
+namespace skills {
 
 void MummyWeapon::Attack(){
 	scene::World *world = WORLD();
-	Hero* hero = world->hero();
+	sprite::Hero* hero = world->hero();
 	
 	hero->TakeDamage(damage_);
-	((Mummy*)owner_)->StartAttack(hero);
+	((sprite::Mummy*)owner_)->StartAttack(hero);
 }
 
 }

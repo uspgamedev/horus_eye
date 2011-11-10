@@ -4,20 +4,22 @@
 #include "game/skills/combatart.h"
 
 namespace sprite {
-
 class Hero;
+}
+
+namespace skills {
 
 class HeroFireballWeapon : public CombatArt {
   public:
-    HeroFireballWeapon(Hero* owner);
+    HeroFireballWeapon(sprite::Hero* owner);
 
     virtual float range(){ return 0.0f; }
     virtual void Attack();
-    virtual bool Available();
+    virtual bool Available() const;
 
   private:
 
-    Hero *hero_;
+    sprite::Hero *hero_;
     int cost_;
 
 };

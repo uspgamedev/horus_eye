@@ -14,8 +14,11 @@
 #include "game/utils/settings.h"
 #include "game/sprites/creatures/hero.h"
 
-
 namespace sprite {
+class Hero;
+}
+
+namespace skills {
 
 using namespace scene;
 using namespace ugdk;
@@ -42,13 +45,13 @@ void HeroFireballWeapon::Attack() {
 }
 
 
-HeroFireballWeapon::HeroFireballWeapon(Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
+HeroFireballWeapon::HeroFireballWeapon(sprite::Hero* owner) : CombatArt(owner), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
     HudImageFactory factory;
     icon_ = factory.FireballIconImage();
 }
 
 
-bool HeroFireballWeapon::Available() {
+bool HeroFireballWeapon::Available() const {
 
     return hero_->mana() >= cost_;
 

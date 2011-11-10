@@ -13,7 +13,7 @@
 #include "game/sprites/creatures/hero.h"
 
 
-namespace sprite {
+namespace skills {
 
 using namespace scene;
 using namespace ugdk;
@@ -38,14 +38,14 @@ void HeroLightningWeapon::Attack() {
 }
 
 
-HeroLightningWeapon::HeroLightningWeapon(Hero* owner) : CombatArt(owner), hero_(owner), 
+HeroLightningWeapon::HeroLightningWeapon(sprite::Hero* owner) : CombatArt(owner), hero_(owner), 
         cost_(utils::Constants::LIGHTNING_COST) {
     HudImageFactory factory;
     icon_ = factory.LightningIconImage();
 }
 
 
-bool HeroLightningWeapon::Available() {
+bool HeroLightningWeapon::Available() const {
     return hero_->mana() >= cost_;
 }
 

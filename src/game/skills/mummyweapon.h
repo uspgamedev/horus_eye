@@ -4,14 +4,18 @@
 #include "game/skills/combatart.h"
 
 namespace sprite {
+class Creature;
+}
+
+namespace skills {
 
 class MummyWeapon : public CombatArt {
   public:
-    MummyWeapon(Creature* owner, int damage = 1) : CombatArt(owner), damage_(damage) {}
+    MummyWeapon(sprite::Creature* owner, int damage = 1) : CombatArt(owner), damage_(damage) {}
 
     virtual float range(){ return 1.0f; }
     virtual void Attack();
-    virtual bool Available() { return true; }
+    virtual bool Available() const { return true; }
   private:
     int damage_;
 };

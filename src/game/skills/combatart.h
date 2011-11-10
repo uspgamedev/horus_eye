@@ -3,19 +3,19 @@
 #include <ugdk/graphic/image.h>
 #include "game/skills/skill.h"
 
-namespace sprite {
-class Creature;
+namespace skills {
+
 class CombatArt : public Skill {
   public:
-    CombatArt(Creature* owner) : Skill(owner) {}
+    CombatArt(sprite::Creature* owner) : Skill(owner) {}
 	virtual float range() = 0;
 	virtual void Attack() = 0;
-	virtual bool Available() = 0;
+	virtual bool Available() const = 0;
 
-    void Use() { Attack(); }
-    bool IsValidUse() { return Available(); }
+    virtual void Use() { Attack(); }
+    virtual bool IsValidUse() const { return Available(); }
 };
 
-}//namespace
+} // skills
 
-#endif /* HORUSEYE_GAME_SKILLS_WEAPON_H_ */
+#endif /* HORUSEYE_GAME_SKILLS_COMBATART_H_ */

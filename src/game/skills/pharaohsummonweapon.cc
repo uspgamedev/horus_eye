@@ -11,7 +11,11 @@
 #define SUMMON_RANGED_CHANCE  30
 #define SUMMON_BIG_CHANCE     20
 
-using namespace sprite;
+namespace sprite {
+class Creature;
+}
+
+using namespace skills;
 using ugdk::Vector2D;
 
 bool isObstacle(utils::Tile* tile) {
@@ -20,7 +24,7 @@ bool isObstacle(utils::Tile* tile) {
 
 void PharaohSummonWeapon::Attack() {
     scene::World *world = WORLD();
-    Hero* hero = world->hero();
+    sprite::Hero* hero = world->hero();
 
     Vector2D direction = (hero->world_position() - owner_->world_position()).Normalize();
     Vector2D mummyPos = direction*range() + owner_->world_position();
@@ -58,5 +62,5 @@ void PharaohSummonWeapon::Attack() {
     }
 
     owner_->set_mana( owner_->mana() - utils::Constants::PHARAOH_SUMMON_MANA_COST );
-    ((Mummy*)owner_)->StartAttack(hero);
+    ((sprite::Mummy*)owner_)->StartAttack(hero);
 }

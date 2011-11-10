@@ -4,15 +4,19 @@
 #include "game/utils/constants.h"
 
 namespace sprite {
+class Creature;
+}
+
+namespace skills {
 
 class PharaohRangedWeapon : public CombatArt {
   public:
-    PharaohRangedWeapon(Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE) :
+    PharaohRangedWeapon(sprite::Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE) :
         CombatArt(owner), damage_(damage) {}
 
     virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }
     virtual void Attack();
-    virtual bool Available() { return true; }
+    virtual bool Available() const { return true; }
   private:
     int damage_;
 };

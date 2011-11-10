@@ -66,7 +66,7 @@ Hero::Hero(Image* img) {
     super_armor_ = true;
 
     slot_selected_ = -1;
-    weapon_ = new HeroBaseWeapon(this);
+    weapon_ = new skills::HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
 
     light_oscilation_ = 0.0f;
@@ -75,7 +75,7 @@ Hero::Hero(Image* img) {
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
-void Hero::AddWeapon(int slot, CombatArt* combat_art) {
+void Hero::AddWeapon(int slot, skills::CombatArt* combat_art) {
     if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
 }

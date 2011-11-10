@@ -4,21 +4,19 @@
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
 
-namespace sprite {
-
-class Hero;
+namespace skills {
 
 class HeroLightningWeapon : public CombatArt {
   public:
-    HeroLightningWeapon(Hero* owner);
+    HeroLightningWeapon(sprite::Hero* owner);
 
     virtual float range(){ return 0.0f; }
     virtual void Attack();
-    virtual bool Available();
+    virtual bool Available() const;
 
   private:
 
-    Hero *hero_;
+    sprite::Hero *hero_;
     int cost_;
 
 };

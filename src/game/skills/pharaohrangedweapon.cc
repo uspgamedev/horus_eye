@@ -10,7 +10,7 @@
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 
-namespace sprite {
+namespace skills {
 
 #define PI 3.1415926535897932384626433832795f
 
@@ -18,7 +18,7 @@ using ugdk::Vector2D;
 
 void PharaohRangedWeapon::Attack(){
     scene::World *world = WORLD();
-    Hero* hero = world->hero();
+    sprite::Hero* hero = world->hero();
 
     Vector2D pos = owner_->world_position();
     Vector2D distance = hero->world_position() - pos;
@@ -37,7 +37,7 @@ void PharaohRangedWeapon::Attack(){
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
-    ((Mummy*)owner_)->StartAttack(hero);
+    ((sprite::Mummy*)owner_)->StartAttack(hero);
 }
 
 }

@@ -16,11 +16,14 @@ class Animation;
 class AnimationSet;
 }
 
+namespace skills {
+class CombatArt;
+}
+
 namespace sprite {
 
 using ugdk::Vector2D;
 
-class CombatArt;
 class Door;
 class Wall;
 class Block;
@@ -60,7 +63,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual void UpdateCondition(float dt);
     virtual void TakeDamage(float life_points);
     virtual void Die() {}
-    void set_weapon(CombatArt *weapon) { weapon_ = weapon; }
+    void set_weapon(skills::CombatArt *weapon) { weapon_ = weapon; }
 
     // Colisoes
     static void InitializeAnimations();
@@ -120,7 +123,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeAttackingAnimations();
 
     // The base weapon this creature uses.
-    CombatArt *weapon_;
+    skills::CombatArt *weapon_;
 
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;

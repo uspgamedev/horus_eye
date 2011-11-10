@@ -4,20 +4,23 @@
 #include "game/sprites/creatures/hero.h"
 
 namespace sprite {
+class Hero;
+}
+
+namespace skills {
 
 class Hero;
 
 class HeroBaseWeapon : public CombatArt {
   public:
-    HeroBaseWeapon(Hero* owner) : CombatArt(owner), hero_(owner) {}
+    HeroBaseWeapon(sprite::Hero* owner) : CombatArt(owner), hero_(owner) {}
 
     virtual float range(){ return 0.0f; }
     virtual void Attack();
-    virtual bool Available();
+    virtual bool Available() const;
 
   private:
-
-    Hero *hero_;
+    sprite::Hero *hero_;
 
 };
 

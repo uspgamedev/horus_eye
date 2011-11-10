@@ -145,9 +145,9 @@ void LevelManager::LoadNextLevel() {
 	if (level_list_iterator_ == 0) {
 		hero_->set_life(hero_->max_life());
 		hero_->set_mana(hero_->max_mana());
-		hero_->AddWeapon(0, new HeroFireballWeapon(hero_));
-		hero_->AddWeapon(1, new HeroExplosionWeapon(hero_));
-        hero_->AddWeapon(2, new HeroLightningWeapon(hero_));
+		hero_->AddWeapon(0, new skills::HeroFireballWeapon(hero_));
+		hero_->AddWeapon(1, new skills::HeroExplosionWeapon(hero_));
+        hero_->AddWeapon(2, new skills::HeroLightningWeapon(hero_));
 		// Add here the other initial weapons of the hero.
 	}
     current_level_ = new World(hero_);

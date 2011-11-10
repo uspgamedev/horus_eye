@@ -9,7 +9,7 @@
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 
-namespace sprite {
+namespace skills {
 
 using namespace scene;
 using namespace ugdk;
@@ -31,6 +31,6 @@ void HeroBaseWeapon::Attack(){
     hero_->StartAttack();
 }
 
-bool HeroBaseWeapon::Available() { return true; }
+bool HeroBaseWeapon::Available() const { return true; }
 
 }
