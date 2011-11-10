@@ -53,6 +53,19 @@ COLLISION_DIRECT(Projectile, DamageAndExplode, obj) {
     owner_->Explode();
 }
 
+COLLISION_DIRECT(Projectile, ProjExplode, data) { 
+    owner_->Explode();
+}
+
+static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {
+    CollisionObject* col = new CollisionObject(proj);
+    col->set_collision_class(GET_COLLISIONMASK(Projectile));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new ProjExplode(proj));
+    proj->set_collision_object(col);
+    proj->set_shape(new pyramidworks::geometry::Circle(radius));
+    return col;
+}
+
 void ProjectileBuilder::InitializeAnimations() {
     if(fireball_animation_ == NULL) {
         fireball_animation_ = ugdk::Engine::reference()->animation_loader().Load("data/animations/fireball.gdd");
@@ -85,8 +98,8 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
     proj->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
     proj->set_light_radius(1.0f);
 
-    OBJADD_COLLISIONGEOM(proj, Projectile, new pyramidworks::geometry::Circle(0.15f));
-    OBJADD_COLLISIONLOGIC(proj, Mummy, new DamageAndExplode(proj));
+    CollisionObject* col = buildBasicCollision(proj, 0.15f);
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndExplode(proj));
     return proj;
 }
 
@@ -96,8 +109,8 @@ Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
     proj->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
     proj->set_light_radius(0.75f);
 
-    OBJADD_COLLISIONGEOM(proj, Projectile, new pyramidworks::geometry::Circle(0.15f));
-    OBJADD_COLLISIONLOGIC(proj, Hero, new DamageAndExplode(proj));
+    CollisionObject* col = buildBasicCollision(proj, 0.15f);
+    col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndExplode(proj));
     return proj;
 }
 
@@ -108,8 +121,9 @@ Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
     proj->SelectAnimation(GetAnimationIndexFromDir(dir));
     proj->set_light_radius(1.0f);
 
-    OBJADD_COLLISIONGEOM(proj, Projectile, new pyramidworks::geometry::Circle(0.25f));
-    OBJADD_COLLISIONLOGIC(proj, Mummy, new Damage(proj));
+
+    CollisionObject* col = buildBasicCollision(proj, 0.25f);
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new Damage(proj));
     return proj;
 }
 
@@ -126,9 +140,9 @@ Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
     ugdk::Color light_color(1.0f, 0.521568f, 0.082352f);
     proj->light()->set_color(light_color);
 
-    OBJADD_COLLISIONGEOM(proj, Projectile, new pyramidworks::geometry::Circle(0.25f));
-    OBJADD_COLLISIONLOGIC(proj, Mummy, new DamageAndExplode(proj));
 
+    CollisionObject* col = buildBasicCollision(proj, 0.25f);
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndExplode(proj));
     return proj;
 }
 

@@ -16,15 +16,15 @@ using namespace utils;
 INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
-    : status_(STATUS_ACTIVE),
+    : collision_object_(NULL),
+      status_(STATUS_ACTIVE),
       identifier_("Generic World Object"),
       light_radius_(0.0f) {
-          
-    collision_object_ = new CollisionObject(this);
 }
 
 WorldObject::~WorldObject() {
-    delete collision_object_;
+    if(collision_object_ != NULL) 
+        delete collision_object_;
 }
 
 void WorldObject::Update(float dt) {
@@ -50,8 +50,8 @@ void WorldObject::set_light_radius(float radius) {
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
-   collision_object_->set_position(pos);
-   set_position(World::FromWorldCoordinates(pos));
+   world_position_ = pos;
+   set_position(World::FromWorldCoordinates(world_position_));
 }
 
 
@@ -69,6 +69,11 @@ void WorldObject::Render() {
     }
     Sprite::Render();
 
+}
+
+void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
+    collision_object_->set_shape(shape);
+    shape->set_position(&world_position_);
 }
 
 }  // namespace sprite

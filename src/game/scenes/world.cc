@@ -65,7 +65,8 @@ void World::HandleCollisions() {
 
     std::list<sprite::WorldObject*>::iterator i, j;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-        (*i)->collision_object()->SearchCollisions(collision_list);
+        if((*i)->collision_object() != NULL)
+            (*i)->collision_object()->SearchCollisions(collision_list);
 
     std::list<CollisionInstance>::iterator it;
     for(it = collision_list.begin(); it != collision_list.end(); ++it) {

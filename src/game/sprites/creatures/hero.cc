@@ -70,8 +70,11 @@ Hero::Hero(Image* img) {
     secondary_weapon_ = NULL;
 
     light_oscilation_ = 0.0f;
+    
+    printf("hero: %d\n", (int) collision_object_);
 
-    ADD_COLLISIONGEOM(Hero, new pyramidworks::geometry::Circle(0.3f));
+    SET_COLLISIONCLASS(Hero);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 

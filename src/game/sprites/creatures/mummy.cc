@@ -50,6 +50,7 @@ Mummy::Mummy(Image* img) {
 
     identifier_ = std::string("Mummy");
 
+    SET_COLLISIONCLASS(Mummy);
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
 }
 
@@ -78,7 +79,7 @@ void Mummy::StartAttack(Creature* obj) {
 }
 
 void Mummy::set_bound(float radius) {
-    collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Mummy), new pyramidworks::geometry::Circle(radius));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(radius));
 }
 
 void Mummy::RandomMovement(){

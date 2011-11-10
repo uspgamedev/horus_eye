@@ -17,11 +17,12 @@ class Projectile : public WorldObject {
     Projectile(int damage, float speed, int duration, ugdk::Vector2D &dir);
     virtual ~Projectile();
     void Move(float delta_t);
-    void Update(float delta_t); 
-
-    int damage() { return damage_; }
+    void Update(float delta_t);
 
     virtual void Explode();
+
+    void set_collision_object(CollisionObject* col) { collision_object_ = col; }
+    int damage() const { return damage_; }
 
   protected:
     int damage_;

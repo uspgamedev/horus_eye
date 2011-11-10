@@ -44,6 +44,8 @@ Creature::Creature() : WorldObject() {
     blink_time_ = new TimeAccumulator(75);
     hit_duration_ = new TimeAccumulator(0);
 
+    INITIALIZE_COLLISION;
+
     // Teach this creature how to collides with Walls.
     ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
 }
@@ -198,7 +200,7 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
     set_world_position(last_stable_position_);
 
-    const Circle *circle = (const Circle*) collision_object_->geom();
+    const Circle *circle = (const Circle*) collision_object_->shape();
 
     Vector2D line(rect->width(), rect->height());
     Vector2D circ_pos = circle->position();
@@ -259,7 +261,7 @@ void Creature::Render() {
 COLLISION_IMPLEMENT(Creature, Rect, obj) {
     WorldObject *wobj = (WorldObject *)obj;
     const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->geom();
+        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
     owner_->CollideWithRect(rect);
 }
 
