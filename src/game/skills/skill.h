@@ -15,8 +15,9 @@ class Skill {
     //     with the specific <args> configuration, and Use(..) does nothing in this case.
   public:
     Skill(Creature* owner) : owner_(owner), icon_(NULL) {}
-    ugdk::Image* icon() { return icon_; }
-    void set_icon
+    ugdk::Image* icon() const { return icon_; }
+    void set_icon(ugdk::Image* icon) { icon_ = icon; }
+    
 
   protected:
 	Creature* owner_;
