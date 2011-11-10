@@ -59,7 +59,6 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
     virtual void TakeDamage(float life_points);
-    virtual void Die() {}
     void set_weapon(CombatArt *weapon) { weapon_ = weapon; }
 
     // Colisoes

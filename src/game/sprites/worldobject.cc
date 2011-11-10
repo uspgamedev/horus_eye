@@ -27,6 +27,14 @@ WorldObject::~WorldObject() {
         delete collision_object_;
 }
 
+void WorldObject::StartToDie() {
+    status_ = STATUS_DYING;
+    if(collision_object_ != NULL) { 
+        delete collision_object_;
+        collision_object_ = NULL;
+    }
+}
+
 void WorldObject::Update(float dt) {
     Sprite::Update(dt);
     set_zindex(World::FromWorldLinearCoordinates(world_position()).y); // Seta zindex

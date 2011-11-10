@@ -46,6 +46,8 @@ class WorldObject : public ugdk::Sprite {
     // The BIG Awesome update method. TODO explain better
     virtual void Update(float dt);
 
+    virtual void StartToDie();
+
     // The BIG Awesome drawable. TODO explain better
     virtual void Render();
 

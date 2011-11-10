@@ -276,7 +276,6 @@ void World::RemoveInactiveObjects() {
 }
 
 void World::RemoveAll() {
-
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         world_layer_->RemoveSprite(*i);
@@ -285,13 +284,7 @@ void World::RemoveAll() {
         }
     }
     world_objects_.clear();
-    for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {
-        world_layer_->RemoveSprite(*i);
-        delete (*i);
-    }
-    collisionless_objects.clear();
     hero_ = NULL;
-
 }
 
 Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {

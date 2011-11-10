@@ -50,7 +50,7 @@ class Mummy : public Creature {
     virtual void Think(float dt);
     void UpdateDirection(Vector2D destiny);
     void RandomMovement();
-    void Die();
+    void StartToDie();
     void PlayHitSound() const;
 };
 
