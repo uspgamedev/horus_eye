@@ -1,6 +1,6 @@
 
-#ifndef HORUSEYE_GAME_SPRITES_RESOURCES_RESOURCE_H_
-#define HORUSEYE_GAME_SPRITES_RESOURCES_RESOURCE_H_
+#ifndef HORUSEYE_GAME_RESOURCES_RESOURCE_H_
+#define HORUSEYE_GAME_RESOURCES_RESOURCE_H_
 
 namespace resource {
 
@@ -8,7 +8,7 @@ namespace resource {
 /**
  * Actually a template class, since a resource type can be anything as long as it has the operators
  * <=, += and -= defined, and a copy constructor.
- * @param resource_t the resource type, which must have operators <=. += and -= defined.
+ * @param resource_t the resource type, which must have operators <=, += and -= defined.
  */
 template <class T>
 class Resource {
@@ -78,4 +78,4 @@ bool operator <=(Resource<resource_t>& resource, resource_t quantity) {
 
 } /* namespace resource */
 
-#endif /* HORUSEYE_GAME_SPRITES_RESOURCES_RESOURCE_H_ */
+#endif /* HORUSEYE_GAME_RESOURCES_RESOURCE_H_ */

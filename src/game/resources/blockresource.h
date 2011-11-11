@@ -1,6 +1,6 @@
 
-#ifndef HORUSEYE_GAME_SPRITES_RESOURCES_BLOCKRESOURCE_H_
-#define HORUSEYE_GAME_SPRITES_RESOURCES_BLOCKRESOURCE_H_
+#ifndef HORUSEYE_GAME_RESOURCES_BLOCKRESOURCE_H_
+#define HORUSEYE_GAME_RESOURCES_BLOCKRESOURCE_H_
 
 #include <game/resources/containedresource.h>
 
@@ -14,4 +14,4 @@ class CountableResource : public ContainedResource<int> {
 
 } /* namespace sprite */
 
-#endif /* HORUSEYE_GAME_SPRITES_RESOURCES_BLOCKRESOURCE_H_ */
+#endif /* HORUSEYE_GAME_RESOURCES_BLOCKRESOURCE_H_ */

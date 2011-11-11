@@ -1,6 +1,6 @@
 
-#ifndef HORUSEYE_GAME_SPRITES_RESOURCES_SIMPLE_RESOURCE_H_
-#define HORUSEYE_GAME_SPRITES_RESOURCES_SIMPLE_RESOURCE_H_
+#ifndef HORUSEYE_GAME_RESOURCES_SIMPLE_RESOURCE_H_
+#define HORUSEYE_GAME_RESOURCES_SIMPLE_RESOURCE_H_
 
 #include <game/resources/containedresource.h>
 
@@ -13,4 +13,4 @@ class SimpleResource : public ContainedResource<float> {
 
 } /* namespace sprite */
 
-#endif /* HORUSEYE_GAME_SPRITES_RESOURCES_SIMPLE_RESOURCE_H_ */
+#endif /* HORUSEYE_GAME_RESOURCES_SIMPLE_RESOURCE_H_ */
