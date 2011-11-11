@@ -1,31 +1,48 @@
 #ifndef PYRAMIDWORKS_COLLISION_COLLISIONOBJECT_H_
 #define PYRAMIDWORKS_COLLISION_COLLISIONOBJECT_H_
 
+#include <map>
+#include <vector>
+#include <list>
+#include <ugdk/math/vector2D.h>
+
 namespace pyramidworks {
+
+namespace geometry {
+class GeometricShape;
+}
+
 namespace collision {
 
-#define COLLISION_BEGIN struct Collisions {
-#define COLLISION_END	};
-#define COLLISION_ADD(OWNER, NAME) class NAME : public pyramidworks::collision::CollisionObject { \
-	protected:	OWNER *owner_; \
-	public:		NAME ( OWNER *onwer) : owner_(onwer) {} \
-	void Handle(void* data); }; \
-    friend class NAME;
+class CollisionClass;
+class CollisionLogic;
 
-#define COLLISION_ADD_INLINE(OWNER, NAME, CODE) class NAME : public pyramidworks::collision::CollisionObject { \
-	protected:	OWNER *owner_; \
-	public:		NAME ( OWNER *onwer) : owner_(onwer) {} \
-	void Handle(void* data) { CODE } }; \
-    friend class NAME;
-
-#define COLLISION_IMPLEMENT(ONWER, NAME, DATA) void ONWER::Collisions::NAME::Handle(void *DATA)
+typedef std::pair<CollisionLogic*, void* > CollisionInstance;
 
 class CollisionObject {
   public:
-    CollisionObject() {}
-    virtual ~CollisionObject() {}
+    CollisionObject(void *data = NULL);
+    ~CollisionObject();
 
-    virtual void Handle(void *data) {}
+    void SearchCollisions(std::list<CollisionInstance> &collision_list);
+    bool IsColliding(const CollisionObject*) const;
+
+    void AddCollisionLogic(const CollisionClass* colclass, CollisionLogic* logic);
+
+
+    void set_collision_class(CollisionClass* collision_class);
+
+    const geometry::GeometricShape* shape() const { return shape_; };
+    void set_shape(geometry::GeometricShape* shape);
+
+  private:
+    // Data that is sent to CollisionLogic::Handle
+    void *data_;
+
+    CollisionClass* collision_class_;
+    geometry::GeometricShape* shape_;
+
+    std::map<const CollisionClass*, CollisionLogic*> known_collisions_;
 };
 
 } // namespace collision

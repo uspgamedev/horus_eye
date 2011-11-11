@@ -9,17 +9,17 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/time/timehandler.h>
 #include <ugdk/audio/audiomanager.h>
+#include <pyramidworks/geometry/circle.h>
 
 #include "hero.h"
 
 #include "game/utils/imagefactory.h"
-#include "game/utils/circleobject.h"
 #include "game/sprites/item.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 
-#include "game/sprites/weapons/herobaseweapon.h"
+#include "game/skills/herobaseweapon.h"
 #include <cmath>
 #include <iostream>
 
@@ -49,10 +49,9 @@ Hero::Hero(Image* img)
     Initialize(img, ANIMATIONS);
 
     // Animations
-    screen_center_ = Engine::reference()->window_size() * .5;
-
     animation_direction_ = 0;
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
+    identifier_ = "Hero";
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
@@ -67,7 +66,7 @@ Hero::Hero(Image* img)
     mana_ = SimpleResource(mana_blocks_.Get()*Constants::HERO_MANA_PER_BLOCK);
     mana_regen_ = Constants::HERO_MANA_REGEN_BASE;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
-    bound_ = new CircleObject(0.3f);
+
     invulnerability_time_ = 2000;
     super_armor_ = true;
 
@@ -76,8 +75,12 @@ Hero::Hero(Image* img)
     secondary_weapon_ = NULL;
 
     light_oscilation_ = 0.0f;
+    
+    printf("hero: %d\n", (int) collision_object_);
 
-    known_collisions_[Mummy::Collision()] = new Collisions::MummySlow(this);
+    SET_COLLISIONCLASS(Hero);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
+    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
 float Hero::FullMana() {
@@ -98,8 +101,8 @@ void Hero::RepairManaBlocks(int quantity) {
     mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
 }
 
-void Hero::AddWeapon(int slot, Weapon* weapon) {
-    if (!weapons_.count(slot)) weapons_[slot] = weapon;
+void Hero::AddWeapon(int slot, CombatArt* combat_art) {
+    if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
 }
 
@@ -183,8 +186,9 @@ void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+    Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
     float attackAngle = GetAttackingAngle(input_->GetMousePosition() -
-            screen_center_ + projectile_height);
+            screen_center + projectile_height);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];

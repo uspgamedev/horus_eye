@@ -1,6 +1,6 @@
 #include "mapspriteslayer.h"
-#include "../mapobject.h"
-#include "../../game/scenes/world.h"
+#include "editor/mapobject.h"
+#include "game/scenes/world.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 

@@ -10,6 +10,13 @@ class TimeAccumulator;
 class AnimationSet;
 }
 
+namespace pyramidworks {
+namespace geometry {
+class Circle;
+}
+}
+
+
 namespace sprite {
 
 class Explosion : public WorldObject, ugdk::Observer {
@@ -44,6 +51,7 @@ class Explosion : public WorldObject, ugdk::Observer {
     float radius_;
     float expansion_speed_;
     ugdk::Vector2D direction_;
+    pyramidworks::geometry::Circle* bound_;
 };
 
 }

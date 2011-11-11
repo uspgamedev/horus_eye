@@ -15,7 +15,7 @@ class Tile;
 namespace sprite {
 
 class Wall : public WorldObject {
-  DEFINE_COLLIDABLE
+  
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 

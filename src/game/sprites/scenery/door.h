@@ -10,7 +10,7 @@ class Image;
 namespace sprite {
 
 class Door: public sprite::WorldObject {
-  DEFINE_COLLIDABLE
+  
   public:
     Door(ugdk::Image* image);
     virtual ~Door() {}

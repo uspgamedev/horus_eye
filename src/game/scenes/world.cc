@@ -8,6 +8,9 @@
 #include <ugdk/audio/music.h>
 #include <ugdk/audio/audiomanager.h>
 
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
+
 #include "world.h"
 
 #include "game/scenes/imagescene.h"
@@ -28,6 +31,7 @@ using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
+using pyramidworks::collision::CollisionInstance;
 
 World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), music_(NULL) {
     AddLayer(world_layer_);
@@ -56,30 +60,17 @@ bool worldObjectIsDead (const WorldObject* value) {
     return is_dead;
 }
 
-bool World::verifyCollision(WorldObject *obj1, WorldObject *obj2) {
-    if (obj1 == obj2) {
-        return false;
-    }
-    if (obj2->collision_type() == WorldObject::NO_COLLISION) {
-        return false;
-    }
-
-    return obj1->IsColliding(obj2);
-}
-
 void World::HandleCollisions() {
-    std::list<sprite::WorldObject*>::iterator i, j;
+    std::list<CollisionInstance> collision_list;
 
-    // TODO: colisao esta sendo verificada 2x por iteracao, corrigir isso
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        if ((*i)->collision_type() == WorldObject::MOVEABLE) {
-            for (j = world_objects_.begin(); j != world_objects_.end(); ++j) {
-                if (verifyCollision(*i, *j)) {
-					(*i)->CollidesWith(*j);
-                    (*j)->CollidesWith(*i);
-                }
-            }
-        }
+    std::list<sprite::WorldObject*>::iterator i, j;
+    for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
+        if((*i)->collision_object() != NULL)
+            (*i)->collision_object()->SearchCollisions(collision_list);
+
+    std::list<CollisionInstance>::iterator it;
+    for(it = collision_list.begin(); it != collision_list.end(); ++it) {
+        it->first->Handle(it->second);
     }
 }
 
@@ -257,12 +248,7 @@ void World::AddNewWorldObjects() {
          ++it) {
 
         WorldObject *new_object = *it;
-        if(new_object->collision_type() == WorldObject::NO_COLLISION) {
-            collisionless_objects.push_front(new_object);
-        } else {
-            world_objects_.push_front(new_object);
-        }
-
+        world_objects_.push_front(new_object);
         world_layer_->AddSprite(new_object);
     }
     new_world_objects.clear();
@@ -290,7 +276,6 @@ void World::RemoveInactiveObjects() {
 }
 
 void World::RemoveAll() {
-
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         world_layer_->RemoveSprite(*i);
@@ -299,13 +284,7 @@ void World::RemoveAll() {
         }
     }
     world_objects_.clear();
-    for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {
-        world_layer_->RemoveSprite(*i);
-        delete (*i);
-    }
-    collisionless_objects.clear();
     hero_ = NULL;
-
 }
 
 Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {

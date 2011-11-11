@@ -9,7 +9,7 @@ namespace ugdk {
 }
 namespace sprite {
 
-class Weapon;
+class CombatArt;
 
 class Pharaoh : public Mummy {
 
@@ -17,13 +17,13 @@ class Pharaoh : public Mummy {
     Pharaoh(ugdk::Image* image, int life, int mana);
     ~Pharaoh();
 
-	void set_ranged_weapon(Weapon *weapon) { ranged_weapon_ = weapon; }
-	void set_summon_weapon(Weapon *weapon) { summon_weapon_ = weapon; }
+	void set_ranged_weapon(CombatArt *weapon) { ranged_weapon_ = weapon; }
+	void set_summon_weapon(CombatArt *weapon) { summon_weapon_ = weapon; }
 
 	void StartSummonMummy(Creature* target);
 
   protected:
-	Weapon *ranged_weapon_, *summon_weapon_;
+	CombatArt *ranged_weapon_, *summon_weapon_;
 
 	void Update(float delta_t);
 	bool CanAttackWithMeele(Vector2D diff);

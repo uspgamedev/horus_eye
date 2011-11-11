@@ -8,10 +8,12 @@
 
 #include "creature.h"
 
-#include "game/utils/circleobject.h"
+#include <pyramidworks/geometry/circle.h>
 
 using namespace ugdk;
 using namespace utils;
+
+using pyramidworks::geometry::Circle;
 
 #define PI 3.1415926535897932384626433832795
 
@@ -42,10 +44,10 @@ Creature::Creature() : WorldObject() {
     blink_time_ = new TimeAccumulator(75);
     hit_duration_ = new TimeAccumulator(0);
 
-    collision_type_ = MOVEABLE;
+    INITIALIZE_COLLISION;
 
     // Teach this creature how to collides with Walls.
-    known_collisions_[GET_COLLISIONMASK(Wall)] = new Collisions::Rect(this);
+    ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
 }
 
 Creature::~Creature() {
@@ -90,15 +92,17 @@ void Creature::AdjustBlink(float delta_t) {
 
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
-    fprintf(stderr, "Decreasing life of %ld from %f to %f (dmg = %f)\n", (long) this, (float)life_, (float)life_ - life_points, life_points);
+#ifdef DEBUG
+    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(), 
+        (float) life_, (float) life_ - life_points, life_points);
+#endif
     PlayHitSound();
     life_ -= life_points;
     if(life_.Empty()) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
             this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
-            this->collision_type_ = WorldObject::NO_COLLISION;
-	    Die();
+	        StartToDie();
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;
@@ -192,11 +196,11 @@ void Creature::Move(Vector2D direction, float delta_t) {
     set_world_position(position);
 }
 
-void Creature::CollideWithRect(const RectObject *rect) {
+void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
     set_world_position(last_stable_position_);
 
-    const CircleObject *circle = (const CircleObject*)bound_;
+    const Circle *circle = (const Circle*) collision_object_->shape();
 
     Vector2D line(rect->width(), rect->height());
     Vector2D circ_pos = circle->position();
@@ -255,7 +259,9 @@ void Creature::Render() {
 }
 
 COLLISION_IMPLEMENT(Creature, Rect, obj) {
-    const RectObject *rect = (const RectObject*)((WorldObject *)obj)->bound();
+    WorldObject *wobj = (WorldObject *)obj;
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
     owner_->CollideWithRect(rect);
 }
 

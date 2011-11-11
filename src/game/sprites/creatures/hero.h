@@ -14,7 +14,7 @@ class Image;
 namespace sprite {
 
 class Hero : public Creature {
-  DEFINE_COLLIDABLE
+  
   public:
     Hero(ugdk::Image* img = NULL);
     ~Hero() {}
@@ -25,10 +25,10 @@ class Hero : public Creature {
     void RepairManaBlocks(int quantity);
     resource::Resource<int>& mana_regen_ratio() { return mana_regen_ratio_; }
 
-    void AddWeapon(int slot, Weapon* weapon);
+    void AddWeapon(int slot, CombatArt* combat_art);
     void StartAttack();
     void StartExplosion();
-    Weapon* secondary_weapon() { return secondary_weapon_; }
+    CombatArt* secondary_combat_art() { return secondary_weapon_; }
 
 	void Invulnerable(int time);
 
@@ -36,12 +36,13 @@ class Hero : public Creature {
     ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
     float time_to_recover_speed_;
-    std::map<int, Weapon*> weapons_;
+    std::map<int, CombatArt*> weapons_;
     int slot_selected_;
     float light_oscilation_;
+    CombatArt *secondary_weapon_;
+
     resource::CountableResource mana_blocks_;
     resource::Resource<int> mana_regen_ratio_;
-    Weapon *secondary_weapon_;
 
     void CollisionSlow();
 	COLLISION_BEGIN

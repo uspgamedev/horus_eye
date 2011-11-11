@@ -5,10 +5,10 @@
 #include "game/sprites/creatures/mummy.h"
 #include "game/sprites/creatures/pharaoh.h"
 #include "game/utils/constants.h"
-#include "game/sprites/weapons/mummyweapon.h"
-#include "game/sprites/weapons/mummyrangedweapon.h"
-#include "game/sprites/weapons/pharaohrangedweapon.h"
-#include "game/sprites/weapons/pharaohsummonweapon.h"
+#include "game/skills/mummyweapon.h"
+#include "game/skills/mummyrangedweapon.h"
+#include "game/skills/pharaohrangedweapon.h"
+#include "game/skills/pharaohsummonweapon.h"
 #include <game/resources/simpleresource.h>
 
 namespace builder {

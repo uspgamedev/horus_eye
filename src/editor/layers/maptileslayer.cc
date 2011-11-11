@@ -1,5 +1,5 @@
 #include "maptileslayer.h"
-#include "../mapobject.h"
+#include "editor/mapobject.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 

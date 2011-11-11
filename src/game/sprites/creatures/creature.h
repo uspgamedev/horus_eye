@@ -7,8 +7,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
-
-#include "game/utils/rectobject.h"
+#include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/simpleresource.h>
@@ -23,13 +22,13 @@ namespace sprite {
 
 using ugdk::Vector2D;
 
-class Weapon;
+class CombatArt;
 class Door;
 class Wall;
 class Block;
 
 class Creature : public WorldObject , public ugdk::Observer {
-  DEFINE_COLLIDABLE
+  
   public:
     Creature();
     virtual ~Creature();
@@ -63,8 +62,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
     virtual void TakeDamage(float life_points);
-    virtual void Die() {}
-    void set_weapon(Weapon *weapon) { weapon_ = weapon; }
+    void set_weapon(CombatArt *weapon) { weapon_ = weapon; }
 
     // Colisoes
     static void InitializeAnimations();
@@ -118,13 +116,13 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
-    void CollideWithRect(const utils::RectObject*);
+    void CollideWithRect(const pyramidworks::geometry::Rect*);
     static void InitializeStandingAnimations();
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
 
     // The base weapon this creature uses.
-    Weapon *weapon_;
+    CombatArt *weapon_;
 
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;

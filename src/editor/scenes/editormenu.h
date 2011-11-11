@@ -1,9 +1,9 @@
 #ifndef HORUSEYE_GAME_SCENES_EDITORMENUBUILDER_H_
 #define HORUSEYE_GAME_SCENES_EDITORMENUBUILDER_H_
 
-#include "../../game/scenes/menuhandler.h"
-#include "../../game/scenes/pagemanager.h"
-#include "../../game/scenes/menubuilder.h"
+#include "game/scenes/menuhandler.h"
+#include "game/scenes/pagemanager.h"
+#include "game/scenes/menubuilder.h"
 #include <vector>
 #include <ugdk/action/sprite.h>
 

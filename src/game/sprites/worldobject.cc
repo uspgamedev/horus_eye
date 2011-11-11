@@ -1,9 +1,11 @@
+#include <ugdk/graphic/light.h>
+#include <pyramidworks/geometry/circle.h>
+
 #include "worldobject.h"
+
 #include "game/scenes/world.h"
-#include "game/utils/circleobject.h"
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
-#include <ugdk/graphic/light.h>
 
 namespace sprite {
 
@@ -11,18 +13,26 @@ using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
-
 INITIALIZE_COLLIDABLE_ROOT(WorldObject);
 
 WorldObject::WorldObject()
-    : bound_(NULL),
+    : collision_object_(NULL),
       status_(STATUS_ACTIVE),
-      collision_type_(NO_COLLISION),
-      light_radius_(0.0f)
-{}
+      identifier_("Generic World Object"),
+      light_radius_(0.0f) {
+}
 
 WorldObject::~WorldObject() {
-    delete bound_;
+    if(collision_object_ != NULL) 
+        delete collision_object_;
+}
+
+void WorldObject::StartToDie() {
+    status_ = STATUS_DYING;
+    if(collision_object_ != NULL) { 
+        delete collision_object_;
+        collision_object_ = NULL;
+    }
 }
 
 void WorldObject::Update(float dt) {
@@ -47,13 +57,9 @@ void WorldObject::set_light_radius(float radius) {
 	}
 }
 
-bool WorldObject::IsColliding(WorldObject* obj) const {
-    return bound_->Intersects(obj->bound());
-}
-
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
-   bound_->set_position(pos);
-   set_position(World::FromWorldCoordinates(pos));
+   world_position_ = pos;
+   set_position(World::FromWorldCoordinates(world_position_));
 }
 
 
@@ -71,6 +77,11 @@ void WorldObject::Render() {
     }
     Sprite::Render();
 
+}
+
+void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
+    collision_object_->set_shape(shape);
+    shape->set_position(&world_position_);
 }
 
 }  // namespace sprite

@@ -5,6 +5,8 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
 
+#include <pyramidworks/geometry/circle.h>
+
 #include "mummy.h"
 
 #include "game/scenes/world.h"
@@ -16,7 +18,7 @@
 #include "game/utils/tile.h"
 #include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
-#include "game/sprites/weapons/weapon.h"
+#include "game/skills/combatart.h"
 
 namespace sprite {
 
@@ -35,7 +37,6 @@ static int WaitingTime () {
 
 Mummy::Mummy(Image* img) {
     Initialize(img, ANIMATIONS);
-	bound_ = NULL;
 
     // Animations  
     animation_direction_ = 0;
@@ -47,7 +48,10 @@ Mummy::Mummy(Image* img) {
     interval_ = new TimeAccumulator(0);
     invulnerability_time_ = 300;
 
-	known_collisions_[Mummy::Collision()] = new Collisions::MummyAntiStack(this);
+    identifier_ = std::string("Mummy");
+
+    SET_COLLISIONCLASS(Mummy);
+    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
 }
 
 Mummy::~Mummy() {
@@ -72,6 +76,10 @@ void Mummy::StartAttack(Creature* obj) {
     waiting_animation_ = true;
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
     this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+}
+
+void Mummy::set_bound(float radius) {
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(radius));
 }
 
 void Mummy::RandomMovement(){
@@ -172,18 +180,19 @@ void Mummy::Update(float delta_t) {
 
 }
 
-void Mummy::Die(){
-	int potion = rand()%100;
-		if (potion <=20){
-			builder::ItemBuilder builder;
-			ImageFactory* image_factory = WORLD()->image_factory();
-			if(potion > 10)
-				WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);
-			else if(potion> 5)
-				WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), this->last_stable_position_);
-			else
-				WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), this->last_stable_position_);
-		}
+void Mummy::StartToDie() {
+    Creature::StartToDie();
+	int potion = rand() % 100;
+	if (potion <=20){
+		builder::ItemBuilder builder;
+		ImageFactory* image_factory = WORLD()->image_factory();
+		if(potion > 10)
+			WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);
+		else if(potion> 5)
+			WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), this->last_stable_position_);
+		else
+			WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), this->last_stable_position_);
+	}
 }
 
 void Mummy::PlayHitSound() const {

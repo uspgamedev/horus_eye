@@ -2,7 +2,7 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
-#include "game/utils/circleobject.h"
+//#include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/tile.h"
 #include "game/scenes/world.h"
@@ -20,8 +20,6 @@ namespace sprite {
 Floor::Floor(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
-    this->collision_type_ = NO_COLLISION;
-    bound_ = new CircleObject(0.0f);
     tile_ = NULL;
     SetDefaultFrame(CLEAR);
 }

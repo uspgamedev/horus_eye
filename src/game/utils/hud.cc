@@ -9,7 +9,7 @@
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
-#include "game/sprites/weapons/weapon.h"
+#include "game/skills/combatart.h"
 #include "game/sprites/creatures/hero.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
@@ -195,8 +195,8 @@ void Hud::Update(float delta_t) {
 
     if(world->hero() != NULL) {
         // Update the Selected weapon icon
-        if(world->hero()->secondary_weapon() != NULL)
-            weapon_icon_ = world->hero()->secondary_weapon()->icon();
+        if(world->hero()->secondary_combat_art() != NULL)
+            weapon_icon_ = world->hero()->secondary_combat_art()->icon();
 
         // Life Bar
         life_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->life()) / world->hero()->life().max_value()) * LIFE_BAR_HEIGHT) );

@@ -88,7 +88,7 @@ class World : public ugdk::Scene {
 
   protected:
     sprite::Hero *hero_;
-    std::list<sprite::WorldObject*> world_objects_, collisionless_objects, new_world_objects;
+    std::list<sprite::WorldObject*> world_objects_, new_world_objects;
     ugdk::Layer *world_layer_;
     ugdk::Sprite *hero_fog_;
 	ugdk::Music *music_;

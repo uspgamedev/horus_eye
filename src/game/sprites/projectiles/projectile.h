@@ -6,19 +6,23 @@
 
 namespace ugdk {
 class TimeAccumulator;
+class Image;
 }
 
 namespace sprite {
 
 class Projectile : public WorldObject {
-  DEFINE_COLLIDABLE
+  
   public:
-    Projectile(int damage, float speed, int duration, ugdk::Vector2D &);
+    Projectile(int damage, float speed, int duration, ugdk::Vector2D &dir);
     virtual ~Projectile();
     void Move(float delta_t);
-    void Update(float delta_t); 
+    void Update(float delta_t);
 
-    int damage() { return damage_; }
+    virtual void Explode();
+
+    void set_collision_object(CollisionObject* col) { collision_object_ = col; }
+    int damage() const { return damage_; }
 
   protected:
     int damage_;
@@ -26,13 +30,6 @@ class Projectile : public WorldObject {
     ugdk::Vector2D direction_;
     ugdk::TimeAccumulator *duration_;
     bool exploding_;
-
-	virtual void Explode();
-	COLLISION_BEGIN
-		COLLISION_ADD_INLINE(Projectile, Explode, owner_->Explode();)
-		COLLISION_ADD		(Projectile, Damage)
-		COLLISION_ADD		(Projectile, DamageAndExplode)
-	COLLISION_END
 };
 
 }

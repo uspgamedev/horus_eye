@@ -5,9 +5,9 @@
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/light.h>
+#include <pyramidworks/geometry/circle.h>
 
 #include "game/sprites/creatures/mummy.h"
-#include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 
 using namespace ugdk;
@@ -32,20 +32,24 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
     Initialize(image, ANIMATIONS);
 	set_hotspot(Vector2D(CENTER_X, CENTER_Y));
 	damage_ = damage;
-	bound_ = new CircleObject(radius / 2);
+	bound_ = new pyramidworks::geometry::Circle(radius / 2.0f);
 	set_light_radius(1.3*radius);
 
     Color light_color(1.0f, 0.521568f, 0.082352f);
     this->light()->set_color(light_color);
 
-	collision_type_ = MOVEABLE;
 	AddObserverToAnimation(this);
     SelectAnimation(WEAPON_ANIMATIONS[animation]);
 
     expansion_speed_ = (radius / 2) /
             (GetAnimationFrameNumber() / GetAnimationFPS());
 
-	known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
+    INITIALIZE_COLLISION;
+    SET_COLLISIONCLASS(Explosion);
+    SET_COLLISIONSHAPE(bound_);
+    ADD_COLLISIONLOGIC(Mummy, new Collisions::Damage(this));
+
+	//known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
 }
 
 Explosion::~Explosion() {}
@@ -69,8 +73,7 @@ void Explosion::Tick() {
 }
 
 void Explosion::RadiusUpdate(float delta_t) {
-	CircleObject* bound = static_cast<CircleObject*>(this->bound_);
-	bound->set_radius(bound->radius() + expansion_speed_ * delta_t);
+	bound_->set_radius(bound_->radius() + expansion_speed_ * delta_t);
 }
 
 void Explosion::Update(float delta_t) {

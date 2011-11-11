@@ -1,8 +1,8 @@
 #include <iostream>
 #include "mapobject.h"
-#include "../game/utils/imagefactory.h"
-#include "../game/utils/constants.h"
-#include "../game/scenes/world.h"
+#include "game/utils/imagefactory.h"
+#include "game/utils/constants.h"
+#include "game/scenes/world.h"
 
 using namespace ugdk;
 using utils::Constants;

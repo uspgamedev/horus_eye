@@ -24,6 +24,7 @@
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
+    <ClCompile Include="src\game\builders\projectilebuilder.cc" />
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
@@ -40,25 +41,24 @@
     <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\fireball.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\lightningbolt.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\magicmissile.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\mummyprojectile.cc" />
+    <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
     <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herobaseweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\heroexplosionweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herofireballweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\herolightningweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\mummyrangedweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\mummyweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\pharaohrangedweapon.cc" />
-    <ClCompile Include="src\game\sprites\weapons\pharaohsummonweapon.cc" />
+    <ClCompile Include="src\game\skills\herobaseweapon.cc" />
+    <ClCompile Include="src\game\skills\heroexplosionweapon.cc" />
+    <ClCompile Include="src\game\skills\herofireballweapon.cc" />
+    <ClCompile Include="src\game\skills\herolightningweapon.cc" />
+    <ClCompile Include="src\game\skills\mummyrangedweapon.cc" />
+    <ClCompile Include="src\game\skills\mummyweapon.cc" />
+    <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
+    <ClCompile Include="src\game\skills\pharaohsummonweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
-    <ClCompile Include="src\game\utils\circleobject.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionclass.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
+    <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
     <ClCompile Include="src\game\utils\geometryprimitives.cc" />
     <ClCompile Include="src\game\utils\hud.cc" />
@@ -66,13 +66,13 @@
     <ClCompile Include="src\game\utils\imagefactory.cc" />
     <ClCompile Include="src\game\utils\levelloader.cc" />
     <ClCompile Include="src\game\utils\levelmanager.cc" />
-    <ClCompile Include="src\game\utils\rectobject.cc" />
+    <ClCompile Include="src\pyramidworks\geometry\rect.cc" />
     <ClCompile Include="src\game\utils\settings.cc" />
     <ClCompile Include="src\game\utils\textloader.cc" />
     <ClCompile Include="src\game\utils\tile.cc" />
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionmask.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionlogic.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\editor\layers\fpsmeter.h" />
@@ -84,6 +84,7 @@
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
+    <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
@@ -95,6 +96,7 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\skills\skill.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
     <ClInclude Include="src\game\sprites\creatures\creature.h" />
     <ClInclude Include="src\game\sprites\creatures\hero.h" />
@@ -103,27 +105,26 @@
     <ClInclude Include="src\game\sprites\explosion.h" />
     <ClInclude Include="src\game\sprites\item.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
-    <ClInclude Include="src\game\sprites\projectiles\fireball.h" />
-    <ClInclude Include="src\game\sprites\projectiles\lightningbolt.h" />
-    <ClInclude Include="src\game\sprites\projectiles\magicmissile.h" />
-    <ClInclude Include="src\game\sprites\projectiles\mummyprojectile.h" />
+    <ClInclude Include="src\game\sprites\projectiles\carrier.h" />
     <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
     <ClInclude Include="src\game\sprites\scenery\door.h" />
     <ClInclude Include="src\game\sprites\scenery\floor.h" />
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
-    <ClInclude Include="src\game\sprites\weapons\herobaseweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\heroexplosionweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\herofireballweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\herolightningweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\mummyrangedweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\mummyweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\pharaohrangedweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\pharaohsummonweapon.h" />
-    <ClInclude Include="src\game\sprites\weapons\weapon.h" />
+    <ClInclude Include="src\game\skills\herobaseweapon.h" />
+    <ClInclude Include="src\game\skills\heroexplosionweapon.h" />
+    <ClInclude Include="src\game\skills\herofireballweapon.h" />
+    <ClInclude Include="src\game\skills\herolightningweapon.h" />
+    <ClInclude Include="src\game\skills\mummyrangedweapon.h" />
+    <ClInclude Include="src\game\skills\mummyweapon.h" />
+    <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />
+    <ClInclude Include="src\game\skills\pharaohsummonweapon.h" />
+    <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
-    <ClInclude Include="src\game\utils\circleobject.h" />
-    <ClInclude Include="src\game\utils\collisionobject.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
+    <ClInclude Include="src\pyramidworks\geometry\circle.h" />
+    <ClInclude Include="src\pyramidworks\geometry\geometricshape.h" />
     <ClInclude Include="src\game\utils\constants.h" />
     <ClInclude Include="src\game\utils\geometryprimitives.h" />
     <ClInclude Include="src\game\utils\hud.h" />
@@ -131,13 +132,13 @@
     <ClInclude Include="src\game\utils\imagefactory.h" />
     <ClInclude Include="src\game\utils\levelloader.h" />
     <ClInclude Include="src\game\utils\levelmanager.h" />
-    <ClInclude Include="src\game\utils\rectobject.h" />
+    <ClInclude Include="src\pyramidworks\geometry\rect.h" />
     <ClInclude Include="src\game\utils\settings.h" />
     <ClInclude Include="src\game\utils\textloader.h" />
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionmask.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{88426421-C8EA-4013-B7F8-6A07ADD23469}</ProjectGuid>
@@ -209,13 +210,13 @@
       <Optimization>Disabled</Optimization>
       <InlineFunctionExpansion>Default</InlineFunctionExpansion>
       <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
-      <PreprocessorDefinitions>WIN32;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;DEBUG;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <MinimalRebuild>true</MinimalRebuild>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level2</WarningLevel>
+      <WarningLevel>Level3</WarningLevel>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
