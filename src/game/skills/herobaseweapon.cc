@@ -3,11 +3,15 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/base/engine.h>
 
-#include "herobaseweapon.h"
+#include "game/skills/herobaseweapon.h"
+
+#include "game/skills/castarguments.h"
 
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/utils/settings.h"
+#include "game/utils/constants.h"
 
 namespace skills {
 
@@ -20,15 +24,15 @@ void HeroBaseWeapon::Attack(){
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     World *world_ = WORLD();
     // Ajuste da altura do projetil.
-    Vector2D versor = (WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()).Normalize(),
-             pos = hero_->world_position();
+    // TODO: ask the mouse postition from hero's Aim.
+    Vector2D versor = (WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-cast_argument_->origin).Normalize(),
+             pos = cast_argument_->origin;
 
     builder::ProjectileBuilder proj(world_->image_factory());
     world_->AddWorldObject(proj.MagicMissile(versor), pos);
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    hero_->StartAttack();
 }
 
 bool HeroBaseWeapon::Available() const { return true; }

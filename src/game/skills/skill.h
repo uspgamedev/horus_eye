@@ -1,26 +1,39 @@
 #ifndef HORUSEYE_GAME_SKILLS_SKILL_H_
 #define HORUSEYE_GAME_SKILLS_SKILL_H_
-#include <ugdk/graphic/image.h>
 
-namespace sprite {
-class Creature;
-} // sprite
+#include "game/skills/abstractskill.h"
+
+namespace ugdk {
+class Image;
+}
 
 namespace skills {
 
-class Skill {
+template<class CastArgument_T>
+class Skill : public AbstractSkill {
   public:
-    Skill(sprite::Creature* owner) : owner_(owner), icon_(NULL) {}
-    ugdk::Image* icon() const { return icon_; }
-    void set_icon(ugdk::Image* icon) { icon_ = icon; }
-
-    virtual void Use() = 0;
-    virtual bool IsValidUse() const = 0;
+    typedef CastArgument_T CastArgument;
 
   protected:
-	sprite::Creature* owner_;
-    ugdk::Image* icon_;
+    Skill(ugdk::Image* icon, const CastArgument* cast_argument = NULL)
+        : AbstractSkill(icon), cast_argument_(cast_argument) {}
+
+    const CastArgument* cast_argument_;
 };
+
+// specialisation for void CastArgument. Forces cast_argument_ to have NULL value.
+/*
+template<>
+class Skill<void> : AbstractSkill {
+  public:
+    typedef void CastArgument;
+
+  protected:
+    Skill(ugdk::Image* icon, const void* cast_argument = NULL)
+        : icon_(icon), cast_argument_(NULL) {}
+
+    void* cast_argument_;
+};*/
 
 } // skills
 

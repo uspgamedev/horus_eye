@@ -38,7 +38,6 @@
     <ClCompile Include="src\game\sprites\creatures\creature.cc" />
     <ClCompile Include="src\game\sprites\creatures\hero.cc" />
     <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
-    <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
@@ -48,13 +47,6 @@
     <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
-    <ClCompile Include="src\game\skills\heroexplosionweapon.cc" />
-    <ClCompile Include="src\game\skills\herofireballweapon.cc" />
-    <ClCompile Include="src\game\skills\herolightningweapon.cc" />
-    <ClCompile Include="src\game\skills\mummyrangedweapon.cc" />
-    <ClCompile Include="src\game\skills\mummyweapon.cc" />
-    <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
-    <ClCompile Include="src\game\skills\pharaohsummonweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
@@ -96,6 +88,8 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\skills\abstractskill.h" />
+    <ClInclude Include="src\game\skills\castarguments.h" />
     <ClInclude Include="src\game\skills\casttypes\aimedcast.h" />
     <ClInclude Include="src\game\skills\casttypes\casttype.h" />
     <ClInclude Include="src\game\skills\casttypes\ressources.h" />
@@ -115,13 +109,6 @@
     <ClInclude Include="src\game\sprites\scenery\floor.h" />
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
-    <ClInclude Include="src\game\skills\heroexplosionweapon.h" />
-    <ClInclude Include="src\game\skills\herofireballweapon.h" />
-    <ClInclude Include="src\game\skills\herolightningweapon.h" />
-    <ClInclude Include="src\game\skills\mummyrangedweapon.h" />
-    <ClInclude Include="src\game\skills\mummyweapon.h" />
-    <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />
-    <ClInclude Include="src\game\skills\pharaohsummonweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />

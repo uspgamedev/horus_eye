@@ -1,19 +1,26 @@
 #ifndef HORUSEYE_GAME_SKILLS_COMBATART_H_
 #define HORUSEYE_GAME_SKILLS_COMBATART_H_
-#include <ugdk/graphic/image.h>
 #include "game/skills/skill.h"
 
 namespace skills {
 
-class CombatArt : public Skill {
+template<class CastArgument_T>
+class CombatArt : public Skill<CastArgument_T> {
   public:
-    CombatArt(sprite::Creature* owner) : Skill(owner) {}
+    typedef CastArgument_T CastArgument;
+
+    // We need to remove these.
 	virtual float range() = 0;
 	virtual void Attack() = 0;
 	virtual bool Available() const = 0;
+    // end
 
     virtual void Use() { Attack(); }
     virtual bool IsValidUse() const { return Available(); }
+
+  protected:
+    CombatArt(ugdk::Image* icon, const CastArgument* cast_argument = NULL)
+      : Skill<CastArgument>(icon, cast_argument) {}
 };
 
 } // skills

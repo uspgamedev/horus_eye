@@ -5,16 +5,13 @@
 #include <ugdk/math/vector2D.h>
 
 #include "game/sprites/creatures/creature.h"
+#include "game/skills/abstractskill.h"
 
 #define TIME_TO_THINK 0.1f
 
 namespace ugdk {
 class TimeAccumulator;
 class Image;
-}
-
-namespace skills {
-class CombatArt;
 }
 
 namespace sprite {
@@ -30,7 +27,7 @@ class Mummy : public Creature {
     void set_speed(float speed) { original_speed_ = speed_ = speed; }
     void set_life(float life) { life_ = life; }
     void TakeDamage(float life_points);
-	void set_weapon(skills::CombatArt *weapon) { weapon_ = weapon; }
+	void set_weapon(skills::AbstractSkill *weapon) { weapon_ = weapon; }
     void set_bound(float radius);
 
     void StartAttack(Creature* obj);
@@ -39,7 +36,7 @@ class Mummy : public Creature {
     float time_to_think_;
     bool standing_;
     Vector2D last_direction_;
-	skills::CombatArt *weapon_;
+	skills::AbstractSkill *weapon_;
     std::queue<Vector2D> path_;
 
 	void MummyAntiStack(WorldObject *);

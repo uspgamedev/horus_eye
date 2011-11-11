@@ -11,7 +11,7 @@
 #include <ugdk/audio/audiomanager.h>
 #include <pyramidworks/geometry/circle.h>
 
-#include "hero.h"
+#include "game/sprites/creatures/hero.h"
 
 #include "game/utils/imagefactory.h"
 #include "game/sprites/item.h"
@@ -20,8 +20,13 @@
 #include "game/utils/settings.h"
 
 #include "game/skills/herobaseweapon.h"
+#include "game/skills/castarguments.h"
+#include "game/skills/abstractskill.h"
+
 #include <cmath>
 #include <iostream>
+
+#define INVUL_TIME 2000
 
 using namespace std;
 using namespace ugdk;
@@ -62,10 +67,11 @@ Hero::Hero(Image* img) {
     mana_regen_ = Constants::HERO_MANA_REGEN;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
-    invulnerability_time_ = 2000;
+    invulnerability_time_ = INVUL_TIME;
     super_armor_ = true;
 
     slot_selected_ = -1;
+    aim_ = new skills::castarguments::Aim();
     weapon_ = new skills::HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
 
@@ -75,7 +81,11 @@ Hero::Hero(Image* img) {
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
-void Hero::AddWeapon(int slot, skills::CombatArt* combat_art) {
+Hero::~Hero() {
+    delete aim_;
+}
+
+void Hero::AddWeapon(int slot, skills::AbstractSkill* combat_art) {
     if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
 }
@@ -159,6 +169,8 @@ void Hero::GetKeys() {
 void Hero::StartAttack() {
     InputManager *input_ = Engine::reference()->input_manager();
 
+    aim_->origin = world_position();
+
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
     float attackAngle = GetAttackingAngle(input_->GetMousePosition() -
@@ -187,6 +199,7 @@ void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
         if (ShootingWithWeapon()) {
+            this->StartAttack();
             weapon_->Attack();
         } else if (ShootingWithSecondaryWeapon()) {
             secondary_weapon_->Attack();

@@ -1,3 +1,5 @@
+//TODO:REACTIVATE 
+/*
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
 
@@ -6,10 +8,6 @@
 namespace ugdk {
 class Image;
 class Vector2D;
-}
-
-namespace skills {
-class CombatArt;
 }
 
 namespace sprite {
@@ -37,3 +35,4 @@ class Pharaoh : public Mummy {
 
 }
 #endif // PHARAOH_H_
+*/
