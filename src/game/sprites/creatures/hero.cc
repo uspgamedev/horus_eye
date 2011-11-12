@@ -75,6 +75,15 @@ Hero::Hero(Image* img) {
     known_collisions_[Mummy::Collision()] = new Collisions::MummySlow(this);
 }
 
+Hero::~Hero() {
+    std::map<int, Weapon*>::iterator it;
+    for(it = weapons_.begin(); it != weapons_.end(); ++it)
+        delete it->second;
+    weapons_.clear();
+
+    secondary_weapon_ = NULL;
+}
+
 void Hero::AddWeapon(int slot, Weapon* weapon) {
     if (!weapons_.count(slot)) weapons_[slot] = weapon;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);

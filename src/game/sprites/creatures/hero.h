@@ -15,7 +15,7 @@ class Hero : public Creature {
   DEFINE_COLLIDABLE
   public:
     Hero(ugdk::Image* img = NULL);
-    ~Hero() {}
+    ~Hero();
 
     void AddWeapon(int slot, Weapon* weapon);
     void StartAttack();

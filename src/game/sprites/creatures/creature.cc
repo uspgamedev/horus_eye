@@ -9,6 +9,7 @@
 #include "creature.h"
 
 #include "game/utils/circleobject.h"
+#include "game/sprites/weapons/weapon.h"
 
 using namespace ugdk;
 using namespace utils;
@@ -19,7 +20,7 @@ namespace sprite {
 
 INITIALIZE_COLLIDABLE_NODE(Creature, WorldObject);
 
-int Creature::direction_mapping_[8];
+int Creature::direction_mapping_[8]; 
 uint32 Creature::standing_animations_[16];
 uint32 Creature::walking_animations_[16];
 uint32 Creature::attacking_animations_[8];
@@ -49,8 +50,14 @@ Creature::Creature() : WorldObject() {
 }
 
 Creature::~Creature() {
-    if (hit_duration_) delete hit_duration_;
+    if (weapon_) delete weapon_;
     if (blink_time_) delete blink_time_;
+    if (hit_duration_) delete hit_duration_;
+
+    std::list<Condition*>::iterator i;
+    for (i = conditions_.begin(); i != conditions_.end(); ++i) 
+		 delete (*i);
+    conditions_.clear();
 }
 
 void Creature::Initialize(Drawable *image, AnimationSet *set,
