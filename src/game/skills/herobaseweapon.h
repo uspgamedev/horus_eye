@@ -3,13 +3,16 @@
 
 #include "game/skills/combatart.h"
 #include "game/skills/castarguments.h"
-#include "game/sprites/creatures/hero.h"
+
+namespace sprite {
+class Hero;
+}
 
 namespace skills {
 
 class HeroBaseWeapon : public CombatArt<castarguments::Aim> {
   public:
-    HeroBaseWeapon(sprite::Hero* owner) : CombatArt(NULL, owner->aim()) {}
+    HeroBaseWeapon(sprite::Hero* owner);
 
     virtual float range() { return 0.0f; }
     virtual void Attack();
