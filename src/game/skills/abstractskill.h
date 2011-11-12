@@ -13,10 +13,10 @@ class AbstractSkill {
     virtual void Use() = 0; // Not const, since it can affect the weapon itself, i.e. cooldowns.
     virtual bool IsValidUse() const = 0;
 
-    // Hacks, we must remove these when we can.
-    virtual float range() { return 0.0f; }
-    virtual void Attack() {}
-    virtual bool Available() const { return false; }
+    // Legacy hacks, we must remove these when we can.
+    virtual float range() = 0;
+    virtual void Attack() = 0;
+    virtual bool Available() const = 0;
 
   protected:
     AbstractSkill(ugdk::Image* icon) : icon_(icon) {}

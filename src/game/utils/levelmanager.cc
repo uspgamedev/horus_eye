@@ -19,10 +19,10 @@
 #include "game/sprites/creatures/creature.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/explosion.h"
-//TODO:REACTIVATE #include "game/skills/herofireballweapon.h"
-//TODO:REACTIVATE #include "game/skills/herobaseweapon.h"
-//TODO:REACTIVATE #include "game/skills/heroexplosionweapon.h"
-//TODO:REACTIVATE #include "game/skills/herolightningweapon.h"
+#include "game/skills/herofireballweapon.h"
+#include "game/skills/herobaseweapon.h"
+#include "game/skills/heroexplosionweapon.h"
+#include "game/skills/herolightningweapon.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
@@ -145,9 +145,9 @@ void LevelManager::LoadNextLevel() {
 	if (level_list_iterator_ == 0) {
 		hero_->set_life(hero_->max_life());
 		hero_->set_mana(hero_->max_mana());
-		//TODO:REACTIVATE hero_->AddWeapon(0, new skills::HeroFireballWeapon(hero_));
-		//TODO:REACTIVATE hero_->AddWeapon(1, new skills::HeroExplosionWeapon(hero_));
-        //TODO:REACTIVATE hero_->AddWeapon(2, new skills::HeroLightningWeapon(hero_));
+		hero_->AddWeapon(0, new skills::HeroFireballWeapon(hero_));
+		hero_->AddWeapon(1, new skills::HeroExplosionWeapon(hero_));
+        hero_->AddWeapon(2, new skills::HeroLightningWeapon(hero_));
 		// Add here the other initial weapons of the hero.
 	}
     current_level_ = new World(hero_);

@@ -99,8 +99,8 @@ void Mummy::RandomMovement(){
     }
 }
 
-void Mummy::UpdateDirection(Vector2D destiny){
-    Vector2D dir_animation = World::FromWorldCoordinates(destiny) - position(); 
+void Mummy::UpdateDirection(Vector2D destination){
+    Vector2D dir_animation = World::FromWorldCoordinates(destination) - position(); 
     float angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 

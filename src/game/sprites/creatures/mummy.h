@@ -47,7 +47,7 @@ class Mummy : public Creature {
 
     virtual void Update(float delta_t);
     virtual void Think(float dt);
-    void UpdateDirection(Vector2D destiny);
+    void UpdateDirection(Vector2D destination);
     void RandomMovement();
     void Die();
     void PlayHitSound() const;

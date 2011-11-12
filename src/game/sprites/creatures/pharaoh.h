@@ -1,5 +1,3 @@
-//TODO:REACTIVATE 
-/*
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
 
@@ -35,4 +33,3 @@ class Pharaoh : public Mummy {
 
 }
 #endif // PHARAOH_H_
-*/
