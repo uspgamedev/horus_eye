@@ -3,15 +3,12 @@
 
 #include <map>
 #include <ugdk/math/vector2D.h>
+
 #include "game/sprites/creatures/creature.h"
+#include "game/skills/castarguments.h"
 
 namespace skills {
 class AbstractSkill;
-
-namespace castarguments {
-class Aim;
-} // castarguments
-
 } // skills
 
 namespace ugdk {

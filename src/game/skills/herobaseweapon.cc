@@ -5,8 +5,6 @@
 
 #include "game/skills/herobaseweapon.h"
 
-#include "game/skills/castarguments.h"
-
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/sprites/creatures/hero.h"
@@ -18,6 +16,9 @@ namespace skills {
 using namespace scene;
 using namespace ugdk;
 using utils::Constants;
+
+HeroBaseWeapon::HeroBaseWeapon(sprite::Hero* owner) 
+    : CombatArt(NULL, owner->aim()) {}
 
 void HeroBaseWeapon::Attack(){
     InputManager *input_ = Engine::reference()->input_manager();
