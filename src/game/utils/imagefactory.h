@@ -29,6 +29,7 @@ class ImageFactory {
     virtual Image* WallImage();
     virtual Image* EntryImage();
     virtual Image* LightningImage();
+	virtual Image* LightImage();
 
   protected:
     Image* hero_image_;
@@ -50,6 +51,7 @@ class ImageFactory {
     Image* wall_image_;
     Image* entry_image_;
     Image* lightning_image_;
+	Image* light_image_;
 };
 
 }

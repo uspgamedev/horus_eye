@@ -38,6 +38,7 @@
     <ClCompile Include="src\game\skills\heroexplosionweapon.cc" />
     <ClCompile Include="src\game\skills\herofireballweapon.cc" />
     <ClCompile Include="src\game\skills\herolightningweapon.cc" />
+    <ClCompile Include="src\game\skills\herolightweapon.cc" />
     <ClCompile Include="src\game\skills\mummyrangedweapon.cc" />
     <ClCompile Include="src\game\skills\mummyweapon.cc" />
     <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
@@ -55,6 +56,7 @@
     <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
+    <ClCompile Include="src\game\sprites\timedworldobject.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
@@ -103,6 +105,7 @@
     <ClInclude Include="src\game\skills\heroexplosionweapon.h" />
     <ClInclude Include="src\game\skills\herofireballweapon.h" />
     <ClInclude Include="src\game\skills\herolightningweapon.h" />
+    <ClInclude Include="src\game\skills\herolightweapon.h" />
     <ClInclude Include="src\game\skills\mummyrangedweapon.h" />
     <ClInclude Include="src\game\skills\mummyweapon.h" />
     <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />
@@ -124,6 +127,7 @@
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
+    <ClInclude Include="src\game\sprites\timedworldobject.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />
