@@ -46,7 +46,7 @@ void HeroFireballWeapon::Attack() {
 
 
 HeroFireballWeapon::HeroFireballWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL,utils::Constants::FIREBALL_COST,owner->aim()),
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::FIREBALL_COST, owner->mana(), owner->aim()),
       hero_(owner) {
     HudImageFactory factory;
     icon_ = factory.FireballIconImage();

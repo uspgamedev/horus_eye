@@ -12,14 +12,15 @@ class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
   public:
     //TODO:FIX 
     PharaohSummonWeapon(sprite::Creature* owner)
-        : CombatArt<castarguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST, owner->aim()),
+        : CombatArt<castarguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST,
+                                        owner->mana(), owner->aim()),
           owner_(owner) {}
     virtual ~PharaohSummonWeapon() {}
 
     virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }
     virtual void Attack();
     virtual bool Available() const {
-        return owner_->mana() >= utils::Constants::PHARAOH_SUMMON_MANA_COST;
+        return owner_->mana().Has(cost_);
     }
   protected:
     sprite::Creature* owner_;

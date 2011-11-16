@@ -25,8 +25,10 @@ SET(GAME_SRCS
     ./src/game/skills/combatart.h 
     ./src/game/skills/herofireballweapon.h 
     ./src/game/skills/heroexplosionweapon.h 
+    ./src/game/skills/herolightweapon.cc 
     ./src/game/skills/herofireballweapon.cc 
     ./src/game/skills/castarguments.h 
+    ./src/game/skills/herolightweapon.h 
     ./src/game/skills/pharaohrangedweapon.h 
     ./src/game/skills/herobaseweapon.h 
     ./src/game/skills/herobaseweapon.cc 
@@ -95,6 +97,8 @@ SET(GAME_SRCS
     ./src/game/sprites/creatures/hero.cc 
     ./src/game/sprites/creatures/pharaoh.cc 
     ./src/game/sprites/creatures/mummy.cc 
+    ./src/game/sprites/timedworldobject.cc 
+    ./src/game/sprites/timedworldobject.h 
     ./src/game/sprites/projectiles/projectile.cc 
     ./src/game/sprites/projectiles/carrier.h 
     ./src/game/sprites/projectiles/carrier.cc 

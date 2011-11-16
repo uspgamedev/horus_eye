@@ -49,7 +49,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 	    life_.Set(life);
 	}
 
-    float mana() { return mana_; }
+	resource::SimpleResource& mana() { return mana_; }
     void set_mana(resource::SimpleResource &mana) {
         mana_ = mana;;
     }

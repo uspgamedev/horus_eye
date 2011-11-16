@@ -45,13 +45,15 @@ void HeroLightWeapon::Attack(){
 
 }
 
-HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner) : CombatArt(NULL,owner->aim()), hero_(owner), cost_(utils::Constants::QUAKE_COST) { // TODO: change cost
+HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner)
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()),
+      hero_(owner)  { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage(); // TODO: change icon
 }
 
 bool HeroLightWeapon::Available() const {
-    return hero_->mana() >= cost_;
+    return hero_->mana().Has(cost_);
 }
 
 }

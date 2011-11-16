@@ -11,7 +11,7 @@ namespace skills {
 class PharaohRangedWeapon : public CombatArt<castarguments::Aim> {
   public:
     PharaohRangedWeapon(sprite::Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE)
-        : CombatArt<castarguments::Aim>(NULL, 0.0f, owner->aim()),
+        : CombatArt<castarguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
           damage_(damage) {}
 
     virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }

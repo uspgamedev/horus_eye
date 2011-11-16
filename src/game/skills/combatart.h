@@ -1,5 +1,7 @@
 #ifndef HORUSEYE_GAME_SKILLS_COMBATART_H_
 #define HORUSEYE_GAME_SKILLS_COMBATART_H_
+
+#include <game/resources/simpleresource.h>
 #include "game/skills/skill.h"
 
 namespace skills {
@@ -23,10 +25,12 @@ class CombatArt : public ArgSkill<CastArgument_T> {
 
   protected:
 
-    CombatArt(ugdk::Image* icon, float cost, const CastArgument* cast_argument = NULL)
-      : ArgSkill<CastArgument>(icon, cast_argument), cost_(cost) {}
+    CombatArt(ugdk::Image* icon, float cost, resource::SimpleResource& caster_mana,
+              const CastArgument* cast_argument = NULL)
+      : ArgSkill<CastArgument>(icon, cast_argument), cost_(cost), caster_mana_(caster_mana) {}
 
-    float cost_;
+    const float cost_;
+    resource::SimpleResource& caster_mana_;
 
 };
 
