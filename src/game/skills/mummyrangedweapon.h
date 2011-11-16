@@ -13,7 +13,7 @@ class MummyRangedWeapon : public CombatArt<castarguments::Aim> {
     MummyRangedWeapon(sprite::Creature* owner, int damage = 1) :
         CombatArt(NULL,owner->aim()), damage_(damage) {}
 
-    virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }
+    virtual float range() { return utils::Constants::RANGED_MUMMY_RANGE; }
     virtual void Attack();
     virtual bool Available() const { return true; }
   private:

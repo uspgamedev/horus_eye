@@ -128,6 +128,9 @@ void Mummy::Think(float dt) {
 			Vector2D diff;
 			diff = path_.front() - world_position();
 			if(diff.length() <= weapon_->range()){
+                
+                aim_->origin = this->position();
+
 				weapon_->Attack();
 				speed_ = 0;
 			}

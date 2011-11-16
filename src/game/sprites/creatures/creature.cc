@@ -31,7 +31,7 @@ Vector2D Creature::directions_[4];
 
 AnimationSet* Creature::ANIMATIONS = NULL;
 
-Creature::Creature() : WorldObject() {
+Creature::Creature() : WorldObject(), aim_(new skills::castarguments::Aim()) {
     waiting_animation_ = false;
     weapon_ = NULL;
 	last_stable_position_ = Vector2D(0,0);

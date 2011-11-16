@@ -236,9 +236,11 @@ void Hero::Update(float delta_t) {
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
 
         if (ShootingWithWeapon()) {
+            UpdateAim();
             this->StartAttackAnimation();
             weapon_->Attack();
         } else if (ShootingWithSecondaryWeapon()) {
+            UpdateAim();
             secondary_weapon_->Attack();
         } else {
             Creature::Move(this->GetWalkingDirection(), delta_t);

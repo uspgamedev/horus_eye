@@ -13,14 +13,16 @@ namespace castarguments {
  *  destination == where the projectile is aimed at. Usually it's the cursor's position
  *      for player skills, or the Hero's current location + rand for AI skills.
  */
-struct Aim {
+class Aim {
+  public:
+    Aim() : origin(0.0f), destination(0.0f) { }
     ugdk::Vector2D origin;
     ugdk::Vector2D destination;
 };
 
-struct Nothing {};
+class Nothing {};
 
-}
-}
+} // castarguments
+} // skills
 
 #endif
