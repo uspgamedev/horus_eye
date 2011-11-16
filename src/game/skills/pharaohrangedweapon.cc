@@ -21,7 +21,8 @@ void PharaohRangedWeapon::Attack(){
     scene::World *world = WORLD();
     sprite::Hero* hero = world->hero();
 
-    Vector2D pos = owner_->world_position();
+    //TODO:FIX 
+    Vector2D pos = cast_argument_->origin;
     Vector2D distance = hero->world_position() - pos;
     
     float angle = atan2(1.5f, distance.length()); 
@@ -38,7 +39,7 @@ void PharaohRangedWeapon::Attack(){
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
-    ((sprite::Mummy*)owner_)->StartAttack(hero);
+    //TODO:REACTIVATE ((sprite::Mummy*)owner_)->StartAttack(hero);
 }
 
 }

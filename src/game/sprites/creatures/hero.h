@@ -5,7 +5,6 @@
 #include <ugdk/math/vector2D.h>
 
 #include "game/sprites/creatures/creature.h"
-#include "game/skills/castarguments.h"
 
 namespace skills {
 class Skill;
@@ -23,10 +22,8 @@ class Hero : public Creature {
     Hero(ugdk::Image* img = NULL);
     ~Hero();
 
-    skills::castarguments::Aim* aim() { return aim_; }
-
     void AddWeapon(int slot, skills::Skill* combat_art);
-    void StartAttack();
+    void StartAttackAnimation();
     void StartExplosion();
     skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
@@ -41,8 +38,6 @@ class Hero : public Creature {
     float light_oscilation_;
     skills::Skill *secondary_weapon_;
 
-    skills::castarguments::Aim* aim_;
-
 
     void CollisionSlow();
 	COLLISION_BEGIN
@@ -51,7 +46,8 @@ class Hero : public Creature {
 
     virtual void Update(float delta_t);
     virtual void PlayHitSound() const;
-    
+   
+    void UpdateAim();
     bool ShootingWithWeapon();
     bool ShootingWithSecondaryWeapon();
     void GetKeys();

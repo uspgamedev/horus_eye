@@ -26,15 +26,16 @@ void PharaohSummonWeapon::Attack() {
     scene::World *world = WORLD();
     sprite::Hero* hero = world->hero();
 
-    Vector2D direction = (hero->world_position() - owner_->world_position()).Normalize();
-    Vector2D mummyPos = direction*range() + owner_->world_position();
+    //TODO:FIX
+    Vector2D direction = (hero->world_position() - cast_argument_->origin ).Normalize();
+    Vector2D mummyPos = direction*range() + cast_argument_->origin;
 
     utils::GameMap& map = world->level_matrix();
     utils::Tile *tile = utils::Tile::GetFromWorldPosition(map, mummyPos);
     if(isObstacle(tile) || isObstacle(tile->Up(map)) || isObstacle(tile->Down(map))
             || isObstacle(tile->Left(map)) || isObstacle(tile->Right(map)) )
     //if(!strategy.IsVisible(owner_->world_position(), mummyPos))
-        mummyPos = owner_->world_position();
+        mummyPos = cast_argument_->origin;
     /* The choice of mummy type to summon here is based on a discrete percent probability.
        A value in the range [0, 100[ is chosen randomly, and then depending on where it
        sits in the range, according to boundaries determined by our SUMMON_<>_CHANCE defines,
@@ -61,6 +62,6 @@ void PharaohSummonWeapon::Attack() {
         world->IncreaseNumberOfEnemies();
     }
 
-    owner_->set_mana( owner_->mana() - utils::Constants::PHARAOH_SUMMON_MANA_COST );
-    ((sprite::Mummy*)owner_)->StartAttack(hero);
+    //TODO:REACTIVATE owner_->set_mana( owner_->mana() - utils::Constants::PHARAOH_SUMMON_MANA_COST );
+    //TODO:REACTIVATE ((sprite::Mummy*)owner_)->StartAttack(hero);
 }

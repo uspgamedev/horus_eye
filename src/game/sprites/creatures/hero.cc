@@ -19,6 +19,8 @@
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 
+#include "game/scenes/world.h"
+
 #include "game/skills/herobaseweapon.h"
 #include "game/skills/castarguments.h"
 #include "game/skills/skill.h"
@@ -166,10 +168,8 @@ void Hero::GetKeys() {
     this->walking_direction_ = Vector2D::Normalized(dir);
 }
 
-void Hero::StartAttack() {
+void Hero::StartAttackAnimation() {
     InputManager *input_ = Engine::reference()->input_manager();
-
-    aim_->origin = world_position();
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
@@ -182,7 +182,7 @@ void Hero::StartAttack() {
 }
 
 void Hero::StartExplosion() {
-    StartAttack();
+    StartAttackAnimation();
 }
 
 bool Hero::ShootingWithWeapon() {
@@ -195,11 +195,21 @@ bool Hero::ShootingWithSecondaryWeapon() {
     return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
 }
 
+void Hero::UpdateAim() {
+    // Setting up the Aim ressource and local variables.
+    InputManager *input = Engine::reference()->input_manager();
+    Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
+
+    aim_->origin = world_position();
+    aim_->destination = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
+}
+
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+
         if (ShootingWithWeapon()) {
-            this->StartAttack();
+            this->StartAttackAnimation();
             weapon_->Attack();
         } else if (ShootingWithSecondaryWeapon()) {
             secondary_weapon_->Attack();

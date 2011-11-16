@@ -15,7 +15,7 @@ void MummyWeapon::Attack(){
 	sprite::Hero* hero = world->hero();
 	
 	hero->TakeDamage(damage_);
-	((sprite::Mummy*)owner_)->StartAttack(hero);
+	//TODO:REACTIVATE ((sprite::Mummy*)owner_)->StartAttack(hero);
 }
 
 }

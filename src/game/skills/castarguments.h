@@ -18,6 +18,8 @@ struct Aim {
     ugdk::Vector2D destination;
 };
 
+struct Nothing {};
+
 }
 }
 

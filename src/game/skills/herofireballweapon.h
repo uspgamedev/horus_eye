@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SKILLS_HEROFIREBALLWEAPON_H_
 
 #include "game/skills/combatart.h"
+#include "game/skills/castarguments.h"
 
 namespace sprite {
 class Hero;
@@ -9,7 +10,7 @@ class Hero;
 
 namespace skills {
 
-class HeroFireballWeapon : public CombatArt {
+class HeroFireballWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroFireballWeapon(sprite::Hero* owner);
 

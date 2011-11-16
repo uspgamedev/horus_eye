@@ -4,18 +4,21 @@
 #include "game/skills/combatart.h"
 #include "game/utils/constants.h"
 #include "game/sprites/creatures/creature.h"
+#include "game/skills/castarguments.h"
 
 namespace skills {
 
-class PharaohSummonWeapon: public CombatArt {
+class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
   public:
-    PharaohSummonWeapon(sprite::Creature* owner) : CombatArt(owner) {}
+    //TODO:FIX 
+    PharaohSummonWeapon(sprite::Creature* owner) : CombatArt(NULL,owner->aim()) {}
     virtual ~PharaohSummonWeapon() {}
 
     virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }
     virtual void Attack();
     virtual bool Available() const {
-        return owner_->mana() >= utils::Constants::PHARAOH_SUMMON_MANA_COST;
+        return true;
+        //TODO:REACTIVATE owner_->mana() >= utils::Constants::PHARAOH_SUMMON_MANA_COST;
     }
 };
 

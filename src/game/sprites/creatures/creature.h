@@ -9,6 +9,7 @@
 #include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
+#include "game/skills/castarguments.h"
 
 namespace ugdk {
 class TimeAccumulator;
@@ -58,6 +59,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
 
     void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
+
+    skills::castarguments::Aim* aim() { return aim_; }
 
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
@@ -157,6 +160,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
+
+    // Where this creature is aiming.
+    skills::castarguments::Aim* aim_;
 
 };  // class Creature
 

@@ -1,17 +1,16 @@
 
 #ifndef HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_
 #define HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_
-#include "game/skills/combatart.h"
 
-namespace sprite {
-class Creature;
-}
+#include "game/skills/combatart.h"
+#include "game/skills/castarguments.h"
+#include "game/sprites/creatures/creature.h"
 
 namespace skills {
 
-class MummyWeapon : public CombatArt {
+class MummyWeapon : public CombatArt<castarguments::Aim> {
   public:
-    MummyWeapon(sprite::Creature* owner, int damage = 1) : CombatArt(owner), damage_(damage) {}
+    MummyWeapon(sprite::Creature* owner, int damage = 1) : CombatArt(NULL,owner->aim()), damage_(damage) {}
 
     virtual float range(){ return 1.0f; }
     virtual void Attack();
@@ -20,6 +19,6 @@ class MummyWeapon : public CombatArt {
     int damage_;
 };
 
-}//namespace
+} // skills
 
 #endif /* HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_ */

@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_GAME_SKILLS_HEROLIGHTNINGWEAPON_H_
 #define HORUSEYE_GAME_SKILLS_HEROLIGHTNINGWEAPON_H_
+
 #include "game/skills/combatart.h"
+#include "game/skills/castarguments.h"
 
 namespace sprite {
 class Hero;
@@ -8,7 +10,7 @@ class Hero;
 
 namespace skills {
 
-class HeroLightningWeapon : public CombatArt {
+class HeroLightningWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroLightningWeapon(sprite::Hero* owner);
 

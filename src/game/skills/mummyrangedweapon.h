@@ -3,17 +3,15 @@
 
 #include "game/skills/combatart.h"
 #include "game/utils/constants.h" 
-
-namespace sprite {
-class Creature;
-}
+#include "game/skills/castarguments.h"
+#include "game/sprites/creatures/creature.h"
 
 namespace skills {
 
-class MummyRangedWeapon : public CombatArt {
+class MummyRangedWeapon : public CombatArt<castarguments::Aim> {
   public:
     MummyRangedWeapon(sprite::Creature* owner, int damage = 1) :
-        CombatArt(owner), damage_(damage) {}
+        CombatArt(NULL,owner->aim()), damage_(damage) {}
 
     virtual float range(){ return utils::Constants::RANGED_MUMMY_RANGE; }
     virtual void Attack();
