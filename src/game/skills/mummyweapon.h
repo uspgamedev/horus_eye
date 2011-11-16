@@ -10,7 +10,7 @@ namespace skills {
 
 class MummyWeapon : public CombatArt<castarguments::Aim> {
   public:
-    MummyWeapon(sprite::Creature* owner, int damage = 1) : CombatArt(NULL,owner->aim()), damage_(damage) {}
+    MummyWeapon(sprite::Creature* owner, int damage = 1) : CombatArt<castarguments::Aim>(NULL,owner->aim()), damage_(damage) {}
 
     virtual float range(){ return 1.0f; }
     virtual void Attack();

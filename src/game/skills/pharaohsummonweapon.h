@@ -11,7 +11,8 @@ namespace skills {
 class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
   public:
     //TODO:FIX 
-    PharaohSummonWeapon(sprite::Creature* owner) : CombatArt(NULL,owner->aim()) {}
+    PharaohSummonWeapon(sprite::Creature* owner)
+        : CombatArt<castarguments::Aim>(NULL,owner->aim()) {}
     virtual ~PharaohSummonWeapon() {}
 
     virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }

@@ -7,6 +7,9 @@ namespace skills {
 template<class CastArgument_T>
 class CombatArt : public ArgSkill<CastArgument_T> {
   public:
+
+    virtual ~CombatArt() {}
+
     typedef CastArgument_T CastArgument;
 
     // We need to remove these.
