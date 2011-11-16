@@ -50,6 +50,7 @@ Mummy::Mummy(Image* img) {
 
     identifier_ = std::string("Mummy");
 
+    SET_COLLISIONCLASS(Mummy);
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
 }
 
@@ -78,7 +79,7 @@ void Mummy::StartAttack(Creature* obj) {
 }
 
 void Mummy::set_bound(float radius) {
-    collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Mummy), new pyramidworks::geometry::Circle(radius));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(radius));
 }
 
 void Mummy::RandomMovement(){
@@ -127,6 +128,9 @@ void Mummy::Think(float dt) {
 			Vector2D diff;
 			diff = path_.front() - world_position();
 			if(diff.length() <= weapon_->range()){
+                
+                aim_->origin = this->position();
+
 				weapon_->Attack();
 				speed_ = 0;
 			}
@@ -179,18 +183,19 @@ void Mummy::Update(float delta_t) {
 
 }
 
-void Mummy::Die(){
-	int potion = rand()%100;
-		if (potion <=20){
-			builder::ItemBuilder builder;
-			ImageFactory* image_factory = WORLD()->image_factory();
-			if(potion > 10)
-				WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);
-			else if(potion> 5)
-				WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), this->last_stable_position_);
-			else
-				WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), this->last_stable_position_);
-		}
+void Mummy::StartToDie() {
+    Creature::StartToDie();
+	int potion = rand() % 100;
+	if (potion <=20){
+		builder::ItemBuilder builder;
+		ImageFactory* image_factory = WORLD()->image_factory();
+		if(potion > 10)
+			WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);
+		else if(potion> 5)
+			WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), this->last_stable_position_);
+		else
+			WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), this->last_stable_position_);
+	}
 }
 
 void Mummy::PlayHitSound() const {

@@ -31,8 +31,8 @@ class RecoverLifeEvent : public sprite::ItemEvent {
 };
 
 bool RecoverLifeEvent::Use (Hero *hero) {
-    if (hero->life() < hero->max_life()) {
-        hero->set_life(hero->life() + recover_);
+    if (hero->life() < hero->life().max_value()) {
+        hero->life() += recover_;
         return true;
     }
     return false;

@@ -11,15 +11,17 @@ namespace skills {
 class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
   public:
     //TODO:FIX 
-    PharaohSummonWeapon(sprite::Creature* owner) : CombatArt(NULL,owner->aim()) {}
+    PharaohSummonWeapon(sprite::Creature* owner)
+        : CombatArt<castarguments::Aim>(NULL,owner->aim()), owner_(owner) {}
     virtual ~PharaohSummonWeapon() {}
 
     virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }
     virtual void Attack();
     virtual bool Available() const {
-        return true;
-        //TODO:REACTIVATE owner_->mana() >= utils::Constants::PHARAOH_SUMMON_MANA_COST;
+        return owner_->mana() >= utils::Constants::PHARAOH_SUMMON_MANA_COST;
     }
+  protected:
+    sprite::Creature* owner_;
 };
 
 }

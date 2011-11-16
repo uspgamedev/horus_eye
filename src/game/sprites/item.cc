@@ -26,7 +26,9 @@ Item::Item(ugdk::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     this->event_ = NULL;
 
-    ADD_COLLISIONGEOM(Item, new pyramidworks::geometry::Circle(0.15f));
+    INITIALIZE_COLLISION;
+    SET_COLLISIONCLASS(Item);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.15f));
     ADD_COLLISIONLOGIC(Hero, new Collisions::Use(this));
 }
 

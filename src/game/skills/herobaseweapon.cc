@@ -18,7 +18,7 @@ using namespace ugdk;
 using utils::Constants;
 
 HeroBaseWeapon::HeroBaseWeapon(sprite::Hero* owner) 
-    : CombatArt(NULL, owner->aim()) {}
+    : CombatArt<castarguments::Aim>(NULL, owner->aim()) {}
 
 void HeroBaseWeapon::Attack(){
     World *world = WORLD();

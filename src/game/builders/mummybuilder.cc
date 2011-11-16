@@ -9,15 +9,17 @@
 #include "game/skills/mummyrangedweapon.h"
 #include "game/skills/pharaohrangedweapon.h"
 #include "game/skills/pharaohsummonweapon.h"
+#include <game/resources/simpleresource.h>
 
 namespace builder {
 
 using namespace sprite;
 using utils::Constants;
+using resource::SimpleResource;
 
 Mummy * MummyBuilder::StandingMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);
-	mummy->set_life(Constants::MUMMY_LIFE);
+	mummy->life() = SimpleResource(Constants::MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
 	mummy->set_bound(Constants::MUMMY_RADIUS);
@@ -34,7 +36,7 @@ Mummy * MummyBuilder::WalkingMummy(ugdk::Image *image) {
 
 Mummy * MummyBuilder::StandingRangedMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);
-	mummy->set_life(Constants::RANGED_MUMMY_LIFE);
+    mummy->life() = SimpleResource(Constants::RANGED_MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
 	mummy->set_bound(Constants::MUMMY_RADIUS);
@@ -51,7 +53,7 @@ Mummy * MummyBuilder::RangedMummy(ugdk::Image *image) {
 
 Mummy * MummyBuilder::StandingBigMummy(ugdk::Image *image) {
     Mummy *mummy = new Mummy(image);
-    mummy->set_life(Constants::BIG_MUMMY_LIFE);
+    mummy->life() = SimpleResource(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
@@ -76,13 +78,13 @@ Pharaoh * MummyBuilder::StandingPharaoh(ugdk::Image *image) {
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
     if(image) pharaoh->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
     
-	return NULL; //pharaoh;
+	return pharaoh;
 }
 
 Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::Image *image) {
 	Pharaoh* pharaoh = StandingPharaoh(image);
 	pharaoh->set_standing(false);
-	return NULL; //pharaoh;
+	return pharaoh;
 }
 
 } // namespace builder

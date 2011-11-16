@@ -5,6 +5,8 @@
 #include <ugdk/math/vector2D.h>
 
 #include "game/sprites/creatures/creature.h"
+#include <game/resources/resource.h>
+#include <game/resources/blockresource.h>
 
 namespace skills {
 class Skill;
@@ -22,8 +24,15 @@ class Hero : public Creature {
     Hero(ugdk::Image* img = NULL);
     ~Hero();
 
+    float FullMana();
+    bool HasBreakableManaBlocks(int quantity);
+    void BreakManaBlocks(int quantity);
+    void RepairManaBlocks(int quantity);
+    resource::Resource<int>& mana_regen_ratio() { return mana_regen_ratio_; }
+
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
+
     void StartExplosion();
     skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
@@ -38,6 +47,8 @@ class Hero : public Creature {
     float light_oscilation_;
     skills::Skill *secondary_weapon_;
 
+    resource::CountableResource mana_blocks_;
+    resource::Resource<int> mana_regen_ratio_;
 
     void CollisionSlow();
 	COLLISION_BEGIN

@@ -18,7 +18,7 @@ namespace skills {
 using ugdk::Vector2D;
 
 void MummyRangedWeapon::Attack(){
-    scene::World *world = WORLD();
+    scene::World* world = WORLD();
     sprite::Hero* hero = world->hero();
 
     //TODO:FIX

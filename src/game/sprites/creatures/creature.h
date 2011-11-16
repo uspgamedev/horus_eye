@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SPRITE_CREATURE_H_
 
 #include <list>
+
 #include <ugdk/action/sprite.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
@@ -9,6 +10,7 @@
 #include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
+#include <game/resources/simpleresource.h>
 #include "game/skills/castarguments.h"
 
 namespace ugdk {
@@ -39,21 +41,22 @@ class Creature : public WorldObject , public ugdk::Observer {
                     ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
-    float life() { return life_; }
-	void set_life(float life) {
+    resource::SimpleResource& life() { return life_; }
+	void set_life(resource::SimpleResource &life) {
 		life_ = life;
-		if (life_ < 0.0f) life_ = 0.0f;
-		if (life_ > max_life_) life_ = max_life_;
 	}
-    float max_life() { return  max_life_; }
+	void set_life(float life) {
+	    life_.Set(life);
+	}
 
     float mana() { return mana_; }
+    void set_mana(resource::SimpleResource &mana) {
+        mana_ = mana;;
+    }
 	void set_mana(float mana) {
-		mana_ = mana;
-		if (mana_ < 0.0f) mana_ = 0.0f;
-		if (mana_ > max_mana_) mana_ = max_mana_;
+		mana_.Set(mana);
 	}
-    float max_mana() { return  max_mana_; }
+    float max_mana() { return mana_.max_value(); }
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
@@ -65,7 +68,6 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
     virtual void TakeDamage(float life_points);
-    virtual void Die() {}
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
 
     // Colisoes
@@ -130,7 +132,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
-    float life_, max_life_, mana_, max_mana_, mana_regen_;
+
+    resource::SimpleResource life_, mana_;
+    float /*life_, max_life_, mana_, max_mana_, */ mana_regen_;
 
     // How many sight buffs this creature has.
     int sight_count_;

@@ -25,7 +25,9 @@ Block::Block(Image* image) : moving_(false) {
     Vector2D new_size(size().x, size().y * 0.7f);
     set_size(new_size);
 
-    ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(0.95f, 0.95f));
+    INITIALIZE_COLLISION;
+    SET_COLLISIONCLASS(Wall);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.95f, 0.95f));
     ADD_COLLISIONLOGIC(Wall, new Collisions::InvalidMovement(this));
     ADD_COLLISIONLOGIC(Projectile, new Collisions::Push(this));
 }

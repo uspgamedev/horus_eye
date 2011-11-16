@@ -11,10 +11,6 @@ namespace sprite {
 
 INITIALIZE_COLLIDABLE_NODE(Projectile, WorldObject);
 
-COLLISION_DIRECT(Projectile, ProjExplode, data) { 
-    owner_->Explode();
-}
-
 Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
         direction_(Vector2D::Normalized(dir))
 {
@@ -22,8 +18,6 @@ Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) :
     speed_ = speed;
     duration_ = new TimeAccumulator(duration);
     exploding_ = false;
-
-    ADD_COLLISIONLOGIC(Wall, new ProjExplode(this));
 }
 
 Projectile::~Projectile() {

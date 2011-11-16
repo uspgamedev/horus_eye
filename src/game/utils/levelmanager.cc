@@ -144,7 +144,7 @@ void LevelManager::LoadNextLevel() {
 		hero_ = new sprite::Hero;
 	}
 	if (level_list_iterator_ == 0) {
-		hero_->set_life(hero_->max_life());
+		hero_->life().Fill();
 		hero_->set_mana(hero_->max_mana());
 		hero_->AddWeapon(0, new skills::HeroFireballWeapon(hero_));
 		hero_->AddWeapon(1, new skills::HeroExplosionWeapon(hero_));

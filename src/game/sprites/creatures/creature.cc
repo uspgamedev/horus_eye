@@ -31,7 +31,7 @@ Vector2D Creature::directions_[4];
 
 AnimationSet* Creature::ANIMATIONS = NULL;
 
-Creature::Creature() : WorldObject() {
+Creature::Creature() : WorldObject(), aim_(new skills::castarguments::Aim()) {
     waiting_animation_ = false;
     weapon_ = NULL;
 	last_stable_position_ = Vector2D(0,0);
@@ -43,6 +43,8 @@ Creature::Creature() : WorldObject() {
 
     blink_time_ = new TimeAccumulator(75);
     hit_duration_ = new TimeAccumulator(0);
+
+    INITIALIZE_COLLISION;
 
     // Teach this creature how to collides with Walls.
     ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
@@ -91,16 +93,16 @@ void Creature::AdjustBlink(float delta_t) {
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(), 
-        life_, life_ - life_points, life_points);
+    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(),
+        (float) life_, (float) life_ - life_points, life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;
-    if(life_ <= 0.0f) {
+    if(life_.Empty()) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
             this->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
-	    Die();
+	        StartToDie();
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;
@@ -198,7 +200,7 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
     set_world_position(last_stable_position_);
 
-    const Circle *circle = (const Circle*) collision_object_->geom();
+    const Circle *circle = (const Circle*) collision_object_->shape();
 
     Vector2D line(rect->width(), rect->height());
     Vector2D circ_pos = circle->position();
@@ -259,7 +261,7 @@ void Creature::Render() {
 COLLISION_IMPLEMENT(Creature, Rect, obj) {
     WorldObject *wobj = (WorldObject *)obj;
     const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->geom();
+        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
     owner_->CollideWithRect(rect);
 }
 

@@ -70,7 +70,10 @@ ENDIF(NOT LSDLTTF)
 
 find_library (LUGDK ugdk_d lib/)
 if (NOT LUGDK)
-    message (FATAL_ERROR "Fatal error: libugdk_d not found!")
+    find_library (LUGDK ugdk lib/)
+    if (NOT LUGDK)
+        message (FATAL_ERROR "Fatal error: libugdk not found!")
+    endif (NOT LUGDK)
 endif (NOT LUGDK)
 
 # pre-processor: #define's
@@ -96,7 +99,7 @@ IF(UNIX)
   TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m SDL SDL_image SDL_mixer SDL_ttf GL GLU ugdk_d)
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
   # Debug target.
-  ADD_EXECUTABLE(${GAME_DEBUGNAME} ${GAME_SRCS})
+  ADD_EXECUTABLE(${GAME_DEBUGNAME} EXCLUDE_FROM_ALL ${GAME_SRCS})
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
   TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m SDL SDL_image SDL_mixer SDL_ttf GL GLU ugdk_d)
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
