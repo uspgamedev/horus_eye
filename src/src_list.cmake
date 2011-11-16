@@ -6,7 +6,6 @@ SET(GAME_SRCS
     ./src/game/utils/settings.h 
     ./src/game/utils/constants.cc 
     ./src/game/utils/levelmanager.cc 
-    ./src/game/utils/circleobject.cc 
     ./src/game/utils/constants.h 
     ./src/game/utils/geometryprimitives.cc 
     ./src/game/utils/textloader.h 
@@ -14,27 +13,44 @@ SET(GAME_SRCS
     ./src/game/utils/tile.h 
     ./src/game/utils/hud.cc 
     ./src/game/utils/textloader.cc 
-    ./src/game/utils/collisionobject.h 
     ./src/game/utils/settings.cc 
     ./src/game/utils/imagefactory.h 
     ./src/game/utils/hudimagefactory.h 
     ./src/game/utils/geometryprimitives.h 
-    ./src/game/utils/circleobject.h 
     ./src/game/utils/levelmanager.h 
     ./src/game/utils/tile.cc 
     ./src/game/utils/levelloader.h 
     ./src/game/utils/hudimagefactory.cc 
     ./src/game/utils/hud.h 
-    ./src/game/utils/rectobject.cc 
-    ./src/game/utils/rectobject.h 
+    ./src/game/skills/combatart.h 
+    ./src/game/skills/herofireballweapon.h 
+    ./src/game/skills/heroexplosionweapon.h 
+    ./src/game/skills/herofireballweapon.cc 
+    ./src/game/skills/pharaohrangedweapon.h 
+    ./src/game/skills/herobaseweapon.h 
+    ./src/game/skills/herobaseweapon.cc 
+    ./src/game/skills/mummyweapon.cc 
+    ./src/game/skills/heroexplosionweapon.cc 
+    ./src/game/skills/mummyrangedweapon.h 
+    ./src/game/skills/mummyweapon.h 
+    ./src/game/skills/pharaohsummonweapon.h 
+    ./src/game/skills/pharaohrangedweapon.cc 
+    ./src/game/skills/herolightningweapon.cc 
+    ./src/game/skills/herolightningweapon.h 
+    ./src/game/skills/skill.h 
+    ./src/game/skills/mummyrangedweapon.cc 
+    ./src/game/skills/pharaohsummonweapon.cc 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/mummybuilder.cc 
+    ./src/game/builders/projectilebuilder.cc 
     ./src/game/builders/itembuilder.cc 
     ./src/game/builders/conditionbuilder.cc 
+    ./src/game/builders/projectilebuilder.h 
     ./src/game/builders/conditionbuilder.h 
     ./src/game/builders/mummybuilder.h 
     ./src/game/resources/containedresource.h 
-    ./src/game/resources/life.h 
+    ./src/game/resources/simpleresource.h 
+    ./src/game/resources/blockresource.h 
     ./src/game/resources/resource.h 
     ./src/game/scenes/scrollingimagescene.h 
     ./src/game/scenes/pagemanager.h 
@@ -58,23 +74,6 @@ SET(GAME_SRCS
     ./src/game/main.cc 
     ./src/game/sprites/condition.h 
     ./src/game/sprites/worldobject.h 
-    ./src/game/sprites/weapons/weapon.h 
-    ./src/game/sprites/weapons/herofireballweapon.h 
-    ./src/game/sprites/weapons/heroexplosionweapon.h 
-    ./src/game/sprites/weapons/herofireballweapon.cc 
-    ./src/game/sprites/weapons/pharaohrangedweapon.h 
-    ./src/game/sprites/weapons/herobaseweapon.h 
-    ./src/game/sprites/weapons/herobaseweapon.cc 
-    ./src/game/sprites/weapons/mummyweapon.cc 
-    ./src/game/sprites/weapons/heroexplosionweapon.cc 
-    ./src/game/sprites/weapons/mummyrangedweapon.h 
-    ./src/game/sprites/weapons/mummyweapon.h 
-    ./src/game/sprites/weapons/pharaohsummonweapon.h 
-    ./src/game/sprites/weapons/pharaohrangedweapon.cc 
-    ./src/game/sprites/weapons/herolightningweapon.cc 
-    ./src/game/sprites/weapons/herolightningweapon.h 
-    ./src/game/sprites/weapons/mummyrangedweapon.cc 
-    ./src/game/sprites/weapons/pharaohsummonweapon.cc 
     ./src/game/sprites/worldobject.cc 
     ./src/game/sprites/item.h 
     ./src/game/sprites/item.cc 
@@ -95,22 +94,25 @@ SET(GAME_SRCS
     ./src/game/sprites/creatures/hero.cc 
     ./src/game/sprites/creatures/pharaoh.cc 
     ./src/game/sprites/creatures/mummy.cc 
-    ./src/game/sprites/projectiles/magicmissile.cc 
     ./src/game/sprites/projectiles/projectile.cc 
-    ./src/game/sprites/projectiles/lightningbolt.h 
-    ./src/game/sprites/projectiles/lightningbolt.cc 
-    ./src/game/sprites/projectiles/fireball.cc 
-    ./src/game/sprites/projectiles/magicmissile.h 
-    ./src/game/sprites/projectiles/fireball.h 
-    ./src/game/sprites/projectiles/mummyprojectile.h 
+    ./src/game/sprites/projectiles/carrier.h 
+    ./src/game/sprites/projectiles/carrier.cc 
     ./src/game/sprites/projectiles/projectile.h 
-    ./src/game/sprites/projectiles/mummyprojectile.cc 
     ./src/game/sprites/explosion.h 
     ./src/game/sprites/explosion.cc 
-    ./src/pyramidworks/collision/collisionmask.h 
-    ./src/pyramidworks/collision/collisionmask.cc 
+    ./src/pyramidworks/geometry/rect.h 
+    ./src/pyramidworks/geometry/geometricshape.h 
+    ./src/pyramidworks/geometry/circle.cc 
+    ./src/pyramidworks/geometry/circle.h 
+    ./src/pyramidworks/geometry/rect.cc 
+    ./src/pyramidworks/collision/collisionclass.cc 
+    ./src/pyramidworks/collision/collisionmanager.cc 
+    ./src/pyramidworks/collision/collisionlogic.cc 
+    ./src/pyramidworks/collision/collisionlogic.h 
+    ./src/pyramidworks/collision/collisionmanager.h 
     ./src/pyramidworks/collision/collisionobject.cc 
     ./src/pyramidworks/collision/collisionobject.h 
+    ./src/pyramidworks/collision/collisionclass.h 
     ./src/editor/mapobject.cc 
     ./src/editor/mapeditor.cc 
     ./src/editor/scenes/editormenu.cc 

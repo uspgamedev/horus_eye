@@ -1,3 +1,6 @@
+
+#include <cmath>
+
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/base/types.h>
