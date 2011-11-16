@@ -22,8 +22,12 @@ class CombatArt : public ArgSkill<CastArgument_T> {
     virtual bool IsValidUse() const { return Available(); }
 
   protected:
-    CombatArt(ugdk::Image* icon, const CastArgument* cast_argument = NULL)
-      : ArgSkill<CastArgument>(icon, cast_argument) {}
+
+    CombatArt(ugdk::Image* icon, float cost, const CastArgument* cast_argument = NULL)
+      : ArgSkill<CastArgument>(icon, cast_argument), cost_(cost) {}
+
+    float cost_;
+
 };
 
 } // skills

@@ -12,7 +12,8 @@ class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
   public:
     //TODO:FIX 
     PharaohSummonWeapon(sprite::Creature* owner)
-        : CombatArt<castarguments::Aim>(NULL,owner->aim()), owner_(owner) {}
+        : CombatArt<castarguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST, owner->aim()),
+          owner_(owner) {}
     virtual ~PharaohSummonWeapon() {}
 
     virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }

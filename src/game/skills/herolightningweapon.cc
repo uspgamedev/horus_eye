@@ -39,8 +39,8 @@ void HeroLightningWeapon::Attack() {
 
 
 HeroLightningWeapon::HeroLightningWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL,owner->aim()), hero_(owner),
-        cost_(utils::Constants::LIGHTNING_COST) {
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, owner->aim()),
+      hero_(owner)  {
     HudImageFactory factory;
     icon_ = factory.LightningIconImage();
 }

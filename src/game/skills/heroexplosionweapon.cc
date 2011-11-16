@@ -43,7 +43,8 @@ void HeroExplosionWeapon::Attack(){
 }
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL,owner->aim()), hero_(owner), cost_(utils::Constants::QUAKE_COST) {
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->aim()),
+      hero_(owner) {
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
