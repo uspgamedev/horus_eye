@@ -78,13 +78,13 @@ Pharaoh * MummyBuilder::StandingPharaoh(ugdk::Image *image) {
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
     if(image) pharaoh->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
     
-	return NULL; //pharaoh;
+	return pharaoh;
 }
 
 Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::Image *image) {
 	Pharaoh* pharaoh = StandingPharaoh(image);
 	pharaoh->set_standing(false);
-	return NULL; //pharaoh;
+	return pharaoh;
 }
 
 } // namespace builder

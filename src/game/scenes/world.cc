@@ -238,7 +238,7 @@ void World::IncreaseNumberOfEnemies() {
 
 void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
 
-    new_object-> set_world_position(pos);
+    new_object->set_world_position(pos);
     new_world_objects.push_front(new_object);
 }
 
