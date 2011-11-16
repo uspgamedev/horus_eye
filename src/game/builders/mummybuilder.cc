@@ -9,15 +9,17 @@
 #include "game/skills/mummyrangedweapon.h"
 #include "game/skills/pharaohrangedweapon.h"
 #include "game/skills/pharaohsummonweapon.h"
+#include <game/resources/simpleresource.h>
 
 namespace builder {
 
 using namespace sprite;
 using utils::Constants;
+using resource::SimpleResource;
 
 Mummy * MummyBuilder::StandingMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);
-	mummy->set_life(Constants::MUMMY_LIFE);
+	mummy->life() = SimpleResource(Constants::MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
 	mummy->set_bound(Constants::MUMMY_RADIUS);
@@ -34,7 +36,7 @@ Mummy * MummyBuilder::WalkingMummy(ugdk::Image *image) {
 
 Mummy * MummyBuilder::StandingRangedMummy(ugdk::Image *image) {
     Mummy* mummy = new Mummy(image);
-	mummy->set_life(Constants::RANGED_MUMMY_LIFE);
+    mummy->life() = SimpleResource(Constants::RANGED_MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
 	mummy->set_bound(Constants::MUMMY_RADIUS);
@@ -51,7 +53,7 @@ Mummy * MummyBuilder::RangedMummy(ugdk::Image *image) {
 
 Mummy * MummyBuilder::StandingBigMummy(ugdk::Image *image) {
     Mummy *mummy = new Mummy(image);
-    mummy->set_life(Constants::BIG_MUMMY_LIFE);
+    mummy->life() = SimpleResource(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);

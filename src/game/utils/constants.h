@@ -33,6 +33,9 @@ class Constants {
                        HERO_HOTSPOT_X = 55,
                        HERO_HOTSPOT_Y = 102,
                        HERO_MAX_WEAPONS = 5,
+                       HERO_MIN_MANA_BLOCKS = 1,
+                       HERO_MAX_MANA_BLOCKS = 5,
+                       HERO_BASE_MANA_REGEN_RATIO = 3,
 
                        SIGHT_POTION_MAX_STACK = 5,
 
@@ -98,8 +101,8 @@ class Constants {
 
         HERO_SPEED,
         HERO_MAX_LIFE,
-        HERO_MAX_MANA,
-        HERO_MANA_REGEN,
+        HERO_MANA_PER_BLOCK,
+        HERO_MANA_REGEN_BASE,
 
 		PROJECTILE_SPEED,
 		PROJECTILE_SPRITE_CENTER_X,

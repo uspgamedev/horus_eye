@@ -30,8 +30,8 @@ const float Constants::LIGHT_RADIUS_INITIAL = 6.0f;
 
 const float Constants::HERO_SPEED = 4.0f;
 const float Constants::HERO_MAX_LIFE = 1000.0f;
-const float Constants::HERO_MAX_MANA = 1000.0f;
-const float Constants::HERO_MANA_REGEN = 20.0f;
+const float Constants::HERO_MANA_PER_BLOCK = 200.0f;
+const float Constants::HERO_MANA_REGEN_BASE = 20.0f;
 
 const float Constants::PROJECTILE_SPEED = 8.0f;
 const float Constants::PROJECTILE_SPRITE_CENTER_X = 16.0f;

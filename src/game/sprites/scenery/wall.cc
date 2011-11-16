@@ -34,7 +34,9 @@ Wall::Wall(Image* image) {
     SetDefaultFrame(visible_frame_);
     tile_ = NULL;
 
-    ADD_COLLISIONGEOM(Wall, new pyramidworks::geometry::Rect(1.0f, 1.0f));
+    INITIALIZE_COLLISION;
+    SET_COLLISIONCLASS(Wall);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(1.0f, 1.0f));
 }
 Wall::~Wall() {}
 

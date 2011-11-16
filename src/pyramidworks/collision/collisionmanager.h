@@ -9,25 +9,25 @@ namespace pyramidworks {
 namespace collision {
 
 #define INITIALIZE_COLLIDABLE_ROOT(CLASS) \
-    static const pyramidworks::collision::CollisionMask* CollisionMaskInitializer = \
+    static const pyramidworks::collision::CollisionClass* CollisionMaskInitializer = \
     pyramidworks::collision::CollisionManager::reference()->Generate( #CLASS );
 
 #define INITIALIZE_COLLIDABLE_NODE(CLASS, PARENT_CLASS) \
-    static const pyramidworks::collision::CollisionMask* CollisionMaskInitializer = \
+    static const pyramidworks::collision::CollisionClass* CollisionMaskInitializer = \
     pyramidworks::collision::CollisionManager::reference()->Generate( #CLASS , #PARENT_CLASS );
 
 #define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionManager::reference()->Generate( #NAME )
 
 
-class CollisionMask;
+class CollisionClass;
 class CollisionManager {
   public:
 	static CollisionManager* reference() {
 		return reference_ ? reference_ : reference_ = new CollisionManager;
 	}
 
-	CollisionMask* Generate(std::string name) { return Get(name); }
-	const CollisionMask* Generate(std::string name, std::string parent);
+	CollisionClass* Generate(std::string name) { return Get(name); }
+	const CollisionClass* Generate(std::string name, std::string parent);
 
 	~CollisionManager();
 
@@ -36,9 +36,9 @@ class CollisionManager {
 	CollisionManager() {}
     static CollisionManager *reference_;
 
-    CollisionMask* Get(std::string &name);
+    CollisionClass* Get(std::string &name);
 
-	std::map<std::string, CollisionMask*> cache_;
+	std::map<std::string, CollisionClass*> cache_;
 };
 
 } // namespace collision

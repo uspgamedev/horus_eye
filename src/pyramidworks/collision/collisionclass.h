@@ -14,11 +14,11 @@ class CollisionObject;
 
 typedef std::list<const CollisionObject *> CollisionObjectList;
 
-class CollisionMask {
+class CollisionClass {
   public:
-    ~CollisionMask() {}
-    const CollisionMask* parent() const { return parent_; }
-	void set_parent(CollisionMask* parent) { parent_ = parent; }
+    ~CollisionClass() {}
+    const CollisionClass* parent() const { return parent_; }
+	void set_parent(CollisionClass* parent) { parent_ = parent; }
 
     const CollisionObjectList FindCollidingObjects(CollisionObject *target) const;
 
@@ -30,9 +30,9 @@ class CollisionMask {
 #endif
   private:
 	friend class CollisionManager;
-    CollisionMask() : parent_(NULL) {}
+    CollisionClass() : parent_(NULL) {}
 
-    const CollisionMask* parent_;
+    const CollisionClass* parent_;
     CollisionObjectList objects_;
 
 #ifdef DEBUG

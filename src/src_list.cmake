@@ -33,6 +33,9 @@ SET(GAME_SRCS
     ./src/game/builders/conditionbuilder.cc 
     ./src/game/builders/conditionbuilder.h 
     ./src/game/builders/mummybuilder.h 
+    ./src/game/resources/containedresource.h 
+    ./src/game/resources/life.h 
+    ./src/game/resources/resource.h 
     ./src/game/scenes/scrollingimagescene.h 
     ./src/game/scenes/pagemanager.h 
     ./src/game/scenes/menu.cc 

@@ -33,6 +33,9 @@
 using namespace std;
 using namespace ugdk;
 using namespace utils;
+using resource::Resource;
+using resource::SimpleResource;
+using resource::CountableResource;
 
 namespace sprite {
 
@@ -43,7 +46,9 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 #define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
-Hero::Hero(Image* img) {
+Hero::Hero(Image* img)
+    : mana_blocks_(Constants::HERO_MIN_MANA_BLOCKS, Constants::HERO_MAX_MANA_BLOCKS),
+      mana_regen_ratio_(Constants::HERO_BASE_MANA_REGEN_RATIO) {
     if(img == NULL){
         utils::ImageFactory img_fac;
         img = img_fac.HeroImage();
@@ -64,9 +69,9 @@ Hero::Hero(Image* img) {
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     // Initializing life and mana
-    life_ = max_life_ = Constants::HERO_MAX_LIFE;
-    mana_ = max_mana_ = Constants::HERO_MAX_MANA;
-    mana_regen_ = Constants::HERO_MANA_REGEN;
+    life_ = SimpleResource(Constants::HERO_MAX_LIFE);
+    mana_ = SimpleResource(mana_blocks_.Get()*Constants::HERO_MANA_PER_BLOCK);
+    mana_regen_ = Constants::HERO_MANA_REGEN_BASE;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
     invulnerability_time_ = INVUL_TIME;
@@ -78,13 +83,34 @@ Hero::Hero(Image* img) {
     secondary_weapon_ = NULL;
 
     light_oscilation_ = 0.0f;
+    
+    printf("hero: %d\n", (int) collision_object_);
 
-    ADD_COLLISIONGEOM(Hero, new pyramidworks::geometry::Circle(0.3f));
+    SET_COLLISIONCLASS(Hero);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
 Hero::~Hero() {
     delete aim_;
+}
+
+float Hero::FullMana() {
+    return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
+}
+
+bool Hero::HasBreakableManaBlocks(int quantity) {
+    return mana_blocks_ >= quantity;
+}
+
+void Hero::BreakManaBlocks(int quantity) {
+    mana_blocks_ -= quantity;
+    mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
+}
+
+void Hero::RepairManaBlocks(int quantity) {
+    mana_blocks_ += quantity;
+    mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
 }
 
 void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
@@ -183,6 +209,7 @@ void Hero::StartAttackAnimation() {
 
 void Hero::StartExplosion() {
     StartAttackAnimation();
+    //BreakManaBlocks(1); used for testing.
 }
 
 bool Hero::ShootingWithWeapon() {
@@ -224,7 +251,7 @@ void Hero::Update(float delta_t) {
     }
     AdjustBlink(delta_t);
     speed_ = original_speed_;
-    set_mana(mana() + mana_regen_ * delta_t);
+    mana_ += mana_regen_ * mana_regen_ratio_.Get() * delta_t;
 
 
     light_oscilation_ += delta_t;

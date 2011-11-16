@@ -65,7 +65,8 @@ void World::HandleCollisions() {
 
     std::list<sprite::WorldObject*>::iterator i, j;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-        (*i)->collision_object()->SearchCollisions(collision_list);
+        if((*i)->collision_object() != NULL)
+            (*i)->collision_object()->SearchCollisions(collision_list);
 
     std::list<CollisionInstance>::iterator it;
     for(it = collision_list.begin(); it != collision_list.end(); ++it) {
@@ -89,7 +90,7 @@ void World::VerifyCheats(float delta_t) {
         }
     }
     if(input->KeyPressed(K_h)) {
-        hero_->set_life(hero_->max_life());
+        hero_->life().Fill();
         hero_->set_mana(hero_->max_mana());
     }
     if(input->KeyPressed(K_t))
@@ -275,7 +276,6 @@ void World::RemoveInactiveObjects() {
 }
 
 void World::RemoveAll() {
-
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         world_layer_->RemoveSprite(*i);
@@ -284,13 +284,7 @@ void World::RemoveAll() {
         }
     }
     world_objects_.clear();
-    for (i = collisionless_objects.begin(); i != collisionless_objects.end(); ++i) {
-        world_layer_->RemoveSprite(*i);
-        delete (*i);
-    }
-    collisionless_objects.clear();
     hero_ = NULL;
-
 }
 
 Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {

@@ -56,6 +56,7 @@
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
+    <ClCompile Include="src\pyramidworks\collision\collisionclass.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
@@ -71,7 +72,6 @@
     <ClCompile Include="src\game\utils\tile.cc" />
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionmask.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionlogic.cc" />
   </ItemGroup>
   <ItemGroup>
@@ -86,6 +86,10 @@
     <ClInclude Include="src\game\builders\mummybuilder.h" />
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
+    <ClInclude Include="src\game\resources\blockresource.h" />
+    <ClInclude Include="src\game\resources\containedresource.h" />
+    <ClInclude Include="src\game\resources\resource.h" />
+    <ClInclude Include="src\game\resources\simpleresource.h" />
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
     <ClInclude Include="src\game\scenes\menu.h" />
@@ -125,6 +129,7 @@
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
+    <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />
     <ClInclude Include="src\pyramidworks\geometry\geometricshape.h" />
@@ -141,7 +146,6 @@
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionmask.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
   </ItemGroup>
   <ItemGroup>

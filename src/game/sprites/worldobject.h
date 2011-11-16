@@ -1,26 +1,25 @@
 #ifndef HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
-#include <map>
 #include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/sprite.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
-#include <pyramidworks/collision/collisionmask.h>
+#include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
 namespace sprite {
 
-using pyramidworks::collision::CollisionMask;
+using pyramidworks::collision::CollisionClass;
 using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
 
-#define ADD_COLLISIONGEOM(Mask, Geom) collision_object_->AddCollisionGeom(GET_COLLISIONMASK(Mask), Geom);
-#define ADD_COLLISIONLOGIC(Mask, Logic) collision_object_->AddCollisionLogic(GET_COLLISIONMASK(Mask), Logic);
+#define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(this); }
 
-#define OBJADD_COLLISIONGEOM(obj, Mask, Geom) obj->collision_object()->AddCollisionGeom(GET_COLLISIONMASK(Mask), Geom);
-#define OBJADD_COLLISIONLOGIC(obj, Mask, Logic) obj->collision_object()->AddCollisionLogic(GET_COLLISIONMASK(Mask), Logic);
+#define SET_COLLISIONCLASS(CLASS)        { collision_object_->set_collision_class(GET_COLLISIONMASK(CLASS)); }
+#define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
+#define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(GET_COLLISIONMASK(CLASS), LOGIC); }
 
 class Creature;
 class Hero;
@@ -47,6 +46,8 @@ class WorldObject : public ugdk::Sprite {
     // The BIG Awesome update method. TODO explain better
     virtual void Update(float dt);
 
+    virtual void StartToDie();
+
     // The BIG Awesome drawable. TODO explain better
     virtual void Render();
 
@@ -54,14 +55,18 @@ class WorldObject : public ugdk::Sprite {
     virtual float light_radius() { return light_radius_; }
     virtual void set_light_radius(float radius);
 
-    virtual ugdk::Vector2D world_position() const { return collision_object_->position(); }
+    virtual ugdk::Vector2D world_position() const { return world_position_; }
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
     virtual CollisionObject* collision_object() const { return collision_object_; }
 
+    void set_shape(pyramidworks::geometry::GeometricShape* shape);
+
   protected:
     CollisionObject *collision_object_;
     Status status_;
+    ugdk::Vector2D world_position_;
+
     std::string identifier_;
 
   private:

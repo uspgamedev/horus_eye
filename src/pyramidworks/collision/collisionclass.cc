@@ -1,10 +1,10 @@
-#include "collisionmask.h"
+#include "collisionclass.h"
 #include "pyramidworks/collision/collisionobject.h"
 
 namespace pyramidworks {
 namespace collision {
 
-const CollisionObjectList CollisionMask::FindCollidingObjects(CollisionObject *target) const {
+const CollisionObjectList CollisionClass::FindCollidingObjects(CollisionObject *target) const {
     CollisionObjectList result;
     CollisionObjectList::const_iterator it;
 
@@ -16,11 +16,11 @@ const CollisionObjectList CollisionMask::FindCollidingObjects(CollisionObject *t
     return result;
 }
     
-void CollisionMask::AddObject(CollisionObject *obj) { 
+void CollisionClass::AddObject(CollisionObject *obj) { 
     objects_.push_front(obj);
 }
 
-void CollisionMask::RemoveObject(CollisionObject *obj) { 
+void CollisionClass::RemoveObject(CollisionObject *obj) { 
     objects_.remove(obj); 
 }
 
