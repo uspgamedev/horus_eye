@@ -62,6 +62,6 @@ void PharaohSummonWeapon::Attack() {
         world->IncreaseNumberOfEnemies();
     }
 
-    //TODO:REACTIVATE owner_->set_mana( owner_->mana() - utils::Constants::PHARAOH_SUMMON_MANA_COST );
-    //TODO:REACTIVATE ((sprite::Mummy*)owner_)->StartAttack(hero);
+    owner_->set_mana( owner_->mana() - utils::Constants::PHARAOH_SUMMON_MANA_COST );
+    ((sprite::Mummy*)owner_)->StartAttack(hero);
 }
