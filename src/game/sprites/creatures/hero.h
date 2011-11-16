@@ -8,12 +8,12 @@
 #include "game/skills/castarguments.h"
 
 namespace skills {
-class AbstractSkill;
+class Skill;
 } // skills
 
 namespace ugdk {
 class Image;
-}
+} // ugdk
 
 namespace sprite {
 
@@ -25,10 +25,10 @@ class Hero : public Creature {
 
     skills::castarguments::Aim* aim() { return aim_; }
 
-    void AddWeapon(int slot, skills::AbstractSkill* combat_art);
+    void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttack();
     void StartExplosion();
-    skills::AbstractSkill* secondary_combat_art() { return secondary_weapon_; }
+    skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
 	void Invulnerable(int time);
 
@@ -36,10 +36,10 @@ class Hero : public Creature {
     ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
     float time_to_recover_speed_;
-    std::map<int, skills::AbstractSkill*> weapons_;
+    std::map<int, skills::Skill*> weapons_;
     int slot_selected_;
     float light_oscilation_;
-    skills::AbstractSkill *secondary_weapon_;
+    skills::Skill *secondary_weapon_;
 
     skills::castarguments::Aim* aim_;
 

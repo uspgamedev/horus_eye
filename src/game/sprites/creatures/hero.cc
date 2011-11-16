@@ -21,7 +21,7 @@
 
 #include "game/skills/herobaseweapon.h"
 #include "game/skills/castarguments.h"
-#include "game/skills/abstractskill.h"
+#include "game/skills/skill.h"
 
 #include <cmath>
 #include <iostream>
@@ -85,7 +85,7 @@ Hero::~Hero() {
     delete aim_;
 }
 
-void Hero::AddWeapon(int slot, skills::AbstractSkill* combat_art) {
+void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
     if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
 }

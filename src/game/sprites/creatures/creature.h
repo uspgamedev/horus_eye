@@ -17,7 +17,7 @@ class AnimationSet;
 }
 
 namespace skills {
-class AbstractSkill;
+class Skill;
 }
 
 namespace sprite {
@@ -63,7 +63,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual void UpdateCondition(float dt);
     virtual void TakeDamage(float life_points);
     virtual void Die() {}
-    void set_weapon(skills::AbstractSkill *weapon) { weapon_ = weapon; }
+    void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
 
     // Colisoes
     static void InitializeAnimations();
@@ -123,7 +123,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeAttackingAnimations();
 
     // The base weapon this creature uses.
-    skills::AbstractSkill *weapon_;
+    skills::Skill *weapon_;
 
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;

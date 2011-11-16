@@ -12,8 +12,6 @@ namespace sprite {
 
 class Pharaoh : public Mummy {
 
-//TODO:REACTIVATE 
-/*
   public:
     Pharaoh(ugdk::Image* image, int life, int mana);
     ~Pharaoh();
@@ -30,7 +28,7 @@ class Pharaoh : public Mummy {
 	bool CanAttackWithMeele(Vector2D diff);
 	bool CanAttackWithRangedWeapon(Vector2D diff);
     void Think(float dt);
-    */
+
 };
 
 }

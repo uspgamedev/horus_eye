@@ -5,7 +5,7 @@
 namespace skills {
 
 template<class CastArgument_T>
-class CombatArt : public Skill<CastArgument_T> {
+class CombatArt : public ArgSkill<CastArgument_T> {
   public:
     typedef CastArgument_T CastArgument;
 
@@ -20,7 +20,7 @@ class CombatArt : public Skill<CastArgument_T> {
 
   protected:
     CombatArt(ugdk::Image* icon, const CastArgument* cast_argument = NULL)
-      : Skill<CastArgument>(icon, cast_argument) {}
+      : ArgSkill<CastArgument>(icon, cast_argument) {}
 };
 
 } // skills
