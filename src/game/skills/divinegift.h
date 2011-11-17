@@ -2,9 +2,13 @@
 #define HORUSEYE_GAME_SKILLS_DIVINEGIFT_H_
 
 #include "game/resources/simpleresource.h"
-#include "game/resources/blockresource.h"
+#include "game/resources/countableresource.h"
 
-#include "game/skills/skill.h"
+#include "game/skills/combatart.h"
+
+namespace ugdk {
+class Image;
+}
 
 namespace skills {
 
@@ -14,20 +18,26 @@ class DivineGift : public CombatArt<CastArgument_T> {
     virtual ~DivineGift() {}
     typedef CastArgument_T CastArgument;
 
-  protected:
+    // We need to remove these.
+	virtual float range() = 0;
+	virtual void Attack() = 0;
+	virtual bool Available() const = 0;
+    // end
 
-    CombatArt(ugdk::Image* icon,
-              float cost,
-              resource::SimpleResource& caster_mana,
-              resource::CountableResource& caster_blocks
-              const CastArgument& cast_argument)
-      : ArgSkill<CastArgument>(icon, cast_argument),
-        cost_(cost),
-        caster_mana_(caster_mana),
+    virtual void Use() { Attack(); }
+    virtual bool IsValidUse() const { return Available(); }
+
+  protected:
+    DivineGift(ugdk::Image* icon,
+               float cost,
+               resource::SimpleResource& caster_mana,
+               resource::CountableResource& caster_blocks,
+               const CastArgument& cast_argument
+              )
+      : CombatArt<CastArgument>(icon,cost,caster_mana,cast_argument),
         caster_blocks_(caster_blocks) {}
 
     resource::CountableResource& caster_blocks_;
-
 };
 
 } // skills

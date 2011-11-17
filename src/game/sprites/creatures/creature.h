@@ -10,7 +10,7 @@
 #include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
-#include <game/resources/simpleresource.h>
+#include "game/resources/simpleresource.h"
 #include "game/skills/castarguments.h"
 
 namespace ugdk {

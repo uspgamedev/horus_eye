@@ -43,8 +43,8 @@ void HeroExplosionWeapon::Attack(){
 }
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Position>(
-        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim().destination_
+    : DivineGift<castarguments::Position>(
+        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->mana_blocks(), owner->aim().destination_
       ),
       hero_(owner) {
     HudImageFactory imfac;
