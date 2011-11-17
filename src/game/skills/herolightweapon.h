@@ -18,9 +18,7 @@ class HeroLightWeapon : public CombatArt<castarguments::Aim> {
 
     virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; } // TODO: change to another value
     virtual void Attack();
-
-  private:
-    sprite::Hero *hero_;
+    virtual bool Available() const;
 };
 
 }//namespace

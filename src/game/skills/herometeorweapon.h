@@ -12,11 +12,9 @@ class HeroMeteorWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroMeteorWeapon(sprite::Hero* owner);
 
-    virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; } // TODO: change to another value
+    virtual float range() const { return 0.0f; }
     virtual void Attack();
-
-  private:
-    sprite::Hero *hero_;
+    virtual bool Available() const;
 };
 
 } // namespace skills

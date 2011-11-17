@@ -25,12 +25,6 @@ using namespace utils;
 using utils::Constants;
 
 void HeroMeteorWeapon::Attack(){
-    InputManager *input_ = Engine::reference()->input_manager();
-    Vector2D meteor_position = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
-    VisionStrategy vs;
-    if (!vs.IsVisible(meteor_position))
-        return;
-
     World *world = WORLD();
 
     utils::ImageFactory *factory = world->image_factory();
@@ -41,7 +35,7 @@ void HeroMeteorWeapon::Attack(){
 	permanent_light->set_light_radius(4.0f);
 
     sprite::Explosion *explosion = new sprite::Explosion(factory->ExplosionImage(), 
-        sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
+        sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::QUAKE_EXPLOSION_DAMAGE);
 
     std::list<sprite::WorldObject*> list;
     list.push_back(explosion);
@@ -52,20 +46,25 @@ void HeroMeteorWeapon::Attack(){
     warning_effect->Initialize(factory->LightImage());
     warning_effect->set_visible(false);
 
-    world->AddWorldObject(warning_effect, meteor_position);
+    world->AddWorldObject(warning_effect, cast_argument_.destination_);
 
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     
-    hero_->set_mana(hero_->mana() - cost_);
+    caster_mana_ -= cost_;
 }
 
 HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()),
-      hero_(owner)  { // TODO: change cost
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightningIconImage(); // TODO: change icon
+}
+
+bool HeroMeteorWeapon::Available() const {
+    VisionStrategy vs;
+    return CombatArt<castarguments::Aim>::Available() 
+        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
 }
 
 } // namespace skills

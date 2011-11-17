@@ -1,10 +1,10 @@
-#include "herofireballweapon.h"
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/base/engine.h>
 
+#include "herofireballweapon.h"
 
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -14,10 +14,6 @@
 #include "game/utils/settings.h"
 #include "game/sprites/creatures/hero.h"
 
-namespace sprite {
-class Hero;
-}
-
 namespace skills {
 
 using namespace scene;
@@ -26,12 +22,13 @@ using namespace utils;
 using utils::Constants;
 
 void HeroFireballWeapon::Attack() {
-    InputManager *input_ = Engine::reference()->input_manager();
+    //static Vector2D projectile_height = World::FromScreenLinearCoordinates(Vector2D(0,Constants::FIREBALL_SPRITE_CENTER_Y+Constants::FIREBALL_HEIGHT));
 
-    Vector2D versor = (cast_argument_.destination_ - cast_argument_.origin_).Normalize(),
+    Vector2D versor = (cast_argument_.destination_ /*+ projectile_height*/ - cast_argument_.origin_).Normalize(),
              pos = cast_argument_.origin_;
 
     World *world = WORLD();
+
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.Fireball(versor), pos);
 
@@ -51,4 +48,4 @@ HeroFireballWeapon::HeroFireballWeapon(sprite::Hero* owner)
     icon_ = factory.FireballIconImage();
 }
 
-}
+} // namespace skills

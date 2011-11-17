@@ -16,10 +16,6 @@ class HeroLightningWeapon : public CombatArt<castarguments::Aim> {
 
     virtual float range() const { return 0.0f; }
     virtual void Attack();
-
-  private:
-    sprite::Hero *hero_;
-
 };
 
 }//namespace

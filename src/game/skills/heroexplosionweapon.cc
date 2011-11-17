@@ -1,9 +1,9 @@
-#include "heroexplosionweapon.h"
 #include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
-#include <ugdk/audio/audiomanager.h>
-#include <ugdk/action/animation.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/audio/audiomanager.h>
+
+#include "heroexplosionweapon.h"
+
 #include "game/scenes/world.h"
 #include "game/sprites/explosion.h"
 #include "game/utils/visionstrategy.h"
@@ -14,8 +14,7 @@
 
 namespace skills {
 
-using namespace scene;
-using namespace ugdk;
+using scene::World;
 using namespace utils;
 using utils::Constants;
 
@@ -27,30 +26,25 @@ HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
 }
 
 void HeroExplosionWeapon::Attack(){
-    InputManager *input_ = Engine::reference()->input_manager();
     World *world = WORLD();
-    ImageFactory *imfac = world->image_factory();
-    
-    float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
-    VisionStrategy vs;
-    if (distance <= range() && vs.IsVisible(cast_argument_.destination_)) {
-        sprite::Explosion* explosion = new sprite::Explosion(imfac->QuakeImage(),
-                                              sprite::Explosion::HERO_EXPLOSION_WEAPON,
-                                              Constants::QUAKE_EXPLOSION_RADIUS,
-                                              Constants::QUAKE_EXPLOSION_DAMAGE);
-        world->AddWorldObject(explosion, cast_argument_.destination_);
-        utils::Settings settings;
-        if(settings.sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+    sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
+                                            sprite::Explosion::HERO_EXPLOSION_WEAPON,
+                                            Constants::QUAKE_EXPLOSION_RADIUS,
+                                            Constants::QUAKE_EXPLOSION_DAMAGE);
+    world->AddWorldObject(explosion, cast_argument_.destination_);
+    caster_mana_ -= cost_;
 
-        caster_mana_ -= cost_;
-    }
-
+    utils::Settings settings;
+    if(settings.sound_effects())
+        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
 bool HeroExplosionWeapon::Available() const {
+    VisionStrategy vs;
     float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
-    return CombatArt<castarguments::Aim>::Available() && (distance <= range());
+    return CombatArt<castarguments::Aim>::Available() 
+        && (distance <= range()) 
+        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
 }
 
 } // namespace skills
