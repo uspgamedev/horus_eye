@@ -7,16 +7,25 @@
 namespace resource {
 
 class Energy : public ContainedResource<float> {
+
   public:
 
-    explicit Energy(float value = 0.0f, float variation_rate = 0.0f)
-        : ContainedResource<float>(value, 0.0f, value), variation_rate_(variation_rate) {}
+    typedef Resource<int> rate_t;
 
-    void Update(float dt) { (*this) += variation_rate_*dt; }
+    explicit Energy(float value = 0.0f, float variation_base = 0.0f, int variation_rate = 0.0f)
+        : ContainedResource<float>(value, 0.0f, value),
+          variation_base_(variation_base),
+          variation_rate_(variation_rate) {}
+
+    void Update(float dt) { (*this) += variation_rate_.Get()*variation_base_*dt; }
+
+    rate_t& variation_rate() { return variation_rate_; }
 
   private:
 
-    float variation_rate_;
+    // TODO: find a way to make variation_base_ be const.
+    float variation_base_;
+    rate_t variation_rate_;
 
 };
 
