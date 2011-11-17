@@ -28,11 +28,11 @@ void HeroBaseWeapon::Attack(){
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.MagicMissile(versor), pos);
 
+    caster_mana_ -= cost_;
+
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
-
-bool HeroBaseWeapon::Available() const { return true; }
 
 }
