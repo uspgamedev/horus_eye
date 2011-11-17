@@ -4,12 +4,12 @@
 
 namespace sprite {
 
-void Carrier::Explode() {
-    if (explosion_ != NULL) {
-        WORLD()->AddWorldObject(explosion_, this->world_position());
-        explosion_ = NULL;
-    }
-    Projectile::Explode();
+void Carrier::Die() {
+    Projectile::Die();
+    std::list<WorldObject*>::iterator it;
+    for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
+        WORLD()->AddWorldObject(*it, world_position());
+    drop_list_.clear();
 }
 
 }

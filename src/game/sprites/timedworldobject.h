@@ -7,12 +7,14 @@
 namespace sprite {
 
 class TimedWorldObject : public WorldObject {
-  
   public:
+  /** WorldObject that dies after a set duration.
+    *
+    * @param duration Life time of the WorldObject, in seconds.
+    */
     TimedWorldObject(float duration);
     virtual ~TimedWorldObject();
 
-    // The BIG Awesome update method. TODO explain better
     virtual void Update(float dt);
 
   protected:

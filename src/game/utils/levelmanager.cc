@@ -24,6 +24,7 @@
 #include "game/skills/heroexplosionweapon.h"
 #include "game/skills/herolightningweapon.h"
 #include "game/skills/herolightweapon.h"
+#include "game/skills/herometeorweapon.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
@@ -150,6 +151,7 @@ void LevelManager::LoadNextLevel() {
 		hero_->AddWeapon(1, new skills::HeroExplosionWeapon(hero_));
         hero_->AddWeapon(2, new skills::HeroLightningWeapon(hero_));
 		hero_->AddWeapon(3, new skills::HeroLightWeapon(hero_));
+        hero_->AddWeapon(4, new skills::HeroMeteorWeapon(hero_));
 		// Add here the other initial weapons of the hero.
 	}
     current_level_ = new World(hero_);

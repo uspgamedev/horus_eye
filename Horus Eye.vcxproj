@@ -39,6 +39,7 @@
     <ClCompile Include="src\game\skills\herofireballweapon.cc" />
     <ClCompile Include="src\game\skills\herolightningweapon.cc" />
     <ClCompile Include="src\game\skills\herolightweapon.cc" />
+    <ClCompile Include="src\game\skills\herometeorweapon.cc" />
     <ClCompile Include="src\game\skills\mummyrangedweapon.cc" />
     <ClCompile Include="src\game\skills\mummyweapon.cc" />
     <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
@@ -110,6 +111,7 @@
     <ClInclude Include="src\game\skills\herofireballweapon.h" />
     <ClInclude Include="src\game\skills\herolightningweapon.h" />
     <ClInclude Include="src\game\skills\herolightweapon.h" />
+    <ClInclude Include="src\game\skills\herometeorweapon.h" />
     <ClInclude Include="src\game\skills\mummyrangedweapon.h" />
     <ClInclude Include="src\game\skills\mummyweapon.h" />
     <ClInclude Include="src\game\skills\pharaohrangedweapon.h" />

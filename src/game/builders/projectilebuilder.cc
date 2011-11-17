@@ -39,31 +39,28 @@ ugdk::AnimationSet* ProjectileBuilder::lightning_animation_ = NULL;
 ugdk::uint32 ProjectileBuilder::fireball_animation_map_[8], 
              ProjectileBuilder::lightning_animation_map_[8];
 
-COLLISION_DIRECT(Projectile, Explode, data) { 
-    owner_->Explode();
+
+COLLISION_DIRECT(Projectile, Die, data) { 
+    owner_->Die();
 }
 
 COLLISION_DIRECT(Projectile, Damage, obj) {
 	Creature *creature = (Creature *) obj;
-    if (owner_->status() == WorldObject::STATUS_ACTIVE)
+    if (owner_->is_active())
         creature->TakeDamage(owner_->damage());
 }
 
-COLLISION_DIRECT(Projectile, DamageAndExplode, obj) {
+COLLISION_DIRECT(Projectile, DamageAndDie, obj) {
 	Creature *creature = (Creature *) obj;
-    if (owner_->status() == WorldObject::STATUS_ACTIVE)
+    if (owner_->is_active())
         creature->TakeDamage(owner_->damage());
-    owner_->Explode();
-}
-
-COLLISION_DIRECT(Projectile, ProjExplode, data) { 
-    owner_->Explode();
+    owner_->Die();
 }
 
 static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {
     CollisionObject* col = new CollisionObject(proj);
     col->set_collision_class(GET_COLLISIONMASK(Projectile));
-    col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new ProjExplode(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new Die(proj));
     proj->set_collision_object(col);
     proj->set_shape(new pyramidworks::geometry::Circle(radius));
     return col;
@@ -102,7 +99,7 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
     proj->set_light_radius(1.0f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndExplode(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndDie(proj));
     return proj;
 }
 
@@ -113,7 +110,7 @@ Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
     proj->set_light_radius(0.75f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndExplode(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndDie(proj));
     return proj;
 }
 
@@ -145,7 +142,7 @@ Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
 
 
     CollisionObject* col = buildBasicCollision(proj, 0.25f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndExplode(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new Die(proj));
     return proj;
 }
 
