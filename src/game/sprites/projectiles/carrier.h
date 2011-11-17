@@ -9,11 +9,13 @@ namespace sprite {
 class Explosion;
 class Carrier : public Projectile {
   public:
-    Carrier(float speed, int duration, ugdk::Vector2D &dir, WorldObject *explosion) :
-        Projectile(0.0f, speed, duration, dir), explosion_(explosion) {}
+    Carrier(float speed, int duration, ugdk::Vector2D &dir, WorldObject *explosion) 
+        :   Projectile(0.0f, speed, duration, dir), 
+            explosion_(explosion) 
+            {}
 
+    virtual void Die();
   protected:
-    virtual void Explode();
     WorldObject *explosion_;
 };
 

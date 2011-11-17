@@ -4,12 +4,12 @@
 
 namespace sprite {
 
-void Carrier::Explode() {
+void Carrier::Die() {
     if (explosion_ != NULL) {
         WORLD()->AddWorldObject(explosion_, this->world_position());
         explosion_ = NULL;
     }
-    Projectile::Explode();
+    Projectile::Die();
 }
 
 }

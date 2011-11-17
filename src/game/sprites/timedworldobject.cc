@@ -1,11 +1,13 @@
 #include "timedworldobject.h"
 
+#define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
+
 namespace sprite {
 
- TimedWorldObject::TimedWorldObject(float duration)
+TimedWorldObject::TimedWorldObject(float duration)
     : WorldObject(),
-      timed_life_(new ugdk::TimeAccumulator((int)(duration * 1000))) {
-}
+      timed_life_(new ugdk::TimeAccumulator(SECONDS_TO_MILISECONDS(duration))) 
+    {}
 
 TimedWorldObject::~TimedWorldObject() {
     delete timed_life_;
@@ -13,8 +15,7 @@ TimedWorldObject::~TimedWorldObject() {
 
 void TimedWorldObject::Update(float dt) {
     WorldObject::Update(dt);
-	if(timed_life_->Expired())
-		this->status_ = WorldObject::STATUS_DEAD;
+	if(timed_life_->Expired() && is_active()) Die();
 }
 
 }  // namespace sprite

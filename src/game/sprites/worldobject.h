@@ -46,6 +46,8 @@ class WorldObject : public ugdk::Sprite {
     // The BIG Awesome update method. TODO explain better
     virtual void Update(float dt);
 
+    bool is_active() const { return status_ == STATUS_ACTIVE; }
+    virtual void Die() { status_ = STATUS_DEAD; }
     virtual void StartToDie();
 
     // The BIG Awesome drawable. TODO explain better

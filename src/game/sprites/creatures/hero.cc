@@ -209,7 +209,9 @@ void Hero::StartAttackAnimation() {
 
 void Hero::StartExplosion() {
     StartAttackAnimation();
-    //BreakManaBlocks(1); used for testing.
+    // used for testing.
+    //if(secondary_weapon_ == weapons_[0])
+    //    BreakManaBlocks(1); 
 }
 
 bool Hero::ShootingWithWeapon() {
