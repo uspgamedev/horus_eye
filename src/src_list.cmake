@@ -30,6 +30,7 @@ SET(GAME_SRCS
     ./src/game/skills/castarguments.h 
     ./src/game/skills/herolightweapon.h 
     ./src/game/skills/pharaohrangedweapon.h 
+    ./src/game/skills/herometeorweapon.h 
     ./src/game/skills/herobaseweapon.h 
     ./src/game/skills/herobaseweapon.cc 
     ./src/game/skills/mummyweapon.cc 
@@ -43,6 +44,7 @@ SET(GAME_SRCS
     ./src/game/skills/skill.h 
     ./src/game/skills/mummyrangedweapon.cc 
     ./src/game/skills/pharaohsummonweapon.cc 
+    ./src/game/skills/herometeorweapon.cc 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/mummybuilder.cc 
     ./src/game/builders/projectilebuilder.cc 

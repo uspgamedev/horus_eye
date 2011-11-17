@@ -222,7 +222,7 @@ bool Hero::ShootingWithSecondaryWeapon() {
 }
 
 void Hero::UpdateAim() {
-    // Setting up the Aim ressource and local variables.
+    // Setting up the Aim resource and local variables.
     InputManager *input = Engine::reference()->input_manager();
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
 
