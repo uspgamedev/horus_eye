@@ -5,11 +5,11 @@
 namespace sprite {
 
 void Carrier::Die() {
-    if (explosion_ != NULL) {
-        WORLD()->AddWorldObject(explosion_, this->world_position());
-        explosion_ = NULL;
-    }
     Projectile::Die();
+    std::list<WorldObject*>::iterator it;
+    for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
+        WORLD()->AddWorldObject(*it, world_position());
+    drop_list_.clear();
 }
 
 }
