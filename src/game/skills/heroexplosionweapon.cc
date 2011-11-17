@@ -43,7 +43,9 @@ void HeroExplosionWeapon::Attack(){
 }
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()),
+    : CombatArt<castarguments::Position>(
+        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim().destination_
+      ),
       hero_(owner) {
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
@@ -53,4 +55,4 @@ bool HeroExplosionWeapon::Available() const {
     return hero_->mana().Has(cost_);
 }
 
-}
+} // skills

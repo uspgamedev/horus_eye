@@ -25,8 +25,10 @@ class CombatArt : public ArgSkill<CastArgument_T> {
 
   protected:
 
-    CombatArt(ugdk::Image* icon, float cost, resource::SimpleResource& caster_mana,
-              const CastArgument* cast_argument = NULL)
+    CombatArt(ugdk::Image* icon,
+              float cost,
+              resource::SimpleResource& caster_mana,
+              const CastArgument& cast_argument)
       : ArgSkill<CastArgument>(icon, cast_argument), cost_(cost), caster_mana_(caster_mana) {}
 
     const float cost_;

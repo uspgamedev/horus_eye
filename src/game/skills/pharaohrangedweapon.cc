@@ -22,7 +22,7 @@ void PharaohRangedWeapon::Attack(){
     sprite::Hero* hero = world->hero();
 
     //TODO:FIX 
-    Vector2D pos = cast_argument_->origin;
+    Vector2D pos = cast_argument_.origin_;
     Vector2D distance = hero->world_position() - pos;
     
     float angle = atan2(1.5f, distance.length()); 

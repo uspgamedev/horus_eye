@@ -12,7 +12,7 @@ class Hero;
 
 namespace skills {
 
-class HeroExplosionWeapon : public CombatArt<castarguments::Aim> {
+class HeroExplosionWeapon : public CombatArt<castarguments::Position> {
   public:
     HeroExplosionWeapon(sprite::Hero* owner);
 
@@ -25,6 +25,6 @@ class HeroExplosionWeapon : public CombatArt<castarguments::Aim> {
     int cost_;
 };
 
-}//namespace
+} // skills
 
 #endif /* HORUSEYE_GAME_SKILLS_HEROBASEWEAPON_H_ */

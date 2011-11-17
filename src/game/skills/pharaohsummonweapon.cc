@@ -27,15 +27,15 @@ void PharaohSummonWeapon::Attack() {
     sprite::Hero* hero = world->hero();
 
     //TODO:FIX
-    Vector2D direction = (hero->world_position() - cast_argument_->origin ).Normalize();
-    Vector2D mummyPos = direction*range() + cast_argument_->origin;
+    Vector2D direction = (hero->world_position() - cast_argument_.origin_ ).Normalize();
+    Vector2D mummyPos = direction*range() + cast_argument_.origin_;
 
     utils::GameMap& map = world->level_matrix();
     utils::Tile *tile = utils::Tile::GetFromWorldPosition(map, mummyPos);
     if(isObstacle(tile) || isObstacle(tile->Up(map)) || isObstacle(tile->Down(map))
             || isObstacle(tile->Left(map)) || isObstacle(tile->Right(map)) )
     //if(!strategy.IsVisible(owner_->world_position(), mummyPos))
-        mummyPos = cast_argument_->origin;
+        mummyPos = cast_argument_.origin_;
     /* The choice of mummy type to summon here is based on a discrete percent probability.
        A value in the range [0, 100[ is chosen randomly, and then depending on where it
        sits in the range, according to boundaries determined by our SUMMON_<>_CHANCE defines,

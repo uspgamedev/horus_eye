@@ -78,7 +78,6 @@ Hero::Hero(Image* img)
     super_armor_ = true;
 
     slot_selected_ = -1;
-    aim_ = new skills::castarguments::Aim();
     weapon_ = new skills::HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
 
@@ -91,9 +90,7 @@ Hero::Hero(Image* img)
     ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
 }
 
-Hero::~Hero() {
-    delete aim_;
-}
+Hero::~Hero() {}
 
 float Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
@@ -227,8 +224,7 @@ void Hero::UpdateAim() {
     InputManager *input = Engine::reference()->input_manager();
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
 
-    aim_->origin = world_position();
-    aim_->destination = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
+    aim_destination_ = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
 }
 
 void Hero::Update(float delta_t) {

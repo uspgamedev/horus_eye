@@ -23,10 +23,11 @@ HeroBaseWeapon::HeroBaseWeapon(sprite::Hero* owner)
 void HeroBaseWeapon::Attack(){
     World *world = WORLD();
 
-    Vector2D versor = (cast_argument_->destination - cast_argument_->origin).Normalize(),
-             pos = cast_argument_->origin;
+    Vector2D versor = (cast_argument_.destination_ - cast_argument_.origin_).Normalize(),
+             pos = cast_argument_.origin_;
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.MagicMissile(versor), pos);
+
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();

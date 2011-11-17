@@ -42,10 +42,10 @@ class ArgSkill : public Skill {
     typedef CastArgument_T CastArgument;
 
   protected:
-    ArgSkill(ugdk::Image* icon, const CastArgument* cast_argument = NULL)
+    ArgSkill(ugdk::Image* icon, const CastArgument& cast_argument)
         : Skill(icon), cast_argument_(cast_argument) {}
 
-    const CastArgument* cast_argument_;
+    const CastArgument& cast_argument_;
 };
 
 } // skills

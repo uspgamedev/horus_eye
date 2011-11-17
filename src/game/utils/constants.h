@@ -7,66 +7,67 @@ namespace utils {
 
 class Constants {
   public:
-    const static int   PROJECTILE_SPRITE_WIDTH = 32,
-                       PROJECTILE_SPRITE_HEIGHT = 32,
-                       PROJECTILE_DURATION = 3500,
+    const static int
+        PROJECTILE_SPRITE_WIDTH = 32,
+        PROJECTILE_SPRITE_HEIGHT = 32,
+        PROJECTILE_DURATION = 3500,
 
-                       EXPLOSION_SPRITE_WIDTH = 128,
-                       EXPLOSION_SPRITE_HEIGHT = 256,
-                       EXPLOSION_DURATION = 3000,
+        EXPLOSION_SPRITE_WIDTH = 128,
+        EXPLOSION_SPRITE_HEIGHT = 256,
+        EXPLOSION_DURATION = 3000,
 
-                       LIGHTNING_SPRITE_WIDTH = 64,
-                       LIGHTNING_SPRITE_HEIGHT = 64,
-                       LIGHTNING_DURATION = 3500,
+        LIGHTNING_SPRITE_WIDTH = 64,
+        LIGHTNING_SPRITE_HEIGHT = 64,
+        LIGHTNING_DURATION = 3500,
 
-                       FIREBALL_SPRITE_WIDTH = 64,
-                       FIREBALL_SPRITE_HEIGHT = 64,
-                       FIREBALL_DURATION = 3500,
+        FIREBALL_SPRITE_WIDTH = 64,
+        FIREBALL_SPRITE_HEIGHT = 64,
+        FIREBALL_DURATION = 3500,
                        
-                       PROJECTILE_DAMAGE = 200,
+        PROJECTILE_DAMAGE = 200,
 
-                       LIFEPOTION_RECOVER_LIFE = 200,
-                       MANAPOTION_RECOVER_MANA = 200,
+        LIFEPOTION_RECOVER_LIFE = 200,
+        MANAPOTION_RECOVER_MANA = 200,
                        
-                       HERO_WIDTH = 110,
-                       HERO_HEIGHT = 110,
-                       HERO_HOTSPOT_X = 55,
-                       HERO_HOTSPOT_Y = 102,
-                       HERO_MAX_WEAPONS = 5,
-                       HERO_MIN_MANA_BLOCKS = 1,
-                       HERO_MAX_MANA_BLOCKS = 5,
-                       HERO_BASE_MANA_REGEN_RATIO = 3,
+        HERO_WIDTH = 110,
+        HERO_HEIGHT = 110,
+        HERO_HOTSPOT_X = 55,
+        HERO_HOTSPOT_Y = 102,
+        HERO_MAX_WEAPONS = 5,
+        HERO_MIN_MANA_BLOCKS = 1,
+        HERO_MAX_MANA_BLOCKS = 5,
+        HERO_BASE_MANA_REGEN_RATIO = 3,
 
-                       SIGHT_POTION_MAX_STACK = 5,
+        SIGHT_POTION_MAX_STACK = 5,
 
-                       LIFE_BAR_OFFSET_X = 36,
-                       LIFE_BAR_OFFSET_Y = 100,
-                       MANA_BAR_OFFSET_X = 36,
-                       MANA_BAR_OFFSET_Y = 100,                 
-                       TOTEM_OFFSET_X = 36,
-                       TOTEM_OFFSET_Y = 80,
+        LIFE_BAR_OFFSET_X = 36,
+        LIFE_BAR_OFFSET_Y = 100,
+        MANA_BAR_OFFSET_X = 36,
+        MANA_BAR_OFFSET_Y = 100,                 
+        TOTEM_OFFSET_X = 36,
+        TOTEM_OFFSET_Y = 80,
 
-					   MUMMY_LIFE = 400,
-					   MUMMY_DAMAGE = 200,
+		MUMMY_LIFE = 400,
+		MUMMY_DAMAGE = 200,
 
-                       RANGED_MUMMY_LIFE = 400,
-                       RANGED_MUMMY_DAMAGE = 200,
+        RANGED_MUMMY_LIFE = 400,
+        RANGED_MUMMY_DAMAGE = 200,
 
-                       BIG_MUMMY_LIFE = 1200,
-                       BIG_MUMMY_DAMAGE = 300,
+        BIG_MUMMY_LIFE = 1200,
+        BIG_MUMMY_DAMAGE = 300,
 
-                       FIREBALL_EXPLOSION_DAMAGE = 200,
-                       FIREBALL_COST = 200,
-                       QUAKE_EXPLOSION_DAMAGE = 400,
-                       QUAKE_COST = 300,
-                       LIGHTNING_DAMAGE = 150,
-                       LIGHTNING_COST = 100,
+        FIREBALL_EXPLOSION_DAMAGE = 200,
+        FIREBALL_COST = 200,
+        QUAKE_EXPLOSION_DAMAGE = 400,
+        QUAKE_COST = 300,
+        LIGHTNING_DAMAGE = 150,
+        LIGHTNING_COST = 100,
 
-					   PHARAOH_LIFE = 6000,
-					   PHARAOH_MANA = 200,
-					   PHARAOH_SUMMON_MANA_COST = 60,
-					   PHARAOH_DAMAGE = 400,
-					   PHARAOH_RANGED_DAMAGE = 200;
+		PHARAOH_LIFE = 6000,
+		PHARAOH_MANA = 200,
+		PHARAOH_SUMMON_MANA_COST = 60,
+		PHARAOH_DAMAGE = 400,
+		PHARAOH_RANGED_DAMAGE = 200;
 
 
     const static float

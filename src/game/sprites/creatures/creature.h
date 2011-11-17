@@ -63,7 +63,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
 
-    skills::castarguments::Aim* aim() { return aim_; }
+    skills::castarguments::Aim& aim() { return aim_; }
 
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
@@ -166,7 +166,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     std::list<Condition*> conditions_;
 
     // Where this creature is aiming.
-    skills::castarguments::Aim* aim_;
+    skills::castarguments::Position aim_destination_;
+    skills::castarguments::Aim aim_;
 
 };  // class Creature
 

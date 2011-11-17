@@ -310,7 +310,7 @@ Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
 }
 
 const Vector2D World::ConvertLightRadius(float radius) {
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
+    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392f;
     return ellipse_coords;
 }
 
