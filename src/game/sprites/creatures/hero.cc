@@ -34,7 +34,7 @@ using namespace std;
 using namespace ugdk;
 using namespace utils;
 using resource::Resource;
-using resource::SimpleResource;
+using resource::Energy;
 using resource::CountableResource;
 
 namespace sprite {
@@ -69,8 +69,8 @@ Hero::Hero(Image* img)
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     // Initializing life and mana
-    life_ = SimpleResource(Constants::HERO_MAX_LIFE);
-    mana_ = SimpleResource(mana_blocks_.Get()*Constants::HERO_MANA_PER_BLOCK);
+    life_ = Energy(Constants::HERO_MAX_LIFE);
+    mana_ = Energy(mana_blocks_.Get()*Constants::HERO_MANA_PER_BLOCK);
     mana_regen_ = Constants::HERO_MANA_REGEN_BASE;
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
@@ -215,7 +215,7 @@ bool Hero::ShootingWithSecondaryWeapon() {
 }
 
 void Hero::UpdateAim() {
-    // Setting up the Aim ressource and local variables.
+    // Setting up the Aim resource and local variables.
     InputManager *input = Engine::reference()->input_manager();
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
 
