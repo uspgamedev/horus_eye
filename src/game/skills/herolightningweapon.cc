@@ -38,15 +38,16 @@ void HeroLightningWeapon::Attack() {
 }
 
 
-HeroLightningWeapon::HeroLightningWeapon(sprite::Hero* owner) : CombatArt(NULL,owner->aim()), hero_(owner), 
-        cost_(utils::Constants::LIGHTNING_COST) {
+HeroLightningWeapon::HeroLightningWeapon(sprite::Hero* owner)
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, owner->mana(), owner->aim()),
+      hero_(owner)  {
     HudImageFactory factory;
     icon_ = factory.LightningIconImage();
 }
 
 
 bool HeroLightningWeapon::Available() const {
-    return hero_->mana() >= cost_;
+    return hero_->mana().Has(cost_);
 }
 
 }

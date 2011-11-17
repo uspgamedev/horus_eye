@@ -93,7 +93,7 @@ void Creature::AdjustBlink(float delta_t) {
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(), 
+    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(),
         (float) life_, (float) life_ - life_points, life_points);
 #endif
     PlayHitSound();

@@ -1,3 +1,7 @@
+
+#include <cstdlib>
+#include <cstdio>
+
 #include "collisionobject.h"
 
 #include "pyramidworks/collision/collisionclass.h"

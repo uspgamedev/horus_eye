@@ -64,6 +64,9 @@ namespace utils {
 
         lightning_image_ = VIDEO_MANAGER()->LoadImage("data/images/lightning_bolt.png");
         if(lightning_image_) lightning_image_->set_frame_size(Vector2D(64, 64));
+
+        light_image_ = VIDEO_MANAGER()->LoadImage("data/images/yellow_fire_ball.png");
+        if(light_image_) light_image_->set_frame_size( Vector2D(32, 32) );
     }
     
     Image* ImageFactory::HeroImage(){
@@ -119,6 +122,9 @@ namespace utils {
     }
     Image* ImageFactory::LightningImage() {
         return lightning_image_;
+    }
+    Image* ImageFactory::LightImage() {
+        return light_image_;
     }
 }
 

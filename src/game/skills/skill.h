@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_GAME_SKILLS_SKILL_H_
 #define HORUSEYE_GAME_SKILLS_SKILL_H_
 
+#include <cstdlib>
+
 #include "game/skills/skill.h"
 
 namespace ugdk {
@@ -12,6 +14,9 @@ namespace skills {
 class Skill {
 
   public:
+
+    virtual ~Skill() {}
+
     ugdk::Image* icon() const { return icon_; }
 
     virtual void Use() = 0; // Not const, since it can affect the weapon itself, i.e. cooldowns.

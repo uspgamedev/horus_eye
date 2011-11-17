@@ -84,7 +84,7 @@ Hero::Hero(Image* img)
 
     light_oscilation_ = 0.0f;
     
-    printf("hero: %d\n", (int) collision_object_);
+    printf("hero: %lu\n", (unsigned long int) collision_object_);
 
     SET_COLLISIONCLASS(Hero);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));

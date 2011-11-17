@@ -21,8 +21,6 @@ class HeroFireballWeapon : public CombatArt<castarguments::Aim> {
   private:
 
     sprite::Hero *hero_;
-    int cost_;
-
 };
 
 }//namespace

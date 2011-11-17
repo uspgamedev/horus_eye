@@ -29,7 +29,7 @@ void HeroFireballWeapon::Attack() {
     InputManager *input_ = Engine::reference()->input_manager();
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     World *world_ = WORLD();
-    ImageFactory *factory = world_->image_factory();
+    //ImageFactory *factory = world_->image_factory();
     // Ajuste da altura do projetil.
     Vector2D versor = (WORLD()->FromScreenCoordinates(input_->GetMousePosition() + projectile_height)-hero_->world_position()).Normalize(),
              pos = hero_->world_position();
@@ -45,7 +45,9 @@ void HeroFireballWeapon::Attack() {
 }
 
 
-HeroFireballWeapon::HeroFireballWeapon(sprite::Hero* owner) : CombatArt(NULL,owner->aim()), hero_(owner), cost_(utils::Constants::FIREBALL_COST) {
+HeroFireballWeapon::HeroFireballWeapon(sprite::Hero* owner)
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::FIREBALL_COST, owner->mana(), owner->aim()),
+      hero_(owner) {
     HudImageFactory factory;
     icon_ = factory.FireballIconImage();
 }
