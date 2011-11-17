@@ -107,6 +107,7 @@
     <ClInclude Include="src\game\skills\casttypes\aimedcast.h" />
     <ClInclude Include="src\game\skills\casttypes\casttype.h" />
     <ClInclude Include="src\game\skills\casttypes\ressources.h" />
+    <ClInclude Include="src\game\skills\divinegift.h" />
     <ClInclude Include="src\game\skills\heroexplosionweapon.h" />
     <ClInclude Include="src\game\skills\herofireballweapon.h" />
     <ClInclude Include="src\game\skills\herolightningweapon.h" />
