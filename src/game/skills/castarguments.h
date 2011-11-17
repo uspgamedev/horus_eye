@@ -21,11 +21,11 @@ typedef ugdk::Vector2D Position;
  */
 class Aim {
   public:
-    Aim(Position& origin, Position& destination)
+    Aim(const Position& origin, const Position& destination)
         : origin_(origin), destination_(destination) {}
 
-    Position& origin_;
-    Position& destination_;
+    const Position& origin_;
+    const Position& destination_;
 };
 
 } // castarguments

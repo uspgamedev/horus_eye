@@ -14,14 +14,11 @@ class HeroLightningWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroLightningWeapon(sprite::Hero* owner);
 
-    virtual float range(){ return 0.0f; }
+    virtual float range() const { return 0.0f; }
     virtual void Attack();
-    virtual bool Available() const;
 
   private:
-
     sprite::Hero *hero_;
-    int cost_;
 
 };
 

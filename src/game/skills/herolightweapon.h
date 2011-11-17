@@ -16,13 +16,11 @@ class HeroLightWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroLightWeapon(sprite::Hero* owner);
 
-    virtual float range() { return utils::Constants::QUAKE_EXPLOSION_RANGE; } // TODO: change to another value
+    virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; } // TODO: change to another value
     virtual void Attack();
-    virtual bool Available() const;
 
   private:
     sprite::Hero *hero_;
-    int cost_;
 };
 
 }//namespace

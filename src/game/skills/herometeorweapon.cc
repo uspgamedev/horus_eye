@@ -57,7 +57,7 @@ void HeroMeteorWeapon::Attack(){
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    hero_->StartExplosion();
+    
     hero_->set_mana(hero_->mana() - cost_);
 }
 
@@ -68,8 +68,4 @@ HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)
     icon_ = imfac.LightningIconImage(); // TODO: change icon
 }
 
-bool HeroMeteorWeapon::Available() const {
-    return hero_->mana().Has(cost_);
-}
-
-}
+} // namespace skills

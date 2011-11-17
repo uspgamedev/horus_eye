@@ -33,6 +33,4 @@ void HeroBaseWeapon::Attack(){
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
-bool HeroBaseWeapon::Available() const { return true; }
-
 }

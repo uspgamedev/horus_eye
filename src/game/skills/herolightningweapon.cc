@@ -32,7 +32,7 @@ void HeroLightningWeapon::Attack() {
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    hero_->StartExplosion();
+    
     hero_->set_mana(hero_->mana() - cost_);
 
 }
@@ -45,9 +45,4 @@ HeroLightningWeapon::HeroLightningWeapon(sprite::Hero* owner)
     icon_ = factory.LightningIconImage();
 }
 
-
-bool HeroLightningWeapon::Available() const {
-    return hero_->mana().Has(cost_);
-}
-
-}
+} // namespace skills

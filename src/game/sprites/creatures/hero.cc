@@ -204,21 +204,14 @@ void Hero::StartAttackAnimation() {
     this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
-void Hero::StartExplosion() {
-    StartAttackAnimation();
-    // used for testing.
-    //if(secondary_weapon_ == weapons_[0])
-    //    BreakManaBlocks(1); 
-}
-
 bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Available();
+    return input_->MouseDown(M_BUTTON_LEFT) && weapon_;
 }
 
 bool Hero::ShootingWithSecondaryWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
+    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_;
 }
 
 void Hero::UpdateAim() {
@@ -231,16 +224,25 @@ void Hero::UpdateAim() {
 
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
-    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+    if(is_active()) {
+        if(!waiting_animation_) {
+            if (ShootingWithWeapon()) {
+                UpdateAim();
+                if(weapon_->Available()) {
+                    StartAttackAnimation();
+                    weapon_->Attack();
+                }
 
-        if (ShootingWithWeapon()) {
-            UpdateAim();
-            this->StartAttackAnimation();
-            weapon_->Attack();
-        } else if (ShootingWithSecondaryWeapon()) {
-            UpdateAim();
-            secondary_weapon_->Attack();
-        } else {
+            } else if (ShootingWithSecondaryWeapon()) {
+                UpdateAim();
+                if(secondary_weapon_->Available()) {
+                    StartAttackAnimation();
+                    secondary_weapon_->Attack();
+                }
+
+            }
+        }
+        if(!waiting_animation_) {
             Creature::Move(this->GetWalkingDirection(), delta_t);
             this->GetKeys();
             if (animation_direction_)

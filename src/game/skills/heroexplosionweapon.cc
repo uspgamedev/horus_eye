@@ -19,40 +19,38 @@ using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 
+HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner) 
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) {
+
+    HudImageFactory imfac;
+    icon_ = imfac.EarthquakeIconImage();
+}
+
 void HeroExplosionWeapon::Attack(){
     InputManager *input_ = Engine::reference()->input_manager();
     World *world = WORLD();
     ImageFactory *imfac = world->image_factory();
     
-    Vector2D explosionPosition = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
-    float distance = (hero_->world_position() - explosionPosition).length();
+    float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
     VisionStrategy vs;
-    if (distance <= range() && vs.IsVisible(explosionPosition)) {
+    if (distance <= range() && vs.IsVisible(cast_argument_.destination_)) {
         sprite::Explosion* explosion = new sprite::Explosion(imfac->QuakeImage(),
                                               sprite::Explosion::HERO_EXPLOSION_WEAPON,
                                               Constants::QUAKE_EXPLOSION_RADIUS,
                                               Constants::QUAKE_EXPLOSION_DAMAGE);
-        world->AddWorldObject(explosion, explosionPosition);
+        world->AddWorldObject(explosion, cast_argument_.destination_);
         utils::Settings settings;
         if(settings.sound_effects())
             Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-        hero_->StartExplosion();
-        hero_->set_mana(hero_->mana() - cost_);
+
+        caster_mana_ -= cost_;
     }
 
 }
 
-HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Position>(
-        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim().destination_
-      ),
-      hero_(owner) {
-    HudImageFactory imfac;
-    icon_ = imfac.EarthquakeIconImage();
-}
-
 bool HeroExplosionWeapon::Available() const {
-    return hero_->mana().Has(cost_);
+    float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
+    return CombatArt<castarguments::Aim>::Available() && (distance <= range());
 }
 
-} // skills
+} // namespace skills

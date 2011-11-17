@@ -12,17 +12,13 @@ class Hero;
 
 namespace skills {
 
-class HeroExplosionWeapon : public CombatArt<castarguments::Position> {
+class HeroExplosionWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroExplosionWeapon(sprite::Hero* owner);
 
-    virtual float range() { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
+    virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
     virtual void Attack();
     virtual bool Available() const;
-
-  private:
-    sprite::Hero *hero_;
-    int cost_;
 };
 
 } // skills

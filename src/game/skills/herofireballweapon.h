@@ -14,15 +14,10 @@ class HeroFireballWeapon : public CombatArt<castarguments::Aim> {
   public:
     HeroFireballWeapon(sprite::Hero* owner);
 
-    virtual float range(){ return 0.0f; }
+    virtual float range() const { return 0.0f; }
     virtual void Attack();
-    virtual bool Available() const;
-
-  private:
-
-    sprite::Hero *hero_;
 };
 
-}//namespace
+} // namespace skills
 
 #endif /* HORUSEYE_GAME_SKILLS_HEROBASEWEAPON_H_ */

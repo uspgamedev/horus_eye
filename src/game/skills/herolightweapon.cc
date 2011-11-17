@@ -39,7 +39,7 @@ void HeroLightWeapon::Attack(){
         utils::Settings settings;
         if(settings.sound_effects())
             Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-        hero_->StartExplosion();
+        
         hero_->set_mana(hero_->mana() - cost_);
     }
 
@@ -52,8 +52,4 @@ HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner)
     icon_ = imfac.EarthquakeIconImage(); // TODO: change icon
 }
 
-bool HeroLightWeapon::Available() const {
-    return hero_->mana().Has(cost_);
-}
-
-}
+} // namespace skills

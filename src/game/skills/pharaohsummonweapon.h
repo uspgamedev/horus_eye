@@ -17,7 +17,7 @@ class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
           owner_(owner) {}
     virtual ~PharaohSummonWeapon() {}
 
-    virtual float range(){ return utils::Constants::PHARAOH_SUMMON_RANGE; }
+    virtual float range() const { return utils::Constants::PHARAOH_SUMMON_RANGE; }
     virtual void Attack();
     virtual bool Available() const {
         return owner_->mana().Has(cost_);

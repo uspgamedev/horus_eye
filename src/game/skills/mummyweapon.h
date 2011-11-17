@@ -14,7 +14,7 @@ class MummyWeapon : public CombatArt<castarguments::Aim> {
         : CombatArt<castarguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
           damage_(damage) {}
 
-    virtual float range(){ return 1.0f; }
+    virtual float range() const { return 1.0f; }
     virtual void Attack();
     virtual bool Available() const { return true; }
   private:

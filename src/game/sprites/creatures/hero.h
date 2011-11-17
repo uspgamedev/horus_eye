@@ -33,7 +33,6 @@ class Hero : public Creature {
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
 
-    void StartExplosion();
     skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
 	void Invulnerable(int time);
