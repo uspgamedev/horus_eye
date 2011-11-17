@@ -10,7 +10,7 @@
 #include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
-#include "game/resources/simpleresource.h"
+#include <game/resources/energy.h>
 #include "game/skills/castarguments.h"
 
 namespace ugdk {
@@ -41,16 +41,16 @@ class Creature : public WorldObject , public ugdk::Observer {
                     ugdk::AnimationSet *set = NULL,
                     bool delete_image = false);
 
-    resource::SimpleResource& life() { return life_; }
-	void set_life(resource::SimpleResource &life) {
+    resource::Energy& life() { return life_; }
+	void set_life(resource::Energy &life) {
 		life_ = life;
 	}
 	void set_life(float life) {
 	    life_.Set(life);
 	}
 
-	resource::SimpleResource& mana() { return mana_; }
-    void set_mana(resource::SimpleResource &mana) {
+	resource::Energy& mana() { return mana_; }
+    void set_mana(resource::Energy &mana) {
         mana_ = mana;;
     }
 	void set_mana(float mana) {
@@ -133,7 +133,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     // The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
 
-    resource::SimpleResource life_, mana_;
+    resource::Energy life_, mana_;
     float /*life_, max_life_, mana_, max_mana_, */ mana_regen_;
 
     // How many sight buffs this creature has.
