@@ -1,9 +1,9 @@
-#include "heroexplosionweapon.h"
 #include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
-#include <ugdk/audio/audiomanager.h>
-#include <ugdk/action/animation.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/audio/audiomanager.h>
+
+#include "heroexplosionweapon.h"
+
 #include "game/scenes/world.h"
 #include "game/sprites/explosion.h"
 #include "game/utils/visionstrategy.h"
@@ -14,45 +14,39 @@
 
 namespace skills {
 
-using namespace scene;
-using namespace ugdk;
+using scene::World;
 using namespace utils;
 using utils::Constants;
 
-void HeroExplosionWeapon::Attack(){
-    InputManager *input_ = Engine::reference()->input_manager();
-    World *world = WORLD();
-    ImageFactory *imfac = world->image_factory();
-    
-    Vector2D explosionPosition = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
-    float distance = (hero_->world_position() - explosionPosition).length();
-    VisionStrategy vs;
-    if (distance <= range() && vs.IsVisible(explosionPosition)) {
-        sprite::Explosion* explosion = new sprite::Explosion(imfac->QuakeImage(),
-                                              sprite::Explosion::HERO_EXPLOSION_WEAPON,
-                                              Constants::QUAKE_EXPLOSION_RADIUS,
-                                              Constants::QUAKE_EXPLOSION_DAMAGE);
-        world->AddWorldObject(explosion, explosionPosition);
-        utils::Settings settings;
-        if(settings.sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-        hero_->StartExplosion();
-        hero_->set_mana(hero_->mana() - cost_);
-    }
-
-}
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
     : DivineGift<castarguments::Position>(
-        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->mana_blocks(), owner->aim().destination_
-      ),
-      hero_(owner) {
+        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->mana_blocks(), owner->aim().destination_) {
+
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
 
-bool HeroExplosionWeapon::Available() const {
-    return hero_->mana().Has(cost_);
+void HeroExplosionWeapon::Attack(){
+    World *world = WORLD();
+    sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
+                                            sprite::Explosion::HERO_EXPLOSION_WEAPON,
+                                            Constants::QUAKE_EXPLOSION_RADIUS,
+                                            Constants::QUAKE_EXPLOSION_DAMAGE);
+    world->AddWorldObject(explosion, cast_argument_.destination_);
+    caster_mana_ -= cost_;
+
+    utils::Settings settings;
+    if(settings.sound_effects())
+        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
-} // skills
+bool HeroExplosionWeapon::Available() const {
+    VisionStrategy vs;
+    float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
+    return CombatArt<castarguments::Aim>::Available() 
+        && (distance <= range()) 
+        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
+}
+
+} // namespace skills

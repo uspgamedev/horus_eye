@@ -23,37 +23,31 @@ using namespace utils;
 using utils::Constants;
 
 void HeroLightWeapon::Attack(){
-    InputManager *input_ = Engine::reference()->input_manager();
-    World *world = WORLD();
-    ImageFactory *imfac = world->image_factory();
-    
-    Vector2D light_position = WORLD()->FromScreenCoordinates(input_->GetMousePosition());
-    VisionStrategy vs;
-    if (vs.IsVisible(light_position)) {
-		sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
-		light->Initialize(world->image_factory()->LightImage());
-		light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
-		light->set_light_radius(4.0f);
-		world->AddWorldObject(light, light_position);
+    World *world = WORLD();   
 
-        utils::Settings settings;
-        if(settings.sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-        hero_->StartExplosion();
-        hero_->set_mana(hero_->mana() - cost_);
-    }
+	sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
+	light->Initialize(world->image_factory()->LightImage());
+	light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
+	light->set_light_radius(4.0f);
+	world->AddWorldObject(light, cast_argument_.destination_);
 
+    caster_mana_ -= cost_;
+
+    utils::Settings settings;
+    if(settings.sound_effects())
+        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
 HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()),
-      hero_(owner)  { // TODO: change cost
+    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage(); // TODO: change icon
 }
 
 bool HeroLightWeapon::Available() const {
-    return hero_->mana().Has(cost_);
+    VisionStrategy vs;
+    return CombatArt<castarguments::Aim>::Available() 
+        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
 }
 
-}
+} // namespace skills

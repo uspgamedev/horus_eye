@@ -23,7 +23,7 @@ class Skill {
     virtual bool IsValidUse() const = 0;
 
     // Legacy hacks, we must remove these when we can.
-    virtual float range() = 0;
+    virtual float range() const = 0;
     virtual void Attack() = 0;
     virtual bool Available() const = 0;
 
