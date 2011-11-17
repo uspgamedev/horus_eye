@@ -6,7 +6,7 @@
 
 #include "game/sprites/creatures/creature.h"
 #include <game/resources/resource.h>
-#include <game/resources/blockresource.h>
+#include <game/resources/countableresource.h>
 
 namespace skills {
 class Skill;
