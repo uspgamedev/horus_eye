@@ -141,8 +141,9 @@ void LevelManager::LoadNextLevel() {
         hero_ = NULL;
         return;
     }
+    utils::ImageFactory *factory = new utils::ImageFactory();
 	if (hero_ == NULL) {
-		hero_ = new sprite::Hero;
+        hero_ = new sprite::Hero(factory->HeroImage());
 	}
 	if (level_list_iterator_ == 0) {
 		hero_->life().Fill();
@@ -154,7 +155,7 @@ void LevelManager::LoadNextLevel() {
         hero_->AddWeapon(4, new skills::HeroMeteorWeapon(hero_));
 		// Add here the other initial weapons of the hero.
 	}
-    current_level_ = new World(hero_);
+    current_level_ = new World(hero_, factory);
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
 	delete loader;

@@ -33,24 +33,26 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
-World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), music_(NULL) {
+World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
+    :   Scene(),
+        hero_(hero),
+        world_layer_(new ugdk::Layer()), 
+        music_(NULL),
+        remaining_enemies_(0),
+        max_enemies_(0),
+        image_factory_(factory),
+        level_state_(LevelManager::NOT_FINISHED),
+        konami_used_(false)
+    {
+
     AddLayer(world_layer_);
-
-	image_factory_ = new utils::ImageFactory();
-
-    hero_ = hero;
-
-    hud_ = new utils::Hud(this);
-    Engine::reference()->PushInterface(hud_);
-
-    remaining_enemies_ = max_enemies_ = 0;
-    level_state_ = LevelManager::NOT_FINISHED;
-    player_exit_ = false;
-	konami_used_ = false;
+    Engine::reference()->PushInterface(hud_ = new utils::Hud(this));
 }
 
 // Destrutor
-World::~World() {}
+World::~World() {
+    if(image_factory_) delete image_factory_;
+}
 
 bool worldObjectIsDead (const WorldObject* value) {
     bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
@@ -90,8 +92,10 @@ void World::VerifyCheats(float delta_t) {
         }
     }
     if(input->KeyPressed(K_h)) {
+        if(input->KeyDown(ugdk::K_LSHIFT))
+            hero_->mana_blocks().Fill();
         hero_->life().Fill();
-        hero_->set_mana(hero_->max_mana());
+        hero_->mana().Fill();
     }
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
@@ -239,19 +243,19 @@ void World::IncreaseNumberOfEnemies() {
 void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
 
     new_object->set_world_position(pos);
-    new_world_objects.push_front(new_object);
+    new_world_objects_.push_front(new_object);
 }
 
 void World::AddNewWorldObjects() {
-    for (list<sprite::WorldObject*>::iterator it = new_world_objects.begin();
-         it != new_world_objects.end();
+    for (list<sprite::WorldObject*>::iterator it = new_world_objects_.begin();
+         it != new_world_objects_.end();
          ++it) {
 
         WorldObject *new_object = *it;
         world_objects_.push_front(new_object);
         world_layer_->AddSprite(new_object);
     }
-    new_world_objects.clear();
+    new_world_objects_.clear();
 }
 
 void World::AddHero(ugdk::Vector2D pos) {
