@@ -19,6 +19,12 @@ class CapacityBlocks : public CountableResource {
 
     Energy& contents() { return contents_; }
 
+    void Set(int quantity) {
+        // TODO: make "set and fill"
+        CountableResource::Set(quantity);
+        contents_.set_max_value(Get()*capacity_per_block_);
+    }
+
     void Decrease(int quantity) {
         CountableResource::Decrease(quantity);
         contents_ -= ToMana(quantity);
