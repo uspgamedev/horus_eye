@@ -16,6 +16,8 @@ class HeroExplosionWeapon : public DivineGift<castarguments::Aim> {
   public:
     HeroExplosionWeapon(sprite::Hero* owner);
 
+    typedef DivineGift<castarguments::Aim> super;
+
     virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
     virtual void Attack();
     virtual bool Available() const;
