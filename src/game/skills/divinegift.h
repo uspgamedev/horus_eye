@@ -23,7 +23,7 @@ class DivineGift : public CombatArt<CastArgument_T> {
 	virtual void Attack() = 0;
     virtual bool Available() const { return caster_mana_.Has(mana_cost_) && caster_blocks_.Has(block_cost_); }
     /* virtual bool Available() const {
-        float total_mana_cost = mana_cost_ + resources::ToMana(block_cost_);
+        float total_mana_cost = mana_cost_ + caster_blocks_.ToMana(block_cost_);
         return caster_mana_.Has(total_mana_cost) && caster_blocks_.Has(block_cost_);
     } */
     // end
