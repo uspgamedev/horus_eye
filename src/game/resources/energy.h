@@ -1,6 +1,6 @@
 
-#ifndef HORUSEYE_GAME_RESOURCES_SIMPLE_RESOURCE_H_
-#define HORUSEYE_GAME_RESOURCES_SIMPLE_RESOURCE_H_
+#ifndef HORUSEYE_GAME_RESOURCES_ENERGY_H_
+#define HORUSEYE_GAME_RESOURCES_ENERGY_H_
 
 #include <game/resources/containedresource.h>
 
@@ -31,4 +31,4 @@ class Energy : public ContainedResource<float> {
 
 } /* namespace sprite */
 
-#endif /* HORUSEYE_GAME_RESOURCES_SIMPLE_RESOURCE_H_ */
+#endif /* HORUSEYE_GAME_RESOURCES_ENERGY_H_ */
