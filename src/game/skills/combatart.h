@@ -17,7 +17,7 @@ class CombatArt : public ArgSkill<CastArgument_T> {
     // We need to remove these.
 	virtual float range() const = 0;
 	virtual void Attack() = 0;
-	virtual bool Available() const { return caster_mana_.Has(cost_); }
+	virtual bool Available() const { return caster_mana_.Has(mana_cost_); }
     // end
 
     virtual void Use() { Attack(); }
@@ -26,12 +26,12 @@ class CombatArt : public ArgSkill<CastArgument_T> {
   protected:
 
     CombatArt(ugdk::Image* icon,
-              float cost,
+              float mana_cost,
               resource::Energy& caster_mana,
               const CastArgument& cast_argument)
-      : ArgSkill<CastArgument>(icon, cast_argument), cost_(cost), caster_mana_(caster_mana) {}
+      : ArgSkill<CastArgument>(icon, cast_argument), mana_cost_(mana_cost), caster_mana_(caster_mana) {}
 
-    const float cost_;
+    const float mana_cost_;
     resource::Energy& caster_mana_;
 
 };
