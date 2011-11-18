@@ -16,7 +16,7 @@ class CombatArt : public ArgSkill<CastArgument_T> {
 
     // We need to remove these.
 	virtual float range() const = 0;
-	virtual void Attack() = 0;
+    virtual void Attack() { caster_mana_ -= mana_cost_; }
 	virtual bool Available() const { return caster_mana_.Has(mana_cost_); }
     // end
 

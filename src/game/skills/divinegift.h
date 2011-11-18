@@ -25,9 +25,6 @@ class DivineGift : public CombatArt<CastArgument_T> {
     // We need to remove these.
 	virtual float range() const = 0;
 	virtual void Attack() = 0;
-    //virtual bool Available() const {
-    //    return super::caster_mana_.Has(super::mana_cost_) && caster_blocks_.Has(block_cost_);
-    //}
     virtual bool Available() const {
         float total_mana_cost = super::mana_cost_ + caster_blocks_.ToMana(block_cost_);
         return super::caster_mana_.Has(total_mana_cost) && caster_blocks_.Has(block_cost_);
