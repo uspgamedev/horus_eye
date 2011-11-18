@@ -35,7 +35,7 @@ namespace scene {
 // elementos como: heroi, mumias, cenario e hud.
 class World : public ugdk::Scene {
   public:
-    World(sprite::Hero *hero);
+    World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();
 
 	void Start();
@@ -70,8 +70,6 @@ class World : public ugdk::Scene {
 
 	static const Vector2D ConvertLightRadius(float radius);
 
-    vector<sprite::Mummy *> Mummies();
-    
     //getters
     sprite::Hero * hero() { return hero_; }
     int level_width() {	return level_width_; }
@@ -88,9 +86,8 @@ class World : public ugdk::Scene {
 
   protected:
     sprite::Hero *hero_;
-    std::list<sprite::WorldObject*> world_objects_, new_world_objects;
+    std::list<sprite::WorldObject*> world_objects_, new_world_objects_;
     ugdk::Layer *world_layer_;
-    ugdk::Sprite *hero_fog_;
 	ugdk::Music *music_;
     utils::Hud *hud_;
     int level_width_, level_height_;
@@ -109,7 +106,6 @@ class World : public ugdk::Scene {
 
   private:
     utils::LevelManager::LevelState level_state_;
-    bool good_end_, player_exit_;
 	bool konami_used_;
 
 };  // class World

@@ -21,8 +21,7 @@ namespace sprite {
 
 Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 	life_ = Energy(life);
-	mana_ = Energy(mana);
-	mana_regen_ = Constants::PHARAOH_MANA_REGEN;
+	mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;

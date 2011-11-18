@@ -39,8 +39,7 @@ static int WaitingTime () {
 Mummy::Mummy(Image* img) {
     Initialize(img, ANIMATIONS);
 
-    // Animations  
-    animation_direction_ = 0;
+    // Animations
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
     this->SelectAnimation(last_standing_animation_);

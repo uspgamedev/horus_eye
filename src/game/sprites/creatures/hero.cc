@@ -47,16 +47,12 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
 Hero::Hero(Image* img)
-    :
-      mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK) {
-    if(img == NULL){
-        utils::ImageFactory img_fac;
-        img = img_fac.HeroImage();
-    }
+    : Creature(),
+      mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK)  {
+
     Initialize(img, ANIMATIONS);
 
     // Animations
-    animation_direction_ = 0;
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
     identifier_ = "Hero";
 

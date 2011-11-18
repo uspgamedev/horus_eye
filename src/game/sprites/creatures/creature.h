@@ -27,10 +27,6 @@ namespace sprite {
 
 using ugdk::Vector2D;
 
-class Door;
-class Wall;
-class Block;
-
 class Creature : public WorldObject , public ugdk::Observer {
   
   public:
@@ -74,11 +70,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeAnimations();
     static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
-  protected:
-	bool waiting_animation_;
-    int animation_direction_;
-    ugdk::uint32 last_standing_animation_;
-    
+  protected:  
     static int direction_mapping_[8];
     static ugdk::uint32 standing_animations_[16];
     static ugdk::uint32 walking_animations_[16];
@@ -132,47 +124,60 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
 
-    // The base weapon this creature uses.
+    /// Is this creature waiting for an animation to finish?
+    bool waiting_animation_;
+    
+    ///
+    int animation_direction_;
+
+    /// 
+    ugdk::uint32 last_standing_animation_;
+
+    /// The base weapon this creature uses.
     skills::Skill *weapon_;
 
-    // The last position this creature was that is guaranteed to not colide with any walls.
+    /// The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
 
+    /// The life and mana of this creature. An energy manages reneration.
     resource::Energy life_, mana_;
-    float /*life_, max_life_, mana_, max_mana_, */ mana_regen_;
 
-    // How many sight buffs this creature has.
+    /// How many sight buffs this creature has.
     int sight_count_;
 
-    // When true, this creature does not flinch when hit.
+    /// When true, this creature does not flinch when hit.
     bool super_armor_;
 
-    // For how much time this creature will be invulnerable after taking a hit.
+    /// For how much time this creature will be invulnerable after taking a hit.
     int invulnerability_time_;
 
-    // When true, this Creature is on the invisible part of the blinking effect.
-    bool blink_;
-
-    // Controls when to toggle the blink_ flag.
+    /// Controls when to toggle the blink_ flag.
     ugdk::TimeAccumulator *blink_time_;
 
-    // Controls the invulnerability after being hit.
+    /// Controls the invulnerability after being hit.
     ugdk::TimeAccumulator *hit_duration_;
 
-    // How fast this creature moves per second.
+    /// How fast this creature moves per second.
     float speed_;
 
-    // Stores the original speed, so one can alter the speed temporarily.
+    /// Stores the original speed, so one can alter the speed temporarily.
     float original_speed_;
 
+    /// The direction this creature is moving to.
     ugdk::Vector2D walking_direction_;
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
 
-    // Where this creature is aiming.
+    /// Where this creature is aiming.
     skills::castarguments::Position aim_destination_;
+
+    /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
     skills::castarguments::Aim aim_;
+
+  private:
+    /// When true, this Creature is on the invisible part of the blinking effect.
+    bool blink_;
 
 };  // class Creature
 
