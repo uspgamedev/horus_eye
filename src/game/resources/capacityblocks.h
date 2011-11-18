@@ -21,11 +21,13 @@ class CapacityBlocks : public CountableResource {
 
     void Decrease(int quantity) {
         CountableResource::Decrease(quantity);
+        contents_ -= ToMana(quantity);
         contents_.set_max_value(Get()*capacity_per_block_);
     }
 
     void Increase(int quantity) {
         CountableResource::Increase(quantity);
+        contents_ += ToMana(quantity);
         contents_.set_max_value(Get()*capacity_per_block_);
     }
 

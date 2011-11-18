@@ -53,6 +53,7 @@ class ContainedResource : public Resource<resource_t> {
     resource_t min_value() const {
         return min_value_;
     }
+
     void set_min_value(resource_t min_value) {
         min_value_ = min_value;
         Normalize();
@@ -61,6 +62,7 @@ class ContainedResource : public Resource<resource_t> {
     resource_t max_value() const {
         return max_value_;
     }
+
     void set_max_value(resource_t max_value) {
         max_value_ = max_value;
         Normalize();

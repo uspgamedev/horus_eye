@@ -21,6 +21,18 @@ class Energy : public ContainedResource<float> {
 
     rate_t& variation_rate() { return variation_rate_; }
 
+    void ChangeMaxValue(float value) {
+        float proportion = Get()/max_value();
+        set_max_value(value);
+        Set(proportion*max_value());
+    }
+
+    void ChangeMinValue(float value) {
+        float proportion = Get()/max_value();
+        set_min_value(value);
+        Set(proportion*max_value());
+    }
+
   private:
 
     // TODO: find a way to make variation_base_ be const.
