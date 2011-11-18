@@ -69,6 +69,7 @@ bool deletecondition(Condition *condition) {
 
 bool Creature::AddCondition(Condition* new_condition) {
     conditions_.push_front(new_condition);
+    new_condition->StartCondition(this);
     return true;
 }
 
