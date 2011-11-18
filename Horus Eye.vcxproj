@@ -91,6 +91,8 @@
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />
+    <ClInclude Include="src\game\resources\countableresource.h" />
+    <ClInclude Include="src\game\resources\energy.h" />
     <ClInclude Include="src\game\resources\resource.h" />
     <ClInclude Include="src\game\resources\simpleresource.h" />
     <ClInclude Include="src\game\scenes\imagescene.h" />

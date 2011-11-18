@@ -20,8 +20,8 @@ using utils::Constants;
 
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
-    : DivineGift<castarguments::Position>(
-        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->mana_blocks(), owner->aim().destination_) {
+    : DivineGift<castarguments::Aim>(
+        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->mana_blocks(), owner->aim()) {
 
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();

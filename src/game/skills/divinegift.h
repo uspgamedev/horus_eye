@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SKILLS_DIVINEGIFT_H_
 #define HORUSEYE_GAME_SKILLS_DIVINEGIFT_H_
 
-#include "game/resources/simpleresource.h"
+#include "game/resources/energy.h"
 #include "game/resources/countableresource.h"
 
 #include "game/skills/combatart.h"
@@ -19,7 +19,7 @@ class DivineGift : public CombatArt<CastArgument_T> {
     typedef CastArgument_T CastArgument;
 
     // We need to remove these.
-	virtual float range() = 0;
+	virtual float range() const = 0;
 	virtual void Attack() = 0;
 	virtual bool Available() const = 0;
     // end
@@ -30,7 +30,7 @@ class DivineGift : public CombatArt<CastArgument_T> {
   protected:
     DivineGift(ugdk::Image* icon,
                float cost,
-               resource::SimpleResource& caster_mana,
+               resource::Energy& caster_mana,
                resource::CountableResource& caster_blocks,
                const CastArgument& cast_argument
               )
