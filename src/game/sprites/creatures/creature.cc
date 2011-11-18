@@ -32,22 +32,20 @@ Vector2D Creature::directions_[4];
 AnimationSet* Creature::ANIMATIONS = NULL;
 
 Creature::Creature()
-  : WorldObject(), aim_(world_position_, aim_destination_) {
-
-    waiting_animation_ = false;
-    weapon_ = NULL;
-	last_stable_position_ = Vector2D(0,0);
-    mana_regen_ = 0.0f;
-    sight_count_ = 0;
-    super_armor_ = false;
-    invulnerability_time_ = 0;
-    blink_ = false;
-
-    blink_time_ = new TimeAccumulator(75);
-    hit_duration_ = new TimeAccumulator(0);
+    :   WorldObject(),
+        waiting_animation_(false),
+        animation_direction_(0),
+        weapon_(NULL),
+        last_stable_position_(),
+        sight_count_(0),
+        super_armor_(false),
+        invulnerability_time_(0),
+        blink_(false),
+        blink_time_(new TimeAccumulator(75)),
+        hit_duration_(new TimeAccumulator(0)),
+        aim_(world_position_, aim_destination_) {
 
     INITIALIZE_COLLISION;
-
     // Teach this creature how to collides with Walls.
     ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
 }
@@ -57,8 +55,7 @@ Creature::~Creature() {
     if (blink_time_) delete blink_time_;
 }
 
-void Creature::Initialize(Drawable *image, AnimationSet *set,
-                          bool delete_image) {
+void Creature::Initialize(Drawable *image, AnimationSet *set, bool delete_image) {
     Sprite::Initialize(image, set, delete_image);
     AddObserverToAnimation(this);
 }
@@ -188,8 +185,7 @@ void Creature::InitializeStandingAnimations() {
 }
 
 
-
-
+// ============= other stuff
 
 void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);
@@ -199,10 +195,10 @@ void Creature::Move(Vector2D direction, float delta_t) {
 }
 
 void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
-
     set_world_position(last_stable_position_);
 
-    const Circle *circle = (const Circle*) collision_object_->shape();
+    const pyramidworks::geometry::Circle *circle = 
+        (const pyramidworks::geometry::Circle*) collision_object_->shape();
 
     Vector2D line(rect->width(), rect->height());
     Vector2D circ_pos = circle->position();
