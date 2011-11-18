@@ -47,8 +47,8 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
 Hero::Hero(Image* img)
-    : mana_blocks_(Constants::HERO_MIN_MANA_BLOCKS, Constants::HERO_MAX_MANA_BLOCKS),
-      mana_regen_ratio_(Constants::HERO_BASE_MANA_REGEN_RATIO) {
+    :
+      mana_blocks_(Constants::HERO_MIN_MANA_BLOCKS, Constants::HERO_MAX_MANA_BLOCKS) {
     if(img == NULL){
         utils::ImageFactory img_fac;
         img = img_fac.HeroImage();
@@ -68,10 +68,12 @@ Hero::Hero(Image* img)
 						 static_cast<float>(HERO_HOTSPOT_Y)));
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
-    // Initializing life and mana
+    // life and mana.
     life_ = Energy(Constants::HERO_MAX_LIFE);
-    mana_ = Energy(mana_blocks_.Get()*Constants::HERO_MANA_PER_BLOCK);
-    mana_regen_ = Constants::HERO_MANA_REGEN_BASE;
+    mana_ = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
+                   Constants::HERO_MANA_REGEN_BASE,
+                   Constants::HERO_BASE_MANA_REGEN_RATIO);
+
     set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
     invulnerability_time_ = INVUL_TIME;
@@ -253,7 +255,7 @@ void Hero::Update(float delta_t) {
     }
     AdjustBlink(delta_t);
     speed_ = original_speed_;
-    mana_ += mana_regen_ * mana_regen_ratio_.Get() * delta_t;
+    //mana_ += mana_regen_ * mana_regen_ratio_.Get() * delta_t;
 
 
     light_oscilation_ += delta_t;

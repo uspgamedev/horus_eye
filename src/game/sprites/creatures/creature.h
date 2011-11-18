@@ -109,7 +109,12 @@ class Creature : public WorldObject , public ugdk::Observer {
         static const int DOWN = 8;
     };
 
-    virtual void Update(float dt) { UpdateCondition(dt); WorldObject::Update(dt); }
+    virtual void Update(float dt) {
+        WorldObject::Update(dt);
+        UpdateCondition(dt);
+        life_.Update(dt);
+        mana_.Update(dt);
+    }
 	virtual void Render();
     virtual void PlayHitSound() const {}
 

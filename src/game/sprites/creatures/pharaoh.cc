@@ -40,7 +40,7 @@ void Pharaoh::Update(float delta_t) {
 	Mummy::Update(delta_t);
 
 	AdjustBlink(delta_t);
-    set_mana(mana() + mana_regen_ * delta_t);
+    //set_mana(mana() + mana_regen_ * delta_t);
 }
 
 bool Pharaoh::CanAttackWithMeele(Vector2D diff) {

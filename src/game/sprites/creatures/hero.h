@@ -31,7 +31,7 @@ class Hero : public Creature {
     bool HasBreakableManaBlocks(int quantity);
     void BreakManaBlocks(int quantity);
     void RepairManaBlocks(int quantity);
-    resource::Resource<int>& mana_regen_ratio() { return mana_regen_ratio_; }
+    //resource::Energy::rate_t& mana_regen_ratio() { return mana_.variation_rate(); }
 
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
@@ -50,7 +50,6 @@ class Hero : public Creature {
     skills::Skill *secondary_weapon_;
 
     resource::CountableResource mana_blocks_;
-    resource::Resource<int> mana_regen_ratio_;
 
     void CollisionSlow();
 	COLLISION_BEGIN
