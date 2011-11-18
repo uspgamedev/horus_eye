@@ -21,7 +21,7 @@ using utils::Constants;
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
     : DivineGift<castarguments::Aim>(
-        NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->mana_blocks(), owner->aim()) {
+        NULL, utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) {
 
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
@@ -34,7 +34,8 @@ void HeroExplosionWeapon::Attack(){
                                             Constants::QUAKE_EXPLOSION_RADIUS,
                                             Constants::QUAKE_EXPLOSION_DAMAGE);
     world->AddWorldObject(explosion, cast_argument_.destination_);
-    caster_mana_ -= cost_;
+    caster_mana_ -= mana_cost_;
+    caster_blocks_ -= block_cost_;
 
     utils::Settings settings;
     if(settings.sound_effects())
@@ -44,7 +45,7 @@ void HeroExplosionWeapon::Attack(){
 bool HeroExplosionWeapon::Available() const {
     VisionStrategy vs;
     float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
-    return CombatArt<castarguments::Aim>::Available() 
+    return DivineGift<castarguments::Aim>::Available() 
         && (distance <= range()) 
         && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
 }

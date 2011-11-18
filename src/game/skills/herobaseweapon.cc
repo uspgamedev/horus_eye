@@ -28,7 +28,7 @@ void HeroBaseWeapon::Attack(){
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.MagicMissile(versor), pos);
 
-    caster_mana_ -= cost_;
+    caster_mana_ -= mana_cost_;
 
     utils::Settings settings;
     if(settings.sound_effects())

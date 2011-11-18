@@ -40,7 +40,6 @@ void Pharaoh::Update(float delta_t) {
 	Mummy::Update(delta_t);
 
 	AdjustBlink(delta_t);
-    //set_mana(mana() + mana_regen_ * delta_t);
 }
 
 bool Pharaoh::CanAttackWithMeele(Vector2D diff) {
@@ -69,12 +68,15 @@ void Pharaoh::Think(float dt) {
 			Vector2D diff = path_.front() - world_position();
 			if(CanAttackWithMeele(diff)){
 				weapon_->Attack();
+                this->StartAttack(NULL);
 				speed_ = 0;
 			} else if(CanAttackWithRangedWeapon(diff)) {
 				ranged_weapon_->Attack();
+                this->StartAttack(NULL);
 				speed_ = 0;
 			} else if (summon_weapon_->Available()) {
 			    summon_weapon_->Attack();
+                this->StartAttack(NULL);
 				speed_ = 0;
 			}
 		} else if(!standing_) {

@@ -198,8 +198,8 @@ void Hero::StartAttackAnimation() {
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
-    float attackAngle = GetAttackingAngle(input_->GetMousePosition() -
-            screen_center + projectile_height);
+
+    float attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
