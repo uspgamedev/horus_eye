@@ -15,15 +15,18 @@ namespace skills {
 template<class CastArgument_T>
 class DivineGift : public CombatArt<CastArgument_T> {
   public:
+
+    typedef CombatArt<CastArgument_T> super;
+
     virtual ~DivineGift() {}
     typedef CastArgument_T CastArgument;
 
     // We need to remove these.
 	virtual float range() const = 0;
-	virtual void Attack() = 0;
+    virtual void Attack() { super::Attack(); caster_blocks_ -= block_cost_; };
     virtual bool Available() const { return caster_mana_.Has(mana_cost_) && caster_blocks_.Has(block_cost_); }
     /* virtual bool Available() const {
-        float total_mana_cost = mana_cost_ + resources::ToMana(block_cost_);
+        float total_mana_cost = mana_cost_ + caster_blocks_.ToMana(block_cost_);
         return caster_mana_.Has(total_mana_cost) && caster_blocks_.Has(block_cost_);
     } */
     // end

@@ -27,15 +27,16 @@ HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
     icon_ = imfac.EarthquakeIconImage();
 }
 
-void HeroExplosionWeapon::Attack(){
+void HeroExplosionWeapon::Attack() {
+
+    super::Attack();
+
     World *world = WORLD();
     sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
                                             sprite::Explosion::HERO_EXPLOSION_WEAPON,
                                             Constants::QUAKE_EXPLOSION_RADIUS,
                                             Constants::QUAKE_EXPLOSION_DAMAGE);
     world->AddWorldObject(explosion, cast_argument_.destination_);
-    caster_mana_ -= mana_cost_;
-    caster_blocks_ -= block_cost_;
 
     utils::Settings settings;
     if(settings.sound_effects())
