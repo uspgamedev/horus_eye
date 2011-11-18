@@ -20,7 +20,7 @@ class PharaohSummonWeapon : public CombatArt<castarguments::Aim> {
     virtual float range() const { return utils::Constants::PHARAOH_SUMMON_RANGE; }
     virtual void Attack();
     virtual bool Available() const {
-        return owner_->mana().Has(cost_);
+        return owner_->mana().Has(mana_cost_);
     }
   protected:
     sprite::Creature* owner_;

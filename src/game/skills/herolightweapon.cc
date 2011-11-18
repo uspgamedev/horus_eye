@@ -31,7 +31,7 @@ void HeroLightWeapon::Attack(){
 	light->set_light_radius(4.0f);
 	world->AddWorldObject(light, cast_argument_.destination_);
 
-    caster_mana_ -= cost_;
+    caster_mana_ -= mana_cost_;
 
     utils::Settings settings;
     if(settings.sound_effects())

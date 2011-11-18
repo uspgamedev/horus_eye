@@ -60,6 +60,7 @@ class Constants {
         FIREBALL_COST = 200,
         QUAKE_EXPLOSION_DAMAGE = 400,
         QUAKE_COST = 300,
+        QUAKE_BLOCK_COST = 1,
         LIGHTNING_DAMAGE = 150,
         LIGHTNING_COST = 100,
 

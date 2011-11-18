@@ -52,7 +52,7 @@ void HeroMeteorWeapon::Attack(){
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
     
-    caster_mana_ -= cost_;
+    caster_mana_ -= mana_cost_;
 }
 
 HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)
