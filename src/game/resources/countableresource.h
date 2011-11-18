@@ -7,9 +7,16 @@
 namespace resource {
 
 class CountableResource : public ContainedResource<int> {
+
   public:
+
     explicit CountableResource(int min_blocks = 0, int max_blocks = 0)
         : ContainedResource<int>(max_blocks, min_blocks, max_blocks) {}
+
+    bool Has(int quantity) {
+        return quantity <= Get() - min_value();
+    }
+
 };
 
 } /* namespace sprite */

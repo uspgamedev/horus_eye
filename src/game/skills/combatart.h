@@ -29,7 +29,11 @@ class CombatArt : public ArgSkill<CastArgument_T> {
               float mana_cost,
               resource::Energy& caster_mana,
               const CastArgument& cast_argument)
-      : ArgSkill<CastArgument>(icon, cast_argument), mana_cost_(mana_cost), caster_mana_(caster_mana) {}
+      : ArgSkill<CastArgument>(icon, cast_argument),
+        mana_cost_(mana_cost),
+        caster_mana_(caster_mana) {}
+
+    resource::Energy& caster_mana() { return caster_mana_; }
 
     const float mana_cost_;
     resource::Energy& caster_mana_;

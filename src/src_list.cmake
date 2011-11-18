@@ -44,6 +44,7 @@ SET(GAME_SRCS
     ./src/game/skills/skill.h 
     ./src/game/skills/mummyrangedweapon.cc 
     ./src/game/skills/pharaohsummonweapon.cc 
+    ./src/game/skills/divinegift.h 
     ./src/game/skills/herometeorweapon.cc 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/mummybuilder.cc 
@@ -54,9 +55,10 @@ SET(GAME_SRCS
     ./src/game/builders/conditionbuilder.h 
     ./src/game/builders/mummybuilder.h 
     ./src/game/resources/containedresource.h 
-    ./src/game/resources/simpleresource.h 
-    ./src/game/resources/blockresource.h 
+    ./src/game/resources/energy.h 
     ./src/game/resources/resource.h 
+    ./src/game/resources/capacityblocks.h 
+    ./src/game/resources/countableresource.h 
     ./src/game/scenes/scrollingimagescene.h 
     ./src/game/scenes/pagemanager.h 
     ./src/game/scenes/menu.cc 

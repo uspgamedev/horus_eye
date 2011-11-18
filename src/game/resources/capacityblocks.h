@@ -13,7 +13,7 @@ class CapacityBlocks : public CountableResource {
   public:
 
     explicit CapacityBlocks(Energy& contents, float value = 1, float capacity_per_block = 0.0f)
-        : CountableResource(value, value),
+        : CountableResource(1, value),
           contents_(contents),
           capacity_per_block_(capacity_per_block) {}
 

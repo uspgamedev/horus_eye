@@ -48,7 +48,7 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 
 Hero::Hero(Image* img)
     :
-      mana_blocks_(Constants::HERO_MIN_MANA_BLOCKS, Constants::HERO_MAX_MANA_BLOCKS) {
+      mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK) {
     if(img == NULL){
         utils::ImageFactory img_fac;
         img = img_fac.HeroImage();
