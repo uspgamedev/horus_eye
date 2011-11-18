@@ -38,8 +38,6 @@ void PharaohRangedWeapon::Attack(){
     utils::Settings settings;
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-
-    //TODO:REACTIVATE ((sprite::Mummy*)owner_)->StartAttack(hero);
 }
 
 }
