@@ -26,6 +26,7 @@ using utils::Constants;
 
 void HeroMeteorWeapon::Use(){
     super::Use();
+    //TODO: use meteor's constants.
 
     World *world = WORLD();
 
@@ -56,7 +57,7 @@ void HeroMeteorWeapon::Use(){
 }
 
 HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
+    : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightningIconImage(); // TODO: change icon
 }
