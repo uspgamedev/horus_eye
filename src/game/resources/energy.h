@@ -12,7 +12,7 @@ class Energy : public ContainedResource<float> {
 
     typedef Resource<int> rate_t;
 
-    explicit Energy(float value = 0.0f, float variation_base = 0.0f, int variation_rate = 0.0f)
+    explicit Energy(float value = 0.0f, float variation_base = 0.0f, int variation_rate = 1)
         : ContainedResource<float>(value, 0.0f, value),
           variation_base_(variation_base),
           variation_rate_(variation_rate) {}

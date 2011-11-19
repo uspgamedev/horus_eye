@@ -90,6 +90,7 @@
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
+    <ClInclude Include="src\game\resources\capacityblocks.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />
     <ClInclude Include="src\game\resources\countableresource.h" />
     <ClInclude Include="src\game\resources\energy.h" />
