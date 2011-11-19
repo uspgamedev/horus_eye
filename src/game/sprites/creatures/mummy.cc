@@ -36,6 +36,11 @@ static int WaitingTime () {
     return (int)(1000*-log(1.0*rand()/RAND_MAX)/EXP_PARAM);
 }
 
+COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
+    WorldObject *obj = (WorldObject *) voiddata; 
+    data_->MummyAntiStack(obj);
+}
+
 Mummy::Mummy(Image* img) {
     Initialize(img, ANIMATIONS);
 
@@ -51,7 +56,7 @@ Mummy::Mummy(Image* img) {
     identifier_ = std::string("Mummy");
 
     SET_COLLISIONCLASS(Mummy);
-    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
+    ADD_COLLISIONLOGIC(Mummy, new MummyAntiStackCollision(this));
 }
 
 Mummy::~Mummy() {

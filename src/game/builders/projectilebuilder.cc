@@ -40,21 +40,21 @@ ugdk::uint32 ProjectileBuilder::fireball_animation_map_[8],
              ProjectileBuilder::lightning_animation_map_[8];
 
 
-COLLISION_DIRECT(Projectile, Die, data) { 
-    owner_->Die();
+COLLISION_DIRECT(Projectile*, Die, data) { 
+    data_->Die();
 }
 
-COLLISION_DIRECT(Projectile, Damage, obj) {
+COLLISION_DIRECT(Projectile*, Damage, obj) {
 	Creature *creature = (Creature *) obj;
-    if (owner_->is_active())
-        creature->TakeDamage(owner_->damage());
+    if (data_->is_active())
+        creature->TakeDamage(data_->damage());
 }
 
-COLLISION_DIRECT(Projectile, DamageAndDie, obj) {
+COLLISION_DIRECT(Projectile*, DamageAndDie, obj) {
 	Creature *creature = (Creature *) obj;
-    if (owner_->is_active())
-        creature->TakeDamage(owner_->damage());
-    owner_->Die();
+    if (data_->is_active())
+        creature->TakeDamage(data_->damage());
+    data_->Die();
 }
 
 static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {

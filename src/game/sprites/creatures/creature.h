@@ -80,10 +80,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static ugdk::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
 
-
-	COLLISION_BEGIN
-		COLLISION_ADD		(Creature, Rect)
-	COLLISION_END
+    friend class RectCollision;
     
     class Direction_ {
       public:

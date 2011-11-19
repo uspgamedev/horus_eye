@@ -46,6 +46,10 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 #define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
+COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
+    data_->CollisionSlow();
+}
+
 Hero::Hero(Image* img)
     : Creature(),
       mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK)  {
@@ -85,7 +89,7 @@ Hero::Hero(Image* img)
 
     SET_COLLISIONCLASS(Hero);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
-    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
+    ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
 }
 
 Hero::~Hero() {}

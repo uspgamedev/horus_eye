@@ -18,15 +18,13 @@ Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir)
         direction_(Vector2D::Normalized(dir))
     {}
 
-Projectile::~Projectile() {}
-
 void Projectile::Move(float delta_t) {
     Vector2D velocity = direction_ * (speed_ * delta_t);
     set_world_position(this->world_position() + velocity);
 }
 
 void Projectile::Update(float delta_t) {
-	TimedWorldObject::Update(delta_t);
+	super::Update(delta_t);
 	if (is_active())
 	    this->Move(delta_t);
 }

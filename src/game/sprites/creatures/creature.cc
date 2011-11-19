@@ -31,6 +31,13 @@ Vector2D Creature::directions_[4];
 
 AnimationSet* Creature::ANIMATIONS = NULL;
 
+COLLISION_DIRECT(Creature*, RectCollision, obj) {
+    WorldObject *wobj = (WorldObject *)obj;
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
+    data_->CollideWithRect(rect);
+}
+
 Creature::Creature()
     :   WorldObject(),
         waiting_animation_(false),
@@ -47,7 +54,7 @@ Creature::Creature()
 
     INITIALIZE_COLLISION;
     // Teach this creature how to collides with Walls.
-    ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
+    ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
 }
 
 Creature::~Creature() {
@@ -255,13 +262,6 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 
 void Creature::Render() {
     if (!blink_) WorldObject::Render();
-}
-
-COLLISION_IMPLEMENT(Creature, Rect, obj) {
-    WorldObject *wobj = (WorldObject *)obj;
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
-    owner_->CollideWithRect(rect);
 }
 
 }  // namespace sprite

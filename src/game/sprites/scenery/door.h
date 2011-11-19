@@ -14,10 +14,6 @@ class Door: public sprite::WorldObject {
   public:
     Door(ugdk::Image* image);
     virtual ~Door() {}
-
-	COLLISION_BEGIN
-		COLLISION_ADD		(Door, Win)
-	COLLISION_END
 };
 
 }

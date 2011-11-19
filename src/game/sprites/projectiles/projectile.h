@@ -7,9 +7,9 @@
 namespace sprite {
 
 class Projectile : public TimedWorldObject {
+  private: typedef TimedWorldObject super;
   public:
     Projectile(int damage, float speed, int duration, ugdk::Vector2D &dir);
-    virtual ~Projectile();
     void Move(float delta_t);
     void Update(float delta_t);
 

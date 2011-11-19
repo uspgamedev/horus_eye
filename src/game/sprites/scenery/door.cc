@@ -21,6 +21,11 @@ using namespace ugdk;
 using namespace utils;
 using namespace scene;
 
+COLLISION_DIRECT(World*, WinCollision, obj) {
+    if (data_->CountRemainingEnemies() == 0)
+        data_->FinishLevel(LevelManager::FINISH_WIN);
+}
+
 Door::Door(ugdk::Image* image) {
     Initialize(image);
     set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
@@ -28,13 +33,7 @@ Door::Door(ugdk::Image* image) {
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Wall);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(BOUND_WIDTH, BOUND_HEIGHT));
-    ADD_COLLISIONLOGIC(Hero, new Collisions::Win(this));
-}
-
-COLLISION_IMPLEMENT(Door, Win, obj) {
-    World *world = WORLD();
-    if (world->CountRemainingEnemies() == 0)
-        world->FinishLevel(LevelManager::FINISH_WIN);
+    ADD_COLLISIONLOGIC(Hero, new WinCollision(WORLD()));
 }
 
 }

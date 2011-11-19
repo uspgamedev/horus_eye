@@ -30,6 +30,7 @@ class Mummy : public Creature {
     void set_bound(float radius);
 
     void StartAttack(Creature* obj);
+    
   protected:
     ugdk::TimeAccumulator *interval_;
     float time_to_think_;
@@ -38,18 +39,15 @@ class Mummy : public Creature {
 	skills::Skill *weapon_;
     std::queue<Vector2D> path_;
 
-	void MummyAntiStack(WorldObject *);
-
-	COLLISION_BEGIN
-        COLLISION_ADD_INLINE (Mummy, MummyAntiStack, WorldObject *obj = (WorldObject *) data; owner_->MummyAntiStack(obj); )
-	COLLISION_END
-
     virtual void Update(float delta_t);
     virtual void Think(float dt);
     void UpdateDirection(Vector2D destination);
     void RandomMovement();
     void StartToDie();
     void PlayHitSound() const;
+
+    void MummyAntiStack(WorldObject *);
+    friend class MummyAntiStackCollision;
 };
 
 }
