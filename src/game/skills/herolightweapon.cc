@@ -23,6 +23,8 @@ using namespace utils;
 using utils::Constants;
 
 void HeroLightWeapon::Use(){
+    super::Use();
+
     World *world = WORLD();   
 
 	sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
@@ -30,8 +32,6 @@ void HeroLightWeapon::Use(){
 	light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
 	light->set_light_radius(4.0f);
 	world->AddWorldObject(light, use_argument_.destination_);
-
-    caster_mana_ -= mana_cost_;
 
     utils::Settings settings;
     if(settings.sound_effects())

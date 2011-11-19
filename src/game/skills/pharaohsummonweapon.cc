@@ -26,6 +26,7 @@ PharaohSummonWeapon::PharaohSummonWeapon(sprite::Creature* owner)
 
 void PharaohSummonWeapon::Use() {
     super::Use();
+
     Vector2D mummyPos = use_argument_.origin_;
     //TODO:FIX code to spawn mummy not on pharaoh
     /*

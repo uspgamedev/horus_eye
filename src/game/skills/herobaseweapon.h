@@ -14,6 +14,9 @@ class HeroBaseWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroBaseWeapon(sprite::Hero* owner);
     virtual void Use();
+
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 } // skills

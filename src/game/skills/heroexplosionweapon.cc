@@ -29,6 +29,7 @@ HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
 
 void HeroExplosionWeapon::Use() {
     super::Use();
+
     World *world = WORLD();
     sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
                                             sprite::Explosion::HERO_EXPLOSION_WEAPON,

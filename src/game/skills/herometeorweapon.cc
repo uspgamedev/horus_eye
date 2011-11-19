@@ -25,6 +25,8 @@ using namespace utils;
 using utils::Constants;
 
 void HeroMeteorWeapon::Use(){
+    super::Use();
+
     World *world = WORLD();
 
     utils::ImageFactory *factory = world->image_factory();
@@ -51,8 +53,6 @@ void HeroMeteorWeapon::Use(){
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    
-    caster_mana_ -= mana_cost_;
 }
 
 HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)

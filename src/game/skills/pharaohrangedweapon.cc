@@ -19,7 +19,9 @@ using ugdk::Vector2D;
 
 const float PharaohRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
 
-void PharaohRangedWeapon::Use(){
+void PharaohRangedWeapon::Use() {
+    super::Use();
+
     scene::World *world = WORLD();
     sprite::Hero* hero = world->hero();
 
