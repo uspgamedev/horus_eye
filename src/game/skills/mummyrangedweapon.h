@@ -3,20 +3,20 @@
 
 #include "game/skills/combatart.h"
 #include "game/utils/constants.h" 
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 #include "game/sprites/creatures/creature.h"
 
 namespace skills {
 
-class MummyRangedWeapon : public CombatArt<castarguments::Aim> {
+class MummyRangedWeapon : public CombatArt<usearguments::Aim> {
   public:
     MummyRangedWeapon(sprite::Creature* owner, int damage = 1) :
-        CombatArt<castarguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
+        CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
         damage_(damage) {}
 
     virtual float range() const { return utils::Constants::RANGED_MUMMY_RANGE; }
-    virtual void Attack();
-    virtual bool Available() const { return true; }
+    virtual void Use();
+    virtual bool IsValidUse() const { return true; }
   private:
     int damage_;
 };

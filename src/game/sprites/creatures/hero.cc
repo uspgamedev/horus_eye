@@ -22,7 +22,7 @@
 #include "game/scenes/world.h"
 
 #include "game/skills/herobaseweapon.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 #include "game/skills/skill.h"
 
 #include <cmath>
@@ -204,12 +204,12 @@ void Hero::StartAttackAnimation() {
 
 bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT) && weapon_;
+    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Avaiable();
 }
 
 bool Hero::ShootingWithSecondaryWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_;
+    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Avaiable();
 }
 
 void Hero::UpdateAim() {
@@ -226,16 +226,16 @@ void Hero::Update(float delta_t) {
         if(!waiting_animation_) {
             if (ShootingWithWeapon()) {
                 UpdateAim();
-                if(weapon_->Available()) {
+                if(weapon_->IsValidUse()) {
                     StartAttackAnimation();
-                    weapon_->Attack();
+                    weapon_->Use();
                 }
 
             } else if (ShootingWithSecondaryWeapon()) {
                 UpdateAim();
-                if(secondary_weapon_->Available()) {
+                if(secondary_weapon_->IsValidUse()) {
                     StartAttackAnimation();
-                    secondary_weapon_->Attack();
+                    secondary_weapon_->Use();
                 }
 
             }

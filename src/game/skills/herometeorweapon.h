@@ -4,17 +4,17 @@
 #include "game/skills/combatart.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 
 namespace skills {
 
-class HeroMeteorWeapon : public CombatArt<castarguments::Aim> {
+class HeroMeteorWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroMeteorWeapon(sprite::Hero* owner);
 
     virtual float range() const { return 0.0f; }
-    virtual void Attack();
-    virtual bool Available() const;
+    virtual void Use();
+    virtual bool IsValidUse() const;
 };
 
 } // namespace skills

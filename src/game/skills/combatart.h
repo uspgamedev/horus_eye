@@ -6,30 +6,29 @@
 
 namespace skills {
 
-template<class CastArgument_T>
-class CombatArt : public ArgSkill<CastArgument_T> {
+template<class UseArgument_T>
+class CombatArt : public ArgSkill<UseArgument_T> {
   public:
-
-    virtual ~CombatArt() {}
-
-    typedef CastArgument_T CastArgument;
+    typedef UseArgument_T UseArgument;
 
     // We need to remove these.
 	virtual float range() const = 0;
-    virtual void Attack() { caster_mana_ -= mana_cost_; }
-	virtual bool Available() const { return caster_mana_.Has(mana_cost_); }
-    // end
 
-    virtual void Use() { Attack(); }
-    virtual bool IsValidUse() const { return Available(); }
+    ///
+    virtual void Use() { caster_mana_ -= mana_cost_; }
+
+    ///
+	virtual bool Avaiable() const { return caster_mana_.Has(mana_cost_); }
+
+    ///
+    virtual bool IsValidUse() const { return true; }
 
   protected:
-
     CombatArt(ugdk::Image* icon,
               float mana_cost,
               resource::Energy& caster_mana,
-              const CastArgument& cast_argument)
-      : ArgSkill<CastArgument>(icon, cast_argument),
+              const UseArgument& use_argument)
+      : ArgSkill<UseArgument>(icon, use_argument),
         mana_cost_(mana_cost),
         caster_mana_(caster_mana) {}
 

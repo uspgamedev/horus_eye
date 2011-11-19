@@ -10,7 +10,7 @@ class Mummy;
 
 namespace skills {
 
-void MummyWeapon::Attack(){
+void MummyWeapon::Use(){
 	scene::World *world = WORLD();
 	sprite::Hero* hero = world->hero();
 	

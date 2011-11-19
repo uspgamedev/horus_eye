@@ -17,13 +17,13 @@ namespace skills {
 
 using ugdk::Vector2D;
 
-void MummyRangedWeapon::Attack(){
+void MummyRangedWeapon::Use(){
     scene::World* world = WORLD();
     sprite::Hero* hero = world->hero();
 
     //TODO:FIX
-    Vector2D versor = (hero->world_position() - cast_argument_.origin_).Normalize();
-    Vector2D pos = cast_argument_.origin_;
+    Vector2D versor = (hero->world_position() - use_argument_.origin_).Normalize();
+    Vector2D pos = use_argument_.origin_;
 
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);

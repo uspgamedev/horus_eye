@@ -3,7 +3,7 @@
 
 #include "game/sprites/creatures/mummy.h"
 #include "game/skills/combatart.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 
 namespace ugdk {
 class Image;

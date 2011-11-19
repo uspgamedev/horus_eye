@@ -17,12 +17,12 @@ namespace skills {
 
 using ugdk::Vector2D;
 
-void PharaohRangedWeapon::Attack(){
+void PharaohRangedWeapon::Use(){
     scene::World *world = WORLD();
     sprite::Hero* hero = world->hero();
 
     //TODO:FIX 
-    Vector2D pos = cast_argument_.origin_;
+    Vector2D pos = use_argument_.origin_;
     Vector2D distance = hero->world_position() - pos;
     
     float angle = atan2(1.5f, distance.length()); 

@@ -105,7 +105,7 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
-    <ClInclude Include="src\game\skills\castarguments.h" />
+    <ClInclude Include="src\game\skills\usearguments.h" />
     <ClInclude Include="src\game\skills\casttypes\aimedcast.h" />
     <ClInclude Include="src\game\skills\casttypes\casttype.h" />
     <ClInclude Include="src\game\skills\casttypes\ressources.h" />

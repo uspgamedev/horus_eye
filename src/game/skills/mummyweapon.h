@@ -3,20 +3,20 @@
 #define HORUSEYE_GAME_SKILLS_MUMMYWEAPON_H_
 
 #include "game/skills/combatart.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 #include "game/sprites/creatures/creature.h"
 
 namespace skills {
 
-class MummyWeapon : public CombatArt<castarguments::Aim> {
+class MummyWeapon : public CombatArt<usearguments::Aim> {
   public:
     MummyWeapon(sprite::Creature* owner, int damage = 1)
-        : CombatArt<castarguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
+        : CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
           damage_(damage) {}
 
     virtual float range() const { return 1.0f; }
-    virtual void Attack();
-    virtual bool Available() const { return true; }
+    virtual void Use();
+    virtual bool IsValidUse() const { return true; }
   private:
     int damage_;
 };

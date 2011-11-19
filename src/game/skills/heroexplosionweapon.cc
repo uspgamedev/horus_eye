@@ -20,35 +20,35 @@ using utils::Constants;
 
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
-    : DivineGift<castarguments::Aim>(
+    : DivineGift<usearguments::Aim>(
         NULL, utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) {
 
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
 
-void HeroExplosionWeapon::Attack() {
+void HeroExplosionWeapon::Use() {
 
-    super::Attack();
+    super::Use();
 
     World *world = WORLD();
     sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
                                             sprite::Explosion::HERO_EXPLOSION_WEAPON,
                                             Constants::QUAKE_EXPLOSION_RADIUS,
                                             Constants::QUAKE_EXPLOSION_DAMAGE);
-    world->AddWorldObject(explosion, cast_argument_.destination_);
+    world->AddWorldObject(explosion, use_argument_.destination_);
 
     utils::Settings settings;
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 
-bool HeroExplosionWeapon::Available() const {
+bool HeroExplosionWeapon::IsValidUse() const {
     VisionStrategy vs;
-    float distance = (cast_argument_.destination_ - cast_argument_.origin_).length();
-    return DivineGift<castarguments::Aim>::Available() 
-        && (distance <= range()) 
-        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
+    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    return DivineGift<usearguments::Aim>::IsValidUse()
+        && (distance <= range())
+        && vs.IsVisible(use_argument_.destination_, use_argument_.origin_);
 }
 
 } // namespace skills

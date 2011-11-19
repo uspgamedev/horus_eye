@@ -43,13 +43,13 @@ void Pharaoh::Update(float delta_t) {
 
 bool Pharaoh::CanAttackWithMeele(Vector2D diff) {
 	if(diff.length() > weapon_->range()) return false;
-	return weapon_->Available();
+	return weapon_->IsValidUse();
 }
 
 bool Pharaoh::CanAttackWithRangedWeapon(Vector2D diff) {
 	if(diff.length() < ranged_weapon_->range()/2.0f) return false;
 	if(diff.length() > ranged_weapon_->range()) return false;
-	return ranged_weapon_->Available();
+	return ranged_weapon_->IsValidUse();
 }
 
 void Pharaoh::Think(float dt) {
@@ -66,15 +66,15 @@ void Pharaoh::Think(float dt) {
 
 			Vector2D diff = path_.front() - world_position();
 			if(CanAttackWithMeele(diff)){
-				weapon_->Attack();
+				weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
 			} else if(CanAttackWithRangedWeapon(diff)) {
-				ranged_weapon_->Attack();
+				ranged_weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
-			} else if (summon_weapon_->Available()) {
-			    summon_weapon_->Attack();
+			} else if (summon_weapon_->IsValidUse()) {
+			    summon_weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
 			}
