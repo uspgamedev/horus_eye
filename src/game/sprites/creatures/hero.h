@@ -6,7 +6,7 @@
 
 #include "game/sprites/creatures/creature.h"
 #include <game/resources/resource.h>
-#include "game/resources/countableresource.h"
+#include "game/resources/capacityblocks.h"
 
 namespace skills {
 class Skill;
@@ -26,7 +26,7 @@ class Hero : public Creature {
 
     float FullMana();
 
-    resource::CountableResource& mana_blocks() { return mana_blocks_; }
+    resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
 
     bool HasBreakableManaBlocks(int quantity);
     void BreakManaBlocks(int quantity);
@@ -49,7 +49,7 @@ class Hero : public Creature {
     float light_oscilation_;
     skills::Skill *secondary_weapon_;
 
-    resource::CountableResource mana_blocks_;
+    resource::CapacityBlocks mana_blocks_;
 
     void CollisionSlow();
 	COLLISION_BEGIN

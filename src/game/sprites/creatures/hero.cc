@@ -47,8 +47,8 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 #define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
 
 Hero::Hero(Image* img)
-    :   Creature(),
-        mana_blocks_(Constants::HERO_MIN_MANA_BLOCKS, Constants::HERO_MAX_MANA_BLOCKS) {
+    : Creature(),
+      mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK)  {
 
     Initialize(img, ANIMATIONS);
 

@@ -37,7 +37,7 @@ class Resource {
         return Get();
     }
 
-    bool Has(resource_t quantity) {
+    virtual bool Has(resource_t quantity) {
         return quantity <= resource_pool_;
     }
 
