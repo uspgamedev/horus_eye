@@ -14,8 +14,6 @@ namespace skills {
 
 template<class UseArgument_T>
 class DivineGift : public CombatArt<UseArgument_T> {
-  private:
-    typedef CombatArt<UseArgument> super;
 
   public:
     typedef UseArgument_T UseArgument;
@@ -51,6 +49,9 @@ class DivineGift : public CombatArt<UseArgument_T> {
 
     const int block_cost_;
     resource::CapacityBlocks& caster_blocks_;
+
+  private:
+    typedef CombatArt<UseArgument_T> super;
 };
 
 } // skills

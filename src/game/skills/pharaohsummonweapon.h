@@ -9,11 +9,11 @@
 namespace skills {
 
 class PharaohSummonWeapon : public CombatArt<usearguments::Aim> {
-  private:
-    typedef CombatArt<usearguments::Aim> super;
   public:
     PharaohSummonWeapon(sprite::Creature* owner);
     virtual void Use();
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 }

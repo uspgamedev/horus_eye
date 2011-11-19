@@ -20,6 +20,8 @@ using ugdk::Vector2D;
 const float MummyRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
 
 void MummyRangedWeapon::Use(){
+    super::Use();
+
     scene::World* world = WORLD();
     sprite::Hero* hero = world->hero();
 

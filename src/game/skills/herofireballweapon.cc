@@ -22,6 +22,7 @@ using namespace utils;
 using utils::Constants;
 
 void HeroFireballWeapon::Use() {
+    super::Use();
     //static Vector2D projectile_height = World::FromScreenLinearCoordinates(Vector2D(0,Constants::FIREBALL_SPRITE_CENTER_Y+Constants::FIREBALL_HEIGHT));
 
     Vector2D versor = (use_argument_.destination_ /*+ projectile_height*/ - use_argument_.origin_).Normalize(),
@@ -32,12 +33,9 @@ void HeroFireballWeapon::Use() {
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.Fireball(versor), pos);
 
-
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-
-    caster_mana_ -= mana_cost_;
 }
 
 

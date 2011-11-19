@@ -17,6 +17,8 @@ class HeroLightWeapon : public CombatArt<usearguments::Aim> {
     HeroLightWeapon(sprite::Hero* owner);
     virtual void Use();
     virtual bool IsValidUse() const;
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 }//namespace

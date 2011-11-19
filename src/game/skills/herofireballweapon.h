@@ -14,6 +14,8 @@ class HeroFireballWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroFireballWeapon(sprite::Hero* owner);
     virtual void Use();
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 } // namespace skills

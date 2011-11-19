@@ -13,6 +13,8 @@ class HeroMeteorWeapon : public CombatArt<usearguments::Aim> {
     HeroMeteorWeapon(sprite::Hero* owner);
     virtual void Use();
     virtual bool IsValidUse() const;
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 } // namespace skills

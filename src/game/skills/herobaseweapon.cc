@@ -21,14 +21,14 @@ HeroBaseWeapon::HeroBaseWeapon(sprite::Hero* owner)
     : CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()) {}
 
 void HeroBaseWeapon::Use(){
+    super::Use();
+
     World *world = WORLD();
 
     Vector2D versor = (use_argument_.destination_ - use_argument_.origin_).Normalize(),
              pos = use_argument_.origin_;
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.MagicMissile(versor), pos);
-
-    caster_mana_ -= mana_cost_;
 
     utils::Settings settings;
     if(settings.sound_effects())

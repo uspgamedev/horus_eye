@@ -14,6 +14,8 @@ class HeroLightningWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroLightningWeapon(sprite::Hero* owner);
     virtual void Use();
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 }//namespace

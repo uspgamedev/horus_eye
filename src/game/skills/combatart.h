@@ -37,6 +37,9 @@ class CombatArt : public ArgSkill<UseArgument_T> {
 
     const float mana_cost_;
     resource::Energy& caster_mana_;
+
+  private:
+    typedef ArgSkill<UseArgument_T> super;
 };
 
 } // skills

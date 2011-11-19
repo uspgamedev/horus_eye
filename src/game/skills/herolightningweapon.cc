@@ -22,8 +22,9 @@ using namespace utils;
 using utils::Constants;
 
 void HeroLightningWeapon::Use() {
+    super::Use();
     //static Vector2D projectile_height = World::FromScreenCoordinates(Vector2D(0,Constants::LIGHTNING_SPRITE_CENTER_Y+Constants::LIGHTNING_HEIGHT));
-    
+
     Vector2D versor = (use_argument_.destination_ /*+ projectile_height*/ - use_argument_.origin_).Normalize(),
              pos = use_argument_.origin_;
 
@@ -36,8 +37,6 @@ void HeroLightningWeapon::Use() {
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    
-    caster_mana_ -= mana_cost_;
 }
 
 

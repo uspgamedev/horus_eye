@@ -48,6 +48,9 @@ class ArgSkill : public Skill {
         : Skill(icon), use_argument_(use_argument) {}
 
     const UseArgument& use_argument_;
+
+  private:
+    typedef Skill super;
 };
 
 } // skills

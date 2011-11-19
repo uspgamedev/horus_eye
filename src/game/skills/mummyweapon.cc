@@ -13,6 +13,8 @@ namespace skills {
 const float MummyWeapon::range_ = 1.0f;
 
 void MummyWeapon::Use(){
+    super::Use();
+
 	scene::World *world = WORLD();
 	sprite::Hero* hero = world->hero();
 	

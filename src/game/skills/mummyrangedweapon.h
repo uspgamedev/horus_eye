@@ -18,6 +18,8 @@ class MummyRangedWeapon : public CombatArt<usearguments::Aim> {
     virtual bool IsValidUse() const;
 
   private:
+    typedef CombatArt<usearguments::Aim> super;
+
     int damage_;
     const static float range_;
 };
