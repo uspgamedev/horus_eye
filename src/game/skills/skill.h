@@ -23,8 +23,10 @@ class Skill {
     */
     virtual void Use() = 0;
 
-    /// Verifies if the 
+    /// Verifies if the skill's arguments are valid for an use right now.
     virtual bool IsValidUse() const = 0;
+
+    /// Verifies if the skill has the necessary resourses to use right now.
     virtual bool Avaiable() const = 0;
 
     // Legacy hacks, we must remove these when we can.
