@@ -7,12 +7,16 @@ namespace ugdk {
 class Image;
 }
 
+namespace scene {
+class World;
+}
+
 namespace sprite {
 
 class Door: public sprite::WorldObject {
   
   public:
-    Door(ugdk::Image* image);
+    Door(ugdk::Image* image, scene::World *world);
     virtual ~Door() {}
 };
 

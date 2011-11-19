@@ -171,7 +171,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				GameMap& matrix = world_->level_matrix();
 				if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
 					Vector2D pos = position + Vector2D(0.5, 0);
-					world_->AddWorldObject(new Door(image_factory->DoorImage()), pos);
+					world_->AddWorldObject(new Door(image_factory->DoorImage(), world_), pos);
 
 				}
 			//Sembreakdeproposito.

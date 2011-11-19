@@ -1,7 +1,8 @@
-#include "projectile.h"
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/image.h>
-//#include "game/utils/circleobject.h"
+
+#include "projectile.h"
+
 #include "game/sprites/creatures/creature.h"
 
 using namespace ugdk;
@@ -11,9 +12,8 @@ namespace sprite {
 
 INITIALIZE_COLLIDABLE_NODE(Projectile, WorldObject);
 
-Projectile::Projectile(int damage, float speed, int duration, Vector2D & dir) 
+Projectile::Projectile(float speed, int duration, Vector2D & dir) 
     :   TimedWorldObject(duration / 1000.0f),
-        damage_(damage),
         speed_(speed),
         direction_(Vector2D::Normalized(dir))
     {}

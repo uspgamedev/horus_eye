@@ -1,6 +1,4 @@
-
 #include <cmath>
-
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/base/types.h>
@@ -39,28 +37,34 @@ ugdk::AnimationSet* ProjectileBuilder::lightning_animation_ = NULL;
 ugdk::uint32 ProjectileBuilder::fireball_animation_map_[8], 
              ProjectileBuilder::lightning_animation_map_[8];
 
+struct ObjectAndDamage {
+    ObjectAndDamage(WorldObject *object, float dmg)
+        : obj(object), damage(dmg) {}
 
-COLLISION_DIRECT(Projectile*, Die, data) { 
+    WorldObject *obj;
+    float damage;
+};
+
+COLLISION_DIRECT(WorldObject*, DieCollision, data) { 
     data_->Die();
 }
 
-COLLISION_DIRECT(Projectile*, Damage, obj) {
+COLLISION_DIRECT(float, DamageCollision, obj) {
 	Creature *creature = (Creature *) obj;
-    if (data_->is_active())
-        creature->TakeDamage(data_->damage());
+    creature->TakeDamage(data_);
 }
 
-COLLISION_DIRECT(Projectile*, DamageAndDie, obj) {
+COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
 	Creature *creature = (Creature *) obj;
-    if (data_->is_active())
-        creature->TakeDamage(data_->damage());
-    data_->Die();
+    if (data_.obj->is_active())
+        creature->TakeDamage(data_.damage);
+    data_.obj->Die();
 }
 
 static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {
     CollisionObject* col = new CollisionObject(proj);
     col->set_collision_class(GET_COLLISIONMASK(Projectile));
-    col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new Die(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new DieCollision(proj));
     proj->set_collision_object(col);
     proj->set_shape(new pyramidworks::geometry::Circle(radius));
     return col;
@@ -93,29 +97,31 @@ void ProjectileBuilder::InitializeAnimations() {
 }
 
 Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
-    Projectile *proj = new Projectile(Constants::PROJECTILE_DAMAGE, Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
+    Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
     proj->Initialize( factory_->MagicMissileImage() );
     proj->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
     proj->set_light_radius(1.0f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndDie(proj));
+    struct ObjectAndDamage data(proj, Constants::PROJECTILE_DAMAGE);
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndDieCollision(data));
     return proj;
 }
 
 Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
-    Projectile *proj = new Projectile(damage, Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
+    Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
     proj->Initialize( factory_->MummyProjectileImage() );
     proj->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
     proj->set_light_radius(0.75f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndDie(proj));
+    struct ObjectAndDamage data(proj, damage);
+    col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndDieCollision(data));
     return proj;
 }
 
 Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
-    Projectile *proj = new Projectile(Constants::LIGHTNING_DAMAGE, Constants::LIGHTNING_SPEED, Constants::LIGHTNING_DURATION, dir);
+    Projectile *proj = new Projectile(Constants::LIGHTNING_SPEED, Constants::LIGHTNING_DURATION, dir);
     proj->Initialize( factory_->LightningImage(), lightning_animation_ );
     proj->set_hotspot(Vector2D(Constants::LIGHTNING_SPRITE_CENTER_X, Constants::LIGHTNING_SPRITE_CENTER_Y + Constants::LIGHTNING_SPRITE_HEIGHT));
     proj->SelectAnimation(GetAnimationIndexFromDir(dir));
@@ -123,7 +129,7 @@ Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
 
 
     CollisionObject* col = buildBasicCollision(proj, 0.25f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new Damage(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageCollision(Constants::LIGHTNING_DAMAGE));
     return proj;
 }
 
@@ -142,7 +148,7 @@ Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
 
 
     CollisionObject* col = buildBasicCollision(proj, 0.25f);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new Die(proj));
+    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DieCollision(proj));
     return proj;
 }
 
