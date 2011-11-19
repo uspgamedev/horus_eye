@@ -1,25 +1,30 @@
 #ifndef PYRAMIDWORKS_GEOMETRY_RECT_H_
 #define PYRAMIDWORKS_GEOMETRY_RECT_H_
 
-#include "geometricshape.h"
+#include <pyramidworks/geometry/geometricshape.h>
 
 namespace pyramidworks {
 namespace geometry {
 
-class Circle;
-
+/// A rect, one type of GeometricShape.
 class Rect : public GeometricShape {
   public:
+    /** @param width  The rect width. 
+      * @param height The rect height. */
     Rect(float width, float height)
       : half_width_(width/2), half_height_(height/2) {}
-    virtual ~Rect() {}
-
+    
+    /// Returns the rect width.
+    /** @return A float. */
     float width() const { return 2*half_width_; }
+
+    /// Returns the rect height.
+    /** @return A float. */
     float height() const { return 2*half_height_; }
 
+    bool Intersects (const GeometricShape *) const;
     bool Intersects (const Rect *) const;
     bool Intersects (const Circle *) const;
-    bool Intersects (const GeometricShape *) const;
 
   private:
     float half_width_, half_height_;

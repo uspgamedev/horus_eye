@@ -3,7 +3,6 @@
 
 #include <string>
 #include <map>
-#include <list>
 
 namespace pyramidworks {
 namespace collision {
@@ -20,19 +19,28 @@ namespace collision {
 
 
 class CollisionClass;
+
+/// A singleton that manages all collisions.
 class CollisionManager {
   public:
+    /// The singleton's reference method.
+    /** @return A pointer to the only CollisionManager. */
 	static CollisionManager* reference() {
 		return reference_ ? reference_ : reference_ = new CollisionManager;
 	}
 
+    /// Returns a CollisionClass of the asked name.
+    /** Searches for a CollisionClass with the given name, creating a new one if 
+      * none is found.
+      * @param name The name to search for.
+      * @return A pointer to a CollisionClass. */
 	CollisionClass* Generate(std::string name) { return Get(name); }
 	const CollisionClass* Generate(std::string name, std::string parent);
 
 	~CollisionManager();
 
   private:
-    /// Singleton stuff
+    // Singleton stuff
 	CollisionManager() {}
     static CollisionManager *reference_;
 
