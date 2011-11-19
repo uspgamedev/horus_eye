@@ -46,7 +46,9 @@ World::World(sprite::Hero *hero) : Scene(), world_layer_(new ugdk::Layer()), mus
 }
 
 // Destrutor
-World::~World() {}
+World::~World() {
+    if(image_factory_) delete image_factory_;
+}
 
 bool worldObjectIsDead (const WorldObject* value) {
     bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);

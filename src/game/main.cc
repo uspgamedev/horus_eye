@@ -34,6 +34,7 @@ void StartGame() {
     if(level_manager()->RestartGameQueued()) {
         if(engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen()) == false) {
             // HOLY CRAP, can't use that resolution!
+            fprintf(stderr, "Invalid Resolution. Fallback to windowed 800x600\n");
         }
     }
 
