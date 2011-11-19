@@ -4,6 +4,7 @@
 
 #include "collisionobject.h"
 
+#include "pyramidworks/collision/collisionmanager.h"
 #include "pyramidworks/collision/collisionclass.h"
 #include "pyramidworks/collision/collisionlogic.h"
 #include "pyramidworks/geometry/geometricshape.h"

@@ -21,16 +21,12 @@ namespace sprite {
 class Hero : public Creature {
   
   public:
-    Hero(ugdk::Image* img = NULL);
+    Hero(ugdk::Image* img);
     ~Hero();
 
     float FullMana();
 
     resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
-
-    bool HasBreakableManaBlocks(int quantity);
-    void BreakManaBlocks(int quantity);
-    void RepairManaBlocks(int quantity);
 
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
@@ -40,13 +36,11 @@ class Hero : public Creature {
 	void Invulnerable(int time);
     
   private:
-    ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
-    float time_to_recover_speed_;
     std::map<int, skills::Skill*> weapons_;
+    skills::Skill *secondary_weapon_;
     int slot_selected_;
     float light_oscilation_;
-    skills::Skill *secondary_weapon_;
 
     resource::CapacityBlocks mana_blocks_;
 

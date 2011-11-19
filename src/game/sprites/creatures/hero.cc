@@ -85,8 +85,6 @@ Hero::Hero(Image* img)
 
     light_oscilation_ = 0.0f;
     
-    printf("hero: %lu\n", (unsigned long int) collision_object_);
-
     SET_COLLISIONCLASS(Hero);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
     ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
@@ -96,20 +94,6 @@ Hero::~Hero() {}
 
 float Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
-}
-
-bool Hero::HasBreakableManaBlocks(int quantity) {
-    return mana_blocks_ >= quantity;
-}
-
-void Hero::BreakManaBlocks(int quantity) {
-    mana_blocks_ -= quantity;
-    mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
-}
-
-void Hero::RepairManaBlocks(int quantity) {
-    mana_blocks_ += quantity;
-    mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
 }
 
 void Hero::AddWeapon(int slot, skills::Skill* combat_art) {

@@ -6,6 +6,7 @@
 namespace pyramidworks {
 namespace geometry {
 
+/// \class Rect rect.h "pyramidworks/geometry/rect.h"
 /// A rect, one type of GeometricShape.
 class Rect : public GeometricShape {
   public:

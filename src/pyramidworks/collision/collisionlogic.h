@@ -10,7 +10,7 @@ namespace collision {
 	void Handle(void*); }; \
     void NAME::Handle(void* ARG)
 
-
+/// \class CollisionLogic collisionlogic.h "pyramidworks/collision/collisionlogic.h"
 /// Class that handles what happens when a collision happens.
 /** Use the macro COLLISION_DIRECT to create a new class that implements the 
   * Handle method and contains a data variable. */

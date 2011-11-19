@@ -20,6 +20,7 @@ namespace collision {
 
 class CollisionClass;
 
+/// \class CollisionManager collisionmanager.h "pyramidworks/collision/collisionmanager.h"
 /// A singleton that manages all collisions.
 class CollisionManager {
   public:

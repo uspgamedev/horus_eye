@@ -2,10 +2,7 @@
 #define PYRAMIDWORKS_COLLISION_COLLISIONMASK_H_
 
 #include <string>
-#include <map>
 #include <list>
-
-#include "pyramidworks/collision/collisionmanager.h"
 
 namespace pyramidworks {
 namespace collision {
@@ -14,6 +11,7 @@ class CollisionObject;
 
 typedef std::list<const CollisionObject *> CollisionObjectList;
 
+/// \class CollisionClass collisionclass.h "pyramidworks/collision/collisionclass.h"
 class CollisionClass {
   public:
     ~CollisionClass() {}

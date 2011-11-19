@@ -19,6 +19,7 @@ class CollisionLogic;
 
 typedef std::pair<CollisionLogic*, void* > CollisionInstance;
 
+/// \class CollisionObject collisionobject.h "pyramidworks/collision/collisionobject.h"
 /// A class that knows how to manage collisions.
 /** It encapsulates everything that is related to collisions, from finding the
   * collisions to calling the corresponding methods. */

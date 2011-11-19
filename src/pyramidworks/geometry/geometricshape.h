@@ -9,6 +9,7 @@ namespace geometry {
 class Circle;
 class Rect;
 
+/// \class GeometricShape geometricshape.h "pyramidworks/geometry/geometricshape.h"
 /// A geometric shape.
 class GeometricShape {
   public:

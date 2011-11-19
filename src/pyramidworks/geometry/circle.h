@@ -6,6 +6,7 @@
 namespace pyramidworks {
 namespace geometry {
 
+/// \class Circle circle.h "pyramidworks/geometry/circle.h"
 /// A circle, one type of GeometricShape.
 class Circle : public GeometricShape {
   public:
