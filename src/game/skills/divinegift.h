@@ -20,9 +20,6 @@ class DivineGift : public CombatArt<UseArgument_T> {
   public:
     typedef UseArgument_T UseArgument;
 
-    // We need to remove these.
-	virtual float range() const = 0;
-
     /// Uses the skill, decrementing the caster's mana and blocks.
     /** This Use decrements the caster's mana by the mana cost and the caster's
         blocks by the block cost when called. 

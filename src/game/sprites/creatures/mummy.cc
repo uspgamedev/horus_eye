@@ -126,13 +126,14 @@ void Mummy::Think(float dt) {
 			path_ = strategy.Calculate(world_position());
 			UpdateDirection(path_.front());
 			
-			Vector2D diff;
-			diff = path_.front() - world_position();
-			if(diff.length() <= weapon_->range()){
-				weapon_->Use();
-                this->StartAttack(NULL);
-				speed_ = 0;
-			}
+            if(weapon_->Avaiable()) {
+                aim_destination_ = path_.front();
+                if(weapon_->IsValidUse()){
+				    weapon_->Use();
+                    this->StartAttack(NULL);
+				    speed_ = 0;
+			    }
+            }
 		}
         else if(!standing_){
             RandomMovement();
@@ -142,7 +143,6 @@ void Mummy::Think(float dt) {
 }
 
 void Mummy::Update(float delta_t) {
-
     if (status_ == WorldObject::STATUS_DEAD) return;
     Creature::Update(delta_t);
     Vector2D dir(0,0);

@@ -14,11 +14,11 @@ class MummyWeapon : public CombatArt<usearguments::Aim> {
         : CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
           damage_(damage) {}
 
-    virtual float range() const { return 1.0f; }
     virtual void Use();
-    virtual bool IsValidUse() const { return true; }
+    virtual bool IsValidUse() const;
   private:
     int damage_;
+    const static float range_;
 };
 
 } // skills

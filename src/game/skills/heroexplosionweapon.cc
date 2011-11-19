@@ -15,22 +15,20 @@
 namespace skills {
 
 using scene::World;
-using namespace utils;
 using utils::Constants;
 
+const float HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
     : DivineGift<usearguments::Aim>(
         NULL, utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) {
 
-    HudImageFactory imfac;
+    utils::HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();
 }
 
 void HeroExplosionWeapon::Use() {
-
     super::Use();
-
     World *world = WORLD();
     sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
                                             sprite::Explosion::HERO_EXPLOSION_WEAPON,
@@ -44,10 +42,10 @@ void HeroExplosionWeapon::Use() {
 }
 
 bool HeroExplosionWeapon::IsValidUse() const {
-    VisionStrategy vs;
+    utils::VisionStrategy vs;
     float distance = (use_argument_.destination_ - use_argument_.origin_).length();
-    return DivineGift<usearguments::Aim>::IsValidUse()
-        && (distance <= range())
+    return super::IsValidUse()
+        && (distance <= range_)
         && vs.IsVisible(use_argument_.destination_, use_argument_.origin_);
 }
 

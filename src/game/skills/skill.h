@@ -29,9 +29,6 @@ class Skill {
     /// Verifies if the skill has the necessary resourses to use right now.
     virtual bool Avaiable() const = 0;
 
-    // Legacy hacks, we must remove these when we can.
-    virtual float range() const = 0;
-
   protected:
     Skill(ugdk::Image* icon) : icon_(icon) {}
     ugdk::Image* icon_;

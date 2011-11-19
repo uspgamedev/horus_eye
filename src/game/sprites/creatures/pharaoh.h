@@ -31,8 +31,6 @@ class Pharaoh : public Mummy {
 	skills::Skill *ranged_weapon_, *summon_weapon_;
 
 	void Update(float delta_t);
-	bool CanAttackWithMeele(Vector2D diff);
-	bool CanAttackWithRangedWeapon(Vector2D diff);
     void Think(float dt);
 
 };

@@ -17,6 +17,8 @@ namespace skills {
 
 using ugdk::Vector2D;
 
+const float MummyRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
+
 void MummyRangedWeapon::Use(){
     scene::World* world = WORLD();
     sprite::Hero* hero = world->hero();
@@ -30,6 +32,11 @@ void MummyRangedWeapon::Use(){
     utils::Settings settings;
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+}
+
+bool MummyRangedWeapon::IsValidUse() const {
+    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    return (distance <= range_);
 }
 
 }

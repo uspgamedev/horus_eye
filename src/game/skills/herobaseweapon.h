@@ -13,10 +13,7 @@ namespace skills {
 class HeroBaseWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroBaseWeapon(sprite::Hero* owner);
-
-    virtual float range() const { return 0.0f; }
     virtual void Use();
-
 };
 
 } // skills

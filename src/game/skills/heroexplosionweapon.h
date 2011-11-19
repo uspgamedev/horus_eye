@@ -13,14 +13,15 @@ class Hero;
 namespace skills {
 
 class HeroExplosionWeapon : public DivineGift<usearguments::Aim> {
+  private:
+    typedef DivineGift<usearguments::Aim> super;
   public:
     HeroExplosionWeapon(sprite::Hero* owner);
-
-    typedef DivineGift<usearguments::Aim> super;
-
-    virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
     virtual void Use();
     virtual bool IsValidUse() const;
+
+  private:
+    const static float range_;
 };
 
 } // skills

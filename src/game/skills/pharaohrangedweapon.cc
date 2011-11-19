@@ -17,6 +17,8 @@ namespace skills {
 
 using ugdk::Vector2D;
 
+const float PharaohRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
+
 void PharaohRangedWeapon::Use(){
     scene::World *world = WORLD();
     sprite::Hero* hero = world->hero();
@@ -38,6 +40,11 @@ void PharaohRangedWeapon::Use(){
     utils::Settings settings;
     if(settings.sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+}
+
+bool PharaohRangedWeapon::IsValidUse() const {
+    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    return (distance >= range_ / 2.0f) && (distance <= range_);
 }
 
 }

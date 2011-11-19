@@ -15,13 +15,9 @@ class PharaohSummonWeapon : public CombatArt<usearguments::Aim> {
         : CombatArt<usearguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST,
                                         owner->mana(), owner->aim()),
           owner_(owner) {}
-    virtual ~PharaohSummonWeapon() {}
 
-    virtual float range() const { return utils::Constants::PHARAOH_SUMMON_RANGE; }
     virtual void Use();
-    virtual bool IsValidUse() const {
-        return owner_->mana().Has(mana_cost_);
-    }
+
   protected:
     sprite::Creature* owner_;
 };

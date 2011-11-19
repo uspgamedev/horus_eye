@@ -22,6 +22,7 @@ namespace sprite {
 Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
 	life_ = Energy(life);
 	mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
+    identifier_ = "Pharaoh";
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;
@@ -41,18 +42,8 @@ void Pharaoh::Update(float delta_t) {
 	AdjustBlink(delta_t);
 }
 
-bool Pharaoh::CanAttackWithMeele(Vector2D diff) {
-	if(diff.length() > weapon_->range()) return false;
-	return weapon_->IsValidUse();
-}
-
-bool Pharaoh::CanAttackWithRangedWeapon(Vector2D diff) {
-	if(diff.length() < ranged_weapon_->range()/2.0f) return false;
-	if(diff.length() > ranged_weapon_->range()) return false;
-	return ranged_weapon_->IsValidUse();
-}
-
 void Pharaoh::Think(float dt) {
+    Creature::Update(dt);
 	time_to_think_ -= dt;
 	if(time_to_think_ <= 0) {
 		time_to_think_ = PHARAOH_TIME_TO_THINK;
@@ -64,20 +55,23 @@ void Pharaoh::Think(float dt) {
 			path_ = strategy.Calculate(world_position());
 			UpdateDirection(path_.front());
 
-			Vector2D diff = path_.front() - world_position();
-			if(CanAttackWithMeele(diff)){
+            aim_destination_ = path_.front();
+            if(weapon_->Avaiable() && weapon_->IsValidUse()){
 				weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
-			} else if(CanAttackWithRangedWeapon(diff)) {
+
+			} else if(ranged_weapon_->Avaiable() && ranged_weapon_->IsValidUse()) {
 				ranged_weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
-			} else if (summon_weapon_->IsValidUse()) {
+
+			} else if (summon_weapon_->Avaiable() && summon_weapon_->IsValidUse()) {
 			    summon_weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
 			}
+
 		} else if(!standing_) {
 			RandomMovement();
 			last_standing_animation_ = standing_animations_[animation_direction_];

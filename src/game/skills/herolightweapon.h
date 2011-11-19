@@ -15,8 +15,6 @@ namespace skills {
 class HeroLightWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroLightWeapon(sprite::Hero* owner);
-
-    virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; } // TODO: change to another value
     virtual void Use();
     virtual bool IsValidUse() const;
 };

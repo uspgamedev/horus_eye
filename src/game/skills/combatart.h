@@ -11,9 +11,6 @@ class CombatArt : public ArgSkill<UseArgument_T> {
   public:
     typedef UseArgument_T UseArgument;
 
-    // We need to remove these.
-	virtual float range() const = 0;
-
     /// Uses the skill, decrementing the caster's mana.
     /** This Use decrements the caster's mana by the mana cost when called. 
         Remember to call super::Use() when reimplementing. */
