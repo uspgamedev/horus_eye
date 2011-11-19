@@ -10,12 +10,20 @@ namespace collision {
 	void Handle(void*); }; \
     void NAME::Handle(void* ARG)
 
+
+/// Class that handles what happens when a collision happens.
+/** Use the macro COLLISION_DIRECT to create a new class that implements the 
+  * Handle method and contains a data variable. */
 class CollisionLogic {
   public:
-    CollisionLogic() {}
     virtual ~CollisionLogic() {}
 
-    virtual void Handle(void *) = 0;
+    /// Method that is called when a collision happens.
+    /** @param data The data attribute of an CollisionObject. */
+    virtual void Handle(void *data) = 0;
+
+  protected:
+    CollisionLogic() {}
 };
 
 } // namespace collision

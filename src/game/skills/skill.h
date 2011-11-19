@@ -11,6 +11,10 @@ class Image;
 
 namespace skills {
 
+/// An usable skill.
+/** Abstract class. Contains an icon.
+* @see CombatArt, DivineGift
+*/
 class Skill {
   public:
     virtual ~Skill() {}
@@ -30,13 +34,18 @@ class Skill {
     virtual bool Avaiable() const = 0;
 
   protected:
+    /**
+      @param icon The icon that is displayed on the user interface.
+      */
     Skill(ugdk::Image* icon) : icon_(icon) {}
     ugdk::Image* icon_;
 };
 
+/// A skill with an UseArgument.
 /**
  *  Template Class for all typed (argument-wise) skills.
  *  Few things reference this, to use skills you should reference the "Skill" interface above.
+ *  @see Skill
  */
 template<class UseArgument_T>
 class ArgSkill : public Skill {

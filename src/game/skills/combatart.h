@@ -6,6 +6,7 @@
 
 namespace skills {
 
+/// A skill that has an argument and a mana cost.
 template<class UseArgument_T>
 class CombatArt : public ArgSkill<UseArgument_T> {
   public:
@@ -17,7 +18,7 @@ class CombatArt : public ArgSkill<UseArgument_T> {
     virtual void Use() { caster_mana_ -= mana_cost_; }
 
     /// Verifies if the caster has enough mana.
-    /** @return mana is greater than the cost */
+    /** @return true if mana is greater than the cost */
 	virtual bool Avaiable() const { return caster_mana_.Has(mana_cost_); }
 
     /// A generic CombatArt has no use restrictions.
@@ -25,6 +26,12 @@ class CombatArt : public ArgSkill<UseArgument_T> {
     virtual bool IsValidUse() const { return true; }
 
   protected:
+    /**
+      @param icon The icon that is displayed on the user interface.
+      @param mana_cost The mana cost.
+      @param caster_mana The Energy from where the mana cost is removed.
+      @param use_argument The skill's argument.
+      */
     CombatArt(ugdk::Image* icon,
               float mana_cost,
               resource::Energy& caster_mana,
