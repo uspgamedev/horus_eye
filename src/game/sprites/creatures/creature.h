@@ -98,6 +98,8 @@ class Creature : public WorldObject , public ugdk::Observer {
         static const int DOWN = 8;
     };
 
+    Creature(resource::Energy &life, resource::Energy &mana);
+
     virtual void Update(float dt) {
         WorldObject::Update(dt);
         UpdateCondition(dt);

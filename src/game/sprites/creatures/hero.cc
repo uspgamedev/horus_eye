@@ -43,16 +43,16 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 
 #define SQRT_3 1.7320508075688772935274463415059
 
-#define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
-#define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
-
 COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-Hero::Hero(Image* img)
-    : Creature(),
-      mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK)  {
+Hero::Hero(ugdk::Image* img, 
+           resource::Energy &life, 
+           resource::Energy &mana, 
+           resource::CapacityBlocks &blocks)
+    : Creature(life, mana),
+      mana_blocks_(blocks)  {
 
     Initialize(img, ANIMATIONS);
 
@@ -64,17 +64,7 @@ Hero::Hero(Image* img)
         pressed_key_[i] = false;
     }
     SelectAnimation(last_standing_animation_);
-    set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
-						 static_cast<float>(HERO_HOTSPOT_Y)));
     original_speed_ = speed_ = Constants::HERO_SPEED;
-
-    // life and mana.
-    life_ = Energy(Constants::HERO_MAX_LIFE);
-    mana_ = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
-                   Constants::HERO_MANA_REGEN_BASE,
-                   Constants::HERO_BASE_MANA_REGEN_RATIO);
-
-    set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
     invulnerability_time_ = INVUL_TIME;
     super_armor_ = true;

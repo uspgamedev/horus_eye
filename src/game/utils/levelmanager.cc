@@ -18,13 +18,8 @@
 #include "game/scenes/loading.h"
 #include "game/sprites/creatures/creature.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/builders/herobuilder.h"
 #include "game/sprites/explosion.h"
-#include "game/skills/herofireballweapon.h"
-#include "game/skills/herobaseweapon.h"
-#include "game/skills/heroexplosionweapon.h"
-#include "game/skills/herolightningweapon.h"
-#include "game/skills/herolightweapon.h"
-#include "game/skills/herometeorweapon.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
@@ -142,18 +137,11 @@ void LevelManager::LoadNextLevel() {
         return;
     }
     utils::ImageFactory *factory = new utils::ImageFactory();
-	if (hero_ == NULL) {
-        hero_ = new sprite::Hero(factory->HeroImage());
-	}
 	if (level_list_iterator_ == 0) {
-		hero_->life().Fill();
-		hero_->set_mana(hero_->max_mana());
-		hero_->AddWeapon(0, new skills::HeroFireballWeapon(hero_));
-		hero_->AddWeapon(1, new skills::HeroExplosionWeapon(hero_));
-        hero_->AddWeapon(2, new skills::HeroLightningWeapon(hero_));
-		hero_->AddWeapon(3, new skills::HeroLightWeapon(hero_));
-        hero_->AddWeapon(4, new skills::HeroMeteorWeapon(hero_));
-		// Add here the other initial weapons of the hero.
+	    if (hero_ == NULL) {
+            builder::HeroBuilder builder(factory);
+            hero_ = builder.Kha();
+	    }
 	}
     current_level_ = new World(hero_, factory);
     LevelLoader *loader = new LevelLoader(current_level_);
