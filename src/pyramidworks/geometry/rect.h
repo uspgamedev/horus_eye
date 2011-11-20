@@ -11,9 +11,10 @@ namespace geometry {
 class Rect : public GeometricShape {
   public:
     /** @param width  The rect width. 
-      * @param height The rect height. */
-    Rect(float width, float height)
-      : half_width_(width/2), half_height_(height/2) {}
+      * @param height The rect height.
+      * @param offset The shape offset. Defaults to Vector2D(0, 0) */
+    Rect(float width, float height, ugdk::Vector2D offset = ugdk::Vector2D())
+      : GeometricShape(offset), half_width_(width/2), half_height_(height/2) {}
     
     /// Returns the rect width.
     /** @return A float. */
