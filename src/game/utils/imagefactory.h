@@ -9,8 +9,9 @@ namespace utils {
 
 class ImageFactory {
   public:
-    ImageFactory();
+    ImageFactory() {}
     virtual ~ImageFactory(){}
+
     virtual Image* HeroImage();
     virtual Image* MummyImage();
     virtual Image* RangedMummyImage();
@@ -30,28 +31,6 @@ class ImageFactory {
     virtual Image* EntryImage();
     virtual Image* LightningImage();
 	virtual Image* LightImage();
-
-  protected:
-    Image* hero_image_;
-    Image* mummy_image_;
-    Image* ranged_mummy_image_;
-    Image* big_mummy_image_;
-    Image* pharaoh_image_;
-    Image* projectile_image_;
-    Image* magicmissile_image_;
-    Image* mummy_projectile_image_;
-    Image* fireball_image_;
-    Image* explosion_image_;
-    Image* quake_image_;
-    Image* life_potion_image_;
-    Image* mana_potion_image_;
-    Image* sight_potion_image_;
-    Image* door_image_;
-    Image* floor_image_;
-    Image* wall_image_;
-    Image* entry_image_;
-    Image* lightning_image_;
-	Image* light_image_;
 };
 
 }

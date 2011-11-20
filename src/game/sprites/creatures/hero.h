@@ -24,7 +24,8 @@ class Hero : public Creature {
     Hero(ugdk::Image* img, 
          resource::Energy &life, 
          resource::Energy &mana, 
-         resource::CapacityBlocks &blocks);
+         int num_blocks, 
+         float mana_per_block);
     ~Hero();
 
     float FullMana();

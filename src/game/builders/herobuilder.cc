@@ -31,11 +31,12 @@ Hero* HeroBuilder::Kha() {
     Energy mana = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
                          Constants::HERO_MANA_REGEN_BASE,
                          Constants::HERO_BASE_MANA_REGEN_RATIO);
-    CapacityBlocks blocks = CapacityBlocks(mana, 
-                                           Constants::HERO_MAX_MANA_BLOCKS, 
-                                           Constants::HERO_MANA_PER_BLOCK);
 
-    Hero *hero = new sprite::Hero(factory_->HeroImage(), life, mana, blocks);
+    Hero *hero = new sprite::Hero(factory_->HeroImage(), 
+                                  life, 
+                                  mana, 
+                                  Constants::HERO_MAX_MANA_BLOCKS, 
+                                  Constants::HERO_MANA_PER_BLOCK);
 
     hero->set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
 						       static_cast<float>(HERO_HOTSPOT_Y)));
