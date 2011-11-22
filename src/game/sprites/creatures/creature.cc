@@ -196,46 +196,59 @@ void Creature::InitializeStandingAnimations() {
 // ============= other stuff
 
 void Creature::Move(Vector2D direction, float delta_t) {
+    // If you called Move() you should be in a stable position.
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;
+    // Now update the position.
     position = position + direction * (this->speed_ * delta_t);
     set_world_position(position);
 }
 
 void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
+    float distance = (world_position() - last_stable_position_).length();
     set_world_position(last_stable_position_);
 
     const pyramidworks::geometry::Circle *circle = 
         (const pyramidworks::geometry::Circle*) collision_object_->shape();
 
-    Vector2D line(rect->width(), rect->height());
+    // Get all values we'll need
     Vector2D circ_pos = circle->position();
+
     Vector2D rect_pos = rect->position();
 
-    float left = rect_pos.x - line.x/2;
-    float bottom = rect_pos.y - line.y/2;
-    float right = left + line.x;
-    float top = bottom + line.y;
+    float half_r_width  = rect->width() /2.0f;
+    float half_r_height = rect->height()/2.0f;
 
-    if (circ_pos.y < top && circ_pos.y > bottom)
+    float r_left   = rect_pos.x - half_r_width;
+    float r_right  = rect_pos.x + half_r_width;
+    float r_bottom = rect_pos.y - half_r_height;
+    float r_top    = rect_pos.y + half_r_height;
+
+    // first, if the collision is trivial (in other words, non-corner):
+    if(circ_pos.y <= r_top && circ_pos.y >= r_bottom)
         walking_direction_.x = 0;
-    else if (circ_pos.x < right && circ_pos.x > left)
+    else if(circ_pos.x <= r_right && circ_pos.x >= r_left)
         walking_direction_.y = 0;
+    // otherwise, we'll have to do some calculations:
     else {
-        Vector2D point(left, bottom);
-        if (circ_pos.x > right) point.x  = right;
-        if (circ_pos.y > top)   point.y = top;
-        Vector2D dir = circ_pos - point,
-                 tg_dir(-dir.y, dir.x);
+        // find the intersection point. Yep, it's a point -- the rect corner.
+        Vector2D intersection = Vector2D(r_left, r_bottom);
+        if (circ_pos.x >= r_right) intersection.x = r_right;
+        if (circ_pos.y >= r_top  ) intersection.y = r_top;
+
+        // find the circle tangent at the intersection point, this is a safe escape direction.
+        Vector2D radius = circ_pos - intersection,
+                 tg_dir(-radius.y, radius.x);
         if (Vector2D::InnerProduct(walking_direction_, tg_dir) > 0)
             walking_direction_ = tg_dir;
         else
             walking_direction_ = Vector2D()-tg_dir;
     }
 
-    walking_direction_ = Vector2D::Normalized(walking_direction_);
-
+    walking_direction_ = walking_direction_.Normalize();
+    set_world_position(world_position() + distance * walking_direction_);
 }
+
 
 void Creature::Tick() {
     if (status_ == WorldObject::STATUS_DYING) {
