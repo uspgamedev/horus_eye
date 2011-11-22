@@ -13,10 +13,11 @@ using namespace ugdk;
 bool Rect::Intersects (const Rect *rect) const {
     Vector2D    otherpos = rect->position(),
                 thispos  = this->position();
-    if((thispos.x > otherpos.x + rect->width()) ||
-       (thispos.y > otherpos.y + rect->height()) ||
-       (thispos.x + this->width() < otherpos.x) ||
-       (thispos.y + this->height() < otherpos.y))
+
+    if( (thispos.x - half_width_  > otherpos.x + rect->half_width_ ) ||
+        (thispos.x + half_width_  < otherpos.x - rect->half_width_ ) ||
+        (thispos.y - half_height_ > otherpos.y + rect->half_height_) ||
+        (thispos.y + half_height_ < otherpos.y - rect->half_height_))
         return false;
     else
         return true;

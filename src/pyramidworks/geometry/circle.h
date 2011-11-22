@@ -10,8 +10,10 @@ namespace geometry {
 /// A circle, one type of GeometricShape.
 class Circle : public GeometricShape {
   public:
-    /** @param radius The circle radius. */
-    Circle(float radius) : radius_(radius) {}
+    /** @param radius The circle radius.
+      * @param offset The shape offset. Defaults to Vector2D(0, 0) */
+    Circle(float radius, ugdk::Vector2D offset = ugdk::Vector2D()) 
+        : GeometricShape(offset), radius_(radius) {}
 
     /// Getter for the radius.
     /** @return A float. */

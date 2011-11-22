@@ -57,6 +57,27 @@ Creature::Creature()
     ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
 }
 
+Creature::Creature(resource::Energy &life, resource::Energy &mana)
+    :   WorldObject(),
+        waiting_animation_(false),
+        animation_direction_(0),
+        weapon_(NULL),
+        last_stable_position_(),
+        life_(life),
+        mana_(mana),
+        sight_count_(0),
+        super_armor_(false),
+        invulnerability_time_(0),
+        blink_(false),
+        blink_time_(new TimeAccumulator(75)),
+        hit_duration_(new TimeAccumulator(0)),
+        aim_(world_position_, aim_destination_) {
+
+    INITIALIZE_COLLISION;
+    // Teach this creature how to collides with Walls.
+    ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
+}
+
 Creature::~Creature() {
     if (hit_duration_) delete hit_duration_;
     if (blink_time_) delete blink_time_;

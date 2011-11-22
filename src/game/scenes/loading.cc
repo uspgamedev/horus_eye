@@ -6,6 +6,7 @@
 #include <ugdk/graphic/videomanager.h>
 #include "game/utils/levelmanager.h"
 #include "game/utils/textloader.h"
+#include "game/utils/imagefactory.h"
 
 namespace scene {
 
@@ -40,6 +41,17 @@ void Loading::Update(float delta_t) {
     Scene::Update(delta_t);
     if(has_been_drawn_) {
         //Finish();
+        utils::ImageFactory factory;
+
+        // Load projectiles
+        factory.MagicMissileImage();
+        factory.FireballImage();
+        factory.LightningImage();
+        factory.LightImage();
+
+        // Load explosions.
+        factory.ExplosionImage();
+        factory.QuakeImage();
         utils::LevelManager::reference()->LoadNextLevel();
     }
     has_been_drawn_ = !has_been_drawn_;

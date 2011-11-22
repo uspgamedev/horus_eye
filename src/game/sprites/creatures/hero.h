@@ -21,7 +21,11 @@ namespace sprite {
 class Hero : public Creature {
   
   public:
-    Hero(ugdk::Image* img);
+    Hero(ugdk::Image* img, 
+         resource::Energy &life, 
+         resource::Energy &mana, 
+         int num_blocks, 
+         float mana_per_block);
     ~Hero();
 
     float FullMana();
