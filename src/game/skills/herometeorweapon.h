@@ -1,20 +1,20 @@
 #ifndef HORUSEYE_GAME_SKILLS_HEROMETEORWEAPON_H_
 #define HORUSEYE_GAME_SKILLS_HEROMETEORWEAPON_H_
 
-#include "game/skills/combatart.h"
+#include "game/skills/divinegift.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 
 namespace skills {
 
-class HeroMeteorWeapon : public CombatArt<castarguments::Aim> {
+class HeroMeteorWeapon : public DivineGift<usearguments::Aim> {
   public:
     HeroMeteorWeapon(sprite::Hero* owner);
-
-    virtual float range() const { return 0.0f; }
-    virtual void Attack();
-    virtual bool Available() const;
+    virtual void Use();
+    virtual bool IsValidUse() const;
+  private:
+    typedef DivineGift<usearguments::Aim> super;
 };
 
 } // namespace skills

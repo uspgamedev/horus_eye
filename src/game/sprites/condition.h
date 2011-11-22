@@ -16,8 +16,9 @@ class Condition {
     
     virtual void Update(float delta_t) = 0;
     virtual Phase phase() { return phase_; }
-  	virtual void EndCondition(Creature *creature) {}
-  	virtual void StartCondition(Creature *creature) {}
+
+    virtual void StartCondition(Creature *creature) { phase_ = PHASE_ACTIVE; }
+  	virtual void EndCondition(Creature *creature) { phase_ = PHASE_FINISHED; }
     
   protected:
   	Condition (Creature* owner) : owner_(owner), phase_(PHASE_IDLE) {}

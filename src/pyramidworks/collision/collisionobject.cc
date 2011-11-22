@@ -4,6 +4,7 @@
 
 #include "collisionobject.h"
 
+#include "pyramidworks/collision/collisionmanager.h"
 #include "pyramidworks/collision/collisionclass.h"
 #include "pyramidworks/collision/collisionlogic.h"
 #include "pyramidworks/geometry/geometricshape.h"
@@ -11,7 +12,10 @@
 namespace pyramidworks {
 namespace collision {
 
-CollisionObject::CollisionObject(void *data) : data_(data), collision_class_(NULL), shape_(NULL) {
+CollisionObject::CollisionObject(void *data) 
+    :   data_(data),
+        collision_class_(NULL), 
+        shape_(NULL) {
     if(collision_class_ != NULL)
         collision_class_->AddObject(this);
 }
@@ -46,17 +50,26 @@ bool CollisionObject::IsColliding(const CollisionObject* obj) const {
     return this->shape_->Intersects(obj->shape_);
 }
 
+void CollisionObject::AddCollisionLogic(std::string colclass, CollisionLogic* logic) {
+    AddCollisionLogic(CollisionManager::reference()->Generate(colclass), logic);
+}
+
 void CollisionObject::AddCollisionLogic(const CollisionClass* collision_class, CollisionLogic* logic) {
     CollisionLogic *query = known_collisions_[collision_class];
     if( query != NULL ) delete query;
     known_collisions_[collision_class] = logic;
 }
 
+void CollisionObject::set_collision_class(std::string colclass) {
+    set_collision_class(CollisionManager::reference()->Generate(colclass));
+}
 
 void CollisionObject::set_collision_class(CollisionClass* collision_class) {
     if(collision_class_ != NULL) {
-        fprintf(stderr, "HOLY CRAPZ\n");
-        exit(1);
+        fprintf(stderr, "Fatal Error: Changing the collision_class of a CollisionObject.\n");
+        int *error_generator = NULL;
+        *error_generator += 0xCAFE;
+        exit(2);
     }
     collision_class_ = collision_class;
     collision_class_->AddObject(this);

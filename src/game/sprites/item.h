@@ -20,9 +20,7 @@ class Item: public sprite::WorldObject {
     ItemEvent *event_;
     float total_time_;
 
-    COLLISION_BEGIN
-		COLLISION_ADD (Item, Use)
-	COLLISION_END
+    friend class UseCollision;
 };
 
 }

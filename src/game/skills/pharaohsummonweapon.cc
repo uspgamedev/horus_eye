@@ -1,7 +1,6 @@
 #include "pharaohsummonweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
@@ -22,20 +21,26 @@ bool isObstacle(utils::Tile* tile) {
     return (tile->object() == WALL || tile->object() == DOOR || tile->object() == ENTRY);
 }
 
-void PharaohSummonWeapon::Attack() {
-    scene::World *world = WORLD();
-    sprite::Hero* hero = world->hero();
+PharaohSummonWeapon::PharaohSummonWeapon(sprite::Creature* owner)
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST, owner->mana(), owner->aim()) {}
 
-    //TODO:FIX
-    Vector2D direction = (hero->world_position() - cast_argument_.origin_ ).Normalize();
-    Vector2D mummyPos = direction*range() + cast_argument_.origin_;
+void PharaohSummonWeapon::Use() {
+    super::Use();
+
+    Vector2D mummyPos = use_argument_.origin_;
+    //TODO:FIX code to spawn mummy not on pharaoh
+    /*
+    Vector2D direction = (use_argument_.destination_ - use_argument_.origin_ ).Normalize();
+    Vector2D mummyPos = direction*RANGE_HERE + use_argument_.origin_;
 
     utils::GameMap& map = world->level_matrix();
     utils::Tile *tile = utils::Tile::GetFromWorldPosition(map, mummyPos);
     if(isObstacle(tile) || isObstacle(tile->Up(map)) || isObstacle(tile->Down(map))
             || isObstacle(tile->Left(map)) || isObstacle(tile->Right(map)) )
-    //if(!strategy.IsVisible(owner_->world_position(), mummyPos))
-        mummyPos = cast_argument_.origin_;
+    //if(!strategy.IsVisible(owner_->world_position(), mummyPos)) */
+
+
+
     /* The choice of mummy type to summon here is based on a discrete percent probability.
        A value in the range [0, 100[ is chosen randomly, and then depending on where it
        sits in the range, according to boundaries determined by our SUMMON_<>_CHANCE defines,
@@ -46,9 +51,11 @@ void PharaohSummonWeapon::Attack() {
        0                      30                    50                                           100
        So in this example, we will summon a big mummy.
        */
-    int choice = rand()%100;
+    scene::World *world = WORLD();
     utils::ImageFactory *image_factory = world->image_factory();
     builder::MummyBuilder mummy_builder;
+
+    int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
         world->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();
@@ -61,6 +68,4 @@ void PharaohSummonWeapon::Attack() {
         world->AddWorldObject(mummy_builder.WalkingMummy(image_factory->MummyImage()), mummyPos);
         world->IncreaseNumberOfEnemies();
     }
-
-    owner_->set_mana( owner_->mana() - utils::Constants::PHARAOH_SUMMON_MANA_COST );
 }

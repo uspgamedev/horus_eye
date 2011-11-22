@@ -42,10 +42,6 @@ class Explosion : public WorldObject, ugdk::Observer {
     static ugdk::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        WEAPON_ANIMATIONS[2];
 
-	COLLISION_BEGIN
-		COLLISION_ADD		(Explosion, Damage)
-	COLLISION_END
-
   private:
 	int damage_;
     float radius_;

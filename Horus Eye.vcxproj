@@ -22,6 +22,7 @@
     <ClCompile Include="src\editor\mapobject.cc" />
     <ClCompile Include="src\editor\scenes\editormenu.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
+    <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
     <ClCompile Include="src\game\builders\projectilebuilder.cc" />
@@ -85,11 +86,13 @@
     <ClInclude Include="src\editor\mapobject.h" />
     <ClInclude Include="src\editor\scenes\editormenu.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
+    <ClInclude Include="src\game\builders\herobuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
+    <ClInclude Include="src\game\resources\capacityblocks.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />
     <ClInclude Include="src\game\resources\countableresource.h" />
     <ClInclude Include="src\game\resources\energy.h" />
@@ -105,7 +108,7 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
-    <ClInclude Include="src\game\skills\castarguments.h" />
+    <ClInclude Include="src\game\skills\usearguments.h" />
     <ClInclude Include="src\game\skills\casttypes\aimedcast.h" />
     <ClInclude Include="src\game\skills\casttypes\casttype.h" />
     <ClInclude Include="src\game\skills\casttypes\ressources.h" />

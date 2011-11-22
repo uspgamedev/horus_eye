@@ -21,17 +21,16 @@ namespace sprite {
 class Hero : public Creature {
   
   public:
-    Hero(ugdk::Image* img = NULL);
+    Hero(ugdk::Image* img, 
+         resource::Energy &life, 
+         resource::Energy &mana, 
+         int num_blocks, 
+         float mana_per_block);
     ~Hero();
 
     float FullMana();
 
     resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
-
-    bool HasBreakableManaBlocks(int quantity);
-    void BreakManaBlocks(int quantity);
-    void RepairManaBlocks(int quantity);
-    //resource::Energy::rate_t& mana_regen_ratio() { return mana_.variation_rate(); }
 
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
@@ -39,22 +38,15 @@ class Hero : public Creature {
     skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
 	void Invulnerable(int time);
-
+    
   private:
-    ugdk::Vector2D screen_center_;
     bool pressed_key_[4];
-    float time_to_recover_speed_;
     std::map<int, skills::Skill*> weapons_;
+    skills::Skill *secondary_weapon_;
     int slot_selected_;
     float light_oscilation_;
-    skills::Skill *secondary_weapon_;
 
     resource::CapacityBlocks mana_blocks_;
-
-    void CollisionSlow();
-	COLLISION_BEGIN
-        COLLISION_ADD_INLINE (Hero, MummySlow, owner_->CollisionSlow(); )
-	COLLISION_END
 
     virtual void Update(float delta_t);
     virtual void PlayHitSound() const;
@@ -64,6 +56,9 @@ class Hero : public Creature {
     bool ShootingWithSecondaryWeapon();
     void GetKeys();
     void ChangeSecondaryWeapon(int slot);
+    void CollisionSlow();
+
+    friend class MummySlowCollision;
 };
 
 }

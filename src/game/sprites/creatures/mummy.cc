@@ -36,6 +36,11 @@ static int WaitingTime () {
     return (int)(1000*-log(1.0*rand()/RAND_MAX)/EXP_PARAM);
 }
 
+COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
+    WorldObject *obj = (WorldObject *) voiddata; 
+    data_->MummyAntiStack(obj);
+}
+
 Mummy::Mummy(Image* img) {
     Initialize(img, ANIMATIONS);
 
@@ -51,7 +56,7 @@ Mummy::Mummy(Image* img) {
     identifier_ = std::string("Mummy");
 
     SET_COLLISIONCLASS(Mummy);
-    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummyAntiStack(this));
+    ADD_COLLISIONLOGIC(Mummy, new MummyAntiStackCollision(this));
 }
 
 Mummy::~Mummy() {
@@ -126,13 +131,14 @@ void Mummy::Think(float dt) {
 			path_ = strategy.Calculate(world_position());
 			UpdateDirection(path_.front());
 			
-			Vector2D diff;
-			diff = path_.front() - world_position();
-			if(diff.length() <= weapon_->range()){
-				weapon_->Attack();
-                this->StartAttack(NULL);
-				speed_ = 0;
-			}
+            if(weapon_->Avaiable()) {
+                aim_destination_ = path_.front();
+                if(weapon_->IsValidUse()){
+				    weapon_->Use();
+                    this->StartAttack(NULL);
+				    speed_ = 0;
+			    }
+            }
 		}
         else if(!standing_){
             RandomMovement();
@@ -142,7 +148,6 @@ void Mummy::Think(float dt) {
 }
 
 void Mummy::Update(float delta_t) {
-
     if (status_ == WorldObject::STATUS_DEAD) return;
     Creature::Update(delta_t);
     Vector2D dir(0,0);

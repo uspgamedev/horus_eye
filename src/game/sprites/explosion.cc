@@ -26,6 +26,10 @@ const int       Explosion::HERO_FIREBALL_WEAPON = 0;
 const int       Explosion::HERO_EXPLOSION_WEAPON = 1;
 uint32          Explosion::WEAPON_ANIMATIONS[2];
 
+COLLISION_DIRECT(float, DamageCollision, obj) {
+	Creature *creature = (Creature *) obj;
+    creature->TakeDamage(data_);
+}
 
 Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 {
@@ -47,7 +51,7 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Explosion);
     SET_COLLISIONSHAPE(bound_);
-    ADD_COLLISIONLOGIC(Mummy, new Collisions::Damage(this));
+    ADD_COLLISIONLOGIC(Mummy, new DamageCollision(damage));
 
 	//known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
 }
@@ -79,11 +83,6 @@ void Explosion::RadiusUpdate(float delta_t) {
 void Explosion::Update(float delta_t) {
     WorldObject::Update(delta_t);
 	this->RadiusUpdate(delta_t);
-}
-
-COLLISION_IMPLEMENT(Explosion, Damage, obj) {
-	Creature *creature = (Creature *) obj;
-    creature->TakeDamage(owner_->damage());
 }
 
 }

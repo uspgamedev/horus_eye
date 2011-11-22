@@ -63,6 +63,8 @@ class Constants {
         QUAKE_BLOCK_COST = 1,
         LIGHTNING_DAMAGE = 150,
         LIGHTNING_COST = 100,
+        METEOR_COST = 200,
+        METEOR_BLOCK_COST = 1,
 
 		PHARAOH_LIFE = 6000,
 		PHARAOH_MANA = 200,

@@ -31,6 +31,13 @@ Vector2D Creature::directions_[4];
 
 AnimationSet* Creature::ANIMATIONS = NULL;
 
+COLLISION_DIRECT(Creature*, RectCollision, obj) {
+    WorldObject *wobj = (WorldObject *)obj;
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
+    data_->CollideWithRect(rect);
+}
+
 Creature::Creature()
     :   WorldObject(),
         waiting_animation_(false),
@@ -48,7 +55,28 @@ Creature::Creature()
 
     INITIALIZE_COLLISION;
     // Teach this creature how to collides with Walls.
-    ADD_COLLISIONLOGIC(Wall, new Collisions::Rect(this));
+    ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
+}
+
+Creature::Creature(resource::Energy &life, resource::Energy &mana)
+    :   WorldObject(),
+        waiting_animation_(false),
+        animation_direction_(0),
+        weapon_(NULL),
+        last_stable_position_(),
+        life_(life),
+        mana_(mana),
+        sight_count_(0),
+        super_armor_(false),
+        invulnerability_time_(0),
+        blink_(false),
+        blink_time_(new TimeAccumulator(75)),
+        hit_duration_(new TimeAccumulator(0)),
+        aim_(world_position_, aim_destination_) {
+
+    INITIALIZE_COLLISION;
+    // Teach this creature how to collides with Walls.
+    ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
 }
 
 Creature::~Creature() {
@@ -70,6 +98,7 @@ bool deletecondition(Condition *condition) {
 
 bool Creature::AddCondition(Condition* new_condition) {
     conditions_.push_front(new_condition);
+    new_condition->StartCondition(this);
     return true;
 }
 
@@ -258,13 +287,6 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
 
 void Creature::Render() {
     if (!blink_) WorldObject::Render();
-}
-
-COLLISION_IMPLEMENT(Creature, Rect, obj) {
-    WorldObject *wobj = (WorldObject *)obj;
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
-    owner_->CollideWithRect(rect);
 }
 
 }  // namespace sprite

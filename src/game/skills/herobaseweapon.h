@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SKILLS_HEROBASEWEAPON_H_
 
 #include "game/skills/combatart.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 
 namespace sprite {
 class Hero;
@@ -10,13 +10,13 @@ class Hero;
 
 namespace skills {
 
-class HeroBaseWeapon : public CombatArt<castarguments::Aim> {
+class HeroBaseWeapon : public CombatArt<usearguments::Aim> {
   public:
     HeroBaseWeapon(sprite::Hero* owner);
+    virtual void Use();
 
-    virtual float range() const { return 0.0f; }
-    virtual void Attack();
-
+  private:
+    typedef CombatArt<usearguments::Aim> super;
 };
 
 } // skills

@@ -22,7 +22,7 @@
 #include "game/scenes/world.h"
 
 #include "game/skills/herobaseweapon.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 #include "game/skills/skill.h"
 
 #include <cmath>
@@ -43,12 +43,17 @@ INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
 
 #define SQRT_3 1.7320508075688772935274463415059
 
-#define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
-#define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
+COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
+    data_->CollisionSlow();
+}
 
-Hero::Hero(Image* img)
-    : Creature(),
-      mana_blocks_(mana_, Constants::HERO_MAX_MANA_BLOCKS, Constants::HERO_MANA_PER_BLOCK)  {
+Hero::Hero(ugdk::Image* img, 
+           resource::Energy &life, 
+           resource::Energy &mana, 
+           int num_blocks, 
+           float mana_per_block)
+    : Creature(life, mana),
+      mana_blocks_(mana_, num_blocks, mana_per_block)  {
 
     Initialize(img, ANIMATIONS);
 
@@ -60,17 +65,7 @@ Hero::Hero(Image* img)
         pressed_key_[i] = false;
     }
     SelectAnimation(last_standing_animation_);
-    set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
-						 static_cast<float>(HERO_HOTSPOT_Y)));
     original_speed_ = speed_ = Constants::HERO_SPEED;
-
-    // life and mana.
-    life_ = Energy(Constants::HERO_MAX_LIFE);
-    mana_ = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
-                   Constants::HERO_MANA_REGEN_BASE,
-                   Constants::HERO_BASE_MANA_REGEN_RATIO);
-
-    set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 
     invulnerability_time_ = INVUL_TIME;
     super_armor_ = true;
@@ -81,31 +76,15 @@ Hero::Hero(Image* img)
 
     light_oscilation_ = 0.0f;
     
-    printf("hero: %lu\n", (unsigned long int) collision_object_);
-
     SET_COLLISIONCLASS(Hero);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
-    ADD_COLLISIONLOGIC(Mummy, new Collisions::MummySlow(this));
+    ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
 }
 
 Hero::~Hero() {}
 
 float Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
-}
-
-bool Hero::HasBreakableManaBlocks(int quantity) {
-    return mana_blocks_ >= quantity;
-}
-
-void Hero::BreakManaBlocks(int quantity) {
-    mana_blocks_ -= quantity;
-    mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
-}
-
-void Hero::RepairManaBlocks(int quantity) {
-    mana_blocks_ += quantity;
-    mana_.set_max_value(mana_blocks_.Get() * Constants::HERO_MANA_PER_BLOCK);
 }
 
 void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
@@ -204,12 +183,12 @@ void Hero::StartAttackAnimation() {
 
 bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT) && weapon_;
+    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Avaiable();
 }
 
 bool Hero::ShootingWithSecondaryWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_;
+    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Avaiable();
 }
 
 void Hero::UpdateAim() {
@@ -226,16 +205,16 @@ void Hero::Update(float delta_t) {
         if(!waiting_animation_) {
             if (ShootingWithWeapon()) {
                 UpdateAim();
-                if(weapon_->Available()) {
+                if(weapon_->IsValidUse()) {
                     StartAttackAnimation();
-                    weapon_->Attack();
+                    weapon_->Use();
                 }
 
             } else if (ShootingWithSecondaryWeapon()) {
                 UpdateAim();
-                if(secondary_weapon_->Available()) {
+                if(secondary_weapon_->IsValidUse()) {
                     StartAttackAnimation();
-                    secondary_weapon_->Attack();
+                    secondary_weapon_->Use();
                 }
 
             }

@@ -4,7 +4,7 @@
 #include "game/skills/divinegift.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 
 namespace sprite {
 class Hero;
@@ -12,15 +12,16 @@ class Hero;
 
 namespace skills {
 
-class HeroExplosionWeapon : public DivineGift<castarguments::Aim> {
+class HeroExplosionWeapon : public DivineGift<usearguments::Aim> {
   public:
     HeroExplosionWeapon(sprite::Hero* owner);
+    virtual void Use();
+    virtual bool IsValidUse() const;
 
-    typedef DivineGift<castarguments::Aim> super;
+  private:
+    typedef DivineGift<usearguments::Aim> super;
 
-    virtual float range() const { return utils::Constants::QUAKE_EXPLOSION_RANGE; }
-    virtual void Attack();
-    virtual bool Available() const;
+    const static float range_;
 };
 
 } // skills

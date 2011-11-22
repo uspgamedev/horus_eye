@@ -160,6 +160,7 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
     while (queue.size() > 0) {
         Tile *tile = *(queue.begin());
         queue.pop_front();
+        if(tile == NULL) continue;
         if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
             tile->Check();
             Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
@@ -203,6 +204,10 @@ void World::Update(float delta_t) {
     set_visible(true);
     Scene::Update(delta_t);
 
+#ifdef DEBUG
+    VerifyCheats(delta_t);
+#endif
+
     HandleCollisions();
 
     RemoveInactiveObjects();
@@ -214,9 +219,6 @@ void World::Update(float delta_t) {
 	if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
-#ifdef DEBUG
-    VerifyCheats(delta_t);
-#endif
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);
 

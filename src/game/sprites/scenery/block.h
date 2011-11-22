@@ -27,16 +27,14 @@ class Block : public WorldObject {
     
     void RevertPosition();
     void PushToward(ugdk::Vector2D &pushdir);
-    COLLISION_BEGIN
-		COLLISION_ADD_INLINE(Block, InvalidMovement, owner_->RevertPosition(); )
-		COLLISION_ADD		(Block, Push)
-	COLLISION_END
 
     bool moving_;
     float moving_time_left_;
     Direction moving_toward_;
     ugdk::Vector2D last_stable_position_;
 
+    friend class InvalidMovementCollision;
+    friend class PushOnCollision;
 };
 
 }

@@ -11,7 +11,7 @@
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
-#include "game/skills/castarguments.h"
+#include "game/skills/usearguments.h"
 
 namespace ugdk {
 class TimeAccumulator;
@@ -59,7 +59,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
 
-    skills::castarguments::Aim& aim() { return aim_; }
+    skills::usearguments::Aim& aim() { return aim_; }
 
     virtual bool AddCondition(Condition* new_condition);
     virtual void UpdateCondition(float dt);
@@ -80,10 +80,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static ugdk::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
 
-
-	COLLISION_BEGIN
-		COLLISION_ADD		(Creature, Rect)
-	COLLISION_END
+    friend class RectCollision;
     
     class Direction_ {
       public:
@@ -100,6 +97,8 @@ class Creature : public WorldObject , public ugdk::Observer {
         static const int UP = 4;
         static const int DOWN = 8;
     };
+
+    Creature(resource::Energy &life, resource::Energy &mana);
 
     virtual void Update(float dt) {
         WorldObject::Update(dt);
@@ -173,10 +172,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     std::list<Condition*> conditions_;
 
     /// Where this creature is aiming.
-    skills::castarguments::Position aim_destination_;
+    skills::usearguments::Position aim_destination_;
 
     /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
-    skills::castarguments::Aim aim_;
+    skills::usearguments::Aim aim_;
 
   private:
     /// When true, this Creature is on the invisible part of the blinking effect.

@@ -5,7 +5,7 @@
 namespace sprite {
 
 void Carrier::Die() {
-    Projectile::Die();
+    super::Die();
     std::list<WorldObject*>::iterator it;
     for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
         WORLD()->AddWorldObject(*it, world_position());

@@ -24,7 +24,10 @@ using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 
-void HeroMeteorWeapon::Attack(){
+void HeroMeteorWeapon::Use(){
+    super::Use();
+    //TODO: use meteor's constants.
+
     World *world = WORLD();
 
     utils::ImageFactory *factory = world->image_factory();
@@ -46,25 +49,23 @@ void HeroMeteorWeapon::Attack(){
     warning_effect->Initialize(factory->LightImage());
     warning_effect->set_visible(false);
 
-    world->AddWorldObject(warning_effect, cast_argument_.destination_);
+    world->AddWorldObject(warning_effect, use_argument_.destination_);
 
     utils::Settings settings;
     if(settings.sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
-    
-    caster_mana_ -= mana_cost_;
 }
 
 HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
+    : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightningIconImage(); // TODO: change icon
 }
 
-bool HeroMeteorWeapon::Available() const {
+bool HeroMeteorWeapon::IsValidUse() const {
     VisionStrategy vs;
-    return CombatArt<castarguments::Aim>::Available() 
-        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
+    return CombatArt<usearguments::Aim>::IsValidUse() 
+        && vs.IsVisible(use_argument_.destination_, use_argument_.origin_);
 }
 
 } // namespace skills

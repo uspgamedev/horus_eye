@@ -19,6 +19,16 @@ using namespace utils;
 
 INITIALIZE_COLLIDABLE_NODE(Block, Wall);
 
+COLLISION_DIRECT(Block*, InvalidMovementCollision, obj) {
+    data_->RevertPosition();
+}
+
+COLLISION_DIRECT(Block*, PushOnCollision, obj) {
+    Projectile *proj = (Projectile *) obj;
+    Vector2D pushdir = (((WorldObject *)obj)->world_position() - data_->world_position()).Normalize();
+    data_->PushToward(pushdir);
+}
+
 Block::Block(Image* image) : moving_(false) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
@@ -28,8 +38,8 @@ Block::Block(Image* image) : moving_(false) {
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Wall);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.95f, 0.95f));
-    ADD_COLLISIONLOGIC(Wall, new Collisions::InvalidMovement(this));
-    ADD_COLLISIONLOGIC(Projectile, new Collisions::Push(this));
+    ADD_COLLISIONLOGIC(Wall, new InvalidMovementCollision(this));
+    ADD_COLLISIONLOGIC(Projectile, new PushOnCollision(this));
 }
 Block::~Block() {}
 
@@ -102,12 +112,6 @@ void Block::PushToward(Vector2D &pushdir) {
 
     moving_ = true;
     moving_time_left_ = 0.5f;
-}
-
-COLLISION_IMPLEMENT(Block, Push, obj) {
-    Projectile *proj = (Projectile *) obj;
-    Vector2D pushdir = (((WorldObject *)obj)->world_position() - owner_->world_position()).Normalize();
-    owner_->PushToward(pushdir);
 }
 
 void Block::RevertPosition() {

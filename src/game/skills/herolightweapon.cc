@@ -22,16 +22,16 @@ using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 
-void HeroLightWeapon::Attack(){
+void HeroLightWeapon::Use(){
+    super::Use();
+
     World *world = WORLD();   
 
 	sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
 	light->Initialize(world->image_factory()->LightImage());
 	light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
 	light->set_light_radius(4.0f);
-	world->AddWorldObject(light, cast_argument_.destination_);
-
-    caster_mana_ -= mana_cost_;
+	world->AddWorldObject(light, use_argument_.destination_);
 
     utils::Settings settings;
     if(settings.sound_effects())
@@ -39,15 +39,15 @@ void HeroLightWeapon::Attack(){
 }
 
 HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner)
-    : CombatArt<castarguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage(); // TODO: change icon
 }
 
-bool HeroLightWeapon::Available() const {
+bool HeroLightWeapon::IsValidUse() const {
     VisionStrategy vs;
-    return CombatArt<castarguments::Aim>::Available() 
-        && vs.IsVisible(cast_argument_.destination_, cast_argument_.origin_);
+    return CombatArt<usearguments::Aim>::IsValidUse() 
+        && vs.IsVisible(use_argument_.destination_, use_argument_.origin_);
 }
 
 } // namespace skills

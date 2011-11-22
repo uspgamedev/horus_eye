@@ -10,11 +10,20 @@ class Mummy;
 
 namespace skills {
 
-void MummyWeapon::Attack(){
+const float MummyWeapon::range_ = 1.0f;
+
+void MummyWeapon::Use(){
+    super::Use();
+
 	scene::World *world = WORLD();
 	sprite::Hero* hero = world->hero();
 	
 	hero->TakeDamage(damage_);
+}
+
+bool MummyWeapon::IsValidUse() const {
+    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    return (distance <= range_);
 }
 
 }
