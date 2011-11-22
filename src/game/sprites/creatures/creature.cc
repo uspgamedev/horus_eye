@@ -228,15 +228,14 @@ void Creature::Move(Vector2D direction, float delta_t) {
 }
 
 void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
-    //float distance = (world_position() - last_stable_position_).length();
+    // rollback to the last stable position.
     set_world_position(last_stable_position_);
 
+    // Get all values we'll need
     const pyramidworks::geometry::Circle *circle = 
         (const pyramidworks::geometry::Circle*) collision_object_->shape();
 
-    // Get all values we'll need
     Vector2D circ_pos = circle->position();
-
     Vector2D rect_pos = rect->position();
 
     float half_r_width  = rect->width() /2.0f;
@@ -259,19 +258,13 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
         if (circ_pos.x >= r_right) intersection.x = r_right;
         if (circ_pos.y >= r_top  ) intersection.y = r_top;
 
-        // find the circle tangent at the intersection point, this is a safe escape direction.
-        Vector2D radius = circ_pos - intersection,
-                 tg_dir(-radius.y, radius.x);
-        if (Vector2D::InnerProduct(walking_direction_, tg_dir) > 0)
-            walking_direction_ = tg_dir;
-        else
-            walking_direction_ = Vector2D()-tg_dir;
+        // impede movement in the wall direction.
+        Vector2D radius = circ_pos - intersection;
+        walking_direction_ = walking_direction_ + radius;
     }
 
     walking_direction_ = walking_direction_.Normalize();
     Move(walking_direction_, last_dt_);
-    //set_world_position(world_position() + distance * walking_direction_);
-
 }
 
 
