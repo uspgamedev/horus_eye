@@ -38,7 +38,11 @@ void HeroMeteorWeapon::Use(){
 	permanent_light->set_light_radius(4.0f);
 
     sprite::Explosion *explosion = new sprite::Explosion(factory->ExplosionImage(), 
-        sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::QUAKE_EXPLOSION_DAMAGE);
+        sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::METEOR_EXPLOSION_RADIUS, Constants::METEOR_EXPLOSION_DAMAGE);
+
+    static float explosion_fireball_ratio = (Constants::METEOR_EXPLOSION_RADIUS / Constants::FIREBALL_EXPLOSION_RADIUS);
+    explosion->set_size(factory->ExplosionImage()->render_size() * explosion_fireball_ratio);
+    explosion->set_hotspot(explosion->hotspot() * explosion_fireball_ratio);
 
     std::list<sprite::WorldObject*> list;
     list.push_back(explosion);
