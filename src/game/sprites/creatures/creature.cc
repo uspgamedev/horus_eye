@@ -69,10 +69,10 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_(false),
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_) {
+        aim_(world_position_, aim_destination_),
+        blink_(false) {
 
     INITIALIZE_COLLISION;
     // Teach this creature how to collides with Walls.
