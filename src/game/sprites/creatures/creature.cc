@@ -267,7 +267,7 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
     }
 
     walking_direction_ = walking_direction_.Normalize();
-    set_world_position(world_position() + distance * walking_direction_);
+    //set_world_position(world_position() + distance * walking_direction_);
 }
 
 
