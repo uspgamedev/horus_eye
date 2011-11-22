@@ -37,13 +37,14 @@ Creature::Creature()
         animation_direction_(0),
         weapon_(NULL),
         last_stable_position_(),
+        last_dt_(0.0f),
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_(false),
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_) {
+        aim_(world_position_, aim_destination_),
+        blink_(false) {
 
     INITIALIZE_COLLISION;
     // Teach this creature how to collides with Walls.
@@ -190,11 +191,13 @@ void Creature::InitializeStandingAnimations() {
 void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;
+    last_dt_ = delta_t;
     position = position + direction * (this->speed_ * delta_t);
     set_world_position(position);
 }
 
 void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
+
     set_world_position(last_stable_position_);
 
     const pyramidworks::geometry::Circle *circle = 
@@ -219,13 +222,17 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
         if (circ_pos.y > top)   point.y = top;
         Vector2D dir = circ_pos - point,
                  tg_dir(-dir.y, dir.x);
+        walking_direction_  = walking_direction_ + dir.Normalize();
+        /*
         if (Vector2D::InnerProduct(walking_direction_, tg_dir) > 0)
             walking_direction_ = tg_dir;
         else
             walking_direction_ = Vector2D()-tg_dir;
+            */
     }
 
     walking_direction_ = Vector2D::Normalized(walking_direction_);
+    Move(walking_direction_, last_dt_);
 
 }
 

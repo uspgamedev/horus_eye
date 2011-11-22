@@ -113,6 +113,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     // funcoes
     void AdjustBlink(float delta_t);
     void Move(ugdk::Vector2D direction, float delta_t);
+    void Move(ugdk::Vector2D distance);
     void Tick();
     float GetAttackingAngle(Vector2D targetDirection);
     int GetAttackingAnimationIndex(float angle);
@@ -138,6 +139,8 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     /// The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
+
+    float last_dt_;
 
     /// The life and mana of this creature. An energy manages reneration.
     resource::Energy life_, mana_;
