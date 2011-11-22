@@ -152,6 +152,8 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
     Tile            *origin = Tile::GetFromMapPosition(map, origin_pos);
     VisionStrategy  vision;
 
+    if (!origin) return;
+
     origin_world_pos.y = map.size() - origin_world_pos.y - 1;
     queue.push_back(origin);
 

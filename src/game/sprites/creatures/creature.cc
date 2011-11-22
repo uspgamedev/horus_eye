@@ -44,13 +44,14 @@ Creature::Creature()
         animation_direction_(0),
         weapon_(NULL),
         last_stable_position_(),
+        last_dt_(0.0f),
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_(false),
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_) {
+        aim_(world_position_, aim_destination_),
+        blink_(false) {
 
     INITIALIZE_COLLISION;
     // Teach this creature how to collides with Walls.
@@ -68,10 +69,10 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_(false),
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_) {
+        aim_(world_position_, aim_destination_),
+        blink_(false) {
 
     INITIALIZE_COLLISION;
     // Teach this creature how to collides with Walls.
@@ -221,12 +222,13 @@ void Creature::Move(Vector2D direction, float delta_t) {
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;
     // Now update the position.
+    last_dt_ = delta_t;
     position = position + direction * (this->speed_ * delta_t);
     set_world_position(position);
 }
 
 void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
-    float distance = (world_position() - last_stable_position_).length();
+    //float distance = (world_position() - last_stable_position_).length();
     set_world_position(last_stable_position_);
 
     const pyramidworks::geometry::Circle *circle = 
@@ -267,7 +269,9 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
     }
 
     walking_direction_ = walking_direction_.Normalize();
+    Move(walking_direction_, last_dt_);
     //set_world_position(world_position() + distance * walking_direction_);
+
 }
 
 

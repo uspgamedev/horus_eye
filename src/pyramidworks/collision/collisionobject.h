@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <string>
 #include <list>
 #include <ugdk/math/vector2D.h>
 

@@ -220,8 +220,9 @@ void Hero::Update(float delta_t) {
             }
         }
         if(!waiting_animation_) {
-            Creature::Move(this->GetWalkingDirection(), delta_t);
             this->GetKeys();
+            Creature::Move(this->GetWalkingDirection(), delta_t);
+
             if (animation_direction_)
                 this->SelectAnimation(walking_animations_[animation_direction_]);
             else
