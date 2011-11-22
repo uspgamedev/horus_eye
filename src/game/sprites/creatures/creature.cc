@@ -222,13 +222,10 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
         if (circ_pos.y > top)   point.y = top;
         Vector2D dir = circ_pos - point,
                  tg_dir(-dir.y, dir.x);
-        walking_direction_  = walking_direction_ + dir.Normalize();
-        /*
         if (Vector2D::InnerProduct(walking_direction_, tg_dir) > 0)
             walking_direction_ = tg_dir;
         else
             walking_direction_ = Vector2D()-tg_dir;
-            */
     }
 
     walking_direction_ = Vector2D::Normalized(walking_direction_);
