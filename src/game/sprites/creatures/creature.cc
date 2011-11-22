@@ -260,9 +260,11 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
         // impede movement in the wall direction.
         Vector2D radius = circ_pos - intersection;
+        radius = radius.Normalize();
         walking_direction_ = walking_direction_ + radius;
     }
 
+    // normalize the walking_direction_ and move correctly this time.
     walking_direction_ = walking_direction_.Normalize();
     Move(walking_direction_, last_dt_);
 }
