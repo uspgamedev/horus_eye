@@ -2,56 +2,62 @@
 # Creature animation descriptor file.
 
 $TAKING_DAMAGE
-%number 80 81 82
+%number 40 41 42
 
 $DYING
-%number 80 81 82 83 84 90 91
-
-$ATTACKING_DOWN
-%number 44 54 64 74
-
-$ATTACKING_LEFT
-%number 47 57 67 77
-
-$ATTACKING_RIGHT
-%number 42 52 62 72
+%number 40 41 42 43 44 45 46
 
 $ATTACKING_UP
-%number 40 50 60 70
-
-$ATTACKING_DOWN_RIGHT
-%number 43 53 63 73
-
-$ATTACKING_DOWN_LEFT
-%number 46 56 66 76
+%number 20 25 30 35
 
 $ATTACKING_UP_RIGHT
-%number 41 51 61 71
+%number 21 26 31 36
 
 $ATTACKING_UP_LEFT
-%number 48 58 68 78
++effect [mirror h]
+%number 21 26 31 36
 
-$WALKING_DOWN
-%number 4 14 24 34
+$ATTACKING_RIGHT
+%number 22 27 32 37
 
-$WALKING_LEFT
-%number 7 17 27 37
+$ATTACKING_LEFT
++effect [mirror h]
+%number 22 27 32 37
 
-$WALKING_RIGHT
-%number 2 12 22 32
+$ATTACKING_DOWN_RIGHT
+%number 23 28 33 38
+
+$ATTACKING_DOWN_LEFT
++effect [mirror h]
+%number 23 28 33 38
+
+$ATTACKING_DOWN
+%number 24 29 34 39
 
 $WALKING_UP
-%number 0 10 20 30
-
-$WALKING_DOWN_RIGHT
-%number 3 13 23 33
-
-$WALKING_DOWN_LEFT
-%number 6 16 26 36
+%number 0 5 10 15
 
 $WALKING_UP_RIGHT
-%number 1 11 21 31
+%number 1 6 11 16
 
 $WALKING_UP_LEFT
-%number 8 18 28 38
++effect [mirror h]
+%number 1 6 11 16
+
+$WALKING_RIGHT
+%number 2 7 12 17
+
+$WALKING_LEFT
++effect [mirror h]
+%number 2 7 12 17
+
+$WALKING_DOWN_RIGHT
+%number 3 8 13 18
+
+$WALKING_DOWN_LEFT
++effect [mirror h]
+%number 3 8 13 18
+
+$WALKING_DOWN
+%number 4 9 14 19
 
