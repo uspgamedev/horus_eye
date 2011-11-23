@@ -7,32 +7,32 @@ $TAKING_DAMAGE
 $DYING
 %number 40 41 42 43 44 45 46
 
-$ATTACKING_UP
-%number 20 25 30 35
+$STANDING_UP
+%number 0
 
-$ATTACKING_UP_RIGHT
-%number 21 26 31 36
+$STANDING_UP_RIGHT
+%number 1
 
-$ATTACKING_UP_LEFT
+$STANDING_UP_LEFT
 +effect [mirror h]
-%number 21 26 31 36
+%number 1
 
-$ATTACKING_RIGHT
-%number 22 27 32 37
+$STANDING_RIGHT
+%number 2
 
-$ATTACKING_LEFT
+$STANDING_LEFT
 +effect [mirror h]
-%number 22 27 32 37
+%number 2
 
-$ATTACKING_DOWN_RIGHT
-%number 23 28 33 38
+$STANDING_DOWN_RIGHT
+%number 3
 
-$ATTACKING_DOWN_LEFT
+$STANDING_DOWN_LEFT
 +effect [mirror h]
-%number 23 28 33 38
+%number 3
 
-$ATTACKING_DOWN
-%number 24 29 34 39
+$STANDING_DOWN
+%number 4
 
 $WALKING_UP
 %number 0 5 10 15
@@ -61,3 +61,29 @@ $WALKING_DOWN_LEFT
 $WALKING_DOWN
 %number 4 9 14 19
 
+$ATTACKING_UP
+%number 20 25 30 35
+
+$ATTACKING_UP_RIGHT
+%number 21 26 31 36
+
+$ATTACKING_UP_LEFT
++effect [mirror h]
+%number 21 26 31 36
+
+$ATTACKING_RIGHT
+%number 22 27 32 37
+
+$ATTACKING_LEFT
++effect [mirror h]
+%number 22 27 32 37
+
+$ATTACKING_DOWN_RIGHT
+%number 23 28 33 38
+
+$ATTACKING_DOWN_LEFT
++effect [mirror h]
+%number 23 28 33 38
+
+$ATTACKING_DOWN
+%number 24 29 34 39

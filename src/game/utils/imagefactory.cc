@@ -124,5 +124,12 @@ Image* ImageFactory::LightImage() {
     if(light_image_) light_image_->set_frame_size( Vector2D(32, 32) );
     return light_image_;
 }
+
+Image* ImageFactory::TileSwitchImage() {
+    Image *floor_image_ = VIDEO_MANAGER()->LoadImage("data/images/tile_switch.png");
+    if(floor_image_) floor_image_->set_frame_size(Vector2D(106,54));
+    return floor_image_;
+}
+
 }
 

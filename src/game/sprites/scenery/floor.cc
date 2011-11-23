@@ -27,8 +27,8 @@ Floor::Floor(ugdk::Image* image) {
 void Floor::Update(float delta_t) {
     if (!tile_)
         tile_ = Tile::GetFromWorldPosition(WORLD()->level_matrix(), this->world_position());
-    if (tile_->visible())   SetDefaultFrame(CLEAR);
-    else                    SetDefaultFrame(DARK);
+    if (tile_->visible())   set_color(ugdk::Color(1.0f, 1.0f, 1.0f));
+    else                    set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
     WorldObject::Update(delta_t);
     set_zindex(-FLT_MAX); // chao deve ficar a baixo de tudo/
 }

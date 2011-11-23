@@ -28,6 +28,7 @@ namespace utils {
 #define POTIONM                  'N'
 #define POTIONS                  'S'
 #define BLOCK                    'K'
+#define BUTTON                   'U'
 
 class Tile;
 

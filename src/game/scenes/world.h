@@ -71,11 +71,12 @@ class World : public ugdk::Scene {
 	static const Vector2D ConvertLightRadius(float radius);
 
     //getters
-    sprite::Hero * hero() { return hero_; }
-    int level_width() {	return level_width_; }
-    int level_height() { return level_height_; }
-    utils::GameMap& level_matrix() {	return level_matrix_; }
-    utils::ImageFactory* image_factory() { return image_factory_; }
+    sprite::Hero * hero() const { return hero_; }
+    int level_width() const { return level_width_; }
+    int level_height() const { return level_height_; }
+    utils::GameMap& level_matrix() { return level_matrix_; }
+    utils::ImageFactory* image_factory() const { return image_factory_; }
+    bool button_pressed() const { return button_pressed_; }
 	
     //setters
 	void set_music(std::string &music);
@@ -83,6 +84,7 @@ class World : public ugdk::Scene {
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::Hero *hero) { hero_ = hero; }
+    void set_button_pressed(bool button_pressed) { button_pressed_ = button_pressed; }
 
   protected:
     sprite::Hero *hero_;
@@ -107,6 +109,7 @@ class World : public ugdk::Scene {
   private:
     utils::LevelManager::LevelState level_state_;
 	bool konami_used_;
+    bool button_pressed_;
 
 };  // class World
 

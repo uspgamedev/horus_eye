@@ -195,15 +195,6 @@ void Creature::InitializeWalkingAnimations() {
 void Creature::InitializeStandingAnimations() {
     for (int i = 0; i < 16; i++) standing_animations_[i] = -1;
 
-    ANIMATIONS->Add("STANDING_DOWN", 4, -1);
-    ANIMATIONS->Add("STANDING_LEFT", 7, -1);
-    ANIMATIONS->Add("STANDING_RIGHT", 2, -1);
-    ANIMATIONS->Add("STANDING_UP", 0, -1);
-    ANIMATIONS->Add("STANDING_DOWN_RIGHT", 3, -1);
-    ANIMATIONS->Add("STANDING_DOWN_LEFT", 6, -1);
-    ANIMATIONS->Add("STANDING_UP_RIGHT", 1, -1);
-    ANIMATIONS->Add("STANDING_UP_LEFT", 8, -1);
-
     standing_animations_[Animation_::DOWN                    ] = ANIMATIONS->MakeIndex("STANDING_DOWN");
     standing_animations_[                   Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_LEFT");
     standing_animations_[                   Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_RIGHT");

@@ -31,6 +31,7 @@ class ImageFactory {
     virtual Image* EntryImage();
     virtual Image* LightningImage();
 	virtual Image* LightImage();
+    virtual Image* TileSwitchImage();
 };
 
 }

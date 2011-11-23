@@ -20,7 +20,7 @@ INITIALIZE_COLLIDABLE_NODE(Door, Wall);
 using ugdk::Vector2D;
 
 COLLISION_DIRECT(scene::World*, WinCollision, obj) {
-    if (data_->CountRemainingEnemies() == 0)
+    if (data_->CountRemainingEnemies() == 0 && data_->button_pressed())
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 

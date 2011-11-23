@@ -36,7 +36,7 @@ Block::Block(Image* image) : moving_(false) {
     set_size(new_size);
 
     INITIALIZE_COLLISION;
-    SET_COLLISIONCLASS(Wall);
+    SET_COLLISIONCLASS(Block);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.95f, 0.95f));
     ADD_COLLISIONLOGIC(Wall, new InvalidMovementCollision(this));
     ADD_COLLISIONLOGIC(Projectile, new PushOnCollision(this));

@@ -13,6 +13,7 @@
 #include "game/sprites/scenery/door.h"
 #include "game/sprites/scenery/wall.h"
 #include "game/sprites/scenery/block.h"
+#include "game/sprites/scenery/button.h"
 #include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
@@ -195,6 +196,10 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
+            case BUTTON: {
+                world_->AddWorldObject(new Button(image_factory->TileSwitchImage(), world_), position);
+                break;
+            }
 		}
 	}
 }

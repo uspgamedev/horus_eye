@@ -54,6 +54,7 @@
     <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
+    <ClCompile Include="src\game\sprites\scenery\button.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
     <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
@@ -134,6 +135,7 @@
     <ClInclude Include="src\game\sprites\projectiles\carrier.h" />
     <ClInclude Include="src\game\sprites\projectiles\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
+    <ClInclude Include="src\game\sprites\scenery\button.h" />
     <ClInclude Include="src\game\sprites\scenery\door.h" />
     <ClInclude Include="src\game\sprites\scenery\floor.h" />
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
