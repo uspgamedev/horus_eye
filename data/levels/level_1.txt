@@ -1,36 +1,36 @@
 data/musics/bgmusic.ogg
 15 34
-OOWWWWWWWWWEWOO
-OOWXXXXXXXXHWOO
-OOWXXUXXKXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXXDDXXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXXWWWWWWWOO
-OOWXXXWOOOOOOOO
-OOWXXXWOOOOOOOO
-OOWXXXWWWWWWWOO
-OOWXXXXXXXXNWOO
-OOWXXXXXXXMXWOO
-OOWXXXXXXXMXWOO
-OOWXXXXXXXMXWOO
-OOWXXXXXXXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXXXXXXXXWOO
-OOWWWWWWWXXXWOO
-OOOOOOOOWXXXWOO
-OOOOOOOOWXXXWOO
-OOWWWWWWWXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXLXXXXXXWOO
-OOWXXMXXXXXXWOO
-OOWXXMXXXXXXWOO
-OOWXXMXXXXXXWOO
-OOWXXXXUXXXXWOO
-OOWXXXXXXXXXWOO
-OOWXXXXDDXXXWOO
-OOWXLXXXXXXXWOO
-OOWXXXXXXXXXWOO
-OOWWWWWWWWWWWOO
+  #########E#  
+  #........@#  
+  #..U..K...#  
+  #.........#  
+  #...DD....#  
+  #.........#  
+  #.........#  
+  #.........#  
+  #...#######  
+  #...#        
+  #...#        
+  #...#######  
+  #........N#  
+  #.......M.#  
+  #.......M.#  
+  #.......M.#  
+  #.........#  
+  #.........#  
+  #.........#  
+  #######...#  
+        #...#  
+        #...#  
+  #######...#  
+  #.........#  
+  #..L......#  
+  #..M......#  
+  #..M......#  
+  #..M......#  
+  #....U....#  
+  #.........#  
+  #....DD...#  
+  #.L.......#  
+  #.........#  
+  ###########  

@@ -1,62 +1,62 @@
 data/musics/bgmusic.ogg
 20 60
-WWWWWWWWWEWWWWWWWWWW
-WXXXXXXXXHXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXNXNXNXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXWWWWWXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WWWWWWWWXXXXWWWWWWWW
-OOOOOOOWXXXXWOOOOOOO
-OOOOOOOWXXXXWOOOOOOO
-OOOOOOOWXXXXWOOOOOOO
-OOOOOOOWWXXWWOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWMMWOOOOOOOO
-OOOOOOOOWBBWOOOOOOOO
-OOOOOOOOWBBWOOOOOOOO
-OOOOOOOOWBBWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOOOWXXWOOOOOOOO
-OOOOOOWWWXXWWWOOOOOO
-OOOOOOWXXXXXXWOOOOOO
-OOOOOOWXXXXXXWOOOOOO
-OOOOOOWXXXXXXWOOOOOO
-WWWWWWWXXXXXXWWWWWWW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXLNXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXDDXXXUXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WXXXXXXXXXXXXXXXXXXW
-WWWWWWWWWWWWWWWWWWWW
+#########E##########
+#........@.........#
+#..................#
+#..................#
+#..................#
+#......N.N.N.......#
+#..................#
+#..................#
+#......#####.......#
+#..................#
+#..................#
+#..................#
+########....########
+       #....#       
+       #....#       
+       #....#       
+       ##..##       
+        #..#        
+        #..#        
+        #..#        
+        #..#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #MM#        
+        #BB#        
+        #BB#        
+        #BB#        
+        #..#        
+        #..#        
+        #..#        
+        #..#        
+        #..#        
+        #..#        
+        #..#        
+      ###..###      
+      #......#      
+      #......#      
+      #......#      
+#######......#######
+#..................#
+#..................#
+#..................#
+#..................#
+#..................#
+#..................#
+#........LN........#
+#..................#
+#..................#
+#........DD...U....#
+#..................#
+#..................#
+#..................#
+#..................#
+####################

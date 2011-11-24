@@ -12,13 +12,13 @@ using namespace sprite;
 using namespace ugdk;
 
 bool solid(char obj){
-    if(obj == 'W') return true;
-    if(obj == 'D') return true;
+    if(obj == WALL) return true;
+    if(obj == DOOR) return true;
     return false;
 }
 
 bool wall(char obj){
-    if(obj == 'W') return true;
+    if(obj == WALL) return true;
     return false;
 }
 

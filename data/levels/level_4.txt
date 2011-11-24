@@ -1,62 +1,62 @@
 data/musics/bgmusic.ogg
 60 60
-WWWEWWWWWOOOOOOOOOOOOOOOOWWWWWWWWWWWWWOOOOOOOOOOOOOOOOOOOOOO
-WXXHXXXXWOOOOOOOOOOOOOOOOWXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXXWOOOOOOOOOOOOOOOOWXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXXWOOOOOOOOOOOOOOOOWXXXXXXXXXXRWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXXWWWWWWWWWWWWWWWWWWXXXXXWXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXSXXXXXXXXXXXXXXXXXXXXXXXWXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXSXXXXXXXXXXXXXXXXXXXXXXXWXXXXRWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXXWWWWWWWWWWWWWWWWWWXXXXXWXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-WXXXXXXXWOOOOOOOOOOOOOOOOWXXXXXWXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-WWWWWWWWWOOOOOOOOOOOOOOOOWXXXXXXXXXXRWOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOWLXXXXXXXXXNWOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOWWWWWXXXWWWWWOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOWWWXXXWWWOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOWWWWXXXXXXXWWWWOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOWWWXXXXXXXXXXXXXWWWOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOWWXXXXXXXXBXXXXXXXXWWOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWWSXXXXXBXXXXXBXXXXXSWWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXXXWWWWWXXXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWRXXXXXXWWOOOWWXXXXXXRWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXWWOOOOOWWXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXWOOOOOOOWXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWRXXXXXWOOOOOOOWXXXXXRWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXWOOOOOOOWXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXWWOOOOOWWXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWRXXXXXXWWOOOWWXXXXXXRWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXXXWWWWWXXXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOWWXXXXMXXXMXMXXXMXXXXWWOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOWWSXXXXXXXXXXXXXXXSWWOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOWWXXXXXXXXXXXXXXXWWOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWWWXXXXXXXXXXXWWWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOWWWWWXXXWWWWWOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXMXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOWXXXWOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWWWWWWWXXXWWWWWWWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXDDXXXUXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXLNXXXXXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWXXXXXXXXXXXXXXXWOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOWWWWWWWWWWWWWWWWWOOOOOOOOOOOOOOOOOOOO
+###E#####                #############                      
+#..@....#                #...........#                      
+#.......#                #...........#                      
+#.......#                #..........R#                      
+#.......##################.....#.....#                      
+#......S.......................#.....#                      
+#......S.......................#....R#                      
+#.......##################.....#.....#                      
+#.......#                #.....#.....#                      
+#########                #..........R#                      
+                         #...........#                      
+                         #L.........N#                      
+                         #####...#####                      
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                           ###...###                        
+                        ####.......####                     
+                      ###.............###                   
+                     ##........B........##                  
+                    ##S.....B.....B.....S##                 
+                    #.....................#                 
+                    #........#####........#                 
+                    #R......##   ##......R#                 
+                    #......##     ##......#                 
+                    #......#       #......#                 
+                    #R.....#       #.....R#                 
+                    #......#       #......#                 
+                    #......##     ##......#                 
+                    #R......##   ##......R#                 
+                    #........#####........#                 
+                    #.....................#                 
+                    ##....M...M.M...M....##                 
+                     ##S...............S##                  
+                      ##...............##                   
+                       ###...........###                    
+                         #####...#####                      
+                             #...#                          
+                             #.M.#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                             #...#                          
+                       #######...#######                    
+                       #...............#                    
+                       #...............#                    
+                       #......DD...U...#                    
+                       #...............#                    
+                       #......LN.......#                    
+                       #...............#                    
+                       #...............#                    
+                       #################                    

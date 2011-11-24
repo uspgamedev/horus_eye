@@ -1,62 +1,62 @@
 data/musics/running_from_something.ogg
 40 60
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOWWWWWWWWWWWWWWWWWWWWWWWWWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXDDXXUXXXXXXXWOOOOOOOO
-OOOOOOOWXXWWWXXXXXXXXXXXXXWWWXXWOOOOOOOO
-OOOOOOOWXXXXWXXXXXXXXXXXXXWXXXXWOOOOOOOO
-OOOOOOOWXXLXWXXXXXXXXXXXXXWXLXXWOOOOOOOO
-OOOOOOOWXXXXWXXXXLXPXLXXXXWXXXXWOOOOOOOO
-OOOOOOOWXXWWWXXXXNXXXNXXXXWWWXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXWWWXXXXXXXXXXXXXWWWXXWOOOOOOOO
-OOOOOOOWXXXXWXXXXXXXXXXXXXWXXXXWOOOOOOOO
-OOOOOOOWXXNXWXXXXXXXXXXXXXWXNXXWOOOOOOOO
-OOOOOOOWXXXXWXXXXXXXXXXXXXWXXXXWOOOOOOOO
-OOOOOOOWXXWWWXXXXXXXXXXXXXWWWXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXWWWXXXXXXXXXXXXXWWWXXWOOOOOOOO
-OOOOOOOWXXXXWXXXXXXXXXXXXXWXXXXWOOOOOOOO
-OOOOOOOWXXLXWXXXXXXXXXXXXXWXLXXWOOOOOOOO
-OOOOOOOWXXXXWXXXXXXXXXXXXXWXXXXWOOOOOOOO
-OOOOOOOWXXWWWXXXXXXXXXXXXXWWWXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWXXXXXXXXXXXXXXXXXXXXXXXWOOOOOOOO
-OOOOOOOWWWWWWWWWWWXXXXXWWWWWWWWWOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXXXXXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOWWWXXXXXWWWOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOWLXXXXXXXNWOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOWLXXXXXXXHEOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOWLXXXXXXXNWOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOWWWXXXXXWWWOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWXSSSXWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOWWWWWWWOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+                                        
+       #########################        
+       #.......................#        
+       #...........DD..U.......#        
+       #..###.............###..#        
+       #....#.............#....#        
+       #..L.#.............#.L..#        
+       #....#....L.P.L....#....#        
+       #..###....N...N....###..#        
+       #.......................#        
+       #.......................#        
+       #.......................#        
+       #..###.............###..#        
+       #....#.............#....#        
+       #..N.#.............#.N..#        
+       #....#.............#....#        
+       #..###.............###..#        
+       #.......................#        
+       #.......................#        
+       #..###.............###..#        
+       #....#.............#....#        
+       #..L.#.............#.L..#        
+       #....#.............#....#        
+       #..###.............###..#        
+       #.......................#        
+       #.......................#        
+       ###########.....#########        
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+                 #.....#                
+               ###.....###              
+               #L.......N#              
+               #L.......@E              
+               #L.......N#              
+               ###.....###              
+                 #.SSS.#                
+                 #######                
+                                        
+                                        
+                                        
