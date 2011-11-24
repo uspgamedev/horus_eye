@@ -23,14 +23,17 @@ class Hud: public ugdk::Layer {
     virtual void Update(float delta_t);
 
   private:
-    Sprite* life_bar_;
-    Sprite* mana_bar_;
     Image* weapon_icon_;
     map<Image*, Sprite*> icon_added;
-    ugdk::Modifier *life_modifier_, *mana_modifier_;
+    ugdk::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
 
-    Sprite *enemy_counter_[7], *fps_meter_[3];
-    ugdk::uint32 enemy_counter_value_[7], fps_meter_value_[3];
+    Sprite *enemy_counter_[7];
+    ugdk::uint32 enemy_counter_value_[7];
+
+#ifdef DEBUG
+    Sprite *fps_meter_[3];
+    ugdk::uint32 fps_meter_value_[3];
+#endif
 };
 
 }

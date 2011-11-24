@@ -59,17 +59,25 @@ Hud::Hud(World* world) {
     //Criando sprites da life bar
     HudImageFactory img_fac;
 
-    life_bar_ = new Sprite(life_modifier_ = new Modifier);
-    life_bar_->Initialize(img_fac.LifeBarImage());
-    life_bar_->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
-    life_bar_->set_zindex(-0.5f);
-    AddSprite(life_bar_);
+    Sprite *life_bar = new Sprite(life_modifier_ = new Modifier);
+    life_bar->Initialize(img_fac.LifeBarImage());
+    life_bar->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
+    life_bar->set_zindex(-0.5f);
+    AddSprite(life_bar);
     
-    mana_bar_ = new Sprite(mana_modifier_ = new Modifier);
-    mana_bar_->Initialize(img_fac.ManaBarImage());
-    mana_bar_->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
-    mana_bar_->set_zindex(-0.5f);
-    AddSprite(mana_bar_);
+    Sprite *mana_bar = new Sprite(mana_modifier_ = new Modifier);
+    mana_bar->Initialize(img_fac.ManaBarImage());
+    mana_bar->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    mana_bar->set_zindex(-0.5f);
+    AddSprite(mana_bar);
+
+    Sprite *block_bar = new Sprite(block_modifier_ = new Modifier);
+    block_bar->Initialize(img_fac.ManaBarImage());
+    block_bar->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    block_bar->set_zindex(-0.6f);
+    AddSprite(block_bar);
+    block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    block_modifier_->set_alpha(0.75f);
 
     back_image = img_fac.BackImage();
     Sprite *backLeft = new Sprite();
@@ -143,15 +151,15 @@ Hud::Hud(World* world) {
         enemy_counter_value_[i] = 0;
     }
 
+#ifdef DEBUG
     for(int i = 0; i < 3; ++i) {
         (fps_meter_[i] = new Sprite)->Initialize(number);
         fps_meter_[i]->set_position(Vector2D(
                         FPS_BAR_OFFSET_X + NUMBER_WIDTH*i + 0.0f, FPS_BAR_OFFSET_Y + 0.0f));
-#ifdef DEBUG
         AddSprite(fps_meter_[i]);
-#endif
         fps_meter_value_[i] = 0;
     }
+#endif
 }
 
 Hud::~Hud() {
@@ -176,6 +184,7 @@ void Hud::Update(float delta_t) {
         }
     }
 
+#ifdef DEBUG
     int fps = Engine::reference()->current_fps();
     if(fps > 999) fps = 999;
     for(int i = 2; i >= 0; --i) {
@@ -188,6 +197,7 @@ void Hud::Update(float delta_t) {
             fps_meter_[i]->SetDefaultFrame(fps_meter_value_[i]);
         }
     }
+#endif
 
     if (weapon_icon_ != NULL) {
         icon_added[weapon_icon_]->set_visible(false);
@@ -203,6 +213,8 @@ void Hud::Update(float delta_t) {
 
         // Mana Bar
         mana_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana()) / world->hero()->FullMana()) * MANA_BAR_HEIGHT) );
+
+        block_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana_blocks().Get()) / world->hero()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
     }
 
     if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {
