@@ -43,7 +43,7 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         image_factory_(factory),
         level_state_(LevelManager::NOT_FINISHED),
         konami_used_(false),
-        button_pressed_(false)
+        num_button_not_pressed_(0)
     {
 
     AddLayer(world_layer_);

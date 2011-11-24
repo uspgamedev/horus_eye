@@ -222,7 +222,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				break;
 			}
             case BUTTON: {
-                world_->AddWorldObject(new Button(image_factory->TileSwitchImage(), world_), position);
+                world_->AddWorldObject(new Button(image_factory->TileSwitchImage(), world_, -1), position);
                 break;
             }
 		}

@@ -8,6 +8,7 @@
 
 #include "game/utils/levelmanager.h"
 #include "game/utils/tile.h"
+#include "game/resources/resource.h"
 
 namespace ugdk {
 class Music;
@@ -76,7 +77,7 @@ class World : public ugdk::Scene {
     int level_height() const { return level_height_; }
     utils::GameMap& level_matrix() { return level_matrix_; }
     utils::ImageFactory* image_factory() const { return image_factory_; }
-    bool button_pressed() const { return button_pressed_; }
+    resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
 	
     //setters
 	void set_music(std::string &music);
@@ -84,7 +85,6 @@ class World : public ugdk::Scene {
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::Hero *hero) { hero_ = hero; }
-    void set_button_pressed(bool button_pressed) { button_pressed_ = button_pressed; }
 
   protected:
     sprite::Hero *hero_;
@@ -109,7 +109,7 @@ class World : public ugdk::Scene {
   private:
     utils::LevelManager::LevelState level_state_;
 	bool konami_used_;
-    bool button_pressed_;
+    resource::Resource<int> num_button_not_pressed_;
 
 };  // class World
 
