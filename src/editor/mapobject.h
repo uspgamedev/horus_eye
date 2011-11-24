@@ -1,27 +1,10 @@
 #ifndef HORUSEYE_EDITOR_MAPOBJECT_H_
 #define HORUSEYE_EDITOR_MAPOBJECT_H_
 
-#define WALL                     'W'
-#define DOOR                     'D'
-#define ENTRY                    'E'
-#define MUMMY                    'm'
-#define STANDING_MUMMY           'M'
-#define RANGED_MUMMY             'r'
-#define STANDING_RANGED_MUMMY    'R'
-#define BIG_MUMMY                'b'
-#define STANDING_BIG_MUMMY       'B'
-#define PHARAOH                  'p'
-#define STANDING_PHARAOH         'P'
-#define HERO                     'H'
-#define FLOOR                    'X'
-#define EMPTY                    'O'
-#define POTIONL                  'L'
-#define POTIONM                  'N'
-#define POTIONS                  'S'
-
-//#include "ugdk/texture.h"
 #include <ugdk/graphic/image.h>
 #include <ugdk/action/sprite.h>
+
+#include "game/utils/tile.h"
 
 namespace editor {
 

@@ -27,22 +27,27 @@ using namespace scene;
 using namespace sprite;
 using namespace ugdk;
 
-void LevelLoader::LoadMatrix(string file_name) {
-	ifstream file (PATH_MANAGER()->ResolvePath(file_name).c_str());
+#define LINE_SIZE 1024
 
-	if(file.is_open()){
-		string music;
-		file >> music;
-		int width, height;
-		file >> width >> height; 
-		vector<string> raw_matrix (height);
+void LevelLoader::LoadMatrix(string file_name) {
+    FILE *file = fopen(PATH_MANAGER()->ResolvePath(file_name).c_str(), "r");
+
+    if(file != NULL) {
+        char buffer[LINE_SIZE];
+        fgets(buffer, LINE_SIZE, file);
+		string music(buffer);
+
+        fgets(buffer, LINE_SIZE, file);
+        int width, height;
+        sscanf(buffer, "%d %d", &width, &height);
+
 		GameMap matrix(height);
 
 		for (int i = 0; i < height; ++i) {
-			file >> raw_matrix[i];
+            fgets(buffer, LINE_SIZE, file);
 			matrix[i] = TileRow(width);
 			for (int j = 0; j < width; j++) {
-			    matrix[i][j] = new Tile(i, j, raw_matrix[i][j]);
+			    matrix[i][j] = new Tile(i, j, buffer[j]);
 			}
 		}
 
@@ -51,7 +56,7 @@ void LevelLoader::LoadMatrix(string file_name) {
 		world_->set_level_height(height);
 		world_->set_level_matrix(matrix);
 
-		file.close();
+		fclose(file);
 	} else {
 		cout << "CANNOT OPEN FILE: " << file_name << endl;
 		exit(0);
