@@ -88,6 +88,8 @@ SET(GAME_SRCS
     ./src/game/sprites/item.cc 
     ./src/game/sprites/scenery/wall.cc 
     ./src/game/sprites/scenery/wall.h 
+    ./src/game/sprites/scenery/button.h 
+    ./src/game/sprites/scenery/button.cc 
     ./src/game/sprites/scenery/block.h 
     ./src/game/sprites/scenery/floor.cc 
     ./src/game/sprites/scenery/floor.h 

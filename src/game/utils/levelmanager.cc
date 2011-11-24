@@ -143,6 +143,7 @@ void LevelManager::LoadNextLevel() {
             hero_ = builder.Kha();
 	    }
 	}
+	hero_->mana_blocks().Fill();
     current_level_ = new World(hero_, factory);
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
