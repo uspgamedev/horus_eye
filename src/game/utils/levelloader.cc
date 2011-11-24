@@ -1,5 +1,7 @@
-#include <fstream>
-#include <iostream>
+#include <algorithm>
+#include <functional>
+#include <locale>
+#include <cstdio>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>
 
@@ -20,6 +22,23 @@
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
 
+
+/* Util functions found at http://stackoverflow.com/q/217605 */
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+    return ltrim(rtrim(s));
+}
+
 namespace utils {
 
 using namespace std;
@@ -36,6 +55,7 @@ void LevelLoader::LoadMatrix(string file_name) {
         char buffer[LINE_SIZE];
         fgets(buffer, LINE_SIZE, file);
 		string music(buffer);
+        trim(music);
 
         fgets(buffer, LINE_SIZE, file);
         int width, height;
@@ -58,8 +78,8 @@ void LevelLoader::LoadMatrix(string file_name) {
 
 		fclose(file);
 	} else {
-		cout << "CANNOT OPEN FILE: " << file_name << endl;
-		exit(0);
+        fprintf(stdout, "CANNOT OPEN FILE: %s\n", file_name.c_str());
+		exit(1);
 	}
 }
 

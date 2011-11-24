@@ -35,3 +35,4 @@ include/link_ugdk
 lib/link_libugdk.a
 lib/link_libugdk_d.a
 /*.dll
+*.vsps

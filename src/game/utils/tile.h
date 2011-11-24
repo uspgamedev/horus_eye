@@ -10,6 +10,8 @@ class Vector2D;
 
 namespace utils {
 
+#define EMPTY                    'O'
+#define FLOOR                    'X'
 #define WALL                     'W'
 #define DOOR                     'D'
 #define ENTRY                    'E'
@@ -22,8 +24,6 @@ namespace utils {
 #define PHARAOH                  'p'
 #define STANDING_PHARAOH         'P'
 #define HERO                     'H'
-#define FLOOR                    'X'
-#define EMPTY                    'O'
 #define POTIONL                  'L'
 #define POTIONM                  'N'
 #define POTIONS                  'S'
