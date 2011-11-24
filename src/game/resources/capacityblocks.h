@@ -25,16 +25,24 @@ class CapacityBlocks : public CountableResource {
         contents_.set_max_value(Get()*capacity_per_block_);
     }
 
-    void Decrease(int quantity) {
+    void Decrease(int quantity, int filled) {
         CountableResource::Decrease(quantity);
-        contents_ -= ToMana(quantity);
+        contents_ -= ToMana(filled);
+        contents_.set_max_value(Get()*capacity_per_block_);
+    }
+
+    void Decrease(int quantity) {
+        Decrease(quantity, quantity);
+    }
+
+    void Increase(int quantity, int filled) {
+        CountableResource::Increase(quantity);
+        contents_ += ToMana(filled);
         contents_.set_max_value(Get()*capacity_per_block_);
     }
 
     void Increase(int quantity) {
-        CountableResource::Increase(quantity);
-        contents_ += ToMana(quantity);
-        contents_.set_max_value(Get()*capacity_per_block_);
+        Increase(quantity, quantity);
     }
 
     /// Uses this objects capacity to convert a number of blocks into the amount of energy they
