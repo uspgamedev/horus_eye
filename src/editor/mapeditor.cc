@@ -15,6 +15,24 @@
 using namespace std;
 using namespace ugdk;
 
+#define LINE_SIZE 1024
+
+/* Util functions found at http://stackoverflow.com/q/217605 */
+// trim from start
+static inline std::string &ltrim(std::string &s) {
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    return s;
+}
+// trim from end
+static inline std::string &rtrim(std::string &s) {
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    return s;
+}
+// trim from both ends
+static inline std::string &trim(std::string &s) {
+    return ltrim(rtrim(s));
+}
+
 namespace editor {
 
 MapEditor::MapEditor() : Scene() {
@@ -57,21 +75,27 @@ void MapEditor::LoadMap(std::string& file_name) {
 	main_layer_ = tiles_layer_;
 
 	map_filename_ = file_name;
-	ifstream file (file_name.c_str());
-    if(file.is_open()){
-		file >> music_;
-        file >> width_ >> height_;
-        vector<string> raw_matrix (height_);
+    FILE *file = fopen(file_name.c_str(), "r");
+
+    if(file != NULL) {
+        char buffer[LINE_SIZE];
+        fgets(buffer, LINE_SIZE, file);
+		music_ = string(buffer);
+        trim(music_);
+
+        fgets(buffer, LINE_SIZE, file);
+        sscanf(buffer, "%d %d", &width_, &height_);
+
         map_matrix_ = vector< vector<MapObject*> >(height_);
 
         for (int i = 0; i < height_; ++i) {
-            file >> raw_matrix[i];
+            fgets(buffer, LINE_SIZE, file);
             map_matrix_[i] = vector<MapObject*>(width_);
             for (int j = 0; j < width_; j++) {
-                map_matrix_[i][j] = new MapObject(i, j, raw_matrix[i][j], width_, height_);
+                map_matrix_[i][j] = new MapObject(i, j, buffer[j], width_, height_);
             }
         }
-        file.close();
+        fclose(file);
 		map_loaded_ = true;
 		sprites_layer_->LoadMapMatrix(&map_matrix_);
 		offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
@@ -185,7 +209,9 @@ void MapEditor::processKeyEditCommands() {
 	if(input->KeyDown(ugdk::K_o)) type = EMPTY;
 	if(input->KeyDown(ugdk::K_l)) type = POTIONL;
 	if(input->KeyDown(ugdk::K_n)) type = POTIONM;
-	if(input->KeyDown(ugdk::K_s)) type = POTIONS;	
+	if(input->KeyDown(ugdk::K_s)) type = POTIONS;
+    if(input->KeyDown(ugdk::K_k)) type = BLOCK;
+    if(input->KeyDown(ugdk::K_u)) type = BUTTON;
 
 	/*advanced commands keys*/
 	if(input->KeyDown(ugdk::K_LCTRL) || input->KeyDown(ugdk::K_RCTRL)) doFill = true;
