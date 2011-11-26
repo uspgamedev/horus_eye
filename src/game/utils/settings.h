@@ -1,10 +1,35 @@
 #ifndef HORUSEYE_GAME_UTILS_SETTINGS_H_
 #define HORUSEYE_GAME_UTILS_SETTINGS_H_
 
+#include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/types.h>
 
 namespace utils {
+
+typedef struct {
+    char control[14];
+    ugdk::uint8 resolution;
+    ugdk::uint8 fullscreen;
+    ugdk::uint8 background_music;
+    ugdk::uint8 sound_effects;
+    ugdk::uint8 language;
+} SettingsData;
+
+class DataSource {
+  public:
+    DataSource(const std::string filename) : filename_(filename) {}
+    virtual ~DataSource() {}
+
+    virtual bool Read(       SettingsData &data) const = 0;
+    virtual bool Write(const SettingsData &data) const = 0;
+
+  private:
+    const std::string filename_;
+
+  protected:
+    const std::string& filename() const { return filename_; }
+};
 
 class Settings {
   public:
@@ -13,7 +38,9 @@ class Settings {
     }
 
     ~Settings() {}
-    void WriteToDisk();
+
+    bool ReadFromDisk(SettingsData &data);
+    bool WriteToDisk();
 
     // Setters
     void set_resolution(int resolution)             { resolution_ = resolution; }
@@ -49,20 +76,15 @@ class Settings {
     static ugdk::Vector2D resolutions_[NUM_RESOLUTIONS];
     static std::string languages_[NUM_LANGUAGES], languages_names_[NUM_LANGUAGES];
 
-    typedef struct {
-        char control[14];
-        ugdk::uint8 resolution;
-        ugdk::uint8 fullscreen;
-        ugdk::uint8 background_music;
-        ugdk::uint8 sound_effects;
-        ugdk::uint8 language;
-    } Data;
-
     int resolution_, language_;
     bool fullscreen_, background_music_, sound_effects_;
     std::string configuration_file_path_, root_file_path_;
+    std::list<DataSource*> sources_;
 
     void SetSettingsPath();
+
+    void FillWithDefaultValues(SettingsData &data) const;
+    bool ValidateData(const SettingsData &data) const;
 };
 }
 
