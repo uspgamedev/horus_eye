@@ -741,7 +741,7 @@ string  MenuBuilder::SettingsMenuHandler::on_off_[2] = {"Off", "On" };
 MenuBuilder::SettingsMenuHandler::SettingsMenuHandler(Menu *menu) : MenuHandler(menu) {
     for(int i = 0; i < 5; ++i)
         sprites_active_[i] = 0;
-    settings_ = new Settings();
+    settings_ = Settings::reference();
 }
 
 Menu *MenuBuilder::BuildSettingsMenu () {
@@ -893,8 +893,6 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
 }
 
 void MenuBuilder::SettingsMenuHandler::CleanUp() {
-    delete settings_;
-
     free(resolution_sprites_);
     for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         resolution_images_[i]->Destroy();

@@ -31,8 +31,8 @@ void MummyRangedWeapon::Use(){
 
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);
-    utils::Settings settings;
-    if(settings.sound_effects())
+    
+    if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 

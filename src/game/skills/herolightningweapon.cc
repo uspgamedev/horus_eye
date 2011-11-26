@@ -34,8 +34,7 @@ void HeroLightningWeapon::Use() {
     world->AddWorldObject(proj.LightningBolt(versor), pos);
 
 
-    utils::Settings settings;
-    if(settings.sound_effects())
+    if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 

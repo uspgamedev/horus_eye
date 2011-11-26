@@ -13,6 +13,8 @@
 
 namespace utils {
 
+Settings* Settings::reference_ = NULL;
+
 using namespace ugdk;
 
 Vector2D Settings::resolutions_[] = {
@@ -41,8 +43,8 @@ std::string Settings::languages_names_[] = {
 
 Settings::Settings() {
     Data data;
-	SetSettingsPath(); 
-	FILE *settings = fopen(configuration_file_path_.c_str(),"rb");
+    SetSettingsPath(); 
+    FILE *settings = fopen(configuration_file_path_.c_str(),"rb");
     if(settings == NULL) {
         settings = fopen(Constants::CONFIGURATION_FILE.c_str(), "rb");
     }
@@ -56,8 +58,7 @@ Settings::Settings() {
         }
     }
     // if settings is NULL, use default values.
-    if (settings==NULL)
-    {
+    if (settings == NULL) {
         resolution_ = 1;
         fullscreen_ = false;
         background_music_ = true;
@@ -74,36 +75,34 @@ Settings::Settings() {
     }
 }
 
-Settings::~Settings(){
-}
-
-void Settings::WriteToDisk(){
-    Data data;
-	FILE *settings = fopen(configuration_file_path_.c_str(),"wb");
-	if(settings == NULL) {
-	    settings = fopen(Constants::CONFIGURATION_FILE.c_str(), "wb");
-	}
-	if(settings == NULL) {
+void Settings::WriteToDisk() {
+    FILE *settings = fopen(configuration_file_path_.c_str(),"wb");
+    if(settings == NULL) {
+        settings = fopen(Constants::CONFIGURATION_FILE.c_str(), "wb");
+    }
+    if(settings == NULL) {
 #ifdef DEBUG
-	    printf("Couldn't open file: %s\n", configuration_file_path_.c_str());
+        fprintf(stderr, "Error: Couldn't open file \"%s\" for writing.\n", configuration_file_path_.c_str());
 #endif
-	    return;
-	}
-	strcpy(data.control, "HORUSCONFIGV1");
-	data.resolution = resolution_;
-	data.fullscreen = fullscreen_;
-	data.background_music = background_music_;
-	data.sound_effects = sound_effects_;
-	data.language = language_;
-	fwrite(&data, sizeof(Data), 1, settings);
-	fclose(settings);
+        return;
+    }
+
+    Data data;
+    strcpy(data.control, "HORUSCONFIGV1");
+    data.resolution = resolution_;
+    data.fullscreen = fullscreen_;
+    data.background_music = background_music_;
+    data.sound_effects = sound_effects_;
+    data.language = language_;
+    fwrite(&data, sizeof(Data), 1, settings);
+    fclose(settings);
 }
 
-const Vector2D& Settings::resolution_vector(){
+const Vector2D& Settings::resolution_vector() const {
     return resolutions_[resolution_];
 }
 
-const std::string& Settings::language_file() {
+const std::string& Settings::language_file() const {
     return languages_[language_];
 }
 
@@ -113,19 +112,19 @@ void Settings::SetSettingsPath() {
 #ifdef WIN32
     CHAR my_documents[MAX_PATH];
     HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, my_documents);
-	stm << my_documents << "/Horus Eye/";
-	if(GetFileAttributes(stm.str().c_str()) == INVALID_FILE_ATTRIBUTES)
-		mkdir(stm.str().c_str());
+    stm << my_documents << "/Horus Eye/";
+    if(GetFileAttributes(stm.str().c_str()) == INVALID_FILE_ATTRIBUTES)
+        mkdir(stm.str().c_str());
 #else
-	stm << USER_HOME << "/.horus_eye/";
+    stm << USER_HOME << "/.horus_eye/";
 #endif
 
-	std::ostringstream path_to_path_file;
-	path_to_path_file << stm.str() << Constants::ROOT_PATH_FILE;
-	root_file_path_ = path_to_path_file.str();
+    std::ostringstream path_to_path_file;
+    path_to_path_file << stm.str() << Constants::ROOT_PATH_FILE;
+    root_file_path_ = path_to_path_file.str();
 
-	stm << Constants::CONFIGURATION_FILE;
-	configuration_file_path_ = stm.str();
+    stm << Constants::CONFIGURATION_FILE;
+    configuration_file_path_ = stm.str();
 }
 
 }

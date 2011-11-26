@@ -26,35 +26,35 @@ ugdk::Engine* engine() {
 }
 
 void StartGame() {
-    Settings settings = Settings();
+    Settings* settings = Settings::reference();
 
     // Checks if restarting game. Avoids changing resolution during
     // startup, to avoid taking longer uselessly.
     if(level_manager()->RestartGameQueued())
-        engine()->video_manager()->ChangeResolution(settings.resolution_vector(), settings.fullscreen());
+        engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
 
-    text_loader()->Initialize(settings.language_file());
+    text_loader()->Initialize(settings->language_file());
     level_manager()->Initialize();
 }
 
 int main(int argc, char *argv[]) {
-	Settings settings = Settings();
+    Settings* settings = Settings::reference();
 
-	// Loads rootpath from the file specified on settings
-	char rootpath[1024];
-	strcpy(rootpath, "./");
-	FILE *root_file = fopen(settings.root_file_path().c_str(), "r");
-	if(root_file != NULL) {
-		fgets(rootpath, 1024, root_file);
-		fclose(root_file);
-		int i = strlen(rootpath) - 1;
-		if(rootpath[i] != '/' && rootpath[i] != '\\') {
-			rootpath[i + 1] = '/';
-			rootpath[i + 2] = '\0';
-		}
-	}
+    // Loads rootpath from the file specified on settings
+    char rootpath[1024];
+    strcpy(rootpath, "./");
+    FILE *root_file = fopen(settings->root_file_path().c_str(), "r");
+    if(root_file != NULL) {
+        fgets(rootpath, 1024, root_file);
+        fclose(root_file);
+        int i = strlen(rootpath) - 1;
+        if(rootpath[i] != '/' && rootpath[i] != '\\') {
+            rootpath[i + 1] = '/';
+            rootpath[i + 2] = '\0';
+        }
+    }
 
-    engine()->Initialize("Horus Eye", settings.resolution_vector(), settings.fullscreen(), rootpath, "data/images/eye.bmp");
+    engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, "data/images/eye.bmp");
     do {
 
         // Initializes game data
@@ -68,7 +68,7 @@ int main(int argc, char *argv[]) {
 
         // Releases all loaded textures, to avoid issues when changing resolution.
         engine()->video_manager()->Release();
-		engine()->text_manager()->Release();
+        engine()->text_manager()->Release();
 
     } while(level_manager()->RestartGameQueued());
     engine()->Release();

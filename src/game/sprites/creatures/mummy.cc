@@ -207,8 +207,7 @@ void Mummy::PlayHitSound() const {
     int id = 1 + (rand() % 4);
 
     ss << "data/samples/hit" << id << ".wav";
-    Settings settings;
-    if(settings.sound_effects())
+    if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
 }
 
