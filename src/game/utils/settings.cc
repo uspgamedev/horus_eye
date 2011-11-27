@@ -93,7 +93,7 @@ bool SettingsData::ValidateData() const {
 class IniFileSource : public DataSource {
   public:
     IniFileSource(const std::string& filepath)
-        : DataSource(filepath + "settings.ini") {}
+        : DataSource(filepath + Constants::INI_CONFIGURATION_FILENAME) {}
 
     virtual bool Read(SettingsData &data) const {
         CIniFile source;
@@ -155,7 +155,7 @@ class IniFileSource : public DataSource {
 class BinaryFileSource : public DataSource {
   public:
     BinaryFileSource(const std::string& filepath)
-        : DataSource(filepath + "settings.bin") {}
+        : DataSource(filepath + Constants::BINARY_CONFIGURATION_FILENAME) {}
 
     virtual bool Read(SettingsData &data) const {
         FILE *source = fopen(filename().c_str(),"rb");

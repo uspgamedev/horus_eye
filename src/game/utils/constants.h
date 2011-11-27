@@ -154,7 +154,8 @@ class Constants {
 
     const static std::string
 		ROOT_PATH_FILE,
-        CONFIGURATION_FILE,
+        BINARY_CONFIGURATION_FILENAME,
+        INI_CONFIGURATION_FILENAME,
         BACKGROUND_MUSIC;
 
 	const static std::wstring
