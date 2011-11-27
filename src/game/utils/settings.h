@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_UTILS_SETTINGS_H_
 
 #include <list>
+#include <string>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/types.h>
 
@@ -14,6 +15,9 @@ typedef struct {
     ugdk::uint8 background_music;
     ugdk::uint8 sound_effects;
     ugdk::uint8 language;
+
+    void FillWithDefaultValues();
+    bool ValidateData() const;
 } SettingsData;
 
 class DataSource {
@@ -82,9 +86,6 @@ class Settings {
     std::list<DataSource*> sources_;
 
     void SetSettingsPath();
-
-    void FillWithDefaultValues(SettingsData &data) const;
-    bool ValidateData(const SettingsData &data) const;
 };
 }
 

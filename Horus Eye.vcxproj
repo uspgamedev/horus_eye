@@ -21,6 +21,7 @@
     <ClCompile Include="src\editor\mapeditor.cc" />
     <ClCompile Include="src\editor\mapobject.cc" />
     <ClCompile Include="src\editor\scenes\editormenu.cc" />
+    <ClCompile Include="src\externals\inifile.cpp" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
@@ -86,6 +87,7 @@
     <ClInclude Include="src\editor\mapeditor.h" />
     <ClInclude Include="src\editor\mapobject.h" />
     <ClInclude Include="src\editor\scenes\editormenu.h" />
+    <ClInclude Include="src\externals\inifile.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
