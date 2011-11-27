@@ -70,8 +70,6 @@ class Settings {
     static const std::string* LanguageList() { return languages_; }
     static const std::string* LanguageNameList() { return languages_names_; }
 
-    const std::string& root_file_path() { return root_file_path_; }
-
   private:
     // Singleton design.
     static Settings* reference_;
@@ -82,7 +80,7 @@ class Settings {
 
     int resolution_, language_;
     bool fullscreen_, background_music_, sound_effects_;
-    std::string configuration_file_path_, root_file_path_;
+    std::string configuration_folder_path_;
     std::list<DataSource*> sources_;
 
     void SetSettingsPath();

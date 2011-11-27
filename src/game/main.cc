@@ -1,11 +1,11 @@
-
 #include <string>
-#include "game/config.h"
+#include <sys/stat.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/math/vector2D.h>
+
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
@@ -40,19 +40,10 @@ void StartGame() {
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-    // Loads rootpath from the file specified on settings
-    char rootpath[1024];
-    strcpy(rootpath, "./");
-    FILE *root_file = fopen(settings->root_file_path().c_str(), "r");
-    if(root_file != NULL) {
-        fgets(rootpath, 1024, root_file);
-        fclose(root_file);
-        int i = strlen(rootpath) - 1;
-        if(rootpath[i] != '/' && rootpath[i] != '\\') {
-            rootpath[i + 1] = '/';
-            rootpath[i + 2] = '\0';
-        }
-    }
+    std::string rootpath = Constants::INSTALL_LOCATION;
+    struct stat st;
+    if(stat(rootpath.c_str(), &st) != 0)
+        rootpath = "./";
 
     engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, "data/images/eye.bmp");
     do {

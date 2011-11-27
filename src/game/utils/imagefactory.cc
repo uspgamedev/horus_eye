@@ -1,5 +1,4 @@
 #include "imagefactory.h"
-#include "game/config.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/image.h>

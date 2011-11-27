@@ -3,13 +3,13 @@
 #include <locale>
 #include <cctype>
 #include <string>
+#include <cstdlib>
 
 #include <sstream>
 #include <externals/inifile.h>
 
 #include "settings.h"
 
-#include "game/config.h"
 #include "game/utils/constants.h"
 
 #ifdef WIN32
@@ -214,8 +214,8 @@ std::string Settings::languages_names_[] = {
 Settings::Settings() {
     SetSettingsPath();
 
-    this->sources_.push_back(new IniFileSource(   configuration_file_path_));
-    this->sources_.push_back(new BinaryFileSource(configuration_file_path_));
+    this->sources_.push_back(new IniFileSource(   configuration_folder_path_));
+    this->sources_.push_back(new BinaryFileSource(configuration_folder_path_));
     this->sources_.push_back(new IniFileSource(   ""));
     this->sources_.push_back(new BinaryFileSource(""));
 
@@ -265,23 +265,17 @@ const std::string& Settings::language_file() const {
 }
 
 void Settings::SetSettingsPath() {
-    std::ostringstream stm;
-
 #ifdef WIN32
     CHAR my_documents[MAX_PATH];
     HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, my_documents);
-    stm << my_documents << "/Horus Eye/";
-    if(GetFileAttributes(stm.str().c_str()) == INVALID_FILE_ATTRIBUTES)
-        mkdir(stm.str().c_str());
+    configuration_folder_path_ = std::string(my_documents) + "/Horus Eye/";
+    if(GetFileAttributes(configuration_folder_path_.c_str()) == INVALID_FILE_ATTRIBUTES)
+        mkdir(configuration_folder_path_.c_str());
 #else
-    stm << USER_HOME << "/.horus_eye/";
+    char* home = getenv("HOME");
+    if(home) configuration_folder_path_ = std::string(home) + "/.config/horus_eye/";
+    else configuration_folder_path_ = "";
 #endif
-
-    std::ostringstream path_to_path_file;
-    path_to_path_file << stm.str() << Constants::ROOT_PATH_FILE;
-    root_file_path_ = path_to_path_file.str();
-
-    configuration_file_path_ = stm.str();
 }
 
 }
