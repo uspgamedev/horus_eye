@@ -1,6 +1,8 @@
 #include "constants.h"
 #include "game/config.h"
 
+#define PI 3.1415926535897932384626433832795f
+
 namespace utils {
 
 const float Constants::DOOR_HOTSPOT_WIDTH = 153.0f/2.0f;
@@ -58,6 +60,10 @@ const float Constants::FIREBALL_EXPLOSION_RADIUS = 1.6f;
 const float Constants::QUAKE_EXPLOSION_RADIUS = 1.25f;
 const float Constants::QUAKE_EXPLOSION_RANGE = 6.0f;
 const float Constants::METEOR_EXPLOSION_RADIUS = 2.0f;
+
+const float Constants::SANDSTORM_COST = 30.0f;
+const float Constants::SANDSTORM_ANGLE = PI/3.0f;
+const float Constants::SANDSTORM_LENGHT = 2.5f;
 
 const float Constants::SIGHT_POTION_INCREASE = 1.2f;
 

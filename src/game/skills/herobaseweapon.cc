@@ -1,5 +1,4 @@
 #include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/base/engine.h>
 

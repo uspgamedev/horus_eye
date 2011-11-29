@@ -134,7 +134,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     ugdk::uint32 last_standing_animation_;
 
     /// The base weapon this creature uses.
-    skills::Skill *weapon_;
+    skills::Skill* weapon_;
 
     /// The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;

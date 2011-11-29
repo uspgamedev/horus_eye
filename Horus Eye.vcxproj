@@ -46,10 +46,12 @@
     <ClCompile Include="src\game\skills\mummyweapon.cc" />
     <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
     <ClCompile Include="src\game\skills\pharaohsummonweapon.cc" />
+    <ClCompile Include="src\game\skills\sandstorm.cc" />
     <ClCompile Include="src\game\sprites\creatures\creature.cc" />
     <ClCompile Include="src\game\sprites\creatures\hero.cc" />
     <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
     <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
+    <ClCompile Include="src\game\entities\emitterentity.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
@@ -94,6 +96,7 @@
     <ClInclude Include="src\game\builders\mummybuilder.h" />
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
+    <ClInclude Include="src\game\entities\emittable.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
     <ClInclude Include="src\game\resources\capacityblocks.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />
@@ -111,6 +114,7 @@
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
+    <ClInclude Include="src\game\skills\sandstorm.h" />
     <ClInclude Include="src\game\skills\usearguments.h" />
     <ClInclude Include="src\game\skills\casttypes\aimedcast.h" />
     <ClInclude Include="src\game\skills\casttypes\casttype.h" />
@@ -131,6 +135,7 @@
     <ClInclude Include="src\game\sprites\creatures\hero.h" />
     <ClInclude Include="src\game\sprites\creatures\mummy.h" />
     <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
+    <ClInclude Include="src\game\entities\emitterentity.h" />
     <ClInclude Include="src\game\sprites\explosion.h" />
     <ClInclude Include="src\game\sprites\item.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
