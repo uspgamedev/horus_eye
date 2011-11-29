@@ -5,7 +5,8 @@
 #include <ugdk/time/timeaccumulator.h>
 
 #include "game/sprites/timedworldobject.h"
-#include "game/entities/emittablebuilder.h"
+#include "game/builders/projectilebuilder.h"
+//TODO:FIX projectilebuilder -> emittablebuilder
 
 namespace entity {
 
@@ -35,7 +36,8 @@ class EmitterEntity : public sprite::TimedWorldObject {
     typedef sprite::TimedWorldObject super;
 
     bool suspended_;
-    std::set<EmittableBuilder> emittings_;
+    std::set<builder::ProjectileBuilder> emittings_;
+    //TODO:FIX projectilebuilder -> emittablebuilder
 };
 
 } // namespace entity
