@@ -100,8 +100,7 @@ void Hero::ChangeSecondaryWeapon(int slot) {
 }
 
 void Hero::PlayHitSound() const {
-    Settings settings;
-    if(settings.sound_effects())
+    if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
 }
 

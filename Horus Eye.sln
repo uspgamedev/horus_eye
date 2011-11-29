@@ -25,8 +25,4 @@ Global
 		AMDCaPersistentStartup = Horus Eye
 		AMDCaPersistentConfig = Release|Win32
 	EndGlobalSection
-	GlobalSection(SubversionScc) = preSolution
-		Svn-Managed = True
-		Manager = AnkhSVN - Subversion Support for Visual Studio
-	EndGlobalSection
 EndGlobal

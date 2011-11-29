@@ -18,6 +18,7 @@
 /src/game/build
 /src/game/config.h
 settings.bin
+settings.ini
 
 /Windows Release
 /Default

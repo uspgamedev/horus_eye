@@ -158,8 +158,9 @@ class Constants {
 		POTION_HEIGHT;
 
     const static std::string
-		ROOT_PATH_FILE,
-        CONFIGURATION_FILE,
+		INSTALL_LOCATION,
+        BINARY_CONFIGURATION_FILENAME,
+        INI_CONFIGURATION_FILENAME,
         BACKGROUND_MUSIC;
 
 	const static std::wstring

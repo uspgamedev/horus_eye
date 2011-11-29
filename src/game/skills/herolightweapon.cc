@@ -27,14 +27,13 @@ void HeroLightWeapon::Use(){
 
     World *world = WORLD();   
 
-	sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
-	light->Initialize(world->image_factory()->LightImage());
-	light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
-	light->set_light_radius(4.0f);
-	world->AddWorldObject(light, use_argument_.destination_);
+    sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
+    light->Initialize(world->image_factory()->LightImage());
+    light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
+    light->set_light_radius(4.0f);
+    world->AddWorldObject(light, use_argument_.destination_);
 
-    utils::Settings settings;
-    if(settings.sound_effects())
+    if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 

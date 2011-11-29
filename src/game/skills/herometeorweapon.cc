@@ -55,8 +55,7 @@ void HeroMeteorWeapon::Use(){
 
     world->AddWorldObject(warning_effect, use_argument_.destination_);
 
-    utils::Settings settings;
-    if(settings.sound_effects())
+    if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 

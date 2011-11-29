@@ -21,6 +21,7 @@
     <ClCompile Include="src\editor\mapeditor.cc" />
     <ClCompile Include="src\editor\mapobject.cc" />
     <ClCompile Include="src\editor\scenes\editormenu.cc" />
+    <ClCompile Include="src\externals\inifile.cpp" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
@@ -88,6 +89,7 @@
     <ClInclude Include="src\editor\mapeditor.h" />
     <ClInclude Include="src\editor\mapobject.h" />
     <ClInclude Include="src\editor\scenes\editormenu.h" />
+    <ClInclude Include="src\externals\inifile.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
@@ -166,9 +168,6 @@
     <ClInclude Include="src\game\utils\visionstrategy.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{88426421-C8EA-4013-B7F8-6A07ADD23469}</ProjectGuid>
@@ -251,6 +250,7 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>false</MultiProcessorCompilation>
       <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -279,6 +279,7 @@
       <CompileAs>CompileAsCpp</CompileAs>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -309,6 +310,7 @@
       </DebugInformationFormat>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <DisableSpecificWarnings>4244</DisableSpecificWarnings>
+      <EnablePREfast>false</EnablePREfast>
     </ClCompile>
     <Link>
       <ShowProgress>NotSet</ShowProgress>

@@ -97,6 +97,22 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
             set_hotspot(Vector2D(Constants::POTION_SPRITE_CENTER_X, Constants::POTION_SPRITE_CENTER_Y + Constants::POTION_HEIGHT));
         }
         break;
+    case BLOCK:
+        tile_image_->set_color(Image::CreateColor(0.50f, 0.25f, 0.25f));
+        if(sprite_image_ == NULL) {
+            Initialize(sprite_image_ = img_factory.WallImage());
+            set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
+        }
+        {   Vector2D new_size(sprite_image_->render_size().x, sprite_image_->render_size().y * 0.7f);
+            set_size(new_size); }
+        break;
+    case BUTTON:
+        tile_image_->set_color(Image::CreateColor(0.5f, 0.5f, 0.8f));
+        if(sprite_image_ == NULL) {
+            Initialize(sprite_image_ = img_factory.TileSwitchImage());
+            set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
+        }
+        break;
     default:
         tile_image_->set_color(Image::CreateColor(1.0f, 1.0f, 1.0f));
         if(sprite_image_ == NULL) {

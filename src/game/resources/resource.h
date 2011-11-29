@@ -21,11 +21,11 @@ class Resource {
 
     virtual ~Resource() {}
 
-    virtual void Set(resource_t &quantity) {
-        resource_pool_ = quantity;
+    virtual void Set(resource_t quantity) {
+        RawSet(quantity);
     }
 
-    void operator =(resource_t &quantity) {
+    void operator =(resource_t quantity) {
         Set(quantity);
     }
 
@@ -65,6 +65,8 @@ class Resource {
 
     resource_t& resource_pool() { return resource_pool_; }
 
+    void RawSet(resource_t& quantity) { resource_pool_ = quantity; }
+
   private:
 
     resource_t resource_pool_;
@@ -72,7 +74,7 @@ class Resource {
 };
 
 template <class resource_t>
-bool operator <=(Resource<resource_t>& resource, resource_t quantity) {
+bool operator <=(resource_t quantity, Resource<resource_t>& resource) {
     return resource.Has(quantity);
 }
 

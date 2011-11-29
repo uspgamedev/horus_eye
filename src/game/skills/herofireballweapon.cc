@@ -33,8 +33,7 @@ void HeroFireballWeapon::Use() {
     builder::ProjectileBuilder proj(world->image_factory());
     world->AddWorldObject(proj.Fireball(versor), pos);
 
-    utils::Settings settings;
-    if(settings.sound_effects())
+    if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 }
 

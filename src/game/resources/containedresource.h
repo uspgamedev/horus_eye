@@ -17,7 +17,7 @@ class ContainedResource : public Resource<resource_t> {
     explicit ContainedResource(resource_t base_value, resource_t min_value, resource_t max_value)
         : Resource<resource_t>(base_value), min_value_(min_value), max_value_(max_value) {}
 
-    ~ContainedResource() {}
+    virtual ~ContainedResource() {}
 
     void Set(resource_t quantity) {
         super::Set(quantity);
@@ -42,11 +42,11 @@ class ContainedResource : public Resource<resource_t> {
         return max_value_ <= super::resource_pool();
     }
 
-    void Flush() {
+    virtual void Flush() {
         super::Set(min_value_);
     }
 
-    void Fill() {
+    virtual void Fill() {
         super::Set(max_value_);
     }
 
@@ -70,14 +70,13 @@ class ContainedResource : public Resource<resource_t> {
 
   protected:
 
+    typedef Resource<resource_t> super;
     void Normalize() {
         super::resource_pool() = std::min(super::resource_pool(), max_value_);
         super::resource_pool() = std::max(super::resource_pool(), min_value_);
     }
 
   private:
-
-    typedef Resource<resource_t> super;
 
     resource_t min_value_, max_value_;
 

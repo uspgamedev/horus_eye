@@ -43,7 +43,7 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         image_factory_(factory),
         level_state_(LevelManager::NOT_FINISHED),
         konami_used_(false),
-        button_pressed_(false)
+        num_button_not_pressed_(0)
     {
 
     AddLayer(world_layer_);
@@ -327,8 +327,8 @@ void World::set_music(std::string &music) {
 	if(music_ != NULL && music_->IsPlaying()) {
 		music_->Stop();
 	}
-	utils::Settings settings;
-	music_ = settings.background_music()
+	
+    music_ = utils::Settings::reference()->background_music()
 		? AUDIO_MANAGER()->LoadMusic(music)
 		: NULL;
 }

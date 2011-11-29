@@ -13,6 +13,8 @@ using namespace ugdk;
 using namespace utils;
 using namespace scene;
 
+#define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
+
 namespace sprite {
 
 INITIALIZE_COLLIDABLE_NODE(Button, WorldObject);
@@ -21,10 +23,17 @@ COLLISION_DIRECT(Button*, PressCollision, obj) {
     data_->Press();
 }
 
-Button::Button(ugdk::Image* image, scene::World *world)
+Button::Button(ugdk::Image* image, scene::World *world, float active_time)
   : super(image),
-    reactive_time_(new ugdk::TimeAccumulator(1000)),
     world_(world) {
+
+    if(active_time > 0.0f) {
+        reactive_time_ = new ugdk::TimeAccumulator(SECONDS_TO_MILISECONDS(active_time));
+    } else {
+        reactive_time_ = NULL;
+    }
+
+    world->num_button_not_pressed() += 1;
 
     pressed_ = false;
 
@@ -38,21 +47,32 @@ Button::Button(ugdk::Image* image, scene::World *world)
 
 void Button::Update(float delta_t) {
     super::Update(delta_t);
-    if(pressed_ && reactive_time_->Expired()) {
+    if(pressed_ && reactive_time_ && reactive_time_->Expired()) {
         DePress();
     }
     SetDefaultFrame((int)(!pressed_) * 2);
 }
 
+void Button::Die() {
+    if(pressed_)
+        pressed_ = false;
+    else
+        world_->num_button_not_pressed() -= 1;
+}
+
 void Button::Press() {
-    pressed_ = true;
-    reactive_time_->Restart();
-    world_->set_button_pressed(pressed_);
+    if(!pressed_) {
+        world_->num_button_not_pressed() -= 1;
+        pressed_ = true;
+    }
+    if(reactive_time_) reactive_time_->Restart();
 }
 
 void Button::DePress() {
-    pressed_ = false;
-    world_->set_button_pressed(pressed_);
+    if(pressed_) {
+        pressed_ = false;
+        world_->num_button_not_pressed() += 1;
+    }
 }
 
 }
