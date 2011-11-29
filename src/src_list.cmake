@@ -126,6 +126,8 @@ SET(GAME_SRCS
     ./src/pyramidworks/collision/collisionobject.cc 
     ./src/pyramidworks/collision/collisionobject.h 
     ./src/pyramidworks/collision/collisionclass.h 
+    ./src/externals/inifile.cc 
+    ./src/externals/inifile.h 
     ./src/editor/mapobject.cc 
     ./src/editor/mapeditor.cc 
     ./src/editor/scenes/editormenu.cc 
