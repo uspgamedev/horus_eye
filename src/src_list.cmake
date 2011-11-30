@@ -24,6 +24,7 @@ SET(GAME_SRCS
     ./src/game/utils/hud.h 
     ./src/game/skills/combatart.h 
     ./src/game/skills/herofireballweapon.h 
+    ./src/game/skills/sandstorm.h 
     ./src/game/skills/heroexplosionweapon.h 
     ./src/game/skills/herolightweapon.cc 
     ./src/game/skills/herofireballweapon.cc 
@@ -46,6 +47,10 @@ SET(GAME_SRCS
     ./src/game/skills/pharaohsummonweapon.cc 
     ./src/game/skills/divinegift.h 
     ./src/game/skills/herometeorweapon.cc 
+    ./src/game/skills/sandstorm.cc 
+    ./src/game/entities/emitterentity.cc 
+    ./src/game/entities/emittable.h 
+    ./src/game/entities/emitterentity.h 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/mummybuilder.cc 
     ./src/game/builders/herobuilder.h 

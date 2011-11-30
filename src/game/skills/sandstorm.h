@@ -9,7 +9,7 @@ namespace skills {
 
 class Sandstorm : public CombatArt<usearguments::Aim> {
   public:
-    Sandstorm::Sandstorm(sprite::Hero* owner);
+    Sandstorm(sprite::Hero* owner);
     virtual void Use();
 
     virtual bool Available() const {
