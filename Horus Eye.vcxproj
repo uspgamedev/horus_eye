@@ -21,7 +21,7 @@
     <ClCompile Include="src\editor\mapeditor.cc" />
     <ClCompile Include="src\editor\mapobject.cc" />
     <ClCompile Include="src\editor\scenes\editormenu.cc" />
-    <ClCompile Include="src\externals\inifile.cpp" />
+    <ClCompile Include="src\externals\inifile.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
