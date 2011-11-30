@@ -16,8 +16,6 @@
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(Item, WorldObject);
-
 using namespace ugdk;
 using namespace utils;
 

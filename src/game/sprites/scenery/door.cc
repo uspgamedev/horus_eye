@@ -10,8 +10,6 @@
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(Door, Wall);
-
 #define HOTSPOT_WIDTH   utils::Constants::DOOR_HOTSPOT_WIDTH
 #define HOTSPOT_HEIGHT  utils::Constants::DOOR_HOTSPOT_HEIGHT
 #define BOUND_WIDTH     utils::Constants::DOOR_BOUND_WIDTH

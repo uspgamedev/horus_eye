@@ -6,6 +6,8 @@
 namespace pyramidworks {
 namespace collision {
 
+CollisionManager *CollisionManager::reference_ = NULL;
+
 CollisionManager::~CollisionManager() { 
     reference_ = NULL;
     std::map<std::string, CollisionClass*>::iterator it;
@@ -15,26 +17,20 @@ CollisionManager::~CollisionManager() {
     cache_.clear();
 }
 
-CollisionClass* CollisionManager::Get(std::string &name) {
-	CollisionClass *mask = cache_[name];
-	if(mask == NULL) {
-        cache_[name] = mask = new CollisionClass();
+void CollisionManager::Generate(const std::string &name) {
+    CollisionClass* colclass = cache_[name] = new CollisionClass();
 #ifdef DEBUG
-        mask->set_name(name);
+    colclass->set_name(name);
 #endif
-    }
-	return mask;
 }
 
-const CollisionClass* CollisionManager::Generate(std::string name, std::string parent) {
-	CollisionClass *parent_mask = Get(parent);
-	CollisionClass *mask = Get(name);
-    if(parent_mask != NULL)
-        mask->set_parent(parent_mask);
-	return mask;
+void CollisionManager::Generate(const std::string &name, const std::string &parent) {
+    CollisionClass* colclass = cache_[name] = new CollisionClass();
+    colclass->set_parent(cache_[parent]);
+#ifdef DEBUG
+    colclass->set_name(name);
+#endif
 }
-
-CollisionManager *CollisionManager::reference_ = NULL;
 
 } // namespace collision
 } // namespace pyramidworks

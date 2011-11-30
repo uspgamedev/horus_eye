@@ -29,8 +29,6 @@ using namespace utils;
 
 #define EXP_PARAM (1.0f)
 
-INITIALIZE_COLLIDABLE_NODE(Mummy, Creature);
-
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
     return (int)(1000*-log(1.0*rand()/RAND_MAX)/EXP_PARAM);
