@@ -33,7 +33,7 @@ class Constants {
         HERO_HEIGHT = 110,
         HERO_HOTSPOT_X = 55,
         HERO_HOTSPOT_Y = 102,
-        HERO_MAX_WEAPONS = 5,
+        HERO_MAX_WEAPONS = 6,
         HERO_MIN_MANA_BLOCKS = 1,
         HERO_MAX_MANA_BLOCKS = 5,
         HERO_BASE_MANA_REGEN_RATIO = 3,
@@ -132,6 +132,7 @@ class Constants {
 		EXPLOSION_HEIGHT,
 
         SANDSTORM_FADEOUT_TIME,
+        SANDSTORM_PROJECTILE_INTERVAL,
         SANDSTORM_COST,
         SANDSTORM_MAINTAIN_COST,
         SANDSTORM_ANGLE,

@@ -4,15 +4,12 @@
 #include "game/entities/emitterentity.h"
 
 #include "game/utils/constants.h"
-#include "game/builders/projectilebuilder.h"
 
-namespace utils {
-class Constants;
-} // namespace utils
+#define FLT_SECS_TO_INT_MILLISECS(value) ((int)((value)*1000))
 
-namespace builder {
-class ProjectileBuilder;
-} // namespace builder
+namespace ugdk {
+class TimeAccumulator;
+} // namespace ugdk
 
 namespace skills {
 namespace usearguments {
@@ -23,24 +20,30 @@ class Aim;
 
 namespace entities {
 
-using skills::usearguments::Aim;
-using utils::Constants;
-
 class SandstormEmitter : public EmitterEntity {
   public:
-    SandstormEmitter(const Aim& owners_aim, const builder::ProjectileBuilder& sand_projectile_factory)
-      : EmitterEntity(Constants::SANDSTORM_FADEOUT_TIME),
+    SandstormEmitter(const skills::usearguments::Aim& owners_aim, SandstormEmitter** back_reference)
+      : EmitterEntity(utils::Constants::SANDSTORM_FADEOUT_TIME),
         aim_(owners_aim),
-        sand_projectile_factory_(sand_projectile_factory) {}
+        back_reference_(back_reference) {
+        projectile_interval_ = new ugdk::TimeAccumulator(
+            FLT_SECS_TO_INT_MILLISECS(utils::Constants::SANDSTORM_PROJECTILE_INTERVAL)
+        );
+    }
 
-    ~SandstormEmitter() {}
+    ~SandstormEmitter() {
+        delete projectile_interval_;
+    }
 
     // Inherited virtuals
     virtual void Update(float dt);
+    virtual void Die() { *back_reference_ = NULL; super::Die(); }
 
   protected:
-    const Aim& aim_;
-    const builder::ProjectileBuilder& sand_projectile_factory_;
+    const skills::usearguments::Aim& aim_;
+    ugdk::TimeAccumulator* projectile_interval_;
+
+    SandstormEmitter** back_reference_;
 
   private:
     typedef EmitterEntity super;

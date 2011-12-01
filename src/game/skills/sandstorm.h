@@ -1,23 +1,40 @@
 #ifndef HORUSEYE_GAME_SKILLS_SANDSTORM_H_
 #define HORUSEYE_GAME_SKILLS_SANDSTORM_H_
 
+#include "game/utils/constants.h"
 #include "game/skills/combatart.h"
 #include "game/skills/usearguments.h"
-#include "game/sprites/creatures/hero.h"
+
+namespace sprite {
+class Hero;
+} // namespace sprite
+
+namespace entities {
+class SandstormEmitter;
+} // namespace entities
 
 namespace skills {
 
 class Sandstorm : public CombatArt<usearguments::Aim> {
   public:
     Sandstorm(sprite::Hero* owner);
-    virtual void Use();
+    ~Sandstorm();
 
+    // inherited virtuals
+    virtual void Use();
     virtual bool Available() const {
-        return caster_mana_.Has(actual_mana_cost_);
+        return emitter_
+          ? caster_mana_.Has(utils::Constants::SANDSTORM_MAINTAIN_COST)
+          : caster_mana_.Has(utils::Constants::SANDSTORM_COST)
+        ;
     }
+    //virtual bool IsValidUse() const { return true; }
+
+  protected:
+    entities::SandstormEmitter* emitter_;
+    const float maintain_mana_cost_;
 
   private:
-    const float actual_mana_cost_;
     typedef CombatArt<usearguments::Aim> super;
 };
 

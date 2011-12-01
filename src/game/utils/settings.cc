@@ -96,10 +96,10 @@ class IniFileSource : public DataSource {
         : DataSource(filepath + Constants::INI_CONFIGURATION_FILENAME) {}
 
     virtual bool Read(SettingsData &data) const {
-        CIniFile source;
+        externals::CIniFile source;
         if(!source.Load(filename())) return false;
 
-        CIniSection* section = source.GetSection("Settings");
+        externals::CIniSection* section = source.GetSection("Settings");
         if(section == NULL) return false;
 
         std::string fullscreen =    section->GetKeyValue("Fullscreen");
@@ -140,8 +140,8 @@ class IniFileSource : public DataSource {
     }
 
     virtual bool Write(const SettingsData &data) const {
-        CIniFile destination;
-        CIniSection* sect = destination.AddSection("Settings");
+        externals::CIniFile destination;
+        externals::CIniSection* sect = destination.AddSection("Settings");
         sect->AddKey("Fullscreen")->SetValue(   BoolToString(data.fullscreen));
         sect->AddKey("SoundEffects")->SetValue( BoolToString(data.sound_effects));
         sect->AddKey("Music")->SetValue(        BoolToString(data.background_music));
@@ -270,7 +270,7 @@ void Settings::SetSettingsPath() {
     HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, my_documents);
     configuration_folder_path_ = std::string(my_documents) + "/Horus Eye/";
     if(GetFileAttributes(configuration_folder_path_.c_str()) == INVALID_FILE_ATTRIBUTES)
-        mkdir(configuration_folder_path_.c_str());
+        _mkdir(configuration_folder_path_.c_str());
 #else
     char* home = getenv("HOME");
     if(home) configuration_folder_path_ = std::string(home) + "/.config/horus_eye/";

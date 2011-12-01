@@ -67,6 +67,8 @@
 #define INI_TOKEN_B_ANSI "\b"	// I.E. Item1,Item1b;Item2,Item2b;Item3,Item3b - '\b' used in place of ','
 #define INI_EMPTY_ANSI "*"		// Used to indicate empty value in token string. I.E. *;Item2;*;Item3;
 
+namespace externals {
+
 class CIniFileA
 {
 public:
@@ -536,6 +538,8 @@ typedef PCINISECA PCINISEC;
 typedef KeyIndexA KeyIndex;
 typedef SecIndexA SecIndex;
 #endif
+
+} // namespace external
 
 #endif
 

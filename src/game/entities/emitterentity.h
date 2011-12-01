@@ -10,9 +10,11 @@ namespace entities {
 class EmitterEntity : public sprite::TimedWorldObject {
   public:
     EmitterEntity(float duration) : TimedWorldObject(duration), suspended_(false) {}
+    ~EmitterEntity() {}
 
     // Inherited virtuals
-    virtual void Update(float dt) = 0;
+    virtual void Update(float dt) { super::Update(dt); };
+    virtual void Die() { super::Die(); }
 
     // Interface, will eventualy be moved to the Emitter interface.
     void Renew() { timed_life_->Restart(); }
