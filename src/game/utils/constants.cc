@@ -61,7 +61,9 @@ const float Constants::QUAKE_EXPLOSION_RADIUS = 1.25f;
 const float Constants::QUAKE_EXPLOSION_RANGE = 6.0f;
 const float Constants::METEOR_EXPLOSION_RADIUS = 2.0f;
 
-const float Constants::SANDSTORM_COST = 30.0f;
+const float Constants::SANDSTORM_FADEOUT_TIME = 3.0f;
+const float Constants::SANDSTORM_COST = 10.0f;
+const float Constants::SANDSTORM_MAINTAIN_COST = 2.0f;
 const float Constants::SANDSTORM_ANGLE = PI/3.0f;
 const float Constants::SANDSTORM_LENGHT = 2.5f;
 

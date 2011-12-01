@@ -7,11 +7,11 @@
 namespace ugdk {
 class Image;
 class AnimationSet;
-}
+} // namespace ugdk
 
 namespace utils {
 class ImageFactory;
-}
+} // namespace utils
 
 namespace builder {
 
@@ -33,6 +33,6 @@ class ProjectileBuilder {
     void InitializeAnimations();
 };
 
-}
+} // namespace builder
 
 #endif /* HORUSEYE_GAME_BUILDERS_PROJECTILEBUILDER_H_ */
