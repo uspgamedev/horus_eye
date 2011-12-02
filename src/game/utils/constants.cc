@@ -65,7 +65,7 @@ const float Constants::SANDSTORM_FADEOUT_TIME = 0.50f;
 const float Constants::SANDSTORM_PROJECTILE_INTERVAL = 0.125f;
 const float Constants::SANDSTORM_COST = 200.0f;
 const float Constants::SANDSTORM_MAINTAIN_COST = 75.0f;
-const float Constants::SANDSTORM_ANGLE = PI/3.0f;
+const float Constants::SANDSTORM_ANGLE = PI/6.0f;
 const float Constants::SANDSTORM_LENGHT = 2.5f;
 
 const float Constants::SIGHT_POTION_INCREASE = 1.2f;

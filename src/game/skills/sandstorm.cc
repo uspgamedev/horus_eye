@@ -1,6 +1,5 @@
 
 #include <ugdk/base/engine.h>
-#include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/image.h>
 
 #include "game/skills/sandstorm.h"
@@ -16,7 +15,6 @@ using ugdk::Engine;
 using ugdk::Image;
 
 using scene::World;
-using utils::Settings;
 using utils::Constants;
 using entities::SandstormEmitter;
 using usearguments::Aim;
@@ -40,9 +38,6 @@ void Sandstorm::Use() {
 
         World *world = WORLD();
         world->AddWorldObject(emitter_, use_argument_.origin_);
-
-        if(Settings::reference()->sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
 
     } else {
         caster_mana_ -= maintain_mana_cost_;
