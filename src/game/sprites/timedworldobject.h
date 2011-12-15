@@ -15,10 +15,15 @@ class TimedWorldObject : public WorldObject {
     TimedWorldObject(float duration);
     virtual ~TimedWorldObject();
 
+    // Inherited Virtuals
     virtual void Update(float dt);
+    virtual void Die() { super::Die(); };
 
   protected:
 	ugdk::TimeAccumulator *timed_life_;
+
+  private:
+    typedef WorldObject super;
 
 };  // class WorldObject
 

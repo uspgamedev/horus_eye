@@ -23,8 +23,6 @@ class Skill {
     ugdk::Image* icon() const { return icon_; }
 
     /// Uses the skill.
-    /** This is a virtual method, the implementation is free to do anything it chooses.
-    */
     virtual void Use() = 0;
 
     /// Verifies if the skill's arguments are valid for an use right now.
@@ -52,10 +50,18 @@ class ArgSkill : public Skill {
   public:
     typedef UseArgument_T UseArgument;
 
+    // Inherited Virtuals
+    /// Uses the skill.
+    virtual void Use() = 0;
+    /// Verifies if the skill's UseArgument is valid for use right now.
+    virtual bool IsValidUse() const = 0;
+    /// Verifies if the skill has the necessary resourses to use right now.
+    virtual bool Avaiable() const = 0;
+
   protected:
     ArgSkill(ugdk::Image* icon, const UseArgument& use_argument)
         : Skill(icon), use_argument_(use_argument) {}
-
+    
     const UseArgument& use_argument_;
 
   private:

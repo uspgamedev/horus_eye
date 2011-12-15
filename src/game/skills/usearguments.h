@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_SKILLS_usearguments_H_
-#define HORUSEYE_GAME_SKILLS_usearguments_H_
+#ifndef HORUSEYE_GAME_SKILLS_USEARGUMENTS_H_
+#define HORUSEYE_GAME_SKILLS_USEARGUMENTS_H_
 
 #include <ugdk/math/vector2D.h>
 

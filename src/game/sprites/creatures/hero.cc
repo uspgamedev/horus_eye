@@ -178,6 +178,11 @@ void Hero::StartAttackAnimation() {
     this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
+bool Hero::Aiming() {
+    InputManager *input_ = Engine::reference()->input_manager();
+    return input_->MouseDown(M_BUTTON_LEFT) || input_->MouseDown(M_BUTTON_RIGHT);
+}
+
 bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
     return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Avaiable();
@@ -199,16 +204,17 @@ void Hero::UpdateAim() {
 void Hero::Update(float delta_t) {
     Creature::Update(delta_t);
     if(is_active()) {
+        if(Aiming()) {
+            UpdateAim();
+        }
         if(!waiting_animation_) {
             if (ShootingWithWeapon()) {
-                UpdateAim();
                 if(weapon_->IsValidUse()) {
                     StartAttackAnimation();
                     weapon_->Use();
                 }
 
             } else if (ShootingWithSecondaryWeapon()) {
-                UpdateAim();
                 if(secondary_weapon_->IsValidUse()) {
                     StartAttackAnimation();
                     secondary_weapon_->Use();

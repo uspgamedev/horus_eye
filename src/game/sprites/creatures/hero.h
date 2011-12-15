@@ -52,6 +52,7 @@ class Hero : public Creature {
     virtual void PlayHitSound() const;
    
     void UpdateAim();
+    bool Aiming();
     bool ShootingWithWeapon();
     bool ShootingWithSecondaryWeapon();
     void GetKeys();

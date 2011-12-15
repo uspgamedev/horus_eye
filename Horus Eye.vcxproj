@@ -27,6 +27,7 @@
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
     <ClCompile Include="src\game\builders\projectilebuilder.cc" />
+    <ClCompile Include="src\game\entities\sandstormemitter.cc" />
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
@@ -51,7 +52,6 @@
     <ClCompile Include="src\game\sprites\creatures\hero.cc" />
     <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
     <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
-    <ClCompile Include="src\game\entities\emitterentity.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
@@ -96,7 +96,7 @@
     <ClInclude Include="src\game\builders\mummybuilder.h" />
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\config.h" />
-    <ClInclude Include="src\game\entities\emittable.h" />
+    <ClInclude Include="src\game\entities\sandstormemitter.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
     <ClInclude Include="src\game\resources\capacityblocks.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />

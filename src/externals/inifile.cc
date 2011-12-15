@@ -36,6 +36,8 @@
 #endif
 #endif
 
+namespace externals {
+
 // Convert wstring to string
 std::string wstr_to_str(const std::wstring& arg)
 {
@@ -1327,3 +1329,5 @@ std::wstring CIniKeyW::GetKeyName() const
 }
 
 // End of CIniKeyW Functions
+
+} // namespace externals

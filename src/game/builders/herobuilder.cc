@@ -14,6 +14,7 @@
 #include "game/skills/herolightningweapon.h"
 #include "game/skills/herolightweapon.h"
 #include "game/skills/herometeorweapon.h"
+#include "game/skills/sandstorm.h"
 
 namespace builder {
 
@@ -51,6 +52,7 @@ Hero* HeroBuilder::Kha() {
     hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));
 	hero->AddWeapon(3, new skills::HeroLightWeapon(hero));
     hero->AddWeapon(4, new skills::HeroMeteorWeapon(hero));
+    hero->AddWeapon(5, new skills::Sandstorm(hero));
     // Add here the other initial weapons of the hero.
 
 	return hero;
