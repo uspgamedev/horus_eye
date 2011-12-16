@@ -17,8 +17,6 @@ namespace sprite {
 using namespace ugdk;
 using namespace utils;
 
-INITIALIZE_COLLIDABLE_NODE(Block, Wall);
-
 COLLISION_DIRECT(Block*, InvalidMovementCollision, obj) {
     data_->RevertPosition();
 }

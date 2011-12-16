@@ -51,7 +51,7 @@ bool CollisionObject::IsColliding(const CollisionObject* obj) const {
 }
 
 void CollisionObject::AddCollisionLogic(std::string colclass, CollisionLogic* logic) {
-    AddCollisionLogic(CollisionManager::reference()->Generate(colclass), logic);
+    AddCollisionLogic(CollisionManager::reference()->Get(colclass), logic);
 }
 
 void CollisionObject::AddCollisionLogic(const CollisionClass* collision_class, CollisionLogic* logic) {
@@ -61,7 +61,7 @@ void CollisionObject::AddCollisionLogic(const CollisionClass* collision_class, C
 }
 
 void CollisionObject::set_collision_class(std::string colclass) {
-    set_collision_class(CollisionManager::reference()->Generate(colclass));
+    set_collision_class(CollisionManager::reference()->Get(colclass));
 }
 
 void CollisionObject::set_collision_class(CollisionClass* collision_class) {

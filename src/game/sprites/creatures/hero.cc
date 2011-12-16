@@ -39,8 +39,6 @@ using resource::CountableResource;
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(Hero, Creature);
-
 #define SQRT_3 1.7320508075688772935274463415059
 
 COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {

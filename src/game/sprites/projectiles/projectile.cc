@@ -10,8 +10,6 @@ using namespace utils;
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(Projectile, WorldObject);
-
 Projectile::Projectile(float speed, int duration, Vector2D & dir) 
     :   TimedWorldObject(duration / 1000.0f),
         speed_(speed),

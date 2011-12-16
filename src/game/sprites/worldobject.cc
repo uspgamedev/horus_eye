@@ -13,8 +13,6 @@ using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
-INITIALIZE_COLLIDABLE_ROOT(WorldObject);
-
 WorldObject::WorldObject()
     : collision_object_(NULL),
       status_(STATUS_ACTIVE),

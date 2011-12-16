@@ -17,8 +17,6 @@ using namespace scene;
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(Button, WorldObject);
-
 COLLISION_DIRECT(Button*, PressCollision, obj) {
     data_->Press();
 }

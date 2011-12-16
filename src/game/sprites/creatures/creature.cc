@@ -19,8 +19,6 @@ using pyramidworks::geometry::Circle;
 
 namespace sprite {
 
-INITIALIZE_COLLIDABLE_NODE(Creature, WorldObject);
-
 int Creature::direction_mapping_[8];
 uint32 Creature::standing_animations_[16];
 uint32 Creature::walking_animations_[16];
