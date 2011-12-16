@@ -13,8 +13,6 @@ using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
-INITIALIZE_COLLIDABLE_ROOT(WorldObject);
-
 WorldObject::WorldObject()
     : collision_object_(NULL),
       status_(STATUS_ACTIVE),
@@ -29,10 +27,8 @@ WorldObject::~WorldObject() {
 
 void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
-    if(collision_object_ != NULL) { 
-        delete collision_object_;
-        collision_object_ = NULL;
-    }
+    if(collision_object_ != NULL)
+        collision_object_->StopColliding();
 }
 
 void WorldObject::Update(float dt) {

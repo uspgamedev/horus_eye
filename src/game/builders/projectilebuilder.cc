@@ -63,7 +63,7 @@ COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
 
 static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {
     CollisionObject* col = new CollisionObject(proj);
-    col->set_collision_class(GET_COLLISIONMASK(Projectile));
+    col->InitializeCollisionClass(GET_COLLISIONMASK(Projectile));
     col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new DieCollision(proj));
     proj->set_collision_object(col);
     proj->set_shape(new pyramidworks::geometry::Circle(radius));

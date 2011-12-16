@@ -17,9 +17,9 @@ using pyramidworks::collision::CollisionObject;
 
 #define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(this); }
 
-#define SET_COLLISIONCLASS(CLASS)        { collision_object_->set_collision_class(GET_COLLISIONMASK(CLASS)); }
+#define SET_COLLISIONCLASS(CLASS)        { collision_object_->InitializeCollisionClass(#CLASS); }
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
-#define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(GET_COLLISIONMASK(CLASS), LOGIC); }
+#define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(#CLASS, LOGIC); }
 
 class Creature;
 class Hero;

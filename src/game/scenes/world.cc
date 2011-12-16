@@ -259,6 +259,8 @@ void World::AddNewWorldObjects() {
         WorldObject *new_object = *it;
         world_objects_.push_front(new_object);
         world_layer_->AddSprite(new_object);
+        if(new_object->collision_object() != NULL)
+            new_object->collision_object()->StartColliding();
     }
     new_world_objects_.clear();
 }
