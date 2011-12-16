@@ -15,10 +15,7 @@ namespace collision {
 CollisionObject::CollisionObject(void *data) 
     :   data_(data),
         collision_class_(NULL), 
-        shape_(NULL) {
-    if(collision_class_ != NULL)
-        collision_class_->AddObject(this);
-}
+        shape_(NULL) {}
 
 CollisionObject::~CollisionObject() {
     std::map<const CollisionClass*, CollisionLogic*>::iterator it;
@@ -30,7 +27,7 @@ CollisionObject::~CollisionObject() {
         delete shape_;
 
     if(collision_class_ != NULL)
-        collision_class_->RemoveObject(this);
+        StopColliding();
 }
 
 
@@ -50,7 +47,7 @@ bool CollisionObject::IsColliding(const CollisionObject* obj) const {
     return this->shape_->Intersects(obj->shape_);
 }
 
-void CollisionObject::AddCollisionLogic(std::string colclass, CollisionLogic* logic) {
+void CollisionObject::AddCollisionLogic(const std::string& colclass, CollisionLogic* logic) {
     AddCollisionLogic(CollisionManager::reference()->Get(colclass), logic);
 }
 
@@ -60,19 +57,30 @@ void CollisionObject::AddCollisionLogic(const CollisionClass* collision_class, C
     known_collisions_[collision_class] = logic;
 }
 
-void CollisionObject::set_collision_class(std::string colclass) {
-    set_collision_class(CollisionManager::reference()->Get(colclass));
+void CollisionObject::InitializeCollisionClass(const std::string& colclass) {
+    InitializeCollisionClass(CollisionManager::reference()->Get(colclass));
 }
 
-void CollisionObject::set_collision_class(CollisionClass* collision_class) {
-    if(collision_class_ != NULL) {
-        fprintf(stderr, "Fatal Error: Changing the collision_class of a CollisionObject.\n");
-        int *error_generator = NULL;
-        *error_generator += 0xCAFE;
-        exit(2);
-    }
+void CollisionObject::InitializeCollisionClass(CollisionClass* collision_class) {
+#ifdef DEBUG
+    if(collision_class_ != NULL) fprintf(stderr, "Fatal Error: Changing the collision_class of a CollisionObject.\n");
+    if(collision_class == NULL) fprintf(stderr, "Warning: Initializing the collision_class with NULL.\n");
+#endif
     collision_class_ = collision_class;
+}
+
+void CollisionObject::StartColliding() {
+#ifdef DEBUG
+    if(collision_class_ == NULL) fprintf(stderr, "Warning: CollisionObject::StartColliding called with an object with NULL collision_class.\n");
+#endif
     collision_class_->AddObject(this);
+}
+
+void CollisionObject::StopColliding() {
+#ifdef DEBUG
+    if(collision_class_ == NULL) fprintf(stderr, "Warning: CollisionObject::StopColliding called with an object with NULL collision_class.\n");
+#endif
+    collision_class_->RemoveObject(this);
 }
 
 void CollisionObject::set_shape(geometry::GeometricShape* shape) { 

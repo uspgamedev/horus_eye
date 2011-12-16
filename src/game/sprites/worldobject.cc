@@ -27,10 +27,8 @@ WorldObject::~WorldObject() {
 
 void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
-    if(collision_object_ != NULL) { 
-        delete collision_object_;
-        collision_object_ = NULL;
-    }
+    if(collision_object_ != NULL)
+        collision_object_->StopColliding();
 }
 
 void WorldObject::Update(float dt) {

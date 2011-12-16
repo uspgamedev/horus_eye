@@ -54,15 +54,25 @@ class CollisionObject {
       * @param colclass Changed to CollisionManager::reference()->Generate(colclass).
       * @param logic Is not changed.
       * @see AddCollisionLogic */
-    void AddCollisionLogic(std::string colclass, CollisionLogic* logic);
+    void AddCollisionLogic(const std::string& colclass, CollisionLogic* logic);
+    void AddCollisionLogic(const char n[], CollisionLogic* logic) { 
+        const std::string str(n); AddCollisionLogic(str, logic); 
+    }
 
     /// Defines the CollisionClass associated with this object.
     /** Warning: will quit the program with a Fatal Error if used to the
         collision_class is already set.
         @param colclass The CollisionClass to set to.
         @see CollisionClass */
-    void set_collision_class(CollisionClass* colclass);
-    void set_collision_class(std::string);
+    void InitializeCollisionClass(CollisionClass* colclass);
+    void InitializeCollisionClass(const std::string&);
+    void InitializeCollisionClass(const char n[]) { const std::string str(n); InitializeCollisionClass(str); }
+
+    /// Adds this object to it's CollisionClass object list.
+    void StartColliding();
+
+    /// Removes this object from it's CollisionClass object list.
+    void StopColliding();
 
     /// Returns the shape used.
     /** @return A const GeometricShape pointer. */
