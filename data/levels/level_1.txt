@@ -1,4 +1,4 @@
-data/musics/bgmusic.ogg
+data/musics/Arabesque.ogg
 15 34
   #########E#  
   #..UUUUUU@#  

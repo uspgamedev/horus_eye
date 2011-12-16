@@ -6,3 +6,11 @@ http://opengameart.org/content/running-from-something
 
 sf2Guile456.mid by Unknown
 http://www.vgmusic.com/music/console/nintendo/snes/index-sz.html [Guile (2)]
+
+arabesque.ogg (reencoded from Arabesque.mp3) (braniac256) (CC-BY 3.0/GNU GPL 3.0)
+http://opengameart.org/content/arabesque
+  Title:    Arabesque
+  Comments: http://soundcloud.com/brainiac256
+  Author:   Chris Janowiak
+  Album:    The Uprising
+  Genre:    Soundtrack

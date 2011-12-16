@@ -1,4 +1,4 @@
-data/musics/bgmusic.ogg
+data/musics/Arabesque.ogg
 60 60
 ###E#####                #############                      
 #..@....#                #...........#                      
