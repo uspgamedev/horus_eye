@@ -41,17 +41,17 @@ void SandstormEmitter::Update(float dt) {
         Vector2D versor[4];
 
         versor[0] =
-            aim_ortogonal * std::sinf(Constants::SANDSTORM_ANGLE/2.0f)
-            + aim_versor  * std::cosf(Constants::SANDSTORM_ANGLE/2.0f);
+            aim_ortogonal * sin(Constants::SANDSTORM_ANGLE/2.0f)
+            + aim_versor  * cos(Constants::SANDSTORM_ANGLE/2.0f);
         versor[1] =
-            aim_ortogonal * std::sinf(Constants::SANDSTORM_ANGLE/6.0f)
-            + aim_versor  * std::cosf(Constants::SANDSTORM_ANGLE/6.0f);
+            aim_ortogonal * sin(Constants::SANDSTORM_ANGLE/6.0f)
+            + aim_versor  * cos(Constants::SANDSTORM_ANGLE/6.0f);
         versor[2] =
-            aim_ortogonal * -std::sinf(Constants::SANDSTORM_ANGLE/6.0f)
-            + aim_versor  *  std::cosf(Constants::SANDSTORM_ANGLE/6.0f);
+            aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/6.0f)
+            + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/6.0f);
         versor[3] =
-            aim_ortogonal * -std::sinf(Constants::SANDSTORM_ANGLE/2.0f)
-            + aim_versor  *  std::cosf(Constants::SANDSTORM_ANGLE/2.0f);
+            aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/2.0f)
+            + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/2.0f);
         for(int i=0;i<4;i++) {
             ProjectileBuilder proj(world->image_factory());
             world->AddWorldObject(proj.Fireball(versor[i]), aim_.origin_);
