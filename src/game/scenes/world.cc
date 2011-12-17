@@ -66,10 +66,9 @@ bool worldObjectIsDead (const WorldObject* value) {
 void World::HandleCollisions() {
     std::list<CollisionInstance> collision_list;
 
-    std::list<sprite::WorldObject*>::iterator i, j;
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i)
-        if((*i)->collision_object() != NULL)
-            (*i)->collision_object()->SearchCollisions(collision_list);
+    std::list<sprite::WorldObject*>::iterator i;
+    for (i = colliding_world_objects_.begin(); i != colliding_world_objects_.end(); ++i)
+        (*i)->collision_object()->SearchCollisions(collision_list);
 
     std::list<CollisionInstance>::iterator it;
     for(it = collision_list.begin(); it != collision_list.end(); ++it) {
@@ -259,8 +258,10 @@ void World::AddNewWorldObjects() {
         WorldObject *new_object = *it;
         world_objects_.push_front(new_object);
         world_layer_->AddSprite(new_object);
-        if(new_object->collision_object() != NULL)
+        if(new_object->collision_object() != NULL) {
+            colliding_world_objects_.push_front(new_object);
             new_object->collision_object()->StartColliding();
+        }
     }
     new_world_objects_.clear();
 }
@@ -281,6 +282,7 @@ void World::RemoveInactiveObjects() {
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         if((*i)->status() == WorldObject::STATUS_DEAD) {
             world_layer_->RemoveSprite(*i);
+            colliding_world_objects_.remove(*i);
         }
     }
     world_objects_.remove_if(worldObjectIsDead);
