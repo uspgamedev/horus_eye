@@ -3,6 +3,7 @@
 
 #include <string>
 #include <list>
+#include <set>
 
 namespace pyramidworks {
 namespace collision {
@@ -18,10 +19,10 @@ class CollisionClass {
     const CollisionClass* parent() const { return parent_; }
     void set_parent(CollisionClass* parent) { parent_ = parent; }
 
-    const CollisionObjectList FindCollidingObjects(CollisionObject *target) const;
+    const CollisionObjectList FindCollidingObjects(const CollisionObject *target) const;
 
-    void AddObject(CollisionObject *obj);
-    void RemoveObject(CollisionObject *obj);
+    void AddObject(const CollisionObject *obj);
+    void RemoveObject(const CollisionObject *obj);
 
 #ifdef DEBUG
     void set_name(const std::string &name) { name_ = name; }
@@ -31,7 +32,7 @@ class CollisionClass {
     CollisionClass() : parent_(NULL) {}
 
     const CollisionClass* parent_;
-    CollisionObjectList objects_;
+    std::set<const CollisionObject *> objects_;
 
 #ifdef DEBUG
     // Unnecessary, used for debugging purposes.

@@ -4,9 +4,9 @@
 namespace pyramidworks {
 namespace collision {
 
-const CollisionObjectList CollisionClass::FindCollidingObjects(CollisionObject *target) const {
+const CollisionObjectList CollisionClass::FindCollidingObjects(const CollisionObject *target) const {
     CollisionObjectList result;
-    CollisionObjectList::const_iterator it;
+    std::set<const CollisionObject *>::const_iterator it;
 
     for(it = objects_.begin(); it != objects_.end(); ++it) {
         if((*it) == target) continue;
@@ -16,12 +16,12 @@ const CollisionObjectList CollisionClass::FindCollidingObjects(CollisionObject *
     return result;
 }
     
-void CollisionClass::AddObject(CollisionObject *obj) { 
-    objects_.push_front(obj);
+void CollisionClass::AddObject(const CollisionObject *obj) { 
+    objects_.insert(obj);
 }
 
-void CollisionClass::RemoveObject(CollisionObject *obj) { 
-    objects_.remove(obj); 
+void CollisionClass::RemoveObject(const CollisionObject *obj) { 
+    objects_.erase(obj); 
 }
 
 } // namespace collision
