@@ -133,7 +133,7 @@ bool World::VerifyPause() {
 }
 
 void World::Start() {
-	if(music_ != NULL)
+    if(music_ != NULL && !music_->IsPlaying())
 		music_->PlayForever();
 }
 
