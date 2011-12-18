@@ -6,7 +6,6 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/music.h>
-#include <ugdk/audio/audiomanager.h>
 
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
@@ -37,7 +36,6 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
     :   Scene(),
         hero_(hero),
         world_layer_(new ugdk::Layer()), 
-        music_(NULL),
         remaining_enemies_(0),
         max_enemies_(0),
         image_factory_(factory),
@@ -132,11 +130,6 @@ bool World::VerifyPause() {
     return false;
 }
 
-void World::Start() {
-    if(music_ != NULL && !music_->IsPlaying())
-		music_->PlayForever();
-}
-
 bool IsNear(const TilePos &origin, const TilePos &pos, float radius) {
     if ((float)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
         return true;
@@ -225,12 +218,12 @@ void World::Update(float delta_t) {
 }
 
 void World::End() {
+    super::End();
+
     Engine::reference()->RemoveInterface(hud_);
     delete hud_;
     hud_ = NULL;
 
-	if(music_ != NULL)
-		music_->Stop();
 	if(hero_ != NULL)
 		hero_->Invulnerable(0);
     this->RemoveAll();
@@ -325,16 +318,6 @@ Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
 const Vector2D World::ConvertLightRadius(float radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392f;
     return ellipse_coords;
-}
-
-void World::set_music(std::string &music) {
-	if(music_ != NULL && music_->IsPlaying()) {
-		music_->Stop();
-	}
-	
-    music_ = utils::Settings::reference()->background_music()
-		? AUDIO_MANAGER()->LoadMusic(music)
-		: NULL;
 }
 
 } // namespace scene

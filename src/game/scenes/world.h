@@ -10,9 +10,6 @@
 #include "game/utils/tile.h"
 #include "game/resources/resource.h"
 
-namespace ugdk {
-class Music;
-}
 namespace utils {
 class Hud;
 class ImageFactory;
@@ -35,13 +32,12 @@ namespace scene {
 // O World e' uma cena onde o jogo se desencadeara'. O World contem
 // elementos como: heroi, mumias, cenario e hud.
 class World : public ugdk::Scene {
+  typedef ugdk::Scene super;
   public:
     World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();
 
-	void Start();
-
-    void Update(float delta_t);
+	void Update(float delta_t);
 
     void AddWorldObject(sprite::WorldObject*, ugdk::Vector2D pos);
     void AddHero(ugdk::Vector2D pos);
@@ -80,8 +76,7 @@ class World : public ugdk::Scene {
     resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
 	
     //setters
-	void set_music(std::string &music);
-    void set_level_width(int width) { level_width_ = width; }
+	void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::Hero *hero) { hero_ = hero; }
@@ -92,8 +87,7 @@ class World : public ugdk::Scene {
                                     colliding_world_objects_, 
                                     new_world_objects_;
     ugdk::Layer *world_layer_;
-	ugdk::Music *music_;
-    utils::Hud *hud_;
+	utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;

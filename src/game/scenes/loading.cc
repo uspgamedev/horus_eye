@@ -29,6 +29,8 @@ Loading::Loading() {
     Engine::reference()->PushInterface(layer_);
     set_visible(false);
     has_been_drawn_ = false;
+
+    this->StopsPreviousMusic(false);
 }
 
 Loading::~Loading() {

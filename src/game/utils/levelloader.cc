@@ -4,6 +4,7 @@
 #include <cstdio>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>
+#include <ugdk/audio/audiomanager.h>
 
 #include "levelloader.h"
 
@@ -71,7 +72,7 @@ void LevelLoader::LoadMatrix(string file_name) {
 			}
 		}
 
-		world_->set_music(music);
+        world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music));
 		world_->set_level_width(width);
 		world_->set_level_height(height);
 		world_->set_level_matrix(matrix);

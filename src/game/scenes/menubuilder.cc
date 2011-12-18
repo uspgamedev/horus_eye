@@ -253,6 +253,8 @@ Menu *MenuBuilder::BuildPauseMenu () {
         menu->set_option_sprite(i, options_sprite);
     }
 
+    menu->StopsPreviousMusic(false);
+
     return menu;
 
 }
