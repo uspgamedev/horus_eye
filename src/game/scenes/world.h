@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
+#include <ugdk/graphic/image.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/utils/levelmanager.h"

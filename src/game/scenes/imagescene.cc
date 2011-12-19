@@ -39,11 +39,7 @@ ImageScene::ImageScene(ugdk::Image *background, ugdk::Image *image) {
     else scene_layers_[IMG] = NULL;
 }
 
-ImageScene::~ImageScene() {}
-
-void ImageScene::End() {
-    Scene::End();
-    set_visible(false);
+ImageScene::~ImageScene() {
     if(scene_layers_[BG] != NULL) {
         Engine::reference()->RemoveInterface(scene_layers_[BG]);
         delete scene_layers_[BG];
@@ -52,6 +48,11 @@ void ImageScene::End() {
         Engine::reference()->RemoveInterface(scene_layers_[IMG]);
         delete scene_layers_[IMG];
     }
+}
+
+void ImageScene::End() {
+    Scene::End();
+    set_visible(false);
 }
 
 void ImageScene::Update(float delta_t) {

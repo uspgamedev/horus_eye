@@ -1,9 +1,12 @@
 #include <cstdlib>
 #include <string>
-#include "menu.h"
 #include <ugdk/base/engine.h>
+#include <ugdk/action/sprite.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
+
+#include "menu.h"
+
 #include "game/utils/levelloader.h"
 #include "game/utils/levelmanager.h"
 #include "game/scenes/imagescene.h"
@@ -34,6 +37,7 @@ Menu::Menu (int selection_num)
     for (int i = 0; i < SELECTION_SPRITES ; i++) {
         selection_sprite_[i] = NULL;
     }
+
     options_sprite_ = static_cast<Sprite**>(malloc(selection_num*sizeof(Sprite*)));
     for(int i = 0; i < selection_num_; ++i)
         options_sprite_[i] = NULL;

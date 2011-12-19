@@ -49,7 +49,7 @@ class Settings {
     // Setters
     void set_resolution(int resolution)             { resolution_ = resolution; }
     void set_fullscreen(bool fullscreen)            { fullscreen_ = fullscreen; }
-    void set_background_music(int background_music) { background_music_ = background_music; }
+    void set_background_music(int background_music) { background_music_ = background_music != 0; }
     void set_sound_effects(bool sound_effects)      { sound_effects_ = sound_effects; }
     void set_language(int language)                 { language_ = language; }
 
