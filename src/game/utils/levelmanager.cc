@@ -4,6 +4,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/textmanager.h>
+#include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/graphic/image.h>
 #include <ugdk/action/scene.h>
@@ -79,11 +80,15 @@ void finishAndDeleteCurrentScene() {
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
 	level_list_iterator_ = 0;
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45));
+    Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45);
+    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
+    Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    Engine::reference()->PushScene(new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("CreditsFile")), 55));
+    Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("CreditsFile")), 55);
+    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
+    Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowEnding() {
