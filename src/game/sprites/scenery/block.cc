@@ -22,7 +22,6 @@ COLLISION_DIRECT(Block*, InvalidMovementCollision, obj) {
 }
 
 COLLISION_DIRECT(Block*, PushOnCollision, obj) {
-    Projectile *proj = (Projectile *) obj;
     Vector2D pushdir = (((WorldObject *)obj)->world_position() - data_->world_position()).Normalize();
     data_->PushToward(pushdir);
 }
