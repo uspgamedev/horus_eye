@@ -19,7 +19,6 @@ GNU/Linux:
 
 4) $ cmake . (Do not forget the '.' at the end)
    $ make horus_eye
-   # make install
 
 Optionally, you can use CMake to generate files for your favorite IDE. Search
 for cmake -G options.
