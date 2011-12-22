@@ -1,0 +1,21 @@
+v1.1.1
+* Fixed an error on how light is handled, where transparency would be ignored.
+* Newer introductory stages, presenting game features at a slower pace.
+* Lights can now be colored.
+* Kha's mana now regenerates.
+* Balance Changes:
+  - All enemies have doubled health.
+  - Decreased fireball explosion duration.
+  - Halved Quake mana cost and increased damage to match new enemy life.
+
+v1.1.0
+* Graphics are now powered by a OpenGL backend, providing increased performance.
+* All-new levels, providing a new reasonable experience with different secrets!
+* New Spell: Lightning Bolt
+
+v1.0.1
+* Cheats are now disabled on the release version of the game.
+* "You Win" image is now avaiable.
+
+v1.0.0
+* Initial release.

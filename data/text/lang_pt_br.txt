@@ -47,24 +47,24 @@
 [Move Right]{FontC}:Ir para direita
 [Previous Spell]{FontC}:Magia Anterior
 [Next Spell]{FontC}:Próxima Magia
-[Shoot magic]{FontC}:Atirar míssel
+[Shoot magic]{FontC}:Atirar míssel mágico
 [Shoot spell]{FontC}:Atirar magia
 
 [Spells]{FontA}:Magias
-[Help Magic]{FontD}:Magia
+[Help Magic]{FontD}:Míssil Magico
 [Help StandardSpell]{FontC}:Ataque básico, de longo alcance.
 [Help Fireball0]{FontD}:Bola de Fogo
 [Help Fireball1]{FontC}:Ataque explosivo de longo alcance.
 [Help Fireball2]{FontC}:Custa 20% da mana.
 [Help Earthquake0]{FontD}:Terremoto
-[Help Earthquake1]{FontC}:Alcance limitado, dano por área.
-[Help Earthquake2]{FontC}:Custa 25% da mana.
+[Help Earthquake1]{FontC}:Curto alcance, causa dano alto em área.
+[Help Earthquake2]{FontC}:Custa 20% da mana.
 
 [Itens]{FontA}:Itens
 [Help Life1]{FontD}:Poção de Vida
 [Help Life2]{FontC}:Recupera 20% da vida do herói
 [Help Mana1]{FontD}:Poção de Mana
-[Help Mana2]{FontC}:Recupera 25% da mana do herói
+[Help Mana2]{FontC}:Recupera 20% da mana do herói
 [Help Sight1]{FontD}:Poção de Visão
 [Help Sight2]{FontC}:Aumenta o raio de visão do herói
 
@@ -72,8 +72,8 @@
 [Mana Bar]{FontC}:Barra de Mana
 [Life Bar]{FontC}:Barra de Vida
 [Hero]{FontC}:Herói
-[Type of]{FontC}:Tipo de
-[Spell]{FontC}:Magia
+[Type of]{FontC}:Magia
+[Spell]{FontC}:Selecionada
 [Missing]{FontC}:Contador
 [Mummies]{FontC}:de Inimigos
 [Counter]{FontC}:Restantes

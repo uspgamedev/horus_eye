@@ -26,6 +26,10 @@
 #include "game/utils/levelloader.h"
 #include "game/utils/textloader.h"
 
+#ifdef WIN32
+#include <windows.h>
+#endif
+
 using namespace ugdk;
 using namespace std;
 using namespace scene;
@@ -66,8 +70,12 @@ void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::str
         }
         list.close();
     } else {
-        cout << "CANNOT OPEN " << file << endl;
-        exit(0);
+#ifdef WIN32
+        MessageBox(HWND_DESKTOP,"Could not open the level list file.","Fatal Error: File not Found", MB_OK);
+#else
+        fprintf(stderr, "Fatal Error: Cannot open the level list file in %s.\n", file.c_str());
+#endif
+        exit(1);
     }
 }
 
@@ -95,12 +103,12 @@ void LevelManager::ShowEnding() {
 	loading_->Finish();
 	loading_ = NULL;
     Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImage("data/images/you_win.png")));
+            VIDEO_MANAGER()->LoadImageFile("data/images/you_win.png")));
 }
 
 void LevelManager::ShowGameOver() {
     Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImage("data/images/game_over.png")));
+            VIDEO_MANAGER()->LoadImageFile("data/images/game_over.png")));
 }
 
 void LevelManager::FinishLevel(LevelState state) {
@@ -119,9 +127,11 @@ void LevelManager::FinishLevel(LevelState state) {
     case FINISH_DIE:
 		hero_ = NULL;
         ShowGameOver();
+        // no break on purpose
     case FINISH_QUIT:
 		loading_->Finish();
 		loading_ = NULL;
+        // no break on purpose
     case NOT_FINISHED:
 		if (hero_)
 			delete hero_;

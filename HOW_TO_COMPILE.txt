@@ -4,20 +4,21 @@ GNU/Linux:
 
 1) Get CMake 2.6 or a higher version
 
-2) Get the folowing libraries: libSDL-1.2, libSDL_image-1.2, libSDL_mixer-1.2 and
-libSDL_ttf-1.2
+2) Get the folowing libraries: 
+ * libsdl1.2-dev
+ * libsdl-image1.2-dev
+ * libsdl-mixer1.2-dev
+ * libsdl-ttf2.0-dev
 
 3) Download and compile UGDK with static link type:
-- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.1
-- b. $ cmake -DLINK_TYPE=STATIC -DBUILD_TYPE=RELEASE .
-     $ make
-- c. Copy ugdk/lib/ugdk.a to horus_eye/lib
+- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.2.0
+- b. Check the provided HOW_TO_COMPILE for instructions on how to compile UGDK.
+- c. Copy ugdk/lib/libugdk.a to horus_eye/lib
 
-3) Open a terminal in the same folder of this HOW_TO.
+3) Open a terminal in the same folder of this file.
 
 4) $ cmake . (Do not forget the '.' at the end)
    $ make horus_eye
-   # make install
 
 Optionally, you can use CMake to generate files for your favorite IDE. Search
 for cmake -G options.
@@ -32,10 +33,10 @@ following headers and libraries installed:
 - SDL 1.2
 - SDL_Image 1.2
 - SDL_Mixer 1.2
-- SDL_TTF 1.2
+- SDL_TTF 2.0
 
-You will need to compile the UGDK and copy lib/Release/ugdk.lib to the horus_eye/lib folder.
-UGDK source: https://github.com/uspgamedev/ugdk/tarball/v0.1
+You will need to compile the UGDK and copy lib/Release/libugdk.lib to the horus_eye/lib folder.
+UGDK source: https://github.com/uspgamedev/ugdk/tarball/v0.2.0
 
 If you wish to use MinGW, feel free to generate the Makefile project using CMake.
 You can either use the cmake-gui or open a command prompt in the same folder of 

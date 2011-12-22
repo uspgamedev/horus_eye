@@ -19,10 +19,8 @@
 /src/game/config.h
 settings.bin
 settings.ini
-
 /Windows Release
 /Default
-
 /bin
 /tmp
 /lib/ugdk_d.lib
@@ -31,9 +29,15 @@ settings.ini
 /lib/libugdk.a
 /lib/libugdk_d.a
 /Horus Eye.opensdf
-
 include/link_ugdk
 lib/link_libugdk.a
 lib/link_libugdk_d.a
 /*.dll
 *.vsps
+/deploy/vcredist_x86.exe
+/deploy/Output
+/license/Thumbs.db
+/license/legalcode_arquivos/Thumbs.db
+/license/Creative_Commons_Legal_Code/Thumbs.db
+/license/Creative_Commons_Legal_Code/Thumbs.db
+/license/legalcode_arquivos/Thumbs.db

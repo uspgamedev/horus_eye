@@ -59,7 +59,6 @@ Mummy::Mummy(Image* img) {
 
 Mummy::~Mummy() {
     if (interval_) delete interval_;
-	delete weapon_;
 	WORLD()->DecreaseEnemyCount();
 }
 
