@@ -22,8 +22,8 @@ using sprite::Hero;
 
 Sandstorm::Sandstorm(Hero* owner) 
   : CombatArt<Aim>(NULL, Constants::SANDSTORM_COST, owner->mana(), owner->aim()),
-    maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST),
-    emitter_(NULL) {}
+    emitter_(NULL),
+    maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST) {}
 Sandstorm::~Sandstorm() {
     if(emitter_) delete emitter_;
 }

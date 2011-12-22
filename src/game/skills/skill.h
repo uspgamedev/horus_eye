@@ -29,7 +29,7 @@ class Skill {
     virtual bool IsValidUse() const = 0;
 
     /// Verifies if the skill has the necessary resourses to use right now.
-    virtual bool Avaiable() const = 0;
+    virtual bool Available() const = 0;
 
   protected:
     /**
@@ -50,13 +50,15 @@ class ArgSkill : public Skill {
   public:
     typedef UseArgument_T UseArgument;
 
+    virtual ~ArgSkill() {}
+
     // Inherited Virtuals
     /// Uses the skill.
     virtual void Use() = 0;
     /// Verifies if the skill's UseArgument is valid for use right now.
     virtual bool IsValidUse() const = 0;
     /// Verifies if the skill has the necessary resourses to use right now.
-    virtual bool Avaiable() const = 0;
+    virtual bool Available() const = 0;
 
   protected:
     ArgSkill(ugdk::Image* icon, const UseArgument& use_argument)

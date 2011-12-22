@@ -22,7 +22,7 @@ class DivineGift : public CombatArt<UseArgument_T> {
 
     /// Verifies if the caster has enough mana and blocks.
     /** @return mana and blocks are greater than the costs */
-    virtual bool Avaiable() const {
+    virtual bool Available() const {
         float total_mana_cost = super::mana_cost_ + caster_blocks_.ToMana(block_cost_);
         return super::caster_mana_.Has(total_mana_cost) && caster_blocks_.Has(block_cost_);
     }

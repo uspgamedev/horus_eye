@@ -129,7 +129,7 @@ void Mummy::Think(float dt) {
 			path_ = strategy.Calculate(world_position());
 			UpdateDirection(path_.front());
 			
-            if(weapon_->Avaiable()) {
+            if(weapon_->Available()) {
                 aim_destination_ = path_.front();
                 if(weapon_->IsValidUse()){
 				    weapon_->Use();

@@ -56,17 +56,17 @@ void Pharaoh::Think(float dt) {
 			UpdateDirection(path_.front());
 
             aim_destination_ = path_.front();
-            if(weapon_->Avaiable() && weapon_->IsValidUse()){
+            if(weapon_->Available() && weapon_->IsValidUse()){
 				weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
 
-			} else if(ranged_weapon_->Avaiable() && ranged_weapon_->IsValidUse()) {
+			} else if(ranged_weapon_->Available() && ranged_weapon_->IsValidUse()) {
 				ranged_weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;
 
-			} else if (summon_weapon_->Avaiable() && summon_weapon_->IsValidUse()) {
+			} else if (summon_weapon_->Available() && summon_weapon_->IsValidUse()) {
 			    summon_weapon_->Use();
                 this->StartAttack(NULL);
 				speed_ = 0;

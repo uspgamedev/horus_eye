@@ -185,12 +185,12 @@ bool Hero::Aiming() {
 
 bool Hero::ShootingWithWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Avaiable();
+    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Available();
 }
 
 bool Hero::ShootingWithSecondaryWeapon() {
     InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Avaiable();
+    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
 }
 
 void Hero::UpdateAim() {
