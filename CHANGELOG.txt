@@ -1,6 +1,6 @@
 v1.1.1
 * Fixed an error on how light is handled, where transparency would be ignored.
-* Newer introductory stages, presenting game features at a slower pace.*
+* Newer introductory stages, presenting game features at a slower pace.
 * Lights can now be colored.
 * Kha's mana now regenerates.
 * Balance Changes:
@@ -14,7 +14,7 @@ v1.1.0
 * New Spell: Lightning Bolt
 
 v1.0.1
-* Cheats are only enabled on debug versions of the game.
+* Cheats are now disabled on the release version of the game.
 * "You Win" image is now avaiable.
 
 v1.0.0
