@@ -125,9 +125,11 @@ void LevelManager::FinishLevel(LevelState state) {
     case FINISH_DIE:
 		hero_ = NULL;
         ShowGameOver();
+        // no break on purpose
     case FINISH_QUIT:
 		loading_->Finish();
 		loading_ = NULL;
+        // no break on purpose
     case NOT_FINISHED:
 		if (hero_)
 			delete hero_;

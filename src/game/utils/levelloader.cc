@@ -174,8 +174,8 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 					world_->AddWorldObject(new Door(image_factory->DoorImage()), pos);
 
 				}
-			//Sembreakdeproposito.
 			}
+			//no break on purpose
 			case FLOOR: {
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
