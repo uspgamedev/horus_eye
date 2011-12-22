@@ -25,7 +25,6 @@ Door::Door(ugdk::Image* image) {
     this->collision_type_ = STATIC;
     bound_ = new RectObject(BOUND_WIDTH, BOUND_HEIGHT);
 
-    Door::collision_;
     known_collisions_[GET_COLLISIONMASK(Hero)] = new Collisions::Win(this);
 }
 

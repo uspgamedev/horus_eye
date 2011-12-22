@@ -1,6 +1,7 @@
 
 #include <cmath>
-#include "block.h"
+#include "game/sprites/scenery/block.h"
+#include <pyramidworks/collision/collisionmask.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
 #include "game/sprites/projectiles/projectile.h"
@@ -103,7 +104,6 @@ void Block::PushToward(Vector2D &pushdir) {
 }
 
 COLLISION_IMPLEMENT(Block, Push, obj) {
-    Projectile *proj = (Projectile *) obj;
     Vector2D pushdir = (((WorldObject *)obj)->world_position() - owner_->world_position()).Normalize();
     owner_->PushToward(pushdir);
 }

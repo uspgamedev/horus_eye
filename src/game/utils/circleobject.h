@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_UTILS_CIRCLEOBJECT_H_
 #define HORUSEYE_GAME_UTILS_CIRCLEOBJECT_H_
 
-#include "collisionobject.h"
+#include "game/utils/collisionobject.h"
 
 namespace utils {
 

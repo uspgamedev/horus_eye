@@ -7,6 +7,7 @@ class Creature;
 class Weapon {
   public:
     Weapon(Creature* owner) { owner_ = owner; icon_ = NULL; }
+    virtual ~Weapon() {}
 	virtual float range() = 0;
 	virtual void Attack() = 0;
 	virtual bool Available() = 0;
