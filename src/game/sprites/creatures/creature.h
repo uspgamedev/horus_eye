@@ -33,9 +33,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     Creature();
     virtual ~Creature();
 
-    void Initialize(ugdk::Drawable *image,
-                    ugdk::AnimationSet *set = NULL,
-                    bool delete_image = false);
+    void Initialize(ugdk::Drawable *image, ugdk::AnimationSet *set = NULL, bool delete_image = false);
+    void Initialize(ugdk::FlexibleSpritesheet *image, ugdk::AnimationSet *set = NULL);
 
     resource::Energy& life() { return life_; }
 	void set_life(resource::Energy &life) {

@@ -116,8 +116,9 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
     default:
         tile_image_->set_color(Image::CreateColor(1.0f, 1.0f, 1.0f));
         if(sprite_image_ == NULL) {
-            sprite_image_ = tile_image_ = new Image();
-            Initialize(sprite_image_);
+            sprite_image_ = NULL;
+            tile_image_ = new Image();
+            Initialize(tile_image_);
         }
         break;
     }

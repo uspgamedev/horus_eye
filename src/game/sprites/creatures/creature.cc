@@ -87,6 +87,11 @@ void Creature::Initialize(Drawable *image, AnimationSet *set, bool delete_image)
     AddObserverToAnimation(this);
 }
 
+void Creature::Initialize(ugdk::FlexibleSpritesheet *image, ugdk::AnimationSet *set) {
+    Sprite::Initialize(image, set);
+    AddObserverToAnimation(this);
+}
+
 
 bool deletecondition(Condition *condition) {
 	bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);

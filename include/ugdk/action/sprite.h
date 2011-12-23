@@ -3,7 +3,11 @@
 
 #include <algorithm>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic/spritesheet.h>
 #include <ugdk/graphic/image.h>
+#include <ugdk/graphic/modifier.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/base/types.h>
 #include <ugdk/action/animation.h>
 
@@ -11,11 +15,10 @@
 namespace ugdk {
 
 class Drawable;
-class Modifier;
 class Light;
 class AnimationSet;
 
-class Sprite {
+class Sprite : public Drawable {
   public:
     Sprite();
 
@@ -24,15 +27,18 @@ class Sprite {
 
     virtual ~Sprite();
 
+    void Draw();
+    void set_node(Node* node) { node_ = node; node_->modifier()->set_offset(tmppos); }
+
     /// Initializes the Sprite with a drawable to render and an AnimationSet.
     /** If no AnimationSet is defined, the first frame will be used.*/
-    virtual void Initialize(Drawable *image, AnimationSet *set = NULL,
-                    bool delete_image = false);
+    virtual void Initialize(Drawable *image, AnimationSet *set = NULL, bool delete_image = false);
+    virtual void Initialize(Spritesheet *image, AnimationSet *set = NULL);
 
     /// Acessors e mutators
-    Vector2D position() const { return position_; }
-    void set_position(const Vector2D& position) { position_ = position; }
-    void set_position(float x, float y) { position_ = Vector2D(x, y); }
+    Vector2D position() const { return node_ ? node_->modifier()->offset() : tmppos; }
+    void set_position(const Vector2D& position) { if(node_) node_->modifier()->set_offset(position); else tmppos = position; }
+    void set_position(float x, float y) { if(node_) node_->modifier()->set_offset(Vector2D(x, y)); else tmppos = Vector2D(x, y); }
 
     /// Returns if the sprite is visible or not.
     /**Visibility controls wether the Sprite is rendered or not. This function returns
@@ -52,20 +58,20 @@ class Sprite {
     /** The hotspot controls the offset from the image origin to the sprite position.
     *  @return Vector2D of the hotspot
     */
-    Vector2D hotspot() const { return hotspot_; }
+    Vector2D hotspot() const { return spritesheet_ ? spritesheet_->hotspot() : hotspot_; }
     /// Set the hotspot of the sprite
     /** Given a hotspot Vector2D, this function sets the hotspot of the sprite
     *  @param hotspost is a Vector2D 
     *  @see hotspot()
     */
-    void set_hotspot(const Vector2D& hotspot) { hotspot_ = hotspot; }
+    void set_hotspot(const Vector2D& hotspot) { if(spritesheet_) spritesheet_->set_hotspot(hotspot); else hotspot_ = hotspot; }
     /// Set the hotspot of the sprite
     /** Given two float (x,y), this function sets the hotspot of the sprite
     *  @param x is the x coordinate of the hotspot
     *  @param y is the y coordinate of the hotspot
     *  @see hotspot()
     */
-    void set_hotspot(float x, float y) { hotspot_ = Vector2D(x, y); }
+    void set_hotspot(float x, float y) { if(spritesheet_) spritesheet_->set_hotspot(Vector2D(x, y)); else hotspot_ = Vector2D(x, y); }
 
     ///  Return the zindex of the sprite
     /** The Sprites are rendered in order, with non-decreasing Z-Index.
@@ -185,13 +191,16 @@ class Sprite {
     float zindex_;
 
   private:
-    Vector2D position_, hotspot_, size_;
+    Vector2D tmppos, hotspot_, size_;
     Drawable *image_;
+    Spritesheet *spritesheet_;
     AnimationManager *animation_manager_;
     Modifier *modifier_;
     bool visible_, delete_image_;
+    Node* node_;
 
 };
+
 }
 
 #endif //HORUSEYE_FRAMEWORK_SPRITE_H_

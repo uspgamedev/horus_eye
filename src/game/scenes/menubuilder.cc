@@ -166,6 +166,16 @@ Menu *MenuBuilder::BuildMainMenu () {
                              VIDEO_MANAGER()->video_size().y));
     //developed->set_zindex(Menu::OPTION_ZINDEX * 0.5f);
 
+    Sprite *kha = new Sprite;
+    ImageFactory f;
+
+    AnimationSet* ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/creature.gdd");
+    kha->Initialize(f.HeroImage(), ANIMATIONS);
+    kha->SelectAnimation("WALKING_DOWN");
+    printf("DA FRAME COUNT %d\n", f.HeroImage()->FrameCount());
+
+    menu->AddSprite(kha, Vector2D(100.0f, 100.0f));
+
     return menu;
 }
 

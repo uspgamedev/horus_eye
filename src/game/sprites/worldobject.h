@@ -3,6 +3,7 @@
 
 #include <list>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/flexiblespritesheet.h>
 #include <ugdk/action/sprite.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>

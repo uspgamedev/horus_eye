@@ -2,6 +2,7 @@
 #define HORUSEYE_EDITOR_MAPOBJECT_H_
 
 #include <ugdk/graphic/image.h>
+#include <ugdk/graphic/flexiblespritesheet.h>
 #include <ugdk/action/sprite.h>
 
 #include "game/utils/tile.h"
@@ -31,7 +32,8 @@ class MapObject : public ugdk::Sprite {
     int x_, y_;
     char type_;
 	bool is_in_fill_;
-    ugdk::Image *tile_image_, *sprite_image_;
+    ugdk::Image *tile_image_;
+    ugdk::FlexibleSpritesheet *sprite_image_;
 };
 
 }

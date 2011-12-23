@@ -11,7 +11,7 @@
 
 namespace ugdk {
 class TimeAccumulator;
-class Image;
+class FlexibleSpritesheet;
 }
 
 namespace sprite {
@@ -19,7 +19,7 @@ namespace sprite {
 class Mummy : public Creature {
   
   public:
-    Mummy(ugdk::Image* img);
+    Mummy(ugdk::FlexibleSpritesheet* img);
     ~Mummy();
 
     

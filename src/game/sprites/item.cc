@@ -25,7 +25,7 @@ COLLISION_DIRECT(Item*, UseCollision, obj) {
         data_->Die();
 }
 
-Item::Item(ugdk::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
+Item::Item(ugdk::FlexibleSpritesheet* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
     Initialize(img);
     set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
     this->event_ = NULL;

@@ -31,7 +31,7 @@ COLLISION_DIRECT(float, DamageCollision, obj) {
     creature->TakeDamage(data_);
 }
 
-Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
+Explosion::Explosion(FlexibleSpritesheet *image, uint32 animation, float radius, float damage)
 {
     Initialize(image, ANIMATIONS);
 	set_hotspot(Vector2D(CENTER_X, CENTER_Y));

@@ -19,7 +19,7 @@ class Wall : public WorldObject {
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
-    Wall(ugdk::Image* image);
+    Wall(ugdk::FlexibleSpritesheet* image);
     ~Wall();
 
     virtual void Update(float dt);

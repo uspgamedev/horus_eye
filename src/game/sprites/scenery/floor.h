@@ -14,7 +14,7 @@ namespace sprite {
 
 class Floor : public WorldObject {
   public:
-    Floor(ugdk::Image* image);
+    Floor(ugdk::FlexibleSpritesheet* image);
     virtual void Update(float delta_t);
 
   protected:

@@ -21,7 +21,7 @@ using namespace scene;
 #define PI          3.1415926535897932384626433832795
 #define TRANSPARENCY_DISTANCE 1.75f
 
-Wall::Wall(Image* image) {
+Wall::Wall(FlexibleSpritesheet* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
 

@@ -17,7 +17,7 @@ namespace sprite {
 #define CLEAR   0
 #define DARK    1
 
-Floor::Floor(ugdk::Image* image) {
+Floor::Floor(ugdk::FlexibleSpritesheet* image) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
     tile_ = NULL;

@@ -26,7 +26,7 @@ COLLISION_DIRECT(Block*, PushOnCollision, obj) {
     data_->PushToward(pushdir);
 }
 
-Block::Block(Image* image) : moving_(false) {
+Block::Block(FlexibleSpritesheet* image) : moving_(false) {
     Initialize(image);
     set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
     Vector2D new_size(size().x, size().y * 0.7f);

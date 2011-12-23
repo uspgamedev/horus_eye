@@ -22,7 +22,7 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-Door::Door(ugdk::Image* image, scene::World *world) {
+Door::Door(ugdk::FlexibleSpritesheet* image, scene::World *world) {
     Initialize(image);
     set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
 

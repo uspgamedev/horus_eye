@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_
 
 namespace ugdk {
-class Image;
+class FlexibleSpritesheet;
 }
 
 namespace sprite {
@@ -16,9 +16,9 @@ class ItemBuilder {
     ItemBuilder() {}
     ~ItemBuilder() {}
 
-    sprite::Item* LifePotion(ugdk::Image* image);
-    sprite::Item* ManaPotion(ugdk::Image* image);
-    sprite::Item* SightPotion(ugdk::Image* image);
+    sprite::Item* LifePotion(ugdk::FlexibleSpritesheet* image);
+    sprite::Item* ManaPotion(ugdk::FlexibleSpritesheet* image);
+    sprite::Item* SightPotion(ugdk::FlexibleSpritesheet* image);
 };
 
 }

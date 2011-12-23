@@ -3,6 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>
@@ -39,7 +40,7 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(Image* img) {
+Mummy::Mummy(ugdk::FlexibleSpritesheet* img) {
     Initialize(img, ANIMATIONS);
 
     // Animations

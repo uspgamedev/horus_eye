@@ -45,7 +45,7 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-Hero::Hero(ugdk::Image* img, 
+Hero::Hero(ugdk::FlexibleSpritesheet* img, 
            resource::Energy &life, 
            resource::Energy &mana, 
            int num_blocks, 

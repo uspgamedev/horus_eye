@@ -21,7 +21,7 @@ namespace sprite {
 class Hero : public Creature {
   
   public:
-    Hero(ugdk::Image* img, 
+    Hero(ugdk::FlexibleSpritesheet* img, 
          resource::Energy &life, 
          resource::Energy &mana, 
          int num_blocks, 

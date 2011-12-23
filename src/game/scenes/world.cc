@@ -146,6 +146,7 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
     VisionStrategy  vision;
 
     if (!origin) return;
+    return;
 
     origin_world_pos.y = map.size() - origin_world_pos.y - 1;
     queue.push_back(origin);
