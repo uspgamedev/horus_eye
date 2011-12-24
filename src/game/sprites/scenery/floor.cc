@@ -2,6 +2,8 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
+#include <ugdk/action/sprite.h>
+
 //#include "game/utils/circleobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/tile.h"
@@ -17,20 +19,19 @@ namespace sprite {
 #define CLEAR   0
 #define DARK    1
 
-Floor::Floor(ugdk::FlexibleSpritesheet* image) {
-    Initialize(image);
-    set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
-    tile_ = NULL;
-    SetDefaultFrame(CLEAR);
+Floor::Floor(ugdk::FlexibleSpritesheet* image) : tile_(NULL) {
+    image->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
+
+    node_->set_drawable(new ugdk::Sprite(image));
 }
 
 void Floor::Update(float delta_t) {
     if (!tile_)
         tile_ = Tile::GetFromWorldPosition(WORLD()->level_matrix(), this->world_position());
-    if (tile_->visible())   set_color(ugdk::Color(1.0f, 1.0f, 1.0f));
-    else                    set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    if (tile_->visible())   node_->modifier()->set_color(ugdk::Color(1.0f, 1.0f, 1.0f));
+    else                    node_->modifier()->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
     WorldObject::Update(delta_t);
-    set_zindex(-FLT_MAX); // chao deve ficar a baixo de tudo/
+    node_->set_zindex(-FLT_MAX); // chao deve ficar a baixo de tudo/
 }
 
 }
