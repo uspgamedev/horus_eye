@@ -5,6 +5,7 @@
 
 namespace ugdk {
 	class Image;
+    class Sprite;
 };
 namespace utils {
     class Tile;
@@ -19,6 +20,7 @@ class Floor : public WorldObject {
 
   protected:
     utils::Tile *tile_;
+    ugdk::Sprite *sprite_;
 };
 
 }

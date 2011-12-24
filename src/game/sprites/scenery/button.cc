@@ -1,5 +1,6 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/action/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <pyramidworks/geometry/rect.h>
 
@@ -48,7 +49,7 @@ void Button::Update(float delta_t) {
     if(pressed_ && reactive_time_ && reactive_time_->Expired()) {
         DePress();
     }
-    SetDefaultFrame((int)(!pressed_) * 2);
+    sprite_->SetDefaultFrame((int)(!pressed_) * 2); 
 }
 
 void Button::Die() {
