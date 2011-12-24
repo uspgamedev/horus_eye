@@ -87,7 +87,9 @@ class World : public ugdk::Scene {
     std::list<sprite::WorldObject*> world_objects_, 
                                     colliding_world_objects_, 
                                     new_world_objects_;
-    ugdk::Layer *world_layer_;
+
+    ugdk::Node *world_node_;
+
 	utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;

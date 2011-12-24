@@ -13,50 +13,44 @@ namespace scene {
 
 using namespace ugdk;
 
-ImageScene::ImageScene(ugdk::Image *background, ugdk::Image *image) {
+ImageScene::ImageScene(ugdk::Drawable *background, ugdk::Drawable *image) 
+    :   interface_node_(new Node) {
+
+
+    // Node [0], background image
     if (background) {
-        scene_layers_[BG] = new Layer;
-        Engine::reference()->PushInterface(scene_layers_[BG]); // [0] layer do fundo
-        Sprite *bg_sprite = new Sprite;
-        bg_sprite->Initialize(background);
-        scene_layers_[BG]->AddSprite(bg_sprite);
+        scene_layers_[BG] = new Node(background);
+        scene_layers_[BG]->set_zindex(-1.0f);
+        interface_node_->AddChild(scene_layers_[BG]);
     }
     else scene_layers_[BG] = NULL;
 
+    // Node [1], main image
     if (image) {
-        scene_layers_[IMG] = new Layer;
-        Engine::reference()->PushInterface(scene_layers_[IMG]); // [1] layer da imagem
-        Sprite *img_sprite = new Sprite;
-        img_sprite->Initialize(image);
-        Vector2D pos = VIDEO_MANAGER()->video_size();
-        pos.x = pos.x/2.0f - img_sprite->size().x/2.0f;
-        pos.y = 0;
-        img_sprite->set_position(pos);
-        scene_layers_[IMG]->AddSprite(img_sprite);
-        Vector2D layeroffset(0, -(VIDEO_MANAGER()->video_size()*0.5f).y);
-        scene_layers_[IMG]->set_offset(layeroffset);
+        scene_layers_[IMG] = new Node(image);
+
+        Vector2D offset = (VIDEO_MANAGER()->video_size() - image->render_size())* 0.5f;
+        scene_layers_[IMG]->modifier()->set_offset(offset);
+
+        interface_node_->AddChild(scene_layers_[IMG]);
     }
     else scene_layers_[IMG] = NULL;
+
+    Engine::reference()->PushInterface(interface_node_);
 }
 
 ImageScene::~ImageScene() {
-    if(scene_layers_[BG] != NULL) {
-        Engine::reference()->RemoveInterface(scene_layers_[BG]);
-        delete scene_layers_[BG];
-    }
-    if(scene_layers_[IMG] != NULL) {
-        Engine::reference()->RemoveInterface(scene_layers_[IMG]);
-        delete scene_layers_[IMG];
-    }
+    Engine::reference()->RemoveInterface(interface_node_);
+    delete interface_node_;
 }
 
 void ImageScene::End() {
-    Scene::End();
+    super::End();
     set_visible(false);
 }
 
 void ImageScene::Update(float delta_t) {
-    Scene::Update(delta_t);
+    super::Update(delta_t);
     InputManager *input = Engine::reference()->input_manager();
     if (input->KeyPressed(K_RETURN) || input->KeyPressed(K_ESCAPE) ||
         input->KeyPressed(K_KP_ENTER) || input->MouseUp(M_BUTTON_LEFT))
