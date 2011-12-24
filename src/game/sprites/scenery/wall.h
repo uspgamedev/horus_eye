@@ -6,6 +6,7 @@
 namespace ugdk {
 class Animation;
 class Image;
+class Sprite;
 }
 
 namespace utils {
@@ -46,6 +47,7 @@ class Wall : public WorldObject {
     };
 
     Square transparency_square_;
+    ugdk::Sprite* sprite_;
 
     utils::Tile *tile_;
     int     visible_frame_,

@@ -63,19 +63,19 @@ Hud::Hud(World* world) {
     life_bar->Initialize(img_fac.LifeBarImage());
     life_bar->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
     life_bar->set_zindex(-0.5f);
-    AddSprite(life_bar);
+    ////AddSprite(life_bar);
     
     Sprite *mana_bar = new Sprite(mana_modifier_ = new Modifier);
     mana_bar->Initialize(img_fac.ManaBarImage());
     mana_bar->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
     mana_bar->set_zindex(-0.5f);
-    AddSprite(mana_bar);
+    ////AddSprite(mana_bar);
 
     Sprite *block_bar = new Sprite(block_modifier_ = new Modifier);
     block_bar->Initialize(img_fac.ManaBarImage());
     block_bar->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
     block_bar->set_zindex(-0.6f);
-    AddSprite(block_bar);
+    ////AddSprite(block_bar);
     block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
     block_modifier_->set_alpha(0.75f);
 
@@ -107,10 +107,10 @@ Hud::Hud(World* world) {
     mummy_counter->set_position(Vector2D(VIDEO_X/2 + (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
     mummy_counter->set_zindex(0.5f);
 
-    AddSprite(backLeft);
-    AddSprite(backRight);
-    AddSprite(eye);
-    AddSprite(mummy_counter);
+    //AddSprite(backLeft);
+    //AddSprite(backRight);
+    //AddSprite(eye);
+    //AddSprite(mummy_counter);
 
     Image* totem_image_ = img_fac.TotemImage(),
         *totem_bottom_image_ = img_fac.TotemBottomImage();
@@ -135,8 +135,8 @@ Hud::Hud(World* world) {
             }
             totem->set_zindex(-1.0f);
             totem_bottom->set_zindex(1.0f);
-            AddSprite(totem);
-            AddSprite(totem_bottom);
+            //AddSprite(totem);
+            //AddSprite(totem_bottom);
         }
 
     for(int i = 0; i < 3; ++i) {
@@ -147,7 +147,7 @@ Hud::Hud(World* world) {
                 VIDEO_X/2 + (eye_image ? eye_image->width()/1.1 : 0) - NUMBER_WIDTH*(i+1),
                 VIDEO_Y - (back_image ? back_image->height()/2 : 0) ));
         enemy_counter_[i]->set_zindex(1.0f);
-        AddSprite(enemy_counter_[i]);
+        //AddSprite(enemy_counter_[i]);
         enemy_counter_value_[i] = 0;
     }
 
@@ -156,7 +156,7 @@ Hud::Hud(World* world) {
         (fps_meter_[i] = new Sprite)->Initialize(number);
         fps_meter_[i]->set_position(Vector2D(
                         FPS_BAR_OFFSET_X + NUMBER_WIDTH*i + 0.0f, FPS_BAR_OFFSET_Y + 0.0f));
-        AddSprite(fps_meter_[i]);
+        //AddSprite(fps_meter_[i]);
         fps_meter_value_[i] = 0;
     }
 #endif
@@ -167,7 +167,6 @@ Hud::~Hud() {
 }
 
 void Hud::Update(float delta_t) {
-    Layer::Update(delta_t);
     World* world = WORLD();
 
     uint32 digit[7], enemy_number;
@@ -225,7 +224,7 @@ void Hud::Update(float delta_t) {
         s->set_position(Vector2D(VIDEO_X/2 - 5, VIDEO_Y - 47));
         s->set_zindex(1.0f);
         
-        AddSprite(s);
+        //AddSprite(s);
         icon_added[weapon_icon_] = s;
     }
     if(weapon_icon_)
