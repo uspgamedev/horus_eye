@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_AI_H_
 #define HORUSEYE_GAME_AI_H_
 
-#include "aimodule.h"
+#include "game/ai/aimodule.h"
 
 namespace sprite {
 class Creature;
@@ -24,6 +24,7 @@ class AI {
 
 	void SetRootModule(AIModule* root);
 
+	sprite::Creature* get_owner() { return owner_; }
 	State get_state() { return state_; }
 
   protected:

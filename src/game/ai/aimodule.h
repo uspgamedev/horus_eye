@@ -20,16 +20,18 @@ class AIModule {
 	virtual Status Update(float dt) { return DONE; }
 	virtual void Finish() {}
 
-	AI* get_owner() { return owner_; }
+	AI* get_root() { return root_; }
 
-	void set_parent(AIModule* parent) { parent_ = parent; owner_ = parent->get_owner(); }
+	void set_parent(AIModule* parent) { parent_ = parent; root_ = parent->get_root(); }
 	AIModule* get_parent() { return parent_; }
 
   protected:
-	AI* owner_;
+	AI* root_;
 	AIModule* parent_;
 
-	AIModule() : owner_(NULL), parent_(NULL) {}
+	AIModule() : root_(NULL), parent_(NULL) {}
+
+	friend class AI;
 };
 
 }

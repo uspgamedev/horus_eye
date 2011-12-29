@@ -18,7 +18,7 @@ public:
 	virtual AIModule::Status Update(float dt);
 	virtual void Finish();
 
-	void SetChildModule(AIModule* child) { child_ = child; }
+	void SetChildModule(AIModule* child) { child_ = child; child->set_parent(this); }
 	void SetLogicObject(AILogicBlock* logic) { logic_ = logic; }
 
 protected:

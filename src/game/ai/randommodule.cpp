@@ -13,16 +13,42 @@ void RandomModule::Start() {
 }
 
 AIModule::Status RandomModule::Update(float dt) {
-	if (childs_.size() <= 0) return AIModule::Status::DONE;
+	float choice = 100.0f * rand() / RAND_MAX;
+	float accumulated_count = 0.0f;
+	for (int i = 0; i < (int)childs_.size(); i++) {
+		accumulated_count += probability_distribution_[i];
+		if (choice < accumulated_count) {
+			return childs_[i]->Update(dt);
+		}
+    }
 
-	unsigned child_index = rand() % childs_.size();
-	return childs_[child_index]->Update(dt);
+	//We don't have any child or we couldn't select a child module within our probability distribution...
+	//the "couldn't select" part normally means the probability distribution is wrong...
+	//REMEMBER: the sum of all elements of the this->probability_distribution_ vector SHOULD BE 100.0f (even tho this class can be easily
+	//			modified so that the maximum/sum value is variable =P)
+	return Status::DONE;
 }
 
 void RandomModule::Finish(){
 	for (vector<AIModule*>::iterator it = childs_.begin(); it != childs_.end(); ++it) {
         AIModule *child = *it;
 		child->Finish();
+    }
+}
+
+void RandomModule::AddChildModule(AIModule* child, float chance) {
+	childs_.push_back(child);
+	probability_distribution_.push_back(chance);
+	child->set_parent(this);
+}
+
+void RandomModule::SetUniformDistribution() {
+	probability_distribution_.clear();
+	float uniform_prob = 0.0f;
+	if (childs_.size() > 0)
+		uniform_prob = 100.0f / childs_.size();
+	for (int i = 0; i < (int)childs_.size(); i++) {
+		probability_distribution_.push_back(uniform_prob);
     }
 }
 

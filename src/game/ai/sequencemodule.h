@@ -15,7 +15,7 @@ class SequenceModule : public AIModule {
 	virtual AIModule::Status Update(float dt);
 	virtual void Finish();
 
-	void AddChildModule(AIModule* child) { childs_.push_back(child); }
+	void AddChildModule(AIModule* child) { childs_.push_back(child); child->set_parent(this); }
 
   protected:
 	std::vector<AIModule*> childs_;

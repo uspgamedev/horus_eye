@@ -44,6 +44,7 @@ void AI::SetRootModule(AIModule* root) {
 	if (state_ != CREATED) return;
 
 	root_ = root;
+	root_->root_ = this;
 }
 
 }
