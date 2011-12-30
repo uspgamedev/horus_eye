@@ -49,6 +49,7 @@ Creature::Creature()
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
         aim_(world_position_, aim_destination_),
+        sprite_(NULL),
         blink_(false) {
 
     INITIALIZE_COLLISION;
@@ -70,6 +71,7 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
         aim_(world_position_, aim_destination_),
+        sprite_(NULL),
         blink_(false) {
 
     INITIALIZE_COLLISION;
@@ -82,14 +84,9 @@ Creature::~Creature() {
     if (blink_time_) delete blink_time_;
 }
 
-void Creature::Initialize(Drawable *image, AnimationSet *set, bool delete_image) {
-    Sprite::Initialize(image, set, delete_image);
-    AddObserverToAnimation(this);
-}
-
 void Creature::Initialize(ugdk::FlexibleSpritesheet *image, ugdk::AnimationSet *set) {
-    Sprite::Initialize(image, set);
-    AddObserverToAnimation(this);
+    this->node()->set_drawable(sprite_ = new Sprite(image, ANIMATIONS));
+    sprite_->AddObserverToAnimation(this);
 }
 
 
@@ -116,6 +113,7 @@ void Creature::AdjustBlink(float delta_t) {
     if (!hit_duration_->Expired()) {
         if (blink_time_->Expired()) {
             blink_ = !blink_;
+            node()->set_visible(!node()->visible());
             blink_time_->Restart();
         }
     } else 
@@ -132,13 +130,13 @@ void Creature::TakeDamage(float life_points) {
     life_ -= life_points;
     if(life_.Empty()) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
-            this->SelectAnimation(dying_animation_);
+            sprite_->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
 	        StartToDie();
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;
-        this->SelectAnimation(taking_damage_animation_);
+        sprite_->SelectAnimation(taking_damage_animation_);
     }
     hit_duration_->Restart(invulnerability_time_);
     blink_time_->Restart();
@@ -285,10 +283,6 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
         radianAngle = 2*PI - radianAngle;
     }
 	return radianAngle;
-}
-
-void Creature::Render() {
-    if (!blink_) WorldObject::Render();
 }
 
 }  // namespace sprite

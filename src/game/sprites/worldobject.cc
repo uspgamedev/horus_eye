@@ -34,7 +34,6 @@ void WorldObject::StartToDie() {
 }
 
 void WorldObject::Update(float dt) {
-    super::Update(dt);
     node_->set_zindex(World::FromWorldLinearCoordinates(world_position()).y); // Seta zindex
 }
 

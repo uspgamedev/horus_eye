@@ -1,9 +1,9 @@
-#include "pausescene.h"
 #include <ugdk/graphic/image.h>
-#include <ugdk/action/sprite.h>
-#include <ugdk/action/layer.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
+
+#include "pausescene.h"
 
 namespace scene {
 
@@ -11,14 +11,10 @@ using namespace ugdk;
 
 PauseScene::PauseScene () {
     image_ = new Image;
-	image_->set_frame_size(VIDEO_MANAGER()->video_size());
+    image_->set_frame_size(VIDEO_MANAGER()->video_size());
     image_->set_color(0.5f, 0.5f, 0.5f);
     image_->set_alpha(0.5f);
-    Layer *layer = new Layer;
-    Sprite *sprite = new Sprite;
-    sprite->Initialize(image_);
-    AddLayer(layer);
-    layer->AddSprite(sprite);
+    this->root_node()->AddChild(new Node(image_));
 }
 
 PauseScene::~PauseScene () {}

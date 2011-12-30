@@ -2,6 +2,7 @@
 #include <cmath>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/action/sprite.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "block.h"
@@ -27,10 +28,11 @@ COLLISION_DIRECT(Block*, PushOnCollision, obj) {
 }
 
 Block::Block(FlexibleSpritesheet* image) : moving_(false) {
-    Initialize(image);
-    set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
-    Vector2D new_size(size().x, size().y * 0.7f);
-    set_size(new_size);
+    image->set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
+
+    Sprite* sprite = new Sprite(image);
+    node_->set_drawable(sprite);
+    node_->modifier()->set_scale(Vector2D(1.0f, 0.7f)); // TODO make block offset
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Block);

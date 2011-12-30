@@ -46,7 +46,7 @@ Mummy::Mummy(ugdk::FlexibleSpritesheet* img) {
     // Animations
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
-    this->SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(last_standing_animation_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new TimeAccumulator(0);
@@ -75,11 +75,11 @@ void Mummy::MummyAntiStack(WorldObject *obj) {
 
 void Mummy::StartAttack(Creature* obj) {
     if(obj == NULL) obj = WORLD()->hero();
-    float attackAngle = GetAttackingAngle(obj->position() - position());
+    float attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
 void Mummy::set_bound(float radius) {
@@ -105,7 +105,7 @@ void Mummy::RandomMovement(){
 }
 
 void Mummy::UpdateDirection(Vector2D destination){
-    Vector2D dir_animation = World::FromWorldCoordinates(destination) - position(); 
+    Vector2D dir_animation = World::FromWorldCoordinates(destination) - node()->modifier()->offset(); 
     float angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
@@ -158,9 +158,9 @@ void Mummy::Update(float delta_t) {
         Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
         if (mummy_tile) {
             if(mummy_tile->visible())
-                set_visible(true);
+                node_->set_visible(true);
             else
-                set_visible(false);
+                node_->set_visible(false);
         }
     }
 
@@ -179,7 +179,7 @@ void Mummy::Update(float delta_t) {
 
 	        Creature::Move(this->GetWalkingDirection(), delta_t);
 	        walking_direction_ = last_direction_;
-	        this->SelectAnimation(walking_animations_[animation_direction_]);
+	        sprite_->SelectAnimation(walking_animations_[animation_direction_]);
 		}
     }
 

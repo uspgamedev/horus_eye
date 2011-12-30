@@ -53,34 +53,31 @@ Hud::Hud(World* world) {
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
 
     Image* back_image;
-    Image* eye_image;
+//    Image* eye_image;
      
     
     //Criando sprites da life bar
     HudImageFactory img_fac;
 
-    Sprite *life_bar = new Sprite(life_modifier_ = new Modifier);
-    life_bar->Initialize(img_fac.LifeBarImage());
-    life_bar->set_position(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y);
+    Node* life_bar = new Node(img_fac.LifeBarImage(), life_modifier_ = new Modifier);
     life_bar->set_zindex(-0.5f);
+    life_modifier_->set_offset(Vector2D(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y));
     ////AddSprite(life_bar);
     
-    Sprite *mana_bar = new Sprite(mana_modifier_ = new Modifier);
-    mana_bar->Initialize(img_fac.ManaBarImage());
-    mana_bar->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    Node *mana_bar = new Node(img_fac.ManaBarImage(), mana_modifier_ = new Modifier);
     mana_bar->set_zindex(-0.5f);
+    mana_modifier_->set_offset(Vector2D(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y));
     ////AddSprite(mana_bar);
 
-    Sprite *block_bar = new Sprite(block_modifier_ = new Modifier);
-    block_bar->Initialize(img_fac.ManaBarImage());
-    block_bar->set_position(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y);
+    Node *block_bar = new Node(img_fac.ManaBarImage(), block_modifier_ = new Modifier);
     block_bar->set_zindex(-0.6f);
-    ////AddSprite(block_bar);
+    block_modifier_->set_offset(Vector2D(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y));
     block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
     block_modifier_->set_alpha(0.75f);
+    ////AddSprite(block_bar);
 
     back_image = img_fac.BackImage();
-    Sprite *backLeft = new Sprite();
+    Node *backLeft = new Node(back_image);/*
     backLeft->Initialize(back_image);
     if(back_image) backLeft->set_hotspot(Vector2D(back_image->width(), back_image->height()));
     Sprite *backRight = new Sprite();
@@ -160,6 +157,7 @@ Hud::Hud(World* world) {
         fps_meter_value_[i] = 0;
     }
 #endif
+    */
 }
 
 Hud::~Hud() {
@@ -199,7 +197,7 @@ void Hud::Update(float delta_t) {
 #endif
 
     if (weapon_icon_ != NULL) {
-        icon_added[weapon_icon_]->set_visible(false);
+        //icon_added[weapon_icon_]->set_visible(false);
     }
 
     if(world->hero() != NULL) {
@@ -217,7 +215,7 @@ void Hud::Update(float delta_t) {
     }
 
     if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {
-        Sprite* s = new Sprite;
+        /*Sprite* s = new Sprite;
         s->Initialize(weapon_icon_);
 
         s->set_hotspot(Vector2D(weapon_icon_->width()/2, weapon_icon_->height()/2));
@@ -225,10 +223,10 @@ void Hud::Update(float delta_t) {
         s->set_zindex(1.0f);
         
         //AddSprite(s);
-        icon_added[weapon_icon_] = s;
+        icon_added[weapon_icon_] = s;*/
     }
-    if(weapon_icon_)
-        icon_added[weapon_icon_]->set_visible(true);
+    //if(weapon_icon_)
+    //    icon_added[weapon_icon_]->set_visible(true);
 
 }
 

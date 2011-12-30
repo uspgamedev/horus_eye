@@ -13,7 +13,7 @@ class Loading: public ugdk::Scene {
 
   protected:
     bool has_been_drawn_;
-    ugdk::Layer *layer_;
+    ugdk::Node *loading_;
     void End();
 };
 

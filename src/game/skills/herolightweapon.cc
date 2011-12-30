@@ -2,6 +2,8 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
+#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/base/engine.h>
 
 #include "herolightweapon.h"
@@ -28,8 +30,8 @@ void HeroLightWeapon::Use(){
     World *world = WORLD();   
 
     sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
-    light->Initialize(world->image_factory()->LightImage());
-    light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
+    light->node()->set_drawable(new Sprite(world->image_factory()->LightImage()));
+    world->image_factory()->LightImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
     light->set_light_radius(4.0f);
     world->AddWorldObject(light, use_argument_.destination_);
 

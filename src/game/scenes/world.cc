@@ -13,8 +13,8 @@
 #include "world.h"
 
 #include "game/scenes/imagescene.h"
-#include "game/scenes/menu.h"
-#include "game/scenes/menubuilder.h"
+//#include "game/scenes/menu.h"
+//#include "game/scenes/menubuilder.h"
 
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
@@ -124,8 +124,9 @@ Vector2D World::ActualOffset() {
 bool World::VerifyPause() {
     InputManager *input = Engine::reference()->input_manager();
     if(input->KeyPressed(K_ESCAPE)) {
-        MenuBuilder builder;
-        Engine::reference()->PushScene(builder.BuildPauseMenu());
+        //MenuBuilder builder;
+        //Engine::reference()->PushScene(builder.BuildPauseMenu());
+        //TODO: YEAH SCREW PAUSING. THERE'S NO PAUSING IN HARDCORE GAMES.
         return true;
     }
     return false;

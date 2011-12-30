@@ -35,7 +35,6 @@ class Block;
 class Item;
 
 class WorldObject : public ugdk::Entity {
-  typedef ugdk::Entity super;
   public:
     WorldObject();
     virtual ~WorldObject();
@@ -51,9 +50,6 @@ class WorldObject : public ugdk::Entity {
     bool is_active() const { return status_ == STATUS_ACTIVE; }
     virtual void Die() { status_ = STATUS_DEAD; }
     virtual void StartToDie();
-
-    // The BIG Awesome drawable. TODO explain better
-    virtual void Render();
 
     // The Light radius. TODO explain better
     virtual float light_radius() { return light_radius_; }

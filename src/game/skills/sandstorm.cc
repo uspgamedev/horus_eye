@@ -33,8 +33,6 @@ void Sandstorm::Use() {
         super::Use();
 
         emitter_ = new SandstormEmitter(use_argument_, &emitter_);
-        emitter_->Initialize(new Image(), NULL, true);
-        emitter_->set_visible(false);
 
         World *world = WORLD();
         world->AddWorldObject(emitter_, use_argument_.origin_);

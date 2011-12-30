@@ -62,7 +62,7 @@ Hero::Hero(ugdk::FlexibleSpritesheet* img,
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
     }
-    SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(last_standing_animation_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     invulnerability_time_ = INVUL_TIME;
@@ -175,7 +175,7 @@ void Hero::StartAttackAnimation() {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
+    sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
 bool Hero::Aiming() {
@@ -227,9 +227,9 @@ void Hero::Update(float delta_t) {
             Creature::Move(this->GetWalkingDirection(), delta_t);
 
             if (animation_direction_)
-                this->SelectAnimation(walking_animations_[animation_direction_]);
+                sprite_->SelectAnimation(walking_animations_[animation_direction_]);
             else
-                this->SelectAnimation(last_standing_animation_);
+                sprite_->SelectAnimation(last_standing_animation_);
         }
     }
     AdjustBlink(delta_t);

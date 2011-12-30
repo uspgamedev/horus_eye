@@ -1,6 +1,6 @@
 #include "imagescene.h"
 #include <ugdk/base/engine.h>
-#include <ugdk/action/layer.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/action/sprite.h>
 #include <ugdk/input/inputmanager.h>
 #include "game/utils/levelmanager.h"

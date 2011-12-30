@@ -39,7 +39,7 @@ Hero* HeroBuilder::Kha() {
                                   Constants::HERO_MAX_MANA_BLOCKS, 
                                   Constants::HERO_MANA_PER_BLOCK);
 
-    hero->set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
+    factory_->HeroImage()->set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
 						       static_cast<float>(HERO_HOTSPOT_Y)));
 
     hero->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);

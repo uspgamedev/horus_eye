@@ -2,6 +2,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
+#include <ugdk/action/sprite.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/light.h>
@@ -33,20 +34,22 @@ COLLISION_DIRECT(float, DamageCollision, obj) {
 
 Explosion::Explosion(FlexibleSpritesheet *image, uint32 animation, float radius, float damage)
 {
-    Initialize(image, ANIMATIONS);
-	set_hotspot(Vector2D(CENTER_X, CENTER_Y));
+
+    Sprite* sprite = new Sprite(image, ANIMATIONS);
+    node_->set_drawable(sprite);
+    image->set_hotspot(Vector2D(CENTER_X, CENTER_Y));
 	damage_ = damage;
 	bound_ = new pyramidworks::geometry::Circle(radius / 2.0f);
 	set_light_radius(1.3*radius);
 
     Color light_color(1.0f, 0.521568f, 0.082352f);
-    this->light()->set_color(light_color);
+    node_->light()->set_color(light_color);
 
-	AddObserverToAnimation(this);
-    SelectAnimation(WEAPON_ANIMATIONS[animation]);
+	sprite->AddObserverToAnimation(this);
+    sprite->SelectAnimation(WEAPON_ANIMATIONS[animation]);
 
     expansion_speed_ = (radius / 2) /
-            (GetAnimationFrameNumber() / GetAnimationFPS());
+            (sprite->GetAnimationFrameNumber() / sprite->GetAnimationFPS());
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Explosion);

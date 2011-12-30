@@ -15,12 +15,6 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\editor\layers\fpsmeter.cc" />
-    <ClCompile Include="src\editor\layers\mapspriteslayer.cc" />
-    <ClCompile Include="src\editor\layers\maptileslayer.cc" />
-    <ClCompile Include="src\editor\mapeditor.cc" />
-    <ClCompile Include="src\editor\mapobject.cc" />
-    <ClCompile Include="src\editor\scenes\editormenu.cc" />
     <ClCompile Include="src\externals\inifile.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
@@ -31,10 +25,6 @@
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
-    <ClCompile Include="src\game\scenes\menu.cc" />
-    <ClCompile Include="src\game\scenes\menubuilder.cc" />
-    <ClCompile Include="src\game\scenes\page.cc" />
-    <ClCompile Include="src\game\scenes\pagemanager.cc" />
     <ClCompile Include="src\game\scenes\pausescene.cc" />
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
@@ -83,12 +73,6 @@
     <ClCompile Include="src\pyramidworks\collision\collisionlogic.cc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\editor\layers\fpsmeter.h" />
-    <ClInclude Include="src\editor\layers\mapspriteslayer.h" />
-    <ClInclude Include="src\editor\layers\maptileslayer.h" />
-    <ClInclude Include="src\editor\mapeditor.h" />
-    <ClInclude Include="src\editor\mapobject.h" />
-    <ClInclude Include="src\editor\scenes\editormenu.h" />
     <ClInclude Include="src\externals\inifile.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />
@@ -106,11 +90,6 @@
     <ClInclude Include="src\game\resources\simpleresource.h" />
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
-    <ClInclude Include="src\game\scenes\menu.h" />
-    <ClInclude Include="src\game\scenes\menubuilder.h" />
-    <ClInclude Include="src\game\scenes\menuhandler.h" />
-    <ClInclude Include="src\game\scenes\page.h" />
-    <ClInclude Include="src\game\scenes\pagemanager.h" />
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
     <ClInclude Include="src\game\scenes\world.h" />
