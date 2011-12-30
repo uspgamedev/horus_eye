@@ -15,9 +15,9 @@ ScrollingImageScene::ScrollingImageScene(ugdk::Drawable *background, ugdk::Drawa
    time_ = time;
    float delta_h = VIDEO_MANAGER()->video_size().y;
    if(image != NULL) delta_h += image->height();
-   if (time > 0) movement_ = Vector2D(0, delta_h/time);
+   if (time > 0) movement_ = Vector2D(0, -delta_h/time);
 
-   Vector2D offset = scene_layers_[IMG]->modifier()->offset() + Vector2D(0, -VIDEO_MANAGER()->video_size().y);
+   Vector2D offset = scene_layers_[IMG]->modifier()->offset() + Vector2D(0, VIDEO_MANAGER()->video_size().y);
    if(scene_layers_[IMG]) scene_layers_[IMG]->modifier()->set_offset(offset);
 }
 

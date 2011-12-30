@@ -45,9 +45,9 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
 
     root_node()->AddChild(world_node_);
 
-    hud_ = new utils::Hud(this);
+    /*hud_ = new utils::Hud(this);
     Engine::reference()->PushInterface(hud_->node());
-    this->AddEntity(hud_);
+    this->AddEntity(hud_);*/
 }
 
 // Destrutor
@@ -255,6 +255,7 @@ void World::AddNewWorldObjects() {
 
         WorldObject *new_object = *it;
         world_objects_.push_front(new_object);
+        this->AddEntity(new_object);
 
         world_node_->AddChild(new_object->node());
 
@@ -282,6 +283,7 @@ void World::RemoveInactiveObjects() {
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         if((*i)->status() == WorldObject::STATUS_DEAD) {
             colliding_world_objects_.remove(*i);
+            this->RemoveEntity(*i);
         }
     }
     world_objects_.remove_if(worldObjectIsDead);
@@ -315,7 +317,7 @@ Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
 }
 
 Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
-    Vector2D    global_screen_coords = screen_coords + WORLD()->world_node_->modifier()->offset(),
+    Vector2D    global_screen_coords = screen_coords - WORLD()->world_node_->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
     return (transformed * (1.0f/60.373835392f));
 }
