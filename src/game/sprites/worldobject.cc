@@ -33,9 +33,7 @@ void WorldObject::StartToDie() {
         collision_object_->StopColliding();
 }
 
-void WorldObject::Update(float dt) {
-    node_->set_zindex(World::FromWorldLinearCoordinates(world_position()).y); // Seta zindex
-}
+void WorldObject::Update(float dt) {}
 
 void WorldObject::set_light_radius(float radius) {
     light_radius_ = radius;
@@ -56,6 +54,7 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
    Vector2D position = World::FromWorldCoordinates(world_position_);
    node_->modifier()->set_offset(position);
+   node_->set_zindex(position.y);
 }
 
 void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {

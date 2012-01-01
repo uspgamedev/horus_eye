@@ -26,11 +26,15 @@ Floor::Floor(ugdk::FlexibleSpritesheet* image) : tile_(NULL), sprite_(new ugdk::
 }
 
 void Floor::Update(float delta_t) {
-    if (!tile_)
-        tile_ = Tile::GetFromWorldPosition(WORLD()->level_matrix(), this->world_position());
+    if (!tile_) tile_ = Tile::GetFromWorldPosition(WORLD()->level_matrix(), this->world_position());
+
     if (tile_->visible())   node_->modifier()->set_color(ugdk::Color(1.0f, 1.0f, 1.0f));
     else                    node_->modifier()->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
-    WorldObject::Update(delta_t);
+    super::Update(delta_t);
+}
+
+void Floor::set_world_position(const ugdk::Vector2D& pos) {
+    super::set_world_position(pos);
     node_->set_zindex(-FLT_MAX); // chao deve ficar a baixo de tudo/
 }
 

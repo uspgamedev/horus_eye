@@ -6,16 +6,25 @@
 
 using namespace ugdk;
 namespace utils {
+
+#define HERO_HOTSPOT_X 55.0f
+#define HERO_HOTSPOT_Y 102.0f
   
 FlexibleSpritesheet* ImageFactory::HeroImage() {
     FlexibleSpritesheet *hero_image_ = VIDEO_MANAGER()->LoadSpritesheet("data/images/sprite-sheet_MOD3.png");
-    if(hero_image_) hero_image_->set_frame_size(Vector2D(110, 110));
+    if(hero_image_) {
+        hero_image_->set_frame_size(Vector2D(110, 110));
+        hero_image_->set_hotspot(Vector2D(HERO_HOTSPOT_X, HERO_HOTSPOT_Y));
+    }
     return hero_image_;
 }
 
 FlexibleSpritesheet* ImageFactory::MummyImage(){
     FlexibleSpritesheet *mummy_image_ = VIDEO_MANAGER()->LoadSpritesheet("data/images/mummy_blue_120x140.png");
-    if(mummy_image_) mummy_image_->set_frame_size(Vector2D(120, 140));
+    if(mummy_image_) {
+        mummy_image_->set_frame_size(Vector2D(120.0f, 140.0f));
+        mummy_image_->set_hotspot(Vector2D(60.0f, 120.0f));
+    }
     return mummy_image_;
 }
 
@@ -23,19 +32,26 @@ FlexibleSpritesheet* ImageFactory::BigMummyImage() {
     FlexibleSpritesheet *big_mummy_image_ = VIDEO_MANAGER()->LoadSpritesheet("data/images/mummy_green_120x140.png");
 	if(big_mummy_image_) {
 		big_mummy_image_->set_frame_size(Vector2D(120, 140));
+        big_mummy_image_->set_hotspot(Vector2D(60.0f, 120.0f));
 	}
     return big_mummy_image_;
 }
 
 FlexibleSpritesheet* ImageFactory::PharaohImage(){
     FlexibleSpritesheet *pharaoh_image_ = VIDEO_MANAGER()->LoadSpritesheet("data/images/pharaoh_120x140.png");
-    if(pharaoh_image_) pharaoh_image_->set_frame_size(Vector2D(120, 140));
+    if(pharaoh_image_) {
+        pharaoh_image_->set_frame_size(Vector2D(120, 140));
+        pharaoh_image_->set_hotspot(Vector2D(60.0f, 120.0f));
+    }
     return pharaoh_image_;
 }
 
 FlexibleSpritesheet* ImageFactory::RangedMummyImage(){
     FlexibleSpritesheet *ranged_mummy_image_ = VIDEO_MANAGER()->LoadSpritesheet("data/images/mummy_red_120x140.png");
-    if(ranged_mummy_image_) ranged_mummy_image_->set_frame_size(Vector2D(120, 140));
+    if(ranged_mummy_image_) {
+        ranged_mummy_image_->set_frame_size(Vector2D(120, 140));
+        ranged_mummy_image_->set_hotspot(Vector2D(60.0f, 120.0f));
+    }
     return ranged_mummy_image_;
 }
 
