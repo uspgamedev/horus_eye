@@ -35,9 +35,7 @@ Loading::~Loading() {
 }
 
 void Loading::Update(float delta_t) {
-    set_visible(true);
-    loading_->set_visible(true);
-    Scene::Update(delta_t);
+    super::Update(delta_t);
     if(has_been_drawn_) {
         //Finish();
         utils::ImageFactory factory;
@@ -56,7 +54,18 @@ void Loading::Update(float delta_t) {
     has_been_drawn_ = !has_been_drawn_;
 }
 
+void Loading::Focus() {
+    super::Focus();
+    loading_->set_visible(true);
+}
+
+void Loading::DeFocus() {
+    super::DeFocus();
+    loading_->set_visible(false);
+}
+
 void Loading::End() {
+    super::End();
     Engine::reference()->RemoveInterface(loading_);
     delete loading_;
 }

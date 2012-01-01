@@ -97,12 +97,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     Creature(resource::Energy &life, resource::Energy &mana);
     void Initialize(ugdk::FlexibleSpritesheet *image, ugdk::AnimationSet *set = NULL);
 
-    virtual void Update(float dt) {
-        WorldObject::Update(dt);
-        UpdateCondition(dt);
-        life_.Update(dt);
-        mana_.Update(dt);
-    }
+    virtual void Update(float dt);
     virtual void PlayHitSound() const {}
 
     // funcoes

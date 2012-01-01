@@ -209,6 +209,14 @@ void Creature::InitializeStandingAnimations() {
 
 // ============= other stuff
 
+void Creature::Update(float dt) {
+    WorldObject::Update(dt);
+    UpdateCondition(dt);
+    sprite_->Update(dt);
+    life_.Update(dt);
+    mana_.Update(dt);
+}
+
 void Creature::Move(Vector2D direction, float delta_t) {
     // If you called Move() you should be in a stable position.
     Vector2D position(this->world_position().x, this->world_position().y);

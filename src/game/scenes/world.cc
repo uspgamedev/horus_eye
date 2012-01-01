@@ -148,7 +148,6 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
     VisionStrategy  vision;
 
     if (!origin) return;
-    return;
 
     origin_world_pos.y = map.size() - origin_world_pos.y - 1;
     queue.push_back(origin);
@@ -223,9 +222,9 @@ void World::Update(float delta_t) {
 void World::End() {
     super::End();
 
-    this->RemoveEntity(hud_);
+    /*this->RemoveEntity(hud_);
     Engine::reference()->RemoveInterface(hud_->node());
-    delete hud_;
+    delete hud_;*/
     hud_ = NULL;
 
 	if(hero_ != NULL)
@@ -297,6 +296,9 @@ void World::RemoveAll() {
         }
     }
     world_objects_.clear();
+    if(hero_ != NULL) {
+        this->world_node_->RemoveChild(hero_->node());
+    }
     hero_ = NULL;
 }
 
