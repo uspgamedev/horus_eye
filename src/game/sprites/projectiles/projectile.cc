@@ -1,5 +1,5 @@
 #include <ugdk/time/timeaccumulator.h>
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/drawable/image.h>
 
 #include "projectile.h"
 

@@ -1,4 +1,4 @@
-#include <ugdk/graphic/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/flexiblespritesheet.h>
 
 #include "mummybuilder.h"
 

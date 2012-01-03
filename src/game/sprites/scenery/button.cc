@@ -1,6 +1,6 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <pyramidworks/geometry/rect.h>
 

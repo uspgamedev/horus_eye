@@ -1,7 +1,7 @@
 #include "imagefactory.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/flexiblespritesheet.h>
 #include "constants.h"
 
 using namespace ugdk;

@@ -4,7 +4,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animation.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/time/timehandler.h>

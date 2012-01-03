@@ -6,7 +6,8 @@
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/drawable/image.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/action/scene.h>
 
 #include "game/utils/levelmanager.h"
@@ -88,13 +89,13 @@ void finishAndDeleteCurrentScene() {
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
 	level_list_iterator_ = 0;
-    Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45);
+    Scene *scroll = new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("Intro"), 45);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("CreditsFile")), 55);
+    Scene *scroll = new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("CreditsFile"), 55);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
@@ -102,13 +103,11 @@ void LevelManager::ShowCredits() {
 void LevelManager::ShowEnding() {
 	loading_->Finish();
 	loading_ = NULL;
-    Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImageFile("data/images/you_win.png")));
+    Engine::reference()->PushScene(new ImageScene(NULL, new TexturedRectangle(VIDEO_MANAGER()->LoadTexture("data/images/you_win.png"))));
 }
 
 void LevelManager::ShowGameOver() {
-    Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImageFile("data/images/game_over.png")));
+    Engine::reference()->PushScene(new ImageScene(NULL, new TexturedRectangle(VIDEO_MANAGER()->LoadTexture("data/images/game_over.png"))));
 }
 
 void LevelManager::FinishLevel(LevelState state) {

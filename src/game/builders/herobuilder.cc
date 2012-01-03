@@ -1,4 +1,4 @@
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/drawable/image.h>
 
 #include "herobuilder.h"
 

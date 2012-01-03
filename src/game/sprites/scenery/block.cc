@@ -2,7 +2,7 @@
 #include <cmath>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "block.h"

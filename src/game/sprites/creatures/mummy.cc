@@ -3,7 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
-#include <ugdk/graphic/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>

@@ -5,7 +5,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/flexiblespritesheet.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionclass.h>

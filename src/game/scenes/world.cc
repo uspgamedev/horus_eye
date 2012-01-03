@@ -45,9 +45,9 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
 
     root_node()->AddChild(world_node_);
 
-    /*hud_ = new utils::Hud(this);
+    hud_ = new utils::Hud(this);
     Engine::reference()->PushInterface(hud_->node());
-    this->AddEntity(hud_);*/
+    this->AddEntity(hud_);
 }
 
 // Destrutor
@@ -222,9 +222,9 @@ void World::Update(float delta_t) {
 void World::End() {
     super::End();
 
-    /*this->RemoveEntity(hud_);
+    this->RemoveEntity(hud_);
     Engine::reference()->RemoveInterface(hud_->node());
-    delete hud_;*/
+    delete hud_;
     hud_ = NULL;
 
 	if(hero_ != NULL)

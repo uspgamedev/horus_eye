@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>

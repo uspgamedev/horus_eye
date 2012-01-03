@@ -2,7 +2,8 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/base/engine.h>
 

@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 #define HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 
-#include <ugdk/graphic/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/flexiblespritesheet.h>
 
 using ugdk::FlexibleSpritesheet;
 namespace utils {

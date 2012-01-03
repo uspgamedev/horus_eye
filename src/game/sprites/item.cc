@@ -1,6 +1,6 @@
 #include <cmath>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/circle.h>
 
 #include "item.h"

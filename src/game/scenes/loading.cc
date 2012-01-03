@@ -1,5 +1,5 @@
-#include <ugdk/graphic/image.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/image.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/node.h>

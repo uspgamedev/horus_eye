@@ -17,7 +17,7 @@ class Text : public Drawable {
 
     void Draw();
 
-	virtual Vector2D render_size() const;
+	virtual const Vector2D& size() const;
 	int width();
 	int height();
 

@@ -1,10 +1,10 @@
 #include <cstdio>
 #include "textloader.h"
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/drawable/image.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>
-#include <ugdk/graphic/text.h>
+#include <ugdk/graphic/drawable/text.h>
 
 namespace utils {
 
@@ -127,7 +127,6 @@ bool TextLoader::Initialize(string language_file) {
 			// Defensive Programming! Erase previous drawable with same name 
 			// before overwriting.
             if(text_images_.count(name) && text_images_[name] != NULL) {
-                text_images_[name]->Destroy();
                 delete text_images_[name];
             }
             text_images_[name] = val;
@@ -158,7 +157,6 @@ bool TextLoader::Clear() {
     map<wstring, Drawable*>::iterator it;
     for(it = text_images_.begin(); it != text_images_.end(); ++it) {
 		if(it->second != NULL) {
-			it->second->Destroy();
 			delete it->second;
 		}
     }

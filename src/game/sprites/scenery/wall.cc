@@ -1,7 +1,7 @@
 #include <iostream>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "wall.h"

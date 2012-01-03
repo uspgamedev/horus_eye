@@ -1,7 +1,7 @@
 #include <cmath>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/types.h>
 #include <ugdk/graphic/light.h>
 #include <pyramidworks/geometry/circle.h>

@@ -1,7 +1,7 @@
 #include "hud.h"
 #include <ugdk/math/vector2D.h>
-#include <ugdk/action/sprite.h>
-#include <ugdk/graphic/text.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/text.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/graphic/videomanager.h>
@@ -48,18 +48,22 @@ using namespace scene;
 namespace utils {
 
 // Aviso: maximo de 999 mumias no display de inimigos restantes!
-Hud::Hud(World* world) {
-    Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
+Hud::Hud(World* world) : node_(new Node) {
+    /*Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
 
-    Image* back_image;
-//    Image* eye_image;
-     
-    
-    //Criando sprites da life bar
+    // Criando sprites da life bar
     HudImageFactory img_fac;
 
-    Node* life_bar = new Node(img_fac.LifeBarImage(), life_modifier_ = new Modifier);
+    Image* back_image = img_fac.BackImage();
+    Image* eye_image = img_fac.EyeImage();
+
+    Node* back_node = new Node(back_image);
+    back_node->modifier()->set_offset(Vector2D(0.0f, VIDEO_Y - back_image->height()));
+
+    node_->AddChild(back_node);*/
+
+    /*Node* life_bar = new Node(img_fac.LifeBarImage(), life_modifier_ = new Modifier);
     life_bar->set_zindex(-0.5f);
     life_modifier_->set_offset(Vector2D(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y));
     ////AddSprite(life_bar);
@@ -74,17 +78,15 @@ Hud::Hud(World* world) {
     block_modifier_->set_offset(Vector2D(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y));
     block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
     block_modifier_->set_alpha(0.75f);
-    ////AddSprite(block_bar);
+    ////AddSprite(block_bar);*/
 
-    back_image = img_fac.BackImage();
-    Node *backLeft = new Node(back_image);/*
+    /*Node *backLeft = new Node(back_image);
     backLeft->Initialize(back_image);
     if(back_image) backLeft->set_hotspot(Vector2D(back_image->width(), back_image->height()));
     Sprite *backRight = new Sprite();
     backRight->Initialize(back_image);
     if(back_image) backRight->set_hotspot(Vector2D(0, back_image->height()));
 
-    eye_image = img_fac.EyeImage();
     Sprite *eye = new Sprite();
     eye->Initialize(eye_image);
     if(eye_image) eye->set_hotspot(Vector2D(eye_image->width()/2, eye_image->height()));
@@ -161,12 +163,12 @@ Hud::Hud(World* world) {
 }
 
 Hud::~Hud() {
-    
+    delete node_;
 }
 
 void Hud::Update(float delta_t) {
     World* world = WORLD();
-
+    /*
     uint32 digit[7], enemy_number;
     enemy_number = (enemy_number = world->CountRemainingEnemies()) > 999 ? 999 : enemy_number;
     digit[2] = enemy_number / 100;
@@ -223,11 +225,11 @@ void Hud::Update(float delta_t) {
         s->set_zindex(1.0f);
         
         //AddSprite(s);
-        icon_added[weapon_icon_] = s;*/
+        icon_added[weapon_icon_] = s;
     }
     //if(weapon_icon_)
     //    icon_added[weapon_icon_]->set_visible(true);
-
+    */
 }
 
 }

@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_FRAMEWORK_IMAGE_H_
-#define HORUSEYE_FRAMEWORK_IMAGE_H_
+#ifndef UGDK_GRAPHIC_DRAWABLE_IMAGE_H_
+#define UGDK_GRAPHIC_DRAWABLE_IMAGE_H_
 
 #include <string>
 #include <map>
@@ -12,16 +12,14 @@
 namespace ugdk {
 
 // Square with texture implementation of a Drawable.
-class Image : public Drawable {
+class Image {
   friend class VideoManager;
   public:
     Image();
 	virtual ~Image() {}
     bool Destroy();
 
-    void Draw() { } //TODO
-
-	int width() const { return texture_width_; }
+    int width() const { return texture_width_; }
     int height() const { return texture_height_; }
 
 	// Sets the frame_size to use with the texture.
@@ -30,7 +28,7 @@ class Image : public Drawable {
 
 	// Sets the render_size. It's not used by the Image.
     void set_render_size(const Vector2D& size) { render_size_ = size; }
-    Vector2D render_size() const { return render_size_; }
+    const Vector2D& size() const { return render_size_; }
 
 	// Sets what color the image is tinted with during rendering.
 	void set_color(const Color &color) { color_ = color; }
@@ -48,11 +46,9 @@ class Image : public Drawable {
 	// Draws a 1.0f x 1.0f square at origin with the given frame_number. 
 	// Warning: Uses the currently set color.
 	void RawDraw(int frame_number);
-
-	// Draws at position, a draw_size square with the given frame_number
-	// modified by mirror and both the image and given color and alpha.
-    bool DrawTo(const Vector2D& position, int frame_number, Mirror mirror, 
-		const Color& color, float alpha, const Vector2D& draw_size);
+    
+    /// Draws itself, basically.
+    void Draw();
 
 	// Creates a texture from the given SDL_Surface. Overwrites any current texture data.
     bool LoadFromSurface(SDL_Surface* data, bool linear = false);
