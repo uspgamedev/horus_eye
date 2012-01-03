@@ -159,8 +159,8 @@ void Mummy::Update(float delta_t) {
         if (mummy_tile) {
             if(mummy_tile->visible())
                 node_->set_visible(true);
-            /*else
-                node_->set_visible(false);*/
+            else
+                node_->set_visible(false);
         }
     }
 

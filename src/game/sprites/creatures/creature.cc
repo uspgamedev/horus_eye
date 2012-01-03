@@ -117,7 +117,7 @@ void Creature::AdjustBlink(float delta_t) {
             blink_time_->Restart();
         }
     } else 
-        blink_ = false;
+        node()->set_visible(true);
 }
 
 void Creature::TakeDamage(float life_points) {
