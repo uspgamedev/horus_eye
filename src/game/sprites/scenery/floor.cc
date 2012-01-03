@@ -23,6 +23,7 @@ Floor::Floor(ugdk::FlexibleSpritesheet* image) : tile_(NULL), sprite_(new ugdk::
     image->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
 
     node_->set_drawable(sprite_);
+    node_->modifier()->ToggleFlag(Modifier::TRUNCATES_WHEN_APPLIED);
 }
 
 void Floor::Update(float delta_t) {

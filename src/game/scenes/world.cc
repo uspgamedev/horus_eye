@@ -44,6 +44,7 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         num_button_not_pressed_(0) {
 
     root_node()->AddChild(world_node_);
+    world_node_->modifier()->ToggleFlag(Modifier::TRUNCATES_WHEN_APPLIED);
 
     hud_ = new utils::Hud(this);
     Engine::reference()->PushInterface(hud_->node());
