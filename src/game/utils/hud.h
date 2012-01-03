@@ -12,6 +12,10 @@ class Modifier;
 class Node;
 }
 
+namespace skills {
+class Skill;
+} // skills
+
 using ugdk::Sprite;
 using ugdk::Animation;
 
@@ -25,9 +29,9 @@ class Hud: public ugdk::Entity {
     ugdk::Node* node() { return node_; }
 
   private:
-    ugdk::Node *node_;
-    Image* weapon_icon_;
-    map<Image*, Sprite*> icon_added;
+    ugdk::Node *node_, *weapon_icon_;
+    skills::Skill *displayed_skill_;
+
     ugdk::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
 
     Sprite *enemy_counter_[7];

@@ -1,16 +1,20 @@
-#include "hud.h"
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/text.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/modifier.h>
+
+#include "hud.h"
+
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/skills/combatart.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/skills/skill.h"
 
 #define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
 #define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT
@@ -47,96 +51,96 @@ using namespace scene;
 
 namespace utils {
 
+static Node* CreateBarOn(Node* container, TexturedRectangle* bar_image, HudImageFactory& img_fac) {
+
+    TexturedRectangle 
+        *totem_bar_image = img_fac.TotemImage(),
+        *totem_bar_bottom = img_fac.TotemBottomImage();
+
+    Node* totem_bottom_node = new Node(totem_bar_bottom);
+    totem_bottom_node->modifier()->set_offset(Vector2D(0.0f, static_cast<float>(-totem_bar_bottom->height())));
+    totem_bottom_node->set_zindex(1.0f);
+    container->AddChild(totem_bottom_node);
+
+    Node* totem_top_node = new Node(totem_bar_image);
+    totem_top_node->modifier()->set_offset(Vector2D(0.0f, static_cast<float>(-totem_bar_bottom->height() - totem_bar_image->height())));
+    totem_top_node->set_zindex(-1.0f);
+    container->AddChild(totem_top_node);
+
+    Node* bar_node = new Node;
+    bar_node->modifier()->set_offset(Vector2D(totem_bar_image->width() * 0.5f - bar_image->width() * 0.5f, totem_bar_bottom->height() * (-1.0f)));
+    bar_node->set_zindex(-0.5f);
+    container->AddChild(bar_node);
+
+    return bar_node;
+}
+
 // Aviso: maximo de 999 mumias no display de inimigos restantes!
-Hud::Hud(World* world) : node_(new Node) {
+Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     /*Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
-    number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
+    number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));*/
 
     // Criando sprites da life bar
     HudImageFactory img_fac;
 
-    Image* back_image = img_fac.BackImage();
-    Image* eye_image = img_fac.EyeImage();
+    TexturedRectangle* back_image = img_fac.BackImage();
+    TexturedRectangle* eye_image = img_fac.EyeImage();
 
-    Node* back_node = new Node(back_image);
-    back_node->modifier()->set_offset(Vector2D(0.0f, VIDEO_Y - back_image->height()));
+    Node* eye_node = new Node(eye_image);
+    eye_node->modifier()->set_offset(Vector2D(VIDEO_X/2, VIDEO_Y) - Vector2D(eye_image->width() * 0.5f, eye_image->height()));
+    eye_node->set_zindex(0.5f);
 
-    node_->AddChild(back_node);*/
+    Node* back_right_node = new Node(back_image);
+    back_right_node->modifier()->set_offset(Vector2D(VIDEO_X/2 + eye_image->width() * 0.5f, VIDEO_Y - back_image->height()));
 
-    /*Node* life_bar = new Node(img_fac.LifeBarImage(), life_modifier_ = new Modifier);
-    life_bar->set_zindex(-0.5f);
-    life_modifier_->set_offset(Vector2D(LIFE_BAR_OFFSET_X - LIFE_BAR_WIDTH/2, VIDEO_Y - LIFE_BAR_OFFSET_Y));
-    ////AddSprite(life_bar);
+    Node* back_left_node = new Node(back_image);
+    back_left_node->modifier()->set_offset(Vector2D(VIDEO_X/2 - eye_image->width() * 0.5f - back_image->width(), VIDEO_Y - back_image->height()));
+
+    node_->AddChild(eye_node);
+    node_->AddChild(back_right_node);
+    node_->AddChild(back_left_node);
+
+    {   
+        Node* eye_center = new Node;
+        eye_center->modifier()->set_offset(Vector2D(eye_image->width() * 0.5f - 5.0f, eye_image->height() * 0.5f - 7.0f)); // The magic numbers do their magic!
+        eye_center->AddChild(weapon_icon_ = new Node);
+
+        eye_node->AddChild(eye_center);
+    }
+
+
+    Node* life_bar_container = new Node;
+    life_bar_container->modifier()->set_offset(Vector2D(0.0f, VIDEO_Y - back_image->height()));
+    life_bar_container->set_zindex(-0.5f);
+    node_->AddChild(life_bar_container);
+
+    Node* mana_bar_container = new Node;
+    mana_bar_container->modifier()->set_offset(Vector2D(VIDEO_X - TOTEM_WIDTH, VIDEO_Y - back_image->height()));
+    mana_bar_container->set_zindex(-0.5f);
+    node_->AddChild(mana_bar_container);
+
+    TexturedRectangle *life_bar_image = img_fac.LifeBarImage();
+    TexturedRectangle *mana_bar_image = img_fac.ManaBarImage();
+
+    Node* life_bar = CreateBarOn(life_bar_container, life_bar_image, img_fac);
+    Node* mana_bar = CreateBarOn(mana_bar_container, mana_bar_image, img_fac);
     
-    Node *mana_bar = new Node(img_fac.ManaBarImage(), mana_modifier_ = new Modifier);
-    mana_bar->set_zindex(-0.5f);
-    mana_modifier_->set_offset(Vector2D(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y));
-    ////AddSprite(mana_bar);
-
-    Node *block_bar = new Node(img_fac.ManaBarImage(), block_modifier_ = new Modifier);
-    block_bar->set_zindex(-0.6f);
-    block_modifier_->set_offset(Vector2D(VIDEO_X - MANA_BAR_OFFSET_X - MANA_BAR_WIDTH/2, VIDEO_Y - MANA_BAR_OFFSET_Y));
-    block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    life_bar->AddChild(new Node(life_bar_image,  life_modifier_ = new Modifier));
+    mana_bar->AddChild(new Node(img_fac.ManaBarImage(), block_modifier_ = new Modifier));
+    mana_bar->AddChild(new Node(mana_bar_image,  mana_modifier_ = new Modifier));
     block_modifier_->set_alpha(0.75f);
-    ////AddSprite(block_bar);*/
-
-    /*Node *backLeft = new Node(back_image);
-    backLeft->Initialize(back_image);
-    if(back_image) backLeft->set_hotspot(Vector2D(back_image->width(), back_image->height()));
-    Sprite *backRight = new Sprite();
-    backRight->Initialize(back_image);
-    if(back_image) backRight->set_hotspot(Vector2D(0, back_image->height()));
-
-    Sprite *eye = new Sprite();
-    eye->Initialize(eye_image);
-    if(eye_image) eye->set_hotspot(Vector2D(eye_image->width()/2, eye_image->height()));
-
-    Image *mummy_counter_image = img_fac.MummyCounterImage();
+    block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    
+    /*Image *mummy_counter_image = img_fac.MummyCounterImage();
     Sprite *mummy_counter = new Sprite();
     mummy_counter->Initialize(mummy_counter_image);
     if(mummy_counter_image) mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
 
-    weapon_icon_ = NULL;
-    
     // setando posicoes
-    eye->set_position(Vector2D(VIDEO_X/2, VIDEO_Y));
-    eye->set_zindex(0.5f);
-    backLeft->set_position(Vector2D(VIDEO_X/2 - (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
-    backRight->set_position(Vector2D(VIDEO_X/2 + (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
     mummy_counter->set_position(Vector2D(VIDEO_X/2 + (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
     mummy_counter->set_zindex(0.5f);
 
-    //AddSprite(backLeft);
-    //AddSprite(backRight);
-    //AddSprite(eye);
     //AddSprite(mummy_counter);
-
-    Image* totem_image_ = img_fac.TotemImage(),
-        *totem_bottom_image_ = img_fac.TotemBottomImage();
-
-    if(totem_image_ && totem_bottom_image_)
-        for (int i = 0; i < 2; i++) {
-            Sprite *totem = new Sprite;
-            totem->Initialize(totem_image_);
-            totem->set_hotspot(totem_image_->width() * 0.5f, totem_image_->height() + 0.0f);
-
-            Sprite *totem_bottom = new Sprite;
-            totem_bottom->Initialize(totem_bottom_image_);
-            totem_bottom->set_hotspot(totem_bottom_image_->width() * 0.5f, totem_bottom_image_->height());
-
-            if (i == 0) {
-                totem->set_position(TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y - totem_bottom_image_->height());
-                totem_bottom->set_position(TOTEM_OFFSET_X, VIDEO_Y - TOTEM_OFFSET_Y);
-            }
-            if (i == 1) {
-                totem->set_position(VIDEO_X - TOTEM_OFFSET_X , VIDEO_Y - TOTEM_OFFSET_Y - totem_bottom_image_->height());
-                totem_bottom->set_position(VIDEO_X - TOTEM_OFFSET_X, VIDEO_Y - TOTEM_OFFSET_Y);
-            }
-            totem->set_zindex(-1.0f);
-            totem_bottom->set_zindex(1.0f);
-            //AddSprite(totem);
-            //AddSprite(totem_bottom);
-        }
 
     for(int i = 0; i < 3; ++i) {
         enemy_counter_[i] = new Sprite;
@@ -163,6 +167,7 @@ Hud::Hud(World* world) : node_(new Node) {
 }
 
 Hud::~Hud() {
+    weapon_icon_->set_drawable(NULL);
     delete node_;
 }
 
@@ -197,39 +202,27 @@ void Hud::Update(float delta_t) {
         }
     }
 #endif
-
-    if (weapon_icon_ != NULL) {
-        //icon_added[weapon_icon_]->set_visible(false);
-    }
-
+    */
     if(world->hero() != NULL) {
         // Update the Selected weapon icon
-        if(world->hero()->secondary_combat_art() != NULL)
-            weapon_icon_ = world->hero()->secondary_combat_art()->icon();
+        if(displayed_skill_ != world->hero()->secondary_combat_art()) {
+            displayed_skill_ = world->hero()->secondary_combat_art();
+            
+            weapon_icon_->set_drawable(displayed_skill_->icon());
+            if(displayed_skill_->icon() != NULL) {
+                weapon_icon_->modifier()->set_offset(Vector2D(displayed_skill_->icon()->width() * (-0.5f), displayed_skill_->icon()->height() * (-0.5f) ));
+            }
+        }
 
+        
         // Life Bar
         life_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->life()) / world->hero()->life().max_value()) * LIFE_BAR_HEIGHT) );
-
+        
         // Mana Bar
         mana_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana()) / world->hero()->FullMana()) * MANA_BAR_HEIGHT) );
 
         block_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana_blocks().Get()) / world->hero()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
     }
-
-    if (weapon_icon_ != NULL && icon_added[weapon_icon_] == NULL) {
-        /*Sprite* s = new Sprite;
-        s->Initialize(weapon_icon_);
-
-        s->set_hotspot(Vector2D(weapon_icon_->width()/2, weapon_icon_->height()/2));
-        s->set_position(Vector2D(VIDEO_X/2 - 5, VIDEO_Y - 47));
-        s->set_zindex(1.0f);
-        
-        //AddSprite(s);
-        icon_added[weapon_icon_] = s;
-    }
-    //if(weapon_icon_)
-    //    icon_added[weapon_icon_]->set_visible(true);
-    */
 }
 
 }
