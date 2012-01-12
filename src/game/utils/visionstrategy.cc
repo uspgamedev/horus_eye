@@ -42,7 +42,7 @@ bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& 
     const GameMap& matrix = from->current_room()->matrix();
     Vector2D position1 = from->world_position();
     Vector2D distance = position2 - position1;
-    if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
+    if(distance.Length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
     int i_min = std::max(0.,

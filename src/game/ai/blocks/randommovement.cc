@@ -17,7 +17,7 @@ AIModule::Status RandomMovement::Update(float dt) {
 	if (owner->waiting_animation() ) return AIModule::DORMANT;
 
 	sprite::Mummy* mummy = static_cast<sprite::Mummy*>(owner);
-	if (mummy && mummy->get_standing())	return AIModule::DORMANT;
+	if (mummy && mummy->standing())	return AIModule::DORMANT;
 
 	time_left_ -= dt;
 	if (time_left_ < 0) {

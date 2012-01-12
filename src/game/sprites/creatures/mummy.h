@@ -4,7 +4,6 @@
 #include <ugdk/math/vector2D.h>
 
 #include "game/sprites/creatures/creature.h"
-#include "game/skills/skill.h"
 
 namespace ugdk {
 class Image;
@@ -18,16 +17,16 @@ class Mummy : public Creature {
     Mummy(ugdk::Image* img);
     ~Mummy();
 
-	bool get_standing() { return standing_; }
+	bool standing() { return standing_; }
     void set_standing(bool standing) { standing_ = standing; }	
     void set_speed(float speed) { original_speed_ = speed_ = speed; }
     void TakeDamage(float life_points);
-	skills::Skill* get_weapon() { return weapon_; }
-	void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
     void set_bound(float radius);
 
 	void set_last_known_hero_pos(Vector2D pos) { last_known_hero_pos_ = pos; }
-	Vector2D get_last_known_hero_pos() { return last_known_hero_pos_; }
+	Vector2D last_known_hero_pos() { return last_known_hero_pos_; }
+	void set_saw_hero(bool saw_hero) { saw_hero_ = saw_hero; }
+	bool saw_hero() { return saw_hero_; }
 
 	void UpdateDirections(Vector2D target_pos);
 
@@ -35,8 +34,8 @@ class Mummy : public Creature {
     
   protected:
     bool standing_;
-	skills::Skill *weapon_;
 	Vector2D last_known_hero_pos_;
+	bool saw_hero_;
 
     virtual void Update(float delta_t);
     void StartToDie();

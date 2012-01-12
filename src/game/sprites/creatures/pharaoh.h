@@ -22,9 +22,9 @@ class Pharaoh : public Mummy {
     Pharaoh(ugdk::Image* image, int life, int mana);
     ~Pharaoh();
 
-	skills::Skill* get_ranged_weapon() { return ranged_weapon_; }
+	skills::Skill* ranged_weapon() { return ranged_weapon_; }
 	void set_ranged_weapon(skills::Skill *weapon) { ranged_weapon_ = weapon; }
-	skills::Skill* get_summon_weapon() { return summon_weapon_; }
+	skills::Skill* summon_weapon() { return summon_weapon_; }
 	void set_summon_weapon(skills::Skill *weapon) { summon_weapon_ = weapon; }
 
 	void StartSummonMummy(sprite::Creature* target);

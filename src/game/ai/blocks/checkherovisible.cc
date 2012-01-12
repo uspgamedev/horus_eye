@@ -21,6 +21,7 @@ AIModule::Status CheckHeroVisible::Update(float dt) {
 	
 	if (WORLD()->hero() != NULL && vision_strategy_.IsVisible(owner->world_position())) {
 		mummy->set_standing(false);
+		mummy->set_saw_hero(true);
 		mummy->UpdateDirections(WORLD()->hero()->world_position() );
 		mummy->set_last_known_hero_pos( WORLD()->hero()->world_position() );
 		return AIModule::ACTIVE;

@@ -1,5 +1,6 @@
 #include "useweapon.h"
 #include "game/sprites/creatures/mummy.h"
+#include "game/skills/skill.h"
 
 using namespace ugdk;
 

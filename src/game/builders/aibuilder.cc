@@ -6,7 +6,7 @@
 #include "game/ai/logicmodule.h"
 #include "game/ai/blocks/randommovement.h"
 #include "game/ai/blocks/checkherovisible.h"
-#include "game/ai/blocks/updatedirections.h"
+#include "game/ai/blocks/searchforhero.h"
 #include "game/ai/blocks/useweapon.h"
 #include "game/ai/blocks/move.h"
 
@@ -29,6 +29,10 @@ AI* AIBuilder::BasicMummyAI(sprite::Mummy* owner) {
 	new CheckHeroVisible(checkForHero);
 	mainList->AddChildModule(checkForHero);
 
+	LogicModule* searchForHero = new LogicModule();
+	new SearchForHero(searchForHero);
+	mainList->AddChildModule(searchForHero);
+
 	LogicModule* randomMove = new LogicModule();
 	new RandomMovement(randomMove, EXP_PARAM);
 	mainList->AddChildModule(randomMove);
@@ -37,7 +41,7 @@ AI* AIBuilder::BasicMummyAI(sprite::Mummy* owner) {
 	checkForHero->SetChildModule(actionList);
 
 	LogicModule* doAttack = new LogicModule();
-	new UseWeapon(doAttack, owner->get_weapon());
+	new UseWeapon(doAttack, owner->weapon());
 	actionList->AddChildModule(doAttack);
 
 	LogicModule* doMove = new LogicModule();
@@ -57,6 +61,10 @@ AI* AIBuilder::BasicPharaohAI(sprite::Pharaoh* owner) {
 	new CheckHeroVisible(checkForHero);
 	mainList->AddChildModule(checkForHero);
 
+	LogicModule* searchForHero = new LogicModule();
+	new SearchForHero(searchForHero);
+	mainList->AddChildModule(searchForHero);
+
 	LogicModule* randomMove = new LogicModule();
 	new RandomMovement(randomMove, EXP_PARAM);
 	mainList->AddChildModule(randomMove);
@@ -65,15 +73,15 @@ AI* AIBuilder::BasicPharaohAI(sprite::Pharaoh* owner) {
 	checkForHero->SetChildModule(actionList);
 
 	LogicModule* doAttack = new LogicModule();
-	new UseWeapon(doAttack, owner->get_weapon());
+	new UseWeapon(doAttack, owner->weapon());
 	actionList->AddChildModule(doAttack);
 
 	LogicModule* doRangedAttack = new LogicModule();
-	new UseWeapon(doRangedAttack, owner->get_ranged_weapon());
+	new UseWeapon(doRangedAttack, owner->ranged_weapon());
 	actionList->AddChildModule(doRangedAttack);
 
 	LogicModule* doSummonAttack = new LogicModule();
-	new UseWeapon(doSummonAttack, owner->get_summon_weapon());
+	new UseWeapon(doSummonAttack, owner->summon_weapon());
 	actionList->AddChildModule(doSummonAttack);
 
 	LogicModule* doMove = new LogicModule();
