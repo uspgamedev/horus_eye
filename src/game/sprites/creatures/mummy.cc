@@ -81,6 +81,8 @@ void Mummy::set_bound(float radius) {
 
 void Mummy::RandomMovement(){
     float PI = acos(-1.0f);
+void Mummy::UpdateDirections(Vector2D target_pos){
+	aim_destination_ = target_pos;
 
     if (interval_->Expired()) {
 
@@ -103,6 +105,7 @@ void Mummy::UpdateDirections(std::queue<Vector2D> path){
 	aim_destination_ = path_.front();
 
 	Vector2D dir_animation = World::FromWorldCoordinates(path_.front()) - position(); 
+	Vector2D dir_animation = World::FromWorldCoordinates(target_pos) - position(); 
     float angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
@@ -110,6 +113,8 @@ void Mummy::UpdateDirections(std::queue<Vector2D> path){
 
     Vector2D dir_ = path_.front() - world_position(); 
     last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
+    Vector2D dir_ = target_pos - world_position(); 
+    walking_direction_ = Vector2D::Normalized(dir_);
     last_standing_animation_ = (standing_animations_[animation_direction_]);
 
 }
@@ -126,7 +131,7 @@ void Mummy::Think(float dt) {
 			path_ = strategy.Calculate(world_position());
 			//UpdateDirection(path_.front());
 			
-            if(weapon_->Available()) {
+            if(weapon_->Avaiable()) {
                 aim_destination_ = path_.front();
                 if(weapon_->IsValidUse()){
 				    weapon_->Use();

@@ -25,7 +25,7 @@ void AI::Update(float dt) {
 	AIModule::Status stat;
 	if (root_) {
 		stat = root_->Update(dt);
-		if (stat == AIModule::Status::DONE) {
+		if (stat == AIModule::DONE) {
 			Finish();
 		}
 	}

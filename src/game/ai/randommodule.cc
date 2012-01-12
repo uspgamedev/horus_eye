@@ -26,7 +26,7 @@ AIModule::Status RandomModule::Update(float dt) {
 	//the "couldn't select" part normally means the probability distribution is wrong...
 	//REMEMBER: the sum of all elements of the this->probability_distribution_ vector SHOULD BE 100.0f (even tho this class can be easily
 	//			modified so that the maximum/sum value is variable =P)
-	return Status::DONE;
+	return DONE;
 }
 
 void RandomModule::Finish(){

@@ -33,7 +33,6 @@ class Pharaoh : public Mummy {
 	skills::Skill *ranged_weapon_, *summon_weapon_;
 
 	void Update(float delta_t);
-    void Think(float dt);
 
 };
 

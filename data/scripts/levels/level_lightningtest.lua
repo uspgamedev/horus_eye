@@ -30,9 +30,9 @@ matrix = [[
         #MM#        
         #MM#        
         #MM#        
-        #MM#        
-        #MM#        
-        #MM#        
+   .    #MM#        
+  .     #MM#        
+  .     #MM#        
         #BB#        
         #BB#        
         #BB#        

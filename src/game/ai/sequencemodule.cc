@@ -22,7 +22,7 @@ AIModule::Status SequenceModule::Update(float dt) {
 		child = childs_[child_index];
 		stat = child->Update(dt);
 
-		if (stat == AIModule::Status::DORMANT)
+		if (stat == AIModule::DORMANT)
 			child_index++;
 		else
 			break;

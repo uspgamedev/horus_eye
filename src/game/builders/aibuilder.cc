@@ -33,12 +33,8 @@ AI* AIBuilder::BasicMummyAI(sprite::Mummy* owner) {
 	new RandomMovement(randomMove, EXP_PARAM);
 	mainList->AddChildModule(randomMove);
 
-	LogicModule* updateAimAndDirection = new LogicModule();
-	new UpdateDirections(updateAimAndDirection);
-	checkForHero->SetChildModule(updateAimAndDirection);
-
 	SequenceModule* actionList = new SequenceModule();
-	updateAimAndDirection->SetChildModule(actionList);
+	checkForHero->SetChildModule(actionList);
 
 	LogicModule* doAttack = new LogicModule();
 	new UseWeapon(doAttack, owner->get_weapon());
@@ -65,12 +61,8 @@ AI* AIBuilder::BasicPharaohAI(sprite::Pharaoh* owner) {
 	new RandomMovement(randomMove, EXP_PARAM);
 	mainList->AddChildModule(randomMove);
 
-	LogicModule* updateAimAndDirection = new LogicModule();
-	new UpdateDirections(updateAimAndDirection);
-	checkForHero->SetChildModule(updateAimAndDirection);
-
 	SequenceModule* actionList = new SequenceModule();
-	updateAimAndDirection->SetChildModule(actionList);
+	checkForHero->SetChildModule(actionList);
 
 	LogicModule* doAttack = new LogicModule();
 	new UseWeapon(doAttack, owner->get_weapon());

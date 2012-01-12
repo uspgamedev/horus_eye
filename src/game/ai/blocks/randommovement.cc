@@ -14,10 +14,10 @@ void RandomMovement::Start() {
 AIModule::Status RandomMovement::Update(float dt) {
 	sprite::Creature* owner = parent_->get_root()->get_owner();
 	
-	if (owner->waiting_animation() ) return AIModule::Status::DORMANT;
+	if (owner->waiting_animation() ) return AIModule::DORMANT;
 
 	sprite::Mummy* mummy = static_cast<sprite::Mummy*>(owner);
-	if (mummy && mummy->get_standing())	return AIModule::Status::DORMANT;
+	if (mummy && mummy->get_standing())	return AIModule::DORMANT;
 
 	time_left_ -= dt;
 	if (time_left_ < 0) {
@@ -36,7 +36,7 @@ AIModule::Status RandomMovement::Update(float dt) {
 		owner->SetDirection( Vector2D(cos(dir*PI/4.0f),sin(dir*PI/4.0f)) );
 	}
 	owner->DoMove(dt);
-	return AIModule::Status::ACTIVE;
+	return AIModule::ACTIVE;
 }
 
 void RandomMovement::Finish() {

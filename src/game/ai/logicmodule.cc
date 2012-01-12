@@ -12,10 +12,10 @@ void LogicModule::Start() {
 }
 
 AIModule::Status LogicModule::Update(float dt) {
-	if (!logic_) return Status::DONE;
+	if (!logic_) return DONE;
 
 	AIModule::Status stat = logic_->Update(dt);
-	if (child_ && stat == Status::ACTIVE)
+	if (child_ && stat == ACTIVE)
 		stat = child_->Update(dt);
 	return stat;
 }
