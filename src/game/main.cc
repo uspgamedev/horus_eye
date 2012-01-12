@@ -35,7 +35,7 @@ void StartGame() {
     if(level_manager()->RestartGameQueued())
         engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
 
-    engine()->video_manager()->SetLightSystem(false);
+    engine()->video_manager()->SetLightSystem(true);
 
     text_loader()->Initialize(settings->language_file());
     level_manager()->Initialize();

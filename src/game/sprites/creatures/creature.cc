@@ -212,7 +212,6 @@ void Creature::InitializeStandingAnimations() {
 void Creature::Update(float dt) {
     WorldObject::Update(dt);
     UpdateCondition(dt);
-    sprite_->Update(dt);
     life_.Update(dt);
     mana_.Update(dt);
 }
