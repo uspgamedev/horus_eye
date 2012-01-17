@@ -6,6 +6,7 @@
 #include <ugdk/action/animation.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/modifier.h>
+#include <ugdk/graphic/textmanager.h>
 
 #include "hud.h"
 
@@ -130,30 +131,28 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     mana_bar->AddChild(new Node(mana_bar_image,  mana_modifier_ = new Modifier));
     block_modifier_->set_alpha(0.75f);
     block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+
+    TexturedRectangle* mummy_counter_image = img_fac.MummyCounterImage();
+    Node* mummy_counter_node = new Node(mummy_counter_image);
+    mummy_counter_node->modifier()->set_offset(Vector2D(0.0f, back_image->height() - mummy_counter_image->height()));
     
-    /*Image *mummy_counter_image = img_fac.MummyCounterImage();
-    Sprite *mummy_counter = new Sprite();
-    mummy_counter->Initialize(mummy_counter_image);
-    if(mummy_counter_image) mummy_counter->set_hotspot(Vector2D(0, mummy_counter_image->height()));
+    back_right_node->AddChild(mummy_counter_node);
 
-    // setando posicoes
-    mummy_counter->set_position(Vector2D(VIDEO_X/2 + (eye_image ? eye_image->width()/2 : 0), VIDEO_Y));
-    mummy_counter->set_zindex(0.5f);
+    Node* mummy_number_node = new Node;
+    mummy_number_node->modifier()->set_offset(Vector2D(mummy_counter_image->width() * 0.3f, mummy_counter_image->height() * 0.77f));
 
-    //AddSprite(mummy_counter);
+    mummy_counter_node->AddChild(mummy_number_node);
 
-    for(int i = 0; i < 3; ++i) {
-        enemy_counter_[i] = new Sprite;
-        enemy_counter_[i]->Initialize(number);
-            
-        enemy_counter_[i]->set_position(Vector2D(
-                VIDEO_X/2 + (eye_image ? eye_image->width()/1.1 : 0) - NUMBER_WIDTH*(i+1),
-                VIDEO_Y - (back_image ? back_image->height()/2 : 0) ));
-        enemy_counter_[i]->set_zindex(1.0f);
-        //AddSprite(enemy_counter_[i]);
-        enemy_counter_value_[i] = 0;
-    }
+    previous_mummy_counter_value_ = world->CountRemainingEnemies();
+    wchar_t str[8];
+    swprintf(str, L"%d", previous_mummy_counter_value_);
+    enemy_counter_ = TEXT_MANAGER()->GetText(str);
+    text_holder_ = new Node(enemy_counter_);
+    text_holder_->modifier()->set_offset(Vector2D(enemy_counter_->width(), enemy_counter_->height()) * -0.5f);
 
+    mummy_number_node->AddChild(text_holder_);
+    
+    /*
 #ifdef DEBUG
     for(int i = 0; i < 3; ++i) {
         (fps_meter_[i] = new Sprite)->Initialize(number);
@@ -173,21 +172,22 @@ Hud::~Hud() {
 
 void Hud::Update(float delta_t) {
     World* world = WORLD();
-    /*
-    uint32 digit[7], enemy_number;
-    enemy_number = (enemy_number = world->CountRemainingEnemies()) > 999 ? 999 : enemy_number;
-    digit[2] = enemy_number / 100;
-    digit[1] = (enemy_number / 10) % 10;
-    digit[0] = enemy_number % 10;
 
+    int enemy_number = world->CountRemainingEnemies();
+    if(previous_mummy_counter_value_ != enemy_number) {
+        previous_mummy_counter_value_ = enemy_number;
 
-    for(int i = 0; i < 3; ++i) {
-        if(digit[i] != enemy_counter_value_[i]) {
-            enemy_counter_value_[i] = digit[i];
-            enemy_counter_[i]->SetDefaultFrame(enemy_counter_value_[i]);
-        }
+        delete enemy_counter_;
+
+        wchar_t str[8];
+        swprintf(str, L"%d", enemy_number);
+
+        enemy_counter_ = TEXT_MANAGER()->GetText(str);
+        text_holder_->set_drawable(enemy_counter_);
+        text_holder_->modifier()->set_offset(Vector2D(enemy_counter_->width(), enemy_counter_->height()) * -0.5f);
     }
 
+    /*
 #ifdef DEBUG
     int fps = Engine::reference()->current_fps();
     if(fps > 999) fps = 999;

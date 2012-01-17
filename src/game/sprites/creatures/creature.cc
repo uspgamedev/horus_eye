@@ -113,11 +113,11 @@ void Creature::AdjustBlink(float delta_t) {
     if (!hit_duration_->Expired()) {
         if (blink_time_->Expired()) {
             blink_ = !blink_;
-            node()->set_visible(!node()->visible());
+            node()->modifier()->set_alpha(blink_ ? 1.0f : 0.20f);
             blink_time_->Restart();
         }
     } else 
-        node()->set_visible(true);
+        node()->modifier()->set_alpha(1.0f);
 }
 
 void Creature::TakeDamage(float life_points) {

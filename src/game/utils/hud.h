@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_UTILS_HUD_H_
 
 #include <ugdk/action/entity.h>
+#include <ugdk/graphic.h>
 #include "game/scenes/world.h"
 
 namespace ugdk {
@@ -29,12 +30,14 @@ class Hud: public ugdk::Entity {
     ugdk::Node* node() { return node_; }
 
   private:
-    ugdk::Node *node_, *weapon_icon_;
+    ugdk::Node *node_, *weapon_icon_, *text_holder_;
+    ugdk::Text* enemy_counter_;
+    int previous_mummy_counter_value_;
+
     skills::Skill *displayed_skill_;
 
     ugdk::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
 
-    Sprite *enemy_counter_[7];
     ugdk::uint32 enemy_counter_value_[7];
 
 #ifdef DEBUG

@@ -35,7 +35,10 @@ void WorldObject::StartToDie() {
         collision_object_->StopColliding();
 }
 
-void WorldObject::Update(float dt) {}
+void WorldObject::Update(float dt) {
+    // EASTER EGG: things flashing around
+    //node_->modifier()->set_color(Color(1.0f * rand() / RAND_MAX, 1.0f * rand() / RAND_MAX, 1.0f * rand() / RAND_MAX));
+}
 
 void WorldObject::set_light_radius(float radius) {
     light_radius_ = radius;
