@@ -16,7 +16,7 @@ AIModule::Status UseWeapon::Update(float dt) {
 
 	sprite::Mummy* mummy = static_cast<sprite::Mummy*>(owner);
 	
-	if(weapon_->Avaiable() && weapon_->IsValidUse()) {
+	if(weapon_->Available() && weapon_->IsValidUse()) {
 		weapon_->Use();
         mummy->StartAttack(NULL);
 		return AIModule::ACTIVE;

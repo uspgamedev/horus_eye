@@ -4,7 +4,6 @@
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
 
-
 #include <pyramidworks/geometry/circle.h>
 
 #include "mummy.h"
@@ -42,7 +41,6 @@ Mummy::Mummy(Image* img) {
     this->SelectAnimation(last_standing_animation_);
 
     standing_ = true;
-
 	saw_hero_ = false;
     invulnerability_time_ = 300;
 
@@ -53,7 +51,6 @@ Mummy::Mummy(Image* img) {
 }
 
 Mummy::~Mummy() {
-
 	WORLD()->DecreaseEnemyCount();
 }
 
@@ -81,71 +78,18 @@ void Mummy::set_bound(float radius) {
 }
 
 
-
 void Mummy::UpdateDirections(Vector2D target_pos){
 	aim_destination_ = target_pos;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	Vector2D dir_animation = World::FromWorldCoordinates(target_pos) - position(); 
     float angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
     animation_direction_ = direction_mapping_[dir];
 
-
-
     Vector2D dir_ = target_pos - world_position(); 
     walking_direction_ = Vector2D::Normalized(dir_);
     last_standing_animation_ = (standing_animations_[animation_direction_]);
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 void Mummy::Update(float delta_t) {
@@ -166,26 +110,6 @@ void Mummy::Update(float delta_t) {
                 set_visible(false);
         }
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }
 
 void Mummy::StartToDie() {
