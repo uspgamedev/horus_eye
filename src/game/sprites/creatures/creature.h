@@ -67,7 +67,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual void TakeDamage(float life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
 	skills::Skill* weapon() { return weapon_; }
-
+	Vector2D last_stable_position() { return last_stable_position_; }
+	void set_last_stable_position(Vector2D pos) { last_stable_position_ = pos; }
 	bool waiting_animation() { return waiting_animation_; }
 	void DoMove(float delta_t);
 	void SetAI(ai::AI* new_ai);
