@@ -4,7 +4,6 @@
 #include "menuhandler.h"
 #include "pagemanager.h"
 #include <vector>
-#include <ugdk/action/sprite.h>
 
 namespace ugdk {
 class Image;
@@ -28,13 +27,13 @@ class MenuBuilder {
     static void ReleaseAnimations();
     Menu *BuildMainMenu();
     Menu *BuildPauseMenu();
-    Menu *BuildHelpMenu();
+    /*Menu *BuildHelpMenu();
     Menu *BuildHelpPage1(PageManager *manager);
     Menu *BuildHelpPage2(PageManager *manager);
     Menu *BuildHelpPage3(PageManager *manager);
     Menu *BuildHelpPage4(PageManager *manager);
     Menu *BuildHelpPage5(PageManager *manager);
-    Menu *BuildHelpPage6(PageManager *manager);
+    Menu *BuildHelpPage6(PageManager *manager);*/
     Menu *BuildSettingsMenu();
   protected:
     void CreateSelectionSprites(Menu* menu, float height = 0);
@@ -84,13 +83,11 @@ class MenuBuilder {
     };
     class PauseMenuHandler : public MenuHandler {
       public:
-        PauseMenuHandler(Menu *menu, ugdk::Image *bg_img)
-            : MenuHandler(menu), bg_img_(bg_img) {}
+        PauseMenuHandler(Menu *menu)
+            : MenuHandler(menu) {}
         ~PauseMenuHandler() {}
         void Handle(int selection, int modifier = 0);
         void CleanUp();
-      private:
-        ugdk::Image *bg_img_;
     };
     class PageManagerHandler : public MenuHandler {
       public:

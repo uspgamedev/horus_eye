@@ -12,8 +12,8 @@
 
 #include "game/utils/levelmanager.h"
 
-//#include "game/scenes/menubuilder.h"
-//#include "game/scenes/menu.h"
+#include "game/scenes/menubuilder.h"
+#include "game/scenes/menu.h"
 #include "game/scenes/world.h"
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
@@ -48,13 +48,12 @@ void LevelManager::Initialize() {
 	hero_ = NULL;
 	Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
-    //MenuBuilder::InitializeAnimations();
-	//MenuBuilder builder;
-    //menu_ = builder.BuildMainMenu();
-    //Engine::reference()->PushScene(menu_);
+    MenuBuilder::InitializeAnimations();
+	MenuBuilder builder;
+    menu_ = builder.BuildMainMenu();
+    Engine::reference()->PushScene(menu_);
 
 	loading_ = NULL;
-    ShowIntro();
 }
 
 void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::string>& level_list) {

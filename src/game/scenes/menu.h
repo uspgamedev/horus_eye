@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SCENES_MENU_H_
 
 #include <ugdk/action/scene.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/math/frame.h>
 #include "menuhandler.h"
 
@@ -29,10 +30,10 @@ class Menu: public ugdk::Scene {
     void set_content_box(ugdk::Frame content_box);
 
     void set_content_box(ugdk::Frame content_box, int alignment);
-    void set_selection_sprite(ugdk::Sprite *sprite);
-    void set_selection_sprite(ugdk::Sprite *sprite[]);
-    void set_option_sprite(int index, ugdk::Sprite *sprite);
-    void AddSprite(ugdk::Sprite *sprite, ugdk::Vector2D pos);
+    void set_selection_sprite(ugdk::Drawable *drawable);
+    void set_selection_sprite(ugdk::Drawable *drawable[]);
+    void set_option_sprite(int index, ugdk::Drawable *draw);
+    void AddDrawable(ugdk::Drawable *drawable, ugdk::Vector2D pos);
 
     void Hide();
     void Show();
@@ -51,11 +52,11 @@ class Menu: public ugdk::Scene {
     bool content_box_defined_;
     int selection_, selection_num_;
     MenuHandler *handler_;
-    ugdk::Sprite *selection_sprite_[2];
-    ugdk::Sprite **options_sprite_;
+    ugdk::Node *selection_sprite_[2];
+    ugdk::Node **options_sprite_;
     ugdk::Vector2D *selection_pos_;
     ugdk::Frame    content_box_;
-    ugdk::Layer *interface_layer_;
+    ugdk::Node  *interface_node_;
 
 };
 

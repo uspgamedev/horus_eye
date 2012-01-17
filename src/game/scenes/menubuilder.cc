@@ -5,14 +5,16 @@
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
-#include <ugdk/graphic/text.h>
+#include <ugdk/graphic/drawable/text.h>
+#include <ugdk/graphic/drawable/solidrectangle.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/textloader.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
-#include "editor/mapeditor.h"
+//#include "editor/mapeditor.h"
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
@@ -84,7 +86,7 @@ void MenuBuilder::ReleaseAnimations() {
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
-    Image* menu_eye_image = VIDEO_MANAGER()->LoadImage("data/images/eye.png");
+    /*Image* menu_eye_image = VIDEO_MANAGER()->LoadImage("data/images/eye.png");
     menu_eye_image->set_frame_size(Vector2D(128.0f, 96.0f));
 
     Sprite *selection_sprite[SELECTION_SPRITE];
@@ -96,7 +98,7 @@ void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
                                                  height/2));
         selection_sprite[i]->SelectAnimation(SELECTION_EYE);
     }
-    menu->set_selection_sprite(selection_sprite);
+    menu->set_selection_sprite(selection_sprite);*/
 }
 
 //========================
@@ -118,63 +120,51 @@ Menu *MenuBuilder::BuildMainMenu () {
                            (MENU_BOTTOM-MENU_TOP)/MenuBuilder::MAIN_SELECT_NUM);
 
     // The game logo.
-    Sprite *logo = new Sprite;
-    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_560x334_black.png"));
-    logo->set_hotspot(Vector2D(logo->size().x * 0.5f, 0));
-    menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
+    Drawable *logo = new ugdk::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("data/images/logo_560x334_black.png"));
+    menu->AddDrawable(logo, Vector2D((VIDEO_MANAGER()->video_size().x - logo->width()) * 0.5f, 0.0f));
 
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::MAIN_SELECT_NUM; ++i) {
-        Sprite *options_sprite = new Sprite;
+        Drawable *options_sprite = NULL;
         switch (i) {
         case MenuBuilder::MAIN_SELECT_PLAY:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Play"));
+            options_sprite = TEXT_LOADER()->GetImage("Play");
             break;
         case MenuBuilder::MAIN_SELECT_HELP:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Help"));
+            options_sprite = TEXT_LOADER()->GetImage("Help");
             break;
         case MenuBuilder::MAIN_SELECT_EDITOR:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Editor"));
+            options_sprite = TEXT_LOADER()->GetImage("Editor");
             break;
         case MenuBuilder::MAIN_SELECT_SETTINGS:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Settings"));
+            options_sprite = TEXT_LOADER()->GetImage("Settings");
             break;
         case MenuBuilder::MAIN_SELECT_ABOUT:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Credits"));
+            options_sprite = TEXT_LOADER()->GetImage("Credits");
             break;
         case MenuBuilder::MAIN_SELECT_EXIT:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Exit"));
+            options_sprite = TEXT_LOADER()->GetImage("Exit");
             break;
         }
-        options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2,
-                                             /*options_sprite->size().y/2*/0));
+        //options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2,
+        //                                     /*options_sprite->size().y/2*/0));
         menu->set_option_sprite(i, options_sprite);
     }
-	Drawable *img_version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
+
+	/*Drawable *img_version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
     Sprite *version = new Sprite;
     version->Initialize(img_version);
     version->set_hotspot(Vector2D(0, img_version->height()));
-    menu->AddSprite(version, Vector2D(0, VIDEO_MANAGER()->video_size().y));
+    menu->AddSprite(version, Vector2D(0, VIDEO_MANAGER()->video_size().y));*/
 
-    //Image *img = TEXT_LOADER()->GetImage("DevelopedBy");
-    Image *img = VIDEO_MANAGER()->LoadImage("data/images/developed_by_uspgamedev1.png");
+    
+    /*Image *img = VIDEO_MANAGER()->LoadImage("data/images/developed_by_uspgamedev1.png");
     Sprite *developed = new Sprite;
     developed->Initialize(img);
     developed->set_hotspot(Vector2D(0, img->height()));
     menu->AddSprite(developed,
                     Vector2D(VIDEO_MANAGER()->video_size().x - img->width() - 15.0f,
-                             VIDEO_MANAGER()->video_size().y));
-    //developed->set_zindex(Menu::OPTION_ZINDEX * 0.5f);
-
-    Sprite *kha = new Sprite;
-    ImageFactory f;
-
-    AnimationSet* ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/creature.gdd");
-    kha->Initialize(f.HeroImage(), ANIMATIONS);
-    kha->SelectAnimation("WALKING_DOWN");
-    printf("DA FRAME COUNT %d\n", f.HeroImage()->FrameCount());
-
-    menu->AddSprite(kha, Vector2D(100.0f, 100.0f));
+                             VIDEO_MANAGER()->video_size().y));*/
 
     return menu;
 }
@@ -189,13 +179,13 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
         }
         case MenuBuilder::MAIN_SELECT_HELP: {
             MenuBuilder builder;
-            Engine::reference()->PushScene(builder.BuildHelpMenu());
-            menu_->Hide();
+            //Engine::reference()->PushScene(builder.BuildHelpMenu());
+            //menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
-            Engine::reference()->PushScene(new editor::MapEditor());
-            menu_->Hide();
+            //Engine::reference()->PushScene(new editor::MapEditor());
+            //menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_SETTINGS: {
@@ -226,14 +216,8 @@ Menu *MenuBuilder::BuildPauseMenu () {
     // Our main menu.
     Menu *menu = new Menu(MenuBuilder::PAUSE_SELECT_NUM);
 
-    // The bg image.
-    Image *bg_img = new Image;
-	bg_img->set_frame_size(VIDEO_MANAGER()->video_size());
-    bg_img->set_color(0.5f, 0.5f, 0.5f);
-    bg_img->set_alpha(0.5f);
-
     // Setting its handler.
-    menu->set_handler(new PauseMenuHandler(menu, bg_img));
+    menu->set_handler(new PauseMenuHandler(menu));
 
     // The menu's content box.
     menu->set_content_box(Frame(PAUSE_LEFT, PAUSE_TOP, PAUSE_RIGHT, PAUSE_BOTTOM));
@@ -243,23 +227,23 @@ Menu *MenuBuilder::BuildPauseMenu () {
                            (PAUSE_BOTTOM-PAUSE_TOP)/MenuBuilder::PAUSE_SELECT_NUM);
 
     // The pause bg sprite.
-    Sprite *bg = new Sprite;;
-    bg->Initialize(bg_img);
-    menu->AddSprite(bg, Vector2D());
+    ugdk::SolidRectangle* bg = new ugdk::SolidRectangle(VIDEO_MANAGER()->video_size());
+    bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    menu->AddDrawable(bg, Vector2D());
 
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::PAUSE_SELECT_NUM; ++i) {
-        Sprite *options_sprite = new Sprite;
+        Drawable *options_sprite = NULL;
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Continue"));
+            options_sprite = TEXT_LOADER()->GetImage("Continue");
             break;
         case MenuBuilder::PAUSE_SELECT_EXIT_GAME:
-            options_sprite->Initialize(TEXT_LOADER()->GetImage("Return to Menu"));
+            options_sprite = TEXT_LOADER()->GetImage("Return to Menu");
             break;
         }
-        options_sprite->set_hotspot(Vector2D(options_sprite->size().x * 0.5f,
-                                             /*options_sprite->size().y * 0.5f*/0));
+        //options_sprite->set_hotspot(Vector2D(options_sprite->size().x * 0.5f,
+        //                                     /*options_sprite->size().y * 0.5f*/0));
         menu->set_option_sprite(i, options_sprite);
     }
 
@@ -287,14 +271,12 @@ void MenuBuilder::PauseMenuHandler::Handle(int selection, int modifier) {
     }
 }
 
-void MenuBuilder::PauseMenuHandler::CleanUp() {
-    bg_img_->Destroy();
-    delete bg_img_;
-}
+void MenuBuilder::PauseMenuHandler::CleanUp() {}
 
 //========================
 //   HelpMenu
 
+/*
 Menu *MenuBuilder::BuildHelpMenu () {
 
     // Create Page Manager.
@@ -692,11 +674,11 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     
     return page;
 }
-
+*/
 void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
     if (modifier) return;
     MenuBuilder builder;
-    switch(selection){
+    /*switch(selection){
         case (0): {
             Engine::reference()->PushScene(builder.BuildHelpPage1(static_cast<PageManager*> (menu_)));
             break;
@@ -720,7 +702,7 @@ void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
         default: {
             break;
         }
-    }
+    }*/
 }
 
 void MenuBuilder::HelpMenuHandler::Handle(int selection, int modifier) {
@@ -779,7 +761,7 @@ Menu *MenuBuilder::BuildSettingsMenu () {
 }
 
 void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
-   if (!modifier) modifier = 1;
+   if (!modifier) modifier = 1;/*
    switch (selection) {
         case MenuBuilder::SETTINGS_SELECT_RESOLUTION: {
             resolution_sprites_[sprites_active_[0]]->set_visible(false);
@@ -834,10 +816,10 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
         default: {
             break;
         }
-    }
+    }*/
 }
 
-void MenuBuilder::SettingsMenuHandler::BuildSprites() {
+void MenuBuilder::SettingsMenuHandler::BuildSprites() {/*
     Sprite *options[MenuBuilder::SETTINGS_SELECT_NUM];
 
     // Creates the sprites for the setting names
@@ -847,7 +829,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
         options[i] = new Sprite;
         options[i]->Initialize(img);
-        options[i]->set_hotspot(Vector2D(img->width() / 2, /*img->height() / 2*/0));
+        options[i]->set_hotspot(Vector2D(img->width() / 2, 0));
         menu_->set_option_sprite(i, options[i]);
     }
 
@@ -869,7 +851,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
         resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
         resolution_sprites_[i]->Initialize(resolution_images_[i]);
-        resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, /*resolution_images_[i]->height() * 0.5f*/0));
+        resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, 0));
         menu_->AddSprite(resolution_sprites_[i], ugdk::Vector2D (second_column_x, options[0]->position().y));
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
     }
@@ -883,7 +865,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
             on_off_sprites_[i][j] = new Sprite;
             Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
             on_off_sprites_[i][j]->Initialize(img);
-            on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
+            on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, 0));
             menu_->AddSprite(on_off_sprites_[i][j], ugdk::Vector2D (second_column_x, options[i+1]->position().y));
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
         }
@@ -897,14 +879,14 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         language_sprites_[i] = new Sprite;
         Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
         language_sprites_[i]->Initialize(img);
-        language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, /*img->height() * 0.5f*/0));
+        language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, 0));
         menu_->AddSprite(language_sprites_[i], ugdk::Vector2D (second_column_x, options[4]->position().y));
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }
-    
+    */
 }
 
-void MenuBuilder::SettingsMenuHandler::CleanUp() {
+void MenuBuilder::SettingsMenuHandler::CleanUp() {/*
     free(resolution_sprites_);
     for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         resolution_images_[i]->Destroy();
@@ -912,7 +894,7 @@ void MenuBuilder::SettingsMenuHandler::CleanUp() {
     }
     free(resolution_images_);
 
-    free(language_sprites_);
+    free(language_sprites_);*/
 }
 
 }
