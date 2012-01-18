@@ -5,20 +5,11 @@
 #include <ugdk/graphic.h>
 #include "game/scenes/world.h"
 
-namespace ugdk {
-class Sprite;
-class Text;
-class Animation;
-class Modifier;
-class Node;
-}
-
 namespace skills {
 class Skill;
 } // skills
 
 using ugdk::Sprite;
-using ugdk::Animation;
 
 namespace utils {
 class Hud: public ugdk::Entity {

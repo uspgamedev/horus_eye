@@ -145,7 +145,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
 
     previous_mummy_counter_value_ = world->CountRemainingEnemies();
     wchar_t str[8];
-    swprintf(str, L"%d", previous_mummy_counter_value_);
+    swprintf(str, 8, L"%d", previous_mummy_counter_value_);
     enemy_counter_ = TEXT_MANAGER()->GetText(str);
     text_holder_ = new Node(enemy_counter_);
     text_holder_->modifier()->set_offset(Vector2D(enemy_counter_->width(), enemy_counter_->height()) * -0.5f);
@@ -180,7 +180,7 @@ void Hud::Update(float delta_t) {
         delete enemy_counter_;
 
         wchar_t str[8];
-        swprintf(str, L"%d", enemy_number);
+        swprintf(str, 8, L"%d", enemy_number);
 
         enemy_counter_ = TEXT_MANAGER()->GetText(str);
         text_holder_->set_drawable(enemy_counter_);

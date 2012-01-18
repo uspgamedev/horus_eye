@@ -29,11 +29,16 @@ class Menu: public ugdk::Scene {
     void set_handler(MenuHandler* handler);
     void set_content_box(ugdk::Frame content_box);
 
+    const ugdk::Vector2D& get_selection_position(int index) const {
+        return selection_pos_[index];
+    }
+
     void set_content_box(ugdk::Frame content_box, int alignment);
     void set_selection_sprite(ugdk::Drawable *drawable);
-    void set_selection_sprite(ugdk::Drawable *drawable[]);
+    void set_selection_sprite(ugdk::Drawable **drawable);
     void set_option_sprite(int index, ugdk::Drawable *draw);
     void AddDrawable(ugdk::Drawable *drawable, ugdk::Vector2D pos);
+    void AddNode(ugdk::Node *node);
 
     void Hide();
     void Show();

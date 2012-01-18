@@ -118,7 +118,7 @@ void Menu::set_selection_sprite(ugdk::Drawable *drawable) {
     InitialSelection();
 }
 
-void Menu::set_selection_sprite(ugdk::Drawable *drawable[]) {
+void Menu::set_selection_sprite(ugdk::Drawable **drawable) {
     selection_sprite_[0]->set_drawable(drawable[0]);
     selection_sprite_[1]->set_drawable(drawable[1]);
     InitialSelection();
@@ -127,6 +127,7 @@ void Menu::set_selection_sprite(ugdk::Drawable *drawable[]) {
 void Menu::set_option_sprite(int index, ugdk::Drawable *drawable) {
     if (index >= 0 && index < selection_num_ && content_box_defined_) {
         options_sprite_[index]->set_drawable(drawable);
+        options_sprite_[index]->modifier()->set_offset(selection_pos_[index] - drawable->size() * 0.5f);
     }
 }
 
@@ -134,6 +135,11 @@ void Menu::AddDrawable(ugdk::Drawable *drawable, ugdk::Vector2D pos) {
     ugdk::Node* node = new ugdk::Node(drawable);
     interface_node_->AddChild(node);
     node->modifier()->set_offset(pos);
+    node->set_zindex(-OPTION_ZINDEX);
+}
+
+void Menu::AddNode(ugdk::Node *node) {
+    interface_node_->AddChild(node);
     node->set_zindex(-OPTION_ZINDEX);
 }
 
@@ -153,7 +159,6 @@ void Menu::DecideWhereOptionsGo(int alignment) {
                 selection_pos_[i] = Vector2D(content_box_.right(), y);
                 break;
         }
-        options_sprite_[i]->modifier()->set_offset(selection_pos_[i]);
     }
     InitialSelection();
 }

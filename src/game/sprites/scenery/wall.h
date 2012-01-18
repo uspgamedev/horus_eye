@@ -1,13 +1,8 @@
 #ifndef HORUSEYE_GAME_SPRITE_WALL_H_
 #define HORUSEYE_GAME_SPRITE_WALL_H_
 
+#include <ugdk/graphic.h>
 #include "game/sprites/worldobject.h"
-
-namespace ugdk {
-class Animation;
-class Image;
-class Sprite;
-}
 
 namespace utils {
 class Tile;

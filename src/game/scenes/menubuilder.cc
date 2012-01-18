@@ -1,11 +1,12 @@
 #include <sstream>
 #include "menubuilder.h"
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/textmanager.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
+#include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/drawable/text.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/solidrectangle.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "game/utils/levelmanager.h"
@@ -86,19 +87,17 @@ void MenuBuilder::ReleaseAnimations() {
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
-    /*Image* menu_eye_image = VIDEO_MANAGER()->LoadImage("data/images/eye.png");
-    menu_eye_image->set_frame_size(Vector2D(128.0f, 96.0f));
+    FlexibleSpritesheet *menu_eye_sheet = VIDEO_MANAGER()->LoadSpritesheet("data/images/eye.png");
+    menu_eye_sheet->set_frame_size(Vector2D(128.0f, 96.0f));
 
-    Sprite *selection_sprite[SELECTION_SPRITE];
+    ugdk::Drawable *selection_sprite[SELECTION_SPRITE];
     for (int i = 0; i < SELECTION_SPRITE; i++) {
-        selection_sprite[i] = new Sprite;
-        Vector2D frame_size = menu_eye_image->frame_size();
-        selection_sprite[i]->Initialize(menu_eye_image, ANIMATIONS);
-        selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x,
-                                                 height/2));
-        selection_sprite[i]->SelectAnimation(SELECTION_EYE);
+        Sprite* sprite = new Sprite(menu_eye_sheet, ANIMATIONS);
+        sprite->SelectAnimation(SELECTION_EYE);
+        selection_sprite[i] = sprite;
+        //selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, height/2));
     }
-    menu->set_selection_sprite(selection_sprite);*/
+    menu->set_selection_sprite(selection_sprite);
 }
 
 //========================
@@ -274,458 +273,6 @@ void MenuBuilder::PauseMenuHandler::Handle(int selection, int modifier) {
 void MenuBuilder::PauseMenuHandler::CleanUp() {}
 
 //========================
-//   HelpMenu
-
-/*
-Menu *MenuBuilder::BuildHelpMenu () {
-
-    // Create Page Manager.
-    PageManager *manager = new PageManager(5);
-
-    // Setting its handler.
-    manager->set_handler(new PageManagerHandler(manager));
-
-    return manager;
-}
-
-// TODO PLEASE REFACTORATE THIS!!!!
-
-void MenuBuilder::CreateBackButton(Page *page) {
-
-    // Setting its handler.
-    page->set_handler(new HelpMenuHandler(page));
-
-    Drawable* img = TEXT_LOADER()->GetImage("Back");
-    Sprite *options_sprite = new Sprite;
-    options_sprite->Initialize(img);
-    options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2.0f, 0));
-
-    float top = VIDEO_MANAGER()->video_size().y - img->height();
-
-    // Set page menu
-    page->set_content_box(Frame(MENU_LEFT, top, MENU_RIGHT, VIDEO_MANAGER()->video_size().y));
-    page->set_option_sprite(0, options_sprite);
-
-    // Setting the selection sprite.
-    CreateSelectionSprites(page, img->height());
-}
-
-Menu *MenuBuilder::BuildHelpPage1 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::FIRST_PAGE, manager);
-
-    CreateBackButton(page);
-
-    Vector2D spacing = VIDEO_MANAGER()->video_size()*(1.0f/6.0f);
-
-    // The menu content
-    Sprite *title = new Sprite;
-    title->Initialize(TEXT_LOADER()->GetImage("Help"));
-    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing.y*0.5f));
-    
-    ImageFactory img_fac;
-
-    // A hero animated sprite.
-    Sprite *hero_sprite = new Sprite;
-    hero_sprite->Initialize(img_fac.HeroImage(), ANIMATIONS);
-    hero_sprite->SelectAnimation(HERO_SHOOTING);
-    page->AddSprite(hero_sprite, Vector2D(0.0f, spacing.y));
-
-    // A dying mummy sprite.
-    Sprite *mummy_sprite = new Sprite;
-    mummy_sprite->Initialize(img_fac.MummyImage(), ANIMATIONS);
-    mummy_sprite->SelectAnimation(MUMMY_DYING);
-    page->AddSprite(mummy_sprite, Vector2D(spacing.x, spacing.y*2.0f));
-
-    // A door sprite.
-    Sprite *door_sprite = new Sprite;
-    door_sprite->Initialize(img_fac.DoorImage());
-    page->AddSprite(door_sprite, Vector2D(spacing.x/2.0f, spacing.y*3.5f));
-
-    Sprite *objective_text[6];
-    for (int i = 0; i < 6; ++i)
-        objective_text[i] = new Sprite;
-
-    objective_text[0]->Initialize(TEXT_LOADER()->GetImage("Objective"));
-    page->AddSprite(objective_text[0], Vector2D(spacing.x*2.0f, spacing.y*1.0f));
-    objective_text[1]->Initialize(TEXT_LOADER()->GetImage("HelpObjective1"));
-    page->AddSprite(objective_text[1], Vector2D(spacing.x*2.0f, spacing.y*2.0f));
-    objective_text[2]->Initialize(TEXT_LOADER()->GetImage("HelpObjective2"));
-    page->AddSprite(objective_text[2], Vector2D(spacing.x*2.0f, spacing.y*2.5f));
-    objective_text[3]->Initialize(TEXT_LOADER()->GetImage("HelpStairs1"));
-    page->AddSprite(objective_text[3], Vector2D(spacing.x*2.0f, spacing.y*3.5f));
-    objective_text[4]->Initialize(TEXT_LOADER()->GetImage("HelpStairs2"));
-    page->AddSprite(objective_text[4], Vector2D(spacing.x*2.0f, spacing.y*4.0f));
-    objective_text[5]->Initialize(TEXT_LOADER()->GetImage("HelpStairs3"));
-    page->AddSprite(objective_text[5], Vector2D(spacing.x*2.0f, spacing.y*4.5f));
-
-
-    return page;
-}
-
-Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::NORMAL_PAGE, manager);
-
-    CreateBackButton(page);
-    
-    // The menu content
-    float second_column = VIDEO_MANAGER()->video_size().x/2.0f;
-    float spacing = VIDEO_MANAGER()->video_size().y/6.0f;
-
-    //Title
-    Sprite *title = new Sprite;
-    title->Initialize(TEXT_LOADER()->GetImage("Buttons"));
-    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
-
-    //Keys image
-    Image *keys = VIDEO_MANAGER()->LoadImage("data/images/buttons.png");
-    long keys_width=keys->width(), keys_height=keys->height()/6.0f;
-    keys->set_frame_size(Vector2D(keys_width, keys_height));
-    
-    //Left column
-    Sprite *key_w = new Sprite;
-    key_w->Initialize(keys);
-    key_w->set_hotspot(Vector2D(0, keys_height*0.5f));
-    key_w->SetDefaultFrame(0);
-    page->AddSprite(key_w, Vector2D(0, 1.5*spacing));
-
-    Sprite *textkey_w = new Sprite;
-    textkey_w->Initialize(TEXT_LOADER()->GetImage("Move Up"));
-    textkey_w->set_hotspot(Vector2D(0, textkey_w->size().y*0.5f));
-    page->AddSprite(textkey_w, Vector2D(keys_width+10, 1.5*spacing));
-
-    Sprite *key_a = new Sprite;
-    key_a->Initialize(keys);
-    key_a->set_hotspot(Vector2D(0, keys_height*0.5f));
-    key_a->SetDefaultFrame(1);
-    page->AddSprite(key_a, Vector2D(0, 2.5*spacing));
-    
-    Sprite *textkey_a = new Sprite;
-    textkey_a->Initialize(TEXT_LOADER()->GetImage("Move Left"));
-    textkey_a->set_hotspot(Vector2D(0, textkey_a->size().y*0.5f));
-    page->AddSprite(textkey_a, Vector2D(keys_width+10, 2.5*spacing));
-
-    Sprite *key_s = new Sprite;
-    key_s->Initialize(keys, ANIMATIONS);
-    key_s->set_hotspot(Vector2D(0, keys_height*0.5f));
-    key_s->SetDefaultFrame(2);
-    page->AddSprite(key_s, Vector2D(0, 3.5*spacing));
-    
-    Sprite *textkey_s = new Sprite;
-    textkey_s->Initialize(TEXT_LOADER()->GetImage("Move Down"));
-    textkey_s->set_hotspot(Vector2D(0, textkey_s->size().y*0.5f));
-    page->AddSprite(textkey_s, Vector2D(keys_width+10, 3.5*spacing));
-
-    Sprite *key_d = new Sprite;
-    key_d->Initialize(keys, ANIMATIONS);
-    key_d->set_hotspot(Vector2D(0, keys_height*0.5f));
-    key_d->SetDefaultFrame(3);
-    page->AddSprite(key_d, Vector2D(0, 4.5*spacing));
-    
-    Sprite *textkey_d = new Sprite;
-    textkey_d->Initialize(TEXT_LOADER()->GetImage("Move Right"));
-    textkey_d->set_hotspot(Vector2D(0, textkey_d->size().y*0.5f));
-    page->AddSprite(textkey_d, Vector2D(keys_width+10, 4.5*spacing));
-
-    //Right Column
-    Sprite *key_q = new Sprite;
-    key_q->Initialize(keys, ANIMATIONS);
-    key_q->set_hotspot(Vector2D(0, keys_height*0.5f));
-    key_q->SetDefaultFrame(4);
-    page->AddSprite(key_q, Vector2D(second_column, 1.5*spacing));
-    
-    Sprite *textkey_q = new Sprite;
-    textkey_q->Initialize(TEXT_LOADER()->GetImage("Previous Spell"));
-    textkey_q->set_hotspot(Vector2D(0, textkey_q->size().y*0.5f));
-    page->AddSprite(textkey_q, Vector2D(second_column+keys_width+10, 1.5*spacing));
-
-    Sprite *key_e = new Sprite;
-    key_e->Initialize(keys, ANIMATIONS);
-    key_e->set_hotspot(Vector2D(0, keys_height*0.5f));
-    key_e->SetDefaultFrame(5);
-    page->AddSprite(key_e, Vector2D(second_column, 2.5*spacing));
-    
-    Sprite *textkey_e = new Sprite;
-    textkey_e->Initialize(TEXT_LOADER()->GetImage("Next Spell"));
-    textkey_e->set_hotspot(Vector2D(0, textkey_e->size().y*0.5f));
-    page->AddSprite(textkey_e, Vector2D(second_column+keys_width+10, 2.5*spacing));
-
-    Image *mouse = VIDEO_MANAGER()->LoadImage("data/images/mouse.png");
-    long mouse_width=mouse->width(), mouse_height=mouse->height()/3.0f;
-    mouse->set_frame_size(Vector2D(mouse_width, mouse_height));
-
-    Sprite *mouse_left = new Sprite;
-    mouse_left->Initialize(mouse, ANIMATIONS);
-    mouse_left->set_hotspot(Vector2D(0, mouse_height*0.5f));
-    mouse_left->SelectAnimation(MOUSE_CLICKS[0]);
-    //mouse_left->SetAnimationFPS(2.0f);
-    page->AddSprite(mouse_left, Vector2D(second_column, 3.5*spacing));
-
-    Sprite *textmouse_left = new Sprite;
-    textmouse_left->Initialize(TEXT_LOADER()->GetImage("Shoot magic"));
-    textmouse_left->set_hotspot(Vector2D(0, textmouse_left->size().y*0.5f));
-    page->AddSprite(textmouse_left, Vector2D(second_column+mouse_width+10, 3.5*spacing));
-
-    Sprite *mouse_right = new Sprite;
-    mouse_right->Initialize(mouse, ANIMATIONS);
-    mouse_right->set_hotspot(Vector2D(0, mouse_height*0.5f));
-    mouse_right->SelectAnimation(MOUSE_CLICKS[1]);
-    //mouse_right->SetAnimationFPS(2);
-    page->AddSprite(mouse_right, Vector2D(second_column, 4.5*spacing));
-
-    Sprite *textmouse_right = new Sprite;
-    textmouse_right->Initialize(TEXT_LOADER()->GetImage("Shoot spell"));
-    textmouse_right->set_hotspot(Vector2D(0, textmouse_right->size().y*0.5f));
-    page->AddSprite(textmouse_right, Vector2D(second_column+mouse_width+10, 4.5*spacing));
-
-    return page;
-}
-
-Menu *MenuBuilder::BuildHelpPage3 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::NORMAL_PAGE, manager);
-
-    CreateBackButton(page);
-
-    float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
-    
-    // The menu content
-    Sprite *title = new Sprite;
-    title->Initialize(TEXT_LOADER()->GetImage("Spells"));
-    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
-    
-    ImageFactory img_fac;
-
-    // A hero animated sprite.
-    Sprite *hero_sprite = new Sprite;
-    hero_sprite->Initialize(img_fac.HeroImage(), ANIMATIONS);
-    hero_sprite->SelectAnimation(HERO_SHOOTING);
-    page->AddSprite(hero_sprite, Vector2D(0.0f, 1*spacing));
-    
-    Sprite *magic_missile = new Sprite;
-    magic_missile->Initialize(img_fac.MagicMissileImage());
-    page->AddSprite(magic_missile, Vector2D(110.0f, 1.5f*spacing));
-    
-    Sprite *text_magic0 = new Sprite;
-    text_magic0->Initialize(TEXT_LOADER()->GetImage("Help Magic"));
-    page->AddSprite(text_magic0, Vector2D(270.0f, spacing));
-    
-    Sprite *text_magic = new Sprite;
-    text_magic->Initialize(TEXT_LOADER()->GetImage("Help StandardSpell"));
-    page->AddSprite(text_magic, Vector2D(270.0f, 1.5f*spacing));
-
-    Sprite *fire_ball = new Sprite;
-    fire_ball->Initialize(img_fac.ExplosionImage(), ANIMATIONS);
-    fire_ball->SelectAnimation(FIREBALL);
-    page->AddSprite(fire_ball, Vector2D(0.0f, 2*spacing));
-    
-    Sprite *text_fire0 = new Sprite;
-    text_fire0->Initialize(TEXT_LOADER()->GetImage("Help Fireball0"));
-    page->AddSprite(text_fire0, Vector2D(270.0f, 2*spacing));
-
-    Sprite *text_fire1 = new Sprite;
-    text_fire1->Initialize(TEXT_LOADER()->GetImage("Help Fireball1"));
-    page->AddSprite(text_fire1, Vector2D(270.0f, 2.4*spacing));
-
-    Sprite *text_fire2 = new Sprite;
-    text_fire2->Initialize(TEXT_LOADER()->GetImage("Help Fireball2"));
-    page->AddSprite(text_fire2, Vector2D(270.0f, 2.7*spacing));
-
-    Sprite *earthquake = new Sprite;
-    earthquake->Initialize(img_fac.QuakeImage(), ANIMATIONS);
-    earthquake->SelectAnimation(EARTHQUAKE);
-    page->AddSprite(earthquake, Vector2D(0.0f, 3*spacing));
-
-    Sprite *text_earthquake0 = new Sprite;
-    text_earthquake0->Initialize(TEXT_LOADER()->GetImage("Help Earthquake0"));
-    page->AddSprite(text_earthquake0, Vector2D(270.0f, 3*spacing));
-
-    Sprite *text_earthquake1 = new Sprite;
-    text_earthquake1->Initialize(TEXT_LOADER()->GetImage("Help Earthquake1"));
-    page->AddSprite(text_earthquake1, Vector2D(270.0f, 3.4*spacing));
-
-    Sprite *text_earthquake2 = new Sprite;
-    text_earthquake2->Initialize(TEXT_LOADER()->GetImage("Help Earthquake2"));
-    page->AddSprite(text_earthquake2, Vector2D(270.0f, 3.7*spacing));
-
-    return page;
-}
-
-Menu *MenuBuilder::BuildHelpPage4 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::NORMAL_PAGE, manager);
-
-    CreateBackButton(page);
-
-    float spacing = VIDEO_MANAGER()->video_size().y/5.0f;
-    
-    // The menu content
-    Sprite *title = new Sprite;
-    title->Initialize(TEXT_LOADER()->GetImage("Itens"));
-    title->set_hotspot(Vector2D(title->size().x * 0.5f, title->size().y * 0.5f)); 
-    page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
-
-    ImageFactory img_fac;
-
-    Sprite *life = new Sprite;
-    life->Initialize(img_fac.LifePotionImage());
-    life->set_hotspot(Vector2D(life->size().x * 0.5f, life->size().y * 0.5f));
-    page->AddSprite(life, Vector2D(50, 1.5*spacing));
- 
-    Sprite *text_life1 = new Sprite;
-    text_life1->Initialize(TEXT_LOADER()->GetImage("Help Life1"));
-    page->AddSprite(text_life1, Vector2D(100, 1*spacing));
-
-    Sprite *text_life2 = new Sprite;
-    text_life2->Initialize(TEXT_LOADER()->GetImage("Help Life2"));
-    page->AddSprite(text_life2, Vector2D(100.0f, 1.5*spacing));
-
-    Sprite *mana = new Sprite;
-    mana->Initialize(img_fac.ManaPotionImage());
-    mana->set_hotspot(Vector2D(mana->size().x * 0.5f, mana->size().y * 0.5f));
-    page->AddSprite(mana, Vector2D(50, 2.5*spacing));
- 
-    Sprite *text_mana1 = new Sprite;
-    text_mana1->Initialize(TEXT_LOADER()->GetImage("Help Mana1"));
-    page->AddSprite(text_mana1, Vector2D(100, 2*spacing));
-
-    Sprite *text_mana2 = new Sprite;
-    text_mana2->Initialize(TEXT_LOADER()->GetImage("Help Mana2"));
-    page->AddSprite(text_mana2, Vector2D(100.0f, 2.5*spacing));
-
-    Sprite *sight = new Sprite;
-    sight->Initialize(img_fac.SightPotionImage());
-    sight->set_hotspot(Vector2D(sight->size().x * 0.5f, sight->size().y * 0.5f));
-    page->AddSprite(sight, Vector2D(50, 3.5*spacing));
- 
-    Sprite *text_sight1 = new Sprite;
-    text_sight1->Initialize(TEXT_LOADER()->GetImage("Help Sight1"));
-    page->AddSprite(text_sight1, Vector2D(100, 3*spacing));
-
-    Sprite *text_sight2 = new Sprite;
-    text_sight2->Initialize(TEXT_LOADER()->GetImage("Help Sight2"));
-    page->AddSprite(text_sight2, Vector2D(100, 3.5*spacing));
-
-    return page;
-}
-
-Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
-
-    Page *page = new Page(1, Page::LAST_PAGE, manager);
-
-    CreateBackButton(page);
-    
-    Vector2D middle = VIDEO_MANAGER()->video_size();
-    middle.x = middle.x*0.5f;
-    middle.y = middle.y*0.5f;
-    
-    // The menu content
-    Sprite *hud = new Sprite;
-    hud->Initialize(VIDEO_MANAGER()->LoadImage("data/images/hud_help.png"));
-    hud->set_hotspot(Vector2D(hud->size().x*0.5f, hud->size().y*0.5f));
-    page->AddSprite(hud, Vector2D(VIDEO_MANAGER()->video_size().x*0.5f, VIDEO_MANAGER()->video_size().y*0.5f));
-
-    Sprite *title = new Sprite;
-    title->Initialize(TEXT_LOADER()->GetImage("Interface"));
-    title->set_hotspot(Vector2D(title->size().x * 0.5f, 0.0f)); 
-    page->AddSprite(title, Vector2D(middle.x, 0));
-
-    Sprite *mana = new Sprite;
-    mana->Initialize(TEXT_LOADER()->GetImage("Mana Bar"));
-    page->AddSprite(mana, Vector2D(middle.x-220, middle.y-215));
-    
-    Sprite *life = new Sprite;
-    life->Initialize(TEXT_LOADER()->GetImage("Life Bar"));
-    life->set_hotspot(Vector2D(life->size().x, 0));
-    page->AddSprite(life, Vector2D(middle.x+220, middle.y-215));
-    
-    Sprite *hero = new Sprite;
-    hero->Initialize(TEXT_LOADER()->GetImage("Hero"));
-    page->AddSprite(hero, Vector2D(middle.x+90, middle.y-50));
-    
-    Sprite *spell1 = new Sprite;
-    spell1->Initialize(TEXT_LOADER()->GetImage("Type of"));
-    spell1->set_hotspot(Vector2D(spell1->size().x*0.5f, 0));
-    page->AddSprite(spell1, Vector2D(middle.x, middle.y+80));
-    
-    Sprite *spell2 = new Sprite;
-    spell2->Initialize(TEXT_LOADER()->GetImage("Spell"));
-    spell2->set_hotspot(Vector2D(spell2->size().x*0.5f, 0));
-    page->AddSprite(spell2, Vector2D(middle.x, middle.y+110));
-    
-    Sprite *counter1 = new Sprite;
-    counter1->Initialize(TEXT_LOADER()->GetImage("Missing"));
-    counter1->set_hotspot(Vector2D(counter1->size().x*0.5f, 0));
-    page->AddSprite(counter1, Vector2D(middle.x+120, middle.y+40));
-    
-    Sprite *counter2 = new Sprite;
-    counter2->Initialize(TEXT_LOADER()->GetImage("Mummies"));
-    counter2->set_hotspot(Vector2D(counter2->size().x*0.5f, 0));
-    page->AddSprite(counter2, Vector2D(middle.x+120, middle.y+70));
-    
-    Sprite *counter3 = new Sprite;
-    counter3->Initialize(TEXT_LOADER()->GetImage("Counter"));
-    counter3->set_hotspot(Vector2D(counter3->size().x*0.5f, 0));
-    page->AddSprite(counter3, Vector2D(middle.x+120, middle.y+100));
-    
-    return page;
-}
-*/
-void MenuBuilder::PageManagerHandler::Handle(int selection, int modifier) {
-    if (modifier) return;
-    MenuBuilder builder;
-    /*switch(selection){
-        case (0): {
-            Engine::reference()->PushScene(builder.BuildHelpPage1(static_cast<PageManager*> (menu_)));
-            break;
-        }
-        case (1): {
-            Engine::reference()->PushScene(builder.BuildHelpPage2(static_cast<PageManager*> (menu_)));
-            break;
-        }
-        case (2): {
-            Engine::reference()->PushScene(builder.BuildHelpPage3(static_cast<PageManager*> (menu_)));
-            break;
-        }
-        case (3): {
-            Engine::reference()->PushScene(builder.BuildHelpPage4(static_cast<PageManager*> (menu_)));
-            break;
-        }
-        case (4): {
-            Engine::reference()->PushScene(builder.BuildHelpPage5(static_cast<PageManager*> (menu_)));
-            break;
-        }
-        default: {
-            break;
-        }
-    }*/
-}
-
-void MenuBuilder::HelpMenuHandler::Handle(int selection, int modifier) {
-    switch(selection){
-        case MenuBuilder::HELP_SELECT_BACK: {
-            menu_->Finish();
-            break;
-        }
-        case MenuBuilder::HELP_SELECT_LEFT: {
-            menu_->Finish();
-            break;
-        }
-        case MenuBuilder::HELP_SELECT_RIGHT: {
-            menu_->Finish();
-            break;
-        }
-        default: {
-            break;
-        }
-    }
-}
-
-//========================
 //   SettingsMenu
 
 string  MenuBuilder::SettingsMenuHandler::settings_names_[MenuBuilder::SETTINGS_SELECT_NUM] = {
@@ -761,7 +308,7 @@ Menu *MenuBuilder::BuildSettingsMenu () {
 }
 
 void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
-   if (!modifier) modifier = 1;/*
+   if (!modifier) modifier = 1;
    switch (selection) {
         case MenuBuilder::SETTINGS_SELECT_RESOLUTION: {
             resolution_sprites_[sprites_active_[0]]->set_visible(false);
@@ -816,10 +363,10 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
         default: {
             break;
         }
-    }*/
+    }
 }
 
-void MenuBuilder::SettingsMenuHandler::BuildSprites() {/*
+void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     Sprite *options[MenuBuilder::SETTINGS_SELECT_NUM];
 
     // Creates the sprites for the setting names
@@ -827,10 +374,10 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {/*
         if(settings_names_[i].compare("BLANK") == 0)
             continue;
         Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
-        options[i] = new Sprite;
+        /*options[i] = new Sprite;
         options[i]->Initialize(img);
-        options[i]->set_hotspot(Vector2D(img->width() / 2, 0));
-        menu_->set_option_sprite(i, options[i]);
+        options[i]->set_hotspot(Vector2D(img->width() / 2, 0));*/
+        menu_->set_option_sprite(i, TEXT_LOADER()->GetImage(settings_names_[i]));
     }
 
     float second_column_x = VIDEO_MANAGER()->video_size().x * 0.75f;
@@ -840,19 +387,19 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {/*
 
     const Vector2D *resolutions = settings_->ResolutionList();
 
-    resolution_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Sprite*)));
-    resolution_images_ = static_cast<Drawable**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Drawable*)));
+    resolution_sprites_ = new ugdk::Node*[Settings::NUM_RESOLUTIONS];
+    //resolution_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Sprite*)));
+    //resolution_images_ = static_cast<Drawable**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Drawable*)));
 
     //TEXT_LOADER()->SetFont("FontB");
     // Creates the resolution names vector.
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
-        resolution_sprites_[i] = new Sprite;
         std::wostringstream stm;
         stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
-        resolution_images_[i] = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
-        resolution_sprites_[i]->Initialize(resolution_images_[i]);
-        resolution_sprites_[i]->set_hotspot(Vector2D(resolution_images_[i]->width() * 0.5f, 0));
-        menu_->AddSprite(resolution_sprites_[i], ugdk::Vector2D (second_column_x, options[0]->position().y));
+        Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
+        resolution_sprites_[i] = new ugdk::Node(tex);
+        resolution_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x - tex->width() * 0.5f, menu_->get_selection_position(i).y));
+        menu_->AddNode(resolution_sprites_[i]);
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
     }
     
@@ -862,39 +409,31 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {/*
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
-            on_off_sprites_[i][j] = new Sprite;
             Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
-            on_off_sprites_[i][j]->Initialize(img);
-            on_off_sprites_[i][j]->set_hotspot(Vector2D(img->width() * 0.5f, 0));
-            menu_->AddSprite(on_off_sprites_[i][j], ugdk::Vector2D (second_column_x, options[i+1]->position().y));
+            on_off_sprites_[i][j] = new ugdk::Node(img);
+            on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x - img->width() * 0.5f, menu_->get_selection_position(i+1).y));
+            menu_->AddNode(on_off_sprites_[i][j]);
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
         }
     }
     
     const string *language_name = settings_->LanguageNameList();
-    language_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_LANGUAGES * sizeof(Sprite*)));
+    language_sprites_ = new ugdk::Node*[Settings::NUM_LANGUAGES];
 
     sprites_active_[4] = settings_->language();
     for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
-        language_sprites_[i] = new Sprite;
         Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
-        language_sprites_[i]->Initialize(img);
-        language_sprites_[i]->set_hotspot(Vector2D(img->width() * 0.5f, 0));
-        menu_->AddSprite(language_sprites_[i], ugdk::Vector2D (second_column_x, options[4]->position().y));
+        
+        language_sprites_[i] = new ugdk::Node(img);
+        language_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x - img->width() * 0.5f, menu_->get_selection_position(4).y));
+        menu_->AddNode(language_sprites_[i]);
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }
-    */
 }
 
-void MenuBuilder::SettingsMenuHandler::CleanUp() {/*
-    free(resolution_sprites_);
-    for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
-        resolution_images_[i]->Destroy();
-        delete resolution_images_[i];
-    }
-    free(resolution_images_);
-
-    free(language_sprites_);*/
+void MenuBuilder::SettingsMenuHandler::CleanUp() {
+    delete[] resolution_sprites_;
+    delete[] language_sprites_;
 }
 
 }
