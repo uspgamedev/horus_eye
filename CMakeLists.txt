@@ -1,7 +1,7 @@
 
 # Inicializando...
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-PROJECT(horus_eye CXX)
+PROJECT(horus_eye CXX C)
 SET(GAME_UNIXNAME horus_eye)
 SET(GAME_DEBUGNAME horus_eye_debug)
 SET(GAME_NAME "Horus Eye")
@@ -60,7 +60,7 @@ IF(NOT GAME_SRCS)
 ENDIF(NOT GAME_SRCS)
 
 # Encontrando as bibliotecas necessarias:
-find_package(OPENGL REQUIRED)
+find_package(OpenGL REQUIRED)
 include_directories(${OPENGL_INCLUDE_DIR})
 
 find_package(SDL REQUIRED)
@@ -116,7 +116,15 @@ IF(UNIX)
   # Debug target.
   ADD_EXECUTABLE(${GAME_DEBUGNAME} EXCLUDE_FROM_ALL ${GAME_SRCS})
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m ${LUGDK} SDL SDL_image SDL_mixer SDL_ttf GL GLU)
+  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} 
+                         m
+                         ${LUGDK}
+                         ${SDL_LIBRARY}
+                         ${SDLMIXER_LIBRARY}
+                         ${SDLTTF_LIBRARY}
+                         ${SDLIMAGE_LIBRARY}
+                         ${OPENGL_LIBRARIES}
+                        )
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
 ENDIF(UNIX)
 
