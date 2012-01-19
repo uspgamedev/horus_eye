@@ -1,7 +1,9 @@
-#include "inifile.h"
+
 #include <algorithm>
 #include <iostream>
 #include <fstream>
+
+#include "inifile.h"
 
 // Only valid if C++
 #ifndef __cplusplus
