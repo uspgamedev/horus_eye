@@ -84,39 +84,45 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     // Criando sprites da life bar
     HudImageFactory img_fac;
 
-    TexturedRectangle* back_image = img_fac.BackImage();
+    TexturedRectangle* back_left_image = img_fac.BackImage();
+    TexturedRectangle* back_right_image = img_fac.BackImage();
     TexturedRectangle* eye_image = img_fac.EyeImage();
 
+    eye_image->set_hotspot(Drawable::BOTTOM);
+    back_left_image->set_hotspot(Drawable::BOTTOM_RIGHT);
+    back_right_image->set_hotspot(Drawable::BOTTOM_LEFT);
+
+    Node* bottom_node = new Node;
+    bottom_node->modifier()->set_offset(Vector2D(VIDEO_X/2, VIDEO_Y));
+
     Node* eye_node = new Node(eye_image);
-    eye_node->modifier()->set_offset(Vector2D(VIDEO_X/2, VIDEO_Y) - Vector2D(eye_image->width() * 0.5f, eye_image->height()));
     eye_node->set_zindex(0.5f);
 
-    Node* back_right_node = new Node(back_image);
-    back_right_node->modifier()->set_offset(Vector2D(VIDEO_X/2 + eye_image->width() * 0.5f, VIDEO_Y - back_image->height()));
+    Node* back_right_node = new Node(back_right_image);
+    back_right_node->modifier()->set_offset(Vector2D(eye_image->width() * 0.5f, 0.0f));
 
-    Node* back_left_node = new Node(back_image);
-    back_left_node->modifier()->set_offset(Vector2D(VIDEO_X/2 - eye_image->width() * 0.5f - back_image->width(), VIDEO_Y - back_image->height()));
+    Node* back_left_node = new Node(back_left_image);
+    back_left_node->modifier()->set_offset(Vector2D(eye_image->width() * -0.5f, 0.0f));
 
-    node_->AddChild(eye_node);
-    node_->AddChild(back_right_node);
-    node_->AddChild(back_left_node);
+    node_->AddChild(bottom_node);
+    bottom_node->AddChild(eye_node);
+    bottom_node->AddChild(back_right_node);
+    bottom_node->AddChild(back_left_node);
 
     {   
-        Node* eye_center = new Node;
-        eye_center->modifier()->set_offset(Vector2D(eye_image->width() * 0.5f - 5.0f, eye_image->height() * 0.5f - 7.0f)); // The magic numbers do their magic!
-        eye_center->AddChild(weapon_icon_ = new Node);
-
-        eye_node->AddChild(eye_center);
+        weapon_icon_ = new Node;
+        weapon_icon_->modifier()->set_offset(Vector2D(-5.0f, -eye_image->height() * 0.5f - 7.0f)); // The magic numbers do their magic!
+        eye_node->AddChild(weapon_icon_);
     }
 
 
     Node* life_bar_container = new Node;
-    life_bar_container->modifier()->set_offset(Vector2D(0.0f, VIDEO_Y - back_image->height()));
+    life_bar_container->modifier()->set_offset(Vector2D(0.0f, VIDEO_Y - back_left_image->height()));
     life_bar_container->set_zindex(-0.5f);
     node_->AddChild(life_bar_container);
 
     Node* mana_bar_container = new Node;
-    mana_bar_container->modifier()->set_offset(Vector2D(VIDEO_X - TOTEM_WIDTH, VIDEO_Y - back_image->height()));
+    mana_bar_container->modifier()->set_offset(Vector2D(VIDEO_X - TOTEM_WIDTH, VIDEO_Y - back_right_image->height()));
     mana_bar_container->set_zindex(-0.5f);
     node_->AddChild(mana_bar_container);
 
@@ -133,13 +139,13 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
 
     TexturedRectangle* mummy_counter_image = img_fac.MummyCounterImage();
+    mummy_counter_image->set_hotspot(Drawable::BOTTOM_LEFT);
     Node* mummy_counter_node = new Node(mummy_counter_image);
-    mummy_counter_node->modifier()->set_offset(Vector2D(0.0f, back_image->height() - mummy_counter_image->height()));
     
     back_right_node->AddChild(mummy_counter_node);
 
     Node* mummy_number_node = new Node;
-    mummy_number_node->modifier()->set_offset(Vector2D(mummy_counter_image->width() * 0.3f, mummy_counter_image->height() * 0.77f));
+    mummy_number_node->modifier()->set_offset(Vector2D(mummy_counter_image->width() * 0.3f, -mummy_counter_image->height() * (1 - 0.77f)));
 
     mummy_counter_node->AddChild(mummy_number_node);
 
@@ -210,7 +216,8 @@ void Hud::Update(float delta_t) {
             
             weapon_icon_->set_drawable(displayed_skill_->icon());
             if(displayed_skill_->icon() != NULL) {
-                weapon_icon_->modifier()->set_offset(Vector2D(displayed_skill_->icon()->width() * (-0.5f), displayed_skill_->icon()->height() * (-0.5f) ));
+                displayed_skill_->icon()->set_hotspot(Drawable::CENTER);
+                //weapon_icon_->modifier()->set_offset(Vector2D(displayed_skill_->icon()->width() * (-0.5f), displayed_skill_->icon()->height() * (-0.5f) ));
             }
         }
 

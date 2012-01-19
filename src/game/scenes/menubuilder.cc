@@ -19,7 +19,6 @@
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
-#include "page.h"
 
 namespace scene {
 
@@ -94,6 +93,7 @@ void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     for (int i = 0; i < SELECTION_SPRITE; i++) {
         Sprite* sprite = new Sprite(menu_eye_sheet, ANIMATIONS);
         sprite->SelectAnimation(SELECTION_EYE);
+        sprite->set_hotspot(Drawable::CENTER);
         selection_sprite[i] = sprite;
         //selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, height/2));
     }
@@ -129,9 +129,6 @@ Menu *MenuBuilder::BuildMainMenu () {
         case MenuBuilder::MAIN_SELECT_PLAY:
             options_sprite = TEXT_LOADER()->GetImage("Play");
             break;
-        case MenuBuilder::MAIN_SELECT_HELP:
-            options_sprite = TEXT_LOADER()->GetImage("Help");
-            break;
         case MenuBuilder::MAIN_SELECT_EDITOR:
             options_sprite = TEXT_LOADER()->GetImage("Editor");
             break;
@@ -145,25 +142,16 @@ Menu *MenuBuilder::BuildMainMenu () {
             options_sprite = TEXT_LOADER()->GetImage("Exit");
             break;
         }
-        //options_sprite->set_hotspot(Vector2D(options_sprite->size().x/2,
-        //                                     /*options_sprite->size().y/2*/0));
         menu->set_option_sprite(i, options_sprite);
     }
 
-	/*Drawable *img_version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
-    Sprite *version = new Sprite;
-    version->Initialize(img_version);
-    version->set_hotspot(Vector2D(0, img_version->height()));
-    menu->AddSprite(version, Vector2D(0, VIDEO_MANAGER()->video_size().y));*/
+	Drawable *version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
+    version->set_hotspot(Drawable::BOTTOM_LEFT);
+    menu->AddDrawable(version, Vector2D(10.0f, VIDEO_MANAGER()->video_size().y - 10.0f));
 
-    
-    /*Image *img = VIDEO_MANAGER()->LoadImage("data/images/developed_by_uspgamedev1.png");
-    Sprite *developed = new Sprite;
-    developed->Initialize(img);
-    developed->set_hotspot(Vector2D(0, img->height()));
-    menu->AddSprite(developed,
-                    Vector2D(VIDEO_MANAGER()->video_size().x - img->width() - 15.0f,
-                             VIDEO_MANAGER()->video_size().y));*/
+    Drawable *developed_by = new ugdk::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("data/images/developed_by_uspgamedev1.png"));
+    developed_by->set_hotspot(Drawable::BOTTOM_RIGHT);
+    menu->AddDrawable(developed_by, VIDEO_MANAGER()->video_size() + Vector2D(-15.0f, 0.0f));
 
     return menu;
 }
@@ -174,12 +162,6 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
         case MenuBuilder::MAIN_SELECT_PLAY: {
             menu_->Hide();
             LevelManager::reference()->ShowIntro();
-            break;
-        }
-        case MenuBuilder::MAIN_SELECT_HELP: {
-            MenuBuilder builder;
-            //Engine::reference()->PushScene(builder.BuildHelpMenu());
-            //menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
@@ -227,7 +209,7 @@ Menu *MenuBuilder::BuildPauseMenu () {
 
     // The pause bg sprite.
     ugdk::SolidRectangle* bg = new ugdk::SolidRectangle(VIDEO_MANAGER()->video_size());
-    bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f, 0.5f));
     menu->AddDrawable(bg, Vector2D());
 
     // The sprite of each option.
@@ -241,8 +223,6 @@ Menu *MenuBuilder::BuildPauseMenu () {
             options_sprite = TEXT_LOADER()->GetImage("Return to Menu");
             break;
         }
-        //options_sprite->set_hotspot(Vector2D(options_sprite->size().x * 0.5f,
-        //                                     /*options_sprite->size().y * 0.5f*/0));
         menu->set_option_sprite(i, options_sprite);
     }
 
@@ -397,8 +377,9 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         std::wostringstream stm;
         stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
         Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
+        tex->set_hotspot(Drawable::CENTER);
         resolution_sprites_[i] = new ugdk::Node(tex);
-        resolution_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x - tex->width() * 0.5f, menu_->get_selection_position(i).y));
+        resolution_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(0).y));
         menu_->AddNode(resolution_sprites_[i]);
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
     }
@@ -410,8 +391,9 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
             Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
+            img->set_hotspot(Drawable::CENTER);
             on_off_sprites_[i][j] = new ugdk::Node(img);
-            on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x - img->width() * 0.5f, menu_->get_selection_position(i+1).y));
+            on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(i+1).y));
             menu_->AddNode(on_off_sprites_[i][j]);
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
         }
@@ -423,9 +405,10 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     sprites_active_[4] = settings_->language();
     for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
         Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
+        img->set_hotspot(Drawable::CENTER);
         
         language_sprites_[i] = new ugdk::Node(img);
-        language_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x - img->width() * 0.5f, menu_->get_selection_position(4).y));
+        language_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(4).y));
         menu_->AddNode(language_sprites_[i]);
         if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
     }

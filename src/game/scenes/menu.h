@@ -55,10 +55,18 @@ class Menu: public ugdk::Scene {
     void Select ();
 
     bool content_box_defined_;
-    int selection_, selection_num_;
+
+    /// Currently selected option
+    int selection_;
+
+    /// Number of selection options
+    int selection_num_;
+
+
     MenuHandler *handler_;
-    ugdk::Node *selection_sprite_[2];
-    ugdk::Node **options_sprite_;
+
+    ugdk::Node *selection_node_[2];
+    ugdk::Node **options_node_;
     ugdk::Vector2D *selection_pos_;
     ugdk::Frame    content_box_;
     ugdk::Node  *interface_node_;

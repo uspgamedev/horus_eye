@@ -1,12 +1,12 @@
 #ifndef HORUSEYE_GAME_SCENES_MENUBUILDER_H_
 #define HORUSEYE_GAME_SCENES_MENUBUILDER_H_
 
-#include "menuhandler.h"
-#include "pagemanager.h"
 #include <vector>
+#include <ugdk/graphic.h>
+#include <ugdk/base/types.h>
+#include "menuhandler.h"
 
 namespace ugdk {
-class Image;
 class AnimationSet;
 }
 
@@ -17,7 +17,6 @@ class Settings;
 namespace scene {
 
 class Menu;
-class Page;
 
 class MenuBuilder {
   public:
@@ -30,7 +29,6 @@ class MenuBuilder {
     Menu *BuildSettingsMenu();
   protected:
     void CreateSelectionSprites(Menu* menu, float height = 0);
-    void CreateBackButton(Page *page);
     static ugdk::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        SELECTION_EYE,
                                     HERO_SHOOTING,
@@ -39,7 +37,6 @@ class MenuBuilder {
                                     FIREBALL, EARTHQUAKE;
     typedef enum {
         MAIN_SELECT_PLAY = 0,
-        MAIN_SELECT_HELP,
         MAIN_SELECT_EDITOR,
         MAIN_SELECT_SETTINGS,
         MAIN_SELECT_ABOUT,

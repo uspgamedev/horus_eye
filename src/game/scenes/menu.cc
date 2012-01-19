@@ -41,12 +41,12 @@ Menu::Menu (int selection_num)
     engine->PushInterface(interface_node_);
 
     for (int i = 0; i < SELECTION_SPRITES ; i++)
-        interface_node_->AddChild(selection_sprite_[i] = new Node);
+        interface_node_->AddChild(selection_node_[i] = new Node);
 
-    options_sprite_ = new Node*[selection_num_];
+    options_node_ = new Node*[selection_num_];
     for(int i = 0; i < selection_num_; ++i) {
-        interface_node_->AddChild(options_sprite_[i] = new Node);
-        options_sprite_[i]->set_zindex(OPTION_ZINDEX);
+        interface_node_->AddChild(options_node_[i] = new Node);
+        options_node_[i]->set_zindex(OPTION_ZINDEX);
     }
 }
 
@@ -56,7 +56,7 @@ Menu::~Menu () {
         delete handler_;
     }
     delete[] selection_pos_;
-    delete[] options_sprite_;
+    delete[] options_node_;
     Engine::reference()->RemoveInterface(interface_node_);
     delete interface_node_;
 }
@@ -74,11 +74,11 @@ void Menu::Update(float delta_t) {
     if (input->KeyPressed(K_UP))
         do {
             selection_ = selection_ - 1 < 0 ? selection_num_ - 1 : selection_ - 1;
-        } while(options_sprite_[selection_] == NULL);
+        } while(options_node_[selection_]->drawable() == NULL);
     if (input->KeyPressed(K_DOWN)){
         do {
             selection_ = (selection_ + 1) % selection_num_;
-        } while(options_sprite_[selection_] == NULL);
+        } while(options_node_[selection_]->drawable() == NULL);
     }
 
     int modifier = 0;
@@ -113,21 +113,23 @@ void Menu::set_content_box(ugdk::Frame content_box, int alignment) {
 }
 
 void Menu::set_selection_sprite(ugdk::Drawable *drawable) {
-    selection_sprite_[0]->set_drawable(drawable);
-    selection_sprite_[1]->set_drawable(NULL);
+    selection_node_[0]->set_drawable(drawable);
+    selection_node_[1]->set_drawable(NULL);
     InitialSelection();
 }
 
 void Menu::set_selection_sprite(ugdk::Drawable **drawable) {
-    selection_sprite_[0]->set_drawable(drawable[0]);
-    selection_sprite_[1]->set_drawable(drawable[1]);
+    selection_node_[0]->set_drawable(drawable[0]);
+    selection_node_[1]->set_drawable(drawable[1]);
     InitialSelection();
 }
 
 void Menu::set_option_sprite(int index, ugdk::Drawable *drawable) {
     if (index >= 0 && index < selection_num_ && content_box_defined_) {
-        options_sprite_[index]->set_drawable(drawable);
-        options_sprite_[index]->modifier()->set_offset(selection_pos_[index] - drawable->size() * 0.5f);
+        options_node_[index]->set_drawable(drawable);
+        options_node_[index]->modifier()->set_offset(selection_pos_[index]);
+        drawable->set_hotspot(Drawable::CENTER);
+        //drawable->set_hotspot(Drawable::BOTTOM);
     }
 }
 
@@ -145,28 +147,23 @@ void Menu::AddNode(ugdk::Node *node) {
 
 void Menu::DecideWhereOptionsGo(int alignment) {
     float selection_height = content_box_.height()/selection_num_;
-    float y;
+    float x;
+    switch (alignment) {
+        case ALIGNMENT_LEFT:   x = content_box_.left();                              break;
+        case ALIGNMENT_CENTER: x = (content_box_.right()+content_box_.left()) * 0.5; break;
+        case ALIGNMENT_RIGHT:  x = content_box_.right();                             break;
+    }
     for (int i = 0; i < selection_num_; ++i) {
-        y = content_box_.top() + static_cast<float>(i)*selection_height;
-        switch (alignment) {
-            case ALIGNMENT_LEFT:
-                selection_pos_[i] = Vector2D(content_box_.left(), y);
-                break;
-            case ALIGNMENT_CENTER:
-                selection_pos_[i] = Vector2D((content_box_.right()+content_box_.left()) * 0.5 , y);
-                break;
-            case ALIGNMENT_RIGHT:
-                selection_pos_[i] = Vector2D(content_box_.right(), y);
-                break;
-        }
+        float y = content_box_.top() + static_cast<float>(i)*selection_height;
+        selection_pos_[i] = Vector2D(x, y);
     }
     InitialSelection();
 }
 
 void Menu::InitialSelection() {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
-        if (selection_sprite_[i] != NULL && content_box_defined_) {
-            selection_sprite_[i]->modifier()->set_offset(selection_pos_[0]);
+        if (selection_node_[i] != NULL && content_box_defined_) {
+            selection_node_[i]->modifier()->set_offset(selection_pos_[0]);
         }
     }
 }
@@ -187,7 +184,7 @@ bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
         if ((y >= content_box_.top() && y < content_box_.bottom()) &&
             (x >= content_box_.left() && x < content_box_.right())) {
             int selection = static_cast<int>((y - content_box_.top())/selection_height);
-            if((on_selection = (options_sprite_[selection] != NULL)))
+            if((on_selection = (options_node_[selection]->drawable() != NULL)))
                 selection_ = selection;
         }
         else on_selection = false;
@@ -197,11 +194,11 @@ bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
 
 void Menu::Select () {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
-        if (selection_sprite_[i] != NULL) {
+        if (selection_node_[i] != NULL) {
             Vector2D pos = selection_pos_[selection_];
-            /*float offset = options_sprite_[selection_]->size().x / 2 ;
-            pos.x = pos.x + i * -offset + (1 - i) * offset;*/
-            selection_sprite_[i]->modifier()->set_offset(pos);
+            float offset = (options_node_[selection_]->drawable()->size().x + selection_node_[i]->drawable()->size().x) * 0.5f;
+            pos.x = pos.x + i * -offset + (1 - i) * offset; // awesum dodge of if
+            selection_node_[i]->modifier()->set_offset(pos);
         }
     }
 }

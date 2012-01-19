@@ -29,7 +29,7 @@ ImageScene::ImageScene(ugdk::Drawable *background, ugdk::Drawable *image)
     if (image) {
         scene_layers_[IMG] = new Node(image);
 
-        Vector2D offset = (VIDEO_MANAGER()->video_size() - image->render_size())* 0.5f;
+        Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5f;
         scene_layers_[IMG]->modifier()->set_offset(offset);
 
         interface_node_->AddChild(scene_layers_[IMG]);
