@@ -1,56 +1,39 @@
 #include <ugdk/math/vector2D.h>
-#include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/graphic/drawable/text.h>
-#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/action/animation.h>
+#include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/modifier.h>
-#include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/drawable/text.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 
 #include "hud.h"
 
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
-#include "game/skills/combatart.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/skills/skill.h"
+#include "game/sprites/creatures/hero.h"
 
-#define LIFE_IMAGE_WIDTH Constants::LIFE_IMAGE_WIDTH
-#define LIFE_IMAGE_HEIGHT Constants::LIFE_IMAGE_HEIGHT
-
-#define LIFE_BAR_OFFSET_X Constants::LIFE_BAR_OFFSET_X
-#define LIFE_BAR_OFFSET_Y Constants::LIFE_BAR_OFFSET_Y
-#define LIFE_BAR_WIDTH Constants::LIFE_BAR_WIDTH
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
-
-#define MANA_BAR_OFFSET_X Constants::MANA_BAR_OFFSET_X
-#define MANA_BAR_OFFSET_Y Constants::MANA_BAR_OFFSET_Y
-#define MANA_BAR_WIDTH Constants::MANA_BAR_WIDTH
 #define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT
 
 #define TOTEM_WIDTH Constants::TOTEM_WIDTH
-#define TOTEM_HEIGHT Constants::TOTEM_HEIGHT
-#define TOTEM_OFFSET_X Constants::TOTEM_OFFSET_X
-#define TOTEM_OFFSET_Y Constants::TOTEM_OFFSET_Y
-
-#define ENEMY_COUNTER_OFFSET_X -10
-#define ENEMY_COUNTER_OFFSET_Y  30
-
-#define FPS_BAR_OFFSET_X  10
-#define FPS_BAR_OFFSET_Y  30
 
 #define VIDEO_Y VIDEO_MANAGER()->video_size().y 
 #define VIDEO_X VIDEO_MANAGER()->video_size().x 
 
-#define NUMBER_WIDTH 18
-#define NUMBER_HEIGHT 16
-
 using namespace ugdk;
-using namespace scene;
+using scene::World;
 
 namespace utils {
+
+static Text* ConvertNumberToText(int val, bool center = true) {
+    wchar_t str[15];
+    swprintf(str, 15, L"%d", val);
+    Text* result = TEXT_MANAGER()->GetText(str);
+    if(center) result->set_hotspot(Drawable::CENTER);
+    return result;
+}
 
 static Node* CreateBarOn(Node* container, TexturedRectangle* bar_image, HudImageFactory& img_fac) {
 
@@ -58,13 +41,15 @@ static Node* CreateBarOn(Node* container, TexturedRectangle* bar_image, HudImage
         *totem_bar_image = img_fac.TotemImage(),
         *totem_bar_bottom = img_fac.TotemBottomImage();
 
+    totem_bar_image->set_hotspot(Drawable::BOTTOM_LEFT);
+    totem_bar_bottom->set_hotspot(Drawable::BOTTOM_LEFT);
+
     Node* totem_bottom_node = new Node(totem_bar_bottom);
-    totem_bottom_node->modifier()->set_offset(Vector2D(0.0f, static_cast<float>(-totem_bar_bottom->height())));
     totem_bottom_node->set_zindex(1.0f);
     container->AddChild(totem_bottom_node);
 
     Node* totem_top_node = new Node(totem_bar_image);
-    totem_top_node->modifier()->set_offset(Vector2D(0.0f, static_cast<float>(-totem_bar_bottom->height() - totem_bar_image->height())));
+    totem_top_node->modifier()->set_offset(Vector2D(0.0f, static_cast<float>(-totem_bar_bottom->height())));
     totem_top_node->set_zindex(-1.0f);
     container->AddChild(totem_top_node);
 
@@ -92,28 +77,29 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     back_left_image->set_hotspot(Drawable::BOTTOM_RIGHT);
     back_right_image->set_hotspot(Drawable::BOTTOM_LEFT);
 
-    Node* bottom_node = new Node;
+    Node *bottom_node, *eye_node, *back_right_node, *back_left_node;
+
+    // Hook node for the bottom of the screen.
+    node_->AddChild(bottom_node = new Node);
     bottom_node->modifier()->set_offset(Vector2D(VIDEO_X/2, VIDEO_Y));
 
-    Node* eye_node = new Node(eye_image);
-    eye_node->set_zindex(0.5f);
 
-    Node* back_right_node = new Node(back_right_image);
-    back_right_node->modifier()->set_offset(Vector2D(eye_image->width() * 0.5f, 0.0f));
+    bottom_node->AddChild(back_right_node = new Node(back_right_image));
+    bottom_node->AddChild(back_left_node  = new Node(back_left_image ));
 
-    Node* back_left_node = new Node(back_left_image);
-    back_left_node->modifier()->set_offset(Vector2D(eye_image->width() * -0.5f, 0.0f));
+    back_left_node ->modifier()->set_offset(Vector2D(eye_image->width() * -0.5f, 0.0f));
+    back_right_node->modifier()->set_offset(Vector2D(eye_image->width() *  0.5f, 0.0f));
 
-    node_->AddChild(bottom_node);
-    bottom_node->AddChild(eye_node);
-    bottom_node->AddChild(back_right_node);
-    bottom_node->AddChild(back_left_node);
 
-    {   
-        weapon_icon_ = new Node;
-        weapon_icon_->modifier()->set_offset(Vector2D(-5.0f, -eye_image->height() * 0.5f - 7.0f)); // The magic numbers do their magic!
-        eye_node->AddChild(weapon_icon_);
-    }
+    // The eye image is the bottom of the screen
+    bottom_node->AddChild(eye_node = new Node(eye_image));
+
+    // weapon_icon_ is a hook to the middle of the eye image in the bottom
+    weapon_icon_ = new Node;
+
+    // The magic numbers do their magic!
+    weapon_icon_->modifier()->set_offset(Vector2D(-5.0f, -eye_image->height() * 0.5f - 7.0f));
+    eye_node->AddChild(weapon_icon_);
 
 
     Node* life_bar_container = new Node;
@@ -138,37 +124,31 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     block_modifier_->set_alpha(0.75f);
     block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
 
+
     TexturedRectangle* mummy_counter_image = img_fac.MummyCounterImage();
     mummy_counter_image->set_hotspot(Drawable::BOTTOM_LEFT);
-    Node* mummy_counter_node = new Node(mummy_counter_image);
-    
-    back_right_node->AddChild(mummy_counter_node);
 
-    Node* mummy_number_node = new Node;
-    mummy_number_node->modifier()->set_offset(Vector2D(mummy_counter_image->width() * 0.3f, -mummy_counter_image->height() * (1 - 0.77f)));
 
-    mummy_counter_node->AddChild(mummy_number_node);
+    Node *mummy_counter_node;
+
+    // Background image for the mummy counter
+    back_right_node->AddChild(mummy_counter_node = new Node(mummy_counter_image));
+
+    mummy_counter_node->AddChild(mummy_counter_text_holder_ = new Node);
+    mummy_counter_text_holder_->modifier()->set_offset(
+        Vector2D(mummy_counter_image->width() * 0.3f, 
+                -mummy_counter_image->height() * (1 - 0.77f)));
 
     previous_mummy_counter_value_ = world->CountRemainingEnemies();
-    wchar_t str[8];
-    swprintf(str, 8, L"%d", previous_mummy_counter_value_);
-    enemy_counter_ = TEXT_MANAGER()->GetText(str);
-    text_holder_ = new Node(enemy_counter_);
-    text_holder_->modifier()->set_offset(Vector2D(enemy_counter_->width(), enemy_counter_->height()) * -0.5f);
-
-    mummy_number_node->AddChild(text_holder_);
+    mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
     
-    /*
 #ifdef DEBUG
-    for(int i = 0; i < 3; ++i) {
-        (fps_meter_[i] = new Sprite)->Initialize(number);
-        fps_meter_[i]->set_position(Vector2D(
-                        FPS_BAR_OFFSET_X + NUMBER_WIDTH*i + 0.0f, FPS_BAR_OFFSET_Y + 0.0f));
-        //AddSprite(fps_meter_[i]);
-        fps_meter_value_[i] = 0;
-    }
+    Text* fps_label = TEXT_MANAGER()->GetText(L"FPS: ");
+    node_->AddChild(new Node(fps_label));
+    node_->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
+    fps_meter_node_->modifier()->set_offset(Vector2D(fps_label->width(), 0.0f));
+    previous_fps_ = 0;
 #endif
-    */
 }
 
 Hud::~Hud() {
@@ -183,42 +163,26 @@ void Hud::Update(float delta_t) {
     if(previous_mummy_counter_value_ != enemy_number) {
         previous_mummy_counter_value_ = enemy_number;
 
-        delete enemy_counter_;
-
-        wchar_t str[8];
-        swprintf(str, 8, L"%d", enemy_number);
-
-        enemy_counter_ = TEXT_MANAGER()->GetText(str);
-        text_holder_->set_drawable(enemy_counter_);
-        text_holder_->modifier()->set_offset(Vector2D(enemy_counter_->width(), enemy_counter_->height()) * -0.5f);
+        delete mummy_counter_text_holder_->drawable();
+        mummy_counter_text_holder_->set_drawable(ConvertNumberToText(enemy_number));
     }
 
-    /*
 #ifdef DEBUG
     int fps = Engine::reference()->current_fps();
-    if(fps > 999) fps = 999;
-    for(int i = 2; i >= 0; --i) {
-        digit[i] = fps % 10;
-        fps /= 10;
-    }
-    for(int i = 0; i < 3; ++i) {
-        if(digit[i] != fps_meter_value_[i]) {
-            fps_meter_value_[i] = digit[i];
-            fps_meter_[i]->SetDefaultFrame(fps_meter_value_[i]);
-        }
+    if(std::abs(previous_fps_ - fps) > 0) {
+        previous_fps_ = fps;
+        delete fps_meter_node_->drawable();
+        fps_meter_node_->set_drawable(ConvertNumberToText(fps, false));
     }
 #endif
-    */
     if(world->hero() != NULL) {
         // Update the Selected weapon icon
         if(displayed_skill_ != world->hero()->secondary_combat_art()) {
             displayed_skill_ = world->hero()->secondary_combat_art();
             
             weapon_icon_->set_drawable(displayed_skill_->icon());
-            if(displayed_skill_->icon() != NULL) {
+            if(displayed_skill_->icon() != NULL)
                 displayed_skill_->icon()->set_hotspot(Drawable::CENTER);
-                //weapon_icon_->modifier()->set_offset(Vector2D(displayed_skill_->icon()->width() * (-0.5f), displayed_skill_->icon()->height() * (-0.5f) ));
-            }
         }
 
         

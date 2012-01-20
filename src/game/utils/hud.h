@@ -21,19 +21,16 @@ class Hud: public ugdk::Entity {
     ugdk::Node* node() { return node_; }
 
   private:
-    ugdk::Node *node_, *weapon_icon_, *text_holder_;
-    ugdk::Text* enemy_counter_;
+    ugdk::Node *node_, *weapon_icon_, *mummy_counter_text_holder_;
     int previous_mummy_counter_value_;
 
     skills::Skill *displayed_skill_;
 
     ugdk::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
 
-    ugdk::uint32 enemy_counter_value_[7];
-
 #ifdef DEBUG
-    Sprite *fps_meter_[3];
-    ugdk::uint32 fps_meter_value_[3];
+    ugdk::Node* fps_meter_node_;
+    int previous_fps_;
 #endif
 };
 
