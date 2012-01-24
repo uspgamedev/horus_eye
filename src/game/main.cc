@@ -64,7 +64,13 @@ int main(int argc, char *argv[]) {
     if(stat(rootpath.c_str(), &st) != 0)
         rootpath = "./";
 
-    engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, "data/images/eye.bmp");
+#ifndef ISMAC
+    const std::string iconpath = "data/images/eye.bmp";
+#else
+    // On Mac OS X, the icon should be handled with a *.icns file inside the app
+    const std::string iconpath = "";
+#endif
+    engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, iconpath);
     do {
         // Initializes game data
         StartGame();
