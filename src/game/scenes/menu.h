@@ -3,12 +3,9 @@
 
 #include <ugdk/action/scene.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable.h>
 #include <ugdk/math/frame.h>
 #include "menuhandler.h"
-
-#define ALIGNMENT_LEFT   (-1)
-#define ALIGNMENT_CENTER  0
-#define ALIGNMENT_RIGHT   1
 
 namespace ugdk {
 class Sprite;
@@ -33,7 +30,7 @@ class Menu: public ugdk::Scene {
         return selection_pos_[index];
     }
 
-    void set_content_box(ugdk::Frame content_box, int alignment);
+    void set_content_box(ugdk::Frame content_box, ugdk::Drawable::HookPoint alignment);
     void set_selection_sprite(ugdk::Drawable *drawable);
     void set_selection_sprite(ugdk::Drawable **drawable);
     void set_option_sprite(int index, ugdk::Drawable *draw);
@@ -48,11 +45,12 @@ class Menu: public ugdk::Scene {
 
   protected:
 
-    void DecideWhereOptionsGo(int alignment);
-    void InitialSelection();
+    void DecideWhereOptionsGo(ugdk::Drawable::HookPoint alignment);
 
     bool CheckMouse (ugdk::Vector2D &mouse_pos);
     void Select ();
+
+	ugdk::Drawable::HookPoint option_alignment_;
 
     bool content_box_defined_;
 
