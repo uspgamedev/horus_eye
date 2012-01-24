@@ -6,7 +6,6 @@
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
-#include <ugdk/graphic/drawable/image.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/action/scene.h>
 

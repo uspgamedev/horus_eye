@@ -1,5 +1,4 @@
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/drawable/image.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/rect.h>
 

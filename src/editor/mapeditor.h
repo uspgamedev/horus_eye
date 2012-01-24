@@ -5,7 +5,8 @@
 #include <string>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/action/layer.h>
+#include <ugdk/action/entity.h>
+#include <ugdk/graphic/node.h>
 
 namespace editor {
 
@@ -23,21 +24,23 @@ class MapEditor : public ugdk::Scene {
 
     typedef std::vector< std::vector<MapObject*> > MapMatrix;
 
-    class MapLayer : public ugdk::Layer {
+    class MapLayer {
       public:
         virtual ~MapLayer() {}
-		virtual void LoadMapMatrix(MapEditor::MapMatrix *matrix) {}
+		virtual void LoadMapMatrix(MapEditor::MapMatrix *matrix) = 0;
         virtual void set_scale(float scale) { scale_ = scale; }
-        virtual void CenterAt(ugdk::Vector2D& center) { set_offset(center); }
+		virtual void CenterAt(ugdk::Vector2D& center) { node_->modifier()->set_offset(center); }
+		ugdk::Node* node() { return node_; }
 
         virtual MapObject* Select(ugdk::Vector2D& pos) { return NULL; }
         virtual ugdk::Vector2D ModifyMovement(ugdk::Vector2D& movement) { return movement; }
 
       protected:
-        MapLayer(MapMatrix *matrix, MapEditor* editor) : ugdk::Layer(), matrix_(matrix), editor_(editor), scale_(1.0f) {}
+        MapLayer(MapEditor* editor) : matrix_(NULL), editor_(editor), scale_(1.0f), node_(new ugdk::Node) {}
         MapEditor::MapMatrix *matrix_;
 		MapEditor* editor_;
         float scale_;
+		ugdk::Node* node_;
     };
 
   private:
@@ -50,7 +53,7 @@ class MapEditor : public ugdk::Scene {
 	MapObject* selected_object_;
     MapMatrix map_matrix_;
     MapLayer *main_layer_, *tiles_layer_, *sprites_layer_;
-	ugdk::Layer *fps_layer_;
+	//ugdk::Layer *fps_layer_; // TODO
 	std::string map_filename_;
 	std::vector<std::string> map_list_;
 

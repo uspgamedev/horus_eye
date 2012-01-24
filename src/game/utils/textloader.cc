@@ -1,6 +1,5 @@
 #include <cstdio>
 #include "textloader.h"
-#include <ugdk/graphic/drawable/image.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>

@@ -1,15 +1,16 @@
 #ifndef HORUSEYE_EDITOR_MAPOBJECT_H_
 #define HORUSEYE_EDITOR_MAPOBJECT_H_
 
-#include <ugdk/graphic/image.h>
-#include <ugdk/graphic/flexiblespritesheet.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/solidrectangle.h>
+#include <ugdk/graphic/drawable/flexiblespritesheet.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/action/entity.h>
 
 #include "game/utils/tile.h"
 
 namespace editor {
 
-class MapObject : public ugdk::Sprite {
+class MapObject : public ugdk::Entity {
   public:
     const static float TileSize;
 
@@ -17,8 +18,10 @@ class MapObject : public ugdk::Sprite {
 
     void Update(float delta_t);
 
+	ugdk::Node* tile_node() { return tile_node_; }
+	ugdk::Node* isometric_node() { return isometric_node_; }
+
     virtual ~MapObject();
-    virtual void Render2D(ugdk::Vector2D offset, float scale = 1.0f);
 
     void Select(bool on);
 
@@ -32,8 +35,11 @@ class MapObject : public ugdk::Sprite {
     int x_, y_;
     char type_;
 	bool is_in_fill_;
-    ugdk::Image *tile_image_;
+	ugdk::SolidRectangle *tile_image_;
     ugdk::FlexibleSpritesheet *sprite_image_;
+
+	ugdk::Node *tile_node_, *isometric_node_;
+
 };
 
 }

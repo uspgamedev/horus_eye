@@ -15,7 +15,7 @@
 #include "game/utils/textloader.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
-//#include "editor/mapeditor.h"
+#include "editor/mapeditor.h"
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
@@ -165,8 +165,8 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
-            //Engine::reference()->PushScene(new editor::MapEditor());
-            //menu_->Hide();
+            Engine::reference()->PushScene(new editor::MapEditor());
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_SETTINGS: {

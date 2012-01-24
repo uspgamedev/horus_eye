@@ -1,6 +1,5 @@
 
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/drawable/image.h>
 
 #include "game/skills/sandstorm.h"
 
