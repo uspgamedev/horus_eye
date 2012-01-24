@@ -30,6 +30,7 @@ settings.ini
 /lib/libugdk_d.a
 /Horus Eye.opensdf
 include/link_ugdk
+include/ugdk/config/config.h
 lib/link_libugdk.a
 lib/link_libugdk_d.a
 /*.dll
