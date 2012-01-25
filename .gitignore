@@ -37,6 +37,7 @@ lib/link_libugdk_d.a
 *.vsps
 /deploy/vcredist_x86.exe
 /deploy/Output
+/deploy/Horus Eye.app/
 /license/Thumbs.db
 /license/legalcode_arquivos/Thumbs.db
 /license/Creative_Commons_Legal_Code/Thumbs.db
