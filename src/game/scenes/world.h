@@ -106,7 +106,7 @@ class World : public ugdk::Scene {
 
   private:
     utils::LevelManager::LevelState level_state_;
-	bool konami_used_;
+	bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
 
 };  // class World

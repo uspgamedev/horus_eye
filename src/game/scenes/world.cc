@@ -41,6 +41,7 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         image_factory_(factory),
         level_state_(LevelManager::NOT_FINISHED),
         konami_used_(false),
+        lights_on_(true),
         num_button_not_pressed_(0) {
 
     root_node()->AddChild(world_node_);
@@ -101,8 +102,8 @@ void World::VerifyCheats(float delta_t) {
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
-    //if(input->KeyPressed(K_l))
-    //   world_layer_->set_light_type((world_layer_->light_type() != LIGHT_IGNORE) ? LIGHT_IGNORE : LIGHT_ILLUMINATED);
+    if(input->KeyPressed(K_l))
+        VIDEO_MANAGER()->SetLightSystem(lights_on_ = !lights_on_);
 
 	// EASTER EGG/TODO: remove before any release!
 	// Also erase data/musics/sf2Guile456.mid
