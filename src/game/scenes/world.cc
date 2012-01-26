@@ -102,12 +102,12 @@ void World::VerifyCheats(float delta_t) {
     //   world_layer_->set_light_type((world_layer_->light_type() != LIGHT_IGNORE) ? LIGHT_IGNORE : LIGHT_ILLUMINATED);
 
 	// EASTER EGG/TODO: remove before any release!
-	// Also erase data/musics/sf2Guile456.mid
+	// Also erase musics/sf2Guile456.mid
 	/*if(!konami_used_) {
 		Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
 		if(input->CheckSequence(konami, 10)) {
 			hero_->Invulnerable(85000);
-			AUDIO_MANAGER()->LoadMusic("data/musics/sf2Guile456.mid")->Play();
+			AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
 			konami_used_ = true;
 		}
 	}*/

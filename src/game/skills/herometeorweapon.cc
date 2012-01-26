@@ -56,7 +56,7 @@ void HeroMeteorWeapon::Use(){
     world->AddWorldObject(warning_effect, use_argument_.destination_);
 
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)

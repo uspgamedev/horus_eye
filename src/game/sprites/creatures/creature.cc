@@ -144,7 +144,7 @@ void Creature::TakeDamage(float life_points) {
 void Creature::InitializeAnimations() {
     if (ANIMATIONS != NULL) return;
 
-    ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/creature.gdd");
+    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/creature.gdd");
     InitializeAttackingAnimations();
     InitializeWalkingAnimations();
     InitializeStandingAnimations();

@@ -49,7 +49,7 @@ namespace utils {
 
 // Aviso: maximo de 999 mumias no display de inimigos restantes!
 Hud::Hud(World* world) {
-    Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
+    Image* number = VIDEO_MANAGER()->LoadImage("images/numbers2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
 
     Image* back_image;

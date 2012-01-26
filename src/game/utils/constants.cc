@@ -90,9 +90,9 @@ const float Constants::POTION_SPRITE_CENTER_X = 15.0f;
 const float Constants::POTION_SPRITE_CENTER_Y = 15.0f;
 const float Constants::POTION_HEIGHT = 16.0f;
 
-const std::string Constants::INSTALL_LOCATION = INSTALL_PATH "/";
+const std::string Constants::DATA_LOCATION = INSTALL_PATH "/";
 const std::string Constants::BINARY_CONFIGURATION_FILENAME = "settings.bin";
 const std::string Constants::INI_CONFIGURATION_FILENAME = "settings.ini";
-const std::string Constants::BACKGROUND_MUSIC = "data/musics/bgmusic.wav";
+const std::string Constants::BACKGROUND_MUSIC = "musics/bgmusic.wav";
 const std::wstring Constants::VERSION = L"v" GAME_VERSION;
 }

@@ -59,7 +59,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-	ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/menu.gdd");
+	ANIMATIONS = Engine::reference()->animation_loader().Load("animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
@@ -84,7 +84,7 @@ void MenuBuilder::ReleaseAnimations() {
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
-    Image* menu_eye_image = VIDEO_MANAGER()->LoadImage("data/images/eye.png");
+    Image* menu_eye_image = VIDEO_MANAGER()->LoadImage("images/eye.png");
     menu_eye_image->set_frame_size(Vector2D(128.0f, 96.0f));
 
     Sprite *selection_sprite[SELECTION_SPRITE];
@@ -119,7 +119,7 @@ Menu *MenuBuilder::BuildMainMenu () {
 
     // The game logo.
     Sprite *logo = new Sprite;
-    logo->Initialize(VIDEO_MANAGER()->LoadImage("data/images/logo_560x334_black.png"));
+    logo->Initialize(VIDEO_MANAGER()->LoadImage("images/logo_560x334_black.png"));
     logo->set_hotspot(Vector2D(logo->size().x * 0.5f, 0));
     menu->AddSprite(logo, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, 0.0f));
 
@@ -157,7 +157,7 @@ Menu *MenuBuilder::BuildMainMenu () {
     menu->AddSprite(version, Vector2D(0, VIDEO_MANAGER()->video_size().y));
 
     //Image *img = TEXT_LOADER()->GetImage("DevelopedBy");
-    Image *img = VIDEO_MANAGER()->LoadImage("data/images/developed_by_uspgamedev1.png");
+    Image *img = VIDEO_MANAGER()->LoadImage("images/developed_by_uspgamedev1.png");
     Sprite *developed = new Sprite;
     developed->Initialize(img);
     developed->set_hotspot(Vector2D(0, img->height()));
@@ -389,7 +389,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     page->AddSprite(title, Vector2D(VIDEO_MANAGER()->video_size().x/2.0f, spacing*0.5f));
 
     //Keys image
-    Image *keys = VIDEO_MANAGER()->LoadImage("data/images/buttons.png");
+    Image *keys = VIDEO_MANAGER()->LoadImage("images/buttons.png");
     long keys_width=keys->width(), keys_height=keys->height()/6.0f;
     keys->set_frame_size(Vector2D(keys_width, keys_height));
     
@@ -461,7 +461,7 @@ Menu *MenuBuilder::BuildHelpPage2 (PageManager *manager) {
     textkey_e->set_hotspot(Vector2D(0, textkey_e->size().y*0.5f));
     page->AddSprite(textkey_e, Vector2D(second_column+keys_width+10, 2.5*spacing));
 
-    Image *mouse = VIDEO_MANAGER()->LoadImage("data/images/mouse.png");
+    Image *mouse = VIDEO_MANAGER()->LoadImage("images/mouse.png");
     long mouse_width=mouse->width(), mouse_height=mouse->height()/3.0f;
     mouse->set_frame_size(Vector2D(mouse_width, mouse_height));
 
@@ -633,7 +633,7 @@ Menu *MenuBuilder::BuildHelpPage5 (PageManager *manager) {
     
     // The menu content
     Sprite *hud = new Sprite;
-    hud->Initialize(VIDEO_MANAGER()->LoadImage("data/images/hud_help.png"));
+    hud->Initialize(VIDEO_MANAGER()->LoadImage("images/hud_help.png"));
     hud->set_hotspot(Vector2D(hud->size().x*0.5f, hud->size().y*0.5f));
     page->AddSprite(hud, Vector2D(VIDEO_MANAGER()->video_size().x*0.5f, VIDEO_MANAGER()->video_size().y*0.5f));
 

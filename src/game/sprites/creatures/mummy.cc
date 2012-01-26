@@ -203,7 +203,7 @@ void Mummy::PlayHitSound() const {
     std::stringstream ss;
     int id = 1 + (rand() % 4);
 
-    ss << "data/samples/hit" << id << ".wav";
+    ss << "samples/hit" << id << ".wav";
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
 }

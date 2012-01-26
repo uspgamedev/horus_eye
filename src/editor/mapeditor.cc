@@ -43,7 +43,7 @@ MapEditor::MapEditor() : Scene() {
 	fps_layer_ = new FPSMeter;
     selected_object_ = NULL;
 
-	utils::LevelManager::reference()->LoadLevelList("data/level_list.txt", map_list_);
+	utils::LevelManager::reference()->LoadLevelList("level_list.txt", map_list_);
 }
 
 MapEditor::~MapEditor() {

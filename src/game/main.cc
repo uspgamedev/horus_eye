@@ -59,13 +59,13 @@ void StartGame() {
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-    std::string rootpath = Constants::INSTALL_LOCATION;
+    std::string rootpath = Constants::DATA_LOCATION;
     struct stat st;
     if(stat(rootpath.c_str(), &st) != 0)
         rootpath = "./";
 
 #ifndef ISMAC
-    const std::string iconpath = "data/images/eye.bmp";
+    const std::string iconpath = "images/eye.bmp";
 #else
     // On Mac OS X, the icon should be handled with a *.icns file inside the app
     const std::string iconpath = "";

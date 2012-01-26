@@ -32,6 +32,7 @@ mkdir -p "./Horus Eye.app/Contents/Resources"
 cp ../horus_eye "./Horus Eye.app/Contents/MacOS/Horus Eye"
 cp ./Info.plist "./Horus Eye.app/Contents/"
 cp "./Horus Eye.icns" "./Horus Eye.app/Contents/Resources/"
+cp -R ../data/* "./Horus Eye.app/Contents/Resources/"
 # Copy frameworks
 cp -R /Library/Frameworks/SDL.framework "./Horus Eye.app/Contents/Frameworks/"
 cp -R /Library/Frameworks/SDL_image.framework "./Horus Eye.app/Contents/Frameworks/"

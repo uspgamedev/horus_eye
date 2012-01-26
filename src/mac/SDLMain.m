@@ -95,6 +95,9 @@ static NSString *getApplicationName(void)
         CFRelease(url);
         CFRelease(url2);
     }
+    /* Set the working directory to the application bundle's Resource folder */
+    NSString *resourcePath = [[NSBundle mainBundle] resourcePath];
+    [[NSFileManager defaultManager] changeCurrentDirectoryPath:resourcePath];
 }
 
 #if SDL_USE_NIB_FILE
