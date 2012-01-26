@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # TODO: change the game version in Info.plist when running this script
-# TODO: copy the data folder into Resources (and change all the hard coded paths in the game source)
 # TODO: package it in a DMG (Disk Image)
 # TODO: Document this script's usage...
 # TODO: include compilation steps into this script ??? (check if code is commited, clean it, compile it)

@@ -187,7 +187,7 @@ IF(UNIX)
     # Mac
     SET(GAME_INSTALL_DIR ".")
   ELSE()
-    SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}")
+    SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}/data")
     SET(GAME_FINAL_DIR "/usr/bin")
     
     INSTALL(CODE "MESSAGE(\"Installing ${GAME_NAME} ${GAME_VERSION}... Make sure you have root privileges.\")")
@@ -199,7 +199,7 @@ IF(UNIX)
     INSTALL(CODE "MESSAGE(\"Done! Please run ${GAME_UNIXNAME} to start ${GAME_NAME}.\")")
   ENDIF()
 ELSE(UNIX)
-  SET(GAME_INSTALL_DIR ".")
+  SET(GAME_INSTALL_DIR "./data")
 ENDIF(UNIX)
 
 CONFIGURE_FILE(
