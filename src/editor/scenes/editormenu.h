@@ -2,10 +2,9 @@
 #define HORUSEYE_GAME_SCENES_EDITORMENUBUILDER_H_
 
 #include "game/scenes/menuhandler.h"
-#include "game/scenes/pagemanager.h"
 #include "game/scenes/menubuilder.h"
 #include <vector>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/node.h>
 
 namespace ugdk {
 class Drawable;
@@ -63,29 +62,26 @@ class EditorMenuBuilder : scene::MenuBuilder {
 	/*List of Editor Menu Handler classes*/
 	class EditorMenuHandler : public scene::MenuHandler {
       public:
-        EditorMenuHandler(scene::Menu *menu, MapEditor* editor, ugdk::Image *bg_img) : 
-			scene::MenuHandler(menu), bg_img_(bg_img), editor_(editor) {}
+        EditorMenuHandler(scene::Menu *menu, MapEditor* editor) : 
+			scene::MenuHandler(menu), editor_(editor) {}
         ~EditorMenuHandler() {}
         void Handle(int selection, int modifier = 0);
         void CleanUp();
 	  private:
-		ugdk::Image* bg_img_;
 		MapEditor* editor_;
     };
 
 	class LoadMapMenuHandler : public scene::MenuHandler {
       public:
-        LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor, ugdk::Image *bg_img);
+        LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor);
         ~LoadMapMenuHandler() {}
         void Handle(int selection, int modifier = 0);
         void CleanUp();
 		void BuildSprites();
 	  private:
-		ugdk::Image* bg_img_;
 		MapEditor* editor_;
 		std::vector<std::string> map_list_;
-		ugdk::Drawable **level_images_;
-		ugdk::Sprite **level_sprites_;
+		ugdk::Node **level_nodes_;
 		int selected_level_;
     };
 };

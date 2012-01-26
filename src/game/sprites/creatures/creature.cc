@@ -123,8 +123,9 @@ void Creature::AdjustBlink(float delta_t) {
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(),
-        (float) life_, (float) life_ - life_points, life_points);
+    int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
+    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", identifier_.c_str(), creature_id,
+        life_points, (float) life_, (float) life_ - life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;
@@ -133,6 +134,9 @@ void Creature::TakeDamage(float life_points) {
             sprite_->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
 	        StartToDie();
+#ifdef DEBUG
+            fprintf(stderr, "\tTriggering death animation.\n");
+#endif
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;

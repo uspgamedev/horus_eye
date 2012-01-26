@@ -15,7 +15,7 @@
 #include "game/utils/textloader.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
-//#include "editor/mapeditor.h"
+#include "editor/mapeditor.h"
 #include "world.h"
 #include "menuhandler.h"
 #include "menu.h"
@@ -165,8 +165,8 @@ void MenuBuilder::MainMenuHandler::Handle(int selection, int modifier) {
             break;
         }
         case MenuBuilder::MAIN_SELECT_EDITOR: {
-            //Engine::reference()->PushScene(new editor::MapEditor());
-            //menu_->Hide();
+            Engine::reference()->PushScene(new editor::MapEditor());
+            menu_->Hide();
             break;
         }
         case MenuBuilder::MAIN_SELECT_SETTINGS: {
@@ -275,7 +275,7 @@ Menu *MenuBuilder::BuildSettingsMenu () {
     menu->set_handler(settings_handler_);
 
     // The menu's content box.
-    menu->set_content_box(Frame(SET_LEFT, SET_TOP, SET_RIGHT, SET_BOTTOM), ALIGNMENT_CENTER);
+    menu->set_content_box(Frame(SET_LEFT, SET_TOP, SET_RIGHT, SET_BOTTOM));
 
     // Setting the selection sprite.
     CreateSelectionSprites(menu,
@@ -354,9 +354,6 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         if(settings_names_[i].compare("BLANK") == 0)
             continue;
         Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
-        /*options[i] = new Sprite;
-        options[i]->Initialize(img);
-        options[i]->set_hotspot(Vector2D(img->width() / 2, 0));*/
         menu_->set_option_sprite(i, TEXT_LOADER()->GetImage(settings_names_[i]));
     }
 
@@ -368,8 +365,6 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     const Vector2D *resolutions = settings_->ResolutionList();
 
     resolution_sprites_ = new ugdk::Node*[Settings::NUM_RESOLUTIONS];
-    //resolution_sprites_ = static_cast<Sprite**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Sprite*)));
-    //resolution_images_ = static_cast<Drawable**>(malloc(Settings::NUM_RESOLUTIONS * sizeof(Drawable*)));
 
     //TEXT_LOADER()->SetFont("FontB");
     // Creates the resolution names vector.
@@ -391,7 +386,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
             Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
-            img->set_hotspot(Drawable::CENTER);
+			img->set_hotspot(Drawable::CENTER);
             on_off_sprites_[i][j] = new ugdk::Node(img);
             on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(i+1).y));
             menu_->AddNode(on_off_sprites_[i][j]);

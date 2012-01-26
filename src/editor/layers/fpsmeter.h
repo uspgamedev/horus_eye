@@ -1,12 +1,10 @@
 #ifndef HORUSEYE_EDITOR_LAYERS_FPSMETER_H_
 #define HORUSEYE_EDITOR_LAYERS_FPSMETER_H_
 
-#include <ugdk/action/layer.h>
-#include <ugdk/action/sprite.h>
 #include <ugdk/action/animationset.h>
 
 namespace editor {
-
+	/*
 class FPSMeter : public ugdk::Layer {
   public:
     FPSMeter();
@@ -19,7 +17,7 @@ class FPSMeter : public ugdk::Layer {
     ugdk::AnimationSet *digit_set_;
     ugdk::uint32       digits_[10];
 };
-
+*/
 }
 
 #endif /* HORUSEYE_EDITOR_LAYERS_FPSMETER_H_ */

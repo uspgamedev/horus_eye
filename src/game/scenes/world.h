@@ -4,7 +4,6 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/graphic/drawable/image.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/utils/levelmanager.h"
@@ -107,7 +106,7 @@ class World : public ugdk::Scene {
 
   private:
     utils::LevelManager::LevelState level_state_;
-	bool konami_used_;
+	bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
 
 };  // class World

@@ -42,7 +42,7 @@ void Item::Update(float delta_t) {
 	WorldObject::Update(delta_t);
     total_time_ += delta_t;
     if (total_time_ >= PERIOD) total_time_ -= PERIOD;
-    //set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT + 10.0f*cos(3.0f*total_time_))); TODO make item float
+	this->node()->drawable()->set_hotspot(Vector2D(0.0f, 10.0f*cos(3.0f*total_time_)));
 }
 
 }
