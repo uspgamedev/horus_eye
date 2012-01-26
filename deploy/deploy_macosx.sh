@@ -1,7 +1,6 @@
 #!/bin/sh
 
 # TODO: change the game version in Info.plist when running this script
-# TODO: copy the necessary frameworks (SDL*) into the app
 # TODO: copy the data folder into Resources (and change all the hard coded paths in the game source)
 # TODO: package it in a DMG (Disk Image)
 # TODO: Document this script's usage...
@@ -33,3 +32,8 @@ mkdir -p "./Horus Eye.app/Contents/Resources"
 cp ../horus_eye "./Horus Eye.app/Contents/MacOS/Horus Eye"
 cp ./Info.plist "./Horus Eye.app/Contents/"
 cp "./Horus Eye.icns" "./Horus Eye.app/Contents/Resources/"
+# Copy frameworks
+cp -R /Library/Frameworks/SDL.framework "./Horus Eye.app/Contents/Frameworks/"
+cp -R /Library/Frameworks/SDL_image.framework "./Horus Eye.app/Contents/Frameworks/"
+cp -R /Library/Frameworks/SDL_mixer.framework "./Horus Eye.app/Contents/Frameworks/"
+cp -R /Library/Frameworks/SDL_ttf.framework "./Horus Eye.app/Contents/Frameworks/"
