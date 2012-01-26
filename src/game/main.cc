@@ -62,7 +62,7 @@ int main(int argc, char *argv[]) {
     std::string rootpath = Constants::DATA_LOCATION;
     struct stat st;
     if(stat(rootpath.c_str(), &st) != 0)
-        rootpath = "./";
+        rootpath = "./data/";
 
 #ifndef ISMAC
     const std::string iconpath = "images/eye.bmp";
