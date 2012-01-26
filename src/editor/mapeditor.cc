@@ -2,6 +2,7 @@
 #include <iostream>
 #include <cmath>
 #include <queue>
+#include <algorithm>
 #include <ugdk/base/engine.h>
 #include <ugdk/input/inputmanager.h>
 #include "mapeditor.h"
