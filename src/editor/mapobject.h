@@ -2,7 +2,7 @@
 #define HORUSEYE_EDITOR_MAPOBJECT_H_
 
 #include <ugdk/graphic/drawable/solidrectangle.h>
-#include <ugdk/graphic/drawable/flexiblespritesheet.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/action/entity.h>
 

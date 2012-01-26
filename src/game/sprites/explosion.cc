@@ -88,4 +88,9 @@ void Explosion::Update(float delta_t) {
 	this->RadiusUpdate(delta_t);
 }
 
+void Explosion::set_world_position(const ugdk::Vector2D& pos) {
+    super::set_world_position(pos);
+    node_->set_zindex(node_->zindex() + node_->drawable()->height() * 0.1f);
+}
+
 }

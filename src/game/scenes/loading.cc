@@ -23,7 +23,7 @@ Loading::Loading() {
 
     Engine::reference()->PushInterface(loading_);
     set_visible(false);
-    loading_->set_visible(false);
+    loading_->modifier()->set_visible(false);
     has_been_drawn_ = false;
 
     this->StopsPreviousMusic(false);
@@ -55,12 +55,12 @@ void Loading::Update(float delta_t) {
 
 void Loading::Focus() {
     super::Focus();
-    loading_->set_visible(true);
+    loading_->modifier()->set_visible(true);
 }
 
 void Loading::DeFocus() {
     super::DeFocus();
-    loading_->set_visible(false);
+    loading_->modifier()->set_visible(false);
 }
 
 void Loading::End() {

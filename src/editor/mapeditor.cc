@@ -8,7 +8,6 @@
 #include "mapobject.h"
 #include "layers/maptileslayer.h"
 #include "layers/mapspriteslayer.h"
-#include "layers/fpsmeter.h"
 #include "scenes/editormenu.h"
 #include "game/scenes/menu.h"
 #include "game/utils/levelmanager.h"
@@ -46,7 +45,7 @@ MapEditor::MapEditor() : Scene() {
 	Engine::reference()->PushInterface(tiles_layer_->node());
 	Engine::reference()->PushInterface(sprites_layer_->node());
 
-	sprites_layer_->node()->set_visible(false);
+	sprites_layer_->node()->modifier()->set_visible(false);
 
 	//fps_layer_ = new FPSMeter; // TODO
     selected_object_ = NULL;
@@ -170,13 +169,13 @@ void MapEditor::Update(float delta_t) {
 	this->processKeyEditCommands();
 
     if(input->KeyPressed(ugdk::K_END)) {
-        main_layer_->node()->set_visible(false);
+        main_layer_->node()->modifier()->set_visible(false);
         if(main_layer_ == tiles_layer_) {
             main_layer_ = sprites_layer_;
         } else {
             main_layer_ = tiles_layer_;
         }
-        main_layer_->node()->set_visible(true);
+        main_layer_->node()->modifier()->set_visible(true);
     }
 	else if (input->KeyPressed(ugdk::K_HOME)) {
 		this->SaveMap();

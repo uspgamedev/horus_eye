@@ -291,43 +291,43 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
    if (!modifier) modifier = 1;
    switch (selection) {
         case MenuBuilder::SETTINGS_SELECT_RESOLUTION: {
-            resolution_sprites_[sprites_active_[0]]->set_visible(false);
+            resolution_sprites_[sprites_active_[0]]->modifier()->set_visible(false);
             sprites_active_[0] = (sprites_active_[0] + modifier)%NUM_RESOL;
             if (sprites_active_[0] < 0) sprites_active_[0] += NUM_RESOL;
             settings_->set_resolution(sprites_active_[0]);
-            resolution_sprites_[sprites_active_[0]]->set_visible(true);
+            resolution_sprites_[sprites_active_[0]]->modifier()->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_FULLSCREEN: {
-            on_off_sprites_[0][sprites_active_[1]]->set_visible(false);
+            on_off_sprites_[0][sprites_active_[1]]->modifier()->set_visible(false);
             sprites_active_[1] = (sprites_active_[1] + modifier)%NUM_ON_OFF;
             if (sprites_active_[1] < 0) sprites_active_[1] += NUM_ON_OFF;
             settings_->set_fullscreen(sprites_active_[1]);
-            on_off_sprites_[0][sprites_active_[1]]->set_visible(true);
+            on_off_sprites_[0][sprites_active_[1]]->modifier()->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_MUSIC: {
-            on_off_sprites_[1][sprites_active_[2]]->set_visible(false);
+            on_off_sprites_[1][sprites_active_[2]]->modifier()->set_visible(false);
             sprites_active_[2] = (sprites_active_[2] + modifier)%NUM_ON_OFF;
             if (sprites_active_[2] < 0) sprites_active_[2] += NUM_ON_OFF;
             settings_->set_background_music(sprites_active_[2]);
-            on_off_sprites_[1][sprites_active_[2]]->set_visible(true);
+            on_off_sprites_[1][sprites_active_[2]]->modifier()->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_SOUNDS: {
-            on_off_sprites_[2][sprites_active_[3]]->set_visible(false);
+            on_off_sprites_[2][sprites_active_[3]]->modifier()->set_visible(false);
             sprites_active_[3] = (sprites_active_[3] + modifier)%NUM_ON_OFF;
             if (sprites_active_[3] < 0) sprites_active_[3] += NUM_ON_OFF;
             settings_->set_sound_effects(sprites_active_[3]);
-            on_off_sprites_[2][sprites_active_[3]]->set_visible(true);
+            on_off_sprites_[2][sprites_active_[3]]->modifier()->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_LANGUAGE: {
-            language_sprites_[sprites_active_[4]]->set_visible(false);
+            language_sprites_[sprites_active_[4]]->modifier()->set_visible(false);
             sprites_active_[4] = (sprites_active_[4] + modifier)%NUM_ON_OFF;
             if (sprites_active_[4] < 0) sprites_active_[4] += NUM_ON_OFF;
             settings_->set_language(sprites_active_[4]);
-            language_sprites_[sprites_active_[4]]->set_visible(true);
+            language_sprites_[sprites_active_[4]]->modifier()->set_visible(true);
             break;
         }
         case MenuBuilder::SETTINGS_SELECT_APPLY: {
@@ -376,7 +376,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         resolution_sprites_[i] = new ugdk::Node(tex);
         resolution_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(0).y));
         menu_->AddNode(resolution_sprites_[i]);
-        if ( i != sprites_active_[0] ) resolution_sprites_[i]->set_visible(false);
+        if ( i != sprites_active_[0] ) resolution_sprites_[i]->modifier()->set_visible(false);
     }
     
     sprites_active_[1] = settings_->fullscreen();
@@ -390,7 +390,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
             on_off_sprites_[i][j] = new ugdk::Node(img);
             on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(i+1).y));
             menu_->AddNode(on_off_sprites_[i][j]);
-            if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->set_visible(false);
+            if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->modifier()->set_visible(false);
         }
     }
     
@@ -405,7 +405,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         language_sprites_[i] = new ugdk::Node(img);
         language_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(4).y));
         menu_->AddNode(language_sprites_[i]);
-        if ( i != sprites_active_[4] ) language_sprites_[i]->set_visible(false);
+        if ( i != sprites_active_[4] ) language_sprites_[i]->modifier()->set_visible(false);
     }
 }
 

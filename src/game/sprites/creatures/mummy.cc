@@ -3,7 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
-#include <ugdk/graphic/drawable/flexiblespritesheet.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>
@@ -158,9 +158,9 @@ void Mummy::Update(float delta_t) {
         Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
         if (mummy_tile) {
             if(mummy_tile->visible())
-                node_->set_visible(true);
+                node_->modifier()->set_visible(true);
             else
-                node_->set_visible(false);
+                node_->modifier()->set_visible(false);
         }
     }
 

@@ -196,13 +196,13 @@ void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) 
     if (!modifier) modifier = 1;
     switch (selection) {
         case EditorMenuBuilder::LOAD_MAP_SELECT_CHANGE: {
-			level_nodes_[selected_level_]->set_visible(false);
+			level_nodes_[selected_level_]->modifier()->set_visible(false);
 			selected_level_ += modifier;
 			if (selected_level_ < 0) { selected_level_ = map_list_.size() - 1; }
 			if (selected_level_ >= static_cast<int>(map_list_.size())) {
 			    selected_level_ = 0;
 			}
-            level_nodes_[selected_level_]->set_visible(true);
+            level_nodes_[selected_level_]->modifier()->set_visible(true);
             break;
         }
         case EditorMenuBuilder::LOAD_MAP_SELECT_LOAD: {
@@ -237,7 +237,7 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
 		level_nodes_[i] = new Node(drawable);
 		level_nodes_[i]->modifier()->set_offset(Vector2D(x, MENU_TOP + RECT_HEIGHT + 25.0f));
 		menu_->AddNode(level_nodes_[i]);
-        if ( static_cast<int>(i) != selected_level_ ) level_nodes_[i]->set_visible(false);
+        if ( static_cast<int>(i) != selected_level_ ) level_nodes_[i]->modifier()->set_visible(false);
     }
 }
 void EditorMenuBuilder::LoadMapMenuHandler::CleanUp() {

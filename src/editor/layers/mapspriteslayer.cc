@@ -17,11 +17,11 @@ MapSpritesLayer::~MapSpritesLayer() {}
 void MapSpritesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
 	float visible = true;
 	if(node_ != NULL) {
-		visible = node_->visible();
+		visible = node_->modifier()->visible();
 		delete node_;
 	}
 	node_ = new Node;
-	node_->set_visible(visible);
+	node_->modifier()->set_visible(visible);
 	matrix_ = matrix;
 	int height = matrix_->size(), width = (*matrix_)[0].size();
     for (int i = 0; i < height; ++i) {

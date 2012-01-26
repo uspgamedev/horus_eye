@@ -209,12 +209,12 @@ void Menu::Select () {
 
 void Menu::Hide() {
     this->set_visible(false);
-    interface_node_->set_visible(false);
+    interface_node_->modifier()->set_visible(false);
 }
 
 void Menu::Show() {
     this->set_visible(true);
-    interface_node_->set_visible(true);
+    interface_node_->modifier()->set_visible(true);
 }
 
 void Menu::Toggle() {
