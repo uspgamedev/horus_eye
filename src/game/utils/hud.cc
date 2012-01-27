@@ -90,6 +90,9 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     back_left_node ->modifier()->set_offset(Vector2D(eye_image->width() * -0.5f, 0.0f));
     back_right_node->modifier()->set_offset(Vector2D(eye_image->width() *  0.5f, 0.0f));
 
+    back_left_node->set_zindex(0.1f);
+    back_right_node->set_zindex(0.1f);
+
 
     // The eye image is the bottom of the screen
     bottom_node->AddChild(eye_node = new Node(eye_image));
