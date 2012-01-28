@@ -7,6 +7,7 @@
 #include <ugdk/graphic/drawable/solidrectangle.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic/videomanager.h>
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"

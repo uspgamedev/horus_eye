@@ -36,7 +36,7 @@ class MapObject : public ugdk::Entity {
     char type_;
 	bool is_in_fill_;
 	ugdk::SolidRectangle *tile_image_;
-    ugdk::FlexibleSpritesheet *sprite_image_;
+    ugdk::Spritesheet *sprite_image_;
 
 	ugdk::Node *tile_node_, *isometric_node_;
 

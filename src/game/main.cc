@@ -7,6 +7,9 @@
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
+#include <ugdk/graphic/spritesheet/fixedspritesheet.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
@@ -14,6 +17,8 @@
 #include "utils/textloader.h"
 
 using namespace utils;
+
+#define LOADSPRITESHEET(VIDEO, PATH) VIDEO->AddSpritesheet(PATH, new ugdk::FlexibleSpritesheet(VIDEO->LoadTexture(PATH)));
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
@@ -36,6 +41,40 @@ void StartGame() {
         engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
 
     engine()->video_manager()->SetLightSystem(true);
+
+    ugdk::VideoManager* videomanager = engine()->video_manager();
+    {
+        ugdk::FixedSpritesheetData hero_sheet_data("data/images/sprite-sheet_MOD3.png");
+
+        hero_sheet_data.FillWithFramesize(110, 110, ugdk::Vector2D(55.0f, 102.0f));
+
+        ugdk::FixedSpritesheet* hero_sheet = new ugdk::FixedSpritesheet(hero_sheet_data);
+        videomanager->AddSpritesheet("data/images/sprite-sheet_MOD3.png", hero_sheet);
+    }
+
+
+    LOADSPRITESHEET(videomanager, "data/images/mummy_blue_120x140.png");
+    LOADSPRITESHEET(videomanager, "data/images/mummy_green_120x140.png");
+    LOADSPRITESHEET(videomanager, "data/images/pharaoh_120x140.png");
+    LOADSPRITESHEET(videomanager, "data/images/mummy_red_120x140.png");
+    LOADSPRITESHEET(videomanager, "data/images/blue_fire_ball.png");
+    LOADSPRITESHEET(videomanager, "data/images/fireball_0.png");
+    LOADSPRITESHEET(videomanager, "data/images/green_fire_ball.png");
+    LOADSPRITESHEET(videomanager, "data/images/explosion.png");
+    LOADSPRITESHEET(videomanager, "data/images/quake.png");
+    LOADSPRITESHEET(videomanager, "data/images/life_potion2.png");
+    LOADSPRITESHEET(videomanager, "data/images/mana_potion.png");
+    LOADSPRITESHEET(videomanager, "data/images/sight_potion.png");
+    LOADSPRITESHEET(videomanager, "data/images/stairs3.png");
+    LOADSPRITESHEET(videomanager, "data/images/ground2_106x54.png");
+    LOADSPRITESHEET(videomanager, "data/images/stoneblock3.png");
+    LOADSPRITESHEET(videomanager, "data/images/door.png");
+    LOADSPRITESHEET(videomanager, "data/images/lightning_bolt.png");
+    LOADSPRITESHEET(videomanager, "data/images/yellow_fire_ball.png");
+    LOADSPRITESHEET(videomanager, "data/images/tile_switch.png");
+    {   ugdk::FlexibleSpritesheet *menu_eye_sheet = new ugdk::FlexibleSpritesheet(videomanager->LoadTexture("data/images/eye.png"));
+        menu_eye_sheet->set_frame_size(ugdk::Vector2D(128.0f, 96.0f));
+        videomanager->AddSpritesheet("data/images/eye.png", menu_eye_sheet); }
 
     text_loader()->Initialize(settings->language_file());
     level_manager()->Initialize();

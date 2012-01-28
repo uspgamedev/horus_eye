@@ -84,7 +84,7 @@ Creature::~Creature() {
     if (blink_time_) delete blink_time_;
 }
 
-void Creature::Initialize(ugdk::FlexibleSpritesheet *image, ugdk::AnimationSet *set) {
+void Creature::Initialize(ugdk::Spritesheet *image, ugdk::AnimationSet *set) {
     this->node()->set_drawable(sprite_ = new Sprite(image, ANIMATIONS));
     sprite_->AddObserverToAnimation(this);
 }

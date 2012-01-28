@@ -5,6 +5,7 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/solidrectangle.h>
@@ -86,8 +87,7 @@ void MenuBuilder::ReleaseAnimations() {
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
-    FlexibleSpritesheet *menu_eye_sheet = VIDEO_MANAGER()->LoadSpritesheet("data/images/eye.png");
-    menu_eye_sheet->set_frame_size(Vector2D(128.0f, 96.0f));
+    Spritesheet *menu_eye_sheet = VIDEO_MANAGER()->GetSpritesheet("data/images/eye.png");
 
     ugdk::Drawable *selection_sprite[SELECTION_SPRITE];
     for (int i = 0; i < SELECTION_SPRITE; i++) {

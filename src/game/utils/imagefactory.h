@@ -11,7 +11,7 @@ class ImageFactory {
     ImageFactory() {}
     virtual ~ImageFactory(){}
 
-    virtual FlexibleSpritesheet* HeroImage();
+    virtual ugdk::Spritesheet* HeroImage();
     virtual FlexibleSpritesheet* MummyImage();
     virtual FlexibleSpritesheet* RangedMummyImage();
     virtual FlexibleSpritesheet* BigMummyImage();
