@@ -59,7 +59,7 @@ void SandstormEmitter::Update(float dt) {
         }
 
         if(Settings::reference()->sound_effects())
-            Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+            Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
     }
 }
 

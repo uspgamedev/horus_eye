@@ -59,7 +59,7 @@ Explosion::Explosion(Image *image, uint32 animation, float radius, float damage)
 Explosion::~Explosion() {}
 
 void Explosion::InitializeAnimations() {
-    ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/explosion.gdd");
+    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/explosion.gdd");
     WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] =
             ANIMATIONS->MakeIndex("HERO_FIREBALL_WEAPON");
     WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] =

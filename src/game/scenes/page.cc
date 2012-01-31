@@ -34,7 +34,7 @@ Page::Page (int selection_num, int page_type, PageManager *manager)
     page_type_ = page_type;
 
     //Add arrows
-    Image *arrow = VIDEO_MANAGER()->LoadImage("data/images/arrows.png");
+    Image *arrow = VIDEO_MANAGER()->LoadImage("images/arrows.png");
     arrow->set_frame_size(Vector2D(arrow->width()/2.0, arrow->height()));
 
     if(page_type != Page::FIRST_PAGE && page_type_!=SOLO_PAGE){

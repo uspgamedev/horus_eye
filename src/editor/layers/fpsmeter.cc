@@ -16,7 +16,7 @@ using namespace ugdk;
 namespace editor {
 
 FPSMeter::FPSMeter() {
-    Image* number = VIDEO_MANAGER()->LoadImage("data/images/numbers2.png");
+    Image* number = VIDEO_MANAGER()->LoadImage("images/numbers2.png");
     number->set_frame_size(Vector2D(NUMBER_WIDTH, NUMBER_HEIGHT));
     // TODO: change to opengl lists!
     digit_set_ = new AnimationSet();

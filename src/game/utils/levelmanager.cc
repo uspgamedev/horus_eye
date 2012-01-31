@@ -41,7 +41,7 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
-    LoadLevelList("data/level_list.txt", level_list_);
+    LoadLevelList("level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
@@ -89,13 +89,13 @@ void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
 	level_list_iterator_ = 0;
     Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
+    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
     Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("CreditsFile")), 55);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
+    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
@@ -103,12 +103,12 @@ void LevelManager::ShowEnding() {
 	loading_->Finish();
 	loading_ = NULL;
     Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImageFile("data/images/you_win.png")));
+            VIDEO_MANAGER()->LoadImageFile("images/you_win.png")));
 }
 
 void LevelManager::ShowGameOver() {
     Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImageFile("data/images/game_over.png")));
+            VIDEO_MANAGER()->LoadImageFile("images/game_over.png")));
 }
 
 void LevelManager::FinishLevel(LevelState state) {

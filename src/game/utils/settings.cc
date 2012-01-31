@@ -203,8 +203,8 @@ Vector2D Settings::resolutions_[] = {
 };
 
 std::string Settings::languages_[] = {
-        "data/text/lang_en.txt",
-        "data/text/lang_pt_br.txt"
+        "text/lang_en.txt",
+        "text/lang_pt_br.txt"
 };
 
 std::string Settings::languages_names_[] = {

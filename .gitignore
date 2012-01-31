@@ -30,12 +30,14 @@ settings.ini
 /lib/libugdk_d.a
 /Horus Eye.opensdf
 include/link_ugdk
+include/ugdk/config/config.h
 lib/link_libugdk.a
 lib/link_libugdk_d.a
 /*.dll
 *.vsps
 /deploy/vcredist_x86.exe
 /deploy/Output
+/deploy/Horus Eye.app/
 /license/Thumbs.db
 /license/legalcode_arquivos/Thumbs.db
 /license/Creative_Commons_Legal_Code/Thumbs.db

@@ -32,7 +32,7 @@ $SELECTION_EYE
 #%frames 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28
 
 $HERO_SHOOTING
-%number 3 3 3 43 53 63 73 3 3 3 3 3
+%number 3 3 3 23 28 33 38 3 3 3 3 3
 
 $MUMMY_DYING
 %number 4 4 4 4 4 80 81 82 83 84 90 91
@@ -50,3 +50,19 @@ $FIREBALL
 
 $EARTHQUAKE
 %number 0 1 2 3 4 5
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
