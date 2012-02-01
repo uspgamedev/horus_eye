@@ -111,7 +111,9 @@ int main(int argc, char *argv[]) {
 
     std::string rootpath = Constants::DATA_LOCATION;
     struct stat st;
-    if(stat(rootpath.c_str(), &st) != 0)
+    // Removing the trailing slash.
+    int s = stat(rootpath.substr(0, rootpath.size() - 1).c_str(), &st);
+    if(s < 0 && errno == ENOENT)
         rootpath = "./";
 
 #ifndef ISMAC
