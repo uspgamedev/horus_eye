@@ -1,9 +1,10 @@
-#include "loading.h"
-#include <ugdk/graphic/image.h>
-#include <ugdk/action/sprite.h>
-#include <ugdk/action/layer.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/node.h>
+
+#include "loading.h"
+
 #include "game/utils/levelmanager.h"
 #include "game/utils/textloader.h"
 #include "game/utils/imagefactory.h"
@@ -15,19 +16,14 @@ using namespace ugdk;
 Loading::Loading() {
     Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
 
-    Sprite* text_sprite = new Sprite;
-    text_sprite->Initialize(loading_image);
+    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->size() - Vector2D(10.0f, 10.0f);
 
-    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->render_size()
-            - Vector2D(10.0f, 10.0f);
-    text_sprite->set_position(position);
+    loading_ = new Node(loading_image);
+    loading_->modifier()->set_offset(position);
 
-    layer_ = new Layer;
-    layer_->AddSprite(text_sprite);
-    layer_->set_visible(false);
-
-    Engine::reference()->PushInterface(layer_);
+    Engine::reference()->PushInterface(loading_);
     set_visible(false);
+    loading_->modifier()->set_visible(false);
     has_been_drawn_ = false;
 
     this->StopsPreviousMusic(false);
@@ -38,9 +34,7 @@ Loading::~Loading() {
 }
 
 void Loading::Update(float delta_t) {
-    set_visible(true);
-    layer_->set_visible(true);
-    Scene::Update(delta_t);
+    super::Update(delta_t);
     if(has_been_drawn_) {
         //Finish();
         utils::ImageFactory factory;
@@ -59,9 +53,20 @@ void Loading::Update(float delta_t) {
     has_been_drawn_ = !has_been_drawn_;
 }
 
+void Loading::Focus() {
+    super::Focus();
+    loading_->modifier()->set_visible(true);
+}
+
+void Loading::DeFocus() {
+    super::DeFocus();
+    loading_->modifier()->set_visible(false);
+}
+
 void Loading::End() {
-    Engine::reference()->RemoveInterface(layer_);
-    delete layer_;
+    super::End();
+    Engine::reference()->RemoveInterface(loading_);
+    delete loading_;
 }
 
 }

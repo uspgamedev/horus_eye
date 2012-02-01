@@ -49,6 +49,7 @@ Creature::Creature()
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
         aim_(world_position_, aim_destination_),
+        sprite_(NULL),
         blink_(false) {
 
     INITIALIZE_COLLISION;
@@ -70,6 +71,7 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         blink_time_(new TimeAccumulator(75)),
         hit_duration_(new TimeAccumulator(0)),
         aim_(world_position_, aim_destination_),
+        sprite_(NULL),
         blink_(false) {
 
     INITIALIZE_COLLISION;
@@ -82,9 +84,9 @@ Creature::~Creature() {
     if (blink_time_) delete blink_time_;
 }
 
-void Creature::Initialize(Drawable *image, AnimationSet *set, bool delete_image) {
-    Sprite::Initialize(image, set, delete_image);
-    AddObserverToAnimation(this);
+void Creature::Initialize(ugdk::Spritesheet *image, ugdk::AnimationSet *set) {
+    this->node()->set_drawable(sprite_ = new Sprite(image, ANIMATIONS));
+    sprite_->AddObserverToAnimation(this);
 }
 
 
@@ -111,29 +113,34 @@ void Creature::AdjustBlink(float delta_t) {
     if (!hit_duration_->Expired()) {
         if (blink_time_->Expired()) {
             blink_ = !blink_;
+            node()->modifier()->set_alpha(blink_ ? 1.0f : 0.20f);
             blink_time_->Restart();
         }
     } else 
-        blink_ = false;
+        node()->modifier()->set_alpha(1.0f);
 }
 
 void Creature::TakeDamage(float life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(),
-        (float) life_, (float) life_ - life_points, life_points);
+    int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
+    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", identifier_.c_str(), creature_id,
+        life_points, (float) life_, (float) life_ - life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;
     if(life_.Empty()) {
         if (status_ == WorldObject::STATUS_ACTIVE) {
-            this->SelectAnimation(dying_animation_);
+            sprite_->SelectAnimation(dying_animation_);
             this->status_ = WorldObject::STATUS_DYING;
 	        StartToDie();
+#ifdef DEBUG
+            fprintf(stderr, "\tTriggering death animation.\n");
+#endif
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;
-        this->SelectAnimation(taking_damage_animation_);
+        sprite_->SelectAnimation(taking_damage_animation_);
     }
     hit_duration_->Restart(invulnerability_time_);
     blink_time_->Restart();
@@ -205,6 +212,13 @@ void Creature::InitializeStandingAnimations() {
 
 
 // ============= other stuff
+
+void Creature::Update(float dt) {
+    WorldObject::Update(dt);
+    UpdateCondition(dt);
+    life_.Update(dt);
+    mana_.Update(dt);
+}
 
 void Creature::Move(Vector2D direction, float delta_t) {
     // If you called Move() you should be in a stable position.
@@ -280,10 +294,6 @@ float Creature::GetAttackingAngle(Vector2D targetDirection) {
         radianAngle = 2*PI - radianAngle;
     }
 	return radianAngle;
-}
-
-void Creature::Render() {
-    if (!blink_) WorldObject::Render();
 }
 
 }  // namespace sprite

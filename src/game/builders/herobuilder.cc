@@ -1,4 +1,4 @@
-#include <ugdk/graphic/image.h>
+
 
 #include "herobuilder.h"
 
@@ -23,10 +23,6 @@ using utils::Constants;
 using resource::Energy;
 using resource::CapacityBlocks;
 
-#define HERO_HOTSPOT_X Constants::HERO_HOTSPOT_X
-#define HERO_HOTSPOT_Y Constants::HERO_HOTSPOT_Y
-
-
 Hero* HeroBuilder::Kha() {
     Energy life = Energy(Constants::HERO_MAX_LIFE);
     Energy mana = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
@@ -38,9 +34,6 @@ Hero* HeroBuilder::Kha() {
                                   mana, 
                                   Constants::HERO_MAX_MANA_BLOCKS, 
                                   Constants::HERO_MANA_PER_BLOCK);
-
-    hero->set_hotspot(Vector2D(static_cast<float>(HERO_HOTSPOT_X),
-						       static_cast<float>(HERO_HOTSPOT_Y)));
 
     hero->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
 

@@ -19,7 +19,7 @@ namespace sprite {
 #define SQRT_3 1.7320508075688772935274463415059
 #define PHARAOH_TIME_TO_THINK 0.05f
 
-Pharaoh::Pharaoh(Image* image, int life, int mana) : Mummy(image) {
+Pharaoh::Pharaoh(FlexibleSpritesheet* image, int life, int mana) : Mummy(image) {
 	life_ = Energy(life);
 	mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
     identifier_ = "Pharaoh";

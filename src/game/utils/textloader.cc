@@ -1,10 +1,9 @@
 #include <cstdio>
 #include "textloader.h"
-#include <ugdk/graphic/image.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>
-#include <ugdk/graphic/text.h>
+#include <ugdk/graphic/drawable/text.h>
 
 namespace utils {
 
@@ -33,13 +32,13 @@ bool is_blank(wchar_t* str) {
 }
 
 // Returns true if the string matches the criteria of being a title
-bool is_title(wchar_t* str) {
+static bool is_title(wchar_t* str) {
     return (str[0] == '#');
 }
 
 // Returns the id of the title. See implementation of a list of IDs.
 // Returns 0 if it's an unknown title.
-int title_type(wchar_t* str) {
+static int title_type(wchar_t* str) {
     if(wcscmp(str, L"#WORDS\n") == 0)
         return 1;
     if(wcscmp(str, L"#FILES\n") == 0)
@@ -50,7 +49,7 @@ int title_type(wchar_t* str) {
 }
 
 static wstring key_def = L"[]{}:\0";
-TextLoader::Word::Word(wchar_t* str) {
+TextLoader::Word::Word(wchar_t* str, bool from_file) : from_file_(from_file) {
     wchar_t buffer[STRING_LENGTH];
     wcscpy(buffer, str);
 
@@ -85,6 +84,13 @@ bool TextLoader::Word::IsWord(wchar_t* str) {
     return true;
 }
 
+ugdk::Text* TextLoader::Word::ConvertToText() const {
+    if(this->from_file_)
+        return TEXT_MANAGER()->GetTextFromFile(text(), font());
+    else
+        return TEXT_MANAGER()->GetText(text(), font());
+}
+
 // Fills the map with the information on the given file
 bool TextLoader::Initialize(string language_file) {
     FILE* file = fopen(PATH_MANAGER()->ResolvePath(language_file).c_str(), "r,ccs=UTF-8");
@@ -110,9 +116,12 @@ bool TextLoader::Initialize(string language_file) {
                 ReadFont(buffer);
 
         } else if(TextLoader::Word::IsWord(buffer)) {
-            TextLoader::Word word = Word(buffer);
+
+            TextLoader::Word* word = new Word(buffer, reading_type == 2);
             //TextLoader::Font* font = fonts_[word.font()];
 
+            text_images_[word->name()] = word;
+            /*
             Drawable* val;
             if(reading_type == 2) // Reading tags of {FROM_FILE} type.
 				val = TEXT_MANAGER()->GetTextFromFile(word.text(), word.font());
@@ -127,10 +136,9 @@ bool TextLoader::Initialize(string language_file) {
 			// Defensive Programming! Erase previous drawable with same name 
 			// before overwriting.
             if(text_images_.count(name) && text_images_[name] != NULL) {
-                text_images_[name]->Destroy();
                 delete text_images_[name];
             }
-            text_images_[name] = val;
+            text_images_[name] = val;*/
 
         } else {
             // Syntax error!
@@ -140,13 +148,13 @@ bool TextLoader::Initialize(string language_file) {
     return true;
 }
 
-Drawable* TextLoader::GetImage(string text) {
+Drawable* TextLoader::GetImage(const std::string& text) {
 	std::wstring final(text.length(), L' ');
 	std::copy(text.begin(), text.end(), final.begin());
-	return text_images_[final];
+	return GetImage(final);
 }
-Drawable* TextLoader::GetImage(wstring text) {
-	return text_images_[text];
+Drawable* TextLoader::GetImage(const std::wstring& text) {
+    return text_images_[text]->ConvertToText();
 }
 
 /*void TextLoader::SetFont(std::string font) {
@@ -155,13 +163,9 @@ Drawable* TextLoader::GetImage(wstring text) {
 }*/
 
 bool TextLoader::Clear() {
-    map<wstring, Drawable*>::iterator it;
-    for(it = text_images_.begin(); it != text_images_.end(); ++it) {
-		if(it->second != NULL) {
-			it->second->Destroy();
-			delete it->second;
-		}
-    }
+    std::map<std::wstring, Word*>::iterator it;
+    for(it = text_images_.begin(); it != text_images_.end(); ++it)
+        delete it->second;
     text_images_.clear();
     return true;
 }

@@ -1,5 +1,6 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <pyramidworks/geometry/rect.h>
 
@@ -21,7 +22,7 @@ COLLISION_DIRECT(Button*, PressCollision, obj) {
     data_->Press();
 }
 
-Button::Button(ugdk::Image* image, scene::World *world, float active_time)
+Button::Button(ugdk::FlexibleSpritesheet* image, scene::World *world, float active_time)
   : super(image),
     world_(world) {
 
@@ -48,7 +49,7 @@ void Button::Update(float delta_t) {
     if(pressed_ && reactive_time_ && reactive_time_->Expired()) {
         DePress();
     }
-    SetDefaultFrame((int)(!pressed_) * 2);
+    sprite_->SetDefaultFrame((int)(!pressed_) * 2); 
 }
 
 void Button::Die() {

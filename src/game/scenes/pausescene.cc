@@ -1,33 +1,26 @@
-#include "pausescene.h"
-#include <ugdk/graphic/image.h>
-#include <ugdk/action/sprite.h>
-#include <ugdk/action/layer.h>
-#include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/drawable/solidrectangle.h>
+#include <ugdk/input/inputmanager.h>
+
+#include "pausescene.h"
 
 namespace scene {
 
 using namespace ugdk;
 
 PauseScene::PauseScene () {
-    image_ = new Image;
-	image_->set_frame_size(VIDEO_MANAGER()->video_size());
-    image_->set_color(0.5f, 0.5f, 0.5f);
-    image_->set_alpha(0.5f);
-    Layer *layer = new Layer;
-    Sprite *sprite = new Sprite;
-    sprite->Initialize(image_);
-    AddLayer(layer);
-    layer->AddSprite(sprite);
+    SolidRectangle* rect = new SolidRectangle(VIDEO_MANAGER()->video_size());
+    rect->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+
+    Node* node = new Node(rect);
+    node->modifier()->set_alpha(0.5f);
+
+    this->root_node()->AddChild(node);
 }
 
 PauseScene::~PauseScene () {}
-
-void PauseScene::End() {
-    image_->Destroy();
-    delete image_;
-}
-
 
 void PauseScene::Update (float delta_t) {
     InputManager *input = Engine::reference()->input_manager();

@@ -4,7 +4,6 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/graphic/image.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/utils/levelmanager.h"
@@ -87,7 +86,9 @@ class World : public ugdk::Scene {
     std::list<sprite::WorldObject*> world_objects_, 
                                     colliding_world_objects_, 
                                     new_world_objects_;
-    ugdk::Layer *world_layer_;
+
+    ugdk::Node *world_node_;
+
 	utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
@@ -105,7 +106,7 @@ class World : public ugdk::Scene {
 
   private:
     utils::LevelManager::LevelState level_state_;
-	bool konami_used_;
+	bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
 
 };  // class World

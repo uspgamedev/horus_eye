@@ -2,7 +2,7 @@
 #define HORUS_EYE_GAME_BUILDERS_MUMMY_BUILDER_H_
 
 namespace ugdk {
-class Image;
+class FlexibleSpritesheet;
 }
 namespace sprite {
 class Mummy;
@@ -15,14 +15,14 @@ class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    sprite::Mummy *StandingMummy(ugdk::Image* image);
-    sprite::Mummy *WalkingMummy(ugdk::Image* image);
-    sprite::Mummy *RangedMummy(ugdk::Image* image);
-    sprite::Mummy *StandingRangedMummy(ugdk::Image* image);
-    sprite::Mummy *BigMummy(ugdk::Image* image);
-    sprite::Mummy *StandingBigMummy(ugdk::Image* image);
-	sprite::Pharaoh *WalkingPharaoh(ugdk::Image* image);
-	sprite::Pharaoh *StandingPharaoh(ugdk::Image* image);
+    sprite::Mummy *StandingMummy(ugdk::FlexibleSpritesheet* image);
+    sprite::Mummy *WalkingMummy(ugdk::FlexibleSpritesheet* image);
+    sprite::Mummy *RangedMummy(ugdk::FlexibleSpritesheet* image);
+    sprite::Mummy *StandingRangedMummy(ugdk::FlexibleSpritesheet* image);
+    sprite::Mummy *BigMummy(ugdk::FlexibleSpritesheet* image);
+    sprite::Mummy *StandingBigMummy(ugdk::FlexibleSpritesheet* image);
+	sprite::Pharaoh *WalkingPharaoh(ugdk::FlexibleSpritesheet* image);
+	sprite::Pharaoh *StandingPharaoh(ugdk::FlexibleSpritesheet* image);
 
 };
 
