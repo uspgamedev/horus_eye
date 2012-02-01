@@ -111,10 +111,9 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
 }
 
 Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
-    factory_->MummyProjectileImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
-
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
     proj->node()->set_drawable(new ugdk::Sprite( factory_->MummyProjectileImage() ));
+    proj->node()->drawable()->set_hotspot(Vector2D(0.0f, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     proj->set_light_radius(0.75f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);

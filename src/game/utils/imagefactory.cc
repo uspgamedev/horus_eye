@@ -15,45 +15,23 @@ Spritesheet* ImageFactory::HeroImage() {
 }
 
 FlexibleSpritesheet* ImageFactory::MummyImage(){
-    FlexibleSpritesheet *mummy_image_ = static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/mummy_blue_120x140.png"));
-    if(mummy_image_) {
-        mummy_image_->set_frame_size(Vector2D(120.0f, 140.0f));
-        mummy_image_->set_hotspot(Vector2D(60.0f, 120.0f));
-    }
-    return mummy_image_;
+    return static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/mummy_blue_120x140.png"));
 }
 
 FlexibleSpritesheet* ImageFactory::BigMummyImage() {
-    FlexibleSpritesheet *big_mummy_image_ = static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/mummy_green_120x140.png"));
-	if(big_mummy_image_) {
-		big_mummy_image_->set_frame_size(Vector2D(120, 140));
-        big_mummy_image_->set_hotspot(Vector2D(60.0f, 120.0f));
-	}
-    return big_mummy_image_;
+    return static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/mummy_green_120x140.png"));
 }
 
 FlexibleSpritesheet* ImageFactory::PharaohImage(){
-    FlexibleSpritesheet *pharaoh_image_ = static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/pharaoh_120x140.png"));
-    if(pharaoh_image_) {
-        pharaoh_image_->set_frame_size(Vector2D(120, 140));
-        pharaoh_image_->set_hotspot(Vector2D(60.0f, 120.0f));
-    }
-    return pharaoh_image_;
+    return static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/pharaoh_120x140.png"));
 }
 
 FlexibleSpritesheet* ImageFactory::RangedMummyImage(){
-    FlexibleSpritesheet *ranged_mummy_image_ = static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/mummy_red_120x140.png"));
-    if(ranged_mummy_image_) {
-        ranged_mummy_image_->set_frame_size(Vector2D(120, 140));
-        ranged_mummy_image_->set_hotspot(Vector2D(60.0f, 120.0f));
-    }
-    return ranged_mummy_image_;
+    return static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/mummy_red_120x140.png"));
 }
 
 FlexibleSpritesheet* ImageFactory::MagicMissileImage() {
-    FlexibleSpritesheet *magicmissile_image_ = static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/blue_fire_ball.png"));
-    if(magicmissile_image_) magicmissile_image_->set_frame_size( Vector2D(32, 32) );
-    return magicmissile_image_;
+    return static_cast<FlexibleSpritesheet*>(VIDEO_MANAGER()->GetSpritesheet("data/images/blue_fire_ball.png"));
 }
 
 FlexibleSpritesheet* ImageFactory::FireballImage() {
