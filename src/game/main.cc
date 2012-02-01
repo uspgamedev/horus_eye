@@ -1,5 +1,6 @@
 #include <string>
 #include <sys/stat.h>
+#include <cerrno>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/audio/audiomanager.h>
@@ -32,7 +33,7 @@ ugdk::Engine* engine() {
     return ugdk::Engine::reference();
 }
 
-static void CreateFixedSpritesheet(char* path, int frame_width, int frame_height, const ugdk::Vector2D& hotspot) {
+static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_height, const ugdk::Vector2D& hotspot) {
     ugdk::FixedSpritesheetData sheet_data(path);
 
     sheet_data.FillWithFramesize(frame_width, frame_height, hotspot);
@@ -40,7 +41,7 @@ static void CreateFixedSpritesheet(char* path, int frame_width, int frame_height
     ugdk::FixedSpritesheet* sheet = new ugdk::FixedSpritesheet(sheet_data);
     engine()->video_manager()->AddSpritesheet(path, sheet);
 }
-static void CreateFlexibleSpritesheet(char* path, float frame_width, float frame_height, const ugdk::Vector2D& hotspot) {
+static void CreateFlexibleSpritesheet(const char* path, float frame_width, float frame_height, const ugdk::Vector2D& hotspot) {
     ugdk::VideoManager* videomanager = engine()->video_manager();
 
     ugdk::FlexibleSpritesheet *sheet = new ugdk::FlexibleSpritesheet(videomanager->LoadTexture(path));
