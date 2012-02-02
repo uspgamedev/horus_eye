@@ -347,14 +347,12 @@ void MenuBuilder::SettingsMenuHandler::Handle(int selection, int modifier) {
 }
 
 void MenuBuilder::SettingsMenuHandler::BuildSprites() {
-    Sprite *options[MenuBuilder::SETTINGS_SELECT_NUM];
-
     // Creates the sprites for the setting names
     for (int i = 0; i < MenuBuilder::SETTINGS_SELECT_NUM; ++i) {
         if(settings_names_[i].compare("BLANK") == 0)
             continue;
         Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
-        menu_->set_option_sprite(i, TEXT_LOADER()->GetImage(settings_names_[i]));
+        menu_->set_option_sprite(i, img);
     }
 
     float second_column_x = VIDEO_MANAGER()->video_size().x * 0.75f;
