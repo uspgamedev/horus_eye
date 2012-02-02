@@ -1,5 +1,6 @@
 #include <cstdio>
 #include "textloader.h"
+#include "utf8.h"
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>
@@ -99,13 +100,25 @@ bool TextLoader::Initialize(string language_file) {
 
     Clear();
 
-    wchar_t buffer[STRING_LENGTH];
+    wchar_t buffer_utf8[STRING_LENGTH];
     int reading_type = 0;
 
     while(!feof(file)) {
-        fgetws(buffer, STRING_LENGTH, file);
-        if(is_blank(buffer))
+        fgetws(buffer_utf8, STRING_LENGTH, file);
+        // "Converting" wchar_t* to string
+        std::wstring temp_text = std::wstring(buffer_utf8);
+        std::string text(temp_text.size() + 1, '\0');
+        std::copy(temp_text.begin(), temp_text.end(), text.begin());
+
+        // Converting UTF-8 to wstring
+        size_t buffer_size = utf8_to_wchar(text.c_str(), text.size(), NULL, 0, 0);
+        wchar_t* buffer = new wchar_t[buffer_size + 1];
+        utf8_to_wchar(text.c_str(), text.size(), buffer, buffer_size, 0);
+
+        if(is_blank(buffer)) {
+            delete[] buffer;
             continue;
+        }
 
         if(is_title(buffer)) {
             reading_type = title_type(buffer);
@@ -143,6 +156,7 @@ bool TextLoader::Initialize(string language_file) {
         } else {
             // Syntax error!
         }
+        delete[] buffer;
     }
     fclose(file);
     return true;
@@ -151,7 +165,8 @@ bool TextLoader::Initialize(string language_file) {
 Drawable* TextLoader::GetImage(const std::string& text) {
 	std::wstring final(text.length(), L' ');
 	std::copy(text.begin(), text.end(), final.begin());
-	return GetImage(final);
+    Drawable* img = GetImage(final);
+    return img;
 }
 Drawable* TextLoader::GetImage(const std::wstring& text) {
     return text_images_[text]->ConvertToText();
