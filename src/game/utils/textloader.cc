@@ -94,7 +94,7 @@ ugdk::Text* TextLoader::Word::ConvertToText() const {
 
 // Fills the map with the information on the given file
 bool TextLoader::Initialize(string language_file) {
-    FILE* file = fopen(PATH_MANAGER()->ResolvePath(language_file).c_str(), "r,ccs=UTF-8");
+    FILE* file = fopen(PATH_MANAGER()->ResolvePath(language_file).c_str(), "r");
     if(file == NULL)
         return false;
 

@@ -19,6 +19,10 @@
 
 #include "utf8.h"
 
+#ifdef WIN32
+#include <Winsock2.h>
+#endif
+
 #define _NXT	0x80
 #define _SEQ2	0xc0
 #define _SEQ3	0xe0
@@ -263,7 +267,7 @@ wchar_to_utf8(const wchar_t *in, size_t insize, char *out, size_t outsize,
 			return (0);		/* no space left */
 
 		/* make it work under different endians */
-		ch = htonl(*w);
+		ch = htonl(*w); // TODO: lets implement this function ourself?
 		oc = (u_char *)&ch;
 		switch (n) {
 		case 1:

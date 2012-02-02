@@ -18,8 +18,9 @@ CollisionManager::~CollisionManager() {
 }
 
 void CollisionManager::Generate(const std::string &name) {
+    cache_[name] = new CollisionClass();
 #ifdef DEBUG
-    colclass->set_name(name);
+    cache_[name]->set_name(name);
 #endif
 }
 
