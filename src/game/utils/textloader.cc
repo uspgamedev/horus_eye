@@ -1,6 +1,6 @@
 #include <cstdio>
 #include "textloader.h"
-#include "utf8.h"
+#include <ugdk/util/utf8.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/util/pathmanager.h>

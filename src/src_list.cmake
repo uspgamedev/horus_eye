@@ -124,8 +124,6 @@ SET(GAME_SRCS
     ./src//game/utils/textloader.h 
     ./src//game/utils/tile.cc 
     ./src//game/utils/tile.h 
-    ./src//game/utils/utf8.cc 
-    ./src//game/utils/utf8.h 
     ./src//game/utils/visionstrategy.cc 
     ./src//game/utils/visionstrategy.h 
     ./src//mac/SDLMain.h 
