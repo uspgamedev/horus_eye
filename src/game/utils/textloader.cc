@@ -100,23 +100,19 @@ bool TextLoader::Initialize(string language_file) {
 
     Clear();
 
-    wchar_t buffer_utf8[STRING_LENGTH];
+    char buffer_utf8[STRING_LENGTH];
+    wchar_t buffer[STRING_LENGTH];
     int reading_type = 0;
 
     while(!feof(file)) {
-        fgetws(buffer_utf8, STRING_LENGTH, file);
-        // "Converting" wchar_t* to string
-        std::wstring temp_text = std::wstring(buffer_utf8);
-        std::string text(temp_text.size() + 1, '\0');
-        std::copy(temp_text.begin(), temp_text.end(), text.begin());
+        // Read from the UTF-8 encoded file.
+        fgets(buffer_utf8, STRING_LENGTH, file);
 
         // Converting UTF-8 to wstring
-        size_t buffer_size = utf8_to_wchar(text.c_str(), text.size(), NULL, 0, 0);
-        wchar_t* buffer = new wchar_t[buffer_size + 1];
-        utf8_to_wchar(text.c_str(), text.size(), buffer, buffer_size, 0);
+        size_t buffer_size = utf8_to_wchar(buffer_utf8, strlen(buffer_utf8), buffer, STRING_LENGTH, 0);
+        buffer[buffer_size] = L'\0';
 
         if(is_blank(buffer)) {
-            delete[] buffer;
             continue;
         }
 
@@ -131,32 +127,12 @@ bool TextLoader::Initialize(string language_file) {
         } else if(TextLoader::Word::IsWord(buffer)) {
 
             TextLoader::Word* word = new Word(buffer, reading_type == 2);
-            //TextLoader::Font* font = fonts_[word.font()];
 
             text_images_[word->name()] = word;
-            /*
-            Drawable* val;
-            if(reading_type == 2) // Reading tags of {FROM_FILE} type.
-				val = TEXT_MANAGER()->GetTextFromFile(word.text(), word.font());
-            else
-				val = TEXT_MANAGER()->GetText(word.text(), word.font());
-
-			if(val == NULL) // Don't store NULL drawables. 
-				continue;
-
-            wstring name = word.name();
-
-			// Defensive Programming! Erase previous drawable with same name 
-			// before overwriting.
-            if(text_images_.count(name) && text_images_[name] != NULL) {
-                delete text_images_[name];
-            }
-            text_images_[name] = val;*/
 
         } else {
             // Syntax error!
         }
-        delete[] buffer;
     }
     fclose(file);
     return true;
