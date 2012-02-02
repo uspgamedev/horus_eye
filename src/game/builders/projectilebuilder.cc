@@ -1,6 +1,7 @@
 #include <cmath>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/types.h>
 #include <ugdk/graphic/light.h>
 #include <pyramidworks/geometry/circle.h>
@@ -72,7 +73,7 @@ static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {
 
 void ProjectileBuilder::InitializeAnimations() {
     if(fireball_animation_ == NULL) {
-        fireball_animation_ = ugdk::Engine::reference()->animation_loader().Load("data/animations/fireball.gdd");
+        fireball_animation_ = ugdk::Engine::reference()->animation_loader().Load("animations/fireball.gdd");
         fireball_animation_map_[0] = fireball_animation_->MakeIndex("ATTACKING_LEFT");
         fireball_animation_map_[1] = fireball_animation_->MakeIndex("ATTACKING_UP_LEFT");
         fireball_animation_map_[2] = fireball_animation_->MakeIndex("ATTACKING_UP");
@@ -84,7 +85,7 @@ void ProjectileBuilder::InitializeAnimations() {
     }
 
     if(lightning_animation_ == NULL) {
-        lightning_animation_ = ugdk::Engine::reference()->animation_loader().Load("data/animations/lightning.gdd");
+        lightning_animation_ = ugdk::Engine::reference()->animation_loader().Load("animations/lightning.gdd");
         lightning_animation_map_[0] = lightning_animation_->MakeIndex("ATTACKING_LEFT");
         lightning_animation_map_[1] = lightning_animation_->MakeIndex("ATTACKING_UP_LEFT");
         lightning_animation_map_[2] = lightning_animation_->MakeIndex("ATTACKING_UP");
@@ -97,9 +98,10 @@ void ProjectileBuilder::InitializeAnimations() {
 }
 
 Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
+    factory_->MagicMissileImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
+
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
-    proj->Initialize( factory_->MagicMissileImage() );
-    proj->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
+    proj->node()->set_drawable(new ugdk::Sprite( factory_->MagicMissileImage()));
     proj->set_light_radius(1.0f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
@@ -110,8 +112,8 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
 
 Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
-    proj->Initialize( factory_->MummyProjectileImage() );
-    proj->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
+    proj->node()->set_drawable(new ugdk::Sprite( factory_->MummyProjectileImage() ));
+    proj->node()->drawable()->set_hotspot(Vector2D(0.0f, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     proj->set_light_radius(0.75f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
@@ -121,10 +123,12 @@ Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
 }
 
 Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
+    factory_->LightningImage()->set_hotspot(Vector2D(Constants::LIGHTNING_SPRITE_CENTER_X, Constants::LIGHTNING_SPRITE_CENTER_Y + Constants::LIGHTNING_SPRITE_HEIGHT));
+
     Projectile *proj = new Projectile(Constants::LIGHTNING_SPEED, Constants::LIGHTNING_DURATION, dir);
-    proj->Initialize( factory_->LightningImage(), lightning_animation_ );
-    proj->set_hotspot(Vector2D(Constants::LIGHTNING_SPRITE_CENTER_X, Constants::LIGHTNING_SPRITE_CENTER_Y + Constants::LIGHTNING_SPRITE_HEIGHT));
-    proj->SelectAnimation(GetAnimationIndexFromDir(dir));
+    ugdk::Sprite* sprite = new ugdk::Sprite( factory_->LightningImage(), lightning_animation_ );
+    sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
+    proj->node()->set_drawable(sprite);
     proj->set_light_radius(1.0f);
 
 
@@ -134,17 +138,19 @@ Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
 }
 
 Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
+    factory_->FireballImage()->set_hotspot(Vector2D(Constants::FIREBALL_SPRITE_CENTER_X, Constants::FIREBALL_SPRITE_CENTER_Y + Constants::FIREBALL_SPRITE_HEIGHT));
+
     Explosion *explosion = new Explosion(factory_->ExplosionImage(), 
         Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
     Projectile *proj = new Carrier(Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir, explosion);
-    proj->Initialize( factory_->FireballImage(), fireball_animation_ );
-    proj->set_hotspot(Vector2D(Constants::FIREBALL_SPRITE_CENTER_X, Constants::FIREBALL_SPRITE_CENTER_Y + Constants::FIREBALL_SPRITE_HEIGHT));
-    proj->SelectAnimation(GetAnimationIndexFromDir(dir));
+    ugdk::Sprite* sprite = new ugdk::Sprite( factory_->FireballImage(), fireball_animation_ );
+    sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
+    proj->node()->set_drawable(sprite);
     proj->set_light_radius(1.0f);
 
     // Give the light an orange color
     ugdk::Color light_color(1.0f, 0.521568f, 0.082352f);
-    proj->light()->set_color(light_color);
+    proj->node()->light()->set_color(light_color);
 
 
     CollisionObject* col = buildBasicCollision(proj, 0.25f);

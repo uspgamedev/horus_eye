@@ -4,7 +4,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animation.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/time/timehandler.h>
@@ -45,7 +45,7 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-Hero::Hero(ugdk::Image* img, 
+Hero::Hero(ugdk::Spritesheet* img, 
            resource::Energy &life, 
            resource::Energy &mana, 
            int num_blocks, 
@@ -62,7 +62,7 @@ Hero::Hero(ugdk::Image* img,
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
     }
-    SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(last_standing_animation_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     invulnerability_time_ = INVUL_TIME;
@@ -99,7 +99,7 @@ void Hero::ChangeSecondaryWeapon(int slot) {
 
 void Hero::PlayHitSound() const {
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("data/samples/hero_hit.wav")->Play();
+        Engine::reference()->audio_manager()->LoadSample("samples/hero_hit.wav")->Play();
 }
 
 
@@ -175,7 +175,7 @@ void Hero::StartAttackAnimation() {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
+    sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
 bool Hero::Aiming() {
@@ -227,9 +227,9 @@ void Hero::Update(float delta_t) {
             Creature::Move(this->GetWalkingDirection(), delta_t);
 
             if (animation_direction_)
-                this->SelectAnimation(walking_animations_[animation_direction_]);
+                sprite_->SelectAnimation(walking_animations_[animation_direction_]);
             else
-                this->SelectAnimation(last_standing_animation_);
+                sprite_->SelectAnimation(last_standing_animation_);
         }
     }
     AdjustBlink(delta_t);

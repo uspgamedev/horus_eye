@@ -3,7 +3,7 @@
 
 #include <list>
 
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
@@ -32,10 +32,6 @@ class Creature : public WorldObject , public ugdk::Observer {
   public:
     Creature();
     virtual ~Creature();
-
-    void Initialize(ugdk::Drawable *image,
-                    ugdk::AnimationSet *set = NULL,
-                    bool delete_image = false);
 
     resource::Energy& life() { return life_; }
 	void set_life(resource::Energy &life) {
@@ -99,14 +95,9 @@ class Creature : public WorldObject , public ugdk::Observer {
     };
 
     Creature(resource::Energy &life, resource::Energy &mana);
+    void Initialize(ugdk::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
-    virtual void Update(float dt) {
-        WorldObject::Update(dt);
-        UpdateCondition(dt);
-        life_.Update(dt);
-        mana_.Update(dt);
-    }
-	virtual void Render();
+    virtual void Update(float dt);
     virtual void PlayHitSound() const {}
 
     // funcoes
@@ -176,6 +167,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
     skills::usearguments::Aim aim_;
+
+    /// Well, kinda hacky or not. TODO better comment
+    ugdk::Sprite* sprite_;
 
   private:
     /// When true, this Creature is on the invisible part of the blinking effect.

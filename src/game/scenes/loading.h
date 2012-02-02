@@ -6,14 +6,21 @@
 namespace scene {
 
 class Loading: public ugdk::Scene {
+  typedef ugdk::Scene super;
   public:
     Loading();
     virtual ~Loading();
     virtual void Update(float delta_t);
 
+    /// When the Loading gains focus, it becomes visible.
+    virtual void Focus();
+
+    /// When the Loading loses focus, it becomes invisible.
+    virtual void DeFocus();
+
   protected:
     bool has_been_drawn_;
-    ugdk::Layer *layer_;
+    ugdk::Node *loading_;
     void End();
 };
 

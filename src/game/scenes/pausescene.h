@@ -3,10 +3,6 @@
 
 #include <ugdk/action/scene.h>
 
-namespace ugdk {
-class Image;
-}
-
 namespace scene {
 
 class PauseScene: public ugdk::Scene {
@@ -15,10 +11,6 @@ class PauseScene: public ugdk::Scene {
     virtual ~PauseScene ();
 
     void Update (float delta_t);
-    void End ();
-
-  private:
-    ugdk::Image *image_;
 };
 
 }

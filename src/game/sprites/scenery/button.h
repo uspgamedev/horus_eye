@@ -13,7 +13,7 @@ namespace sprite {
 class Button : public Floor {
   private: typedef Floor super;
   public:
-    Button(ugdk::Image* image, scene::World *world, float active_time = 1.0f);
+    Button(ugdk::FlexibleSpritesheet* image, scene::World *world, float active_time = 1.0f);
     ~Button() { delete reactive_time_; }
 
     virtual void Update(float delta_t);

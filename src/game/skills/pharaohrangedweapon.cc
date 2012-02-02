@@ -41,7 +41,7 @@ void PharaohRangedWeapon::Use() {
     world->AddWorldObject(proj.MummyProjectile(offsetright, damage_), pos);
     
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 bool PharaohRangedWeapon::IsValidUse() const {

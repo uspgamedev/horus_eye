@@ -1,8 +1,8 @@
 #FONTS
-[FontA]{50}c+:data/font/Filmcrypob.ttf
-[FontB]{50}c:data/font/Filmcryptic.ttf
-[FontC]{30}c:data/font/Filmcryptic.ttf
-[FontD]{30}c+:data/font/Filmcrypob.ttf
+[FontA]{50}c+:font/Filmcrypob.ttf
+[FontB]{50}c:font/Filmcryptic.ttf
+[FontC]{30}c:font/Filmcryptic.ttf
+[FontD]{30}c+:font/Filmcrypob.ttf
 
 #WORDS
 // Main Menu
@@ -93,5 +93,5 @@
 [Portugues]{FontB}:Portugues
 
 #FILES
-[Intro]{FontA}:data/text/intro_en.txt
-[CreditsFile]{FontA}:data/text/credits_en.txt
+[Intro]{FontA}:text/intro_en.txt
+[CreditsFile]{FontA}:text/credits_en.txt

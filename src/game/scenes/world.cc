@@ -35,17 +35,21 @@ using pyramidworks::collision::CollisionInstance;
 World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
-        world_layer_(new ugdk::Layer()), 
+        world_node_(new ugdk::Node),
         remaining_enemies_(0),
         max_enemies_(0),
         image_factory_(factory),
         level_state_(LevelManager::NOT_FINISHED),
         konami_used_(false),
-        num_button_not_pressed_(0)
-    {
+        lights_on_(true),
+        num_button_not_pressed_(0) {
 
-    AddLayer(world_layer_);
-    Engine::reference()->PushInterface(hud_ = new utils::Hud(this));
+    root_node()->AddChild(world_node_);
+    world_node_->modifier()->ToggleFlag(Modifier::TRUNCATES_WHEN_APPLIED);
+
+    hud_ = new utils::Hud(this);
+    Engine::reference()->PushInterface(hud_->node());
+    this->AddEntity(hud_);
 }
 
 // Destrutor
@@ -98,25 +102,24 @@ void World::VerifyCheats(float delta_t) {
     if(input->KeyPressed(K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
-    //if(input->KeyPressed(K_l))
-    //   world_layer_->set_light_type((world_layer_->light_type() != LIGHT_IGNORE) ? LIGHT_IGNORE : LIGHT_ILLUMINATED);
+    if(input->KeyPressed(K_l))
+        VIDEO_MANAGER()->SetLightSystem(lights_on_ = !lights_on_);
 
 	// EASTER EGG/TODO: remove before any release!
-	// Also erase data/musics/sf2Guile456.mid
+	// Also erase musics/sf2Guile456.mid
 	/*if(!konami_used_) {
 		Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
 		if(input->CheckSequence(konami, 10)) {
 			hero_->Invulnerable(85000);
-			AUDIO_MANAGER()->LoadMusic("data/musics/sf2Guile456.mid")->Play();
+			AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
 			konami_used_ = true;
 		}
 	}*/
 }
 
 Vector2D World::ActualOffset() {
-    Vector2D result = Vector2D(0,0)-VIDEO_MANAGER()->video_size()*0.5;
-    if(hero_) result = result + hero_->position();
-
+    Vector2D result = -VIDEO_MANAGER()->video_size()*0.5;
+    if(hero_) result += hero_->node()->modifier()->offset();
     return result;
 }
 
@@ -206,7 +209,7 @@ void World::Update(float delta_t) {
     RemoveInactiveObjects();
     AddNewWorldObjects();
     
-    world_layer_->set_offset(ActualOffset());
+    world_node_->modifier()->set_offset(-ActualOffset());
 	UpdateVisibility();
 
 	if (!hero_)
@@ -220,12 +223,14 @@ void World::Update(float delta_t) {
 void World::End() {
     super::End();
 
-    Engine::reference()->RemoveInterface(hud_);
+    this->RemoveEntity(hud_);
+    Engine::reference()->RemoveInterface(hud_->node());
     delete hud_;
     hud_ = NULL;
 
 	if(hero_ != NULL)
 		hero_->Invulnerable(0);
+
     this->RemoveAll();
     for (int i = 0; i < (int)level_matrix_.size(); i++)
         for (int j = 0; j < (int)level_matrix_[i].size(); j++)
@@ -250,7 +255,10 @@ void World::AddNewWorldObjects() {
 
         WorldObject *new_object = *it;
         world_objects_.push_front(new_object);
-        world_layer_->AddSprite(new_object);
+        this->AddEntity(new_object);
+
+        world_node_->AddChild(new_object->node());
+
         if(new_object->collision_object() != NULL) {
             colliding_world_objects_.push_front(new_object);
             new_object->collision_object()->StartColliding();
@@ -274,8 +282,8 @@ void World::RemoveInactiveObjects() {
     }
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         if((*i)->status() == WorldObject::STATUS_DEAD) {
-            world_layer_->RemoveSprite(*i);
             colliding_world_objects_.remove(*i);
+            this->RemoveEntity(*i);
         }
     }
     world_objects_.remove_if(worldObjectIsDead);
@@ -284,12 +292,14 @@ void World::RemoveInactiveObjects() {
 void World::RemoveAll() {
     std::list<sprite::WorldObject*>::iterator i;
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        world_layer_->RemoveSprite(*i);
         if ( *i != hero_ ) {
             delete (*i);
         }
     }
     world_objects_.clear();
+    if(hero_ != NULL) {
+        this->world_node_->RemoveChild(hero_->node());
+    }
     hero_ = NULL;
 }
 
@@ -310,7 +320,7 @@ Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
 }
 
 Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
-    Vector2D    global_screen_coords = screen_coords + WORLD()->world_layer_->offset(),
+    Vector2D    global_screen_coords = screen_coords - WORLD()->world_node_->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
     return (transformed * (1.0f/60.373835392f));
 }

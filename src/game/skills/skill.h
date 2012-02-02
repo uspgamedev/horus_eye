@@ -3,11 +3,8 @@
 
 #include <cstdlib>
 
+#include <ugdk/graphic.h>
 #include "game/skills/skill.h"
-
-namespace ugdk {
-class Image;
-}
 
 namespace skills {
 
@@ -20,7 +17,7 @@ class Skill {
     virtual ~Skill() {}
 
     /// Returns the icon associated with this skill.
-    ugdk::Image* icon() const { return icon_; }
+    ugdk::Drawable* icon() const { return icon_; }
 
     /// Uses the skill.
     virtual void Use() = 0;
@@ -35,8 +32,8 @@ class Skill {
     /**
       @param icon The icon that is displayed on the user interface.
       */
-    Skill(ugdk::Image* icon) : icon_(icon) {}
-    ugdk::Image* icon_;
+    Skill(ugdk::Drawable* icon) : icon_(icon) {}
+    ugdk::Drawable* icon_;
 };
 
 /// A skill with an UseArgument.
@@ -61,7 +58,7 @@ class ArgSkill : public Skill {
     virtual bool Available() const = 0;
 
   protected:
-    ArgSkill(ugdk::Image* icon, const UseArgument& use_argument)
+    ArgSkill(ugdk::Drawable* icon, const UseArgument& use_argument)
         : Skill(icon), use_argument_(use_argument) {}
     
     const UseArgument& use_argument_;

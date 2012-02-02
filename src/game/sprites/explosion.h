@@ -20,9 +20,9 @@ class Circle;
 namespace sprite {
 
 class Explosion : public WorldObject, ugdk::Observer {
-
+  typedef WorldObject super;
   public:
-    Explosion(ugdk::Image *img, ugdk::uint32 animation, float radius, float damage);
+    Explosion(ugdk::FlexibleSpritesheet *img, ugdk::uint32 animation, float radius, float damage);
     ~Explosion();
 
     static void InitializeAnimations();
@@ -31,6 +31,7 @@ class Explosion : public WorldObject, ugdk::Observer {
     void RadiusUpdate(float delta_t);
     void Update(float delta_t);
     virtual void Tick();
+    void set_world_position(const ugdk::Vector2D& pos);
 
     int damage() { return damage_; }
 

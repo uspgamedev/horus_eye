@@ -2,14 +2,15 @@
 #include <iostream>
 #include <cmath>
 #include <queue>
+#include <algorithm>
 #include <ugdk/base/engine.h>
 #include <ugdk/input/inputmanager.h>
 #include "mapeditor.h"
 #include "mapobject.h"
 #include "layers/maptileslayer.h"
 #include "layers/mapspriteslayer.h"
-#include "layers/fpsmeter.h"
 #include "scenes/editormenu.h"
+#include "game/scenes/menu.h"
 #include "game/utils/levelmanager.h"
 
 using namespace std;
@@ -36,44 +37,40 @@ static inline std::string &trim(std::string &s) {
 namespace editor {
 
 MapEditor::MapEditor() : Scene() {
+	// No map has been loaded yet
 	map_loaded_ = false;
-    main_layer_ = tiles_layer_ = new MapTilesLayer(&map_matrix_, this);
-    Engine::reference()->PushInterface(tiles_layer_);
-    sprites_layer_ = NULL;
-	fps_layer_ = new FPSMeter;
+
+    main_layer_ = tiles_layer_ = new MapTilesLayer(this);
+	sprites_layer_ = new MapSpritesLayer(this);
+	
+	Engine::reference()->PushInterface(tiles_layer_->node());
+	Engine::reference()->PushInterface(sprites_layer_->node());
+
+	sprites_layer_->node()->modifier()->set_visible(false);
+
+	//fps_layer_ = new FPSMeter; // TODO
     selected_object_ = NULL;
 
-	utils::LevelManager::reference()->LoadLevelList("data/level_list.txt", map_list_);
+	utils::LevelManager::reference()->LoadLevelList("level_list.txt", map_list_);
 }
 
 MapEditor::~MapEditor() {
 }
 
 void MapEditor::End() {
-    Engine::reference()->RemoveInterface(tiles_layer_);
+	Engine::reference()->RemoveInterface(tiles_layer_->node());
+	Engine::reference()->RemoveInterface(sprites_layer_->node());
+
     if (map_loaded_) {
-        Engine::reference()->RemoveInterface(sprites_layer_);
-        Engine::reference()->RemoveInterface(fps_layer_);
+        //Engine::reference()->RemoveInterface(fps_layer_);
     }
 
     delete tiles_layer_;
-    if(sprites_layer_) delete sprites_layer_;
-    delete fps_layer_;
+    delete sprites_layer_;
+    //delete fps_layer_;
 }
 
 void MapEditor::LoadMap(std::string& file_name) {
-	if (map_loaded_) {
-		Engine::reference()->RemoveInterface(sprites_layer_);
-		delete sprites_layer_;
-		Engine::reference()->RemoveInterface(fps_layer_);
-	}
-	sprites_layer_ = new MapSpritesLayer(this);
-	sprites_layer_->set_visible(false);
-	Engine::reference()->PushInterface(sprites_layer_);
-	Engine::reference()->PushInterface(fps_layer_);
-	tiles_layer_->set_visible(true);
-	main_layer_ = tiles_layer_;
-
 	map_filename_ = file_name;
     FILE *file = fopen(file_name.c_str(), "r");
 
@@ -98,6 +95,7 @@ void MapEditor::LoadMap(std::string& file_name) {
         fclose(file);
 		map_loaded_ = true;
 		sprites_layer_->LoadMapMatrix(&map_matrix_);
+		tiles_layer_->LoadMapMatrix(&map_matrix_);
 		offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
 		scale_level_ = 0;
     } else {
@@ -111,9 +109,11 @@ void MapEditor::Update(float delta_t) {
     Scene::Update(delta_t);
 
     InputManager *input = ugdk::Engine::reference()->input_manager();
+	// When the user presses ESCAPE (or on start), the EditorMenu is created.
     if(input->KeyPressed(ugdk::K_ESCAPE) || map_loaded_ == false) {
 		EditorMenuBuilder builder;
-        Engine::reference()->PushScene(builder.BuildEditorMenu(this));
+		scene::Menu* editor_menu = builder.BuildEditorMenu(this);
+        Engine::reference()->PushScene(editor_menu);
 	}
 	if (!map_loaded_) return;
 	
@@ -122,7 +122,8 @@ void MapEditor::Update(float delta_t) {
 	else if(input->KeyPressed(ugdk::K_EQUALS))
         scale_level_++;
 
-    main_layer_->set_scale(exp(scale_level_ * 0.10f));
+	float scale = exp(scale_level_ * 0.10f);
+	main_layer_->node()->modifier()->set_scale(Vector2D(scale));
 
     Vector2D movement;
 
@@ -169,17 +170,13 @@ void MapEditor::Update(float delta_t) {
 	this->processKeyEditCommands();
 
     if(input->KeyPressed(ugdk::K_END)) {
-        main_layer_->set_visible(false);
+        main_layer_->node()->modifier()->set_visible(false);
         if(main_layer_ == tiles_layer_) {
             main_layer_ = sprites_layer_;
-            //this->Engine::reference()->RemoveInterface(tiles_layer_);
-            //this->Engine::reference()->PushInterface(main_layer_ = sprites_layer_);
         } else {
             main_layer_ = tiles_layer_;
-            //this->Engine::reference()->RemoveInterface(sprites_layer_);
-            //this->Engine::reference()->PushInterface(main_layer_ = tiles_layer_);
         }
-        main_layer_->set_visible(true);
+        main_layer_->node()->modifier()->set_visible(true);
     }
 	else if (input->KeyPressed(ugdk::K_HOME)) {
 		this->SaveMap();
@@ -235,10 +232,19 @@ void MapEditor::processKeyEditCommands() {
 
 			i = aux->y();
 			j = aux->x();
-			sprites_layer_->RemoveSprite(aux);
+
+			// Removing the MapObject
+			sprites_layer_->node()->RemoveChild(aux->isometric_node());
+			tiles_layer_->node()->RemoveChild(aux->tile_node());
 			delete aux;
+
+			// Creatings a new
 			map_matrix_[i][j] = new MapObject(i, j, type, width_, height_);
-			sprites_layer_->AddSprite(map_matrix_[i][j]);
+
+			// Adding it to the screen
+			sprites_layer_->node()->AddChild(map_matrix_[i][j]->isometric_node());
+			tiles_layer_->node()->AddChild(map_matrix_[i][j]->tile_node());
+
 			map_matrix_[i][j]->set_is_in_fill(false);
 
 			if (doFill) {

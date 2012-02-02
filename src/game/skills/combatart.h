@@ -32,7 +32,7 @@ class CombatArt : public ArgSkill<UseArgument_T> {
       @param caster_mana The Energy from where the mana cost is removed.
       @param use_argument The skill's argument.
       */
-    CombatArt(ugdk::Image* icon,
+    CombatArt(ugdk::Drawable* icon,
               float mana_cost,
               resource::Energy& caster_mana,
               const UseArgument& use_argument)

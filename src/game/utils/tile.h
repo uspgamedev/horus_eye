@@ -80,15 +80,18 @@ class Tile {
     };
 
     Tile* Next(GameMap &map, TileDir dir) {
+        Tile* aux;
         switch (dir) {
-        case UP: return Up(map); break;
-        case DOWN: return Down(map); break;
-        case RIGHT: return Right(map); break;
-        case LEFT: return Left(map); break;
-        case UP_RIGHT: return Up(map)->Right(map); break;
-        case UP_LEFT: return Up(map)->Left(map); break;
-        case DOWN_RIGHT: return Down(map)->Right(map); break;
-        case DOWN_LEFT: return Down(map)->Left(map); break;
+        case         UP: return    Up(map); break;
+        case       DOWN: return  Down(map); break;
+        case      RIGHT: return Right(map); break;
+        case       LEFT: return  Left(map); break;
+                
+        case   UP_RIGHT: aux =   Up(map); return aux ? aux->Right(map) : NULL; break;
+        case    UP_LEFT: aux =   Up(map); return aux ? aux->Left(map)  : NULL; break;
+        case DOWN_RIGHT: aux = Down(map); return aux ? aux->Right(map) : NULL; break;
+        case  DOWN_LEFT: aux = Down(map); return aux ? aux->Left(map)  : NULL; break;
+
         default:break;
         }
         return NULL;

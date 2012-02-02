@@ -1,4 +1,4 @@
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
 #include "mummybuilder.h"
 
@@ -17,71 +17,64 @@ using namespace sprite;
 using utils::Constants;
 using resource::Energy;
 
-Mummy * MummyBuilder::StandingMummy(ugdk::Image *image) {
+Mummy * MummyBuilder::StandingMummy(ugdk::FlexibleSpritesheet *image) {
     Mummy* mummy = new Mummy(image);
 	mummy->life() = Energy(Constants::MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
 	mummy->set_bound(Constants::MUMMY_RADIUS);
-	if(image) mummy->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
-
 	return mummy;
 }
 
-Mummy * MummyBuilder::WalkingMummy(ugdk::Image *image) {
+Mummy * MummyBuilder::WalkingMummy(ugdk::FlexibleSpritesheet *image) {
 	Mummy* mummy = StandingMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Mummy * MummyBuilder::StandingRangedMummy(ugdk::Image *image) {
+Mummy * MummyBuilder::StandingRangedMummy(ugdk::FlexibleSpritesheet *image) {
     Mummy* mummy = new Mummy(image);
     mummy->life() = Energy(Constants::RANGED_MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
 	mummy->set_bound(Constants::MUMMY_RADIUS);
-	if(image) mummy->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
-
 	return mummy;
 }
 
-Mummy * MummyBuilder::RangedMummy(ugdk::Image *image) {
+Mummy * MummyBuilder::RangedMummy(ugdk::FlexibleSpritesheet *image) {
 	Mummy* mummy = StandingRangedMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Mummy * MummyBuilder::StandingBigMummy(ugdk::Image *image) {
+Mummy * MummyBuilder::StandingBigMummy(ugdk::FlexibleSpritesheet *image) {
     Mummy *mummy = new Mummy(image);
     mummy->life() = Energy(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
     mummy->set_super_armor(true);
-    if(image) mummy->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
-
+    mummy->node()->modifier()->set_scale(Vector2D(2.0f, 2.0f));
     return mummy;
 }
 
-Mummy * MummyBuilder::BigMummy(ugdk::Image *image) {
+Mummy * MummyBuilder::BigMummy(ugdk::FlexibleSpritesheet *image) {
 	Mummy* mummy = StandingBigMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Pharaoh * MummyBuilder::StandingPharaoh(ugdk::Image *image) {
+Pharaoh * MummyBuilder::StandingPharaoh(ugdk::FlexibleSpritesheet *image) {
 	Pharaoh *pharaoh = new Pharaoh(image, Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
 	pharaoh->set_ranged_weapon(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
 	pharaoh->set_summon_weapon(new skills::PharaohSummonWeapon(pharaoh));
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
-    if(image) pharaoh->set_hotspot(Vector2D(image->render_size().x / 2.0f, image->render_size().y*6.0f / 7.0f));
-    
 	return pharaoh;
 }
 
-Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::Image *image) {
+Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::FlexibleSpritesheet *image) {
 	Pharaoh* pharaoh = StandingPharaoh(image);
 	pharaoh->set_standing(false);
 	return pharaoh;

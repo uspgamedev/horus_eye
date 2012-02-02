@@ -1,6 +1,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 
 #include "heroexplosionweapon.h"
 
@@ -38,7 +39,7 @@ void HeroExplosionWeapon::Use() {
     world->AddWorldObject(explosion, use_argument_.destination_);
 
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 bool HeroExplosionWeapon::IsValidUse() const {
