@@ -44,16 +44,16 @@ Block::~Block() {}
 
 #ifdef DEBUG
 void Block::GetKeys() {
-    InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input = INPUT_MANAGER();
     moving_ = true;
     moving_time_left_ = 0.5f;
-    if(input->KeyDown(ugdk::K_UP)) {
+    if(input->KeyDown(ugdk::input::K_UP)) {
         moving_toward_ = UP;
-    } else if(input->KeyDown(ugdk::K_DOWN)) {
+    } else if(input->KeyDown(ugdk::input::K_DOWN)) {
         moving_toward_ = DOWN;
-    } else if(input->KeyDown(ugdk::K_RIGHT)) {
+    } else if(input->KeyDown(ugdk::input::K_RIGHT)) {
         moving_toward_ = RIGHT;
-    } else if(input->KeyDown(ugdk::K_LEFT)) {
+    } else if(input->KeyDown(ugdk::input::K_LEFT)) {
         moving_toward_ = LEFT;
     } else {
         moving_ = false;

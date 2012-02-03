@@ -63,19 +63,19 @@ Menu::~Menu () {
 
 void Menu::Update(float delta_t) {
     Scene::Update(delta_t);
-    InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
     Vector2D mouse_pos = input->GetMousePosition();
 
-    if (input->KeyPressed(K_ESCAPE)) {
+    if (input->KeyPressed(ugdk::input::K_ESCAPE)) {
         Finish();
         return;
     }
 
-    if (input->KeyPressed(K_UP))
+    if (input->KeyPressed(ugdk::input::K_UP))
         do {
             selection_ = selection_ - 1 < 0 ? selection_num_ - 1 : selection_ - 1;
         } while(options_node_[selection_]->drawable() == NULL);
-    if (input->KeyPressed(K_DOWN)){
+    if (input->KeyPressed(ugdk::input::K_DOWN)){
         do {
             selection_ = (selection_ + 1) % selection_num_;
         } while(options_node_[selection_]->drawable() == NULL);
@@ -83,16 +83,16 @@ void Menu::Update(float delta_t) {
 
     int modifier = 0;
 
-    if (input->KeyPressed(K_RIGHT)) modifier++;
-    if (input->KeyPressed(K_LEFT)) modifier--;
+    if (input->KeyPressed(ugdk::input::K_RIGHT)) modifier++;
+    if (input->KeyPressed(ugdk::input::K_LEFT)) modifier--;
 
     bool on_selection = CheckMouse(mouse_pos);
 
     Show();
     Select();
 
-    if (input->KeyPressed(K_RETURN) || modifier ||
-        (on_selection && input->MouseUp(M_BUTTON_LEFT)))
+    if (input->KeyPressed(ugdk::input::K_RETURN) || modifier ||
+        (on_selection && input->MouseUp(ugdk::input::M_BUTTON_LEFT)))
         handler_->Handle(selection_, modifier);
 }
 

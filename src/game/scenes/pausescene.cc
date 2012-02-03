@@ -21,8 +21,8 @@ PauseScene::PauseScene () {
 PauseScene::~PauseScene () {}
 
 void PauseScene::Update (float delta_t) {
-    ugdk::InputManager *input = ugdk::Engine::reference()->input_manager();
-    if (input->KeyPressed(ugdk::K_RETURN)) Finish();
+    if (INPUT_MANAGER()->KeyPressed(ugdk::input::K_RETURN))
+        Finish();
 }
 
 }

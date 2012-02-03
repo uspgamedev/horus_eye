@@ -79,13 +79,13 @@ void World::HandleCollisions() {
 }
 
 void World::VerifyCheats(float delta_t) {
-    InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
 
-    if (input->KeyPressed(K_p)) {
+    if (input->KeyPressed(ugdk::input::K_p)) {
         LevelManager *level_manager = LevelManager::reference();
         level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
         level_state_ = LevelManager::FINISH_WARP;
-    } else if (input->KeyPressed(K_o)) {
+    } else if (input->KeyPressed(ugdk::input::K_o)) {
         LevelManager *level_manager = LevelManager::reference();
         unsigned int cur_level = level_manager->GetNextLevelID();
         if(cur_level > 0) {
@@ -93,16 +93,16 @@ void World::VerifyCheats(float delta_t) {
             level_state_ = LevelManager::FINISH_WARP;
         }
     }
-    if(input->KeyPressed(K_h)) {
-        if(input->KeyDown(ugdk::K_LSHIFT))
+    if(input->KeyPressed(ugdk::input::K_h)) {
+        if(input->KeyDown(ugdk::input::K_LSHIFT))
             hero_->mana_blocks().Fill();
         hero_->life().Fill();
         hero_->mana().Fill();
     }
-    if(input->KeyPressed(K_t))
+    if(input->KeyPressed(ugdk::input::K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
-    if(input->KeyPressed(K_l))
+    if(input->KeyPressed(ugdk::input::K_l))
         VIDEO_MANAGER()->SetLightSystem(lights_on_ = !lights_on_);
 
 	// EASTER EGG/TODO: remove before any release!
@@ -124,8 +124,8 @@ Vector2D World::ActualOffset() {
 }
 
 bool World::VerifyPause() {
-    InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(K_ESCAPE)) {
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
         MenuBuilder builder;
         Engine::reference()->PushScene(builder.BuildPauseMenu());
         return true;

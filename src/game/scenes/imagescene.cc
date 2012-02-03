@@ -11,8 +11,6 @@ namespace scene {
 #define BG  0
 #define IMG 1
 
-using namespace ugdk;
-
 ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image) 
     :   interface_node_(new ugdk::graphic::Node) {
 
@@ -29,18 +27,18 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     if (image) {
         scene_layers_[IMG] = new ugdk::graphic::Node(image);
 
-        Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5f;
+        ugdk::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5f;
         scene_layers_[IMG]->modifier()->set_offset(offset);
 
         interface_node_->AddChild(scene_layers_[IMG]);
     }
     else scene_layers_[IMG] = NULL;
 
-    Engine::reference()->PushInterface(interface_node_);
+    ugdk::Engine::reference()->PushInterface(interface_node_);
 }
 
 ImageScene::~ImageScene() {
-    Engine::reference()->RemoveInterface(interface_node_);
+    ugdk::Engine::reference()->RemoveInterface(interface_node_);
     delete interface_node_;
 }
 
@@ -51,9 +49,9 @@ void ImageScene::End() {
 
 void ImageScene::Update(float delta_t) {
     super::Update(delta_t);
-    InputManager *input = Engine::reference()->input_manager();
-    if (input->KeyPressed(K_RETURN) || input->KeyPressed(K_ESCAPE) ||
-        input->KeyPressed(K_KP_ENTER) || input->MouseUp(M_BUTTON_LEFT))
+    ugdk::input::InputManager *input = INPUT_MANAGER();
+    if (input->KeyPressed(ugdk::input::K_RETURN) || input->KeyPressed(ugdk::input::K_ESCAPE) ||
+        input->KeyPressed(ugdk::input::K_KP_ENTER) || input->MouseUp(ugdk::input::M_BUTTON_LEFT))
         Finish();
 }
 
