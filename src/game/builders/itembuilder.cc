@@ -79,19 +79,19 @@ bool IncreaseSightEvent::Use (Hero *hero) {
 
 //=======================================
 
-Item* ItemBuilder::LifePotion(ugdk::FlexibleSpritesheet* image) {
+Item* ItemBuilder::LifePotion(ugdk::graphic::FlexibleSpritesheet* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE));
     return potion;
 }
 
-Item* ItemBuilder::ManaPotion(ugdk::FlexibleSpritesheet* image) {
+Item* ItemBuilder::ManaPotion(ugdk::graphic::FlexibleSpritesheet* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA));
     return potion;
 }
 
-Item* ItemBuilder::SightPotion(ugdk::FlexibleSpritesheet* image) {
+Item* ItemBuilder::SightPotion(ugdk::graphic::FlexibleSpritesheet* image) {
     Item* potion = new Item(image);
     potion->set_event(new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE));
     return potion;

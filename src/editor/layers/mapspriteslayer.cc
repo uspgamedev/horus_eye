@@ -20,7 +20,7 @@ void MapSpritesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
 		visible = node_->modifier()->visible();
 		delete node_;
 	}
-	node_ = new Node;
+	node_ = new ugdk::graphic::Node;
 	node_->modifier()->set_visible(visible);
 	matrix_ = matrix;
 	int height = matrix_->size(), width = (*matrix_)[0].size();

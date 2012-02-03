@@ -85,7 +85,7 @@ class MenuBuilder {
         utils::Settings* settings_;
         static std::string settings_names_[SETTINGS_SELECT_NUM], on_off_[2];
         int sprites_active_[5];
-        ugdk::Node **resolution_sprites_, *on_off_sprites_[3][2], **language_sprites_;
+        ugdk::graphic::Node **resolution_sprites_, *on_off_sprites_[3][2], **language_sprites_;
     };
 };
 

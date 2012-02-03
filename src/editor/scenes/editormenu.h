@@ -7,7 +7,7 @@
 #include <ugdk/graphic/node.h>
 
 namespace ugdk {
-class Drawable;
+class ugdk::graphic::Drawable;
 class Image;
 }
 
@@ -81,7 +81,7 @@ class EditorMenuBuilder : scene::MenuBuilder {
 	  private:
 		MapEditor* editor_;
 		std::vector<std::string> map_list_;
-		ugdk::Node **level_nodes_;
+		ugdk::graphic::Node **level_nodes_;
 		int selected_level_;
     };
 };

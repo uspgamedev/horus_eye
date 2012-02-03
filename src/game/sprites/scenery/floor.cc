@@ -19,11 +19,11 @@ namespace sprite {
 #define CLEAR   0
 #define DARK    1
 
-Floor::Floor(ugdk::FlexibleSpritesheet* image) : tile_(NULL), sprite_(new ugdk::Sprite(image)) {
+Floor::Floor(ugdk::graphic::FlexibleSpritesheet* image) : tile_(NULL), sprite_(new ugdk::graphic::Sprite(image)) {
     image->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
 
     node_->set_drawable(sprite_);
-    node_->modifier()->ToggleFlag(Modifier::TRUNCATES_WHEN_APPLIED);
+    node_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 }
 
 void Floor::Update(float delta_t) {

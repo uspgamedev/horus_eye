@@ -19,7 +19,7 @@
 
 using namespace utils;
 
-#define LOADSPRITESHEET(VIDEO, PATH) VIDEO->AddSpritesheet(PATH, new ugdk::FlexibleSpritesheet(VIDEO->LoadTexture(PATH)));
+#define LOADSPRITESHEET(VIDEO, PATH) VIDEO->AddSpritesheet(PATH, new ugdk::graphic::FlexibleSpritesheet(VIDEO->LoadTexture(PATH)));
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
@@ -34,17 +34,17 @@ ugdk::Engine* engine() {
 }
 
 static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_height, const ugdk::Vector2D& hotspot) {
-    ugdk::FixedSpritesheetData sheet_data(path);
+    ugdk::graphic::FixedSpritesheetData sheet_data(path);
 
     sheet_data.FillWithFramesize(frame_width, frame_height, hotspot);
 
-    ugdk::FixedSpritesheet* sheet = new ugdk::FixedSpritesheet(sheet_data);
+    ugdk::graphic::FixedSpritesheet* sheet = new ugdk::graphic::FixedSpritesheet(sheet_data);
     engine()->video_manager()->AddSpritesheet(path, sheet);
 }
 static void CreateFlexibleSpritesheet(const char* path, float frame_width, float frame_height, const ugdk::Vector2D& hotspot) {
-    ugdk::VideoManager* videomanager = engine()->video_manager();
+    ugdk::graphic::VideoManager* videomanager = engine()->video_manager();
 
-    ugdk::FlexibleSpritesheet *sheet = new ugdk::FlexibleSpritesheet(videomanager->LoadTexture(path));
+    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(videomanager->LoadTexture(path));
     sheet->set_frame_size(ugdk::Vector2D(frame_width, frame_height));
     sheet->set_hotspot(hotspot);
 
@@ -61,7 +61,7 @@ void StartGame() {
 
     engine()->video_manager()->SetLightSystem(true);
 
-    ugdk::VideoManager* videomanager = engine()->video_manager();
+    ugdk::graphic::VideoManager* videomanager = engine()->video_manager();
 
     CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0f, 102.0f)); // Kha
     CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0f, 120.0f)); // Regular Mummy

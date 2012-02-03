@@ -3,7 +3,7 @@
 
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
-using ugdk::FlexibleSpritesheet;
+using ugdk::graphic::FlexibleSpritesheet;
 namespace utils {
 
 class ImageFactory {
@@ -11,7 +11,7 @@ class ImageFactory {
     ImageFactory() {}
     virtual ~ImageFactory(){}
 
-    virtual ugdk::Spritesheet* HeroImage();
+    virtual ugdk::graphic::Spritesheet* HeroImage();
     virtual FlexibleSpritesheet* MummyImage();
     virtual FlexibleSpritesheet* RangedMummyImage();
     virtual FlexibleSpritesheet* BigMummyImage();

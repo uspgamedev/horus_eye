@@ -7,12 +7,6 @@
 #include <ugdk/math/frame.h>
 #include "menuhandler.h"
 
-namespace ugdk {
-class Sprite;
-class Image;
-class Layer;
-}
-
 namespace scene {
 
 class Menu: public ugdk::Scene {
@@ -30,12 +24,12 @@ class Menu: public ugdk::Scene {
         return selection_pos_[index];
     }
 
-    void set_content_box(ugdk::Frame content_box, ugdk::Drawable::HookPoint alignment);
-    void set_selection_sprite(ugdk::Drawable *drawable);
-    void set_selection_sprite(ugdk::Drawable **drawable);
-    void set_option_sprite(int index, ugdk::Drawable *draw);
-    void AddDrawable(ugdk::Drawable *drawable, ugdk::Vector2D pos);
-    void AddNode(ugdk::Node *node);
+    void set_content_box(ugdk::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment);
+    void set_selection_sprite(ugdk::graphic::Drawable *drawable);
+    void set_selection_sprite(ugdk::graphic::Drawable **drawable);
+    void set_option_sprite(int index, ugdk::graphic::Drawable *draw);
+    void AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos);
+    void AddNode(ugdk::graphic::Node *node);
 
     void Hide();
     void Show();
@@ -45,12 +39,12 @@ class Menu: public ugdk::Scene {
 
   protected:
 
-    void DecideWhereOptionsGo(ugdk::Drawable::HookPoint alignment);
+    void DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment);
 
     bool CheckMouse (ugdk::Vector2D &mouse_pos);
     void Select ();
 
-	ugdk::Drawable::HookPoint option_alignment_;
+	ugdk::graphic::Drawable::HookPoint option_alignment_;
 
     bool content_box_defined_;
 
@@ -63,11 +57,11 @@ class Menu: public ugdk::Scene {
 
     MenuHandler *handler_;
 
-    ugdk::Node *selection_node_[2];
-    ugdk::Node **options_node_;
+    ugdk::graphic::Node *selection_node_[2];
+    ugdk::graphic::Node **options_node_;
     ugdk::Vector2D *selection_pos_;
     ugdk::Frame    content_box_;
-    ugdk::Node  *interface_node_;
+    ugdk::graphic::Node  *interface_node_;
 
 };
 

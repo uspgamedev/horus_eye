@@ -36,16 +36,16 @@ Menu::Menu (int selection_num)
     content_box_defined_ = false;
 
     selection_pos_ = new Vector2D[selection_num_];
-    interface_node_ = new Node;
+    interface_node_ = new ugdk::graphic::Node;
     Engine *engine = Engine::reference();
     engine->PushInterface(interface_node_);
 
     for (int i = 0; i < SELECTION_SPRITES ; i++)
-        interface_node_->AddChild(selection_node_[i] = new Node);
+        interface_node_->AddChild(selection_node_[i] = new ugdk::graphic::Node);
 
-    options_node_ = new Node*[selection_num_];
+    options_node_ = new ugdk::graphic::Node*[selection_num_];
     for(int i = 0; i < selection_num_; ++i) {
-        interface_node_->AddChild(options_node_[i] = new Node);
+        interface_node_->AddChild(options_node_[i] = new ugdk::graphic::Node);
         options_node_[i]->set_zindex(OPTION_ZINDEX);
     }
 }
@@ -103,23 +103,23 @@ void Menu::set_handler(MenuHandler* handler) {
 }
 
 void Menu::set_content_box(ugdk::Frame content_box) {
-	set_content_box(content_box, ugdk::Drawable::CENTER);
+	set_content_box(content_box, ugdk::graphic::Drawable::CENTER);
 }
 
-void Menu::set_content_box(ugdk::Frame content_box, ugdk::Drawable::HookPoint alignment) {
+void Menu::set_content_box(ugdk::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment) {
     content_box_ = content_box;
     content_box_defined_ = true;
     DecideWhereOptionsGo(alignment);
 }
 
-void Menu::set_selection_sprite(ugdk::Drawable *drawable) {
+void Menu::set_selection_sprite(ugdk::graphic::Drawable *drawable) {
     selection_node_[0]->set_drawable(drawable);
     selection_node_[1]->set_drawable(NULL);
 
 	drawable->set_hotspot(option_alignment_);
 }
 
-void Menu::set_selection_sprite(ugdk::Drawable **drawable) {
+void Menu::set_selection_sprite(ugdk::graphic::Drawable **drawable) {
     selection_node_[0]->set_drawable(drawable[0]);
     selection_node_[1]->set_drawable(drawable[1]);
 
@@ -127,7 +127,7 @@ void Menu::set_selection_sprite(ugdk::Drawable **drawable) {
 	drawable[1]->set_hotspot(option_alignment_);
 }
 
-void Menu::set_option_sprite(int index, ugdk::Drawable *drawable) {
+void Menu::set_option_sprite(int index, ugdk::graphic::Drawable *drawable) {
     if (index >= 0 && index < selection_num_ && content_box_defined_) {
         options_node_[index]->set_drawable(drawable);
         options_node_[index]->modifier()->set_offset(selection_pos_[index]);
@@ -135,19 +135,19 @@ void Menu::set_option_sprite(int index, ugdk::Drawable *drawable) {
     }
 }
 
-void Menu::AddDrawable(ugdk::Drawable *drawable, ugdk::Vector2D pos) {
-    ugdk::Node* node = new ugdk::Node(drawable);
+void Menu::AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos) {
+    ugdk::graphic::Node* node = new ugdk::graphic::Node(drawable);
     interface_node_->AddChild(node);
     node->modifier()->set_offset(pos);
     node->set_zindex(-OPTION_ZINDEX);
 }
 
-void Menu::AddNode(ugdk::Node *node) {
+void Menu::AddNode(ugdk::graphic::Node *node) {
     interface_node_->AddChild(node);
     node->set_zindex(-OPTION_ZINDEX);
 }
 
-void Menu::DecideWhereOptionsGo(ugdk::Drawable::HookPoint alignment) {
+void Menu::DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment) {
 	option_alignment_ = alignment;
 
     float height = content_box_.height()/selection_num_;
@@ -155,15 +155,15 @@ void Menu::DecideWhereOptionsGo(ugdk::Drawable::HookPoint alignment) {
 
 	Vector2D offset;
     switch (option_alignment_) {
-		case Drawable::TOP_LEFT    : offset = Vector2D(        0.0f,          0.0f); break;
-        case Drawable::TOP         : offset = Vector2D(width * 0.5f,          0.0f); break;
-        case Drawable::TOP_RIGHT   : offset = Vector2D(       width,          0.0f); break;
-        case Drawable::LEFT        : offset = Vector2D(        0.0f, height * 0.5f); break;
-        case Drawable::CENTER      : offset = Vector2D(width * 0.5f, height * 0.5f); break;
-        case Drawable::RIGHT       : offset = Vector2D(       width, height * 0.5f); break;
-        case Drawable::BOTTOM_LEFT : offset = Vector2D(        0.0f,         height); break;
-        case Drawable::BOTTOM      : offset = Vector2D(width * 0.5f,         height); break;
-        case Drawable::BOTTOM_RIGHT: offset = Vector2D(       width,         height); break;
+		case ugdk::graphic::Drawable::TOP_LEFT    : offset = Vector2D(        0.0f,          0.0f); break;
+        case ugdk::graphic::Drawable::TOP         : offset = Vector2D(width * 0.5f,          0.0f); break;
+        case ugdk::graphic::Drawable::TOP_RIGHT   : offset = Vector2D(       width,          0.0f); break;
+        case ugdk::graphic::Drawable::LEFT        : offset = Vector2D(        0.0f, height * 0.5f); break;
+        case ugdk::graphic::Drawable::CENTER      : offset = Vector2D(width * 0.5f, height * 0.5f); break;
+        case ugdk::graphic::Drawable::RIGHT       : offset = Vector2D(       width, height * 0.5f); break;
+        case ugdk::graphic::Drawable::BOTTOM_LEFT : offset = Vector2D(        0.0f,         height); break;
+        case ugdk::graphic::Drawable::BOTTOM      : offset = Vector2D(width * 0.5f,         height); break;
+        case ugdk::graphic::Drawable::BOTTOM_RIGHT: offset = Vector2D(       width,         height); break;
     }
     for (int i = 0; i < selection_num_; ++i) {
         float y = content_box_.top() + static_cast<float>(i)*height;

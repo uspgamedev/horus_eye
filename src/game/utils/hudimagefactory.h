@@ -3,7 +3,7 @@
 
 #include <ugdk/graphic.h>
 
-using ugdk::TexturedRectangle;
+using ugdk::graphic::TexturedRectangle;
 
 namespace utils {
 

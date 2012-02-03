@@ -20,8 +20,8 @@ class TextLoader {
     ~TextLoader();
 
     bool Initialize(std::string language_file);
-    ugdk::Drawable* GetImage(const std::string& text);
-	ugdk::Drawable* GetImage(const std::wstring& text);
+    ugdk::graphic::Drawable* GetImage(const std::string& text);
+	ugdk::graphic::Drawable* GetImage(const std::wstring& text);
     //void SetFont(std::string font);
 
     bool Clear();
@@ -41,7 +41,7 @@ class TextLoader {
         const std::wstring& name() const { return name_; }
         const std::wstring& font() const { return font_; }
 		const std::wstring& text() const { return text_; }
-        ugdk::Text* ConvertToText() const;
+        ugdk::graphic::Text* ConvertToText() const;
 
         static bool IsWord(wchar_t *);
 

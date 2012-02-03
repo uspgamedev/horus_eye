@@ -10,7 +10,7 @@ namespace scene {
 
 using namespace ugdk;
 
-ScrollingImageScene::ScrollingImageScene(ugdk::Drawable *background, ugdk::Drawable *image, float time) :
+ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, float time) :
          ImageScene(background, image) {
    time_ = time;
    float delta_h = VIDEO_MANAGER()->video_size().y;

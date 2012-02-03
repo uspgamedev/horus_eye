@@ -22,7 +22,7 @@ namespace sprite {
 class Explosion : public WorldObject, ugdk::Observer {
   typedef WorldObject super;
   public:
-    Explosion(ugdk::FlexibleSpritesheet *img, ugdk::uint32 animation, float radius, float damage);
+    Explosion(ugdk::graphic::FlexibleSpritesheet *img, ugdk::uint32 animation, float radius, float damage);
     ~Explosion();
 
     static void InitializeAnimations();

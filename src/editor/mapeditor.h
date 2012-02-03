@@ -30,17 +30,17 @@ class MapEditor : public ugdk::Scene {
 		virtual void LoadMapMatrix(MapEditor::MapMatrix *matrix) = 0;
         virtual void set_scale(float scale) { scale_ = scale; }
 		virtual void CenterAt(ugdk::Vector2D& center) { node_->modifier()->set_offset(center); }
-		ugdk::Node* node() { return node_; }
+		ugdk::graphic::Node* node() { return node_; }
 
         virtual MapObject* Select(ugdk::Vector2D& pos) { return NULL; }
         virtual ugdk::Vector2D ModifyMovement(ugdk::Vector2D& movement) { return movement; }
 
       protected:
-        MapLayer(MapEditor* editor) : matrix_(NULL), editor_(editor), scale_(1.0f), node_(new ugdk::Node) {}
+        MapLayer(MapEditor* editor) : matrix_(NULL), editor_(editor), scale_(1.0f), node_(new ugdk::graphic::Node) {}
         MapEditor::MapMatrix *matrix_;
 		MapEditor* editor_;
         float scale_;
-		ugdk::Node* node_;
+		ugdk::graphic::Node* node_;
     };
 
   private:

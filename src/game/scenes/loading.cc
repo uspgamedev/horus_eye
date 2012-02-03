@@ -14,11 +14,11 @@ namespace scene {
 using namespace ugdk;
 
 Loading::Loading() {
-    Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
+    ugdk::graphic::Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
 
     Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->size() - Vector2D(10.0f, 10.0f);
 
-    loading_ = new Node(loading_image);
+    loading_ = new ugdk::graphic::Node(loading_image);
     loading_->modifier()->set_offset(position);
 
     Engine::reference()->PushInterface(loading_);

@@ -15,7 +15,7 @@ namespace editor {
 const float MapObject::TileSize = 10.0f;
 
 MapObject::MapObject(int i, int j, char type, int level_width, int level_height) : x_(j), y_(i), type_(type), is_in_fill_(false) {
-    tile_image_ = new SolidRectangle(Vector2D(TileSize, TileSize));
+    tile_image_ = new ugdk::graphic::SolidRectangle(Vector2D(TileSize, TileSize));
 
     utils::ImageFactory img_factory;
     sprite_image_ = NULL;
@@ -108,9 +108,9 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
         break;
     }
 	if(sprite_image_)
-		isometric_node_ = new Node(new Sprite(sprite_image_));
+		isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::Sprite(sprite_image_));
 	else
-		isometric_node_ = new Node(new SolidRectangle(Vector2D(TileSize, TileSize)));
+		isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::SolidRectangle(Vector2D(TileSize, TileSize)));
 	
     Vector2D position ((float)x_, (float)(level_height - y_ - 1));
 	isometric_node_->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
@@ -119,7 +119,7 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
     else
         isometric_node_->set_zindex(scene::World::FromWorldLinearCoordinates(position).y);
 
-	tile_node_ = new Node(tile_image_);
+	tile_node_ = new ugdk::graphic::Node(tile_image_);
 	tile_node_->modifier()->set_offset(Vector2D(x_*TileSize, y_*TileSize));
 }
 

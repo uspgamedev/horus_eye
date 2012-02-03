@@ -13,7 +13,7 @@ MapTilesLayer::~MapTilesLayer() {}
 
 void MapTilesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
 	if(node_ != NULL) delete node_;
-	node_ = new Node;
+	node_ = new ugdk::graphic::Node;
 	matrix_ = matrix;
 	int height = matrix_->size(), width = (*matrix_)[0].size();
     for (int i = 0; i < height; ++i) {

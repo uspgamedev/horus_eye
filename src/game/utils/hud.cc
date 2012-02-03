@@ -23,6 +23,7 @@
 #define VIDEO_X VIDEO_MANAGER()->video_size().x 
 
 using namespace ugdk;
+using namespace ugdk::graphic;
 using scene::World;
 
 namespace utils {

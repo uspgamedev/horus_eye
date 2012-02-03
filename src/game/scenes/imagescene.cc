@@ -13,13 +13,13 @@ namespace scene {
 
 using namespace ugdk;
 
-ImageScene::ImageScene(ugdk::Drawable *background, ugdk::Drawable *image) 
-    :   interface_node_(new Node) {
+ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image) 
+    :   interface_node_(new ugdk::graphic::Node) {
 
 
     // Node [0], background image
     if (background) {
-        scene_layers_[BG] = new Node(background);
+        scene_layers_[BG] = new ugdk::graphic::Node(background);
         scene_layers_[BG]->set_zindex(-1.0f);
         interface_node_->AddChild(scene_layers_[BG]);
     }
@@ -27,7 +27,7 @@ ImageScene::ImageScene(ugdk::Drawable *background, ugdk::Drawable *image)
 
     // Node [1], main image
     if (image) {
-        scene_layers_[IMG] = new Node(image);
+        scene_layers_[IMG] = new ugdk::graphic::Node(image);
 
         Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5f;
         scene_layers_[IMG]->modifier()->set_offset(offset);

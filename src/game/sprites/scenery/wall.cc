@@ -31,7 +31,7 @@ Wall::Wall(FlexibleSpritesheet* image) : tile_(NULL) {
     dark_visible_frame_ = 5;
     dark_transparent_frame_ = 6;
 
-    sprite_ = new ugdk::Sprite(image);
+    sprite_ = new ugdk::graphic::Sprite(image);
     sprite_->SetDefaultFrame(visible_frame_);
 
     node_->set_drawable(sprite_);

@@ -15,7 +15,7 @@ class Wall : public WorldObject {
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
-    Wall(ugdk::FlexibleSpritesheet* image);
+    Wall(ugdk::graphic::FlexibleSpritesheet* image);
     ~Wall();
 
     virtual void Update(float dt);
@@ -42,7 +42,7 @@ class Wall : public WorldObject {
     };
 
     Square transparency_square_;
-    ugdk::Sprite* sprite_;
+    ugdk::graphic::Sprite* sprite_;
 
     utils::Tile *tile_;
     int     visible_frame_,

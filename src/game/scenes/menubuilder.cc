@@ -62,7 +62,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-	ANIMATIONS = Engine::reference()->animation_loader().Load("animations/menu.gdd");
+    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
@@ -87,13 +87,13 @@ void MenuBuilder::ReleaseAnimations() {
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
-    Spritesheet *menu_eye_sheet = VIDEO_MANAGER()->GetSpritesheet("images/eye.png");
+    ugdk::graphic::Spritesheet *menu_eye_sheet = VIDEO_MANAGER()->GetSpritesheet("images/eye.png");
 
-    ugdk::Drawable *selection_sprite[SELECTION_SPRITE];
+    ugdk::graphic::Drawable *selection_sprite[SELECTION_SPRITE];
     for (int i = 0; i < SELECTION_SPRITE; i++) {
-        Sprite* sprite = new Sprite(menu_eye_sheet, ANIMATIONS);
+        ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(menu_eye_sheet, ANIMATIONS);
         sprite->SelectAnimation(SELECTION_EYE);
-        sprite->set_hotspot(Drawable::CENTER);
+        sprite->set_hotspot(ugdk::graphic::Drawable::CENTER);
         selection_sprite[i] = sprite;
         //selection_sprite[i]->set_hotspot(Vector2D(frame_size.x - (1 - i) * frame_size.x, height/2));
     }
@@ -119,12 +119,12 @@ Menu *MenuBuilder::BuildMainMenu () {
                            (MENU_BOTTOM-MENU_TOP)/MenuBuilder::MAIN_SELECT_NUM);
 
     // The game logo.
-    Drawable *logo = new ugdk::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/logo_560x334_black.png"));
+    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/logo_560x334_black.png"));
     menu->AddDrawable(logo, Vector2D((VIDEO_MANAGER()->video_size().x - logo->width()) * 0.5f, 0.0f));
 
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::MAIN_SELECT_NUM; ++i) {
-        Drawable *options_sprite = NULL;
+        ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case MenuBuilder::MAIN_SELECT_PLAY:
             options_sprite = TEXT_LOADER()->GetImage("Play");
@@ -145,12 +145,12 @@ Menu *MenuBuilder::BuildMainMenu () {
         menu->set_option_sprite(i, options_sprite);
     }
 
-	Drawable *version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
-    version->set_hotspot(Drawable::BOTTOM_LEFT);
+    ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
+    version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     menu->AddDrawable(version, Vector2D(10.0f, VIDEO_MANAGER()->video_size().y - 10.0f));
 
-    Drawable *developed_by = new ugdk::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/developed_by_uspgamedev1.png"));
-    developed_by->set_hotspot(Drawable::BOTTOM_RIGHT);
+    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/developed_by_uspgamedev1.png"));
+    developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     menu->AddDrawable(developed_by, VIDEO_MANAGER()->video_size() + Vector2D(-15.0f, 0.0f));
 
     return menu;
@@ -208,13 +208,13 @@ Menu *MenuBuilder::BuildPauseMenu () {
                            (PAUSE_BOTTOM-PAUSE_TOP)/MenuBuilder::PAUSE_SELECT_NUM);
 
     // The pause bg sprite.
-    ugdk::SolidRectangle* bg = new ugdk::SolidRectangle(VIDEO_MANAGER()->video_size());
+    ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f, 0.5f));
     menu->AddDrawable(bg, Vector2D());
 
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::PAUSE_SELECT_NUM; ++i) {
-        Drawable *options_sprite = NULL;
+        ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
             options_sprite = TEXT_LOADER()->GetImage("Continue");
@@ -351,7 +351,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < MenuBuilder::SETTINGS_SELECT_NUM; ++i) {
         if(settings_names_[i].compare("BLANK") == 0)
             continue;
-        Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
+        ugdk::graphic::Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
         menu_->set_option_sprite(i, img);
     }
 
@@ -362,16 +362,16 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
 
     const Vector2D *resolutions = settings_->ResolutionList();
 
-    resolution_sprites_ = new ugdk::Node*[Settings::NUM_RESOLUTIONS];
+    resolution_sprites_ = new ugdk::graphic::Node*[Settings::NUM_RESOLUTIONS];
 
     //TEXT_LOADER()->SetFont("FontB");
     // Creates the resolution names vector.
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         std::wostringstream stm;
         stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
-        Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
-        tex->set_hotspot(Drawable::CENTER);
-        resolution_sprites_[i] = new ugdk::Node(tex);
+        ugdk::graphic::Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
+        tex->set_hotspot(ugdk::graphic::Drawable::CENTER);
+        resolution_sprites_[i] = new ugdk::graphic::Node(tex);
         resolution_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(0).y));
         menu_->AddNode(resolution_sprites_[i]);
         if ( i != sprites_active_[0] ) resolution_sprites_[i]->modifier()->set_visible(false);
@@ -383,9 +383,9 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
-            Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
-			img->set_hotspot(Drawable::CENTER);
-            on_off_sprites_[i][j] = new ugdk::Node(img);
+            ugdk::graphic::Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
+            img->set_hotspot(ugdk::graphic::Drawable::CENTER);
+            on_off_sprites_[i][j] = new ugdk::graphic::Node(img);
             on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(i+1).y));
             menu_->AddNode(on_off_sprites_[i][j]);
             if ( j != sprites_active_[i+1] ) on_off_sprites_[i][j]->modifier()->set_visible(false);
@@ -393,14 +393,14 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     }
     
     const string *language_name = settings_->LanguageNameList();
-    language_sprites_ = new ugdk::Node*[Settings::NUM_LANGUAGES];
+    language_sprites_ = new ugdk::graphic::Node*[Settings::NUM_LANGUAGES];
 
     sprites_active_[4] = settings_->language();
     for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
-        Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
-        img->set_hotspot(Drawable::CENTER);
+        ugdk::graphic::Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
+        img->set_hotspot(ugdk::graphic::Drawable::CENTER);
         
-        language_sprites_[i] = new ugdk::Node(img);
+        language_sprites_[i] = new ugdk::graphic::Node(img);
         language_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(4).y));
         menu_->AddNode(language_sprites_[i]);
         if ( i != sprites_active_[4] ) language_sprites_[i]->modifier()->set_visible(false);

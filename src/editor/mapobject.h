@@ -18,8 +18,8 @@ class MapObject : public ugdk::Entity {
 
     void Update(float delta_t);
 
-	ugdk::Node* tile_node() { return tile_node_; }
-	ugdk::Node* isometric_node() { return isometric_node_; }
+	ugdk::graphic::Node* tile_node() { return tile_node_; }
+	ugdk::graphic::Node* isometric_node() { return isometric_node_; }
 
     virtual ~MapObject();
 
@@ -35,10 +35,10 @@ class MapObject : public ugdk::Entity {
     int x_, y_;
     char type_;
 	bool is_in_fill_;
-	ugdk::SolidRectangle *tile_image_;
-    ugdk::Spritesheet *sprite_image_;
+	ugdk::graphic::SolidRectangle *tile_image_;
+    ugdk::graphic::Spritesheet *sprite_image_;
 
-	ugdk::Node *tile_node_, *isometric_node_;
+	ugdk::graphic::Node *tile_node_, *isometric_node_;
 
 };
 

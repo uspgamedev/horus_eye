@@ -85,7 +85,7 @@ bool TextLoader::Word::IsWord(wchar_t* str) {
     return true;
 }
 
-ugdk::Text* TextLoader::Word::ConvertToText() const {
+ugdk::graphic::Text* TextLoader::Word::ConvertToText() const {
     if(this->from_file_)
         return TEXT_MANAGER()->GetTextFromFile(text(), font());
     else
@@ -138,13 +138,13 @@ bool TextLoader::Initialize(string language_file) {
     return true;
 }
 
-Drawable* TextLoader::GetImage(const std::string& text) {
+ugdk::graphic::Drawable* TextLoader::GetImage(const std::string& text) {
 	std::wstring final(text.length(), L' ');
 	std::copy(text.begin(), text.end(), final.begin());
-    Drawable* img = GetImage(final);
+    ugdk::graphic::Drawable* img = GetImage(final);
     return img;
 }
-Drawable* TextLoader::GetImage(const std::wstring& text) {
+ugdk::graphic::Drawable* TextLoader::GetImage(const std::wstring& text) {
     return text_images_[text]->ConvertToText();
 }
 

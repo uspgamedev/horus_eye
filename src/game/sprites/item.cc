@@ -26,10 +26,10 @@ COLLISION_DIRECT(Item*, UseCollision, obj) {
         data_->Die();
 }
 
-Item::Item(ugdk::FlexibleSpritesheet* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
+Item::Item(ugdk::graphic::FlexibleSpritesheet* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
     img->set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
 
-    this->node()->set_drawable(new Sprite(img));
+    this->node()->set_drawable(new ugdk::graphic::Sprite(img));
     this->event_ = NULL;
 
     INITIALIZE_COLLISION;

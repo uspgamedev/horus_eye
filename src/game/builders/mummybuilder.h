@@ -15,14 +15,14 @@ class MummyBuilder {
   public:
     MummyBuilder() {}
 
-    sprite::Mummy *StandingMummy(ugdk::FlexibleSpritesheet* image);
-    sprite::Mummy *WalkingMummy(ugdk::FlexibleSpritesheet* image);
-    sprite::Mummy *RangedMummy(ugdk::FlexibleSpritesheet* image);
-    sprite::Mummy *StandingRangedMummy(ugdk::FlexibleSpritesheet* image);
-    sprite::Mummy *BigMummy(ugdk::FlexibleSpritesheet* image);
-    sprite::Mummy *StandingBigMummy(ugdk::FlexibleSpritesheet* image);
-	sprite::Pharaoh *WalkingPharaoh(ugdk::FlexibleSpritesheet* image);
-	sprite::Pharaoh *StandingPharaoh(ugdk::FlexibleSpritesheet* image);
+    sprite::Mummy *StandingMummy(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::Mummy *WalkingMummy(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::Mummy *RangedMummy(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::Mummy *StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::Mummy *BigMummy(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::Mummy *StandingBigMummy(ugdk::graphic::FlexibleSpritesheet* image);
+	sprite::Pharaoh *WalkingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
+	sprite::Pharaoh *StandingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
 
 };
 

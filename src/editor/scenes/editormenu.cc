@@ -56,13 +56,13 @@ scene::Menu* EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
     CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::EDITOR_SELECT_NUM);
 
 	// The background color.
-    ugdk::SolidRectangle* bg = new ugdk::SolidRectangle(VIDEO_MANAGER()->video_size());
+    ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f, 0.5f));
     menu->AddDrawable(bg, Vector2D());
 
     // The text of each option.
     for (int i = 0; i < EditorMenuBuilder::EDITOR_SELECT_NUM; ++i) {
-		Drawable *options_sprite = NULL;
+		ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case EditorMenuBuilder::EDITOR_SELECT_CONTINUE:
             options_sprite = TEXT_LOADER()->GetImage("Continue");
@@ -146,7 +146,7 @@ EditorMenuBuilder::LoadMapMenuHandler::LoadMapMenuHandler(scene::Menu *menu, Map
 				map_list_ = editor->map_list();
 				selected_level_ = 0;
 
-				level_nodes_ = new ugdk::Node*[map_list_.size()];
+				level_nodes_ = new ugdk::graphic::Node*[map_list_.size()];
 			}
 
 scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
@@ -164,13 +164,13 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
     // Setting the selection sprite.
     CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
 
-	ugdk::SolidRectangle* bg = new ugdk::SolidRectangle(VIDEO_MANAGER()->video_size());
+	ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     bg->set_color(ugdk::Color(0.25f, 0.25f, 0.25f, 0.8f));
     menu->AddDrawable(bg, Vector2D());
 
     // The sprite of each option.
     for (int i = 0; i < EditorMenuBuilder::LOAD_MAP_SELECT_NUM; ++i) {
-        Drawable *options_sprite = NULL;
+        ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case EditorMenuBuilder::LOAD_MAP_SELECT_CHANGE:
             options_sprite = TEXT_LOADER()->GetImage("Change");
@@ -231,11 +231,11 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
 		std::copy(map_list_[i].begin(), map_list_[i].end(), tmpw.begin());
 
 
-        Drawable* drawable = TEXT_MANAGER()->GetText(tmpw, L"FontB");
-		drawable->set_hotspot(Drawable::CENTER);
+        ugdk::graphic::Drawable* drawable = TEXT_MANAGER()->GetText(tmpw, L"FontB");
+		drawable->set_hotspot(ugdk::graphic::Drawable::CENTER);
 		
 		float x = VIDEO_MANAGER()->video_size().x * 0.5f;
-		level_nodes_[i] = new Node(drawable);
+		level_nodes_[i] = new ugdk::graphic::Node(drawable);
 		level_nodes_[i]->modifier()->set_offset(Vector2D(x, MENU_TOP + RECT_HEIGHT + 25.0f));
 		menu_->AddNode(level_nodes_[i]);
         if ( static_cast<int>(i) != selected_level_ ) level_nodes_[i]->modifier()->set_visible(false);

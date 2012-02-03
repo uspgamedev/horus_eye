@@ -58,8 +58,8 @@ class WorldObject : public ugdk::Entity {
     virtual ugdk::Vector2D world_position() const { return world_position_; }
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
-    ugdk::Node* node() { return node_; }
-    const ugdk::Node* node() const { return node_; }
+    ugdk::graphic::Node* node() { return node_; }
+    const ugdk::graphic::Node* node() const { return node_; }
 
     virtual CollisionObject* collision_object() const { return collision_object_; }
 
@@ -69,7 +69,7 @@ class WorldObject : public ugdk::Entity {
     CollisionObject *collision_object_;
     Status status_;
     ugdk::Vector2D world_position_;
-    ugdk::Node* node_;
+    ugdk::graphic::Node* node_;
 
     std::string identifier_;
 

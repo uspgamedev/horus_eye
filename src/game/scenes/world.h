@@ -21,7 +21,6 @@ class WorldObject;
 }
 
 using ugdk::Vector2D;
-using ugdk::Image;
 using std::vector;
 
 namespace scene {
@@ -87,7 +86,7 @@ class World : public ugdk::Scene {
                                     colliding_world_objects_, 
                                     new_world_objects_;
 
-    ugdk::Node *world_node_;
+    ugdk::graphic::Node *world_node_;
 
 	utils::Hud *hud_;
     int level_width_, level_height_;

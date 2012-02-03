@@ -10,7 +10,7 @@ namespace sprite {
 
 class Item: public sprite::WorldObject {
   public:
-    Item (ugdk::FlexibleSpritesheet* img);
+    Item (ugdk::graphic::FlexibleSpritesheet* img);
     ~Item () { if (event_) delete event_; }
     
     virtual void Update(float delta_t);

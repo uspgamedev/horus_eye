@@ -22,7 +22,7 @@ COLLISION_DIRECT(Button*, PressCollision, obj) {
     data_->Press();
 }
 
-Button::Button(ugdk::FlexibleSpritesheet* image, scene::World *world, float active_time)
+Button::Button(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world, float active_time)
   : super(image),
     world_(world) {
 

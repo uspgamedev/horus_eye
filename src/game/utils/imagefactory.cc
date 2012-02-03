@@ -10,7 +10,7 @@ namespace utils {
 #define HERO_HOTSPOT_X 55.0f
 #define HERO_HOTSPOT_Y 102.0f
   
-Spritesheet* ImageFactory::HeroImage() {
+ugdk::graphic::Spritesheet* ImageFactory::HeroImage() {
     return VIDEO_MANAGER()->GetSpritesheet("images/sprite-sheet_MOD3.png");
 }
 

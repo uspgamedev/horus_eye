@@ -18,7 +18,7 @@ using namespace utils;
 WorldObject::WorldObject()
     : collision_object_(NULL),
       status_(STATUS_ACTIVE),
-      node_(new Node),
+      node_(new ugdk::graphic::Node),
       identifier_("Generic World Object"),
       light_radius_(0.0f) {
 }
@@ -44,7 +44,7 @@ void WorldObject::set_light_radius(float radius) {
     light_radius_ = radius;
     
 	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
-        if(node_->light() == NULL) node_->set_light(new Light);
+        if(node_->light() == NULL) node_->set_light(new ugdk::graphic::Light);
 		Vector2D dimension = World::ConvertLightRadius(light_radius_);
 		node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 

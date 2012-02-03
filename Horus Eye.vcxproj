@@ -61,7 +61,6 @@
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
     <ClCompile Include="src\game\sprites\timedworldobject.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
-    <ClCompile Include="src\game\utils\utf8.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionclass.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
@@ -145,7 +144,6 @@
     <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\sprites\timedworldobject.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
-    <ClInclude Include="src\game\utils\utf8.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\circle.h" />

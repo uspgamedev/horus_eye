@@ -95,7 +95,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     };
 
     Creature(resource::Energy &life, resource::Energy &mana);
-    void Initialize(ugdk::Spritesheet *image, ugdk::AnimationSet *set = NULL);
+    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
     virtual void Update(float dt);
     virtual void PlayHitSound() const {}
@@ -169,7 +169,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     skills::usearguments::Aim aim_;
 
     /// Well, kinda hacky or not. TODO better comment
-    ugdk::Sprite* sprite_;
+    ugdk::graphic::Sprite* sprite_;
 
   private:
     /// When true, this Creature is on the invisible part of the blinking effect.

@@ -101,7 +101,7 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
     factory_->MagicMissileImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
 
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
-    proj->node()->set_drawable(new ugdk::Sprite( factory_->MagicMissileImage()));
+    proj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
     proj->set_light_radius(1.0f);
 
     CollisionObject* col = buildBasicCollision(proj, 0.15f);
@@ -112,7 +112,7 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
 
 Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
-    proj->node()->set_drawable(new ugdk::Sprite( factory_->MummyProjectileImage() ));
+    proj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MummyProjectileImage() ));
     proj->node()->drawable()->set_hotspot(Vector2D(0.0f, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     proj->set_light_radius(0.75f);
 
@@ -126,7 +126,7 @@ Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
     factory_->LightningImage()->set_hotspot(Vector2D(Constants::LIGHTNING_SPRITE_CENTER_X, Constants::LIGHTNING_SPRITE_CENTER_Y + Constants::LIGHTNING_SPRITE_HEIGHT));
 
     Projectile *proj = new Projectile(Constants::LIGHTNING_SPEED, Constants::LIGHTNING_DURATION, dir);
-    ugdk::Sprite* sprite = new ugdk::Sprite( factory_->LightningImage(), lightning_animation_ );
+    ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite( factory_->LightningImage(), lightning_animation_ );
     sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
     proj->node()->set_drawable(sprite);
     proj->set_light_radius(1.0f);
@@ -143,7 +143,7 @@ Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
     Explosion *explosion = new Explosion(factory_->ExplosionImage(), 
         Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
     Projectile *proj = new Carrier(Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir, explosion);
-    ugdk::Sprite* sprite = new ugdk::Sprite( factory_->FireballImage(), fireball_animation_ );
+    ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite( factory_->FireballImage(), fireball_animation_ );
     sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
     proj->node()->set_drawable(sprite);
     proj->set_light_radius(1.0f);

@@ -40,7 +40,7 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(ugdk::FlexibleSpritesheet* img) {
+Mummy::Mummy(ugdk::graphic::FlexibleSpritesheet* img) {
     Initialize(img, ANIMATIONS);
 
     // Animations

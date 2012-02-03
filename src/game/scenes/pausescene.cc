@@ -8,13 +8,11 @@
 
 namespace scene {
 
-using namespace ugdk;
-
 PauseScene::PauseScene () {
-    SolidRectangle* rect = new SolidRectangle(VIDEO_MANAGER()->video_size());
+    ugdk::graphic::SolidRectangle* rect = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     rect->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
 
-    Node* node = new Node(rect);
+    ugdk::graphic::Node* node = new ugdk::graphic::Node(rect);
     node->modifier()->set_alpha(0.5f);
 
     this->root_node()->AddChild(node);
@@ -23,8 +21,8 @@ PauseScene::PauseScene () {
 PauseScene::~PauseScene () {}
 
 void PauseScene::Update (float delta_t) {
-    InputManager *input = Engine::reference()->input_manager();
-    if (input->KeyPressed(K_RETURN)) Finish();
+    ugdk::InputManager *input = ugdk::Engine::reference()->input_manager();
+    if (input->KeyPressed(ugdk::K_RETURN)) Finish();
 }
 
 }

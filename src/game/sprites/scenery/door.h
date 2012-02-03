@@ -16,7 +16,7 @@ namespace sprite {
 class Door: public sprite::WorldObject {
   
   public:
-    Door(ugdk::FlexibleSpritesheet* image, scene::World *world);
+    Door(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world);
     virtual ~Door() {}
 };
 

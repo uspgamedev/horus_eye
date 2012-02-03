@@ -12,14 +12,14 @@ namespace scene {
 class ImageScene: public ugdk::Scene {
   typedef ugdk::Scene super;
   public:
-    ImageScene(ugdk::Drawable *background, ugdk::Drawable *image);
+    ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image);
     virtual ~ImageScene();
 
     virtual void Update(float delta_t);
 
   protected:
     void End();
-    ugdk::Node *interface_node_, *scene_layers_[2];
+    ugdk::graphic::Node *interface_node_, *scene_layers_[2];
 };
 
 }

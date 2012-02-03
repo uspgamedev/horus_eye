@@ -17,7 +17,7 @@ using namespace sprite;
 using utils::Constants;
 using resource::Energy;
 
-Mummy * MummyBuilder::StandingMummy(ugdk::FlexibleSpritesheet *image) {
+Mummy * MummyBuilder::StandingMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     Mummy* mummy = new Mummy(image);
 	mummy->life() = Energy(Constants::MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
@@ -26,13 +26,13 @@ Mummy * MummyBuilder::StandingMummy(ugdk::FlexibleSpritesheet *image) {
 	return mummy;
 }
 
-Mummy * MummyBuilder::WalkingMummy(ugdk::FlexibleSpritesheet *image) {
+Mummy * MummyBuilder::WalkingMummy(ugdk::graphic::FlexibleSpritesheet *image) {
 	Mummy* mummy = StandingMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Mummy * MummyBuilder::StandingRangedMummy(ugdk::FlexibleSpritesheet *image) {
+Mummy * MummyBuilder::StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     Mummy* mummy = new Mummy(image);
     mummy->life() = Energy(Constants::RANGED_MUMMY_LIFE);
 	mummy->set_speed(Constants::MUMMY_SPEED);
@@ -41,13 +41,13 @@ Mummy * MummyBuilder::StandingRangedMummy(ugdk::FlexibleSpritesheet *image) {
 	return mummy;
 }
 
-Mummy * MummyBuilder::RangedMummy(ugdk::FlexibleSpritesheet *image) {
+Mummy * MummyBuilder::RangedMummy(ugdk::graphic::FlexibleSpritesheet *image) {
 	Mummy* mummy = StandingRangedMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Mummy * MummyBuilder::StandingBigMummy(ugdk::FlexibleSpritesheet *image) {
+Mummy * MummyBuilder::StandingBigMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     Mummy *mummy = new Mummy(image);
     mummy->life() = Energy(Constants::BIG_MUMMY_LIFE);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
@@ -58,13 +58,13 @@ Mummy * MummyBuilder::StandingBigMummy(ugdk::FlexibleSpritesheet *image) {
     return mummy;
 }
 
-Mummy * MummyBuilder::BigMummy(ugdk::FlexibleSpritesheet *image) {
+Mummy * MummyBuilder::BigMummy(ugdk::graphic::FlexibleSpritesheet *image) {
 	Mummy* mummy = StandingBigMummy(image);
 	mummy->set_standing(false);
 	return mummy;
 }
 
-Pharaoh * MummyBuilder::StandingPharaoh(ugdk::FlexibleSpritesheet *image) {
+Pharaoh * MummyBuilder::StandingPharaoh(ugdk::graphic::FlexibleSpritesheet *image) {
 	Pharaoh *pharaoh = new Pharaoh(image, Constants::PHARAOH_LIFE, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
 	pharaoh->set_weapon(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
@@ -74,7 +74,7 @@ Pharaoh * MummyBuilder::StandingPharaoh(ugdk::FlexibleSpritesheet *image) {
 	return pharaoh;
 }
 
-Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::FlexibleSpritesheet *image) {
+Pharaoh * MummyBuilder::WalkingPharaoh(ugdk::graphic::FlexibleSpritesheet *image) {
 	Pharaoh* pharaoh = StandingPharaoh(image);
 	pharaoh->set_standing(false);
 	return pharaoh;

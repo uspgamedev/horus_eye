@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SPRITE_MUMMY_H_
 
 #include <queue>
+#include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/sprites/creatures/creature.h"
@@ -11,7 +12,6 @@
 
 namespace ugdk {
 class TimeAccumulator;
-class FlexibleSpritesheet;
 }
 
 namespace sprite {
@@ -19,7 +19,7 @@ namespace sprite {
 class Mummy : public Creature {
   
   public:
-    Mummy(ugdk::FlexibleSpritesheet* img);
+    Mummy(ugdk::graphic::FlexibleSpritesheet* img);
     ~Mummy();
 
     

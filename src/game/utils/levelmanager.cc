@@ -101,11 +101,11 @@ void LevelManager::ShowCredits() {
 void LevelManager::ShowEnding() {
 	loading_->Finish();
 	loading_ = NULL;
-    Engine::reference()->PushScene(new ImageScene(NULL, new TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/you_win.png"))));
+    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/you_win.png"))));
 }
 
 void LevelManager::ShowGameOver() {
-    Engine::reference()->PushScene(new ImageScene(NULL, new TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/game_over.png"))));
+    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/game_over.png"))));
 }
 
 void LevelManager::FinishLevel(LevelState state) {
