@@ -4,15 +4,12 @@
 #include <queue>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/time.h>
 
 #include "game/sprites/creatures/creature.h"
 #include "game/skills/skill.h"
 
 #define TIME_TO_THINK 0.1f
-
-namespace ugdk {
-class TimeAccumulator;
-}
 
 namespace sprite {
 
@@ -32,7 +29,7 @@ class Mummy : public Creature {
     void StartAttack(Creature* obj);
     
   protected:
-    ugdk::TimeAccumulator *interval_;
+    ugdk::time::TimeAccumulator *interval_;
     float time_to_think_;
     bool standing_;
     Vector2D last_direction_;

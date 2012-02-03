@@ -24,7 +24,7 @@ class Button : public Floor {
     virtual void DePress();
 
   private:
-    ugdk::TimeAccumulator *reactive_time_;
+    ugdk::time::TimeAccumulator *reactive_time_;
     bool pressed_;
     scene::World *world_;
 };

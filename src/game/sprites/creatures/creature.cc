@@ -3,8 +3,10 @@
 
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
-#include <ugdk/util/animationparser.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/time/timeaccumulator.h>
+#include <ugdk/util/animationparser.h>
 
 #include "creature.h"
 
@@ -46,8 +48,8 @@ Creature::Creature()
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_time_(new TimeAccumulator(75)),
-        hit_duration_(new TimeAccumulator(0)),
+        blink_time_(new ugdk::time::TimeAccumulator(75)),
+        hit_duration_(new ugdk::time::TimeAccumulator(0)),
         aim_(world_position_, aim_destination_),
         sprite_(NULL),
         blink_(false) {
@@ -68,8 +70,8 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_time_(new TimeAccumulator(75)),
-        hit_duration_(new TimeAccumulator(0)),
+        blink_time_(new ugdk::time::TimeAccumulator(75)),
+        hit_duration_(new ugdk::time::TimeAccumulator(0)),
         aim_(world_position_, aim_destination_),
         sprite_(NULL),
         blink_(false) {

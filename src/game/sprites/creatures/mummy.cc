@@ -3,6 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
@@ -49,7 +50,7 @@ Mummy::Mummy(ugdk::graphic::FlexibleSpritesheet* img) {
     sprite_->SelectAnimation(last_standing_animation_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
-    interval_ = new TimeAccumulator(0);
+    interval_ = new ugdk::time::TimeAccumulator(0);
     invulnerability_time_ = 300;
 
     identifier_ = std::string("Mummy");

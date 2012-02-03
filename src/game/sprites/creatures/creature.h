@@ -3,21 +3,16 @@
 
 #include <list>
 
-#include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/math/vector2D.h>
-#include <ugdk/time/timeaccumulator.h>
+#include <ugdk/action/animation.h>
 #include <ugdk/action/observer.h>
+#include <ugdk/graphic.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/time.h>
 #include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
-
-namespace ugdk {
-class TimeAccumulator;
-class Animation;
-class AnimationSet;
-}
 
 namespace skills {
 class Skill;
@@ -145,10 +140,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     int invulnerability_time_;
 
     /// Controls when to toggle the blink_ flag.
-    ugdk::TimeAccumulator *blink_time_;
+    ugdk::time::TimeAccumulator *blink_time_;
 
     /// Controls the invulnerability after being hit.
-    ugdk::TimeAccumulator *hit_duration_;
+    ugdk::time::TimeAccumulator *hit_duration_;
 
     /// How fast this creature moves per second.
     float speed_;

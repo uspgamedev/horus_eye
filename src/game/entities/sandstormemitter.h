@@ -1,15 +1,11 @@
 #ifndef HORUSEYE_GAME_ENTITIES_SANDSTORMEMITTER_H_
 #define HORUSEYE_GAME_ENTITIES_SANDSTORMEMITTER_H_
 
+#include <ugdk/time/timeaccumulator.h>
 #include "game/entities/emitterentity.h"
-
 #include "game/utils/constants.h"
 
 #define FLT_SECS_TO_INT_MILLISECS(value) ((int)((value)*1000))
-
-namespace ugdk {
-class TimeAccumulator;
-} // namespace ugdk
 
 namespace skills {
 namespace usearguments {
@@ -26,7 +22,7 @@ class SandstormEmitter : public EmitterEntity {
       : EmitterEntity(utils::Constants::SANDSTORM_FADEOUT_TIME),
         aim_(owners_aim),
         back_reference_(back_reference) {
-        projectile_interval_ = new ugdk::TimeAccumulator(
+        projectile_interval_ = new ugdk::time::TimeAccumulator(
             FLT_SECS_TO_INT_MILLISECS(utils::Constants::SANDSTORM_PROJECTILE_INTERVAL)
         );
     }
@@ -41,7 +37,7 @@ class SandstormEmitter : public EmitterEntity {
 
   protected:
     const skills::usearguments::Aim& aim_;
-    ugdk::TimeAccumulator* projectile_interval_;
+    ugdk::time::TimeAccumulator* projectile_interval_;
 
     SandstormEmitter** back_reference_;
 

@@ -7,7 +7,8 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
-#include <ugdk/time/timehandler.h>
+#include <ugdk/time/timemanager.h>
+#include <ugdk/time/timeaccumulator.h>
 #include <ugdk/audio/audiomanager.h>
 #include <pyramidworks/geometry/circle.h>
 
@@ -76,7 +77,7 @@ Hero::Hero(ugdk::graphic::Spritesheet* img,
     
     SET_COLLISIONCLASS(Hero);
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
-    ADD_COLLISIONLOGIC(ugdk::input::Mummy, new MummySlowCollision(this));
+    ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
 }
 
 Hero::~Hero() {}

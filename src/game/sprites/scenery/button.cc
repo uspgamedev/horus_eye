@@ -27,7 +27,7 @@ Button::Button(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world, f
     world_(world) {
 
     if(active_time > 0.0f) {
-        reactive_time_ = new ugdk::TimeAccumulator(SECONDS_TO_MILISECONDS(active_time));
+        reactive_time_ = new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(active_time));
     } else {
         reactive_time_ = NULL;
     }
