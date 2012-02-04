@@ -185,12 +185,17 @@ SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES PROJECT_NAME "${GAME_NAME} (D
 IF(UNIX)
   IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     # Mac
+    SET(CHECKMAC "#define ISMAC 1")
     SET(GAME_INSTALL_DIR ".")
   ELSE()
     SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}/data")
+    set (GAME_LOCAL_DIR "./data")
     SET(GAME_FINAL_DIR "/usr/bin")
     
     INSTALL(CODE "MESSAGE(\"Installing ${GAME_NAME} ${GAME_VERSION}... Make sure you have root privileges.\")")
+    install (CODE
+      "set_target_properties (${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS) \"${CFLAGS} ${CFLAGS_EXTRA} -DINSTALLED\""
+    )
     
     INSTALL(TARGETS ${GAME_UNIXNAME} RUNTIME DESTINATION ${GAME_INSTALL_DIR})
     #INSTALL(FILES license.txt readme.html DESTINATION ${GAME_INSTALL_DIR})
