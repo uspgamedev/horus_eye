@@ -8,8 +8,7 @@ namespace scene {
 
 class ScrollingImageScene: public scene::ImageScene {
   public:
-    ScrollingImageScene(ugdk::Image *background,
-            ugdk::Image *image, float time);
+    ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, float time);
     virtual void Update (float delta_t);
 
   private:

@@ -4,10 +4,11 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animation.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
-#include <ugdk/time/timehandler.h>
+#include <ugdk/time/timemanager.h>
+#include <ugdk/time/timeaccumulator.h>
 #include <ugdk/audio/audiomanager.h>
 #include <pyramidworks/geometry/circle.h>
 
@@ -45,7 +46,7 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-Hero::Hero(ugdk::Image* img, 
+Hero::Hero(ugdk::graphic::Spritesheet* img, 
            resource::Energy &life, 
            resource::Energy &mana, 
            int num_blocks, 
@@ -62,7 +63,7 @@ Hero::Hero(ugdk::Image* img,
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
     }
-    SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(last_standing_animation_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     invulnerability_time_ = INVUL_TIME;
@@ -108,7 +109,7 @@ void Hero::CollisionSlow() {
 }
 
 void Hero::GetKeys() {
-    InputManager *input_ = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
@@ -116,35 +117,35 @@ void Hero::GetKeys() {
 
     animation_direction_ = 0;
     int num_dirs = 0;
-    if(input_->KeyDown(K_w)) {
+    if(input_->KeyDown(ugdk::input::K_w)) {
         pressed_key_[Direction_::UP] = true;
         animation_direction_ += Animation_::UP;
         num_dirs++;
     }
-    if(input_->KeyDown(K_a)) {
+    if(input_->KeyDown(ugdk::input::K_a)) {
         pressed_key_[Direction_::LEFT] = true;
         animation_direction_ += Animation_::LEFT;
         num_dirs++;
     }
-    if(input_->KeyDown(K_s) && num_dirs < 2) {
+    if(input_->KeyDown(ugdk::input::K_s) && num_dirs < 2) {
         pressed_key_[Direction_::DOWN] = true;
         animation_direction_ += Animation_::DOWN;
         num_dirs++;
     }
-    if(input_->KeyDown(K_d) && num_dirs < 2) {
+    if(input_->KeyDown(ugdk::input::K_d) && num_dirs < 2) {
         pressed_key_[Direction_::RIGHT] = true;
         animation_direction_ += Animation_::RIGHT;
         num_dirs++;
     }
 
     if(weapons_.size() > 0) {
-        if (input_->KeyPressed(K_e)) {
+        if (input_->KeyPressed(ugdk::input::K_e)) {
             int next_slot = slot_selected_;
             do next_slot = (next_slot+1)%Constants::HERO_MAX_WEAPONS;
             while (!weapons_.count(next_slot));
             ChangeSecondaryWeapon(next_slot);
         }
-        if (input_->KeyPressed(K_q)) {
+        if (input_->KeyPressed(ugdk::input::K_q)) {
             int next_slot = slot_selected_;
             do next_slot = next_slot-1 < 0 ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
             while (!weapons_.count(next_slot));
@@ -166,7 +167,7 @@ void Hero::GetKeys() {
 }
 
 void Hero::StartAttackAnimation() {
-    InputManager *input_ = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
@@ -175,27 +176,27 @@ void Hero::StartAttackAnimation() {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
+    sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
 bool Hero::Aiming() {
-    InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT) || input_->MouseDown(M_BUTTON_RIGHT);
+    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
+    return input_->MouseDown(ugdk::input::M_BUTTON_LEFT) || input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);
 }
 
 bool Hero::ShootingWithWeapon() {
-    InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_LEFT) && weapon_ && weapon_->Available();
+    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
+    return input_->MouseDown(ugdk::input::M_BUTTON_LEFT) && weapon_ && weapon_->Available();
 }
 
 bool Hero::ShootingWithSecondaryWeapon() {
-    InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
+    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
+    return input_->MouseDown(ugdk::input::M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
 }
 
 void Hero::UpdateAim() {
     // Setting up the Aim resource and local variables.
-    InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
     Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
 
     aim_destination_ = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
@@ -227,9 +228,9 @@ void Hero::Update(float delta_t) {
             Creature::Move(this->GetWalkingDirection(), delta_t);
 
             if (animation_direction_)
-                this->SelectAnimation(walking_animations_[animation_direction_]);
+                sprite_->SelectAnimation(walking_animations_[animation_direction_]);
             else
-                this->SelectAnimation(last_standing_animation_);
+                sprite_->SelectAnimation(last_standing_animation_);
         }
     }
     AdjustBlink(delta_t);

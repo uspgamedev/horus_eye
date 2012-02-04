@@ -2,6 +2,7 @@
 #include <cmath>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "block.h"
@@ -26,11 +27,12 @@ COLLISION_DIRECT(Block*, PushOnCollision, obj) {
     data_->PushToward(pushdir);
 }
 
-Block::Block(Image* image) : moving_(false) {
-    Initialize(image);
-    set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y * 0.7f));
-    Vector2D new_size(size().x, size().y * 0.7f);
-    set_size(new_size);
+Block::Block(ugdk::graphic::FlexibleSpritesheet* image) : moving_(false) {
+    image->set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
+
+    ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(image);
+    node_->set_drawable(sprite);
+    node_->modifier()->set_scale(Vector2D(1.0f, 0.7f)); // TODO make block offset
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Block);
@@ -42,16 +44,16 @@ Block::~Block() {}
 
 #ifdef DEBUG
 void Block::GetKeys() {
-    InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input = INPUT_MANAGER();
     moving_ = true;
     moving_time_left_ = 0.5f;
-    if(input->KeyDown(ugdk::K_UP)) {
+    if(input->KeyDown(ugdk::input::K_UP)) {
         moving_toward_ = UP;
-    } else if(input->KeyDown(ugdk::K_DOWN)) {
+    } else if(input->KeyDown(ugdk::input::K_DOWN)) {
         moving_toward_ = DOWN;
-    } else if(input->KeyDown(ugdk::K_RIGHT)) {
+    } else if(input->KeyDown(ugdk::input::K_RIGHT)) {
         moving_toward_ = RIGHT;
-    } else if(input->KeyDown(ugdk::K_LEFT)) {
+    } else if(input->KeyDown(ugdk::input::K_LEFT)) {
         moving_toward_ = LEFT;
     } else {
         moving_ = false;

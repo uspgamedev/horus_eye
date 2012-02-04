@@ -40,7 +40,7 @@ class DivineGift : public CombatArt<UseArgument_T> {
       @param caster_blocks The CapacityBlocks from where the block cost is removed.
       @param use_argument The skill's argument.
       */
-    DivineGift(ugdk::Image* icon,
+    DivineGift(ugdk::graphic::Drawable* icon,
                float mana_cost,
                int block_cost,
                resource::Energy& caster_mana,

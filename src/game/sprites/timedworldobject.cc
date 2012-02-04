@@ -6,7 +6,7 @@ namespace sprite {
 
 TimedWorldObject::TimedWorldObject(float duration)
     : WorldObject(),
-      timed_life_(new ugdk::TimeAccumulator(SECONDS_TO_MILISECONDS(duration))) 
+      timed_life_(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration))) 
     {}
 
 TimedWorldObject::~TimedWorldObject() {

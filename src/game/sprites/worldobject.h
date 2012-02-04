@@ -3,7 +3,9 @@
 
 #include <list>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/action/sprite.h>
+#include <ugdk/action/entity.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionclass.h>
@@ -32,8 +34,7 @@ class Door;
 class Block;
 class Item;
 
-class WorldObject : public ugdk::Sprite {
-  
+class WorldObject : public ugdk::Entity {
   public:
     WorldObject();
     virtual ~WorldObject();
@@ -50,15 +51,15 @@ class WorldObject : public ugdk::Sprite {
     virtual void Die() { status_ = STATUS_DEAD; }
     virtual void StartToDie();
 
-    // The BIG Awesome drawable. TODO explain better
-    virtual void Render();
-
     // The Light radius. TODO explain better
     virtual float light_radius() { return light_radius_; }
     virtual void set_light_radius(float radius);
 
     virtual ugdk::Vector2D world_position() const { return world_position_; }
     virtual void set_world_position(const ugdk::Vector2D& pos);
+
+    ugdk::graphic::Node* node() { return node_; }
+    const ugdk::graphic::Node* node() const { return node_; }
 
     virtual CollisionObject* collision_object() const { return collision_object_; }
 
@@ -68,6 +69,7 @@ class WorldObject : public ugdk::Sprite {
     CollisionObject *collision_object_;
     Status status_;
     ugdk::Vector2D world_position_;
+    ugdk::graphic::Node* node_;
 
     std::string identifier_;
 

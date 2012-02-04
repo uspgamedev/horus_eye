@@ -17,7 +17,7 @@ class IncreaseSightCondition : public Condition {
   public:
     IncreaseSightCondition(Creature* owner, float time_condition) 
         :   Condition(owner), 
-            condition_duration_(new ugdk::TimeAccumulator(SECONDS_TO_MILISECONDS(time_condition))) {}
+            condition_duration_(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(time_condition))) {}
     ~IncreaseSightCondition() { delete condition_duration_; }
 
     void Update(float dt);
@@ -25,7 +25,7 @@ class IncreaseSightCondition : public Condition {
   	void StartCondition(Creature *creature);
         
   private:
-    ugdk::TimeAccumulator *condition_duration_;
+    ugdk::time::TimeAccumulator *condition_duration_;
 };
 void IncreaseSightCondition::Update(float dt) {
 	if ( phase_ != PHASE_FINISHED && condition_duration_->Expired())

@@ -1,10 +1,9 @@
 #ifndef HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 #define HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 
-namespace ugdk {
-class Image;
-}
-using ugdk::Image;
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+
+using ugdk::graphic::FlexibleSpritesheet;
 namespace utils {
 
 class ImageFactory {
@@ -12,26 +11,26 @@ class ImageFactory {
     ImageFactory() {}
     virtual ~ImageFactory(){}
 
-    virtual Image* HeroImage();
-    virtual Image* MummyImage();
-    virtual Image* RangedMummyImage();
-    virtual Image* BigMummyImage();
-    virtual Image* PharaohImage();
-    virtual Image* MagicMissileImage();
-    virtual Image* FireballImage();
-    virtual Image* MummyProjectileImage();
-    virtual Image* ExplosionImage();
-    virtual Image* QuakeImage();
-    virtual Image* LifePotionImage();
-    virtual Image* ManaPotionImage();
-    virtual Image* SightPotionImage();
-    virtual Image* DoorImage();
-    virtual Image* FloorImage();
-    virtual Image* WallImage();
-    virtual Image* EntryImage();
-    virtual Image* LightningImage();
-	virtual Image* LightImage();
-    virtual Image* TileSwitchImage();
+    virtual ugdk::graphic::Spritesheet* HeroImage();
+    virtual FlexibleSpritesheet* MummyImage();
+    virtual FlexibleSpritesheet* RangedMummyImage();
+    virtual FlexibleSpritesheet* BigMummyImage();
+    virtual FlexibleSpritesheet* PharaohImage();
+    virtual FlexibleSpritesheet* MagicMissileImage();
+    virtual FlexibleSpritesheet* FireballImage();
+    virtual FlexibleSpritesheet* MummyProjectileImage();
+    virtual FlexibleSpritesheet* ExplosionImage();
+    virtual FlexibleSpritesheet* QuakeImage();
+    virtual FlexibleSpritesheet* LifePotionImage();
+    virtual FlexibleSpritesheet* ManaPotionImage();
+    virtual FlexibleSpritesheet* SightPotionImage();
+    virtual FlexibleSpritesheet* DoorImage();
+    virtual FlexibleSpritesheet* FloorImage();
+    virtual FlexibleSpritesheet* WallImage();
+    virtual FlexibleSpritesheet* EntryImage();
+    virtual FlexibleSpritesheet* LightningImage();
+	virtual FlexibleSpritesheet* LightImage();
+    virtual FlexibleSpritesheet* TileSwitchImage();
 };
 
 }

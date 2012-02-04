@@ -1,6 +1,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 
 #include "heroexplosionweapon.h"
 

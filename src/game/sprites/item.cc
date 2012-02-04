@@ -1,5 +1,6 @@
 #include <cmath>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/circle.h>
 
 #include "item.h"
@@ -25,9 +26,10 @@ COLLISION_DIRECT(Item*, UseCollision, obj) {
         data_->Die();
 }
 
-Item::Item(ugdk::Image* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
-    Initialize(img);
-    set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
+Item::Item(ugdk::graphic::FlexibleSpritesheet* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
+    img->set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
+
+    this->node()->set_drawable(new ugdk::graphic::Sprite(img));
     this->event_ = NULL;
 
     INITIALIZE_COLLISION;
@@ -40,7 +42,7 @@ void Item::Update(float delta_t) {
 	WorldObject::Update(delta_t);
     total_time_ += delta_t;
     if (total_time_ >= PERIOD) total_time_ -= PERIOD;
-    set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT + 10.0f*cos(3.0f*total_time_)));
+	this->node()->drawable()->set_hotspot(Vector2D(0.0f, 10.0f*cos(3.0f*total_time_)));
 }
 
 }

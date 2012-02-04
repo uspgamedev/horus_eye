@@ -4,19 +4,22 @@
 #define StarWars ImageScene
 
 #include <ugdk/action/scene.h>
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable.h>
 
 namespace scene {
 
 class ImageScene: public ugdk::Scene {
+  typedef ugdk::Scene super;
   public:
-    ImageScene(ugdk::Image *background, ugdk::Image *image);
-    virtual ~ImageScene ();
-    virtual void Update (float delta_t);
+    ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image);
+    virtual ~ImageScene();
+
+    virtual void Update(float delta_t);
 
   protected:
-    void End ();
-    ugdk::Layer *scene_layers_[2];
+    void End();
+    ugdk::graphic::Node *interface_node_, *scene_layers_[2];
 };
 
 }

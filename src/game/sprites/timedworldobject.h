@@ -20,7 +20,7 @@ class TimedWorldObject : public WorldObject {
     virtual void Die() { super::Die(); };
 
   protected:
-	ugdk::TimeAccumulator *timed_life_;
+	ugdk::time::TimeAccumulator *timed_life_;
 
   private:
     typedef WorldObject super;

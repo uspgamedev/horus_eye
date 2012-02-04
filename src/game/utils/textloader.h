@@ -3,12 +3,7 @@
 
 #include <string>
 #include <map>
-
-namespace ugdk {
-class Text;
-class Drawable;
-class Image;
-}
+#include <ugdk/graphic.h>
 
 namespace utils {
 
@@ -25,8 +20,8 @@ class TextLoader {
     ~TextLoader();
 
     bool Initialize(std::string language_file);
-    ugdk::Drawable* GetImage(std::string text);
-	ugdk::Drawable* GetImage(std::wstring text);
+    ugdk::graphic::Drawable* GetImage(const std::string& text);
+	ugdk::graphic::Drawable* GetImage(const std::wstring& text);
     //void SetFont(std::string font);
 
     bool Clear();
@@ -40,21 +35,23 @@ class TextLoader {
     };
     class Word {
       public:
-        Word(wchar_t* str);
+        Word(wchar_t* str, bool from_file);
         ~Word() {}
 
-        std::wstring& name() { return name_; }
-        std::wstring& font() { return font_; }
-		std::wstring& text() { return text_; }
+        const std::wstring& name() const { return name_; }
+        const std::wstring& font() const { return font_; }
+		const std::wstring& text() const { return text_; }
+        ugdk::graphic::Text* ConvertToText() const;
 
         static bool IsWord(wchar_t *);
 
       private:
         std::wstring name_, font_, text_;
+        bool from_file_;
     };
     void ReadFont(wchar_t *str);
 
-    std::map<std::wstring, ugdk::Drawable*> text_images_;
+    std::map<std::wstring, Word*> text_images_;
 };
 
 }

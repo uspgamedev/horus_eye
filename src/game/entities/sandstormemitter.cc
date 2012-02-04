@@ -15,7 +15,7 @@
 namespace entities {
 
 using ugdk::Engine;
-using ugdk::TimeAccumulator;
+using ugdk::time::TimeAccumulator;
 
 using builder::ProjectileBuilder;
 using scene::World;

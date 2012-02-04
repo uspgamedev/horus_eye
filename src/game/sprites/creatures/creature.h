@@ -3,21 +3,16 @@
 
 #include <list>
 
-#include <ugdk/action/sprite.h>
-#include <ugdk/math/vector2D.h>
-#include <ugdk/time/timeaccumulator.h>
+#include <ugdk/action/animation.h>
 #include <ugdk/action/observer.h>
+#include <ugdk/graphic.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/time.h>
 #include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
-
-namespace ugdk {
-class TimeAccumulator;
-class Animation;
-class AnimationSet;
-}
 
 namespace skills {
 class Skill;
@@ -32,10 +27,6 @@ class Creature : public WorldObject , public ugdk::Observer {
   public:
     Creature();
     virtual ~Creature();
-
-    void Initialize(ugdk::Drawable *image,
-                    ugdk::AnimationSet *set = NULL,
-                    bool delete_image = false);
 
     resource::Energy& life() { return life_; }
 	void set_life(resource::Energy &life) {
@@ -99,14 +90,9 @@ class Creature : public WorldObject , public ugdk::Observer {
     };
 
     Creature(resource::Energy &life, resource::Energy &mana);
+    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
-    virtual void Update(float dt) {
-        WorldObject::Update(dt);
-        UpdateCondition(dt);
-        life_.Update(dt);
-        mana_.Update(dt);
-    }
-	virtual void Render();
+    virtual void Update(float dt);
     virtual void PlayHitSound() const {}
 
     // funcoes
@@ -154,10 +140,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     int invulnerability_time_;
 
     /// Controls when to toggle the blink_ flag.
-    ugdk::TimeAccumulator *blink_time_;
+    ugdk::time::TimeAccumulator *blink_time_;
 
     /// Controls the invulnerability after being hit.
-    ugdk::TimeAccumulator *hit_duration_;
+    ugdk::time::TimeAccumulator *hit_duration_;
 
     /// How fast this creature moves per second.
     float speed_;
@@ -176,6 +162,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
     skills::usearguments::Aim aim_;
+
+    /// Well, kinda hacky or not. TODO better comment
+    ugdk::graphic::Sprite* sprite_;
 
   private:
     /// When true, this Creature is on the invisible part of the blinking effect.

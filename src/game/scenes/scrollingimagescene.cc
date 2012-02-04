@@ -1,5 +1,8 @@
-#include "scrollingimagescene.h"
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+
+#include "scrollingimagescene.h"
+
 namespace scene {
 
 #define BG  0
@@ -7,26 +10,23 @@ namespace scene {
 
 using namespace ugdk;
 
-ScrollingImageScene::ScrollingImageScene(Image *background, Image *image, float time) :
+ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, float time) :
          ImageScene(background, image) {
    time_ = time;
    float delta_h = VIDEO_MANAGER()->video_size().y;
-   if(image != NULL)
-	   delta_h += image->height();
-   Vector2D offset(0, -VIDEO_MANAGER()->video_size().y);
-   if(scene_layers_[IMG])
-       scene_layers_[IMG]->set_offset(offset);
-   if (time > 0)
-       movement_ = Vector2D(0, delta_h/time);
+   if(image != NULL) delta_h += image->height();
+   if (time > 0) movement_ = Vector2D(0, -delta_h/time);
+
+   Vector2D offset = scene_layers_[IMG]->modifier()->offset() + Vector2D(0, VIDEO_MANAGER()->video_size().y);
+   if(scene_layers_[IMG]) scene_layers_[IMG]->modifier()->set_offset(offset);
 }
 
 void ScrollingImageScene::Update(float delta_t) {
     ImageScene::Update(delta_t);
     if(time_ > 0.0f) {
         if (scene_layers_[IMG]) {
-            Layer *img_layer = scene_layers_[IMG];
-            Vector2D new_offset = img_layer->offset() + movement_*delta_t;
-            img_layer->set_offset(new_offset);
+            Vector2D new_offset = scene_layers_[IMG]->modifier()->offset() + movement_*delta_t;
+            scene_layers_[IMG]->modifier()->set_offset(new_offset);
         }
         time_ -= delta_t;
     }

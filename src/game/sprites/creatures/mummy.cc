@@ -3,6 +3,8 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>
@@ -39,16 +41,16 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(Image* img) {
+Mummy::Mummy(ugdk::graphic::FlexibleSpritesheet* img) {
     Initialize(img, ANIMATIONS);
 
     // Animations
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
-    this->SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(last_standing_animation_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
-    interval_ = new TimeAccumulator(0);
+    interval_ = new ugdk::time::TimeAccumulator(0);
     invulnerability_time_ = 300;
 
     identifier_ = std::string("Mummy");
@@ -74,11 +76,11 @@ void Mummy::MummyAntiStack(WorldObject *obj) {
 
 void Mummy::StartAttack(Creature* obj) {
     if(obj == NULL) obj = WORLD()->hero();
-    float attackAngle = GetAttackingAngle(obj->position() - position());
+    float attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
 void Mummy::set_bound(float radius) {
@@ -104,7 +106,7 @@ void Mummy::RandomMovement(){
 }
 
 void Mummy::UpdateDirection(Vector2D destination){
-    Vector2D dir_animation = World::FromWorldCoordinates(destination) - position(); 
+    Vector2D dir_animation = World::FromWorldCoordinates(destination) - node()->modifier()->offset(); 
     float angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
@@ -157,9 +159,9 @@ void Mummy::Update(float delta_t) {
         Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
         if (mummy_tile) {
             if(mummy_tile->visible())
-                set_visible(true);
+                node_->modifier()->set_visible(true);
             else
-                set_visible(false);
+                node_->modifier()->set_visible(false);
         }
     }
 
@@ -178,7 +180,7 @@ void Mummy::Update(float delta_t) {
 
 	        Creature::Move(this->GetWalkingDirection(), delta_t);
 	        walking_direction_ = last_direction_;
-	        this->SelectAnimation(walking_animations_[animation_direction_]);
+	        sprite_->SelectAnimation(walking_animations_[animation_direction_]);
 		}
     }
 

@@ -13,7 +13,7 @@ namespace sprite {
 class Block : public WorldObject {
   
   public:
-    Block(ugdk::Image* image);
+    Block(ugdk::graphic::FlexibleSpritesheet* image);
     ~Block();
     virtual void Update(float dt);
     

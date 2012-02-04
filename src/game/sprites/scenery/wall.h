@@ -1,12 +1,8 @@
 #ifndef HORUSEYE_GAME_SPRITE_WALL_H_
 #define HORUSEYE_GAME_SPRITE_WALL_H_
 
+#include <ugdk/graphic.h>
 #include "game/sprites/worldobject.h"
-
-namespace ugdk {
-class Animation;
-class Image;
-}
 
 namespace utils {
 class Tile;
@@ -19,7 +15,7 @@ class Wall : public WorldObject {
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
 
-    Wall(ugdk::Image* image);
+    Wall(ugdk::graphic::FlexibleSpritesheet* image);
     ~Wall();
 
     virtual void Update(float dt);
@@ -46,6 +42,7 @@ class Wall : public WorldObject {
     };
 
     Square transparency_square_;
+    ugdk::graphic::Sprite* sprite_;
 
     utils::Tile *tile_;
     int     visible_frame_,

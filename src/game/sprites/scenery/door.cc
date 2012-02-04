@@ -1,5 +1,5 @@
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "door.h"
@@ -22,9 +22,9 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-Door::Door(ugdk::Image* image, scene::World *world) {
-    Initialize(image);
-    set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
+Door::Door(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world) {
+    image->set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
+    node_->set_drawable(new ugdk::graphic::Sprite(image));
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Wall);

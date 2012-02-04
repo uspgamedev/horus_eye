@@ -7,24 +7,18 @@ using namespace ugdk;
 
 namespace editor {
 
-MapTilesLayer::MapTilesLayer(MapEditor::MapMatrix *matrix, MapEditor* editor) : MapEditor::MapLayer(matrix, editor) {}
+MapTilesLayer::MapTilesLayer(MapEditor* editor) : MapEditor::MapLayer(editor) {}
 
-MapTilesLayer::~MapTilesLayer() {
-}
+MapTilesLayer::~MapTilesLayer() {}
 
-void MapTilesLayer::Update(float delta_t) {
-    if(!this->IsVisible()) return;
-    Layer::Update(delta_t);
-}
-
-void MapTilesLayer::Render() {
-    if(!this->IsVisible()) return;
-	if (!editor_->map_loaded()) return;
-
-    int height = matrix_->size(), width = (*matrix_)[0].size();
+void MapTilesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
+	if(node_ != NULL) delete node_;
+	node_ = new ugdk::graphic::Node;
+	matrix_ = matrix;
+	int height = matrix_->size(), width = (*matrix_)[0].size();
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; j++) {
-            (*matrix_)[i][j]->Render2D(this->offset(), scale_);
+			node_->AddChild((*matrix_)[i][j]->tile_node());
         }
     }
 }
@@ -33,13 +27,13 @@ void MapTilesLayer::CenterAt(ugdk::Vector2D& center) {
 	if (!editor_->map_loaded()) return;
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
-    set_offset(center * (MapObject::TileSize * scale_) - screen_size * 0.5f);
+	node()->modifier()->set_offset(screen_size * 0.5f - center * MapObject::TileSize);
 }
 
 MapObject* MapTilesLayer::Select(ugdk::Vector2D& pos) {
 	if (!editor_->map_loaded()) return NULL;
 
-    Vector2D absolute = pos + offset();
+    Vector2D absolute = pos + node()->modifier()->offset();
     int x = static_cast<int>(absolute.x / (MapObject::TileSize * scale_));
     int y = static_cast<int>(absolute.y / (MapObject::TileSize * scale_));
     if(x < 0 || y < 0)

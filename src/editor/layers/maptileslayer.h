@@ -1,19 +1,19 @@
 #ifndef HORUSEYE_EDITOR_LAYERS_MAPTILESLAYER_H_
 #define HORUSEYE_EDITOR_LAYERS_MAPTILESLAYER_H_
 
-#include <ugdk/action/layer.h>
 #include "editor/mapeditor.h"
 
 namespace editor {
 
 class MapTilesLayer : public MapEditor::MapLayer {
   public:
-    MapTilesLayer(MapEditor::MapMatrix *matrix, MapEditor* editor);
-    virtual ~MapTilesLayer();
-    void Update(float delta_t);
-    void Render();
-    void CenterAt(ugdk::Vector2D& center);
-    MapObject* Select(ugdk::Vector2D& pos);
+    MapTilesLayer(MapEditor* editor);
+	virtual ~MapTilesLayer();
+
+	void LoadMapMatrix(MapEditor::MapMatrix *matrix);
+    
+	void CenterAt(ugdk::Vector2D& center);
+	MapObject* Select(ugdk::Vector2D& pos);
     ugdk::Vector2D ModifyMovement(ugdk::Vector2D& movement);
 };
 
