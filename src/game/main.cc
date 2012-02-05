@@ -11,6 +11,15 @@
 #include <ugdk/graphic/spritesheet/fixedspritesheet.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/langwrapper.h>
+#include <ugdk/script/virtualobj.h>
+#include <ugdk/script/lua/luawrapper.h>
+#include <ugdk/script/lua/header.h>
+
+extern "C" {
+extern int luaopen_ugdk_math(lua_State* L);
+}
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
@@ -105,6 +114,27 @@ void StartGame() {
     colmanager->Generate("Projectile", "WorldObject");
     colmanager->Generate("Button", "WorldObject");
     colmanager->Generate("Explosion", "WorldObject");
+
+    using ugdk::script::VirtualObj;
+
+    VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
+
+    ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
+    printf("Result: ( %f , %f )\n", vec->x, vec->y);
+
+
+}
+
+void InitScripts() {
+
+    using ugdk::script::LangWrapper;
+    using ugdk::script::lua::LuaWrapper;
+
+    LuaWrapper* lua_wrapper = new LuaWrapper();
+    lua_wrapper->RegisterModule("ugdk.math", luaopen_ugdk_math);
+
+    SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
+
 }
 
 int main(int argc, char *argv[]) {
@@ -123,6 +153,7 @@ int main(int argc, char *argv[]) {
     // On Mac OS X, the icon should be handled with a *.icns file inside the app
     const std::string iconpath = "";
 #endif
+    InitScripts();
     engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, iconpath);
     do {
         // Initializes game data

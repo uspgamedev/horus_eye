@@ -66,12 +66,13 @@ class Engine {
     /// Returns the window dimensions.
     Vector2D window_size();
 
-    /**@name Engine Management
-     * @{
+    /** @name Engine Management
+     ** @{
      */
+
     /// Initializes the engine. Returns true if sucessful, false otherwise.
     /** @param windowTitle The window title.
-     * @param windowSize The window's dimensions.
+     ** @param windowSize The window's dimensions.
      */
 	bool Initialize(std::string windowTitle, Vector2D windowSize, 
 		bool fullscreen,
@@ -136,8 +137,8 @@ class Engine {
         audio_manager_(NULL),
 	    video_manager_(NULL),
         text_manager_(NULL),
-        input_manager_(NULL),
-        time_handler_(NULL),
+	    input_manager_(NULL),
+	    time_handler_(NULL),
 		path_manager_(NULL),
 		animation_loader_(new AnimationProtocol) {}
 };
