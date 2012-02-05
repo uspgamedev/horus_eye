@@ -122,6 +122,7 @@ void StartGame() {
     ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
     printf("Result: ( %f , %f )\n", vec->x, vec->y);
 
+    obj["ls"](std::vector<VirtualObj>(1,obj));
 
 }
 
