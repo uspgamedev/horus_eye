@@ -115,14 +115,20 @@ void StartGame() {
     colmanager->Generate("Button", "WorldObject");
     colmanager->Generate("Explosion", "WorldObject");
 
+
     using ugdk::script::VirtualObj;
 
     VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
 
+    puts("Checking result...");
     ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
-    printf("Result: ( %f , %f )\n", vec->x, vec->y);
+    if (!vec) puts("FAILED.");
+    else {
+        printf("Result: ( %f , %f )\n", vec->x, vec->y);
 
-    obj["ls"](std::vector<VirtualObj>(1,obj));
+        obj["ls"](std::vector<VirtualObj>(1,obj));
+    }
+
 
 }
 
