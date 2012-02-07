@@ -18,9 +18,8 @@ class AuxLib {
 
     explicit AuxLib(lua_State* L) : L_(L) {}
 
-    static StatePtr newstate() {
-        StatePtr L(luaL_newstate(), lua_close);
-        return L;
+    static lua_State* newstate() {
+        return luaL_newstate();
     }
 
     void openlibs() { luaL_openlibs(L_); }
@@ -30,6 +29,12 @@ class AuxLib {
             std::tr1::bind(luaL_loadfile, L_, filename)
         );
     }
+
+    int checkintteger(int index) { return luaL_checkinteger(L_, index); }
+
+    DataID ref(int index) { return luaL_ref(L_, index); }
+
+    void unref(int index, int n) { luaL_unref(L_, index, n); }
 
   private:
 

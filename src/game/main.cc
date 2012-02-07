@@ -16,9 +16,11 @@
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/lua/luawrapper.h>
 #include <ugdk/script/lua/header.h>
+#include <ugdk/script/python/pythonwrapper.h>
 
 extern "C" {
 extern int luaopen_ugdk_math(lua_State* L);
+extern void init_ugdk_math(void);
 }
 
 #include "utils/constants.h"
@@ -117,25 +119,46 @@ void StartGame() {
 
     using ugdk::script::VirtualObj;
 
-    VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
+    // testando lua
+    {
+        VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
 
-    ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
-    printf("Result: ( %f , %f )\n", vec->x, vec->y);
+        ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
+        printf("Result: ( %f , %f )\n", vec->x, vec->y);
 
-    obj["ls"](std::vector<VirtualObj>(1,obj));
+        obj["ls"](std::vector<VirtualObj>(1,obj));
+    }
 
+    //testando python
+    printf("Python test starting...\n");
+    VirtualObj wassup = SCRIPT_MANAGER()->LoadModule("wassup");
+    printf("MARK got wassup\n");
+    VirtualObj pyVecx = wassup["vecx"];
+    printf("MARK got python vecx\n");
+    ugdk::Vector2D* vecx = pyVecx.value<ugdk::Vector2D>();
+    printf("MARK converted vecx to C++ Vector2D object\n");
+    printf("X: ( %f , %f )\n", vecx->x, vecx->y);
+
+    wassup["supimpa"](std::vector<VirtualObj>(1,pyVecx));
+    
+    printf("Python test finished. \n");
 }
 
 void InitScripts() {
 
     using ugdk::script::LangWrapper;
     using ugdk::script::lua::LuaWrapper;
+    using ugdk::script::python::PythonWrapper;
 
+    //inicializando lua
     LuaWrapper* lua_wrapper = new LuaWrapper();
     lua_wrapper->RegisterModule("ugdk.math", luaopen_ugdk_math);
-
     SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
 
+    //inicializando python
+    PythonWrapper* py_wrapper = new PythonWrapper();
+    printf("Registered Python Module: %d\n", (int)py_wrapper->RegisterModule("_ugdk_math", init_ugdk_math)  );
+    SCRIPT_MANAGER()->Register("Python", py_wrapper);
 }
 
 int main(int argc, char *argv[]) {

@@ -2,10 +2,11 @@
 #ifndef UGDK_SCRIPT_LUA_STATE_H_
 #define UGDK_SCRIPT_LUA_STATE_H_
 
+//#include <ugdk/portable/tr1.h>
+
 #include <cstdlib>
 #include <cstdio>
 
-#include <string>
 #include <functional>
 
 #include <ugdk/script/lua/header.h>
@@ -26,6 +27,8 @@ class State {
 
     operator lua_State*() const { return L_; }
 
+    void close() { lua_close(L_); L_ = NULL; }
+
     AuxLib aux() const { return AuxLib(L_); }
 
     int gettop() const { return lua_gettop(L_); }
@@ -33,17 +36,16 @@ class State {
 
     void pushvalue (int index) { lua_pushvalue(L_, index); }
     void pushnil () { lua_pushnil(L_); }
-
-    void push (bool b) { lua_pushboolean(L_, b); }
-    void push (lua_Integer integer) { lua_pushinteger(L_, integer); }
-    void push (lua_Number number) { lua_pushnumber(L_, number); }
-    void push (void *ptr) { lua_pushlightuserdata(L_, ptr); }
-    void push (const char* str) { lua_pushstring(L_, str); }
-    void push (lua_CFunction func, int n = 0) {
+    void pushboolean (bool b) { lua_pushboolean(L_, b); }
+    void pushinteger (lua_Integer integer) { lua_pushinteger(L_, integer); }
+    void pushnumber (lua_Number number) { lua_pushnumber(L_, number); }
+    void pushudata (UData ptr) { lua_pushlightuserdata(L_, ptr); }
+    void pushstring (const char* str) { lua_pushstring(L_, str); }
+    void pushcfunction (lua_CFunction func, int n = 0) {
         lua_pushcclosure(L_, func, n);
     }
     template <class T>
-    void push (T value) { push(value); }
+    void pushudata (T* value) { pushudata(AsUData(value)); }
 
     void pop (int n) { lua_pop(L_, n); }
 
@@ -58,6 +60,8 @@ class State {
 
     void gettable (int index) { lua_gettable(L_, index); }
     void settable (int index) { lua_settable(L_, index); }
+    void rawgeti (int index, int n) { lua_rawgeti(L_, index, n); }
+    void rawseti (int index, int n) { lua_rawseti(L_, index, n); }
 
     int setfenv(int index) { return lua_setfenv(L_, index); }
     void getfenv(int index) { lua_getfenv(L_, index); }
@@ -67,7 +71,10 @@ class State {
     bool isnil (int index) const { return lua_isnil(L_, index); }
     bool istable (int index) const { return lua_istable(L_, index); }
 
+    lua_Integer tointeger(int n) const { return lua_tointeger(L_, n); }
     const char* tostring(int n) const { return lua_tostring(L_, n); }
+    void* touserdata(int n) const { return lua_touserdata(L_, n); }
+
     int type (int n) const { return lua_type(L_, n); }
     
     void call (int nargs, int nres) { lua_call(L_, nargs, nres); }
@@ -82,14 +89,13 @@ class State {
     }
 
     // TODO: make-do for now.
-    static void errormsg (std::string msg) {
-      fprintf(stderr, "lua: %s\n", msg.c_str());
-      fprintf(stdout, "lua: %s\n", msg.c_str());
+    static void errormsg (const char* msg) {
+      fprintf(stdout, "lua: %s\n", msg);
     }
 
   private:
 
-    lua_State* const L_;
+    lua_State* L_;
 
 };
 

@@ -60,10 +60,14 @@ class VirtualObj {
     VirtualObj operator[] (const VirtualObj& key) const {
         return attribute(key);
     }
-
+/*
 	VirtualObj operator[] (const std::string& key) const {
 		return attribute(Create(key, wrapper()));
 	}
+*/
+    VirtualObj operator[] (const char* key) const {
+        return attribute(Create(key, wrapper()));
+    }
 	
 	VirtualObj set_attribute (const VirtualObj& key, const VirtualObj& value) {
 	    return VirtualObj(
@@ -78,15 +82,16 @@ class VirtualObj {
 	VirtualObj operator<<(const VirtualEntry& entry) {
 	    return set_attribute(entry.first, entry.second);
 	}
-
+/*
+    // Does not work anymore.
     template <class T>
     static VirtualObj Create (T obj, LangWrapper* wrapper) {
         if (!wrapper) return VirtualObj();
         VirtualData::Ptr new_data = wrapper->NewData();
-        new_data->Wrap(obj);
+        new_data->Wrap(obj); // FIXME
         return VirtualObj(new_data);
     }
-
+*/
 	template <class T>
 	static VirtualObj Create (T* obj, LangWrapper* wrapper) {
 	    if (!wrapper) return VirtualObj();
