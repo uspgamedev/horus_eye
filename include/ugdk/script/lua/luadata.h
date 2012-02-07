@@ -4,28 +4,43 @@
 
 #include <ugdk/script/virtualdata.h>
 #include <ugdk/script/lua/header.h>
-#include <ugdk/script/lua/gear.h>
+#include <ugdk/script/lua/datagear.h>
 #include <ugdk/script/lua/luawrapper.h>
+
+#define GENERIC_WRAP(tname,arg) do { \
+        DataGear& dtgear(wrapper_->data_gear()); \
+        dtgear->push##tname(arg); \
+        dtgear.SetData(id_); \
+    } while(0)
 
 namespace ugdk {
 namespace script {
 namespace lua {
 
-class LuaData : public VirtualData, public Identifiable {
+class LuaData : public VirtualData {
 
   public:
 
-    LuaData(LuaWrapper* wrapper) : wrapper_(wrapper) {}
+    LuaData(LuaWrapper* wrapper, DataID id) :
+        wrapper_(wrapper),
+        id_(id) {}
 
-    ~LuaData() {}
+    ~LuaData() {
+        if (wrapper_)
+            wrapper_->data_gear().DestroyID(id_);
+    }
 
     void* Unwrap(const VirtualType& type) const;
+    const char* UnwrapString() const;
+    bool UnwrapBoolean() const;
+    int UnwrapInteger() const;
+    double UnwrapNumber() const;
 
     void Wrap(void* data, const VirtualType& type);
-    void Wrap(const char* str) { GenericWrap(str); }
-    void Wrap(bool boolean) { GenericWrap(boolean); }
-    void Wrap(int number) { GenericWrap(number); }
-    void Wrap(double number) { GenericWrap(number); }
+    void WrapString(const char* str) { GENERIC_WRAP(string,str); }
+    void WrapBoolean(bool boolean) { GENERIC_WRAP(boolean,boolean); }
+    void WrapInteger(int number) { GENERIC_WRAP(integer,number); }
+    void WrapNumber(double number) { GENERIC_WRAP(number,number); }
 
     LangWrapper* wrapper () const { return wrapper_; }
 
@@ -41,13 +56,7 @@ class LuaData : public VirtualData, public Identifiable {
   private:
 
     LuaWrapper* wrapper_;
-
-    template <class T>
-    void GenericWrap(T data) {
-        Gear g(wrapper_->MakeGear());
-        g->push<T>(data); // TODO TEST THIS!
-        g.SetData(id());
-    }
+    DataID      id_;
 
 };
 

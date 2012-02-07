@@ -6,23 +6,23 @@
 #include <vector>
 
 #include <ugdk/script/lua/header.h>
-#include <ugdk/script/lua/gear.h>
+#include <ugdk/script/lua/bootstrapgear.h>
+#include <ugdk/script/lua/datagear.h>
 #include <ugdk/script/langwrapper.h>
 
 namespace ugdk {
 namespace script {
 namespace lua {
 
-class LuaWrapper: public LangWrapper, public Identifiable {
+class LuaWrapper: public LangWrapper {
 
   public:
 
     LuaWrapper() :
         LangWrapper("lua",LANG(Lua)),
-        L_(NULL),
-        shared_gear_(NULL) {}
+        data_gear_(NULL) {}
     ~LuaWrapper() {
-        if (L_) Finalize();
+        if (data_gear_) Finalize();
     }
 
     /// Overwritten methods.
@@ -39,21 +39,20 @@ class LuaWrapper: public LangWrapper, public Identifiable {
 
     /// Other methods.
 
-    Gear MakeGear() { return Gear(L_, id()); }
+    DataGear& data_gear() { return *data_gear_; }
 
-    void Share(Gear* gear) {
-        shared_gear_ = gear;
+    void Share(DataGear* gear) {
+        data_gear_ = gear;
     }
 
-    Gear* shared_gear() {
-        return shared_gear_;
+    DataGear* shared_gear() {
+        return data_gear_;
     }
 
   private:
 
-    lua_State*          L_;
     std::vector<Module> modules_;
-    Gear*               shared_gear_;
+    DataGear*           data_gear_;
 
 };
 
