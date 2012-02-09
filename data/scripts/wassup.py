@@ -1,16 +1,23 @@
 print "starting wassup.py"
 
-try:
-    import ugdk
-    print dir(ugdk)
-except:
-    print "could not import ugdk"
-
-try:
-    import _ugdk_math
-    print dir(_ugdk_math)
-except:
-    print "could not import _ugdk_math"
-
 import sys
-print sys.modules
+
+#try:
+from ugdk.ugdk_math import Vector2D
+#except:
+#    exc = sys.exc_info()
+#    import traceback
+#    tb = traceback.format_exception(exc[0], exc[1], exc[2])
+#    for s in tb:    print s
+
+print "[Python] imported Vector2D"
+
+vecx = Vector2D(4.2, 7.2)
+
+print "[Python] Created 'vecx' instance"
+
+def supimpa(p):
+    print "supimpa"
+    print "[Python] Supimpa = (%s, %s)[%s]" % (p.x, p.y, p)
+
+print "Finished wassup - defined supimpa"

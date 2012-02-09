@@ -207,9 +207,8 @@ def GetNull_Frame():
   return _ugdk_math.GetNull_Frame()
 GetNull_Frame = _ugdk_math.GetNull_Frame
 print "Python confirm exports!"
-module = __import__(ugdk_math)
+module = __import__(__name__)
 for key,value in module.__dict__.items():
-	print key, "=", value
 	if key.startswith("RegisterType_"):
 		arg = module.__dict__["GetNull_"+key[13:] ]()
 		value(arg)
