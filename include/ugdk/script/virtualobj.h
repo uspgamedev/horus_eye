@@ -40,6 +40,14 @@ class VirtualObj {
         );
 	}
 
+	const char* stringvalue() const {
+	    return data_->UnwrapString();
+	}
+
+    bool booleanvalue() const {
+        return data_->UnwrapBoolean();
+    }
+
 	template <class T>
 	VirtualObj& operator=(T* obj) {
 	    data_->Wrap(
@@ -60,10 +68,14 @@ class VirtualObj {
     VirtualObj operator[] (const VirtualObj& key) const {
         return attribute(key);
     }
-
+/* TODO
 	VirtualObj operator[] (const std::string& key) const {
 		return attribute(Create(key, wrapper()));
 	}
+*/
+    VirtualObj operator[] (const char* key) const {
+        return attribute(Create(key, wrapper()));
+    }
 	
 	VirtualObj set_attribute (const VirtualObj& key, const VirtualObj& value) {
 	    return VirtualObj(

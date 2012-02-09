@@ -6,12 +6,13 @@
 #include <ugdk/script/lua/header.h>
 #include <ugdk/script/lua/state.h>
 #include <ugdk/script/lua/basegear.h>
+#include <ugdk/util/uncopyable.h>
 
 namespace ugdk {
 namespace script {
 namespace lua {
 
-class DataGear : public BaseGear {
+class DataGear : public BaseGear, private ugdk::util::Uncopyable {
 
   public:
 
@@ -19,7 +20,11 @@ class DataGear : public BaseGear {
       BaseGear(L),
       datatable_id_(datatable_id) {}
 
-    ~DataGear() {}
+    ~DataGear() {
+        L_.aux().unref(Constant::REGISTRYINDEX(), datatable_id_);
+        datatable_id_ = LUA_NOREF;
+        L_.close();
+    }
 
     DataID GenerateID();
 
@@ -30,6 +35,12 @@ class DataGear : public BaseGear {
 
     // [-0,+0]
     void* UnwrapData (DataID id, const VirtualType& type);
+
+    // [-0,+0]
+    const char* UnwrapString (DataID id);
+
+    // [-0,+0]
+    bool UnwrapBoolean (DataID id);
 
     // [-0,+1]
     bool GetData (DataID id);
@@ -44,6 +55,10 @@ class DataGear : public BaseGear {
 
     DataID datatable_id_;
 
+    DataGear& operator=(const DataGear& rhs) {
+        return *this;
+    }
+
     /// Safely generates a data ID. [-1,+1,-]
     static int SafeGenerateID(lua_State* L);
 
@@ -55,6 +70,32 @@ class DataGear : public BaseGear {
 
     /// Safely unwraps typed data from a data ID. [-3,+1,-]
     static int SafeUnwrapData(lua_State* L);
+
+    /// Safely unwraps a string from a data ID. [-2,+1,-]
+    static int SafeUnwrapString(lua_State* L);
+
+    /// Safely unwraps a boolean from a data ID. [-2,+1,-]
+    static int SafeUnwrapBoolean(lua_State* L);
+
+    template <class T, T default_value>
+    T GetResult() {
+        T result = default_value;
+        if (TracedCall(2,1) == Constant::OK()) {
+            result = To<T>::Primitive(L_, -1);
+            L_.pop(1);
+        }
+        return result;
+    }
+
+    template <class T>
+    T* GetResultPtr() {
+        T* result = NULL;
+        if (TracedCall(2,1) == Constant::OK()) {
+            result = To<T*>::Primitive(L_, -1);
+            L_.pop(1);
+        }
+        return result;
+    }
 
     /// [-0,+(0|1),-]
     bool PushDataTable();

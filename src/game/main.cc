@@ -124,10 +124,16 @@ void StartGame() {
     ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
     if (!vec) puts("FAILED.");
     else {
-        printf("Result: ( %f , %f )\n", vec->x, vec->y);
-
-        obj["ls"](std::vector<VirtualObj>(1,obj));
+        printf("Result 1: ( %f , %f )\n", vec->x, vec->y);
     }
+    const char* text = obj["str"].stringvalue();
+    if (!text) puts("FAILED TEXT.");
+    else printf("Result 2: %s\n", text);
+    bool boolean = obj["bool"].booleanvalue();
+    if (!boolean) puts("FAILED BOOLEAN.");
+    else printf("Result 3: %d\n", boolean);
+
+    obj["ls"](std::vector<VirtualObj>(1,obj));
 
 
 }

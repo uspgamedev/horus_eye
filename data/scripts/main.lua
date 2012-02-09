@@ -10,6 +10,8 @@ function ls(t)
 end
 
 v = ugdk_math.Vector2D(1,2)
+str = "AMAGAD LUA STRING"
+bool = true
 
 --ls(ugdk_math)
 
