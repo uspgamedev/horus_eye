@@ -48,3 +48,4 @@ lib/link_libugdk_d.a
 /license/legalcode_arquivos/Thumbs.db
 doc/doxy/
 auto_deploy.sh
+*.pyc

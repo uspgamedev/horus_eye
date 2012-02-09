@@ -136,10 +136,8 @@ void StartGame() {
         bool boolean = obj["bool"].booleanvalue();
         if (!boolean) puts("FAILED BOOLEAN.");
         else printf("Result 3: %d\n", boolean);
-            ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
-            printf("Result: ( %f , %f )\n", vec->x, vec->y);
 
-            obj["ls"](std::vector<VirtualObj>(1,obj));
+        obj["ls"](std::vector<VirtualObj>(1,obj));
     }
 
     //testando python
