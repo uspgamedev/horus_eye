@@ -68,11 +68,13 @@ class VirtualObj {
     VirtualObj operator[] (const VirtualObj& key) const {
         return attribute(key);
     }
+
 /* TODO
 	VirtualObj operator[] (const std::string& key) const {
 		return attribute(Create(key, wrapper()));
 	}
 */
+
     VirtualObj operator[] (const char* key) const {
         return attribute(Create(key, wrapper()));
     }
