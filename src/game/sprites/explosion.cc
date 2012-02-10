@@ -1,5 +1,6 @@
 #include "explosion.h"
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/graphic/drawable/sprite.h>
@@ -62,7 +63,7 @@ Explosion::Explosion(ugdk::graphic::FlexibleSpritesheet *image, uint32 animation
 Explosion::~Explosion() {}
 
 void Explosion::InitializeAnimations() {
-    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/explosion.gdd");
+    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/explosion.gdd");
     WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] =
             ANIMATIONS->MakeIndex("HERO_FIREBALL_WEAPON");
     WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] =
