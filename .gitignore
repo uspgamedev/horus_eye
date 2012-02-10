@@ -28,6 +28,7 @@ settings.ini
 /lib/ugdk.lib
 /lib/libugdk.a
 /lib/libugdk.so
+/lib/libugdk.dylib
 /lib/libugdk_d.a
 /lib/libugdk_d.so
 /Horus Eye.opensdf
