@@ -242,8 +242,7 @@ void World::IncreaseNumberOfEnemies() {
     max_enemies_++;
 }
 
-void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
-
+void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
     new_world_objects_.push_front(new_object);
 }
@@ -267,7 +266,7 @@ void World::AddNewWorldObjects() {
     new_world_objects_.clear();
 }
 
-void World::AddHero(ugdk::Vector2D pos) {
+void World::AddHero(const ugdk::Vector2D& pos) {
     this->AddWorldObject(hero_, pos);
 }
 
@@ -303,23 +302,23 @@ void World::RemoveAll() {
     hero_ = NULL;
 }
 
-Vector2D World::FromScreenLinearCoordinates(Vector2D screen_coords) {
+Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
     Vector2D tx(sqrt(5.0)/4.0f, -sqrt(5.0)/4.0f);
     Vector2D ty(-sqrt(5.0)/2.0f, -sqrt(5.0)/2.0f);
     return (tx * screen_coords.x) + (ty * screen_coords.y);
 }
 
-Vector2D World::FromWorldLinearCoordinates(Vector2D world_coords) {
+Vector2D World::FromWorldLinearCoordinates(const Vector2D& world_coords) {
     Vector2D tx(54.0f, -27.0f);
     Vector2D ty(-54.0f, -27.0f);
     return (tx * world_coords.x) + (ty * world_coords.y);
 }
 
-Vector2D World::FromWorldCoordinates(Vector2D world_coords) {
+Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
     return FromWorldLinearCoordinates(world_coords);
 }
 
-Vector2D World::FromScreenCoordinates(Vector2D screen_coords) {
+Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
     Vector2D    global_screen_coords = screen_coords - WORLD()->world_node_->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
     return (transformed * (1.0f/60.373835392f));

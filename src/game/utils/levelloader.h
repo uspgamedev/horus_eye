@@ -3,11 +3,17 @@
 
 #include <vector>
 #include <string>
-#include "game/scenes/world.h"
 
+namespace ugdk {
+    class Vector2D;
+}
+namespace scene {
+    class World;
+}
 namespace sprite {
 class Wall;
 }
+using ugdk::Vector2D;
 
 namespace utils {
 class LevelLoader {
@@ -22,7 +28,7 @@ class LevelLoader {
     scene::World * world_;
 	bool InRange (int i,int j);
 	bool IsWall(int i, int j);
-	void TokenToWorldObject(char token, int i, int j, Vector2D position, std::vector<std::vector<sprite::Wall* > > &wall_matrix);
+	void TokenToWorldObject(char token, int i, int j, const Vector2D& position, std::vector<std::vector<sprite::Wall* > > &wall_matrix);
 	void InitializeWallTypes(std::vector<std::vector<sprite::Wall *> > wall_matrix);
 
 };

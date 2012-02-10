@@ -1,8 +1,10 @@
 #ifndef HORUSEYE_GAME_UTILS_VISIONSTRATEGY_H_
 #define HORUSEYE_GAME_UTILS_VISIONSTRATEGY_H_
 
-#include "game/scenes/world.h"
+#include <ugdk/math/Vector2D.h>
 #include <queue>
+
+using ugdk::Vector2D;
 
 namespace utils {
 

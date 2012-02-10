@@ -20,8 +20,6 @@ if [ "$#" -eq 0 ]; then
          Won't create a DMG and won't create an Universal Binary."
     ## Moving to parent dir and compiling
     cd ..
-    # Cleaning
-    rm ./CMakeCache.txt
     cmake .
     make -j2
     # Moving back to script dir
@@ -36,6 +34,8 @@ else
     # Compiling Universal Binary
     cmake -DUNIVERSAL=YES .
     make -j2
+    # Cleaning up so it doesn't affect a "testing" compilation.
+    rm ./CMakeCache.txt
     # Moving back to script dir
     cd deploy
 fi
