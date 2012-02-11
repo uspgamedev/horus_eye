@@ -4,6 +4,7 @@
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/util/animationparser.h>
@@ -153,7 +154,7 @@ void Creature::TakeDamage(float life_points) {
 void Creature::InitializeAnimations() {
     if (ANIMATIONS != NULL) return;
 
-    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/creature.gdd");
+    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/creature.gdd");
     InitializeAttackingAnimations();
     InitializeWalkingAnimations();
     InitializeStandingAnimations();

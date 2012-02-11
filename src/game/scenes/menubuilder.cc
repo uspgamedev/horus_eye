@@ -1,6 +1,7 @@
 #include <sstream>
 #include "menubuilder.h"
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
@@ -62,7 +63,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/menu.gdd");
+    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
@@ -87,7 +88,7 @@ void MenuBuilder::ReleaseAnimations() {
 
 void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
     //TODO: put on image factory!!!
-    ugdk::graphic::Spritesheet *menu_eye_sheet = VIDEO_MANAGER()->GetSpritesheet("images/eye.png");
+    ugdk::graphic::Spritesheet *menu_eye_sheet = RESOURCE_MANAGER()->spritesheet_container().Find("images/eye.png");
 
     ugdk::graphic::Drawable *selection_sprite[SELECTION_SPRITE];
     for (int i = 0; i < SELECTION_SPRITE; i++) {
@@ -119,7 +120,7 @@ Menu *MenuBuilder::BuildMainMenu () {
                            (MENU_BOTTOM-MENU_TOP)/MenuBuilder::MAIN_SELECT_NUM);
 
     // The game logo.
-    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/logo_560x334_black.png"));
+    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/logo_560x334_black.png"));
     menu->AddDrawable(logo, Vector2D((VIDEO_MANAGER()->video_size().x - logo->width()) * 0.5f, 0.0f));
 
     // The sprite of each option.
@@ -149,7 +150,7 @@ Menu *MenuBuilder::BuildMainMenu () {
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     menu->AddDrawable(version, Vector2D(10.0f, VIDEO_MANAGER()->video_size().y - 10.0f));
 
-    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/developed_by_uspgamedev1.png"));
+    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/developed_by_uspgamedev1.png"));
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     menu->AddDrawable(developed_by, VIDEO_MANAGER()->video_size() + Vector2D(-15.0f, 0.0f));
 
