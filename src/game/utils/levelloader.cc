@@ -8,6 +8,7 @@
 
 #include "levelloader.h"
 
+#include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
@@ -118,7 +119,7 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 	}
 }
 
-void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
+void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position, vector<vector<Wall* > > &wall_matrix) {
     builder::MummyBuilder mummy_builder;
     builder::ItemBuilder potion_builder;
     ImageFactory* image_factory = world_->image_factory();

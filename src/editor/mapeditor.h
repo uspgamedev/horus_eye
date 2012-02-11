@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/action/entity.h>
 #include <ugdk/graphic/node.h>
 
 namespace editor {

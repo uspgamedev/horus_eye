@@ -10,7 +10,6 @@
 
 using namespace std;
 using namespace ugdk;
-using namespace scene;
 using namespace utils;
 using resource::Energy;
 

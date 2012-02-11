@@ -2,7 +2,9 @@
 #define HORUSEYE_GAME_UTILS_TILE_H_
 
 #include <vector>
-#include <cstddef>  // Usado para definir NULL
+#ifndef NULL
+#define NULL 0
+#endif
 
 namespace ugdk {
 class Vector2D;

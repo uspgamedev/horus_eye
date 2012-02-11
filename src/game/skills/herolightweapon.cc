@@ -1,17 +1,16 @@
 #include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/node.h>
 #include <ugdk/base/engine.h>
 
 #include "herolightweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/explosion.h"
 #include "game/sprites/timedworldobject.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"

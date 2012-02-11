@@ -15,10 +15,12 @@ ENDIF ()
 
 MESSAGE("${GAME_NAME} version ${GAME_VERSION}")
 
-# Necessary for a Mac Universal Binary
-SET (CMAKE_OSX_ARCHITECTURES ppc;i386;x86_64)
-SET (CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.5.sdk)
-SET (MACOSX_DEPLOYMENT_TARGET 10.5)
+IF (UNIVERSAL)
+  # Necessary for a Mac Universal Binary
+  SET (CMAKE_OSX_ARCHITECTURES ppc;i386;x86_64)
+  SET (CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.5.sdk)
+  SET (MACOSX_DEPLOYMENT_TARGET 10.5)
+ENDIF (UNIVERSAL)
 
 # #define's que voce queira incluir na compilacao
 # separe por espacos
@@ -38,7 +40,11 @@ IF(UNIX)
   # se for o g++ para *nix:
   SET(CFLAGS "${CFLAGS} -g -Wall -ansi -O3 -U_FORTIFY_SOURCE")
   IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
+    IF(UNIVERSAL)
+      SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
+    ELSE()
+      SET(LDFLAGS "${LDFLAGS}")
+    ENDIF()
   ELSE()
     SET(LDFLAGS "${LDFLAGS}")
   ENDIF()

@@ -50,22 +50,22 @@ static bool isStringTrue(std::string& str) {
 static bool isStringFalse(std::string& str) {
     return std::string("false").compare(tolower(trim(str))) == 0;
 }
-static inline bool StringToBool(std::string &s, bool unknown = true) {
+static inline bool StringToBool(std::string& s, bool unknown = true) {
     if(unknown)
         return !isStringFalse(s);
     else
         return isStringTrue(s);
 }
-static inline std::string BoolToString(bool value) {
+static inline std::string BoolToString(const bool& value) {
     return value ? "true" : "false";
 }
-static inline std::string IntToString(int x) {
+static inline std::string IntToString(const int& x) {
     std::ostringstream o;
     if (!(o << x))
         return "";
     return o.str();
 }
-static inline int StringToInt(std::string &s) {
+static inline int StringToInt(const std::string& s) {
     std::istringstream i(s);
     int x;
     if (!(i >> x))

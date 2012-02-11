@@ -4,7 +4,6 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/math/vector2D.h>
 
 #include "game/utils/levelmanager.h"
 #include "game/utils/tile.h"
@@ -19,7 +18,9 @@ class Hero;
 class Mummy;
 class WorldObject;
 }
-
+namespace ugdk {
+    class Vector2D;
+}
 using ugdk::Vector2D;
 using std::vector;
 
@@ -38,8 +39,8 @@ class World : public ugdk::Scene {
 
 	void Update(double delta_t);
 
-    void AddWorldObject(sprite::WorldObject*, ugdk::Vector2D pos);
-    void AddHero(ugdk::Vector2D pos);
+    void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
+    void AddHero(const ugdk::Vector2D& pos);
 
     void AddNewWorldObjects();
 
@@ -53,16 +54,16 @@ class World : public ugdk::Scene {
     void End();
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
-    static Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
+    static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
     
     // Funcao auxiliar que transforma VETORES de coordenadas de mundo para de tela
-    static Vector2D FromWorldLinearCoordinates(Vector2D world_coords);
+    static Vector2D FromWorldLinearCoordinates(const Vector2D& world_coords);
 
     // Funcao que transforma PONTOS de coordenadas de mundo para de tela
-    static Vector2D FromWorldCoordinates(Vector2D screen_coords);
+    static Vector2D FromWorldCoordinates(const Vector2D& screen_coords);
 
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
-    static Vector2D FromScreenCoordinates(Vector2D screen_coords);
+    static Vector2D FromScreenCoordinates(const Vector2D& screen_coords);
 
 	static const Vector2D ConvertLightRadius(double radius);
 

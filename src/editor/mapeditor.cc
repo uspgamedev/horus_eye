@@ -12,9 +12,17 @@
 #include "scenes/editormenu.h"
 #include "game/scenes/menu.h"
 #include "game/utils/levelmanager.h"
+#include "game/utils/tile.h"
 
-using namespace std;
-using namespace ugdk;
+using std::string;
+using std::vector;
+using std::queue;
+using std::ofstream;
+using std::cout;
+using std::endl;
+
+using ugdk::Engine;
+using ugdk::Vector2D;
 
 #define LINE_SIZE 1024
 
