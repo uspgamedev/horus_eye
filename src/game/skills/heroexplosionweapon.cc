@@ -18,7 +18,7 @@ namespace skills {
 using scene::World;
 using utils::Constants;
 
-const float HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
+const double HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
     : DivineGift<usearguments::Aim>(
@@ -44,7 +44,7 @@ void HeroExplosionWeapon::Use() {
 
 bool HeroExplosionWeapon::IsValidUse() const {
     utils::VisionStrategy vs;
-    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    double distance = (use_argument_.destination_ - use_argument_.origin_).length();
     return super::IsValidUse()
         && (distance <= range_)
         && vs.IsVisible(use_argument_.destination_, use_argument_.origin_);

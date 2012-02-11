@@ -18,7 +18,7 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     // Node [0], background image
     if (background) {
         scene_layers_[BG] = new ugdk::graphic::Node(background);
-        scene_layers_[BG]->set_zindex(-1.0f);
+        scene_layers_[BG]->set_zindex(-1.0);
         interface_node_->AddChild(scene_layers_[BG]);
     }
     else scene_layers_[BG] = NULL;
@@ -27,7 +27,7 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     if (image) {
         scene_layers_[IMG] = new ugdk::graphic::Node(image);
 
-        ugdk::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5f;
+        ugdk::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5;
         scene_layers_[IMG]->modifier()->set_offset(offset);
 
         interface_node_->AddChild(scene_layers_[IMG]);
@@ -47,7 +47,7 @@ void ImageScene::End() {
     set_visible(false);
 }
 
-void ImageScene::Update(float delta_t) {
+void ImageScene::Update(double delta_t) {
     super::Update(delta_t);
     ugdk::input::InputManager *input = INPUT_MANAGER();
     if (input->KeyPressed(ugdk::input::K_RETURN) || input->KeyPressed(ugdk::input::K_ESCAPE) ||

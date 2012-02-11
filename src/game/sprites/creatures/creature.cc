@@ -45,7 +45,7 @@ Creature::Creature()
         animation_direction_(0),
         weapon_(NULL),
         last_stable_position_(),
-        last_dt_(0.0f),
+        last_dt_(0.0),
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
@@ -105,30 +105,30 @@ bool Creature::AddCondition(Condition* new_condition) {
     return true;
 }
 
-void Creature::UpdateCondition(float dt) {
+void Creature::UpdateCondition(double dt) {
 	 std::list<Condition*>::iterator i;
 	 for (i = conditions_.begin(); i != conditions_.end(); ++i) 
 		 (*i)->Update(dt);
 	 conditions_.remove_if(deletecondition);
 }
 
-void Creature::AdjustBlink(float delta_t) {
+void Creature::AdjustBlink(double delta_t) {
     if (!hit_duration_->Expired()) {
         if (blink_time_->Expired()) {
             blink_ = !blink_;
-            node()->modifier()->set_alpha(blink_ ? 1.0f : 0.20f);
+            node()->modifier()->set_alpha(blink_ ? 1.0 : 0.20);
             blink_time_->Restart();
         }
     } else 
-        node()->modifier()->set_alpha(1.0f);
+        node()->modifier()->set_alpha(1.0);
 }
 
-void Creature::TakeDamage(float life_points) {
+void Creature::TakeDamage(double life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
     int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
-    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", identifier_.c_str(), creature_id,
-        life_points, (float) life_, (float) life_ - life_points);
+    fprintf(stderr, "Damage to %s [%X]. DMG: %.2; Life: %.2 -> %.2\n", identifier_.c_str(), creature_id,
+        life_points, (double) life_, (double) life_ - life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;
@@ -216,14 +216,14 @@ void Creature::InitializeStandingAnimations() {
 
 // ============= other stuff
 
-void Creature::Update(float dt) {
+void Creature::Update(double dt) {
     WorldObject::Update(dt);
     UpdateCondition(dt);
     life_.Update(dt);
     mana_.Update(dt);
 }
 
-void Creature::Move(Vector2D direction, float delta_t) {
+void Creature::Move(Vector2D direction, double delta_t) {
     // If you called Move() you should be in a stable position.
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;
@@ -244,13 +244,13 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
     Vector2D circ_pos = circle->position();
     Vector2D rect_pos = rect->position();
 
-    float half_r_width  = rect->width() /2.0f;
-    float half_r_height = rect->height()/2.0f;
+    double half_r_width  = rect->width() /2.0;
+    double half_r_height = rect->height()/2.0;
 
-    float r_left   = rect_pos.x - half_r_width;
-    float r_right  = rect_pos.x + half_r_width;
-    float r_bottom = rect_pos.y - half_r_height;
-    float r_top    = rect_pos.y + half_r_height;
+    double r_left   = rect_pos.x - half_r_width;
+    double r_right  = rect_pos.x + half_r_width;
+    double r_bottom = rect_pos.y - half_r_height;
+    double r_top    = rect_pos.y + half_r_height;
 
     // first, if the collision is trivial (in other words, non-corner):
     if(circ_pos.y <= r_top && circ_pos.y >= r_bottom)
@@ -283,16 +283,16 @@ void Creature::Tick() {
 	waiting_animation_ = false;
 }
 
-int Creature::GetAttackingAnimationIndex(float angle) {
+int Creature::GetAttackingAnimationIndex(double angle) {
     int degreeAngle = (int)((angle / PI) * 360);
     degreeAngle += 45;
     int animationIndex = degreeAngle / 90;
     return animationIndex % 8;
 }
 
-float Creature::GetAttackingAngle(Vector2D targetDirection) {
+double Creature::GetAttackingAngle(Vector2D targetDirection) {
     Vector2D versor = Vector2D::Normalized(targetDirection);
-    float radianAngle = acos(versor.x);
+    double radianAngle = acos(versor.x);
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
     }

@@ -60,11 +60,11 @@ bool RecoverManaEvent::Use (Hero *hero) {
 //=======================================
 class IncreaseSightEvent : public sprite::ItemEvent {
     public:
-    IncreaseSightEvent (float additional_sight) : additional_sight_(additional_sight) {}
+    IncreaseSightEvent (double additional_sight) : additional_sight_(additional_sight) {}
     bool Use (sprite::Hero *);
 
     private:
-    float additional_sight_;
+    double additional_sight_;
     ConditionBuilder condition_builder_;
 };
 

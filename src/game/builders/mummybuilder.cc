@@ -54,7 +54,7 @@ Mummy * MummyBuilder::StandingBigMummy(ugdk::graphic::FlexibleSpritesheet *image
 	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
     mummy->set_super_armor(true);
-    mummy->node()->modifier()->set_scale(Vector2D(2.0f, 2.0f));
+    mummy->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     return mummy;
 }
 

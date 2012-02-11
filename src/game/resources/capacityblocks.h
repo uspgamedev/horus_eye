@@ -12,7 +12,7 @@ class CapacityBlocks : public CountableResource {
 
   public:
 
-    explicit CapacityBlocks(Energy& contents, int total_blocks = 1, float capacity_per_block = 1.0f)
+    explicit CapacityBlocks(Energy& contents, int total_blocks = 1, double capacity_per_block = 1.0)
         : CountableResource(1, total_blocks),
           contents_(contents),
           capacity_per_block_(capacity_per_block) {}
@@ -58,14 +58,14 @@ class CapacityBlocks : public CountableResource {
     /**
      * TODO
      */
-    float ToMana(int blocks) {
+    double ToMana(int blocks) {
         return blocks*capacity_per_block_;
     }
 
   private:
 
     Energy& contents_;
-    const float capacity_per_block_;
+    const double capacity_per_block_;
 
 };
 

@@ -46,17 +46,17 @@ static Node* CreateBarOn(Node* container, TexturedRectangle* bar_image, HudImage
     totem_bar_bottom->set_hotspot(Drawable::BOTTOM_LEFT);
 
     Node* totem_bottom_node = new Node(totem_bar_bottom);
-    totem_bottom_node->set_zindex(1.0f);
+    totem_bottom_node->set_zindex(1.0);
     container->AddChild(totem_bottom_node);
 
     Node* totem_top_node = new Node(totem_bar_image);
-    totem_top_node->modifier()->set_offset(Vector2D(0.0f, static_cast<float>(-totem_bar_bottom->height())));
-    totem_top_node->set_zindex(-1.0f);
+    totem_top_node->modifier()->set_offset(Vector2D(0.0, static_cast<double>(-totem_bar_bottom->height())));
+    totem_top_node->set_zindex(-1.0);
     container->AddChild(totem_top_node);
 
     Node* bar_node = new Node;
-    bar_node->modifier()->set_offset(Vector2D(totem_bar_image->width() * 0.5f - bar_image->width() * 0.5f, totem_bar_bottom->height() * (-1.0f)));
-    bar_node->set_zindex(-0.5f);
+    bar_node->modifier()->set_offset(Vector2D(totem_bar_image->width() * 0.5 - bar_image->width() * 0.5, totem_bar_bottom->height() * (-1.0)));
+    bar_node->set_zindex(-0.5);
     container->AddChild(bar_node);
 
     return bar_node;
@@ -85,11 +85,11 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     bottom_node->AddChild(back_right_node = new Node(back_right_image));
     bottom_node->AddChild(back_left_node  = new Node(back_left_image ));
 
-    back_left_node ->modifier()->set_offset(Vector2D(eye_image->width() * -0.5f, 0.0f));
-    back_right_node->modifier()->set_offset(Vector2D(eye_image->width() *  0.5f, 0.0f));
+    back_left_node ->modifier()->set_offset(Vector2D(eye_image->width() * -0.5, 0.0));
+    back_right_node->modifier()->set_offset(Vector2D(eye_image->width() *  0.5, 0.0));
 
-    back_left_node->set_zindex(0.1f);
-    back_right_node->set_zindex(0.1f);
+    back_left_node->set_zindex(0.1);
+    back_right_node->set_zindex(0.1);
 
 
     // The eye image is the bottom of the screen
@@ -99,18 +99,18 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     weapon_icon_ = new Node;
 
     // The magic numbers do their magic!
-    weapon_icon_->modifier()->set_offset(Vector2D(-5.0f, -eye_image->height() * 0.5f - 7.0f));
+    weapon_icon_->modifier()->set_offset(Vector2D(-5.0, -eye_image->height() * 0.5 - 7.0));
     eye_node->AddChild(weapon_icon_);
 
 
     Node* life_bar_container = new Node;
-    life_bar_container->modifier()->set_offset(Vector2D(0.0f, VIDEO_Y - back_left_image->height()));
-    life_bar_container->set_zindex(-0.5f);
+    life_bar_container->modifier()->set_offset(Vector2D(0.0, VIDEO_Y - back_left_image->height()));
+    life_bar_container->set_zindex(-0.5);
     node_->AddChild(life_bar_container);
 
     Node* mana_bar_container = new Node;
     mana_bar_container->modifier()->set_offset(Vector2D(VIDEO_X - TOTEM_WIDTH, VIDEO_Y - back_right_image->height()));
-    mana_bar_container->set_zindex(-0.5f);
+    mana_bar_container->set_zindex(-0.5);
     node_->AddChild(mana_bar_container);
 
     TexturedRectangle *life_bar_image = img_fac.LifeBarImage();
@@ -122,8 +122,8 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     life_bar->AddChild(new Node(life_bar_image,  life_modifier_ = new Modifier));
     mana_bar->AddChild(new Node(img_fac.ManaBarImage(), block_modifier_ = new Modifier));
     mana_bar->AddChild(new Node(mana_bar_image,  mana_modifier_ = new Modifier));
-    block_modifier_->set_alpha(0.75f);
-    block_modifier_->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    block_modifier_->set_alpha(0.75);
+    block_modifier_->set_color(ugdk::Color(0.5, 0.5, 0.5));
 
 
     TexturedRectangle* mummy_counter_image = img_fac.MummyCounterImage();
@@ -137,8 +137,8 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
 
     mummy_counter_node->AddChild(mummy_counter_text_holder_ = new Node);
     mummy_counter_text_holder_->modifier()->set_offset(
-        Vector2D(mummy_counter_image->width() * 0.3f, 
-                -mummy_counter_image->height() * (1 - 0.77f)));
+        Vector2D(mummy_counter_image->width() * 0.3, 
+                -mummy_counter_image->height() * (1 - 0.77)));
 
     previous_mummy_counter_value_ = world->CountRemainingEnemies();
     mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
@@ -147,7 +147,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     Text* fps_label = TEXT_MANAGER()->GetText(L"FPS: ");
     node_->AddChild(new Node(fps_label));
     node_->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
-    fps_meter_node_->modifier()->set_offset(Vector2D(fps_label->width(), 0.0f));
+    fps_meter_node_->modifier()->set_offset(Vector2D(fps_label->width(), 0.0));
     previous_fps_ = 0;
 #endif
 }
@@ -157,7 +157,7 @@ Hud::~Hud() {
     delete node_;
 }
 
-void Hud::Update(float delta_t) {
+void Hud::Update(double delta_t) {
     World* world = WORLD();
 
     int enemy_number = world->CountRemainingEnemies();
@@ -188,12 +188,12 @@ void Hud::Update(float delta_t) {
 
         
         // Life Bar
-        life_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->life()) / world->hero()->life().max_value()) * LIFE_BAR_HEIGHT) );
+        life_modifier_->set_offset(Vector2D(0.0, -(((double) world->hero()->life()) / world->hero()->life().max_value()) * LIFE_BAR_HEIGHT) );
         
         // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana()) / world->hero()->FullMana()) * MANA_BAR_HEIGHT) );
+        mana_modifier_->set_offset(Vector2D(0.0, -(((double) world->hero()->mana()) / world->hero()->FullMana()) * MANA_BAR_HEIGHT) );
 
-        block_modifier_->set_offset(Vector2D(0.0f, -(((float) world->hero()->mana_blocks().Get()) / world->hero()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+        block_modifier_->set_offset(Vector2D(0.0, -(((double) world->hero()->mana_blocks().Get()) / world->hero()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
     }
 }
 

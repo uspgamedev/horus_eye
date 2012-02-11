@@ -20,13 +20,13 @@ using namespace utils;
 #define RECT_HEIGHT         90
 #define SELECTION_WIDTH     864
 #define SELECTION_HEIGHT    155
-#define MENU_TOP            VIDEO_MANAGER()->video_size().y/3.0f
-#define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
+#define MENU_TOP            VIDEO_MANAGER()->video_size().y/3.0
+#define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
 #define MENU_BOTTOM         MENU_TOP + Menu::MAIN_SELECT_NUM*RECT_HEIGHT
-#define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
+#define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
 #define SELECTION_SPRITES   2
 
-const float Menu::OPTION_ZINDEX = 10.0f;
+const double Menu::OPTION_ZINDEX = 10.0;
 
 Menu::Menu (int selection_num)
     : selection_(0) {
@@ -61,7 +61,7 @@ Menu::~Menu () {
     delete interface_node_;
 }
 
-void Menu::Update(float delta_t) {
+void Menu::Update(double delta_t) {
     Scene::Update(delta_t);
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
     Vector2D mouse_pos = input->GetMousePosition();
@@ -150,23 +150,23 @@ void Menu::AddNode(ugdk::graphic::Node *node) {
 void Menu::DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment) {
 	option_alignment_ = alignment;
 
-    float height = content_box_.height()/selection_num_;
-	float width = content_box_.right()-content_box_.left();
+    double height = content_box_.height()/selection_num_;
+	double width = content_box_.right()-content_box_.left();
 
 	Vector2D offset;
     switch (option_alignment_) {
-		case ugdk::graphic::Drawable::TOP_LEFT    : offset = Vector2D(        0.0f,          0.0f); break;
-        case ugdk::graphic::Drawable::TOP         : offset = Vector2D(width * 0.5f,          0.0f); break;
-        case ugdk::graphic::Drawable::TOP_RIGHT   : offset = Vector2D(       width,          0.0f); break;
-        case ugdk::graphic::Drawable::LEFT        : offset = Vector2D(        0.0f, height * 0.5f); break;
-        case ugdk::graphic::Drawable::CENTER      : offset = Vector2D(width * 0.5f, height * 0.5f); break;
-        case ugdk::graphic::Drawable::RIGHT       : offset = Vector2D(       width, height * 0.5f); break;
-        case ugdk::graphic::Drawable::BOTTOM_LEFT : offset = Vector2D(        0.0f,         height); break;
-        case ugdk::graphic::Drawable::BOTTOM      : offset = Vector2D(width * 0.5f,         height); break;
+		case ugdk::graphic::Drawable::TOP_LEFT    : offset = Vector2D(        0.0,          0.0); break;
+        case ugdk::graphic::Drawable::TOP         : offset = Vector2D(width * 0.5,          0.0); break;
+        case ugdk::graphic::Drawable::TOP_RIGHT   : offset = Vector2D(       width,          0.0); break;
+        case ugdk::graphic::Drawable::LEFT        : offset = Vector2D(        0.0, height * 0.5); break;
+        case ugdk::graphic::Drawable::CENTER      : offset = Vector2D(width * 0.5, height * 0.5); break;
+        case ugdk::graphic::Drawable::RIGHT       : offset = Vector2D(       width, height * 0.5); break;
+        case ugdk::graphic::Drawable::BOTTOM_LEFT : offset = Vector2D(        0.0,         height); break;
+        case ugdk::graphic::Drawable::BOTTOM      : offset = Vector2D(width * 0.5,         height); break;
         case ugdk::graphic::Drawable::BOTTOM_RIGHT: offset = Vector2D(       width,         height); break;
     }
     for (int i = 0; i < selection_num_; ++i) {
-        float y = content_box_.top() + static_cast<float>(i)*height;
+        double y = content_box_.top() + static_cast<double>(i)*height;
 		selection_pos_[i] = Vector2D(content_box_.left(), y) + offset;
     }
 
@@ -176,13 +176,13 @@ void Menu::DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment) {
 
 bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
 
-    static float    old_x = 0, old_y = 0;
-    float           x = mouse_pos.x,
+    static double    old_x = 0, old_y = 0;
+    double           x = mouse_pos.x,
                     y = mouse_pos.y,
                     dx = x - old_x,
                     dy = y - old_y;
     static bool     on_selection = false;
-    float selection_height = content_box_.height()/selection_num_;
+    double selection_height = content_box_.height()/selection_num_;
 
     if (dx*dx > 0 || dy*dy > 0 || !visible()) {
         old_x = x;
@@ -201,7 +201,7 @@ bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
 void Menu::Select () {
     for (int i = 0; i < SELECTION_SPRITES; i++) {
         Vector2D pos = selection_pos_[selection_];
-        float offset = (options_node_[selection_]->drawable()->size().x + selection_node_[i]->drawable()->size().x) * 0.5f;
+        double offset = (options_node_[selection_]->drawable()->size().x + selection_node_[i]->drawable()->size().x) * 0.5;
         pos.x = pos.x + i * -offset + (1 - i) * offset; // awesum dodge of if
         selection_node_[i]->modifier()->set_offset(pos);
     }

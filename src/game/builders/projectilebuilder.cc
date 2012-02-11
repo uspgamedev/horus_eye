@@ -28,9 +28,9 @@ using utils::Constants;
 
 
 static int GetAnimationIndexFromDir(Vector2D &dir) {
-    float raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
-    float angle = (raw_angle / acos(-1.0f)) + 1.0f;
-    int animation_index = (int)((angle * 4.0f) + 0.5f);
+    double raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
+    double angle = (raw_angle / acos(-1.0)) + 1.0;
+    int animation_index = (int)((angle * 4.0) + 0.5);
     return (animation_index % 8);
 }
 
@@ -40,18 +40,18 @@ ugdk::uint32 ProjectileBuilder::fireball_animation_map_[8],
              ProjectileBuilder::lightning_animation_map_[8];
 
 struct ObjectAndDamage {
-    ObjectAndDamage(WorldObject *object, float dmg)
+    ObjectAndDamage(WorldObject *object, double dmg)
         : obj(object), damage(dmg) {}
 
     WorldObject *obj;
-    float damage;
+    double damage;
 };
 
 COLLISION_DIRECT(WorldObject*, DieCollision, data) { 
     data_->Die();
 }
 
-COLLISION_DIRECT(float, DamageCollision, obj) {
+COLLISION_DIRECT(double, DamageCollision, obj) {
 	Creature *creature = (Creature *) obj;
     creature->TakeDamage(data_);
 }
@@ -63,7 +63,7 @@ COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
     data_.obj->Die();
 }
 
-static CollisionObject* buildBasicCollision(Projectile* proj, float radius) {
+static CollisionObject* buildBasicCollision(Projectile* proj, double radius) {
     CollisionObject* col = new CollisionObject(proj);
     col->InitializeCollisionClass(GET_COLLISIONMASK(Projectile));
     col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new DieCollision(proj));
@@ -103,9 +103,9 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
 
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
     proj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
-    proj->set_light_radius(1.0f);
+    proj->set_light_radius(1.0);
 
-    CollisionObject* col = buildBasicCollision(proj, 0.15f);
+    CollisionObject* col = buildBasicCollision(proj, 0.15);
     struct ObjectAndDamage data(proj, Constants::PROJECTILE_DAMAGE);
     col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndDieCollision(data));
     return proj;
@@ -114,10 +114,10 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
 Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
     Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
     proj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MummyProjectileImage() ));
-    proj->node()->drawable()->set_hotspot(Vector2D(0.0f, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
-    proj->set_light_radius(0.75f);
+    proj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
+    proj->set_light_radius(0.75);
 
-    CollisionObject* col = buildBasicCollision(proj, 0.15f);
+    CollisionObject* col = buildBasicCollision(proj, 0.15);
     struct ObjectAndDamage data(proj, damage);
     col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndDieCollision(data));
     return proj;
@@ -130,10 +130,10 @@ Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite( factory_->LightningImage(), lightning_animation_ );
     sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
     proj->node()->set_drawable(sprite);
-    proj->set_light_radius(1.0f);
+    proj->set_light_radius(1.0);
 
 
-    CollisionObject* col = buildBasicCollision(proj, 0.25f);
+    CollisionObject* col = buildBasicCollision(proj, 0.25);
     col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageCollision(Constants::LIGHTNING_DAMAGE));
     return proj;
 }
@@ -147,14 +147,14 @@ Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite( factory_->FireballImage(), fireball_animation_ );
     sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
     proj->node()->set_drawable(sprite);
-    proj->set_light_radius(1.0f);
+    proj->set_light_radius(1.0);
 
     // Give the light an orange color
-    ugdk::Color light_color(1.0f, 0.521568f, 0.082352f);
+    ugdk::Color light_color(1.0, 0.521568, 0.082352);
     proj->node()->light()->set_color(light_color);
 
 
-    CollisionObject* col = buildBasicCollision(proj, 0.25f);
+    CollisionObject* col = buildBasicCollision(proj, 0.25);
     col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DieCollision(proj));
     return proj;
 }

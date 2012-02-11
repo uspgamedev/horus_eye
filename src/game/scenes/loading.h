@@ -10,7 +10,7 @@ class Loading: public ugdk::Scene {
   public:
     Loading();
     virtual ~Loading();
-    virtual void Update(float delta_t);
+    virtual void Update(double delta_t);
 
     /// When the Loading gains focus, it becomes visible.
     virtual void Focus();

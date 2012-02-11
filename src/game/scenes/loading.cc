@@ -16,7 +16,7 @@ using namespace ugdk;
 Loading::Loading() {
     ugdk::graphic::Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
 
-    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->size() - Vector2D(10.0f, 10.0f);
+    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->size() - Vector2D(10.0, 10.0);
 
     loading_ = new ugdk::graphic::Node(loading_image);
     loading_->modifier()->set_offset(position);
@@ -33,7 +33,7 @@ Loading::~Loading() {
     utils::LevelManager::reference()->InformLoadingDeleted();
 }
 
-void Loading::Update(float delta_t) {
+void Loading::Update(double delta_t) {
     super::Update(delta_t);
     if(has_been_drawn_) {
         //Finish();

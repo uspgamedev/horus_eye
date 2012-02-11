@@ -32,9 +32,9 @@ using namespace std;
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
 
-#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.0f - (EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT/2.0f)
+#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.0 - (EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT/2.0)
 #define MENU_BOTTOM             MENU_TOP + EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT
-#define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
+#define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
 #define MENU_RIGHT              MENU_LEFT + RECT_WIDTH
 
 
@@ -57,7 +57,7 @@ scene::Menu* EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
 
 	// The background color.
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
-    bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f, 0.5f));
+    bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     menu->AddDrawable(bg, Vector2D());
 
     // The text of each option.
@@ -165,7 +165,7 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
     CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
 
 	ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
-    bg->set_color(ugdk::Color(0.25f, 0.25f, 0.25f, 0.8f));
+    bg->set_color(ugdk::Color(0.25, 0.25, 0.25, 0.8));
     menu->AddDrawable(bg, Vector2D());
 
     // The sprite of each option.
@@ -234,9 +234,9 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
         ugdk::graphic::Drawable* drawable = TEXT_MANAGER()->GetText(tmpw, L"FontB");
 		drawable->set_hotspot(ugdk::graphic::Drawable::CENTER);
 		
-		float x = VIDEO_MANAGER()->video_size().x * 0.5f;
+		double x = VIDEO_MANAGER()->video_size().x * 0.5;
 		level_nodes_[i] = new ugdk::graphic::Node(drawable);
-		level_nodes_[i]->modifier()->set_offset(Vector2D(x, MENU_TOP + RECT_HEIGHT + 25.0f));
+		level_nodes_[i]->modifier()->set_offset(Vector2D(x, MENU_TOP + RECT_HEIGHT + 25.0));
 		menu_->AddNode(level_nodes_[i]);
         if ( static_cast<int>(i) != selected_level_ ) level_nodes_[i]->modifier()->set_visible(false);
     }

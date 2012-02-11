@@ -240,7 +240,7 @@ void LevelLoader::Load(string file_name) {
 	for (int i = 0; i < (int)matrix.size(); ++i) {
 		for (int j = 0; j < (int)matrix[i].size(); ++j) {
 			char token = matrix[i][j]->object();
-			Vector2D position ((float)j, (float)(world_->level_height() - i - 1));
+			Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
 
 			TokenToWorldObject(token, i, j, position, wall_matrix);
 		}

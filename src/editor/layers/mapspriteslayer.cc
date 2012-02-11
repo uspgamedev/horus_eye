@@ -15,7 +15,7 @@ MapSpritesLayer::MapSpritesLayer(MapEditor* editor) : MapEditor::MapLayer(editor
 MapSpritesLayer::~MapSpritesLayer() {}
 
 void MapSpritesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
-	float visible = true;
+	double visible = true;
 	if(node_ != NULL) {
 		visible = node_->modifier()->visible();
 		delete node_;
@@ -36,7 +36,7 @@ void MapSpritesLayer::CenterAt(ugdk::Vector2D& center) {
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
     Vector2D correct_center = Vector2D(center.x, matrix_->size() - center.y);
-	node()->modifier()->set_offset(screen_size * 0.5f - scene::World::FromWorldCoordinates(correct_center));
+	node()->modifier()->set_offset(screen_size * 0.5 - scene::World::FromWorldCoordinates(correct_center));
 }
 
 MapObject* MapSpritesLayer::Select(ugdk::Vector2D& pos) {
@@ -44,9 +44,9 @@ MapObject* MapSpritesLayer::Select(ugdk::Vector2D& pos) {
 
     Vector2D    global_screen_coords = pos + node()->modifier()->offset(),
                 transformed = scene::World::FromScreenLinearCoordinates(global_screen_coords);
-    Vector2D absolute = (transformed * (1.0f/60.373835392f));
-    int x = static_cast<int>(absolute.x + 0.5f);
-    int y = matrix_->size() - static_cast<int>(absolute.y + 0.5f) - 1;
+    Vector2D absolute = (transformed * (1.0/60.373835392));
+    int x = static_cast<int>(absolute.x + 0.5);
+    int y = matrix_->size() - static_cast<int>(absolute.y + 0.5) - 1;
     if(x < 0 || y < 0)
         return NULL;
     if(x < static_cast<int>((*matrix_)[0].size()) && y < static_cast<int>(matrix_->size())) {
@@ -56,7 +56,7 @@ MapObject* MapSpritesLayer::Select(ugdk::Vector2D& pos) {
 }
 
 Vector2D MapSpritesLayer::ModifyMovement(Vector2D& movement) {
-    Vector2D resp = scene::World::FromScreenLinearCoordinates(movement) * (1.5f/60.373835392f);
+    Vector2D resp = scene::World::FromScreenLinearCoordinates(movement) * (1.5/60.373835392);
     return Vector2D(resp.x, -resp.y);
 }
 

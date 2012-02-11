@@ -33,7 +33,7 @@ class CombatArt : public ArgSkill<UseArgument_T> {
       @param use_argument The skill's argument.
       */
     CombatArt(ugdk::graphic::Drawable* icon,
-              float mana_cost,
+              double mana_cost,
               resource::Energy& caster_mana,
               const UseArgument& use_argument)
       : ArgSkill<UseArgument>(icon, use_argument),
@@ -42,7 +42,7 @@ class CombatArt : public ArgSkill<UseArgument_T> {
 
     resource::Energy& caster_mana() const { return caster_mana_; }
 
-    const float mana_cost_;
+    const double mana_cost_;
     resource::Energy& caster_mana_;
 
   private:

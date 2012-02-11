@@ -13,11 +13,11 @@
 
 namespace skills {
 
-#define PI 3.1415926535897932384626433832795f
+#define PI 3.1415926535897932384626433832795
 
 using ugdk::Vector2D;
 
-const float PharaohRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
+const double PharaohRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
 
 void PharaohRangedWeapon::Use() {
     super::Use();
@@ -29,7 +29,7 @@ void PharaohRangedWeapon::Use() {
     Vector2D pos = use_argument_.origin_;
     Vector2D distance = hero->world_position() - pos;
     
-    float angle = atan2(1.5f, distance.length()); 
+    double angle = atan2(1.5, distance.length()); 
     
     Vector2D versor = Vector2D::Normalized(distance);
     Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
@@ -45,8 +45,8 @@ void PharaohRangedWeapon::Use() {
 }
 
 bool PharaohRangedWeapon::IsValidUse() const {
-    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
-    return (distance >= range_ / 2.0f) && (distance <= range_);
+    double distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    return (distance >= range_ / 2.0) && (distance <= range_);
 }
 
 }

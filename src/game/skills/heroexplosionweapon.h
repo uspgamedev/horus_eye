@@ -21,7 +21,7 @@ class HeroExplosionWeapon : public DivineGift<usearguments::Aim> {
   private:
     typedef DivineGift<usearguments::Aim> super;
 
-    const static float range_;
+    const static double range_;
 };
 
 } // skills
