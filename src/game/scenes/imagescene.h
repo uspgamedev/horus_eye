@@ -4,8 +4,7 @@
 #define StarWars ImageScene
 
 #include <ugdk/action/scene.h>
-#include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic.h>
 
 namespace scene {
 
@@ -19,7 +18,7 @@ class ImageScene: public ugdk::Scene {
 
   protected:
     void End();
-    ugdk::graphic::Node *interface_node_, *scene_layers_[2];
+    ugdk::graphic::Node *scene_layers_[2];
 };
 
 }

@@ -44,11 +44,11 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         lights_on_(true),
         num_button_not_pressed_(0) {
 
-    root_node()->AddChild(world_node_);
+    content_node()->AddChild(world_node_);
     world_node_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
     hud_ = new utils::Hud(this);
-    Engine::reference()->PushInterface(hud_->node());
+	interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 }
 
@@ -197,7 +197,7 @@ void World::Update(double delta_t) {
 
     if(VerifyPause()) return;
 
-    set_visible(true);
+	content_node()->modifier()->set_visible(true);
     Scene::Update(delta_t);
 
 #ifdef DEBUG
@@ -224,7 +224,7 @@ void World::End() {
     super::End();
 
     this->RemoveEntity(hud_);
-    Engine::reference()->RemoveInterface(hud_->node());
+	interface_node()->RemoveChild(hud_->node());
     delete hud_;
     hud_ = NULL;
 
@@ -240,7 +240,7 @@ void World::End() {
 void World::IncreaseNumberOfEnemies() {
     remaining_enemies_++;
     max_enemies_++;
-}
+}	
 
 void World::AddWorldObject(sprite::WorldObject* new_object, ugdk::Vector2D pos) {
 

@@ -2,6 +2,8 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable.h>
 #include <ugdk/input/inputmanager.h>
 #include "game/utils/levelmanager.h"
 #include <ugdk/input/keys.h>
@@ -11,15 +13,14 @@ namespace scene {
 #define BG  0
 #define IMG 1
 
-ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image) 
-    :   interface_node_(new ugdk::graphic::Node) {
+ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image) {
 
 
     // Node [0], background image
     if (background) {
         scene_layers_[BG] = new ugdk::graphic::Node(background);
         scene_layers_[BG]->set_zindex(-1.0);
-        interface_node_->AddChild(scene_layers_[BG]);
+        interface_node()->AddChild(scene_layers_[BG]);
     }
     else scene_layers_[BG] = NULL;
 
@@ -30,21 +31,16 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
         ugdk::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5;
         scene_layers_[IMG]->modifier()->set_offset(offset);
 
-        interface_node_->AddChild(scene_layers_[IMG]);
+        interface_node()->AddChild(scene_layers_[IMG]);
     }
     else scene_layers_[IMG] = NULL;
-
-    ugdk::Engine::reference()->PushInterface(interface_node_);
 }
 
-ImageScene::~ImageScene() {
-    ugdk::Engine::reference()->RemoveInterface(interface_node_);
-    delete interface_node_;
-}
+ImageScene::~ImageScene() {}
 
 void ImageScene::End() {
     super::End();
-    set_visible(false);
+	interface_node()->modifier()->set_visible(false);
 }
 
 void ImageScene::Update(double delta_t) {

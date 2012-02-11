@@ -43,8 +43,8 @@ MapEditor::MapEditor() : Scene() {
     main_layer_ = tiles_layer_ = new MapTilesLayer(this);
 	sprites_layer_ = new MapSpritesLayer(this);
 	
-	Engine::reference()->PushInterface(tiles_layer_->node());
-	Engine::reference()->PushInterface(sprites_layer_->node());
+	this->interface_node()->AddChild(tiles_layer_->node());
+	this->interface_node()->AddChild(sprites_layer_->node());
 
 	sprites_layer_->node()->modifier()->set_visible(false);
 
@@ -58,8 +58,8 @@ MapEditor::~MapEditor() {
 }
 
 void MapEditor::End() {
-	Engine::reference()->RemoveInterface(tiles_layer_->node());
-	Engine::reference()->RemoveInterface(sprites_layer_->node());
+	this->interface_node()->RemoveChild(tiles_layer_->node());
+	this->interface_node()->RemoveChild(sprites_layer_->node());
 
     if (map_loaded_) {
         //Engine::reference()->RemoveInterface(fps_layer_);

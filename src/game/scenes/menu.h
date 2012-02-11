@@ -31,20 +31,22 @@ class Menu: public ugdk::Scene {
     void AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos);
     void AddNode(ugdk::graphic::Node *node);
 
-    void Hide();
-    void Show();
-    void Toggle();
+	void Hide()   { set_visibility(    false); }
+    void Show()   { set_visibility(     true); }
+    void Toggle() { set_visibility(!visible_); }
 
     const static double OPTION_ZINDEX;
 
   protected:
-
+	void set_visibility(const bool visibility);
     void DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment);
 
     bool CheckMouse (ugdk::Vector2D &mouse_pos);
     void Select ();
 
 	ugdk::graphic::Drawable::HookPoint option_alignment_;
+
+	bool visible_;
 
     bool content_box_defined_;
 
@@ -61,7 +63,6 @@ class Menu: public ugdk::Scene {
     ugdk::graphic::Node **options_node_;
     ugdk::Vector2D *selection_pos_;
     ugdk::Frame    content_box_;
-    ugdk::graphic::Node  *interface_node_;
 
 };
 

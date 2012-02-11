@@ -3,8 +3,6 @@
 #include <cerrno>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/texture.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/math/vector2D.h>
@@ -73,8 +71,6 @@ void StartGame() {
 
     engine()->video_manager()->SetLightSystem(true);
 
-    ugdk::graphic::VideoManager* videomanager = engine()->video_manager();
-
     CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
     CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0, 102.0)); // Kha
     CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Regular Mummy
@@ -122,20 +118,25 @@ void StartGame() {
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-    std::string rootpath = Constants::DATA_LOCATION;
+	ugdk::Engine::Configuration engine_config;
+	engine_config.window_title = "Horus Eye";
+	engine_config.window_size  = settings->resolution_vector();
+	engine_config.fullscreen   = settings->fullscreen();
+
+	engine_config.base_path = Constants::DATA_LOCATION;
     struct stat st;
     // Removing the trailing slash.
-    int s = stat(rootpath.substr(0, rootpath.size() - 1).c_str(), &st);
+    int s = stat(engine_config.base_path.substr(0, engine_config.base_path.size() - 1).c_str(), &st);
     if(s < 0 && errno == ENOENT)
-        rootpath = "./";
+        engine_config.base_path = "./";
 
 #ifndef ISMAC
-    const std::string iconpath = "images/eye.bmp";
+	engine_config.window_icon = "images/eye.bmp";
 #else
     // On Mac OS X, the icon should be handled with a *.icns file inside the app
-    const std::string iconpath = "";
+    engine_config.window_icon = "";
 #endif
-    engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, iconpath);
+    engine()->Initialize(engine_config);
     do {
         // Initializes game data
         StartGame();

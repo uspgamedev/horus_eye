@@ -21,7 +21,6 @@ class Loading: public ugdk::Scene {
   protected:
     bool has_been_drawn_;
     ugdk::graphic::Node *loading_;
-    void End();
 };
 
 }

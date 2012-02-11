@@ -1,5 +1,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic/node.h>
 
 #include "scrollingimagescene.h"
 

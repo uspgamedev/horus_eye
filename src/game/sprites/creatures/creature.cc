@@ -127,7 +127,7 @@ void Creature::TakeDamage(double life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
     int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
-    fprintf(stderr, "Damage to %s [%X]. DMG: %.2; Life: %.2 -> %.2\n", identifier_.c_str(), creature_id,
+    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", identifier_.c_str(), creature_id,
         life_points, (double) life_, (double) life_ - life_points);
 #endif
     PlayHitSound();

@@ -29,23 +29,21 @@ using namespace utils;
 const double Menu::OPTION_ZINDEX = 10.0;
 
 Menu::Menu (int selection_num)
-    : selection_(0) {
+    : visible_(true), selection_(0) {
 
     selection_num_ = selection_num;
     handler_ = NULL;
     content_box_defined_ = false;
 
     selection_pos_ = new Vector2D[selection_num_];
-    interface_node_ = new ugdk::graphic::Node;
     Engine *engine = Engine::reference();
-    engine->PushInterface(interface_node_);
 
     for (int i = 0; i < SELECTION_SPRITES ; i++)
-        interface_node_->AddChild(selection_node_[i] = new ugdk::graphic::Node);
+        interface_node()->AddChild(selection_node_[i] = new ugdk::graphic::Node);
 
     options_node_ = new ugdk::graphic::Node*[selection_num_];
     for(int i = 0; i < selection_num_; ++i) {
-        interface_node_->AddChild(options_node_[i] = new ugdk::graphic::Node);
+        interface_node()->AddChild(options_node_[i] = new ugdk::graphic::Node);
         options_node_[i]->set_zindex(OPTION_ZINDEX);
     }
 }
@@ -57,8 +55,6 @@ Menu::~Menu () {
     }
     delete[] selection_pos_;
     delete[] options_node_;
-    Engine::reference()->RemoveInterface(interface_node_);
-    delete interface_node_;
 }
 
 void Menu::Update(double delta_t) {
@@ -137,13 +133,13 @@ void Menu::set_option_sprite(int index, ugdk::graphic::Drawable *drawable) {
 
 void Menu::AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos) {
     ugdk::graphic::Node* node = new ugdk::graphic::Node(drawable);
-    interface_node_->AddChild(node);
+    interface_node()->AddChild(node);
     node->modifier()->set_offset(pos);
     node->set_zindex(-OPTION_ZINDEX);
 }
 
 void Menu::AddNode(ugdk::graphic::Node *node) {
-    interface_node_->AddChild(node);
+    interface_node()->AddChild(node);
     node->set_zindex(-OPTION_ZINDEX);
 }
 
@@ -184,7 +180,7 @@ bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
     static bool     on_selection = false;
     double selection_height = content_box_.height()/selection_num_;
 
-    if (dx*dx > 0 || dy*dy > 0 || !visible()) {
+    if (dx*dx > 0 || dy*dy > 0 || !visible_) {
         old_x = x;
         old_y = y;
         if ((y >= content_box_.top() && y < content_box_.bottom()) &&
@@ -207,21 +203,10 @@ void Menu::Select () {
     }
 }
 
-void Menu::Hide() {
-    this->set_visible(false);
-    interface_node_->modifier()->set_visible(false);
-}
-
-void Menu::Show() {
-    this->set_visible(true);
-    interface_node_->modifier()->set_visible(true);
-}
-
-void Menu::Toggle() {
-    if(this->visible())
-        Hide();
-    else
-        Show();
+void Menu::set_visibility(const bool visibility) {
+	visible_ = visibility;
+      content_node()->modifier()->set_visible(visibility);
+    interface_node()->modifier()->set_visible(visibility);
 }
 
 }

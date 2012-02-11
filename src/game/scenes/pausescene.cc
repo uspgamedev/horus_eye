@@ -15,7 +15,7 @@ PauseScene::PauseScene () {
     ugdk::graphic::Node* node = new ugdk::graphic::Node(rect);
     node->modifier()->set_alpha(0.5);
 
-    this->root_node()->AddChild(node);
+    content_node()->AddChild(node);
 }
 
 PauseScene::~PauseScene () {}

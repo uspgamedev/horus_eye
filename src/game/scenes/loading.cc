@@ -21,8 +21,7 @@ Loading::Loading() {
     loading_ = new ugdk::graphic::Node(loading_image);
     loading_->modifier()->set_offset(position);
 
-    Engine::reference()->PushInterface(loading_);
-    set_visible(false);
+	interface_node()->AddChild(loading_);
     loading_->modifier()->set_visible(false);
     has_been_drawn_ = false;
 
@@ -62,11 +61,4 @@ void Loading::DeFocus() {
     super::DeFocus();
     loading_->modifier()->set_visible(false);
 }
-
-void Loading::End() {
-    super::End();
-    Engine::reference()->RemoveInterface(loading_);
-    delete loading_;
-}
-
 }
