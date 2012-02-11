@@ -34,12 +34,12 @@ void HeroMeteorWeapon::Use(){
     utils::ImageFactory *factory = world->image_factory();
 
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
-	permanent_light->set_light_radius(4.0f);
+	permanent_light->set_light_radius(4.0);
 
     sprite::Explosion *explosion = new sprite::Explosion(factory->ExplosionImage(), 
         sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::METEOR_EXPLOSION_RADIUS, Constants::METEOR_EXPLOSION_DAMAGE);
 
-    static float explosion_fireball_ratio = (Constants::METEOR_EXPLOSION_RADIUS / Constants::FIREBALL_EXPLOSION_RADIUS);
+    static double explosion_fireball_ratio = (Constants::METEOR_EXPLOSION_RADIUS / Constants::FIREBALL_EXPLOSION_RADIUS);
     explosion->node()->modifier()->set_scale(Vector2D(explosion_fireball_ratio));
     //explosion->set_hotspot(explosion->hotspot() * explosion_fireball_ratio); Oh noes TODO fix hotspot
 
@@ -48,7 +48,7 @@ void HeroMeteorWeapon::Use(){
     list.push_back(permanent_light);
 
     Vector2D nodir;
-    sprite::Carrier *warning_effect = new sprite::Carrier(0.0f, 3000, nodir, list);
+    sprite::Carrier *warning_effect = new sprite::Carrier(0.0, 3000, nodir, list);
 
     world->AddWorldObject(warning_effect, use_argument_.destination_);
 

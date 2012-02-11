@@ -15,7 +15,7 @@ class Menu: public ugdk::Scene {
     Menu (int selection_num);
     virtual ~Menu ();
 
-    void Update (float delta_t);
+    void Update (double delta_t);
 
     void set_handler(MenuHandler* handler);
     void set_content_box(ugdk::Frame content_box);
@@ -35,7 +35,7 @@ class Menu: public ugdk::Scene {
     void Show();
     void Toggle();
 
-    const static float OPTION_ZINDEX;
+    const static double OPTION_ZINDEX;
 
   protected:
 

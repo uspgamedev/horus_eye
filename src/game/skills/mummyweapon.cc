@@ -10,7 +10,7 @@ class Mummy;
 
 namespace skills {
 
-const float MummyWeapon::range_ = 1.0f;
+const double MummyWeapon::range_ = 1.0;
 
 void MummyWeapon::Use(){
     super::Use();
@@ -22,7 +22,7 @@ void MummyWeapon::Use(){
 }
 
 bool MummyWeapon::IsValidUse() const {
-    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    double distance = (use_argument_.destination_ - use_argument_.origin_).length();
     return (distance <= range_);
 }
 

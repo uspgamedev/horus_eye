@@ -4,7 +4,7 @@
 
 namespace sprite {
 
-TimedWorldObject::TimedWorldObject(float duration)
+TimedWorldObject::TimedWorldObject(double duration)
     : WorldObject(),
       timed_life_(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration))) 
     {}
@@ -13,7 +13,7 @@ TimedWorldObject::~TimedWorldObject() {
     delete timed_life_;
 }
 
-void TimedWorldObject::Update(float dt) {
+void TimedWorldObject::Update(double dt) {
     WorldObject::Update(dt);
 	if(timed_life_->Expired() && is_active()) Die();
 }

@@ -29,7 +29,7 @@ using namespace ugdk;
 using scene::World;
 using namespace utils;
 
-#define EXP_PARAM (1.0f)
+#define EXP_PARAM (1.0)
 
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
@@ -64,31 +64,31 @@ Mummy::~Mummy() {
 	WORLD()->DecreaseEnemyCount();
 }
 
-void Mummy::TakeDamage(float life_points) {
+void Mummy::TakeDamage(double life_points) {
     Creature::TakeDamage(life_points);
     standing_ = false;
 }
 
 void Mummy::MummyAntiStack(WorldObject *obj) {
     Vector2D deviation = (world_position() - obj->world_position()).Normalize();
-    walking_direction_ = (walking_direction_ + deviation*0.9f).Normalize();
+    walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
 }
 
 void Mummy::StartAttack(Creature* obj) {
     if(obj == NULL) obj = WORLD()->hero();
-    float attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
+    double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
     sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
-void Mummy::set_bound(float radius) {
+void Mummy::set_bound(double radius) {
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(radius));
 }
 
 void Mummy::RandomMovement(){
-    float PI = acos(-1.0f);
+    double PI = acos(-1.0);
 
     if (interval_->Expired()) {
 
@@ -101,13 +101,13 @@ void Mummy::RandomMovement(){
         if (dir >= 6 || dir == 0) animation_direction_ += Animation_::RIGHT;
 
         interval_->Restart(WaitingTime());
-        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0f),sin(dir*PI/4.0f));
+        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
     }
 }
 
 void Mummy::UpdateDirection(Vector2D destination){
     Vector2D dir_animation = World::FromWorldCoordinates(destination) - node()->modifier()->offset(); 
-    float angle = GetAttackingAngle(dir_animation);
+    double angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
     animation_direction_ = direction_mapping_[dir];
@@ -118,7 +118,7 @@ void Mummy::UpdateDirection(Vector2D destination){
 
 }
 
-void Mummy::Think(float dt) {
+void Mummy::Think(double dt) {
     time_to_think_ -= dt;
     if(time_to_think_ <= 0){
         time_to_think_ = TIME_TO_THINK;
@@ -146,7 +146,7 @@ void Mummy::Think(float dt) {
     }
 }
 
-void Mummy::Update(float delta_t) {
+void Mummy::Update(double delta_t) {
     if (status_ == WorldObject::STATUS_DEAD) return;
     Creature::Update(delta_t);
     Vector2D dir(0,0);

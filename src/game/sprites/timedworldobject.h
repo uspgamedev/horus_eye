@@ -12,11 +12,11 @@ class TimedWorldObject : public WorldObject {
     *
     * @param duration Life time of the WorldObject, in seconds.
     */
-    TimedWorldObject(float duration);
+    TimedWorldObject(double duration);
     virtual ~TimedWorldObject();
 
     // Inherited Virtuals
-    virtual void Update(float dt);
+    virtual void Update(double dt);
     virtual void Die() { super::Die(); };
 
   protected:

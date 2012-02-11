@@ -6,29 +6,29 @@
 
 namespace resource {
 
-class Energy : public ContainedResource<float> {
+class Energy : public ContainedResource<double> {
 
   public:
 
     typedef Resource<int> rate_t;
 
-    explicit Energy(float value = 0.0f, float variation_base = 0.0f, int variation_rate = 1)
-        : ContainedResource<float>(value, 0.0f, value),
+    explicit Energy(double value = 0.0, double variation_base = 0.0, int variation_rate = 1)
+        : ContainedResource<double>(value, 0.0, value),
           variation_base_(variation_base),
           variation_rate_(variation_rate) {}
 
-    void Update(float dt) { (*this) += variation_rate_.Get()*variation_base_*dt; }
+    void Update(double dt) { (*this) += variation_rate_.Get()*variation_base_*dt; }
 
     rate_t& variation_rate() { return variation_rate_; }
 
-    void ChangeMaxValue(float value) {
-        float proportion = Get()/max_value();
+    void ChangeMaxValue(double value) {
+        double proportion = Get()/max_value();
         set_max_value(value);
         Set(proportion*max_value());
     }
 
-    void ChangeMinValue(float value) {
-        float proportion = Get()/max_value();
+    void ChangeMinValue(double value) {
+        double proportion = Get()/max_value();
         set_min_value(value);
         Set(proportion*max_value());
     }
@@ -36,7 +36,7 @@ class Energy : public ContainedResource<float> {
   private:
 
     // TODO: find a way to make variation_base_ be const.
-    float variation_base_;
+    double variation_base_;
     rate_t variation_rate_;
 
 };

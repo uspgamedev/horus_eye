@@ -32,7 +32,7 @@ class Sandstorm : public CombatArt<usearguments::Aim> {
 
   protected:
     entities::SandstormEmitter* emitter_;
-    const float maintain_mana_cost_;
+    const double maintain_mana_cost_;
 
   private:
     typedef CombatArt<usearguments::Aim> super;

@@ -28,7 +28,7 @@ class MenuBuilder {
     Menu *BuildPauseMenu();
     Menu *BuildSettingsMenu();
   protected:
-    void CreateSelectionSprites(Menu* menu, float height = 0);
+    void CreateSelectionSprites(Menu* menu, double height = 0);
     static ugdk::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        SELECTION_EYE,
                                     HERO_SHOOTING,

@@ -50,7 +50,7 @@ Hero::Hero(ugdk::graphic::Spritesheet* img,
            resource::Energy &life, 
            resource::Energy &mana, 
            int num_blocks, 
-           float mana_per_block)
+           double mana_per_block)
     : Creature(life, mana),
       mana_blocks_(mana_, num_blocks, mana_per_block)  {
 
@@ -73,16 +73,16 @@ Hero::Hero(ugdk::graphic::Spritesheet* img,
     weapon_ = new skills::HeroBaseWeapon(this);
     secondary_weapon_ = NULL;
 
-    light_oscilation_ = 0.0f;
+    light_oscilation_ = 0.0;
     
     SET_COLLISIONCLASS(Hero);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3f));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3));
     ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
 }
 
 Hero::~Hero() {}
 
-float Hero::FullMana() {
+double Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
 }
 
@@ -105,7 +105,7 @@ void Hero::PlayHitSound() const {
 
 
 void Hero::CollisionSlow() {
-   speed_ /= 1.19f;
+   speed_ /= 1.19;
 }
 
 void Hero::GetKeys() {
@@ -170,9 +170,9 @@ void Hero::StartAttackAnimation() {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
 
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
-    Vector2D screen_center = Engine::reference()->window_size() * 0.5f;
+    Vector2D screen_center = Engine::reference()->window_size() * 0.5;
 
-    float attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center);
+    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
@@ -202,7 +202,7 @@ void Hero::UpdateAim() {
     aim_destination_ = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
 }
 
-void Hero::Update(float delta_t) {
+void Hero::Update(double delta_t) {
     Creature::Update(delta_t);
     if(is_active()) {
         if(Aiming()) {
@@ -239,7 +239,7 @@ void Hero::Update(float delta_t) {
 
 
     light_oscilation_ += delta_t;
-    if(light_oscilation_ > 0.5f) light_oscilation_ -= 0.5f * 2;
+    if(light_oscilation_ > 0.5) light_oscilation_ -= 0.5 * 2;
 
     if(light_oscilation_ < 0)
         this->set_light_radius(this->light_radius() - delta_t);

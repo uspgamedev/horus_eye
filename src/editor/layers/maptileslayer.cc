@@ -27,7 +27,7 @@ void MapTilesLayer::CenterAt(ugdk::Vector2D& center) {
 	if (!editor_->map_loaded()) return;
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
-	node()->modifier()->set_offset(screen_size * 0.5f - center * MapObject::TileSize);
+	node()->modifier()->set_offset(screen_size * 0.5 - center * MapObject::TileSize);
 }
 
 MapObject* MapTilesLayer::Select(ugdk::Vector2D& pos) {
@@ -45,7 +45,7 @@ MapObject* MapTilesLayer::Select(ugdk::Vector2D& pos) {
 }
 
 Vector2D MapTilesLayer::ModifyMovement(Vector2D& movement) {
-    return movement * (1.0f / (MapObject::TileSize * scale_));
+    return movement * (1.0 / (MapObject::TileSize * scale_));
 }
 
 }

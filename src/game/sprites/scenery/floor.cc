@@ -8,7 +8,7 @@
 #include "game/utils/constants.h"
 #include "game/utils/tile.h"
 #include "game/scenes/world.h"
-#include <float.h>
+#include <cfloat>
 
 using namespace ugdk;
 using namespace utils;
@@ -26,11 +26,11 @@ Floor::Floor(ugdk::graphic::FlexibleSpritesheet* image) : tile_(NULL), sprite_(n
     node_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 }
 
-void Floor::Update(float delta_t) {
+void Floor::Update(double delta_t) {
     if (!tile_) tile_ = Tile::GetFromWorldPosition(WORLD()->level_matrix(), this->world_position());
 
-    if (tile_->visible())   node_->modifier()->set_color(ugdk::Color(1.0f, 1.0f, 1.0f));
-    else                    node_->modifier()->set_color(ugdk::Color(0.5f, 0.5f, 0.5f));
+    if (tile_->visible())   node_->modifier()->set_color(ugdk::Color(1.0, 1.0, 1.0));
+    else                    node_->modifier()->set_color(ugdk::Color(0.5, 0.5, 0.5));
     super::Update(delta_t);
 }
 

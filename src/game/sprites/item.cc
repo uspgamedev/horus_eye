@@ -12,8 +12,8 @@
 #define CENTER_Y    Constants::POTION_SPRITE_CENTER_Y
 #define HEIGHT      Constants::POTION_HEIGHT
 
-#define PI 3.141592654f
-#define PERIOD (2.0f*PI/3.0f)
+#define PI 3.141592654
+#define PERIOD (2.0*PI/3.0)
 
 namespace sprite {
 
@@ -26,7 +26,7 @@ COLLISION_DIRECT(Item*, UseCollision, obj) {
         data_->Die();
 }
 
-Item::Item(ugdk::graphic::FlexibleSpritesheet* img) : total_time_((1.0f*rand()/RAND_MAX)*PERIOD) {
+Item::Item(ugdk::graphic::FlexibleSpritesheet* img) : total_time_((1.0*rand()/RAND_MAX)*PERIOD) {
     img->set_hotspot(Vector2D(CENTER_X, CENTER_Y + HEIGHT));
 
     this->node()->set_drawable(new ugdk::graphic::Sprite(img));
@@ -34,15 +34,15 @@ Item::Item(ugdk::graphic::FlexibleSpritesheet* img) : total_time_((1.0f*rand()/R
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Item);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.15f));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.15));
     ADD_COLLISIONLOGIC(Hero, new UseCollision(this));
 }
 
-void Item::Update(float delta_t) {
+void Item::Update(double delta_t) {
 	WorldObject::Update(delta_t);
     total_time_ += delta_t;
     if (total_time_ >= PERIOD) total_time_ -= PERIOD;
-	this->node()->drawable()->set_hotspot(Vector2D(0.0f, 10.0f*cos(3.0f*total_time_)));
+	this->node()->drawable()->set_hotspot(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
 }
 
 }

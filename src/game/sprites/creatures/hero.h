@@ -25,10 +25,10 @@ class Hero : public Creature {
          resource::Energy &life, 
          resource::Energy &mana, 
          int num_blocks, 
-         float mana_per_block);
+         double mana_per_block);
     ~Hero();
 
-    float FullMana();
+    double FullMana();
 
     resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
 
@@ -44,11 +44,11 @@ class Hero : public Creature {
     std::map<int, skills::Skill*> weapons_;
     skills::Skill *secondary_weapon_;
     int slot_selected_;
-    float light_oscilation_;
+    double light_oscilation_;
 
     resource::CapacityBlocks mana_blocks_;
 
-    virtual void Update(float delta_t);
+    virtual void Update(double delta_t);
     virtual void PlayHitSound() const;
    
     void UpdateAim();

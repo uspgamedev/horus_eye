@@ -7,8 +7,8 @@
 using namespace ugdk;
 namespace utils {
 
-#define HERO_HOTSPOT_X 55.0f
-#define HERO_HOTSPOT_Y 102.0f
+#define HERO_HOTSPOT_X 55.0
+#define HERO_HOTSPOT_Y 102.0
   
 ugdk::graphic::Spritesheet* ImageFactory::HeroImage() {
     return RESOURCE_MANAGER()->spritesheet_container().Find("images/sprite-sheet_MOD3.png");

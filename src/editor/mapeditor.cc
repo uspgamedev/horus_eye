@@ -96,7 +96,7 @@ void MapEditor::LoadMap(std::string& file_name) {
 		map_loaded_ = true;
 		sprites_layer_->LoadMapMatrix(&map_matrix_);
 		tiles_layer_->LoadMapMatrix(&map_matrix_);
-		offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
+		offset_ = Vector2D(width_ * 0.5, height_ * 0.5);
 		scale_level_ = 0;
     } else {
         cout << "CANNOT OPEN FILE: " << file_name << endl;
@@ -105,7 +105,7 @@ void MapEditor::LoadMap(std::string& file_name) {
     }
 }
 
-void MapEditor::Update(float delta_t) {
+void MapEditor::Update(double delta_t) {
     Scene::Update(delta_t);
 
     ugdk::input::InputManager *input = INPUT_MANAGER();
@@ -122,7 +122,7 @@ void MapEditor::Update(float delta_t) {
 	else if(input->KeyPressed(ugdk::input::K_EQUALS))
         scale_level_++;
 
-	float scale = exp(scale_level_ * 0.10f);
+	double scale = exp(scale_level_ * 0.10);
 	main_layer_->node()->modifier()->set_scale(Vector2D(scale));
 
     Vector2D movement;
@@ -134,18 +134,18 @@ void MapEditor::Update(float delta_t) {
 
     if(input->MouseDown(ugdk::input::M_BUTTON_RIGHT)) {
         movement = (input->GetMousePosition() - last_mouse_position_);
-        if((click_start_position_ - input->GetMousePosition()).length() > 10.0f)
+        if((click_start_position_ - input->GetMousePosition()).length() > 10.0)
             drag_click_ = true;
 
     } else {
         if(input->KeyDown(ugdk::input::K_LEFT))
-            movement.x -= 100.0f * delta_t;
+            movement.x -= 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_RIGHT))
-            movement.x += 100.0f * delta_t;
+            movement.x += 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_UP))
-            movement.y -= 100.0f * delta_t;
+            movement.y -= 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_DOWN))
-            movement.y += 100.0f * delta_t;
+            movement.y += 100.0 * delta_t;
 		drag_click_ = false;
     }
     offset_ = offset_ - main_layer_->ModifyMovement(movement);

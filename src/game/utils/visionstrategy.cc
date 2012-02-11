@@ -39,13 +39,13 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     for (int i = 0; i < (int)matrix.size(); i++) {
         for (int j = 0; j < (int)matrix[i].size(); j++) {
             if(solid(matrix[i][j]->object())){
-                float x = static_cast<float>(j);
-                float y = static_cast<float>(matrix.size() - i - 1);
+                double x = static_cast<double>(j);
+                double y = static_cast<double>(matrix.size() - i - 1);
 
-                Vector2D a = Vector2D(x - 0.5f, y - 0.5f);
-                Vector2D b = Vector2D(x - 0.5f, y + 0.5f);
-                Vector2D c = Vector2D(x + 0.5f, y + 0.5f);
-                Vector2D d = Vector2D(x + 0.5f, y - 0.5f);
+                Vector2D a = Vector2D(x - 0.5, y - 0.5);
+                Vector2D b = Vector2D(x - 0.5, y + 0.5);
+                Vector2D c = Vector2D(x + 0.5, y + 0.5);
+                Vector2D d = Vector2D(x + 0.5, y - 0.5);
                 if (GPintersect(a, b, position1, position2)) return false;
                 if (GPintersect(b, c, position1, position2)) return false;
                 if (GPintersect(c, d, position1, position2)) return false;
@@ -56,7 +56,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     return true;
 }
 
-#define TO_MATRIX(value) static_cast<int>(value + 0.5f)
+#define TO_MATRIX(value) static_cast<int>(value + 0.5)
 
 bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     World *world = WORLD();
@@ -97,8 +97,8 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
         //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
         if (wall(matrix[i][j]->object())) return false;
         // Distances to the next square: left/rigt or up/down.
-        float dx = fabs((j + 0.5f*step_j - ij_pos.x)/dir.x),
-              dy = fabs(((matrix.size()-i-1) - 0.5f*step_i - ij_pos.y)/dir.y),
+        double dx = fabs((j + 0.5*step_j - ij_pos.x)/dir.x),
+              dy = fabs(((matrix.size()-i-1) - 0.5*step_i - ij_pos.y)/dir.y),
               length;
         if (!step_i || (step_j && dx <= dy)) {
             j += step_j;

@@ -11,7 +11,7 @@
 #include "game/sprites/scenery/wall.h"
 #include "game/utils/constants.h"
 
-#define BLOCK_MOVE_SPEED 2.0f
+#define BLOCK_MOVE_SPEED 2.0
 
 namespace sprite {
 
@@ -32,11 +32,11 @@ Block::Block(ugdk::graphic::FlexibleSpritesheet* image) : moving_(false) {
 
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(image);
     node_->set_drawable(sprite);
-    node_->modifier()->set_scale(Vector2D(1.0f, 0.7f)); // TODO make block offset
+    node_->modifier()->set_scale(Vector2D(1.0, 0.7)); // TODO make block offset
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Block);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.95f, 0.95f));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.95, 0.95));
     ADD_COLLISIONLOGIC(Wall, new InvalidMovementCollision(this));
     ADD_COLLISIONLOGIC(Projectile, new PushOnCollision(this));
 }
@@ -46,7 +46,7 @@ Block::~Block() {}
 void Block::GetKeys() {
     ugdk::input::InputManager *input = INPUT_MANAGER();
     moving_ = true;
-    moving_time_left_ = 0.5f;
+    moving_time_left_ = 0.5;
     if(input->KeyDown(ugdk::input::K_UP)) {
         moving_toward_ = UP;
     } else if(input->KeyDown(ugdk::input::K_DOWN)) {
@@ -61,7 +61,7 @@ void Block::GetKeys() {
 }
 #endif
 
-void Block::MoveBlock(float delta_t) {
+void Block::MoveBlock(double delta_t) {
     moving_time_left_ -= delta_t;
     Vector2D newpos = this->world_position();
     switch(moving_toward_) {
@@ -79,13 +79,13 @@ void Block::MoveBlock(float delta_t) {
         break;
     }
     set_world_position(newpos);
-    if(moving_time_left_ <= 0.0f) {
+    if(moving_time_left_ <= 0.0) {
         moving_ = false;
         last_stable_position_ = world_position();
     }
 }
 
-void Block::Update(float delta_t) {
+void Block::Update(double delta_t) {
     WorldObject::Update(delta_t);
     if(moving_) {
         MoveBlock(delta_t);
@@ -110,7 +110,7 @@ void Block::PushToward(Vector2D &pushdir) {
         moving_toward_ = DOWN;
 
     moving_ = true;
-    moving_time_left_ = 0.5f;
+    moving_time_left_ = 0.5;
 }
 
 void Block::RevertPosition() {

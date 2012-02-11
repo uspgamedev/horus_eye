@@ -18,7 +18,7 @@ class Wall : public WorldObject {
     Wall(ugdk::graphic::FlexibleSpritesheet* image);
     ~Wall();
 
-    virtual void Update(float dt);
+    virtual void Update(double dt);
     
     void set_type(WallType);
     WallType wall_type_;

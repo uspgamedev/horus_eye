@@ -11,7 +11,7 @@ namespace skills {
 class PharaohRangedWeapon : public CombatArt<usearguments::Aim> {
   public:
     PharaohRangedWeapon(sprite::Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE)
-        : CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
+        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()),
           damage_(damage) {}
 
     virtual void Use();
@@ -21,7 +21,7 @@ class PharaohRangedWeapon : public CombatArt<usearguments::Aim> {
     typedef CombatArt<usearguments::Aim> super;
 
     int damage_;
-    const static float range_;
+    const static double range_;
 };
 
 } // skills

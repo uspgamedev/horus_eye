@@ -32,7 +32,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 	void set_life(resource::Energy &life) {
 		life_ = life;
 	}
-	void set_life(float life) {
+	void set_life(double life) {
 	    life_.Set(life);
 	}
 
@@ -40,10 +40,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     void set_mana(resource::Energy &mana) {
         mana_ = mana;;
     }
-	void set_mana(float mana) {
+	void set_mana(double mana) {
 		mana_.Set(mana);
 	}
-    float max_mana() { return mana_.max_value(); }
+    double max_mana() { return mana_.max_value(); }
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
@@ -53,8 +53,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     skills::usearguments::Aim& aim() { return aim_; }
 
     virtual bool AddCondition(Condition* new_condition);
-    virtual void UpdateCondition(float dt);
-    virtual void TakeDamage(float life_points);
+    virtual void UpdateCondition(double dt);
+    virtual void TakeDamage(double life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
 
     // Colisoes
@@ -92,16 +92,16 @@ class Creature : public WorldObject , public ugdk::Observer {
     Creature(resource::Energy &life, resource::Energy &mana);
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
-    virtual void Update(float dt);
+    virtual void Update(double dt);
     virtual void PlayHitSound() const {}
 
     // funcoes
-    void AdjustBlink(float delta_t);
-    void Move(ugdk::Vector2D direction, float delta_t);
+    void AdjustBlink(double delta_t);
+    void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     void Tick();
-    float GetAttackingAngle(Vector2D targetDirection);
-    int GetAttackingAnimationIndex(float angle);
+    double GetAttackingAngle(Vector2D targetDirection);
+    int GetAttackingAnimationIndex(double angle);
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
@@ -125,7 +125,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     /// The last position this creature was that is guaranteed to not colide with any walls.
     Vector2D last_stable_position_;
 
-    float last_dt_;
+    double last_dt_;
 
     /// The life and mana of this creature. An energy manages reneration.
     resource::Energy life_, mana_;
@@ -146,10 +146,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     ugdk::time::TimeAccumulator *hit_duration_;
 
     /// How fast this creature moves per second.
-    float speed_;
+    double speed_;
 
     /// Stores the original speed, so one can alter the speed temporarily.
-    float original_speed_;
+    double original_speed_;
 
     /// The direction this creature is moving to.
     ugdk::Vector2D walking_direction_;

@@ -72,7 +72,7 @@ class Constants {
 		PHARAOH_RANGED_DAMAGE = 200;
 
 
-    const static float
+    const static double
         DOOR_HOTSPOT_WIDTH,
         DOOR_HOTSPOT_HEIGHT,
         DOOR_BOUND_WIDTH,
