@@ -1,9 +1,14 @@
 #include <iostream>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/solidrectangle.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+#include <ugdk/graphic/node.h>
 #include "mapobject.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/constants.h"
+#include "game/utils/tile.h"
 #include "game/scenes/world.h"
+
 
 using namespace ugdk;
 using utils::Constants;
