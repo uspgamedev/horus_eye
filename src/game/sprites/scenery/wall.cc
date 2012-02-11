@@ -20,7 +20,7 @@ using namespace utils;
 using namespace scene;
 
 #define PI          3.1415926535897932384626433832795
-#define TRANSPARENCY_DISTANCE 1.75f
+#define TRANSPARENCY_DISTANCE 1.75
 
 Wall::Wall(FlexibleSpritesheet* image) : tile_(NULL) {
 
@@ -38,7 +38,7 @@ Wall::Wall(FlexibleSpritesheet* image) : tile_(NULL) {
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Wall);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(1.0f, 1.0f));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(1.0, 1.0));
 }
 Wall::~Wall() {}
 
@@ -63,7 +63,7 @@ void Wall::set_type(WallType walltype) {
             break;
         case BOTTOMRIGHT:
             type = 1;
-            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE * 0.45f);
+            topleft = Vector2D(-TRANSPARENCY_DISTANCE/2, -TRANSPARENCY_DISTANCE * 0.45);
             break;
     }
     transparent_frame_ = type;
@@ -100,7 +100,7 @@ void Wall::CheckType() {
     }
 }
 
-void Wall::Update(float delta_t) {
+void Wall::Update(double delta_t) {
     WorldObject::Update(delta_t);
     World* world = WORLD();
     // Only use this if the walls are supposed to become not visible.

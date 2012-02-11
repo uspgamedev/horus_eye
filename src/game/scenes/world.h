@@ -37,7 +37,7 @@ class World : public ugdk::Scene {
     World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();
 
-	void Update(float delta_t);
+	void Update(double delta_t);
 
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
     void AddHero(const ugdk::Vector2D& pos);
@@ -65,7 +65,7 @@ class World : public ugdk::Scene {
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
     static Vector2D FromScreenCoordinates(const Vector2D& screen_coords);
 
-	static const Vector2D ConvertLightRadius(float radius);
+	static const Vector2D ConvertLightRadius(double radius);
 
     //getters
     sprite::Hero * hero() const { return hero_; }
@@ -97,7 +97,7 @@ class World : public ugdk::Scene {
 
     Vector2D ActualOffset();
     bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
-    void VerifyCheats(float delta_t);
+    void VerifyCheats(double delta_t);
     bool VerifyPause();
     void HandleCollisions();
     void RemoveInactiveObjects();

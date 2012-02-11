@@ -15,7 +15,7 @@ class Hud: public ugdk::Entity {
     Hud(scene::World*);
     virtual ~Hud();
     
-    virtual void Update(float delta_t);
+    virtual void Update(double delta_t);
     ugdk::graphic::Node* node() { return node_; }
 
   private:

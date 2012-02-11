@@ -9,14 +9,14 @@ namespace sprite {
 class Projectile : public TimedWorldObject {
   private: typedef TimedWorldObject super;
   public:
-    Projectile(float speed, int duration, ugdk::Vector2D &dir);
-    void Move(float delta_t);
-    virtual void Update(float delta_t);
+    Projectile(double speed, int duration, ugdk::Vector2D &dir);
+    void Move(double delta_t);
+    virtual void Update(double delta_t);
 
     void set_collision_object(CollisionObject* col) { collision_object_ = col; }
 
   protected:
-    float speed_;
+    double speed_;
     ugdk::Vector2D direction_;
 };
 

@@ -127,7 +127,7 @@ class IniFileSource : public DataSource {
             }
         }
 
-        ugdk::Vector2D resolution((float) StringToInt(resolutionx), (float) StringToInt(resolutiony));
+        ugdk::Vector2D resolution((double) StringToInt(resolutionx), (double) StringToInt(resolutiony));
         const ugdk::Vector2D* resolution_list = Settings::ResolutionList();
         for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
             if(resolution.x == resolution_list[i].x && resolution.y == resolution_list[i].y) {
@@ -188,18 +188,18 @@ Settings* Settings::reference_ = NULL;
 using namespace ugdk;
 
 Vector2D Settings::resolutions_[] = {
-        Vector2D(800.0f,600.0f),
-        Vector2D(1024.0f,768.0f),
-        Vector2D(1280.0f,720.0f),
-        Vector2D(1280.0f,800.0f),
-        Vector2D(1280.0f,960.0f),
-        Vector2D(1280.0f,1024.0f),
-        Vector2D(1366.0f,768.0f),
-        Vector2D(1440.0f,900.0f),
-        Vector2D(1600.0f,900.0f),
-        Vector2D(1600.0f,1080.0f),
-        Vector2D(1920.0f,1080.0f),
-        Vector2D(1920.0f,1200.0f)
+        Vector2D(800.0,600.0),
+        Vector2D(1024.0,768.0),
+        Vector2D(1280.0,720.0),
+        Vector2D(1280.0,800.0),
+        Vector2D(1280.0,960.0),
+        Vector2D(1280.0,1024.0),
+        Vector2D(1366.0,768.0),
+        Vector2D(1440.0,900.0),
+        Vector2D(1600.0,900.0),
+        Vector2D(1600.0,1080.0),
+        Vector2D(1920.0,1080.0),
+        Vector2D(1920.0,1200.0)
 };
 
 std::string Settings::languages_[] = {

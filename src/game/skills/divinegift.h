@@ -23,7 +23,7 @@ class DivineGift : public CombatArt<UseArgument_T> {
     /// Verifies if the caster has enough mana and blocks.
     /** @return mana and blocks are greater than the costs */
     virtual bool Available() const {
-        float total_mana_cost = super::mana_cost_ + caster_blocks_.ToMana(block_cost_);
+        double total_mana_cost = super::mana_cost_ + caster_blocks_.ToMana(block_cost_);
         return super::caster_mana_.Has(total_mana_cost) && caster_blocks_.Has(block_cost_);
     }
 
@@ -41,7 +41,7 @@ class DivineGift : public CombatArt<UseArgument_T> {
       @param use_argument The skill's argument.
       */
     DivineGift(ugdk::graphic::Drawable* icon,
-               float mana_cost,
+               double mana_cost,
                int block_cost,
                resource::Energy& caster_mana,
                resource::CapacityBlocks& caster_blocks,

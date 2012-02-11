@@ -1,15 +1,10 @@
 #ifndef UGDK_GRAPHIC_TEXTURE_H_
 #define UGDK_GRAPHIC_TEXTURE_H_
 
+#include <string>
 #include <ugdk/config/config.h>
-#ifdef ISMAC
-    #include "SDL_video.h"
-    #include "SDL_opengl.h"
-#else
-    #include <SDL/SDL_video.h>
-    #include <SDL/SDL_opengl.h>
-#endif
-
+#include "SDL_video.h"
+#include "SDL_opengl.h"
 
 namespace ugdk {
 namespace graphic {
@@ -17,6 +12,7 @@ namespace graphic {
 class Texture {
   public:
     ~Texture();
+    static Texture* CreateFromFile(const std::string& filepath);
     static Texture* CreateFromSurface(SDL_Surface* data);
     static Texture* CreateRawTexture(int texture_width, int texture_height);
 

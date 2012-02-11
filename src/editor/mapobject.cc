@@ -17,7 +17,7 @@ namespace editor {
 
 #define SET_IMG_TO(img, val) if(img == NULL) { img = val; }
 
-const float MapObject::TileSize = 10.0f;
+const double MapObject::TileSize = 10.0;
 
 MapObject::MapObject(int i, int j, char type, int level_width, int level_height) : x_(j), y_(i), type_(type), is_in_fill_(false) {
     tile_image_ = new ugdk::graphic::SolidRectangle(Vector2D(TileSize, TileSize));
@@ -26,19 +26,19 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
     sprite_image_ = NULL;
     switch(type_) {
     case WALL:
-        tile_image_->set_color(Color(0.25f, 0.25f, 0.25f));
+        tile_image_->set_color(Color(0.25, 0.25, 0.25));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.WallImage();
         }
         break;
     case DOOR:
-        tile_image_->set_color(Color(0.0f, 0.5f, 0.5f));
+        tile_image_->set_color(Color(0.0, 0.5, 0.5));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.DoorImage();
         }
         break;
     case ENTRY:
-        tile_image_->set_color(Color(0.33f, 0.33f, 0.25f));
+        tile_image_->set_color(Color(0.33, 0.33, 0.25));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.EntryImage();
         }
@@ -60,19 +60,19 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
         }
     case PHARAOH:
     case STANDING_PHARAOH:
-        tile_image_->set_color(Color(1.0f, 0.0f, 0.0f));
+        tile_image_->set_color(Color(1.0, 0.0, 0.0));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.PharaohImage();
         }
         break;
     case HERO:
-        tile_image_->set_color(Color(1.0f, 1.0f, 0.0f));
+        tile_image_->set_color(Color(1.0, 1.0, 0.0));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.HeroImage();
         }
         break;
     case FLOOR:
-        tile_image_->set_color(Color(0.5f, 0.5f, 0.5f));
+        tile_image_->set_color(Color(0.5, 0.5, 0.5));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.FloorImage();
         }
@@ -86,27 +86,27 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
             sprite_image_ = img_factory.ManaPotionImage();
         }
     case POTIONS:
-        tile_image_->set_color(Color(0.0f, 1.0f, 0.5f));
+        tile_image_->set_color(Color(0.0, 1.0, 0.5));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.SightPotionImage();
         }
         break;
     case BLOCK:
-        tile_image_->set_color(Color(0.50f, 0.25f, 0.25f));
+        tile_image_->set_color(Color(0.50, 0.25, 0.25));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.WallImage();
         }
-        //{   Vector2D new_size(sprite_image_->render_size().x, sprite_image_->render_size().y * 0.7f);
+        //{   Vector2D new_size(sprite_image_->render_size().x, sprite_image_->render_size().y * 0.7);
         //    set_size(new_size); }
         break;
     case BUTTON:
-        tile_image_->set_color(Color(0.5f, 0.5f, 0.8f));
+        tile_image_->set_color(Color(0.5, 0.5, 0.8));
         if(sprite_image_ == NULL) {
             sprite_image_ = img_factory.TileSwitchImage();
         }
         break;
     default:
-        tile_image_->set_color(Color(1.0f, 1.0f, 1.0f));
+        tile_image_->set_color(Color(1.0, 1.0, 1.0));
         if(sprite_image_ == NULL) {
             sprite_image_ = NULL;
         }
@@ -117,10 +117,10 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
 	else
 		isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::SolidRectangle(Vector2D(TileSize, TileSize)));
 	
-    Vector2D position ((float)x_, (float)(level_height - y_ - 1));
+    Vector2D position ((double)x_, (double)(level_height - y_ - 1));
 	isometric_node_->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
 	if(type_ == FLOOR || type_ == EMPTY)
-        isometric_node_->set_zindex(-1337000.0f);
+        isometric_node_->set_zindex(-1337000.0);
     else
         isometric_node_->set_zindex(scene::World::FromWorldLinearCoordinates(position).y);
 
@@ -133,11 +133,11 @@ MapObject::~MapObject() {
 	delete tile_node_;
 }
 
-void MapObject::Update(float delta_t) {}
+void MapObject::Update(double delta_t) {}
 
 void MapObject::Select(bool on) {
-	isometric_node_->modifier()->set_alpha(on ? 0.5f : 1.0f);
-	tile_node_->modifier()->set_alpha(on ? 0.5f : 1.0f);
+	isometric_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
+	tile_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
 }
 
 }

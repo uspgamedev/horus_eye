@@ -30,7 +30,7 @@ bool Rect::Intersects (const Circle *circle) const {
              distance = circ_pos - rect_pos,
              abs_dist = Vector2D(fabs(distance.x),fabs(distance.y));
     
-    float radius = circle->radius();
+    double radius = circle->radius();
 
     //TODO:TEST this, and test if this helps performance. Probably not.
     /*
@@ -40,7 +40,7 @@ bool Rect::Intersects (const Circle *circle) const {
     */
 
     // These are needed for the non-corner collisions.
-    float rect_left  = rect_pos.x - half_width_,
+    double rect_left  = rect_pos.x - half_width_,
           rect_right = rect_pos.x + half_width_,
           rect_down  = rect_pos.y - half_height_,
           rect_up    = rect_pos.y + half_height_;
@@ -65,7 +65,7 @@ bool Rect::Intersects (const Circle *circle) const {
 
     // Now find the important distance.
     Vector2D circ_to_corner = corner - circ_pos;
-    float le_important_dist_sqr = circ_to_corner.LengthSquared();
+    double le_important_dist_sqr = circ_to_corner.LengthSquared();
 
     // Now, check if the circle is too far away from the corner.
     if( radius*radius < le_important_dist_sqr )

@@ -16,7 +16,7 @@ using resource::Energy;
 namespace sprite {
 
 #define SQRT_3 1.7320508075688772935274463415059
-#define PHARAOH_TIME_TO_THINK 0.05f
+#define PHARAOH_TIME_TO_THINK 0.05
 
 Pharaoh::Pharaoh(FlexibleSpritesheet* image, int life, int mana) : Mummy(image) {
 	life_ = Energy(life);
@@ -34,14 +34,14 @@ Pharaoh::~Pharaoh() {
 	delete summon_weapon_;
 }
 
-void Pharaoh::Update(float delta_t) {
+void Pharaoh::Update(double delta_t) {
 	if (status_ == WorldObject::STATUS_DEAD) return;
 	Mummy::Update(delta_t);
 
 	AdjustBlink(delta_t);
 }
 
-void Pharaoh::Think(float dt) {
+void Pharaoh::Think(double dt) {
     Creature::Update(dt);
 	time_to_think_ -= dt;
 	if(time_to_think_ <= 0) {

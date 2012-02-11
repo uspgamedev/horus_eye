@@ -10,7 +10,7 @@ class PauseScene: public ugdk::Scene {
     PauseScene ();
     virtual ~PauseScene ();
 
-    void Update (float delta_t);
+    void Update (double delta_t);
 };
 
 }

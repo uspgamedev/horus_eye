@@ -45,15 +45,15 @@ class WorldObject : public ugdk::Entity {
     virtual Status status() const { return status_; }
 
     // The BIG Awesome update method. TODO explain better
-    virtual void Update(float dt);
+    virtual void Update(double dt);
 
     bool is_active() const { return status_ == STATUS_ACTIVE; }
     virtual void Die() { status_ = STATUS_DEAD; }
     virtual void StartToDie();
 
     // The Light radius. TODO explain better
-    virtual float light_radius() { return light_radius_; }
-    virtual void set_light_radius(float radius);
+    virtual double light_radius() { return light_radius_; }
+    virtual void set_light_radius(double radius);
 
     virtual ugdk::Vector2D world_position() const { return world_position_; }
     virtual void set_world_position(const ugdk::Vector2D& pos);
@@ -74,7 +74,7 @@ class WorldObject : public ugdk::Entity {
     std::string identifier_;
 
   private:
-    float light_radius_;
+    double light_radius_;
 
 };  // class WorldObject
 

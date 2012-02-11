@@ -7,7 +7,7 @@
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
 
-#define LIGHT_COEFFICIENT 0.75f
+#define LIGHT_COEFFICIENT 0.75
 
 namespace sprite {
 
@@ -20,7 +20,7 @@ WorldObject::WorldObject()
       status_(STATUS_ACTIVE),
       node_(new ugdk::graphic::Node),
       identifier_("Generic World Object"),
-      light_radius_(0.0f) {
+      light_radius_(0.0) {
 }
 
 WorldObject::~WorldObject() {
@@ -35,12 +35,12 @@ void WorldObject::StartToDie() {
         collision_object_->StopColliding();
 }
 
-void WorldObject::Update(float dt) {
+void WorldObject::Update(double dt) {
     // EASTER EGG: things flashing around
-    //node_->modifier()->set_color(Color(1.0f * rand() / RAND_MAX, 1.0f * rand() / RAND_MAX, 1.0f * rand() / RAND_MAX));
+    //node_->modifier()->set_color(Color(1.0 * rand() / RAND_MAX, 1.0 * rand() / RAND_MAX, 1.0 * rand() / RAND_MAX));
 }
 
-void WorldObject::set_light_radius(float radius) {
+void WorldObject::set_light_radius(double radius) {
     light_radius_ = radius;
     
 	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {

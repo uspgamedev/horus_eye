@@ -29,12 +29,12 @@ using ugdk::Vector2D;
 /* Util functions found at http://stackoverflow.com/q/217605 */
 // trim from start
 static inline std::string &ltrim(std::string &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(isspace))));
     return s;
 }
 // trim from end
 static inline std::string &rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
     return s;
 }
 // trim from both ends
@@ -104,7 +104,7 @@ void MapEditor::LoadMap(std::string& file_name) {
 		map_loaded_ = true;
 		sprites_layer_->LoadMapMatrix(&map_matrix_);
 		tiles_layer_->LoadMapMatrix(&map_matrix_);
-		offset_ = Vector2D(width_ * 0.5f, height_ * 0.5f);
+		offset_ = Vector2D(width_ * 0.5, height_ * 0.5);
 		scale_level_ = 0;
     } else {
         cout << "CANNOT OPEN FILE: " << file_name << endl;
@@ -113,7 +113,7 @@ void MapEditor::LoadMap(std::string& file_name) {
     }
 }
 
-void MapEditor::Update(float delta_t) {
+void MapEditor::Update(double delta_t) {
     Scene::Update(delta_t);
 
     ugdk::input::InputManager *input = INPUT_MANAGER();
@@ -130,7 +130,7 @@ void MapEditor::Update(float delta_t) {
 	else if(input->KeyPressed(ugdk::input::K_EQUALS))
         scale_level_++;
 
-	float scale = exp(scale_level_ * 0.10f);
+	double scale = exp(scale_level_ * 0.10);
 	main_layer_->node()->modifier()->set_scale(Vector2D(scale));
 
     Vector2D movement;
@@ -142,18 +142,18 @@ void MapEditor::Update(float delta_t) {
 
     if(input->MouseDown(ugdk::input::M_BUTTON_RIGHT)) {
         movement = (input->GetMousePosition() - last_mouse_position_);
-        if((click_start_position_ - input->GetMousePosition()).length() > 10.0f)
+        if((click_start_position_ - input->GetMousePosition()).length() > 10.0)
             drag_click_ = true;
 
     } else {
         if(input->KeyDown(ugdk::input::K_LEFT))
-            movement.x -= 100.0f * delta_t;
+            movement.x -= 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_RIGHT))
-            movement.x += 100.0f * delta_t;
+            movement.x += 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_UP))
-            movement.y -= 100.0f * delta_t;
+            movement.y -= 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_DOWN))
-            movement.y += 100.0f * delta_t;
+            movement.y += 100.0 * delta_t;
 		drag_click_ = false;
     }
     offset_ = offset_ - main_layer_->ModifyMovement(movement);

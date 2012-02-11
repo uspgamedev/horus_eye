@@ -2,7 +2,9 @@
 #include <sys/stat.h>
 #include <cerrno>
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/texture.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/math/vector2D.h>
@@ -18,8 +20,6 @@
 #include "utils/textloader.h"
 
 using namespace utils;
-
-#define LOADSPRITESHEET(VIDEO, PATH) VIDEO->AddSpritesheet(PATH, new ugdk::graphic::FlexibleSpritesheet(VIDEO->LoadTexture(PATH)));
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
@@ -39,16 +39,28 @@ static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_
     sheet_data.FillWithFramesize(frame_width, frame_height, hotspot);
 
     ugdk::graphic::FixedSpritesheet* sheet = new ugdk::graphic::FixedSpritesheet(sheet_data);
-    engine()->video_manager()->AddSpritesheet(path, sheet);
+    engine()->resource_manager()->spritesheet_container().Insert(path, sheet);
 }
-static void CreateFlexibleSpritesheet(const char* path, float frame_width, float frame_height, const ugdk::Vector2D& hotspot) {
-    ugdk::graphic::VideoManager* videomanager = engine()->video_manager();
 
-    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(videomanager->LoadTexture(path));
+static void CreateFlexibleSpritesheet(const char* path, double frame_width, double frame_height, const ugdk::Vector2D& hotspot) {
+    ugdk::base::ResourceManager* resources = engine()->resource_manager();
+    
+    ugdk::graphic::Texture* tex = resources->texture_container().Load(path);
+
+    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
     sheet->set_frame_size(ugdk::Vector2D(frame_width, frame_height));
     sheet->set_hotspot(hotspot);
 
-    videomanager->AddSpritesheet(path, sheet);
+    resources->spritesheet_container().Insert(path, sheet);
+}
+
+static void CreateSimpleFlexibleSpritesheet(const char* path) {
+    ugdk::base::ResourceManager* resources = engine()->resource_manager();
+
+    ugdk::graphic::Texture* tex = resources->texture_container().Load(path);
+    
+    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
+    resources->spritesheet_container().Insert(path, sheet);
 }
 
 void StartGame() {
@@ -63,28 +75,28 @@ void StartGame() {
 
     ugdk::graphic::VideoManager* videomanager = engine()->video_manager();
 
-    CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0f, 102.0f)); // Kha
-    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0f, 120.0f)); // Regular Mummy
-    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D(60.0f, 120.0f)); // Giant Mummy
-    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D(60.0f, 120.0f)); // Pharaoh
-    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D(60.0f, 120.0f)); // Shooting Mummy
+    CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
+    CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0, 102.0)); // Kha
+    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Regular Mummy
+    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D(60.0, 120.0)); // Giant Mummy
+    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Pharaoh
+    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Shooting Mummy
     
-    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D(16.0f,  16.0f)); // Magic Missile
-    LOADSPRITESHEET(videomanager, "images/fireball_0.png");
-    LOADSPRITESHEET(videomanager, "images/green_fire_ball.png");
-    LOADSPRITESHEET(videomanager, "images/explosion.png");
-    LOADSPRITESHEET(videomanager, "images/quake.png");
-    LOADSPRITESHEET(videomanager, "images/life_potion2.png");
-    LOADSPRITESHEET(videomanager, "images/mana_potion.png");
-    LOADSPRITESHEET(videomanager, "images/sight_potion.png");
-    LOADSPRITESHEET(videomanager, "images/stairs3.png");
-    LOADSPRITESHEET(videomanager, "images/ground2_106x54.png");
-    LOADSPRITESHEET(videomanager, "images/stoneblock3.png");
-    LOADSPRITESHEET(videomanager, "images/door.png");
-    LOADSPRITESHEET(videomanager, "images/lightning_bolt.png");
-    LOADSPRITESHEET(videomanager, "images/yellow_fire_ball.png");
-    LOADSPRITESHEET(videomanager, "images/tile_switch.png");
-    CreateFixedSpritesheet("images/eye.png", 128, 96, ugdk::Vector2D());
+    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Magic Missile
+    CreateSimpleFlexibleSpritesheet("images/fireball_0.png");
+    CreateSimpleFlexibleSpritesheet("images/green_fire_ball.png");
+    CreateSimpleFlexibleSpritesheet("images/explosion.png");
+    CreateSimpleFlexibleSpritesheet("images/quake.png");
+    CreateSimpleFlexibleSpritesheet("images/life_potion2.png");
+    CreateSimpleFlexibleSpritesheet("images/mana_potion.png");
+    CreateSimpleFlexibleSpritesheet("images/sight_potion.png");
+    CreateSimpleFlexibleSpritesheet("images/stairs3.png");
+    CreateSimpleFlexibleSpritesheet("images/ground2_106x54.png");
+    CreateSimpleFlexibleSpritesheet("images/stoneblock3.png");
+    CreateSimpleFlexibleSpritesheet("images/door.png");
+    CreateSimpleFlexibleSpritesheet("images/lightning_bolt.png");
+    CreateSimpleFlexibleSpritesheet("images/yellow_fire_ball.png");
+    CreateSimpleFlexibleSpritesheet("images/tile_switch.png");
 
     text_loader()->Initialize(settings->language_file());
     level_manager()->Initialize();

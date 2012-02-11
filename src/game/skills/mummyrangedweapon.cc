@@ -17,7 +17,7 @@ namespace skills {
 
 using ugdk::Vector2D;
 
-const float MummyRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
+const double MummyRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
 
 void MummyRangedWeapon::Use(){
     super::Use();
@@ -37,7 +37,7 @@ void MummyRangedWeapon::Use(){
 }
 
 bool MummyRangedWeapon::IsValidUse() const {
-    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    double distance = (use_argument_.destination_ - use_argument_.origin_).length();
     return (distance <= range_);
 }
 

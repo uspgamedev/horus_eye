@@ -32,7 +32,7 @@ class SandstormEmitter : public EmitterEntity {
     }
 
     // Inherited virtuals
-    virtual void Update(float dt);
+    virtual void Update(double dt);
     virtual void Die() { *back_reference_ = NULL; super::Die(); }
 
   protected:

@@ -15,7 +15,7 @@ class MapEditor : public ugdk::Scene {
   public:
     MapEditor();
     virtual ~MapEditor();
-    virtual void Update(float delta_t);
+    virtual void Update(double delta_t);
 	void LoadMap(std::string& file_name);
 	void SaveMap();
 	bool map_loaded() { return this->map_loaded_; }
@@ -27,7 +27,7 @@ class MapEditor : public ugdk::Scene {
       public:
         virtual ~MapLayer() {}
 		virtual void LoadMapMatrix(MapEditor::MapMatrix *matrix) = 0;
-        virtual void set_scale(float scale) { scale_ = scale; }
+        virtual void set_scale(double scale) { scale_ = scale; }
 		virtual void CenterAt(ugdk::Vector2D& center) { node_->modifier()->set_offset(center); }
 		ugdk::graphic::Node* node() { return node_; }
 
@@ -35,10 +35,10 @@ class MapEditor : public ugdk::Scene {
         virtual ugdk::Vector2D ModifyMovement(ugdk::Vector2D& movement) { return movement; }
 
       protected:
-        MapLayer(MapEditor* editor) : matrix_(NULL), editor_(editor), scale_(1.0f), node_(new ugdk::graphic::Node) {}
+        MapLayer(MapEditor* editor) : matrix_(NULL), editor_(editor), scale_(1.0), node_(new ugdk::graphic::Node) {}
         MapEditor::MapMatrix *matrix_;
 		MapEditor* editor_;
-        float scale_;
+        double scale_;
 		ugdk::graphic::Node* node_;
     };
 

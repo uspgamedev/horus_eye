@@ -15,11 +15,11 @@ namespace editor {
 
 class MapObject : public ugdk::Entity {
   public:
-    const static float TileSize;
+    const static double TileSize;
 
     MapObject(int i, int j, char type, int level_width, int level_height);
 
-    void Update(float delta_t);
+    void Update(double delta_t);
 
 	ugdk::graphic::Node* tile_node() { return tile_node_; }
 	ugdk::graphic::Node* isometric_node() { return isometric_node_; }

@@ -10,10 +10,10 @@ namespace scene {
 
 using namespace ugdk;
 
-ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, float time) :
+ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, double time) :
          ImageScene(background, image) {
    time_ = time;
-   float delta_h = VIDEO_MANAGER()->video_size().y;
+   double delta_h = VIDEO_MANAGER()->video_size().y;
    if(image != NULL) delta_h += image->height();
    if (time > 0) movement_ = Vector2D(0, -delta_h/time);
 
@@ -21,9 +21,9 @@ ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ug
    if(scene_layers_[IMG]) scene_layers_[IMG]->modifier()->set_offset(offset);
 }
 
-void ScrollingImageScene::Update(float delta_t) {
+void ScrollingImageScene::Update(double delta_t) {
     ImageScene::Update(delta_t);
-    if(time_ > 0.0f) {
+    if(time_ > 0.0) {
         if (scene_layers_[IMG]) {
             Vector2D new_offset = scene_layers_[IMG]->modifier()->offset() + movement_*delta_t;
             scene_layers_[IMG]->modifier()->set_offset(new_offset);

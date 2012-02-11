@@ -78,7 +78,7 @@ void World::HandleCollisions() {
     }
 }
 
-void World::VerifyCheats(float delta_t) {
+void World::VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
 
     if (input->KeyPressed(ugdk::input::K_p)) {
@@ -133,15 +133,15 @@ bool World::VerifyPause() {
     return false;
 }
 
-bool IsNear(const TilePos &origin, const TilePos &pos, float radius) {
-    if ((float)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
+bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
+    if ((double)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
         return true;
     else if ((Tile::FromTilePos(pos) - Tile::FromTilePos(origin)).length() <= radius )
         return true;
     else return false;
 }
 
-void SpreadLight(GameMap &map, const TilePos &origin_pos, float radius) {
+void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
 
     list<Tile*>     queue;
     Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
@@ -189,11 +189,11 @@ void World::UpdateVisibility() {
     hero_pos.i =  map.size() - hero_pos.i - 1;
 
     Tile::CleanVisibility(map);
-    SpreadLight(map, hero_pos, 1.5f*hero_->light_radius());
+    SpreadLight(map, hero_pos, 1.5*hero_->light_radius());
 
 }
 
-void World::Update(float delta_t) {
+void World::Update(double delta_t) {
 
     if(VerifyPause()) return;
 
@@ -303,14 +303,14 @@ void World::RemoveAll() {
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
-    Vector2D tx(sqrt(5.0)/4.0f, -sqrt(5.0)/4.0f);
-    Vector2D ty(-sqrt(5.0)/2.0f, -sqrt(5.0)/2.0f);
+    Vector2D tx(sqrt(5.0)/4.0, -sqrt(5.0)/4.0);
+    Vector2D ty(-sqrt(5.0)/2.0, -sqrt(5.0)/2.0);
     return (tx * screen_coords.x) + (ty * screen_coords.y);
 }
 
 Vector2D World::FromWorldLinearCoordinates(const Vector2D& world_coords) {
-    Vector2D tx(54.0f, -27.0f);
-    Vector2D ty(-54.0f, -27.0f);
+    Vector2D tx(54.0, -27.0);
+    Vector2D ty(-54.0, -27.0);
     return (tx * world_coords.x) + (ty * world_coords.y);
 }
 
@@ -321,11 +321,11 @@ Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
 Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
     Vector2D    global_screen_coords = screen_coords - WORLD()->world_node_->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
-    return (transformed * (1.0f/60.373835392f));
+    return (transformed * (1.0/60.373835392));
 }
 
-const Vector2D World::ConvertLightRadius(float radius) {
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392f;
+const Vector2D World::ConvertLightRadius(double radius) {
+    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return ellipse_coords;
 }
 

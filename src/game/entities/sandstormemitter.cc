@@ -23,7 +23,7 @@ using utils::Settings;
 using skills::usearguments::Aim;
 using utils::Constants;
 
-void SandstormEmitter::Update(float dt) {
+void SandstormEmitter::Update(double dt) {
     super::Update(dt);
 
     if(!suspended_ && projectile_interval_->Expired() ) {
@@ -41,17 +41,17 @@ void SandstormEmitter::Update(float dt) {
         Vector2D versor[4];
 
         versor[0] =
-            aim_ortogonal * sin(Constants::SANDSTORM_ANGLE/2.0f)
-            + aim_versor  * cos(Constants::SANDSTORM_ANGLE/2.0f);
+            aim_ortogonal * sin(Constants::SANDSTORM_ANGLE/2.0)
+            + aim_versor  * cos(Constants::SANDSTORM_ANGLE/2.0);
         versor[1] =
-            aim_ortogonal * sin(Constants::SANDSTORM_ANGLE/6.0f)
-            + aim_versor  * cos(Constants::SANDSTORM_ANGLE/6.0f);
+            aim_ortogonal * sin(Constants::SANDSTORM_ANGLE/6.0)
+            + aim_versor  * cos(Constants::SANDSTORM_ANGLE/6.0);
         versor[2] =
-            aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/6.0f)
-            + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/6.0f);
+            aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/6.0)
+            + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/6.0);
         versor[3] =
-            aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/2.0f)
-            + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/2.0f);
+            aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/2.0)
+            + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/2.0);
         for(int i=0;i<4;i++) {
             ProjectileBuilder proj(world->image_factory());
             world->AddWorldObject(proj.Fireball(versor[i]), aim_.origin_);

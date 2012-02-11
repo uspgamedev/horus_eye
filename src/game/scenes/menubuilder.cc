@@ -1,6 +1,7 @@
 #include <sstream>
 #include "menubuilder.h"
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/util/animationparser.h>
@@ -34,20 +35,20 @@ using namespace std;
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
 
-#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.3f
+#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.3
 #define MENU_BOTTOM             MENU_TOP + MenuBuilder::MAIN_SELECT_NUM*RECT_HEIGHT
-#define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
-#define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
+#define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
+#define MENU_RIGHT              VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
 
-#define PAUSE_TOP               VIDEO_MANAGER()->video_size().y/2.0f
-#define PAUSE_BOTTOM            MENU_TOP + MenuBuilder::PAUSE_SELECT_NUM*RECT_HEIGHT*1.5f
-#define PAUSE_LEFT              VIDEO_MANAGER()->video_size().x/2.0f - RECT_WIDTH/2.0f
-#define PAUSE_RIGHT             VIDEO_MANAGER()->video_size().x/2.0f + RECT_WIDTH/2.0f
+#define PAUSE_TOP               VIDEO_MANAGER()->video_size().y/2.0
+#define PAUSE_BOTTOM            MENU_TOP + MenuBuilder::PAUSE_SELECT_NUM*RECT_HEIGHT*1.5
+#define PAUSE_LEFT              VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
+#define PAUSE_RIGHT             VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
 
-#define SET_TOP                 VIDEO_MANAGER()->video_size().y / 8.0f
-#define SET_BOTTOM              VIDEO_MANAGER()->video_size().y * (7.0f / 8.0f)
-#define SET_LEFT                VIDEO_MANAGER()->video_size().x * 0.25f
-#define SET_RIGHT               VIDEO_MANAGER()->video_size().x * 0.40f
+#define SET_TOP                 VIDEO_MANAGER()->video_size().y / 8.0
+#define SET_BOTTOM              VIDEO_MANAGER()->video_size().y * (7.0 / 8.0)
+#define SET_LEFT                VIDEO_MANAGER()->video_size().x * 0.25
+#define SET_RIGHT               VIDEO_MANAGER()->video_size().x * 0.40
 
 #define NUM_RESOL               12
 #define NUM_ON_OFF              2
@@ -62,7 +63,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-    ANIMATIONS = Engine::reference()->animation_loader().Load("animations/menu.gdd");
+    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
@@ -85,9 +86,9 @@ void MenuBuilder::ReleaseAnimations() {
     EARTHQUAKE = -1;
 }
 
-void MenuBuilder::CreateSelectionSprites(Menu* menu, float height) {
+void MenuBuilder::CreateSelectionSprites(Menu* menu, double height) {
     //TODO: put on image factory!!!
-    ugdk::graphic::Spritesheet *menu_eye_sheet = VIDEO_MANAGER()->GetSpritesheet("images/eye.png");
+    ugdk::graphic::Spritesheet *menu_eye_sheet = RESOURCE_MANAGER()->spritesheet_container().Find("images/eye.png");
 
     ugdk::graphic::Drawable *selection_sprite[SELECTION_SPRITE];
     for (int i = 0; i < SELECTION_SPRITE; i++) {
@@ -119,8 +120,8 @@ Menu *MenuBuilder::BuildMainMenu () {
                            (MENU_BOTTOM-MENU_TOP)/MenuBuilder::MAIN_SELECT_NUM);
 
     // The game logo.
-    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/logo_560x334_black.png"));
-    menu->AddDrawable(logo, Vector2D((VIDEO_MANAGER()->video_size().x - logo->width()) * 0.5f, 0.0f));
+    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/logo_560x334_black.png"));
+    menu->AddDrawable(logo, Vector2D((VIDEO_MANAGER()->video_size().x - logo->width()) * 0.5, 0.0));
 
     // The sprite of each option.
     for (int i = 0; i < MenuBuilder::MAIN_SELECT_NUM; ++i) {
@@ -147,11 +148,11 @@ Menu *MenuBuilder::BuildMainMenu () {
 
     ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
-    menu->AddDrawable(version, Vector2D(10.0f, VIDEO_MANAGER()->video_size().y - 10.0f));
+    menu->AddDrawable(version, Vector2D(10.0, VIDEO_MANAGER()->video_size().y - 10.0));
 
-    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(VIDEO_MANAGER()->LoadTexture("images/developed_by_uspgamedev1.png"));
+    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/developed_by_uspgamedev1.png"));
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
-    menu->AddDrawable(developed_by, VIDEO_MANAGER()->video_size() + Vector2D(-15.0f, 0.0f));
+    menu->AddDrawable(developed_by, VIDEO_MANAGER()->video_size() + Vector2D(-15.0, 0.0));
 
     return menu;
 }
@@ -209,7 +210,7 @@ Menu *MenuBuilder::BuildPauseMenu () {
 
     // The pause bg sprite.
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
-    bg->set_color(ugdk::Color(0.5f, 0.5f, 0.5f, 0.5f));
+    bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     menu->AddDrawable(bg, Vector2D());
 
     // The sprite of each option.
@@ -355,7 +356,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
         menu_->set_option_sprite(i, img);
     }
 
-    float second_column_x = VIDEO_MANAGER()->video_size().x * 0.75f;
+    double second_column_x = VIDEO_MANAGER()->video_size().x * 0.75;
 
     // Get current resolution
     sprites_active_[0] = settings_->resolution();

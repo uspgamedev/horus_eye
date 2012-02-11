@@ -14,7 +14,7 @@ class Floor : public WorldObject {
   typedef WorldObject super;
   public:
     Floor(ugdk::graphic::FlexibleSpritesheet* image);
-    virtual void Update(float delta_t);
+    virtual void Update(double delta_t);
 
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
