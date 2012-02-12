@@ -47,3 +47,5 @@ lib/link_libugdk_d.a
 /license/Creative_Commons_Legal_Code/Thumbs.db
 /license/legalcode_arquivos/Thumbs.db
 doc/doxy/
+auto_deploy.sh
+*.pyc

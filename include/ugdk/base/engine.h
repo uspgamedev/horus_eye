@@ -78,11 +78,13 @@ class Engine {
     /// Returns the window dimensions.
     Vector2D window_size();
 
-    /**@name Engine Management
-     * @{
+    /** @name Engine Management
+     ** @{
      */
+
     /// Initializes the engine. Returns true if sucessful, false otherwise.
-    /** @param configuration A Engine::Configuration struct with the planned configuration.
+    /** @param configuration A Engine::Configuration struct with the planned
+     **                      configuration.
      */
 	bool Initialize(const Configuration& configuration);
 
