@@ -104,6 +104,7 @@ class Vector2D(_object):
     def LengthSquared(self): return _ugdk_math.Vector2D_LengthSquared(self)
     def Angle(self): return _ugdk_math.Vector2D_Angle(self)
     def Normalize(self): return _ugdk_math.Vector2D_Normalize(self)
+    def Rotate(self, *args): return _ugdk_math.Vector2D_Rotate(self, *args)
     def Scale(self, *args): return _ugdk_math.Vector2D_Scale(self, *args)
     __swig_getmethods__["Add"] = lambda x: _ugdk_math.Vector2D_Add
     if _newclass:Add = staticmethod(_ugdk_math.Vector2D_Add)
@@ -117,8 +118,6 @@ class Vector2D(_object):
     def angle(self): return _ugdk_math.Vector2D_angle(self)
     __swig_getmethods__["Normalized"] = lambda x: _ugdk_math.Vector2D_Normalized
     if _newclass:Normalized = staticmethod(_ugdk_math.Vector2D_Normalized)
-    __swig_getmethods__["Rotate"] = lambda x: _ugdk_math.Vector2D_Rotate
-    if _newclass:Rotate = staticmethod(_ugdk_math.Vector2D_Rotate)
     def __iadd__(self, *args): return _ugdk_math.Vector2D___iadd__(self, *args)
     def __isub__(self, *args): return _ugdk_math.Vector2D___isub__(self, *args)
 Vector2D_swigregister = _ugdk_math.Vector2D_swigregister
@@ -143,10 +142,6 @@ Vector2D_InnerProduct = _ugdk_math.Vector2D_InnerProduct
 def Vector2D_Normalized(*args):
   return _ugdk_math.Vector2D_Normalized(*args)
 Vector2D_Normalized = _ugdk_math.Vector2D_Normalized
-
-def Vector2D_Rotate(*args):
-  return _ugdk_math.Vector2D_Rotate(*args)
-Vector2D_Rotate = _ugdk_math.Vector2D_Rotate
 
 
 def __add__(*args):
