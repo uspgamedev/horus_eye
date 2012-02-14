@@ -172,6 +172,7 @@ case "$DEPLOY" in
         # Cleaning
         rm ./CMakeCache.txt
         rm ./horus_eye
+        rm "./${PROJECT_NAME}.dmg"
         make clean
         # Compiling Universal Binary
         cmake -DUNIVERSAL=YES .
