@@ -138,12 +138,22 @@ void StartGame() {
         else {
             printf("Result 1: ( %f , %f )\n", vec->x, vec->y);
         }
+
         const char* text = obj["str"].stringvalue();
         if (!text) puts("FAILED TEXT.");
         else printf("Result 2: %s\n", text);
+
         bool boolean = obj["bool"].booleanvalue();
         if (!boolean) puts("FAILED BOOLEAN.");
         else printf("Result 3: %d\n", boolean);
+
+        int integer = obj["integer"].integervalue();
+        if (!integer) puts("FAILED INTEGER.");
+        else printf("Result 4: %d\n", integer);
+
+        double number = obj["number"].numbervalue();
+        if (!number) puts("FAILED NUMBER.");
+        else printf("Result 5: %f\n", number);
 
         obj["ls"](std::vector<VirtualObj>(1,obj));
     }

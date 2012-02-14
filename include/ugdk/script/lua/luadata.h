@@ -27,14 +27,25 @@ class LuaData : public VirtualData {
 
     ~LuaData() {
         if (wrapper_)
-            wrapper_->data_gear().DestroyID(id_);
+            wrapper_->data_gear()//.DestroyID_old(id_);
+                .SafeCall(DataGear::DestroyID)
+                .Arg(id_)
+                .NoResult();
     }
 
     void* Unwrap(const VirtualType& type) const;
-    const char* UnwrapString() const;
-    bool UnwrapBoolean() const;
-    int UnwrapInteger() const;
-    double UnwrapNumber() const;
+    const char* UnwrapString() const {
+        return UnwrapPrimitive<const char*>(NULL);
+    }
+    bool UnwrapBoolean() const {
+        return UnwrapPrimitive<bool>(false);
+    }
+    int UnwrapInteger() const {
+        return UnwrapPrimitive<int>(0);
+    }
+    double UnwrapNumber() const {
+        return UnwrapPrimitive<double>(0.0);
+    }
 
     void Wrap(void* data, const VirtualType& type);
     void WrapString(const char* str) { GENERIC_WRAP(string,str); }
@@ -55,10 +66,21 @@ class LuaData : public VirtualData {
 
   private:
 
+    template <class T>
+    T UnwrapPrimitive(const T default_value) const;
+
     LuaWrapper* wrapper_;
     DataID      id_;
 
 };
+
+template <class T>
+T LuaData::UnwrapPrimitive(const T default_value) const {
+    return wrapper_->data_gear()
+        .SafeCall(DataGear::UnwrapPrimitive<T>)
+        .Arg(id_)
+        .GetResult(default_value);
+}
 
 } /* namespace lua */
 } /* namespace script */

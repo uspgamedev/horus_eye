@@ -26,18 +26,27 @@ class DataGear : public BaseGear, private ugdk::util::Uncopyable {
         L_.close();
     }
 
-    DataID GenerateID();
+    /// Generates a data ID. [-1,+1,-]
+    static int GenerateID(lua_State* L);
 
-    bool DestroyID(DataID id);
+    /// Safely destroys a data ID. [-2,+0,-]
+    static int DestroyID(lua_State* L);
+
+    /// Safely wraps typed data to a data ID. [-4,+0,-]
+    static int WrapData(lua_State* L);
+
+    /// Safely unwraps typed data from a data ID. [-3,+1,-]
+    static int UnwrapData(lua_State* L);
+
+    /// Safely unwraps a priitive value from a data ID. [-2,+1,-]
+    template <class T>
+    static int UnwrapPrimitive(lua_State* L);
+
+    /// Safely unwraps a string from a data ID. [-2,+1,-]
+    static int UnwrapString(lua_State* L);
 
     // [-0,+0]
-    bool WrapData(DataID id, void *data, const VirtualType& type);
-
-    // [-0,+0]
-    void* UnwrapData (DataID id, const VirtualType& type);
-
-    // [-0,+0]
-    const char* UnwrapString (DataID id);
+    const char* UnwrapString_old (DataID id);
 
     // [-0,+0]
     bool UnwrapBoolean (DataID id);
@@ -59,21 +68,6 @@ class DataGear : public BaseGear, private ugdk::util::Uncopyable {
         return *this;
     }
 
-    /// Safely generates a data ID. [-1,+1,-]
-    static int SafeGenerateID(lua_State* L);
-
-    /// Safely destroys a data ID. [-2,+0,-]
-    static int SafeDestroyID(lua_State* L);
-
-    /// Safely wraps typed data to a data ID. [-4,+0,-]
-    static int SafeWrapData(lua_State* L);
-
-    /// Safely unwraps typed data from a data ID. [-3,+1,-]
-    static int SafeUnwrapData(lua_State* L);
-
-    /// Safely unwraps a string from a data ID. [-2,+1,-]
-    static int SafeUnwrapString(lua_State* L);
-
     /// Safely unwraps a boolean from a data ID. [-2,+1,-]
     static int SafeUnwrapBoolean(lua_State* L);
 
@@ -82,6 +76,25 @@ class DataGear : public BaseGear, private ugdk::util::Uncopyable {
 
 
 };
+
+template <class T>
+int DataGear::UnwrapPrimitive(lua_State* L) {
+    State L_(L);
+
+    L_.settop(2);
+    GETARG(L_, 1, DataGear, dtgear);
+    DataID id = L_.aux().checkintteger(2);
+    L_.settop(0);
+
+    if (!dtgear.GetData(id)) {
+        L_.pushnil();
+    } // else the string will already be on top
+
+    if (!L_.isprimitive<T>(-1))
+        return luaL_error(L, "Could not unwrap string from id #%d", id);
+
+    return 1;
+}
 
 } /* namespace lua */
 } /* namespace script */
