@@ -9,6 +9,8 @@ function ls(t)
     end
 end
 
+print = print
+
 v = ugdk_math.Vector2D(1,2)
 str = "AMAGAD LUA STRING"
 bool = true

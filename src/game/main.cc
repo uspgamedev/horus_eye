@@ -132,7 +132,7 @@ void StartGame() {
     {
         VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
 
-        puts("Checking result...");
+        puts("Checking results...");
         ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D*>();
         if (!vec) puts("FAILED.");
         else {
@@ -156,6 +156,14 @@ void StartGame() {
         else printf("Result 5: %f\n", number);
 
         obj["ls"](std::vector<VirtualObj>(1,obj));
+
+        VirtualObj obj2(obj.wrapper());
+
+        obj2.set_value("hahahahaha");
+        obj["print"](std::vector<VirtualObj>(1,obj2));
+
+        puts("=== Lua tests are finished. ===");
+
     }
 
     //testando python
