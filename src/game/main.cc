@@ -133,25 +133,25 @@ void StartGame() {
         VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
 
         puts("Checking result...");
-        ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D>();
+        ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D*>();
         if (!vec) puts("FAILED.");
         else {
             printf("Result 1: ( %f , %f )\n", vec->x, vec->y);
         }
 
-        const char* text = obj["str"].stringvalue();
-        if (!text) puts("FAILED TEXT.");
-        else printf("Result 2: %s\n", text);
+        string text = obj["str"].value<string>();
+        if (!text.size()) puts("FAILED TEXT.");
+        else printf("Result 2: %s\n", text.c_str());
 
-        bool boolean = obj["bool"].booleanvalue();
+        bool boolean = obj["bool"].value<bool>();
         if (!boolean) puts("FAILED BOOLEAN.");
         else printf("Result 3: %d\n", boolean);
 
-        int integer = obj["integer"].integervalue();
+        int integer = obj["integer"].value<int>();
         if (!integer) puts("FAILED INTEGER.");
         else printf("Result 4: %d\n", integer);
 
-        double number = obj["number"].numbervalue();
+        double number = obj["number"].value<double>();
         if (!number) puts("FAILED NUMBER.");
         else printf("Result 5: %f\n", number);
 
@@ -164,7 +164,7 @@ void StartGame() {
     printf("MARK got wassup\n");
     VirtualObj pyVecx = wassup["vecx"];
     printf("MARK got python vecx\n");
-    ugdk::Vector2D* vecx = pyVecx.value<ugdk::Vector2D>();
+    ugdk::Vector2D* vecx = pyVecx.value<ugdk::Vector2D*>();
     printf("MARK converted vecx to C++ Vector2D object\n");
     printf("X: ( %f , %f )\n", vecx->x, vecx->y);
 
