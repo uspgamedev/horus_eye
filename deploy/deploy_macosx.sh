@@ -95,9 +95,6 @@ create_DMG() {
     # Eject the disk image so that we can convert it to a compressed format
     hdiutil eject "${VOLUME_MOUNT_PATH}"
 
-    # Change to the script folder
-    cd `dirname ${BASH_SOURCE[0]}`
-
     # Create the final, compressed disk image
     hdiutil convert "${DISK_IMAGE_READWRITE_PATH}" -format UDBZ \
         -o "./${PROJECT_NAME}.dmg"
