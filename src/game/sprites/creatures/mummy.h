@@ -7,7 +7,6 @@
 #include <ugdk/time.h>
 
 #include "game/sprites/creatures/creature.h"
-#include "game/skills/skill.h"
 
 #define TIME_TO_THINK 0.1
 
