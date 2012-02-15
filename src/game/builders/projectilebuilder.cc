@@ -5,6 +5,7 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/types.h>
 #include <ugdk/graphic/light.h>
+#include <ugdk/graphic/node.h>
 #include <pyramidworks/geometry/circle.h>
 
 #include "projectilebuilder.h"

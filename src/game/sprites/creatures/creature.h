@@ -7,6 +7,7 @@
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time.h>
+#include <ugdk/base/types.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>

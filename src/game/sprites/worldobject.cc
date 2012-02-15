@@ -1,4 +1,5 @@
 #include <ugdk/graphic/light.h>
+#include <ugdk/graphic/node.h>
 #include <pyramidworks/geometry/circle.h>
 
 #include "worldobject.h"

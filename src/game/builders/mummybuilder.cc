@@ -1,4 +1,5 @@
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+#include <ugdk/graphic/node.h>
 
 #include "mummybuilder.h"
 

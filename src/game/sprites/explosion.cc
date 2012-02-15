@@ -3,6 +3,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>

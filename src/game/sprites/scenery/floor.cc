@@ -3,6 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/node.h>
 
 //#include "game/utils/circleobject.h"
 #include "game/utils/constants.h"

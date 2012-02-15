@@ -4,12 +4,17 @@
 #include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
-#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/collision/collisionlogic.h>
+
+namespace ugdk {
+namespace graphic {
+class Node;
+}
+}
 
 namespace sprite {
 
