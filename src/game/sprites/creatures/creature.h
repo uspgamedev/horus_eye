@@ -8,7 +8,6 @@
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time.h>
-#include <pyramidworks/geometry/rect.h>
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
@@ -16,6 +15,12 @@
 
 namespace skills {
 class Skill;
+}
+
+namespace pyramidworks {
+namespace geometry {
+        class Rect;
+}
 }
 
 namespace sprite {

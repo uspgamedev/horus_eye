@@ -12,6 +12,7 @@
 #include "creature.h"
 
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
 
 using namespace ugdk;
 using namespace utils;
