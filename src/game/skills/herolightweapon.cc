@@ -1,6 +1,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
+#include <ugdk/graphic.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
