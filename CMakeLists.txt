@@ -38,7 +38,7 @@ SET(CFLAGS "" CACHE STRING "flags enviadas ao compilador")
 SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
 IF(UNIX)
   # se for o g++ para *nix:
-  SET(CFLAGS "${CFLAGS} -g -Wall -ansi -O3 -U_FORTIFY_SOURCE")
+  SET(CFLAGS "${CFLAGS} -g -Wall -ansi -O3 -U_FORTIFY_SOURCE -msse2")
   IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     IF(UNIVERSAL)
       SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
