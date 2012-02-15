@@ -3,7 +3,6 @@
 
 #include <list>
 
-#include <ugdk/action/animation.h>
 #include <ugdk/action/observer.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
@@ -19,8 +18,12 @@ class Skill;
 
 namespace pyramidworks {
 namespace geometry {
-        class Rect;
+class Rect;
 }
+}
+
+namespace ugdk {
+class AnimationSet;
 }
 
 namespace sprite {
