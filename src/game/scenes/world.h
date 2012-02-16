@@ -6,7 +6,7 @@
 #include <ugdk/action/scene.h>
 
 #include "game/utils/levelmanager.h"
-#include "game/utils/tile.h"
+#include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
 
 namespace utils {

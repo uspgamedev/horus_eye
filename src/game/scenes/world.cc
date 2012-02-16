@@ -18,6 +18,7 @@
 
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"

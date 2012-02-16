@@ -2,6 +2,9 @@
 #define HORUSEYE_GAME_UTILS_TILE_H_
 
 #include <vector>
+
+#include "tilefwd.h"
+
 #ifndef NULL
 #define NULL 0
 #endif
@@ -32,16 +35,12 @@ namespace utils {
 #define BLOCK                    'K'
 #define BUTTON                   'U'
 
-class Tile;
-
-typedef std::vector<Tile*> TileRow;
-typedef std::vector<TileRow> GameMap;
 typedef struct TilePos{
-
+    
     TilePos(int i_ = 0, int j_ = 0) : i(i_), j(j_) {}
-
+    
     int i, j;
-
+    
 } TilePos;
 
 class Tile {
