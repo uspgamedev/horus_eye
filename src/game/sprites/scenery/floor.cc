@@ -1,7 +1,4 @@
 #include "floor.h"
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/base/engine.h>
-#include <ugdk/action/animationset.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/graphic/node.h>
@@ -37,7 +34,7 @@ void Floor::Update(double delta_t) {
 
 void Floor::set_world_position(const ugdk::Vector2D& pos) {
     super::set_world_position(pos);
-    node_->set_zindex(-FLT_MAX); // chao deve ficar a baixo de tudo/
+    node_->set_zindex(-FLT_MAX); // floor must be below everything
 }
 
 }
