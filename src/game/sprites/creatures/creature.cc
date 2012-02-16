@@ -5,13 +5,18 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/util/animationparser.h>
 
 #include "creature.h"
 
+#include "game/sprites/condition.h"
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 using namespace ugdk;
 using namespace utils;

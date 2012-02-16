@@ -4,6 +4,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
+#include <pyramidworks/collision/collisionobject.h>
 
 #include "game/entities/sandstormemitter.h"
 

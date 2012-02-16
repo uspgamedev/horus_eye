@@ -1,5 +1,7 @@
 #include "timedworldobject.h"
 
+#include <ugdk/time/timeaccumulator.h>
+
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace sprite {

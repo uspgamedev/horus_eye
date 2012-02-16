@@ -13,7 +13,7 @@ class Projectile : public TimedWorldObject {
     void Move(double delta_t);
     virtual void Update(double delta_t);
 
-    void set_collision_object(CollisionObject* col) { collision_object_ = col; }
+    void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
 
   protected:
     double speed_;

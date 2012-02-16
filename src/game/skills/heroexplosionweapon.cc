@@ -7,6 +7,7 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/explosion.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"

@@ -4,7 +4,6 @@
 #include <cstdlib>
 
 #include <ugdk/graphic.h>
-#include "game/skills/skill.h"
 
 namespace skills {
 

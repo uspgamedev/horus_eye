@@ -3,11 +3,11 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "button.h"
 
-#include "game/utils/constants.h"
-#include "game/utils/tile.h"
 #include "game/scenes/world.h"
 
 using namespace ugdk;

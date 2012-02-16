@@ -6,7 +6,7 @@
 #include "game/skills/usearguments.h"
 
 namespace sprite {
-class Hero;
+class Creature;
 } // namespace sprite
 
 namespace entities {
@@ -17,7 +17,7 @@ namespace skills {
 
 class Sandstorm : public CombatArt<usearguments::Aim> {
   public:
-    Sandstorm(sprite::Hero* owner);
+    Sandstorm(sprite::Creature* owner);
     ~Sandstorm();
 
     // inherited virtuals

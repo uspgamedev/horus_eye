@@ -5,14 +5,14 @@
 #include "game/skills/usearguments.h"
 
 namespace sprite {
-class Hero;
+class Creature;
 }
 
 namespace skills {
 
 class HeroBaseWeapon : public CombatArt<usearguments::Aim> {
   public:
-    HeroBaseWeapon(sprite::Hero* owner);
+    HeroBaseWeapon(sprite::Creature* owner);
     virtual void Use();
 
   private:

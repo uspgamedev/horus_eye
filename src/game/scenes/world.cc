@@ -18,6 +18,7 @@
 
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
@@ -327,6 +328,10 @@ Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
 const Vector2D World::ConvertLightRadius(double radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return ellipse_coords;
+}
+    
+sprite::WorldObject * World::hero_world_object() const {
+    return dynamic_cast<WorldObject*> (hero_);
 }
 
 } // namespace scene

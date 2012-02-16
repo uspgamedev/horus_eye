@@ -1,8 +1,13 @@
 #ifndef HORUSEYE_GAME_SPRITE_TIMEDWORLDOBJECT_H_
 #define HORUSEYE_GAME_SPRITE_TIMEDWORLDOBJECT_H_
 
-#include <ugdk/time/timeaccumulator.h>
 #include "game/sprites/worldobject.h"
+
+namespace ugdk {
+    namespace time {
+        class TimeAccumulator;
+    }
+}
 
 namespace sprite {
 

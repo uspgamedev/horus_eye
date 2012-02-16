@@ -2,8 +2,9 @@
 #include "visionstrategy.h"
 #include "geometryprimitives.h"
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
 #include "tile.h"
+#include "game/utils/constants.h"
+#include "game/sprites/worldobject.h"
 
 using namespace std;
 using namespace scene;
@@ -28,7 +29,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     GameMap& matrix = world->level_matrix();
 
     if(position2.x < 0.0){
-        Hero* hero = world->hero();
+        WorldObject* hero = world->hero_world_object();
         position2 = hero->world_position();
     }
 
@@ -63,7 +64,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     GameMap& matrix = world->level_matrix();
 
     if(position2.x < 0.0){
-        Hero* hero = world->hero();
+        WorldObject* hero = world->hero_world_object();
         position2 = hero->world_position();
     }
 
@@ -121,7 +122,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
 
 queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
     World *world = WORLD();
-    Hero* hero = world->hero();
+    WorldObject* hero = world->hero_world_object();
 
     queue<Vector2D> resp;
 

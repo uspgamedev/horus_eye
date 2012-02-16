@@ -6,7 +6,7 @@
 #include <ugdk/action/scene.h>
 
 #include "game/utils/levelmanager.h"
-#include "game/utils/tile.h"
+#include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
 
 namespace utils {
@@ -69,6 +69,7 @@ class World : public ugdk::Scene {
 
     //getters
     sprite::Hero * hero() const { return hero_; }
+    sprite::WorldObject * hero_world_object() const;
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
     utils::GameMap& level_matrix() { return level_matrix_; }
