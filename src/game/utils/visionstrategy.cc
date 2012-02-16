@@ -4,6 +4,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/creatures/hero.h"
 #include "tile.h"
+#include "game/utils/constants.h"
 
 using namespace std;
 using namespace scene;

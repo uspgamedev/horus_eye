@@ -8,7 +8,6 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/time.h>
 #include <ugdk/base/types.h>
-#include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
@@ -29,6 +28,7 @@ class AnimationSet;
 
 namespace sprite {
 
+class Condition;
 using ugdk::Vector2D;
 
 class Creature : public WorldObject , public ugdk::Observer {

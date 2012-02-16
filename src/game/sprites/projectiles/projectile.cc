@@ -3,9 +3,9 @@
 #include "projectile.h"
 
 #include "game/sprites/creatures/creature.h"
+#include "game/sprites/timedworldobject.h"
 
-using namespace ugdk;
-using namespace utils;
+using ugdk::Vector2D;
 
 namespace sprite {
 

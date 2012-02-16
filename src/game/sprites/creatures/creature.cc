@@ -12,6 +12,7 @@
 
 #include "creature.h"
 
+#include "game/sprites/condition.h"
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
