@@ -2,7 +2,6 @@
 #define HORUSEYE_GAME_SKILLS_HEROMETEORWEAPON_H_
 
 #include "game/skills/divinegift.h"
-#include "game/utils/constants.h"
 #include "game/skills/usearguments.h"
 
 namespace sprite {
