@@ -1,7 +1,6 @@
 #ifndef HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
-#include <list>
 #include <string>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
