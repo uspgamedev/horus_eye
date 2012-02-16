@@ -14,6 +14,7 @@
 
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
 
 using namespace ugdk;
 using namespace utils;

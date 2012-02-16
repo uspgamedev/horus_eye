@@ -9,6 +9,7 @@
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
 
 #include "mummy.h"
 
