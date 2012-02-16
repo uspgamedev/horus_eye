@@ -2,11 +2,18 @@
 #define HORUSEYE_GAME_SPRITE_MUMMY_H_
 
 #include <queue>
-#include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/time.h>
 
 #include "game/sprites/creatures/creature.h"
+
+namespace ugdk {
+    namespace graphic {
+        class FlexibleSpritesheet;
+    }
+    namespace time {
+        class TimeAccumulator;
+    }
+}
 
 #define TIME_TO_THINK 0.1
 
@@ -17,7 +24,6 @@ class Mummy : public Creature {
   public:
     Mummy(ugdk::graphic::FlexibleSpritesheet* img);
     ~Mummy();
-
     
     void set_standing(bool standing) { standing_ = standing; }	
     void set_speed(double speed) { original_speed_ = speed_ = speed; }
