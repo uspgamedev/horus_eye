@@ -28,7 +28,7 @@ namespace builder {
 using namespace sprite;
 using ugdk::Vector2D;
 using utils::Constants;
-
+using pyramidworks::collision::CollisionObject;
 
 static int GetAnimationIndexFromDir(Vector2D &dir) {
     double raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
