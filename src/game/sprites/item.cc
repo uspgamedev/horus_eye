@@ -5,6 +5,7 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "item.h"
 

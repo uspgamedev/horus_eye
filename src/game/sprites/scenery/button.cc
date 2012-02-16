@@ -4,6 +4,7 @@
 #include <ugdk/action/animationset.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "button.h"
 
