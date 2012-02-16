@@ -29,7 +29,6 @@ class AnimationSet;
 namespace sprite {
 
 class Condition;
-using ugdk::Vector2D;
 
 class Creature : public WorldObject , public ugdk::Observer {
   
@@ -109,7 +108,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     void Tick();
-    double GetAttackingAngle(Vector2D targetDirection);
+    double GetAttackingAngle(ugdk::Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
@@ -132,7 +131,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     skills::Skill* weapon_;
 
     /// The last position this creature was that is guaranteed to not colide with any walls.
-    Vector2D last_stable_position_;
+    ugdk::Vector2D last_stable_position_;
 
     double last_dt_;
 

@@ -37,13 +37,13 @@ class Mummy : public Creature {
     ugdk::time::TimeAccumulator *interval_;
     double time_to_think_;
     bool standing_;
-    Vector2D last_direction_;
+    ugdk::Vector2D last_direction_;
 	skills::Skill *weapon_;
-    std::queue<Vector2D> path_;
+    std::queue<ugdk::Vector2D> path_;
 
     virtual void Update(double delta_t);
     virtual void Think(double dt);
-    void UpdateDirection(Vector2D destination);
+    void UpdateDirection(ugdk::Vector2D destination);
     void RandomMovement();
     void StartToDie();
     void PlayHitSound() const;
