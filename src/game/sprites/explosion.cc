@@ -5,6 +5,7 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/light.h>

@@ -3,6 +3,7 @@
 #include <ugdk/graphic.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>

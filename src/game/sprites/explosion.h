@@ -7,8 +7,11 @@
 #include <ugdk/base/types.h>
 
 namespace ugdk {
-class TimeAccumulator;
-class AnimationSet;
+    class TimeAccumulator;
+    class AnimationSet;
+    namespace graphic {
+        class FlexibleSpritesheet;
+    }
 }
 
 namespace pyramidworks {

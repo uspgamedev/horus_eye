@@ -5,7 +5,6 @@
 #include <string>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
 namespace ugdk {
     namespace graphic {
