@@ -6,6 +6,7 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/util/languagemanager.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include <ugdk/graphic/spritesheet/fixedspritesheet.h>
@@ -15,16 +16,11 @@
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
-#include "utils/textloader.h"
 
 using namespace utils;
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
-}
-
-utils::TextLoader* text_loader() {
-    return utils::TextLoader::reference();
 }
 
 ugdk::Engine* engine() {
@@ -94,7 +90,9 @@ void StartGame() {
     CreateSimpleFlexibleSpritesheet("images/yellow_fire_ball.png");
     CreateSimpleFlexibleSpritesheet("images/tile_switch.png");
 
-    text_loader()->Initialize(settings->language_file());
+    if(!engine()->language_manager()->Setup(settings->language_name())) {
+        fprintf(stderr, "Language Setup FAILURE!!\n\n");
+    }
     level_manager()->Initialize();
 
     pyramidworks::collision::CollisionManager* colmanager 
@@ -137,6 +135,10 @@ int main(int argc, char *argv[]) {
     engine_config.window_icon = "";
 #endif
     engine()->Initialize(engine_config);
+
+    engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
+    engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
+
     do {
         // Initializes game data
         StartGame();

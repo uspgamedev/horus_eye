@@ -73,7 +73,6 @@
     <ClCompile Include="src\game\utils\levelmanager.cc" />
     <ClCompile Include="src\pyramidworks\geometry\rect.cc" />
     <ClCompile Include="src\game\utils\settings.cc" />
-    <ClCompile Include="src\game\utils\textloader.cc" />
     <ClCompile Include="src\game\utils\tile.cc" />
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
@@ -157,7 +156,6 @@
     <ClInclude Include="src\game\utils\levelmanager.h" />
     <ClInclude Include="src\pyramidworks\geometry\rect.h" />
     <ClInclude Include="src\game\utils\settings.h" />
-    <ClInclude Include="src\game\utils\textloader.h" />
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />

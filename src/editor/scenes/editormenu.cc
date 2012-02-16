@@ -1,6 +1,7 @@
 #include <sstream>
 #include "editormenu.h"
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/animation.h>
@@ -11,7 +12,6 @@
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/textloader.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
 #include "editor/mapeditor.h"
@@ -65,22 +65,22 @@ scene::Menu* EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
 		ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case EditorMenuBuilder::EDITOR_SELECT_CONTINUE:
-            options_sprite = TEXT_LOADER()->GetImage("Continue");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Continue");
             break;
         case EditorMenuBuilder::EDITOR_SELECT_NEW_MAP:
-            options_sprite = TEXT_LOADER()->GetImage("New");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("New");
             break;
         case EditorMenuBuilder::EDITOR_SELECT_LOAD_MAP:
-            options_sprite = TEXT_LOADER()->GetImage("Load");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Load");
             break;
         case EditorMenuBuilder::EDITOR_SELECT_SAVE_MAP:
-            options_sprite = TEXT_LOADER()->GetImage("Save");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Save");
             break;
         case EditorMenuBuilder::EDITOR_SELECT_QUIT:
-            options_sprite = TEXT_LOADER()->GetImage("Quit");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Quit");
             break;
         case EditorMenuBuilder::EDITOR_SELECT_SAVE_AND_QUIT:
-            options_sprite = TEXT_LOADER()->GetImage("SaveQuit");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("SaveQuit");
             break;
         }
         menu->set_option_sprite(i, options_sprite);
@@ -173,13 +173,13 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
         ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case EditorMenuBuilder::LOAD_MAP_SELECT_CHANGE:
-            options_sprite = TEXT_LOADER()->GetImage("Change");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Change");
             break;
         case EditorMenuBuilder::LOAD_MAP_SELECT_LOAD:
-            options_sprite = TEXT_LOADER()->GetImage("Load");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Load");
             break;
         case EditorMenuBuilder::LOAD_MAP_SELECT_BACK:
-			options_sprite = TEXT_LOADER()->GetImage("Back");
+			options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Back");
             break;
         }
 
@@ -231,7 +231,7 @@ void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
 		std::copy(map_list_[i].begin(), map_list_[i].end(), tmpw.begin());
 
 
-        ugdk::graphic::Drawable* drawable = TEXT_MANAGER()->GetText(tmpw, L"FontB");
+        ugdk::graphic::Drawable* drawable = TEXT_MANAGER()->GetText(tmpw, "FontB");
 		drawable->set_hotspot(ugdk::graphic::Drawable::CENTER);
 		
 		double x = VIDEO_MANAGER()->video_size().x * 0.5;

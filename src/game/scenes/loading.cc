@@ -1,12 +1,12 @@
-#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/drawable/text.h>
 
 #include "loading.h"
 
 #include "game/utils/levelmanager.h"
-#include "game/utils/textloader.h"
 #include "game/utils/imagefactory.h"
 
 namespace scene {
@@ -14,7 +14,7 @@ namespace scene {
 using namespace ugdk;
 
 Loading::Loading() {
-    ugdk::graphic::Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
+    ugdk::graphic::Drawable* loading_image = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Loading");
 
     Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->size() - Vector2D(10.0, 10.0);
 

@@ -203,8 +203,8 @@ Vector2D Settings::resolutions_[] = {
 };
 
 std::string Settings::languages_[] = {
-        "text/lang_en.txt",
-        "text/lang_pt_br.txt"
+        "en_US",
+        "pt_BR"
 };
 
 std::string Settings::languages_names_[] = {
@@ -260,7 +260,7 @@ const Vector2D& Settings::resolution_vector() const {
     return resolutions_[resolution_];
 }
 
-const std::string& Settings::language_file() const {
+const std::string& Settings::language_name() const {
     return languages_[language_];
 }
 
