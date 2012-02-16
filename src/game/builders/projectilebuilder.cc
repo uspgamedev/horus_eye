@@ -8,6 +8,7 @@
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 #include "projectilebuilder.h"
 
