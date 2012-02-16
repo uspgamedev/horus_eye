@@ -328,5 +328,9 @@ const Vector2D World::ConvertLightRadius(double radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return ellipse_coords;
 }
+    
+sprite::WorldObject * World::hero_world_object() const {
+    return dynamic_cast<WorldObject*> (hero_);
+}
 
 } // namespace scene

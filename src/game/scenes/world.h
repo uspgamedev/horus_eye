@@ -69,6 +69,7 @@ class World : public ugdk::Scene {
 
     //getters
     sprite::Hero * hero() const { return hero_; }
+    sprite::WorldObject * hero_world_object() const;
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
     utils::GameMap& level_matrix() { return level_matrix_; }
