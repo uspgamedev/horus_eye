@@ -4,9 +4,7 @@
 #include <list>
 
 #include <ugdk/action/observer.h>
-#include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
-
 #include <ugdk/base/types.h>
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
@@ -26,6 +24,10 @@ namespace ugdk {
     class AnimationSet;
     namespace time {
         class TimeAccumulator;
+    }
+    namespace graphic {
+        class Sprite;
+        class Spritesheet;
     }
 }
 
