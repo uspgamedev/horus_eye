@@ -8,8 +8,6 @@
 
 #include "button.h"
 
-#include "game/utils/constants.h"
-#include "game/utils/tile.h"
 #include "game/scenes/world.h"
 
 using namespace ugdk;
