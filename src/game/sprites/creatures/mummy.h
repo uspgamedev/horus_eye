@@ -31,7 +31,7 @@ class Mummy : public Creature {
 	void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
     void set_bound(double radius);
 
-    void StartAttack(Creature* obj);
+    void StartAttack(WorldObject* obj);
     
   protected:
     ugdk::time::TimeAccumulator *interval_;

@@ -24,7 +24,6 @@
 #include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
 #include "game/skills/combatart.h"
-#include "game/sprites/creatures/hero.h"
 
 namespace sprite {
 
@@ -77,8 +76,8 @@ void Mummy::MummyAntiStack(WorldObject *obj) {
     walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
 }
 
-void Mummy::StartAttack(Creature* obj) {
-    if(obj == NULL) obj = WORLD()->hero();
+void Mummy::StartAttack(WorldObject* obj) {
+    if(obj == NULL) obj = WORLD()->hero_world_object();
     double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
