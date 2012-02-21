@@ -1,5 +1,9 @@
-#include <cmath>
 #include "visionstrategy.h"
+
+#include <cmath>
+#include <algorithm>
+#include <iostream>
+
 #include "geometryprimitives.h"
 #include "game/scenes/world.h"
 #include "tile.h"
@@ -37,12 +41,19 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
 
-    for (int i = 0; i < (int)matrix.size(); i++) {
-        for (int j = 0; j < (int)matrix[i].size(); j++) {
+    int i_min = std::max(0.,
+                         matrix.size() - position1.y - 1 - Constants::MUMMY_SIGHT_RANGE);
+    int i_max = std::min(static_cast<double>(matrix.size()),
+                         matrix.size() - position1.y - 1 + Constants::MUMMY_SIGHT_RANGE);
+    int j_min = std::max(0., position1.x - Constants::MUMMY_SIGHT_RANGE);
+    for (int i = i_min; i < i_max; i++) {
+        int j_max = std::min(static_cast<double>(matrix[i].size()),
+                             position1.x + Constants::MUMMY_SIGHT_RANGE);
+        for (int j = j_min; j < j_max; j++) {
             if(solid(matrix[i][j]->object())){
                 double x = static_cast<double>(j);
                 double y = static_cast<double>(matrix.size() - i - 1);
-
+                
                 Vector2D a = Vector2D(x - 0.5, y - 0.5);
                 Vector2D b = Vector2D(x - 0.5, y + 0.5);
                 Vector2D c = Vector2D(x + 0.5, y + 0.5);
@@ -54,6 +65,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
             }
         }
     }
+
     return true;
 }
 
