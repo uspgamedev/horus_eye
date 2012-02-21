@@ -21,6 +21,12 @@ const CollisionObjectList CollisionClass::FindCollidingObjects(
         if( (*it)->IsColliding(target) )
             result.push_front(*it);
     }
+    /*
+#ifdef DEBUG
+    cout << "Max depth: " << objects_tree_.max_height_ << endl;
+    cout << "Filtered " << filtered_results->size() << " of " << objects_.size() << endl;
+#endif
+     */
     delete filtered_results;
     return result;
 }
