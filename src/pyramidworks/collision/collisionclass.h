@@ -4,6 +4,7 @@
 #include <string>
 #include <list>
 #include <set>
+#include <ugdk/util/intervalkdtree.h>
 
 namespace pyramidworks {
 namespace collision {
@@ -29,10 +30,12 @@ class CollisionClass {
 #endif
   private:
     friend class CollisionManager;
-    CollisionClass() : parent_(NULL) {}
+    CollisionClass() : parent_(NULL), objects_tree_(5) {}
+    void Update ();
 
     const CollisionClass* parent_;
     std::set<const CollisionObject *> objects_;
+    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2> objects_tree_;
 
 #ifdef DEBUG
     // Unnecessary, used for debugging purposes.

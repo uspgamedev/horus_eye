@@ -2,6 +2,7 @@
 #define PYRAMIDWORKS_GEOMETRY_GEOMETRYOBJECT_H_
 
 #include <ugdk/math/vector2D.h>
+#include <ugdk/util.h>
 
 namespace pyramidworks {
 namespace geometry {
@@ -29,6 +30,11 @@ class GeometricShape {
     /** @param obj The shape to compare with.
         @return True if there's an intersection. */
     virtual bool Intersects (const Rect *obj) const = 0;
+    
+    /// Returns a bounding box for this shape.
+    /** The box is at the shape's position and offset
+        @return A 2D Box around this shape */
+    virtual ugdk::ikdtree::Box<2> GetBoundingBox () const = 0;
 
     /// Getter for the offset.
     /** @return A reference to the current offset. */

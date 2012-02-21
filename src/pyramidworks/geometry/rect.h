@@ -27,6 +27,7 @@ class Rect : public GeometricShape {
     bool Intersects (const GeometricShape *) const;
     bool Intersects (const Rect *) const;
     bool Intersects (const Circle *) const;
+    ugdk::ikdtree::Box<2> GetBoundingBox () const;
 
   private:
     double half_width_, half_height_;

@@ -9,6 +9,7 @@
 
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 #include "world.h"
 
@@ -68,6 +69,9 @@ bool worldObjectIsDead (const WorldObject* value) {
 
 void World::HandleCollisions() {
     std::list<CollisionInstance> collision_list;
+    
+    // Update objects positions in CollisionManager
+    pyramidworks::collision::CollisionManager::reference()->Update();
 
     std::list<sprite::WorldObject*>::iterator i;
     for (i = colliding_world_objects_.begin(); i != colliding_world_objects_.end(); ++i)

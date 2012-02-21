@@ -1,6 +1,7 @@
 #include "rect.h"
 #include "circle.h"
 #include <cmath>
+#include <ugdk/util/intervalkdtree.h>
 
 #define SQRT_TWO 1.4142136
 
@@ -118,7 +119,14 @@ bool Rect::Intersects (const GeometricShape *coll_obj) const {
     return coll_obj->Intersects(this);
 }
 
-
+ugdk::ikdtree::Box<2> Rect::GetBoundingBox () const {
+    Vector2D thispos = this->position();
+    Vector2D thisposmin(thispos.x - half_width_,
+                        thispos.y - half_height_);
+    Vector2D thisposmax(thispos.x + half_width_,
+                        thispos.y + half_height_);
+    return ugdk::ikdtree::Box<2>(thisposmin.val, thisposmax.val);
+}
 
 } // namespace geometry
 } // namespace pyramidworks

@@ -26,6 +26,7 @@ class Circle : public GeometricShape {
     bool Intersects (const GeometricShape *) const;
     bool Intersects (const Rect *) const;
     bool Intersects (const Circle *) const;
+    ugdk::ikdtree::Box<2> GetBoundingBox () const;
 
   private:
     double radius_;
