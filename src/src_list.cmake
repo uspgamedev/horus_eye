@@ -120,10 +120,9 @@ SET(GAME_SRCS
     ./src//game/utils/levelmanager.h 
     ./src//game/utils/settings.cc 
     ./src//game/utils/settings.h 
-    ./src//game/utils/textloader.cc 
-    ./src//game/utils/textloader.h 
     ./src//game/utils/tile.cc 
     ./src//game/utils/tile.h 
+    ./src//game/utils/tilefwd.h 
     ./src//game/utils/visionstrategy.cc 
     ./src//game/utils/visionstrategy.h 
     ./src//mac/SDLMain.h 
