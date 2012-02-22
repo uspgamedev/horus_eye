@@ -233,8 +233,10 @@ void World::End() {
     delete hud_;
     hud_ = NULL;
 
-	if(hero_ != NULL)
+	if(hero_ != NULL) {
 		hero_->Invulnerable(0);
+        hero_->collision_object()->StopColliding();
+    }
 
     this->RemoveAll();
     for (int i = 0; i < (int)level_matrix_.size(); i++)
