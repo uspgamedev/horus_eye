@@ -118,7 +118,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
-    void CollideWithRect(const pyramidworks::geometry::Rect*);
+    void CollideWithRect(const pyramidworks::collision::CollisionObject*);
     static void InitializeStandingAnimations();
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();

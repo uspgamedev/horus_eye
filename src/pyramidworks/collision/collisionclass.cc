@@ -12,7 +12,7 @@ namespace collision {
 const CollisionObjectList CollisionClass::FindCollidingObjects(
                                          const CollisionObject *target) const {
     std::vector<const CollisionObject *> *filtered_results 
-        = objects_tree_.getIntersectingItems(target->shape()->GetBoundingBox());
+        = objects_tree_.getIntersectingItems(target->shape()->GetBoundingBox(target->absolute_position()));
     CollisionObjectList result;
 
     for(std::vector<const CollisionObject *>::const_iterator it
@@ -33,7 +33,7 @@ const CollisionObjectList CollisionClass::FindCollidingObjects(
     
 void CollisionClass::AddObject(const CollisionObject *obj) {
     objects_.insert(obj);
-    objects_tree_.Insert(obj->shape()->GetBoundingBox(), obj);
+    objects_tree_.Insert(obj->shape()->GetBoundingBox(obj->absolute_position()), obj);
 }
 
 void CollisionClass::RemoveObject(const CollisionObject *obj) { 
@@ -45,7 +45,7 @@ void CollisionClass::Update () {
     objects_tree_.Clear();
     std::set<const CollisionObject *>::iterator it;
     for (it = objects_.begin(); it != objects_.end(); ++it) {
-        objects_tree_.Insert((*it)->shape()->GetBoundingBox(), *it);
+        objects_tree_.Insert((*it)->shape()->GetBoundingBox((*it)->absolute_position()), *it);
     }
 }
 

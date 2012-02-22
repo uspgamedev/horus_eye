@@ -44,7 +44,7 @@ void CollisionObject::SearchCollisions(std::list<CollisionInstance> &collision_l
 
 bool CollisionObject::IsColliding(const CollisionObject* obj) const {
     if(this->collision_class_ == NULL || obj->shape_ == NULL) return false;
-    return this->shape_->Intersects(obj->shape_);
+    return this->shape_->Intersects(absolute_position(), obj->shape_, obj->absolute_position());
 }
 
 void CollisionObject::AddCollisionLogic(const std::string& colclass, CollisionLogic* logic) {
@@ -86,6 +86,11 @@ void CollisionObject::StopColliding() {
 void CollisionObject::set_shape(geometry::GeometricShape* shape) { 
     if(shape_) delete shape_;
     shape_ = shape;
+}
+
+void CollisionObject::MoveTo(const ugdk::Vector2D& position) {
+    position_ = position;
+    // TODO inform the CollisionClass
 }
 
 } // namespace collision

@@ -60,6 +60,8 @@ void WorldObject::set_light_radius(double radius) {
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
+   if(collision_object_) collision_object_->MoveTo(pos);
+
    Vector2D position = World::FromWorldCoordinates(world_position_);
    node_->modifier()->set_offset(position);
    node_->set_zindex(position.y);
@@ -67,7 +69,6 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
 
 void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
     collision_object_->set_shape(shape);
-    shape->set_position(&world_position_);
 }
 
 }  // namespace sprite

@@ -38,10 +38,8 @@ Vector2D Creature::directions_[4];
 AnimationSet* Creature::ANIMATIONS = NULL;
 
 COLLISION_DIRECT(Creature*, RectCollision, obj) {
-    WorldObject *wobj = (WorldObject *)obj;
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
-    data_->CollideWithRect(rect);
+    WorldObject *wobj = (WorldObject *) obj;
+    data_->CollideWithRect(wobj->collision_object());
 }
 
 Creature::Creature()
@@ -238,16 +236,19 @@ void Creature::Move(Vector2D direction, double delta_t) {
     set_world_position(position);
 }
 
-void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
+void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* coll_obj) {
     // rollback to the last stable position.
     set_world_position(last_stable_position_);
 
     // Get all values we'll need
-    const pyramidworks::geometry::Circle *circle = 
+    const pyramidworks::geometry::Circle *circle =
         (const pyramidworks::geometry::Circle*) collision_object_->shape();
 
-    Vector2D circ_pos = circle->position();
-    Vector2D rect_pos = rect->position();
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) coll_obj->shape();
+
+    Vector2D circ_pos = collision_object_->absolute_position();
+    Vector2D rect_pos = coll_obj->absolute_position();
 
     double half_r_width  = rect->width() /2.0;
     double half_r_height = rect->height()/2.0;
