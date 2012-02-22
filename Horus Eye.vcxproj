@@ -260,6 +260,10 @@
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <Profile>true</Profile>
     </Link>
+    <PreBuildEvent>
+      <Command>powershell -command "set-executionpolicy unrestricted"; Powershell -File "$(SolutionDir)configgenerator.ps1"</Command>
+      <Message>Guarantees the config.h exists and is updated.</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='DebugFast|Win32'">
     <ClCompile>
@@ -289,6 +293,10 @@
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <Profile>true</Profile>
     </Link>
+    <PreBuildEvent>
+      <Command>powershell -command "set-executionpolicy unrestricted"; Powershell -File "$(SolutionDir)configgenerator.ps1"</Command>
+      <Message>Guarantees the config.h exists and is updated.</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -325,6 +333,12 @@
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <Profile>false</Profile>
     </Link>
+    <PreBuildEvent>
+      <Command>Powershell -File "$(SolutionDir)configgenerator.ps1"</Command>
+    </PreBuildEvent>
+    <PreBuildEvent>
+      <Message>Guarantees the config.h exists and is updated.</Message>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
