@@ -99,6 +99,10 @@ class Vector2D(_object):
         except: self.this = this
     __swig_destroy__ = _ugdk_math.delete_Vector2D
     __del__ = lambda self : None;
+    def get_x(self): return _ugdk_math.Vector2D_get_x(self)
+    def get_y(self): return _ugdk_math.Vector2D_get_y(self)
+    def set_x(self, *args): return _ugdk_math.Vector2D_set_x(self, *args)
+    def set_y(self, *args): return _ugdk_math.Vector2D_set_y(self, *args)
     def NormOne(self): return _ugdk_math.Vector2D_NormOne(self)
     def Length(self): return _ugdk_math.Vector2D_Length(self)
     def LengthSquared(self): return _ugdk_math.Vector2D_LengthSquared(self)
@@ -120,6 +124,11 @@ class Vector2D(_object):
     if _newclass:Normalized = staticmethod(_ugdk_math.Vector2D_Normalized)
     def __iadd__(self, *args): return _ugdk_math.Vector2D___iadd__(self, *args)
     def __isub__(self, *args): return _ugdk_math.Vector2D___isub__(self, *args)
+    def __add__(self, *args): return _ugdk_math.Vector2D___add__(self, *args)
+    def __neg__(self): return _ugdk_math.Vector2D___neg__(self)
+    def __sub__(self, *args): return _ugdk_math.Vector2D___sub__(self, *args)
+    def __div__(self, *args): return _ugdk_math.Vector2D___div__(self, *args)
+    def __mul__(self, *args): return _ugdk_math.Vector2D___mul__(self, *args)
 Vector2D_swigregister = _ugdk_math.Vector2D_swigregister
 Vector2D_swigregister(Vector2D)
 
@@ -143,14 +152,6 @@ def Vector2D_Normalized(*args):
   return _ugdk_math.Vector2D_Normalized(*args)
 Vector2D_Normalized = _ugdk_math.Vector2D_Normalized
 
-
-def __add__(*args):
-  return _ugdk_math.__add__(*args)
-__add__ = _ugdk_math.__add__
-
-def __div__(*args):
-  return _ugdk_math.__div__(*args)
-__div__ = _ugdk_math.__div__
 class Frame(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Frame, name, value)
@@ -177,14 +178,6 @@ class Frame(_object):
 Frame_swigregister = _ugdk_math.Frame_swigregister
 Frame_swigregister(Frame)
 
-def __sub__(*args):
-  return _ugdk_math.__sub__(*args)
-__sub__ = _ugdk_math.__sub__
-
-def __mul__(*args):
-  return _ugdk_math.__mul__(*args)
-__mul__ = _ugdk_math.__mul__
-
 
 def RegisterType_Vector2D(*args):
   return _ugdk_math.RegisterType_Vector2D(*args)
@@ -201,7 +194,7 @@ RegisterType_Frame = _ugdk_math.RegisterType_Frame
 def GetNull_Frame():
   return _ugdk_math.GetNull_Frame()
 GetNull_Frame = _ugdk_math.GetNull_Frame
-print "Python confirm exports!"
+print "Python ugdk_math confirm exports!"
 module = __import__(__name__)
 for key,value in module.__dict__.items():
 	if key.startswith("RegisterType_"):
