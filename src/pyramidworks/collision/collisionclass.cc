@@ -12,7 +12,7 @@ namespace collision {
 const CollisionObjectList CollisionClass::FindCollidingObjects(
                                          const CollisionObject *target) const {
     std::vector<const CollisionObject *> *filtered_results 
-        = objects_tree_.getIntersectingItems(target->shape()->GetBoundingBox(target->absolute_position()));
+        = objects_tree_.getIntersectingItems(target->GetBoundingBox());
     CollisionObjectList result;
 
     for(std::vector<const CollisionObject *>::const_iterator it
@@ -33,19 +33,23 @@ const CollisionObjectList CollisionClass::FindCollidingObjects(
     
 void CollisionClass::AddObject(const CollisionObject *obj) {
     objects_.insert(obj);
-    objects_tree_.Insert(obj->shape()->GetBoundingBox(obj->absolute_position()), obj);
+    objects_tree_.Insert(obj->GetBoundingBox(), obj);
 }
 
 void CollisionClass::RemoveObject(const CollisionObject *obj) { 
     objects_.erase(obj);
     objects_tree_.Remove(obj);
 }
+
+void CollisionClass::RefreshObject(const CollisionObject *obj) {
+    objects_tree_.Update(obj->GetBoundingBox(), obj);
+}
     
-void CollisionClass::Update () {
+void CollisionClass::Refresh() {
     objects_tree_.Clear();
     std::set<const CollisionObject *>::iterator it;
     for (it = objects_.begin(); it != objects_.end(); ++it) {
-        objects_tree_.Insert((*it)->shape()->GetBoundingBox((*it)->absolute_position()), *it);
+        objects_tree_.Insert((*it)->GetBoundingBox(), *it);
     }
 }
 

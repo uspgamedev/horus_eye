@@ -6,6 +6,7 @@
 #include <string>
 #include <list>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/util.h>
 
 namespace pyramidworks {
 
@@ -89,6 +90,9 @@ class CollisionObject {
     /// TODO document
     void MoveTo(const ugdk::Vector2D& position);
 
+    /// Wrapper to shape()->GetBoundingBox(absolute_position())
+    ugdk::ikdtree::Box<2> GetBoundingBox() const;
+
   private:
     // Data that is sent to CollisionLogic::Handle
     void *data_;
@@ -98,6 +102,8 @@ class CollisionObject {
 
     CollisionClass* collision_class_;
     geometry::GeometricShape* shape_;
+
+    bool is_active_;
 
     std::map<const CollisionClass*, CollisionLogic*> known_collisions_;
 };

@@ -24,6 +24,7 @@ class CollisionClass {
 
     void AddObject(const CollisionObject *obj);
     void RemoveObject(const CollisionObject *obj);
+    void RefreshObject(const CollisionObject *obj);
 
 #ifdef DEBUG
     void set_name(const std::string &name) { name_ = name; }
@@ -31,16 +32,15 @@ class CollisionClass {
   private:
     friend class CollisionManager;
     CollisionClass() : parent_(NULL), objects_tree_(5) {}
-    void Update ();
-
-    const CollisionClass* parent_;
-    std::set<const CollisionObject *> objects_;
-    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2> objects_tree_;
+    void Refresh();
 
 #ifdef DEBUG
     // Unnecessary, used for debugging purposes.
     std::string name_;
 #endif
+    const CollisionClass* parent_;
+    std::set<const CollisionObject *> objects_;
+    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2> objects_tree_;
 };
 
 } // namespace collision

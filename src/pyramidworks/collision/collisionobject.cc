@@ -14,8 +14,9 @@ namespace collision {
 
 CollisionObject::CollisionObject(void *data) 
     :   data_(data),
-        collision_class_(NULL), 
-        shape_(NULL) {}
+        collision_class_(NULL),
+        shape_(NULL),
+        is_active_(false) {}
 
 CollisionObject::~CollisionObject() {
     std::map<const CollisionClass*, CollisionLogic*>::iterator it;
@@ -23,11 +24,11 @@ CollisionObject::~CollisionObject() {
         delete it->second;
     known_collisions_.clear();
 
+    if(is_active_)
+        StopColliding();
+
     if(shape_ != NULL)
         delete shape_;
-
-    if(collision_class_ != NULL)
-        StopColliding();
 }
 
 
@@ -43,7 +44,7 @@ void CollisionObject::SearchCollisions(std::list<CollisionInstance> &collision_l
 }
 
 bool CollisionObject::IsColliding(const CollisionObject* obj) const {
-    if(this->collision_class_ == NULL || obj->shape_ == NULL) return false;
+    if(this->shape_ == NULL || obj->shape_ == NULL) return false;
     return this->shape_->Intersects(absolute_position(), obj->shape_, obj->absolute_position());
 }
 
@@ -63,34 +64,47 @@ void CollisionObject::InitializeCollisionClass(const std::string& colclass) {
 
 void CollisionObject::InitializeCollisionClass(CollisionClass* collision_class) {
 #ifdef DEBUG
-    if(collision_class_ != NULL) fprintf(stderr, "Fatal Error: Changing the collision_class of a CollisionObject.\n");
-    if(collision_class == NULL) fprintf(stderr, "Warning: Initializing the collision_class with NULL.\n");
+    if(collision_class_ != NULL) fprintf(stderr, "Pyramidworks - CollisionObject Fatal Error: Changing the collision_class of.\n");
+    if(collision_class == NULL) fprintf(stderr, "Pyramidworks - CollisionObject Warning: Initializing the collision_class with NULL.\n");
 #endif
     collision_class_ = collision_class;
 }
 
 void CollisionObject::StartColliding() {
+    if(is_active_) return;
 #ifdef DEBUG
-    if(collision_class_ == NULL) fprintf(stderr, "Warning: CollisionObject::StartColliding called with an object with NULL collision_class.\n");
+    if(collision_class_ == NULL) fprintf(stderr, "Pyramidworks - CollisionObject Warning: StartColliding called with an object with NULL collision_class.\n");
+    if(shape_ == NULL) {
+        fprintf(stderr, "Pyramidworks - CollisionObject Error: StartColliding called with an object with NULL shape.\n");
+        return;
+    }
 #endif
     collision_class_->AddObject(this);
+    is_active_ = true;
 }
 
 void CollisionObject::StopColliding() {
+    if(!is_active_) return;
 #ifdef DEBUG
-    if(collision_class_ == NULL) fprintf(stderr, "Warning: CollisionObject::StopColliding called with an object with NULL collision_class.\n");
+    if(collision_class_ == NULL) fprintf(stderr, "Pyramidworks - CollisionObject Warning: StopColliding called with an object with NULL collision_class.\n");
 #endif
     collision_class_->RemoveObject(this);
+    is_active_ = false;
 }
 
 void CollisionObject::set_shape(geometry::GeometricShape* shape) { 
     if(shape_) delete shape_;
     shape_ = shape;
+    if(is_active_) this->collision_class_->RefreshObject(this);
 }
 
 void CollisionObject::MoveTo(const ugdk::Vector2D& position) {
     position_ = position;
-    // TODO inform the CollisionClass
+    if(is_active_) this->collision_class_->RefreshObject(this);
+}
+
+ugdk::ikdtree::Box<2> CollisionObject::GetBoundingBox() const {
+    return shape_->GetBoundingBox(this->absolute_position());
 }
 
 } // namespace collision

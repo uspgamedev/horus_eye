@@ -31,13 +31,6 @@ void CollisionManager::Generate(const std::string &name, const std::string &pare
     colclass->set_name(name);
 #endif
 }
-    
-void CollisionManager::Update () {
-    std::map<std::string, CollisionClass*>::iterator it;
-    for (it = cache_.begin(); it != cache_.end(); ++it) {
-        (*it).second->Update();
-    }
-}
 
 } // namespace collision
 } // namespace pyramidworks

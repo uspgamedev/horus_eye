@@ -44,9 +44,6 @@ class CollisionManager {
     CollisionClass* Get(const std::string &name) { return cache_[name]; }
     CollisionClass* Get(const char n[]) { const std::string str(n); return Get(str); }
     
-    /// Updates the colliding objects' positions.
-    void Update ();
-    
   private:
     // Singleton stuff
     CollisionManager() {}
