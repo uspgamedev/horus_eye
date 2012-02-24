@@ -32,25 +32,15 @@ const CollisionObjectList CollisionClass::FindCollidingObjects(
 }
     
 void CollisionClass::AddObject(const CollisionObject *obj) {
-    objects_.insert(obj);
     objects_tree_.Insert(obj->GetBoundingBox(), obj);
 }
 
 void CollisionClass::RemoveObject(const CollisionObject *obj) { 
-    objects_.erase(obj);
     objects_tree_.Remove(obj);
 }
 
 void CollisionClass::RefreshObject(const CollisionObject *obj) {
     objects_tree_.Update(obj->GetBoundingBox(), obj);
-}
-    
-void CollisionClass::Refresh() {
-    objects_tree_.Clear();
-    std::set<const CollisionObject *>::iterator it;
-    for (it = objects_.begin(); it != objects_.end(); ++it) {
-        objects_tree_.Insert((*it)->GetBoundingBox(), *it);
-    }
 }
 
 } // namespace collision

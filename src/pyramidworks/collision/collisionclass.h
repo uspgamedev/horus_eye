@@ -39,7 +39,6 @@ class CollisionClass {
     std::string name_;
 #endif
     const CollisionClass* parent_;
-    std::set<const CollisionObject *> objects_;
     ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2> objects_tree_;
 };
 
