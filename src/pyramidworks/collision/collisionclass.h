@@ -4,7 +4,7 @@
 #include <string>
 #include <list>
 #include <set>
-#include <ugdk/util/intervalkdtree.h>
+#include <ugdk/util.h>
 
 namespace pyramidworks {
 namespace collision {
@@ -16,7 +16,7 @@ typedef std::list<const CollisionObject *> CollisionObjectList;
 /// \class CollisionClass collisionclass.h "pyramidworks/collision/collisionclass.h"
 class CollisionClass {
   public:
-    ~CollisionClass() {}
+    ~CollisionClass();
     const CollisionClass* parent() const { return parent_; }
     void set_parent(CollisionClass* parent) { parent_ = parent; }
 
@@ -31,15 +31,14 @@ class CollisionClass {
 #endif
   private:
     friend class CollisionManager;
-    CollisionClass() : parent_(NULL), objects_tree_(5) {}
-    void Refresh();
+    CollisionClass();
 
 #ifdef DEBUG
     // Unnecessary, used for debugging purposes.
     std::string name_;
 #endif
     const CollisionClass* parent_;
-    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2> objects_tree_;
+    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2>* objects_tree_;
 };
 
 } // namespace collision
