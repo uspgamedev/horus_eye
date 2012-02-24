@@ -126,59 +126,7 @@ void StartGame() {
     colmanager->Generate("Explosion", "WorldObject");
 
 
-    using ugdk::script::VirtualObj;
-
-    // testando lua
-    {
-        VirtualObj obj = SCRIPT_MANAGER()->LoadModule("main");
-
-        puts("Checking results...");
-        ugdk::Vector2D* vec = obj["v"].value<ugdk::Vector2D*>();
-        if (!vec) puts("FAILED.");
-        else {
-            printf("Result 1: ( %f , %f )\n", vec->x, vec->y);
-        }
-
-        string text = obj["str"].value<string>();
-        if (!text.size()) puts("FAILED TEXT.");
-        else printf("Result 2: %s\n", text.c_str());
-
-        bool boolean = obj["bool"].value<bool>();
-        if (!boolean) puts("FAILED BOOLEAN.");
-        else printf("Result 3: %d\n", boolean);
-
-        int integer = obj["integer"].value<int>();
-        if (!integer) puts("FAILED INTEGER.");
-        else printf("Result 4: %d\n", integer);
-
-        double number = obj["number"].value<double>();
-        if (!number) puts("FAILED NUMBER.");
-        else printf("Result 5: %f\n", number);
-
-        obj["ls"](std::vector<VirtualObj>(1,obj));
-
-        VirtualObj obj2(obj.wrapper());
-
-        obj2.set_value("hahahahaha");
-        obj["print"](std::vector<VirtualObj>(1,obj2));
-
-        puts("=== Lua tests are finished. ===");
-
-    }
-
-    //testando python
-    printf("Python test starting...\n");
-    VirtualObj wassup = SCRIPT_MANAGER()->LoadModule("wassup");
-    printf("MARK got wassup\n");
-    VirtualObj pyVecx = wassup["vecx"];
-    printf("MARK got python vecx\n");
-    ugdk::Vector2D* vecx = pyVecx.value<ugdk::Vector2D*>();
-    printf("MARK converted vecx to C++ Vector2D object\n");
-    printf("X: ( %f , %f )\n", vecx->x, vecx->y);
-
-    wassup["supimpa"](std::vector<VirtualObj>(1,pyVecx));
-    
-    printf("Python test finished. \n");
+    // TODO: scriptstuff
 }
 
 void InitScripts() {
