@@ -54,7 +54,7 @@ Creature::Creature()
         invulnerability_time_(0),
         blink_time_(new ugdk::time::TimeAccumulator(75)),
         hit_duration_(new ugdk::time::TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_),
+        aim_(world_position(), aim_destination_),
         sprite_(NULL),
         blink_(false) {
 
@@ -76,7 +76,7 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         invulnerability_time_(0),
         blink_time_(new ugdk::time::TimeAccumulator(75)),
         hit_duration_(new ugdk::time::TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_),
+        aim_(world_position(), aim_destination_),
         sprite_(NULL),
         blink_(false) {
 
@@ -136,9 +136,8 @@ void Creature::TakeDamage(double life_points) {
     PlayHitSound();
     life_ -= life_points;
     if(life_.Empty()) {
-        if (status_ == WorldObject::STATUS_ACTIVE) {
+        if (is_active()) {
             sprite_->SelectAnimation(dying_animation_);
-            this->status_ = WorldObject::STATUS_DYING;
 	        StartToDie();
 #ifdef DEBUG
             fprintf(stderr, "\tTriggering death animation.\n");
@@ -283,8 +282,8 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
 
 
 void Creature::Tick() {
-    if (status_ == WorldObject::STATUS_DYING) {
-        status_ = WorldObject::STATUS_DEAD;
+    if (status() == WorldObject::STATUS_DYING) {
+        Die();
     }
 	waiting_animation_ = false;
 }

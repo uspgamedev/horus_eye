@@ -3,13 +3,13 @@
 
 #include <ugdk/time/timeaccumulator.h>
 
-#include "game/sprites/timedworldobject.h"
+#include "game/sprites/worldobject.h"
 
 namespace entities {
 
-class EmitterEntity : public sprite::TimedWorldObject {
+class EmitterEntity : public sprite::WorldObject {
   public:
-    EmitterEntity(double duration) : TimedWorldObject(duration), suspended_(false) {}
+    EmitterEntity(double duration) : WorldObject(duration), suspended_(false) {}
     ~EmitterEntity() {}
 
     // Inherited virtuals
@@ -31,7 +31,7 @@ class EmitterEntity : public sprite::TimedWorldObject {
     bool suspended_;
 
   private:
-    typedef sprite::TimedWorldObject super;
+    typedef sprite::WorldObject super;
 };
 
 } // namespace entity

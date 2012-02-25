@@ -4,12 +4,8 @@
 #include <string>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
-
-namespace ugdk {
-    namespace graphic {
-        class Node;
-    }
-}
+#include <ugdk/graphic.h>
+#include <ugdk/time.h>
 
 namespace pyramidworks {
     namespace geometry {
@@ -28,57 +24,64 @@ namespace sprite {
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
 #define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(#CLASS, LOGIC); }
 
-class Creature;
-class Hero;
-class Mummy;
-class Projectile;
-class Explosion;
-class MummyProjectile;
-class Wall;
-class Door;
-class Block;
-class Item;
-
 class WorldObject : public ugdk::Entity {
   public:
-    WorldObject();
+    /** @param duration Sets timed life to the given value, if positive. */
+    WorldObject(double duration = -1.0);
     virtual ~WorldObject();
 
-    // Possible statuses. TODO explain better
+    /** An WorldObject may be one of three states:
+      * STATUS_ACTIVE: this object is operating normally.
+      * STATUS_DYING:  this object is dying and should be ready to die soon.
+      * STATUS_DEAD:   this object is dead and will be deleted at the end of the frame. */
     enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
-
-    virtual Status status() const { return status_; }
 
     // The BIG Awesome update method. TODO explain better
     virtual void Update(double dt);
 
-    bool is_active() const { return status_ == STATUS_ACTIVE; }
+    virtual void Dying(double dt) { Die(); }
+
     virtual void Die() { status_ = STATUS_DEAD; }
     virtual void StartToDie();
 
-    // The Light radius. TODO explain better
-    virtual double light_radius() { return light_radius_; }
-    virtual void set_light_radius(double radius);
-
-    virtual ugdk::Vector2D world_position() const { return world_position_; }
+    const ugdk::Vector2D& world_position() const { return world_position_; }
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
-    ugdk::graphic::Node* node() { return node_; }
-    const ugdk::graphic::Node* node() const { return node_; }
+    Status status() const { return status_; }
+    bool is_active() const { return status_ == STATUS_ACTIVE; }
+
+    // The Light radius. TODO explain better
+    double light_radius() const { return light_radius_; }
+    void set_light_radius(double radius);
 
     virtual pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
+        void set_shape(pyramidworks::geometry::GeometricShape* shape);
 
-    void set_shape(pyramidworks::geometry::GeometricShape* shape);
+          ugdk::graphic::Node* node()       { return node_; }
+    const ugdk::graphic::Node* node() const { return node_; }
+
+    void set_timed_life(ugdk::time::TimeAccumulator*);
+    void set_timed_life(double);
+    ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
   protected:
-    pyramidworks::collision::CollisionObject *collision_object_;
-    Status status_;
-    ugdk::Vector2D world_position_;
-    ugdk::graphic::Node* node_;
-
     std::string identifier_;
 
+    // Collision component
+    pyramidworks::collision::CollisionObject *collision_object_;
+
+    // Graphic component
+    ugdk::graphic::Node* node_;
+
+    // 
+    ugdk::time::TimeAccumulator* timed_life_;
+
   private:
+    // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
+    ugdk::Vector2D world_position_;
+
+    // The current status for the object.
+    Status status_;
     double light_radius_;
 
 };  // class WorldObject

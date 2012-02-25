@@ -149,7 +149,6 @@ void Mummy::Think(double dt) {
 }
 
 void Mummy::Update(double delta_t) {
-    if (status_ == WorldObject::STATUS_DEAD) return;
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
@@ -167,7 +166,7 @@ void Mummy::Update(double delta_t) {
         }
     }
 
-    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+    if (!waiting_animation_ && is_active()) {
         Think(delta_t);
 
 		if(!waiting_animation_) {

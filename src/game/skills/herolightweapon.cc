@@ -10,7 +10,7 @@
 #include "herolightweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/timedworldobject.h"
+#include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
@@ -31,7 +31,7 @@ void HeroLightWeapon::Use(){
 
     World *world = WORLD();   
 
-    sprite::WorldObject *light = new sprite::TimedWorldObject(5.0);
+    sprite::WorldObject *light = new sprite::WorldObject(5.0);
     light->node()->set_drawable(new ugdk::graphic::Sprite(world->image_factory()->LightImage()));
     world->image_factory()->LightImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
     light->set_light_radius(4.0);

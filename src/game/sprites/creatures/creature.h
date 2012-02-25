@@ -105,6 +105,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     Creature(resource::Energy &life, resource::Energy &mana);
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
+    virtual void Dying(double dt) {}
     virtual void Update(double dt);
     virtual void PlayHitSound() const {}
 

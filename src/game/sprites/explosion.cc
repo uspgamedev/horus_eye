@@ -82,7 +82,7 @@ void Explosion::ReleaseAnimations() {
 }
 
 void Explosion::Tick() {
-    this->status_ = WorldObject::STATUS_DEAD;
+    Die();
 }
 
 void Explosion::RadiusUpdate(double delta_t) {

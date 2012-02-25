@@ -59,7 +59,6 @@
     <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
-    <ClCompile Include="src\game\sprites\timedworldobject.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionclass.cc" />
     <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
@@ -124,6 +123,7 @@
     <ClInclude Include="src\game\skills\pharaohsummonweapon.h" />
     <ClInclude Include="src\game\skills\skill.h" />
     <ClInclude Include="src\game\sprites\condition.h" />
+    <ClInclude Include="src\game\sprites\creatures.h" />
     <ClInclude Include="src\game\sprites\creatures\creature.h" />
     <ClInclude Include="src\game\sprites\creatures\hero.h" />
     <ClInclude Include="src\game\sprites\creatures\mummy.h" />
@@ -141,7 +141,6 @@
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
-    <ClInclude Include="src\game\sprites\timedworldobject.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
     <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
