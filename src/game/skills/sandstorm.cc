@@ -16,12 +16,13 @@ using utils::Constants;
 using entities::SandstormEmitter;
 using usearguments::Aim;
 
-    Sandstorm::Sandstorm(sprite::Creature* owner) 
+Sandstorm::Sandstorm(sprite::Creature* owner) 
   : CombatArt<Aim>(NULL, Constants::SANDSTORM_COST, owner->mana(), owner->aim()),
     emitter_(NULL),
     maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST) {}
+
 Sandstorm::~Sandstorm() {
-    if(emitter_) delete emitter_;
+    if(emitter_) emitter_->Die();
 }
 
 void Sandstorm::Use() {

@@ -28,12 +28,12 @@ class SandstormEmitter : public EmitterEntity {
     }
 
     ~SandstormEmitter() {
+        *back_reference_ = NULL;
         delete projectile_interval_;
     }
 
     // Inherited virtuals
     virtual void Update(double dt);
-    virtual void Die() { *back_reference_ = NULL; super::Die(); }
 
   protected:
     const skills::usearguments::Aim& aim_;
