@@ -28,6 +28,7 @@
 									<listOptionValue builtIn="false" value="/usr/include/lua5.1"/>
 									<listOptionValue builtIn="false" value="/usr/local/boost_1_48_0/boost/tr1/tr1"/>
 									<listOptionValue builtIn="false" value="/usr/local/boost_1_48_0/"/>
+									<listOptionValue builtIn="false" value="/usr/include/SDL"/>
 								</option>
 								<inputType id="cdt.managedbuild.tool.gnu.cpp.compiler.input.2072654887" superClass="cdt.managedbuild.tool.gnu.cpp.compiler.input"/>
 							</tool>
