@@ -3,13 +3,15 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/base/engine.h>
 
 #include "herometeorweapon.h"
 
 #include "game/scenes/world.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/sprites/explosion.h"
-#include "game/sprites/timedworldobject.h"
+#include "game/sprites/worldobject.h"
 #include "game/sprites/projectiles/carrier.h"
 #include "game/sprites/scenery/wall.h"
 #include "game/utils/visionstrategy.h"

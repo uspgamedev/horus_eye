@@ -3,6 +3,7 @@
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/modifier.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 

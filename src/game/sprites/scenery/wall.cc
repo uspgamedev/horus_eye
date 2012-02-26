@@ -1,12 +1,13 @@
 #include <iostream>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
 
 #include "wall.h"
 
-#include "game/sprites/creatures/hero.h"
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
@@ -109,7 +110,7 @@ void Wall::Update(double delta_t) {
         tile_ = Tile::GetFromWorldPosition(world->level_matrix(), world_position());
 
     if(world->hero() != NULL) {
-        Vector2D distance = world->hero()->world_position() - world_position();
+        Vector2D distance = world->hero_world_object()->world_position() - world_position();
         if(transparency_square_.Contains(distance)) {
             if(tile_->visible())
                 sprite_->SetDefaultFrame(transparent_frame_);

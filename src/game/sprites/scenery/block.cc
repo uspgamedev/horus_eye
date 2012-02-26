@@ -1,14 +1,19 @@
 
 #include <cmath>
+#ifdef DEBUG
 #include <ugdk/input/inputmanager.h>
+#endif
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
-#include <pyramidworks/geometry/rect.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
 #include "block.h"
 
+#include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 #include "game/sprites/projectiles/projectile.h"
-#include "game/sprites/scenery/wall.h"
 #include "game/utils/constants.h"
 
 #define BLOCK_MOVE_SPEED 2.0

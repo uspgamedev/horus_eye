@@ -3,11 +3,10 @@
 
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/textmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
 
 #include "game/utils/levelmanager.h"
@@ -25,7 +24,6 @@
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
-#include "game/utils/textloader.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -88,13 +86,13 @@ void finishAndDeleteCurrentScene() {
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
 	level_list_iterator_ = 0;
-    Scene *scroll = new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("Intro"), 45);
+    Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    Scene *scroll = new ScrollingImageScene(NULL, TEXT_LOADER()->GetImage("CreditsFile"), 55);
+    Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }

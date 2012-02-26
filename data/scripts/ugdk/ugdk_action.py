@@ -163,6 +163,7 @@ class AnimationFrameVector(_object):
 AnimationFrameVector_swigregister = _ugdk_action.AnimationFrameVector_swigregister
 AnimationFrameVector_swigregister(AnimationFrameVector)
 
+import ugdk_audio
 DEFAULT_PERIOD = _ugdk_action.DEFAULT_PERIOD
 class AnimationFrame(_object):
     __swig_setmethods__ = {}

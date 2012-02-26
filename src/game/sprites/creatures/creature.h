@@ -3,13 +3,9 @@
 
 #include <list>
 
-#include <ugdk/action/animation.h>
 #include <ugdk/action/observer.h>
-#include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/time.h>
-#include <pyramidworks/geometry/rect.h>
-#include "game/sprites/condition.h"
+#include <ugdk/base/types.h>
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
@@ -18,9 +14,26 @@ namespace skills {
 class Skill;
 }
 
+namespace pyramidworks {
+namespace geometry {
+class Rect;
+}
+}
+
+namespace ugdk {
+    class AnimationSet;
+    namespace time {
+        class TimeAccumulator;
+    }
+    namespace graphic {
+        class Sprite;
+        class Spritesheet;
+    }
+}
+
 namespace sprite {
 
-using ugdk::Vector2D;
+class Condition;
 
 class Creature : public WorldObject , public ugdk::Observer {
   
@@ -92,6 +105,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     Creature(resource::Energy &life, resource::Energy &mana);
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
+    virtual void Dying(double dt) {}
     virtual void Update(double dt);
     virtual void PlayHitSound() const {}
 
@@ -100,12 +114,12 @@ class Creature : public WorldObject , public ugdk::Observer {
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     void Tick();
-    double GetAttackingAngle(Vector2D targetDirection);
+    double GetAttackingAngle(ugdk::Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
-    void CollideWithRect(const pyramidworks::geometry::Rect*);
+    void CollideWithRect(const pyramidworks::collision::CollisionObject*);
     static void InitializeStandingAnimations();
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
@@ -123,7 +137,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     skills::Skill* weapon_;
 
     /// The last position this creature was that is guaranteed to not colide with any walls.
-    Vector2D last_stable_position_;
+    ugdk::Vector2D last_stable_position_;
 
     double last_dt_;
 

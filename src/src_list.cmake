@@ -5,14 +5,13 @@ SET(GAME_SRCS
     ./src/game/utils/visionstrategy.cc 
     ./src/game/utils/settings.h 
     ./src/game/utils/constants.cc 
+    ./src/game/utils/tilefwd.h 
     ./src/game/utils/levelmanager.cc 
     ./src/game/utils/constants.h 
     ./src/game/utils/geometryprimitives.cc 
-    ./src/game/utils/textloader.h 
     ./src/game/utils/visionstrategy.h 
     ./src/game/utils/tile.h 
     ./src/game/utils/hud.cc 
-    ./src/game/utils/textloader.cc 
     ./src/game/utils/settings.cc 
     ./src/game/utils/imagefactory.h 
     ./src/game/utils/hudimagefactory.h 
@@ -106,8 +105,7 @@ SET(GAME_SRCS
     ./src/game/sprites/creatures/hero.cc 
     ./src/game/sprites/creatures/pharaoh.cc 
     ./src/game/sprites/creatures/mummy.cc 
-    ./src/game/sprites/timedworldobject.cc 
-    ./src/game/sprites/timedworldobject.h 
+    ./src/game/sprites/creatures.h 
     ./src/game/sprites/projectiles/projectile.cc 
     ./src/game/sprites/projectiles/carrier.h 
     ./src/game/sprites/projectiles/carrier.cc 

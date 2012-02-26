@@ -4,13 +4,12 @@
 
 #include "game/sprites/creatures/creature.h"
 
-using namespace ugdk;
-using namespace utils;
+using ugdk::Vector2D;
 
 namespace sprite {
 
 Projectile::Projectile(double speed, int duration, Vector2D & dir) 
-    :   TimedWorldObject(duration / 1000.0),
+    :   WorldObject(duration / 1000.0),
         speed_(speed),
         direction_(Vector2D::Normalized(dir))
     {}

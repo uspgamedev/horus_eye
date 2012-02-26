@@ -9,6 +9,7 @@
 
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 #include "world.h"
 
@@ -18,6 +19,7 @@
 
 #include "game/sprites/worldobject.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
@@ -67,7 +69,7 @@ bool worldObjectIsDead (const WorldObject* value) {
 
 void World::HandleCollisions() {
     std::list<CollisionInstance> collision_list;
-
+    
     std::list<sprite::WorldObject*>::iterator i;
     for (i = colliding_world_objects_.begin(); i != colliding_world_objects_.end(); ++i)
         (*i)->collision_object()->SearchCollisions(collision_list);
@@ -228,8 +230,10 @@ void World::End() {
     delete hud_;
     hud_ = NULL;
 
-	if(hero_ != NULL)
+	if(hero_ != NULL) {
 		hero_->Invulnerable(0);
+        hero_->collision_object()->StopColliding();
+    }
 
     this->RemoveAll();
     for (int i = 0; i < (int)level_matrix_.size(); i++)
@@ -327,6 +331,10 @@ Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
 const Vector2D World::ConvertLightRadius(double radius) {
     Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
     return ellipse_coords;
+}
+    
+sprite::WorldObject * World::hero_world_object() const {
+    return dynamic_cast<WorldObject*> (hero_);
 }
 
 } // namespace scene

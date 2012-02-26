@@ -5,13 +5,18 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/util/animationparser.h>
 
 #include "creature.h"
 
+#include "game/sprites/condition.h"
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 using namespace ugdk;
 using namespace utils;
@@ -33,10 +38,8 @@ Vector2D Creature::directions_[4];
 AnimationSet* Creature::ANIMATIONS = NULL;
 
 COLLISION_DIRECT(Creature*, RectCollision, obj) {
-    WorldObject *wobj = (WorldObject *)obj;
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
-    data_->CollideWithRect(rect);
+    WorldObject *wobj = (WorldObject *) obj;
+    data_->CollideWithRect(wobj->collision_object());
 }
 
 Creature::Creature()
@@ -51,7 +54,7 @@ Creature::Creature()
         invulnerability_time_(0),
         blink_time_(new ugdk::time::TimeAccumulator(75)),
         hit_duration_(new ugdk::time::TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_),
+        aim_(world_position(), aim_destination_),
         sprite_(NULL),
         blink_(false) {
 
@@ -73,7 +76,7 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         invulnerability_time_(0),
         blink_time_(new ugdk::time::TimeAccumulator(75)),
         hit_duration_(new ugdk::time::TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_),
+        aim_(world_position(), aim_destination_),
         sprite_(NULL),
         blink_(false) {
 
@@ -133,9 +136,8 @@ void Creature::TakeDamage(double life_points) {
     PlayHitSound();
     life_ -= life_points;
     if(life_.Empty()) {
-        if (status_ == WorldObject::STATUS_ACTIVE) {
+        if (is_active()) {
             sprite_->SelectAnimation(dying_animation_);
-            this->status_ = WorldObject::STATUS_DYING;
 	        StartToDie();
 #ifdef DEBUG
             fprintf(stderr, "\tTriggering death animation.\n");
@@ -233,16 +235,19 @@ void Creature::Move(Vector2D direction, double delta_t) {
     set_world_position(position);
 }
 
-void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
+void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* coll_obj) {
     // rollback to the last stable position.
     set_world_position(last_stable_position_);
 
     // Get all values we'll need
-    const pyramidworks::geometry::Circle *circle = 
+    const pyramidworks::geometry::Circle *circle =
         (const pyramidworks::geometry::Circle*) collision_object_->shape();
 
-    Vector2D circ_pos = circle->position();
-    Vector2D rect_pos = rect->position();
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) coll_obj->shape();
+
+    Vector2D circ_pos = collision_object_->absolute_position();
+    Vector2D rect_pos = coll_obj->absolute_position();
 
     double half_r_width  = rect->width() /2.0;
     double half_r_height = rect->height()/2.0;
@@ -277,8 +282,8 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
 
 void Creature::Tick() {
-    if (status_ == WorldObject::STATUS_DYING) {
-        status_ = WorldObject::STATUS_DEAD;
+    if (status() == WorldObject::STATUS_DYING) {
+        Die();
     }
 	waiting_animation_ = false;
 }

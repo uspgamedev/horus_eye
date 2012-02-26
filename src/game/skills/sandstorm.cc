@@ -6,25 +6,23 @@
 #include "game/scenes/world.h"
 #include "game/utils/settings.h"
 #include "game/entities/sandstormemitter.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/creature.h"
 
 namespace skills {
 
 using ugdk::Engine;
-using ugdk::Image;
-
 using scene::World;
 using utils::Constants;
 using entities::SandstormEmitter;
 using usearguments::Aim;
-using sprite::Hero;
 
-Sandstorm::Sandstorm(Hero* owner) 
+Sandstorm::Sandstorm(sprite::Creature* owner) 
   : CombatArt<Aim>(NULL, Constants::SANDSTORM_COST, owner->mana(), owner->aim()),
     emitter_(NULL),
     maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST) {}
+
 Sandstorm::~Sandstorm() {
-    if(emitter_) delete emitter_;
+    if(emitter_) emitter_->Die();
 }
 
 void Sandstorm::Use() {

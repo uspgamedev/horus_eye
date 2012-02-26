@@ -3,11 +3,16 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/util/animationparser.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/graphic/light.h>
+
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/constants.h"
@@ -77,7 +82,7 @@ void Explosion::ReleaseAnimations() {
 }
 
 void Explosion::Tick() {
-    this->status_ = WorldObject::STATUS_DEAD;
+    Die();
 }
 
 void Explosion::RadiusUpdate(double delta_t) {

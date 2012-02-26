@@ -35,10 +35,8 @@ Pharaoh::~Pharaoh() {
 }
 
 void Pharaoh::Update(double delta_t) {
-	if (status_ == WorldObject::STATUS_DEAD) return;
 	Mummy::Update(delta_t);
-
-	AdjustBlink(delta_t);
+    AdjustBlink(delta_t);
 }
 
 void Pharaoh::Think(double dt) {

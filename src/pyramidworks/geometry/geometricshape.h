@@ -2,6 +2,7 @@
 #define PYRAMIDWORKS_GEOMETRY_GEOMETRYOBJECT_H_
 
 #include <ugdk/math/vector2D.h>
+#include <ugdk/util.h>
 
 namespace pyramidworks {
 namespace geometry {
@@ -16,50 +17,35 @@ class GeometricShape {
     virtual ~GeometricShape() {}
 
     /// Checks if this shape intersects another shape.
-    /** @param obj The shape to compare with.
+    /** @param this_pos The absolute position for this shape.
+        @param obj The shape to compare with.
+        @param that_pos The absolute position of the other shape.
         @return True if there's an intersection. */
-    virtual bool Intersects (const GeometricShape *obj) const = 0;
+    virtual bool Intersects(const ugdk::Vector2D& this_pos, const GeometricShape *obj, const ugdk::Vector2D& that_pos) const = 0;
 
     /// Checks if there's an intersection with a Circle.
-    /** @param obj The shape to compare with.
+    /** @param this_pos The absolute position for this shape.
+        @param obj The shape to compare with.
+        @param that_pos The absolute position of the other shape.
         @return True if there's an intersection. */
-    virtual bool Intersects (const Circle *obj) const = 0;
+    virtual bool Intersects(const ugdk::Vector2D& this_pos, const Circle *obj, const ugdk::Vector2D& that_pos) const = 0;
 
     /// Checks if there's an intersection with a Rect.
-    /** @param obj The shape to compare with.
+    /** @param this_pos The absolute position for this shape.
+        @param obj The shape to compare with.
+        @param that_pos The absolute position of the other shape.
         @return True if there's an intersection. */
-    virtual bool Intersects (const Rect *obj) const = 0;
-
-    /// Getter for the offset.
-    /** @return A reference to the current offset. */
-    const ugdk::Vector2D& offset() const { return offset_; }
-
-    /// Changes the shape's offset.
-    /** @param offset The new offset. */
-    void set_offset (const ugdk::Vector2D &offset) {
-        offset_ = offset;
-    }
-
-    /// Sets a pointer to a position.
-    /** @param pos A pointer to a ugdk::Vector2D. May be NULL.
-    */
-    void set_position(const ugdk::Vector2D *pos) { position_ = pos; }
-
-    /// Gets the shape's position.
-    /** Adds the offset to the vector pointed by position_, if it's not NULL.
-        @return A Vector2D representing the position. */
-    ugdk::Vector2D position() const { 
-        return (position_ != 0) ? offset_ + *position_ : offset_;
-    }
+    virtual bool Intersects(const ugdk::Vector2D& this_pos, const Rect *obj, const ugdk::Vector2D& that_pos) const = 0;
+    
+    /// Returns a bounding box for this shape.
+    /** The box is at the shape's position and offset
+        @param position The absolute position for this shape.
+        @return A 2D Box around this shape */
+    virtual ugdk::ikdtree::Box<2> GetBoundingBox(const ugdk::Vector2D& position) const = 0;
 
   protected:
     /** @param offset An offset to the position. Defaults to (0,0) */
-    GeometricShape(const ugdk::Vector2D offset = ugdk::Vector2D()) 
-        : position_(0), offset_(offset) {}
-
-  private:
-    const ugdk::Vector2D *position_;
-    ugdk::Vector2D offset_;
+    GeometricShape() {}
 };
 
 } // namespace geometry

@@ -3,11 +3,14 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "mummy.h"
 
@@ -21,7 +24,6 @@
 #include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
 #include "game/skills/combatart.h"
-#include "game/sprites/creatures/hero.h"
 
 namespace sprite {
 
@@ -74,8 +76,8 @@ void Mummy::MummyAntiStack(WorldObject *obj) {
     walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
 }
 
-void Mummy::StartAttack(Creature* obj) {
-    if(obj == NULL) obj = WORLD()->hero();
+void Mummy::StartAttack(WorldObject* obj) {
+    if(obj == NULL) obj = WORLD()->hero_world_object();
     double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
@@ -147,7 +149,6 @@ void Mummy::Think(double dt) {
 }
 
 void Mummy::Update(double delta_t) {
-    if (status_ == WorldObject::STATUS_DEAD) return;
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
@@ -165,7 +166,7 @@ void Mummy::Update(double delta_t) {
         }
     }
 
-    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+    if (!waiting_animation_ && is_active()) {
         Think(delta_t);
 
 		if(!waiting_animation_) {

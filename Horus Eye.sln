@@ -6,23 +6,32 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
+		Debug|x64 = Debug|x64
 		DebugFast|Win32 = DebugFast|Win32
+		DebugFast|x64 = DebugFast|x64
 		Release|Win32 = Release|Win32
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Debug|Win32.ActiveCfg = Debug|Win32
 		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Debug|Win32.Build.0 = Debug|Win32
+		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Debug|x64.ActiveCfg = Debug|x64
+		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Debug|x64.Build.0 = Debug|x64
 		{88426421-C8EA-4013-B7F8-6A07ADD23469}.DebugFast|Win32.ActiveCfg = DebugFast|Win32
 		{88426421-C8EA-4013-B7F8-6A07ADD23469}.DebugFast|Win32.Build.0 = DebugFast|Win32
+		{88426421-C8EA-4013-B7F8-6A07ADD23469}.DebugFast|x64.ActiveCfg = DebugFast|x64
+		{88426421-C8EA-4013-B7F8-6A07ADD23469}.DebugFast|x64.Build.0 = DebugFast|x64
 		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Release|Win32.ActiveCfg = Release|Win32
 		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Release|Win32.Build.0 = Release|Win32
+		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Release|x64.ActiveCfg = Release|x64
+		{88426421-C8EA-4013-B7F8-6A07ADD23469}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		AMDCaProjectFile = D:\stuff\programming\projects\gamedev\CodeAnalyst\Horus Eye.caw
-		AMDCaPersistentStartup = Horus Eye
 		AMDCaPersistentConfig = Release|Win32
+		AMDCaPersistentStartup = Horus Eye
+		AMDCaProjectFile = D:\stuff\programming\projects\gamedev\CodeAnalyst\Horus Eye.caw
 	EndGlobalSection
 EndGlobal

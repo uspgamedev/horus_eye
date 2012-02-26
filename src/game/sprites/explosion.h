@@ -4,10 +4,14 @@
 #include "game/sprites/worldobject.h"
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/observer.h>
+#include <ugdk/base/types.h>
 
 namespace ugdk {
-class TimeAccumulator;
-class AnimationSet;
+    class TimeAccumulator;
+    class AnimationSet;
+    namespace graphic {
+        class FlexibleSpritesheet;
+    }
 }
 
 namespace pyramidworks {

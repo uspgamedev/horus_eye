@@ -5,7 +5,11 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/base/types.h>
 #include <ugdk/graphic/light.h>
+#include <ugdk/graphic/node.h>
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "projectilebuilder.h"
 
@@ -25,7 +29,7 @@ namespace builder {
 using namespace sprite;
 using ugdk::Vector2D;
 using utils::Constants;
-
+using pyramidworks::collision::CollisionObject;
 
 static int GetAnimationIndexFromDir(Vector2D &dir) {
     double raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();

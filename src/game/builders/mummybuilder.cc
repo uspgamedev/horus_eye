@@ -1,4 +1,5 @@
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+#include <ugdk/graphic/node.h>
 
 #include "mummybuilder.h"
 
@@ -16,6 +17,7 @@ namespace builder {
 using namespace sprite;
 using utils::Constants;
 using resource::Energy;
+using ugdk::Vector2D;
 
 Mummy * MummyBuilder::StandingMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     Mummy* mummy = new Mummy(image);

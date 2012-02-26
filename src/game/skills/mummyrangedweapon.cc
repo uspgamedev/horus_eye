@@ -3,7 +3,6 @@
 
 #include "mummyrangedweapon.h"
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
@@ -23,7 +22,7 @@ void MummyRangedWeapon::Use(){
     super::Use();
 
     scene::World* world = WORLD();
-    sprite::Hero* hero = world->hero();
+    sprite::WorldObject* hero = world->hero_world_object();
 
     //TODO:FIX
     Vector2D versor = (hero->world_position() - use_argument_.origin_).Normalize();

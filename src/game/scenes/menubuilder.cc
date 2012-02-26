@@ -14,7 +14,6 @@
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/textloader.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
 #include "editor/mapeditor.h"
@@ -128,25 +127,25 @@ Menu *MenuBuilder::BuildMainMenu () {
         ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case MenuBuilder::MAIN_SELECT_PLAY:
-            options_sprite = TEXT_LOADER()->GetImage("Play");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Play");
             break;
         case MenuBuilder::MAIN_SELECT_EDITOR:
-            options_sprite = TEXT_LOADER()->GetImage("Editor");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Editor");
             break;
         case MenuBuilder::MAIN_SELECT_SETTINGS:
-            options_sprite = TEXT_LOADER()->GetImage("Settings");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Settings");
             break;
         case MenuBuilder::MAIN_SELECT_ABOUT:
-            options_sprite = TEXT_LOADER()->GetImage("Credits");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Credits");
             break;
         case MenuBuilder::MAIN_SELECT_EXIT:
-            options_sprite = TEXT_LOADER()->GetImage("Exit");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Exit");
             break;
         }
         menu->set_option_sprite(i, options_sprite);
     }
 
-    ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(Constants::VERSION, L"FontD");
+    ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(Constants::VERSION, "FontD");
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     menu->AddDrawable(version, Vector2D(10.0, VIDEO_MANAGER()->video_size().y - 10.0));
 
@@ -218,10 +217,10 @@ Menu *MenuBuilder::BuildPauseMenu () {
         ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case MenuBuilder::PAUSE_SELECT_CONTINUE:
-            options_sprite = TEXT_LOADER()->GetImage("Continue");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Continue");
             break;
         case MenuBuilder::PAUSE_SELECT_EXIT_GAME:
-            options_sprite = TEXT_LOADER()->GetImage("Return to Menu");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Return to Menu");
             break;
         }
         menu->set_option_sprite(i, options_sprite);
@@ -352,7 +351,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < MenuBuilder::SETTINGS_SELECT_NUM; ++i) {
         if(settings_names_[i].compare("BLANK") == 0)
             continue;
-        ugdk::graphic::Drawable* img = TEXT_LOADER()->GetImage(settings_names_[i]);
+        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(settings_names_[i]);
         menu_->set_option_sprite(i, img);
     }
 
@@ -370,7 +369,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         std::wostringstream stm;
         stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
-        ugdk::graphic::Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), L"FontB");
+        ugdk::graphic::Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), "FontB");
         tex->set_hotspot(ugdk::graphic::Drawable::CENTER);
         resolution_sprites_[i] = new ugdk::graphic::Node(tex);
         resolution_sprites_[i]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(0).y));
@@ -384,7 +383,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
 
     for (int i = 0; i < 3; ++i) {
         for (int j = 0; j < 2; ++j) {
-            ugdk::graphic::Drawable *img = TEXT_LOADER()->GetImage(on_off_[j]);
+            ugdk::graphic::Drawable *img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(on_off_[j]);
             img->set_hotspot(ugdk::graphic::Drawable::CENTER);
             on_off_sprites_[i][j] = new ugdk::graphic::Node(img);
             on_off_sprites_[i][j]->modifier()->set_offset(Vector2D(second_column_x, menu_->get_selection_position(i+1).y));
@@ -398,7 +397,7 @@ void MenuBuilder::SettingsMenuHandler::BuildSprites() {
 
     sprites_active_[4] = settings_->language();
     for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
-        ugdk::graphic::Drawable* img = TEXT_LOADER()->GetImage(language_name[i]);
+        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(language_name[i]);
         img->set_hotspot(ugdk::graphic::Drawable::CENTER);
         
         language_sprites_[i] = new ugdk::graphic::Node(img);
