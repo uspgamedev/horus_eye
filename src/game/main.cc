@@ -12,17 +12,13 @@
 #include <ugdk/graphic/spritesheet/fixedspritesheet.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
+#include <ugdk/modules.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/langwrapper.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/lua/luawrapper.h>
 #include <ugdk/script/lua/header.h>
 #include <ugdk/script/python/pythonwrapper.h>
-
-extern "C" {
-extern int luaopen_ugdk_math(lua_State* L);
-extern void init_ugdk_math(void);
-}
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
@@ -133,21 +129,21 @@ void InitScripts() {
     using ugdk::script::lua::LuaWrapper;
     using ugdk::script::python::PythonWrapper;
 
-    //inicializando lua
+    // Initializing lua
     LuaWrapper* lua_wrapper = new LuaWrapper();
-    lua_wrapper->RegisterModule("ugdk.math", luaopen_ugdk_math);
+    ugdk::RegisterLuaModules(lua_wrapper);
     SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
 
-    //inicializando python
+    // Initializing python
     PythonWrapper* py_wrapper = new PythonWrapper();
-    printf("Registered Python Module: %d\n", (int)py_wrapper->RegisterModule("_ugdk_math", init_ugdk_math)  );
+    ugdk::RegisterPythonModules(py_wrapper);
     SCRIPT_MANAGER()->Register("Python", py_wrapper);
 }
 
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-	ugdk::Engine::Configuration engine_config;
+	ugdk::Configuration engine_config;
 	engine_config.window_title = "Horus Eye";
 	engine_config.window_size  = settings->resolution_vector();
 	engine_config.fullscreen   = settings->fullscreen();
