@@ -75,6 +75,8 @@ void StartGame() {
     CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Shooting Mummy
     
     CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Magic Missile
+    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Blue Gem
+    CreateFlexibleSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D(64.0, 110.0)); // Blue Gem
     CreateSimpleFlexibleSpritesheet("images/fireball_0.png");
     CreateSimpleFlexibleSpritesheet("images/green_fire_ball.png");
     CreateSimpleFlexibleSpritesheet("images/explosion.png");

@@ -32,6 +32,7 @@ namespace utils {
 #define POTIONL                  'L'
 #define POTIONM                  'N'
 #define POTIONS                  'S'
+#define BLUEGEM                  'G'
 #define BLOCK                    'K'
 #define BUTTON                   'U'
 

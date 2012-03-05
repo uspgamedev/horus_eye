@@ -24,6 +24,8 @@ class ImageFactory {
     virtual FlexibleSpritesheet* LifePotionImage();
     virtual FlexibleSpritesheet* ManaPotionImage();
     virtual FlexibleSpritesheet* SightPotionImage();
+    virtual FlexibleSpritesheet* BlueGemImage();
+    virtual ugdk::graphic::Spritesheet* ShieldImage();
     virtual FlexibleSpritesheet* DoorImage();
     virtual FlexibleSpritesheet* FloorImage();
     virtual FlexibleSpritesheet* WallImage();

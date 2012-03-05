@@ -1,10 +1,14 @@
 #include "itembuilder.h"
 
-#include "game/sprites/creatures/hero.h"
+#include "game/scenes/world.h"
 #include "game/utils/constants.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/creature.h"
+#include "game/sprites/follower.h"
 #include "game/sprites/item.h"
 #include "game/sprites/condition.h"
 #include "game/builders/conditionbuilder.h"
+#include "game/builders/entitybuilder.h"
 
 #define INCREASE_SIGHT_TIME 3.00
 
@@ -16,8 +20,11 @@ namespace builder {
 
 using namespace utils;
 using sprite::Item;
+using sprite::Creature;
 using sprite::Hero;
+using sprite::Follower;
 using sprite::Condition;
+using pyramidworks::collision::CollisionObject;
 
 
 //=======================================
@@ -79,6 +86,18 @@ bool IncreaseSightEvent::Use (Hero *hero) {
 
 //=======================================
 
+class BlueGemShieldEvent : public sprite::ItemEvent {
+  public:
+    BlueGemShieldEvent() {}
+    bool Use(sprite::Hero * hero) {
+        EntityBuilder builder;
+        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero), hero->world_position());
+        return true;
+    }
+};
+
+//=======================================
+
 Item* ItemBuilder::LifePotion(ugdk::graphic::FlexibleSpritesheet* image) {
     Item* potion = new Item(image);
     potion->set_event(new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE));
@@ -95,6 +114,12 @@ Item* ItemBuilder::SightPotion(ugdk::graphic::FlexibleSpritesheet* image) {
     Item* potion = new Item(image);
     potion->set_event(new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE));
     return potion;
+}
+
+Item* ItemBuilder::BlueGem(ugdk::graphic::FlexibleSpritesheet* image) {
+    Item* gem = new Item(image);
+    gem->set_event(new BlueGemShieldEvent);
+    return gem;
 }
 
 }
