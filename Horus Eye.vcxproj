@@ -74,9 +74,6 @@
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionclass.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionmanager.cc" />
-    <ClCompile Include="src\pyramidworks\geometry\circle.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
     <ClCompile Include="src\game\utils\geometryprimitives.cc" />
     <ClCompile Include="src\game\utils\hud.cc" />
@@ -84,12 +81,9 @@
     <ClCompile Include="src\game\utils\imagefactory.cc" />
     <ClCompile Include="src\game\utils\levelloader.cc" />
     <ClCompile Include="src\game\utils\levelmanager.cc" />
-    <ClCompile Include="src\pyramidworks\geometry\rect.cc" />
     <ClCompile Include="src\game\utils\settings.cc" />
     <ClCompile Include="src\game\utils\tile.cc" />
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionobject.cc" />
-    <ClCompile Include="src\pyramidworks\collision\collisionlogic.cc" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\editor\layers\mapspriteslayer.h" />
@@ -158,10 +152,6 @@
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionclass.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionmanager.h" />
-    <ClInclude Include="src\pyramidworks\geometry\circle.h" />
-    <ClInclude Include="src\pyramidworks\geometry\geometricshape.h" />
     <ClInclude Include="src\game\utils\constants.h" />
     <ClInclude Include="src\game\utils\geometryprimitives.h" />
     <ClInclude Include="src\game\utils\hud.h" />
@@ -169,12 +159,9 @@
     <ClInclude Include="src\game\utils\imagefactory.h" />
     <ClInclude Include="src\game\utils\levelloader.h" />
     <ClInclude Include="src\game\utils\levelmanager.h" />
-    <ClInclude Include="src\pyramidworks\geometry\rect.h" />
     <ClInclude Include="src\game\utils\settings.h" />
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionobject.h" />
-    <ClInclude Include="src\pyramidworks\collision\collisionlogic.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="deploy\eye.ico" />

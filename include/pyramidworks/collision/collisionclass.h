@@ -5,16 +5,14 @@
 #include <list>
 #include <set>
 #include <ugdk/util.h>
+#include <pyramidworks/collision.h>
 
 namespace pyramidworks {
 namespace collision {
 
-class CollisionObject;
-
-typedef std::list<const CollisionObject *> CollisionObjectList;
-
 /// \class CollisionClass collisionclass.h "pyramidworks/collision/collisionclass.h"
 class CollisionClass {
+  typedef ugdk::ikdtree::IntervalKDTree<const CollisionObject*, 2> ObjectTree;
   public:
     ~CollisionClass();
     const CollisionClass* parent() const { return parent_; }
@@ -31,14 +29,14 @@ class CollisionClass {
 #endif
   private:
     friend class CollisionManager;
-    CollisionClass();
+    CollisionClass(const ugdk::ikdtree::Box<2>& tree_bounding_box);
 
 #ifdef DEBUG
     // Unnecessary, used for debugging purposes.
     std::string name_;
 #endif
     const CollisionClass* parent_;
-    ugdk::ikdtree::IntervalKDTree<const CollisionObject *, 2>* objects_tree_;
+    ObjectTree* objects_tree_;
 };
 
 } // namespace collision

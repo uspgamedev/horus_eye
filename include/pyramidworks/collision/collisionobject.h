@@ -7,19 +7,11 @@
 #include <list>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util.h>
+#include <pyramidworks/collision.h>
+#include <pyramidworks/geometry.h>
 
 namespace pyramidworks {
-
-namespace geometry {
-class GeometricShape;
-}
-
 namespace collision {
-
-class CollisionClass;
-class CollisionLogic;
-
-typedef std::pair<CollisionLogic*, void* > CollisionInstance;
 
 /// \class CollisionObject collisionobject.h "pyramidworks/collision/collisionobject.h"
 /// A class that knows how to manage collisions.
@@ -29,7 +21,7 @@ class CollisionObject {
   public:
     /** @param data The data sent to the CollisionLogic when a collision happens.
       * @see CollisionLogic */
-    CollisionObject(void *data = NULL);
+    CollisionObject(CollisionManager* manager, void *data = NULL);
     ~CollisionObject();
 
     /// Search if there's any collision.
@@ -45,14 +37,7 @@ class CollisionObject {
     bool IsColliding(const CollisionObject* obj) const;
 
     /// Adds a new collision to the known collisions.
-    /** @param colclass The CollisionClass that matches the collision.
-      * @param logic The CollisionLogic of the collision. 
-      * @see CollisionClass, CollisionLogic */
-    void AddCollisionLogic(const CollisionClass* colclass, CollisionLogic* logic);
-
-    /// Syntax sugar to the AddCollisionLogic(const CollisionClass*, CollisionLogic*).
-    /** Calls the other AddCollisionLogic method by alterating the arguments
-      * @param colclass Changed to CollisionManager::reference()->Generate(colclass).
+    /** @param colclass Name of the collision class.
       * @param logic Is not changed.
       * @see AddCollisionLogic */
     void AddCollisionLogic(const std::string& colclass, CollisionLogic* logic);
@@ -65,7 +50,6 @@ class CollisionObject {
         collision_class is already set.
         @param colclass The CollisionClass to set to.
         @see CollisionClass */
-    void InitializeCollisionClass(CollisionClass* colclass);
     void InitializeCollisionClass(const std::string&);
     void InitializeCollisionClass(const char n[]) { const std::string str(n); InitializeCollisionClass(str); }
 
@@ -94,6 +78,8 @@ class CollisionObject {
     ugdk::ikdtree::Box<2> GetBoundingBox() const;
 
   private:
+    CollisionManager* manager_;
+
     // Data that is sent to CollisionLogic::Handle
     void *data_;
 
