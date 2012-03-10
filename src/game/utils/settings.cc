@@ -2,6 +2,7 @@
 #include <functional>
 #include <locale>
 #include <cctype>
+#include <cstdio>
 #include <string>
 #include <cstdlib>
 
