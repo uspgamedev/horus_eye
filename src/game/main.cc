@@ -106,23 +106,6 @@ void StartGame() {
     }
     level_manager()->Initialize();
 
-    pyramidworks::collision::CollisionManager* colmanager 
-        = pyramidworks::collision::CollisionManager::reference();
-    colmanager->Generate("WorldObject");
-
-    colmanager->Generate("Creature", "WorldObject");
-    colmanager->Generate("Hero", "Creature");
-    colmanager->Generate("Mummy", "Creature");
-
-    colmanager->Generate("Wall", "WorldObject");
-    colmanager->Generate("Block", "Wall");
-    colmanager->Generate("Door", "Wall");
-
-    colmanager->Generate("Item", "WorldObject");
-    colmanager->Generate("Projectile", "WorldObject");
-    colmanager->Generate("Button", "WorldObject");
-    colmanager->Generate("Explosion", "WorldObject");
-
 
     // TODO: scriptstuff
 }
@@ -181,9 +164,6 @@ int main(int argc, char *argv[]) {
 
         // Releases data persistant between levels.
         level_manager()->Finish();
-
-        // Clears all CollisionClasses.
-        pyramidworks::collision::CollisionManager::Delete();
 
         // Releases all loaded textures, to avoid issues when changing resolution.
         engine()->video_manager()->Release();

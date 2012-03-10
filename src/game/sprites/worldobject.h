@@ -18,7 +18,7 @@ namespace pyramidworks {
 
 namespace sprite {
 
-#define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(this); }
+#define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), this); }
 
 #define SET_COLLISIONCLASS(CLASS)        { collision_object_->InitializeCollisionClass(#CLASS); }
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);

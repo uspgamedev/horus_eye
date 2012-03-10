@@ -68,9 +68,9 @@ COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
 }
 
 static CollisionObject* buildBasicCollision(Projectile* proj, double radius) {
-    CollisionObject* col = new CollisionObject(proj);
-    col->InitializeCollisionClass(GET_COLLISIONMASK(Projectile));
-    col->AddCollisionLogic(GET_COLLISIONMASK(Wall), new DieCollision(proj));
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), proj);
+    col->InitializeCollisionClass("Projectile");
+    col->AddCollisionLogic("Wall", new DieCollision(proj));
     proj->set_collision_object(col);
     proj->set_shape(new pyramidworks::geometry::Circle(radius));
     return col;
@@ -111,7 +111,7 @@ Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
 
     CollisionObject* col = buildBasicCollision(proj, 0.15);
     struct ObjectAndDamage data(proj, Constants::PROJECTILE_DAMAGE);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageAndDieCollision(data));
+    col->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
     return proj;
 }
 
@@ -123,7 +123,7 @@ Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
 
     CollisionObject* col = buildBasicCollision(proj, 0.15);
     struct ObjectAndDamage data(proj, damage);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Hero), new DamageAndDieCollision(data));
+    col->AddCollisionLogic("Hero", new DamageAndDieCollision(data));
     return proj;
 }
 
@@ -138,7 +138,7 @@ Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
 
 
     CollisionObject* col = buildBasicCollision(proj, 0.25);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DamageCollision(Constants::LIGHTNING_DAMAGE));
+    col->AddCollisionLogic("Mummy", new DamageCollision(Constants::LIGHTNING_DAMAGE));
     return proj;
 }
 
@@ -159,7 +159,7 @@ Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
 
 
     CollisionObject* col = buildBasicCollision(proj, 0.25);
-    col->AddCollisionLogic(GET_COLLISIONMASK(Mummy), new DieCollision(proj));
+    col->AddCollisionLogic("Mummy", new DieCollision(proj));
     return proj;
 }
 

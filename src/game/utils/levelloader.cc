@@ -239,6 +239,7 @@ void LevelLoader::Load(string file_name) {
 
 	LoadMatrix(file_name);
 	GameMap& matrix = world_->level_matrix();
+    world_->SetupCollisionManager();
 
 	vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
 
