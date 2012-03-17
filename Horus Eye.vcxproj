@@ -34,6 +34,7 @@
     <ClCompile Include="src\editor\scenes\editormenu.cc" />
     <ClCompile Include="src\externals\inifile.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
+    <ClCompile Include="src\game\builders\entitybuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
@@ -62,6 +63,7 @@
     <ClCompile Include="src\game\sprites\creatures\mummy.cc" />
     <ClCompile Include="src\game\sprites\creatures\pharaoh.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
+    <ClCompile Include="src\game\sprites\follower.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
     <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
@@ -91,6 +93,7 @@
     <ClInclude Include="src\editor\scenes\editormenu.h" />
     <ClInclude Include="src\externals\inifile.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
+    <ClInclude Include="src\game\builders\entitybuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
@@ -136,6 +139,7 @@
     <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
     <ClInclude Include="src\game\entities\emitterentity.h" />
     <ClInclude Include="src\game\sprites\explosion.h" />
+    <ClInclude Include="src\game\sprites\follower.h" />
     <ClInclude Include="src\game\sprites\item.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\sprites\projectiles\carrier.h" />

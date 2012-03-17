@@ -4,11 +4,11 @@
 #include "game/utils/constants.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/creature.h"
-//#include "game/sprites/follower.h"
+#include "game/sprites/follower.h"
 #include "game/sprites/item.h"
 #include "game/sprites/condition.h"
 #include "game/builders/conditionbuilder.h"
-//#include "game/builders/entitybuilder.h"
+#include "game/builders/entitybuilder.h"
 
 #define INCREASE_SIGHT_TIME 3.00
 
@@ -90,8 +90,8 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
   public:
     BlueGemShieldEvent() {}
     bool Use(sprite::Hero * hero) {
-        //EntityBuilder builder;
-        //WORLD()->AddWorldObject(builder.BlueShieldEntity(hero), hero->world_position());
+        EntityBuilder builder;
+        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero), hero->world_position());
         return true;
     }
 };
