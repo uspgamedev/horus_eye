@@ -160,6 +160,7 @@ void LevelManager::LoadNextLevel() {
     loader->Load(level_list_.at(level_list_iterator_));
 	delete loader;
     Engine::reference()->PushScene(current_level_);
+    hero_->SetupCollision();
 }
 
 void LevelManager::Finish() {

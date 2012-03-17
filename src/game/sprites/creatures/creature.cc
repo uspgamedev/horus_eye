@@ -79,12 +79,7 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         hit_duration_(new ugdk::time::TimeAccumulator(0)),
         aim_(world_position(), aim_destination_),
         sprite_(NULL),
-        blink_(false) {
-
-    INITIALIZE_COLLISION;
-    // Teach this creature how to collides with Walls.
-    ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
-}
+        blink_(false) {}
 
 Creature::~Creature() {
     if (hit_duration_) delete hit_duration_;
@@ -96,6 +91,10 @@ void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet 
     sprite_->AddObserverToAnimation(this);
 }
 
+void Creature::AddKnownCollisions() {
+    // Teach this creature how to collides with Walls.
+    ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
+}
 
 bool deletecondition(Condition *condition) {
 	bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);

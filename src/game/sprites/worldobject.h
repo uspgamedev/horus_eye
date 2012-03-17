@@ -55,7 +55,7 @@ class WorldObject : public ugdk::Entity {
     void set_light_radius(double radius);
 
     virtual pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
-        void set_shape(pyramidworks::geometry::GeometricShape* shape);
+    void set_shape(pyramidworks::geometry::GeometricShape* shape);
 
           ugdk::graphic::Node* node()       { return node_; }
     const ugdk::graphic::Node* node() const { return node_; }
