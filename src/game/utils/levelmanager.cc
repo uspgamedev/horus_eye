@@ -43,15 +43,15 @@ void LevelManager::Initialize() {
     LoadLevelList("level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
-	hero_ = NULL;
-	Creature::InitializeAnimations();
+    hero_ = NULL;
+    Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
-	MenuBuilder builder;
+    MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
     Engine::reference()->PushScene(menu_);
 
-	loading_ = NULL;
+    loading_ = NULL;
 }
 
 void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::string>& level_list) {
@@ -85,7 +85,7 @@ void finishAndDeleteCurrentScene() {
 
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
-	level_list_iterator_ = 0;
+    level_list_iterator_ = 0;
     Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
@@ -98,13 +98,13 @@ void LevelManager::ShowCredits() {
 }
 
 void LevelManager::ShowEnding() {
-	loading_->Finish();
-	loading_ = NULL;
-    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/you_win.png"))));
+    loading_->Finish();
+    loading_ = NULL;
+    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/you_win.png"))));
 }
 
 void LevelManager::ShowGameOver() {
-    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/game_over.png"))));
+    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/game_over.png"))));
 }
 
 void LevelManager::FinishLevel(LevelState state) {
@@ -121,22 +121,22 @@ void LevelManager::FinishLevel(LevelState state) {
 
     switch(state) {
     case FINISH_DIE:
-		hero_ = NULL;
+        hero_ = NULL;
         ShowGameOver();
         // no break on purpose
     case FINISH_QUIT:
-		loading_->Finish();
-		loading_ = NULL;
+        loading_->Finish();
+        loading_ = NULL;
         // no break on purpose
     case NOT_FINISHED:
-		if (hero_)
-			delete hero_;
-			hero_ = NULL;
+        if (hero_)
+            delete hero_;
+            hero_ = NULL;
         return;
     case FINISH_WIN:
     case FINISH_WARP:
         //LoadNextLevel(); -- The stacked Loading takes care of doing this.
-		break;
+        break;
     }
 }
 
@@ -148,29 +148,29 @@ void LevelManager::LoadNextLevel() {
         return;
     }
     utils::ImageFactory *factory = new utils::ImageFactory();
-	if (level_list_iterator_ == 0) {
-	    if (hero_ == NULL) {
+    if (level_list_iterator_ == 0) {
+        if (hero_ == NULL) {
             builder::HeroBuilder builder(factory);
             hero_ = builder.Kha();
-	    }
-	}
-	hero_->mana_blocks().Fill();
+        }
+    }
+    hero_->mana_blocks().Fill();
     current_level_ = new World(hero_, factory);
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
-	delete loader;
+    delete loader;
     Engine::reference()->PushScene(current_level_);
     hero_->SetupCollision();
 }
 
 void LevelManager::Finish() {
-	if (hero_ != NULL) {
-		delete hero_;
+    if (hero_ != NULL) {
+        delete hero_;
         hero_ = NULL;
     }
-	if (loading_)
-		delete loading_;
-	Creature::ReleaseAnimations();
+    if (loading_)
+        delete loading_;
+    Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
     //MenuBuilder::ReleaseAnimations();
 }
