@@ -62,7 +62,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/menu.gdd");
+    ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");

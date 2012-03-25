@@ -78,7 +78,7 @@ static CollisionObject* buildBasicCollision(Projectile* proj, double radius) {
 
 void ProjectileBuilder::InitializeAnimations() {
     if(fireball_animation_ == NULL) {
-        fireball_animation_ = RESOURCE_MANAGER()->animation_loader().Load("animations/fireball.gdd");
+        fireball_animation_ = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/fireball.gdd");
         fireball_animation_map_[0] = fireball_animation_->MakeIndex("ATTACKING_LEFT");
         fireball_animation_map_[1] = fireball_animation_->MakeIndex("ATTACKING_UP_LEFT");
         fireball_animation_map_[2] = fireball_animation_->MakeIndex("ATTACKING_UP");
@@ -90,7 +90,7 @@ void ProjectileBuilder::InitializeAnimations() {
     }
 
     if(lightning_animation_ == NULL) {
-        lightning_animation_ = RESOURCE_MANAGER()->animation_loader().Load("animations/lightning.gdd");
+        lightning_animation_ = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/lightning.gdd");
         lightning_animation_map_[0] = lightning_animation_->MakeIndex("ATTACKING_LEFT");
         lightning_animation_map_[1] = lightning_animation_->MakeIndex("ATTACKING_UP_LEFT");
         lightning_animation_map_[2] = lightning_animation_->MakeIndex("ATTACKING_UP");

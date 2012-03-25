@@ -31,7 +31,7 @@ COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
 
 sprite::WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
     // Creating a new Sprite with the shield image
-    ugdk::AnimationSet* set = RESOURCE_MANAGER()->animation_loader().Load("animations/shield.gdd");
+    ugdk::AnimationSet* set = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/shield.gdd");
     utils::ImageFactory img;
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(img.ShieldImage(), set);
     sprite->SelectAnimation("IDLE");

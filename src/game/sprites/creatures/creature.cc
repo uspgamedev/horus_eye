@@ -156,7 +156,7 @@ void Creature::TakeDamage(double life_points) {
 void Creature::InitializeAnimations() {
     if (ANIMATIONS != NULL) return;
 
-    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/creature.gdd");
+    ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd");
     InitializeAttackingAnimations();
     InitializeWalkingAnimations();
     InitializeStandingAnimations();
