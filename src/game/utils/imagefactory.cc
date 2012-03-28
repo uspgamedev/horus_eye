@@ -70,6 +70,14 @@ FlexibleSpritesheet* ImageFactory::ManaPotionImage() {
     return mana_potion_image_;
 }
 
+FlexibleSpritesheet* ImageFactory::BlueGemImage() {
+    return static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/yellow_fire_ball.png"));
+}
+
+ugdk::graphic::Spritesheet* ImageFactory::ShieldImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/shield.png");
+}
+
 FlexibleSpritesheet* ImageFactory::SightPotionImage() {
     FlexibleSpritesheet *sight_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/sight_potion.png"));
     if(sight_potion_image_) sight_potion_image_->set_frame_size(Vector2D(30, 30));

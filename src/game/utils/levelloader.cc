@@ -222,6 +222,11 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
+            case BLUEGEM: {
+                world_->AddWorldObject(potion_builder.BlueGem(image_factory->BlueGemImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
+                break;
+            }
             case BUTTON: {
                 world_->AddWorldObject(new Button(image_factory->TileSwitchImage(), world_, -1), position);
                 break;

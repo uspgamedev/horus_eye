@@ -17,6 +17,7 @@ class ItemBuilder {
     sprite::Item* LifePotion(ugdk::graphic::FlexibleSpritesheet* image);
     sprite::Item* ManaPotion(ugdk::graphic::FlexibleSpritesheet* image);
     sprite::Item* SightPotion(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::Item* BlueGem(ugdk::graphic::FlexibleSpritesheet* image);
 };
 
 }
