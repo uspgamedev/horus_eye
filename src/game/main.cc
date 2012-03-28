@@ -12,6 +12,7 @@
 #include <ugdk/graphic/spritesheet/fixedspritesheet.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
+/*
 #include <ugdk/modules.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/langwrapper.h>
@@ -19,6 +20,7 @@
 #include <ugdk/script/lua/luawrapper.h>
 #include <ugdk/script/lua/header.h>
 #include <ugdk/script/python/pythonwrapper.h>
+*/
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
@@ -124,7 +126,7 @@ void StartGame() {
 
     // TODO: scriptstuff
 }
-
+/*
 void InitScripts() {
 
     using ugdk::script::LangWrapper;
@@ -140,7 +142,7 @@ void InitScripts() {
     PythonWrapper* py_wrapper = new PythonWrapper();
     ugdk::RegisterPythonModules(py_wrapper);
     SCRIPT_MANAGER()->Register("Python", py_wrapper);
-}
+}*/
 
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
@@ -164,7 +166,7 @@ int main(int argc, char *argv[]) {
     engine_config.window_icon = "";
 #endif
 
-    InitScripts();
+    //InitScripts();
     engine()->Initialize(engine_config);
 
     engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
