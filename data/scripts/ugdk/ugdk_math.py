@@ -67,26 +67,6 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_math.new_VirtualType()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_math.delete_VirtualType
-    __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_math.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_math.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_math.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
-cvar = _ugdk_math.cvar
-LuaLang = cvar.LuaLang
-PythonLang = cvar.PythonLang
-
 class Vector2D(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Vector2D, name, value)
@@ -131,6 +111,9 @@ class Vector2D(_object):
     def __mul__(self, *args): return _ugdk_math.Vector2D___mul__(self, *args)
 Vector2D_swigregister = _ugdk_math.Vector2D_swigregister
 Vector2D_swigregister(Vector2D)
+cvar = _ugdk_math.cvar
+LuaLang = cvar.LuaLang
+PythonLang = cvar.PythonLang
 
 def Vector2D_Add(*args):
   return _ugdk_math.Vector2D_Add(*args)

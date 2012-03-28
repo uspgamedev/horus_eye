@@ -67,22 +67,24 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
+class ResourceContainer_Texture(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainer_Texture, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainer_Texture, name)
     __repr__ = _swig_repr
     def __init__(self): 
-        this = _ugdk_base.new_VirtualType()
+        this = _ugdk_base.new_ResourceContainer_Texture()
         try: self.this.append(this)
         except: self.this = this
-    __swig_destroy__ = _ugdk_base.delete_VirtualType
+    __swig_destroy__ = _ugdk_base.delete_ResourceContainer_Texture
     __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_base.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_base.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_base.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
+    def Insert(self, *args): return _ugdk_base.ResourceContainer_Texture_Insert(self, *args)
+    def Replace(self, *args): return _ugdk_base.ResourceContainer_Texture_Replace(self, *args)
+    def Exists(self, *args): return _ugdk_base.ResourceContainer_Texture_Exists(self, *args)
+    def Find(self, *args): return _ugdk_base.ResourceContainer_Texture_Find(self, *args)
+ResourceContainer_Texture_swigregister = _ugdk_base.ResourceContainer_Texture_swigregister
+ResourceContainer_Texture_swigregister(ResourceContainer_Texture)
 cvar = _ugdk_base.cvar
 LuaLang = cvar.LuaLang
 PythonLang = cvar.PythonLang
@@ -92,6 +94,35 @@ import ugdk_input
 import ugdk_time
 import ugdk_audio
 import ugdk_action
+import ugdk_graphic
+import ugdk_util
+class Color(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Color, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Color, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_base.new_Color(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def get_r(self): return _ugdk_base.Color_get_r(self)
+    def get_g(self): return _ugdk_base.Color_get_g(self)
+    def get_b(self): return _ugdk_base.Color_get_b(self)
+    def get_a(self): return _ugdk_base.Color_get_a(self)
+    def set_r(self, *args): return _ugdk_base.Color_set_r(self, *args)
+    def set_g(self, *args): return _ugdk_base.Color_set_g(self, *args)
+    def set_b(self, *args): return _ugdk_base.Color_set_b(self, *args)
+    def set_a(self, *args): return _ugdk_base.Color_set_a(self, *args)
+    __swig_destroy__ = _ugdk_base.delete_Color
+    __del__ = lambda self : None;
+Color_swigregister = _ugdk_base.Color_swigregister
+Color_swigregister(Color)
+MIRROR_NONE = cvar.MIRROR_NONE
+MIRROR_HFLIP = cvar.MIRROR_HFLIP
+MIRROR_VFLIP = cvar.MIRROR_VFLIP
+MIRROR_HVFLIP = cvar.MIRROR_HVFLIP
+
 class Configuration(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Configuration, name, value)
@@ -159,25 +190,6 @@ Engine_swigregister(Engine)
 def Engine_reference():
   return _ugdk_base.Engine_reference()
 Engine_reference = _ugdk_base.Engine_reference
-
-class ResourceContainer_Texture(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainer_Texture, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainer_Texture, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_base.new_ResourceContainer_Texture()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_base.delete_ResourceContainer_Texture
-    __del__ = lambda self : None;
-    def Insert(self, *args): return _ugdk_base.ResourceContainer_Texture_Insert(self, *args)
-    def Replace(self, *args): return _ugdk_base.ResourceContainer_Texture_Replace(self, *args)
-    def Exists(self, *args): return _ugdk_base.ResourceContainer_Texture_Exists(self, *args)
-    def Find(self, *args): return _ugdk_base.ResourceContainer_Texture_Find(self, *args)
-ResourceContainer_Texture_swigregister = _ugdk_base.ResourceContainer_Texture_swigregister
-ResourceContainer_Texture_swigregister(ResourceContainer_Texture)
 
 class TextureContainer(ResourceContainer_Texture):
     __swig_setmethods__ = {}

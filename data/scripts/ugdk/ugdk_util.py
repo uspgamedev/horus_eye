@@ -67,26 +67,6 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_util.new_VirtualType()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_util.delete_VirtualType
-    __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_util.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_util.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_util.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
-cvar = _ugdk_util.cvar
-LuaLang = cvar.LuaLang
-PythonLang = cvar.PythonLang
-
 class SwigPyIterator(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
@@ -115,10 +95,13 @@ class SwigPyIterator(_object):
     def __iter__(self): return self
 SwigPyIterator_swigregister = _ugdk_util.SwigPyIterator_swigregister
 SwigPyIterator_swigregister(SwigPyIterator)
+cvar = _ugdk_util.cvar
+LuaLang = cvar.LuaLang
+PythonLang = cvar.PythonLang
 
 import ugdk_action
-import ugdk_audio
 import ugdk_gdd
+import ugdk_graphic
 class DescriptionProtocol_AnimationSet(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, DescriptionProtocol_AnimationSet, name, value)
@@ -210,6 +193,54 @@ class Uncopyable(_object):
 Uncopyable_swigregister = _ugdk_util.Uncopyable_swigregister
 Uncopyable_swigregister(Uncopyable)
 
+class LanguageWord(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, LanguageWord, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, LanguageWord, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_util.delete_LanguageWord
+    __del__ = lambda self : None;
+    def GenerateText(self): return _ugdk_util.LanguageWord_GenerateText(self)
+    def font(self): return _ugdk_util.LanguageWord_font(self)
+LanguageWord_swigregister = _ugdk_util.LanguageWord_swigregister
+LanguageWord_swigregister(LanguageWord)
+
+class Language(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Language, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Language, name)
+    __repr__ = _swig_repr
+    def __init__(self): 
+        this = _ugdk_util.new_Language()
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_util.delete_Language
+    __del__ = lambda self : None;
+    def Load(self, *args): return _ugdk_util.Language_Load(self, *args)
+Language_swigregister = _ugdk_util.Language_swigregister
+Language_swigregister(Language)
+
+class LanguageManager(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, LanguageManager, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, LanguageManager, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_util.new_LanguageManager(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_util.delete_LanguageManager
+    __del__ = lambda self : None;
+    def default_language(self): return _ugdk_util.LanguageManager_default_language(self)
+    def RegisterLanguage(self, *args): return _ugdk_util.LanguageManager_RegisterLanguage(self, *args)
+    def Setup(self, *args): return _ugdk_util.LanguageManager_Setup(self, *args)
+LanguageManager_swigregister = _ugdk_util.LanguageManager_swigregister
+LanguageManager_swigregister(LanguageManager)
+
 
 def RegisterType_AnimationParser(*args):
   return _ugdk_util.RegisterType_AnimationParser(*args)
@@ -234,6 +265,30 @@ RegisterType_AnimationProtocol = _ugdk_util.RegisterType_AnimationProtocol
 def GetNull_AnimationProtocol():
   return _ugdk_util.GetNull_AnimationProtocol()
 GetNull_AnimationProtocol = _ugdk_util.GetNull_AnimationProtocol
+
+def RegisterType_LanguageWord(*args):
+  return _ugdk_util.RegisterType_LanguageWord(*args)
+RegisterType_LanguageWord = _ugdk_util.RegisterType_LanguageWord
+
+def GetNull_LanguageWord():
+  return _ugdk_util.GetNull_LanguageWord()
+GetNull_LanguageWord = _ugdk_util.GetNull_LanguageWord
+
+def RegisterType_Language(*args):
+  return _ugdk_util.RegisterType_Language(*args)
+RegisterType_Language = _ugdk_util.RegisterType_Language
+
+def GetNull_Language():
+  return _ugdk_util.GetNull_Language()
+GetNull_Language = _ugdk_util.GetNull_Language
+
+def RegisterType_LanguageManager(*args):
+  return _ugdk_util.RegisterType_LanguageManager(*args)
+RegisterType_LanguageManager = _ugdk_util.RegisterType_LanguageManager
+
+def GetNull_LanguageManager():
+  return _ugdk_util.GetNull_LanguageManager()
+GetNull_LanguageManager = _ugdk_util.GetNull_LanguageManager
 
 def RegisterType_Uncopyable(*args):
   return _ugdk_util.RegisterType_Uncopyable(*args)

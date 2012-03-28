@@ -67,26 +67,126 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
+class SwigPyIterator(_object):
     __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
     __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
+    __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_spritesheet.new_VirtualType()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_spritesheet.delete_VirtualType
+    __swig_destroy__ = _ugdk_spritesheet.delete_SwigPyIterator
     __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_spritesheet.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_spritesheet.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_spritesheet.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
+    def value(self): return _ugdk_spritesheet.SwigPyIterator_value(self)
+    def incr(self, n = 1): return _ugdk_spritesheet.SwigPyIterator_incr(self, n)
+    def decr(self, n = 1): return _ugdk_spritesheet.SwigPyIterator_decr(self, n)
+    def distance(self, *args): return _ugdk_spritesheet.SwigPyIterator_distance(self, *args)
+    def equal(self, *args): return _ugdk_spritesheet.SwigPyIterator_equal(self, *args)
+    def copy(self): return _ugdk_spritesheet.SwigPyIterator_copy(self)
+    def next(self): return _ugdk_spritesheet.SwigPyIterator_next(self)
+    def __next__(self): return _ugdk_spritesheet.SwigPyIterator___next__(self)
+    def previous(self): return _ugdk_spritesheet.SwigPyIterator_previous(self)
+    def advance(self, *args): return _ugdk_spritesheet.SwigPyIterator_advance(self, *args)
+    def __eq__(self, *args): return _ugdk_spritesheet.SwigPyIterator___eq__(self, *args)
+    def __ne__(self, *args): return _ugdk_spritesheet.SwigPyIterator___ne__(self, *args)
+    def __iadd__(self, *args): return _ugdk_spritesheet.SwigPyIterator___iadd__(self, *args)
+    def __isub__(self, *args): return _ugdk_spritesheet.SwigPyIterator___isub__(self, *args)
+    def __add__(self, *args): return _ugdk_spritesheet.SwigPyIterator___add__(self, *args)
+    def __sub__(self, *args): return _ugdk_spritesheet.SwigPyIterator___sub__(self, *args)
+    def __iter__(self): return self
+SwigPyIterator_swigregister = _ugdk_spritesheet.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
 cvar = _ugdk_spritesheet.cvar
 LuaLang = cvar.LuaLang
 PythonLang = cvar.PythonLang
 
+import ugdk_math
+import ugdk_base
+import ugdk_graphic
+class FixedSpritesheetData(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, FixedSpritesheetData, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, FixedSpritesheetData, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_spritesheet.new_FixedSpritesheetData(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_spritesheet.delete_FixedSpritesheetData
+    __del__ = lambda self : None;
+    def AddFrame(self, *args): return _ugdk_spritesheet.FixedSpritesheetData_AddFrame(self, *args)
+    def FillWithFramesize(self, *args): return _ugdk_spritesheet.FixedSpritesheetData_FillWithFramesize(self, *args)
+FixedSpritesheetData_swigregister = _ugdk_spritesheet.FixedSpritesheetData_swigregister
+FixedSpritesheetData_swigregister(FixedSpritesheetData)
+
+class FixedSpritesheet(ugdk_graphic.Spritesheet):
+    __swig_setmethods__ = {}
+    for _s in [ugdk_graphic.Spritesheet]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, FixedSpritesheet, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ugdk_graphic.Spritesheet]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, FixedSpritesheet, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_spritesheet.new_FixedSpritesheet(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_spritesheet.delete_FixedSpritesheet
+    __del__ = lambda self : None;
+    def frame_count(self): return _ugdk_spritesheet.FixedSpritesheet_frame_count(self)
+    def frame_size(self, *args): return _ugdk_spritesheet.FixedSpritesheet_frame_size(self, *args)
+    def Draw(self, *args): return _ugdk_spritesheet.FixedSpritesheet_Draw(self, *args)
+FixedSpritesheet_swigregister = _ugdk_spritesheet.FixedSpritesheet_swigregister
+FixedSpritesheet_swigregister(FixedSpritesheet)
+
+class FlexibleSpritesheet(ugdk_graphic.Spritesheet):
+    __swig_setmethods__ = {}
+    for _s in [ugdk_graphic.Spritesheet]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, FlexibleSpritesheet, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ugdk_graphic.Spritesheet]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, FlexibleSpritesheet, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_spritesheet.new_FlexibleSpritesheet(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_spritesheet.delete_FlexibleSpritesheet
+    __del__ = lambda self : None;
+    def render_size(self): return _ugdk_spritesheet.FlexibleSpritesheet_render_size(self)
+    def set_frame_size(self, *args): return _ugdk_spritesheet.FlexibleSpritesheet_set_frame_size(self, *args)
+    def set_hotspot(self, *args): return _ugdk_spritesheet.FlexibleSpritesheet_set_hotspot(self, *args)
+    def hotspot(self): return _ugdk_spritesheet.FlexibleSpritesheet_hotspot(self)
+    def frame_count(self): return _ugdk_spritesheet.FlexibleSpritesheet_frame_count(self)
+    def frame_size(self, *args): return _ugdk_spritesheet.FlexibleSpritesheet_frame_size(self, *args)
+    def Draw(self, *args): return _ugdk_spritesheet.FlexibleSpritesheet_Draw(self, *args)
+FlexibleSpritesheet_swigregister = _ugdk_spritesheet.FlexibleSpritesheet_swigregister
+FlexibleSpritesheet_swigregister(FlexibleSpritesheet)
+
+
+def RegisterType_FixedSpritesheetData(*args):
+  return _ugdk_spritesheet.RegisterType_FixedSpritesheetData(*args)
+RegisterType_FixedSpritesheetData = _ugdk_spritesheet.RegisterType_FixedSpritesheetData
+
+def GetNull_FixedSpritesheetData():
+  return _ugdk_spritesheet.GetNull_FixedSpritesheetData()
+GetNull_FixedSpritesheetData = _ugdk_spritesheet.GetNull_FixedSpritesheetData
+
+def RegisterType_FixedSpritesheet(*args):
+  return _ugdk_spritesheet.RegisterType_FixedSpritesheet(*args)
+RegisterType_FixedSpritesheet = _ugdk_spritesheet.RegisterType_FixedSpritesheet
+
+def GetNull_FixedSpritesheet():
+  return _ugdk_spritesheet.GetNull_FixedSpritesheet()
+GetNull_FixedSpritesheet = _ugdk_spritesheet.GetNull_FixedSpritesheet
+
+def RegisterType_FlexibleSpritesheet(*args):
+  return _ugdk_spritesheet.RegisterType_FlexibleSpritesheet(*args)
+RegisterType_FlexibleSpritesheet = _ugdk_spritesheet.RegisterType_FlexibleSpritesheet
+
+def GetNull_FlexibleSpritesheet():
+  return _ugdk_spritesheet.GetNull_FlexibleSpritesheet()
+GetNull_FlexibleSpritesheet = _ugdk_spritesheet.GetNull_FlexibleSpritesheet
 print "Python ugdk_spritesheet confirm exports!"
 module = __import__(__name__)
 for key,value in module.__dict__.items():

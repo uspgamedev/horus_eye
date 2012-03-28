@@ -67,26 +67,6 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_action.new_VirtualType()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_action.delete_VirtualType
-    __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_action.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_action.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_action.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
-cvar = _ugdk_action.cvar
-LuaLang = cvar.LuaLang
-PythonLang = cvar.PythonLang
-
 class SwigPyIterator(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
@@ -115,6 +95,9 @@ class SwigPyIterator(_object):
     def __iter__(self): return self
 SwigPyIterator_swigregister = _ugdk_action.SwigPyIterator_swigregister
 SwigPyIterator_swigregister(SwigPyIterator)
+cvar = _ugdk_action.cvar
+LuaLang = cvar.LuaLang
+PythonLang = cvar.PythonLang
 
 class AnimationFrameVector(_object):
     __swig_setmethods__ = {}
@@ -163,6 +146,8 @@ class AnimationFrameVector(_object):
 AnimationFrameVector_swigregister = _ugdk_action.AnimationFrameVector_swigregister
 AnimationFrameVector_swigregister(AnimationFrameVector)
 
+import ugdk_base
+import ugdk_graphic
 import ugdk_audio
 DEFAULT_PERIOD = _ugdk_action.DEFAULT_PERIOD
 class AnimationFrame(_object):

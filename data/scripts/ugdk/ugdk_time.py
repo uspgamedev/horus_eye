@@ -67,26 +67,7 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_time.new_VirtualType()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_time.delete_VirtualType
-    __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_time.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_time.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_time.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
-cvar = _ugdk_time.cvar
-LuaLang = cvar.LuaLang
-PythonLang = cvar.PythonLang
-
+import ugdk_base
 class TimeAccumulator(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, TimeAccumulator, name, value)
@@ -107,6 +88,9 @@ class TimeAccumulator(_object):
     def IsPaused(self): return _ugdk_time.TimeAccumulator_IsPaused(self)
 TimeAccumulator_swigregister = _ugdk_time.TimeAccumulator_swigregister
 TimeAccumulator_swigregister(TimeAccumulator)
+cvar = _ugdk_time.cvar
+LuaLang = cvar.LuaLang
+PythonLang = cvar.PythonLang
 
 class TimeManager(_object):
     __swig_setmethods__ = {}

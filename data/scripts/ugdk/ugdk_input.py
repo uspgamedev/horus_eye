@@ -67,27 +67,8 @@ except AttributeError:
     _newclass = 0
 
 
-class VirtualType(_object):
-    __swig_setmethods__ = {}
-    __setattr__ = lambda self, name, value: _swig_setattr(self, VirtualType, name, value)
-    __swig_getmethods__ = {}
-    __getattr__ = lambda self, name: _swig_getattr(self, VirtualType, name)
-    __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_input.new_VirtualType()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_input.delete_VirtualType
-    __del__ = lambda self : None;
-    def FromLang(self, *args): return _ugdk_input.VirtualType_FromLang(self, *args)
-    def RegisterFromLang(self, *args): return _ugdk_input.VirtualType_RegisterFromLang(self, *args)
-VirtualType_swigregister = _ugdk_input.VirtualType_swigregister
-VirtualType_swigregister(VirtualType)
-cvar = _ugdk_input.cvar
-LuaLang = cvar.LuaLang
-PythonLang = cvar.PythonLang
-
 import ugdk_math
+import ugdk_base
 K_UNKNOWN = _ugdk_input.K_UNKNOWN
 K_FIRST = _ugdk_input.K_FIRST
 K_BACKSPACE = _ugdk_input.K_BACKSPACE
@@ -258,6 +239,9 @@ class InputManager(_object):
     def SimulateKeyRelease(self, *args): return _ugdk_input.InputManager_SimulateKeyRelease(self, *args)
 InputManager_swigregister = _ugdk_input.InputManager_swigregister
 InputManager_swigregister(InputManager)
+cvar = _ugdk_input.cvar
+LuaLang = cvar.LuaLang
+PythonLang = cvar.PythonLang
 
 
 def RegisterType_Key(*args):
