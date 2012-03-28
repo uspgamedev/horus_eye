@@ -51,8 +51,10 @@ SET(GAME_SRCS
     ./src/game/entities/emitterentity.h 
     ./src/game/entities/sandstormemitter.h 
     ./src/game/builders/itembuilder.h 
+    ./src/game/builders/entitybuilder.h 
     ./src/game/builders/mummybuilder.cc 
     ./src/game/builders/herobuilder.h 
+    ./src/game/builders/entitybuilder.cc 
     ./src/game/builders/projectilebuilder.cc 
     ./src/game/builders/itembuilder.cc 
     ./src/game/builders/conditionbuilder.cc 
@@ -83,7 +85,9 @@ SET(GAME_SRCS
     ./src/game/main.cc 
     ./src/game/sprites/condition.h 
     ./src/game/sprites/worldobject.h 
+    ./src/game/sprites/follower.h 
     ./src/game/sprites/worldobject.cc 
+    ./src/game/sprites/follower.cc 
     ./src/game/sprites/item.h 
     ./src/game/sprites/item.cc 
     ./src/game/sprites/scenery/wall.cc 
