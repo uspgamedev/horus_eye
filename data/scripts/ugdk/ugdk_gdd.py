@@ -99,6 +99,7 @@ cvar = _ugdk_gdd.cvar
 LuaLang = cvar.LuaLang
 PythonLang = cvar.PythonLang
 
+import ugdk_action
 class Reader(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Reader, name, value)
@@ -141,6 +142,82 @@ class LoadError(_object):
     __del__ = lambda self : None;
 LoadError_swigregister = _ugdk_gdd.LoadError_swigregister
 LoadError_swigregister(LoadError)
+
+class ParseStatus(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ParseStatus, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ParseStatus, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    OK = _ugdk_gdd.ParseStatus_OK
+    FILE_NOT_FOUND = _ugdk_gdd.ParseStatus_FILE_NOT_FOUND
+    LOAD_ERROR = _ugdk_gdd.ParseStatus_LOAD_ERROR
+    SYNTAX_ERROR = _ugdk_gdd.ParseStatus_SYNTAX_ERROR
+    __swig_destroy__ = _ugdk_gdd.delete_ParseStatus
+    __del__ = lambda self : None;
+ParseStatus_swigregister = _ugdk_gdd.ParseStatus_swigregister
+ParseStatus_swigregister(ParseStatus)
+
+class AnimationAbstractLoader(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AnimationAbstractLoader, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, AnimationAbstractLoader, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_gdd.delete_AnimationAbstractLoader
+    __del__ = lambda self : None;
+    def Load(self, *args): return _ugdk_gdd.AnimationAbstractLoader_Load(self, *args)
+    def newData(self, *args): return _ugdk_gdd.AnimationAbstractLoader_newData(self, *args)
+    def data(self): return _ugdk_gdd.AnimationAbstractLoader_data(self)
+    def cleanData(self): return _ugdk_gdd.AnimationAbstractLoader_cleanData(self)
+AnimationAbstractLoader_swigregister = _ugdk_gdd.AnimationAbstractLoader_swigregister
+AnimationAbstractLoader_swigregister(AnimationAbstractLoader)
+
+class AnimationSimpleLoader(AnimationAbstractLoader):
+    __swig_setmethods__ = {}
+    for _s in [AnimationAbstractLoader]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AnimationSimpleLoader, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AnimationAbstractLoader]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, AnimationSimpleLoader, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_gdd.new_AnimationSimpleLoader(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_gdd.delete_AnimationSimpleLoader
+    __del__ = lambda self : None;
+    def Load(self, *args): return _ugdk_gdd.AnimationSimpleLoader_Load(self, *args)
+    def newData(self, *args): return _ugdk_gdd.AnimationSimpleLoader_newData(self, *args)
+    def data(self): return _ugdk_gdd.AnimationSimpleLoader_data(self)
+    def cleanData(self): return _ugdk_gdd.AnimationSimpleLoader_cleanData(self)
+AnimationSimpleLoader_swigregister = _ugdk_gdd.AnimationSimpleLoader_swigregister
+AnimationSimpleLoader_swigregister(AnimationSimpleLoader)
+
+class AnimationLoader(AnimationSimpleLoader):
+    __swig_setmethods__ = {}
+    for _s in [AnimationSimpleLoader]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, AnimationLoader, name, value)
+    __swig_getmethods__ = {}
+    for _s in [AnimationSimpleLoader]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, AnimationLoader, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_gdd.new_AnimationLoader(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    __swig_destroy__ = _ugdk_gdd.delete_AnimationLoader
+    __del__ = lambda self : None;
+    def Insert(self, *args): return _ugdk_gdd.AnimationLoader_Insert(self, *args)
+    def Replace(self, *args): return _ugdk_gdd.AnimationLoader_Replace(self, *args)
+    def Exists(self, *args): return _ugdk_gdd.AnimationLoader_Exists(self, *args)
+    def Find(self, *args): return _ugdk_gdd.AnimationLoader_Find(self, *args)
+    def Load(self, *args): return _ugdk_gdd.AnimationLoader_Load(self, *args)
+    def ClearCache(self): return _ugdk_gdd.AnimationLoader_ClearCache(self)
+AnimationLoader_swigregister = _ugdk_gdd.AnimationLoader_swigregister
+AnimationLoader_swigregister(AnimationLoader)
 
 
 def RegisterType_Reader(*args):
