@@ -62,7 +62,7 @@ uint32          MenuBuilder::SELECTION_EYE = -1,
                 MenuBuilder::EARTHQUAKE = -1;
 
 void MenuBuilder::InitializeAnimations() {
-    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/menu.gdd");
+    ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/menu.gdd");
     SELECTION_EYE = ANIMATIONS->MakeIndex("SELECTION_EYE");
     HERO_SHOOTING = ANIMATIONS->MakeIndex("HERO_SHOOTING");
     MUMMY_DYING = ANIMATIONS->MakeIndex("MUMMY_DYING");
@@ -119,7 +119,7 @@ Menu *MenuBuilder::BuildMainMenu () {
                            (MENU_BOTTOM-MENU_TOP)/MenuBuilder::MAIN_SELECT_NUM);
 
     // The game logo.
-    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/logo_560x334_black.png"));
+    ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/logo_560x334_black.png"));
     menu->AddDrawable(logo, Vector2D((VIDEO_MANAGER()->video_size().x - logo->width()) * 0.5, 0.0));
 
     // The sprite of each option.
@@ -149,7 +149,7 @@ Menu *MenuBuilder::BuildMainMenu () {
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     menu->AddDrawable(version, Vector2D(10.0, VIDEO_MANAGER()->video_size().y - 10.0));
 
-    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/developed_by_uspgamedev1.png"));
+    ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/developed_by_uspgamedev1.png"));
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     menu->AddDrawable(developed_by, VIDEO_MANAGER()->video_size() + Vector2D(-15.0, 0.0));
 

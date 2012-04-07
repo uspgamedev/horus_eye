@@ -14,6 +14,7 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
+#include "game/scenes/world.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/utils/constants.h"
 
@@ -62,13 +63,13 @@ Explosion::Explosion(ugdk::graphic::FlexibleSpritesheet *image, uint32 animation
     SET_COLLISIONSHAPE(bound_);
     ADD_COLLISIONLOGIC(Mummy, new DamageCollision(damage));
 
-	//known_collisions_[GET_COLLISIONMASK(Mummy)] = new Collisions::Damage(this);
+	//known_collisions_["Mummy"] = new Collisions::Damage(this);
 }
 
 Explosion::~Explosion() {}
 
 void Explosion::InitializeAnimations() {
-    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/explosion.gdd");
+    ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/explosion.gdd");
     WEAPON_ANIMATIONS[HERO_FIREBALL_WEAPON] =
             ANIMATIONS->MakeIndex("HERO_FIREBALL_WEAPON");
     WEAPON_ANIMATIONS[HERO_EXPLOSION_WEAPON] =

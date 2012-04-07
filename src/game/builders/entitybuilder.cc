@@ -12,6 +12,7 @@
 
 #include "game/sprites/creatures/creature.h"
 #include "game/sprites/follower.h"
+#include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
@@ -30,7 +31,7 @@ COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
 
 sprite::WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
     // Creating a new Sprite with the shield image
-    ugdk::AnimationSet* set = RESOURCE_MANAGER()->animation_loader().Load("animations/shield.gdd");
+    ugdk::AnimationSet* set = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/shield.gdd");
     utils::ImageFactory img;
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(img.ShieldImage(), set);
     sprite->SelectAnimation("IDLE");
@@ -38,7 +39,7 @@ sprite::WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target
     Follower* follower = new Follower(target, 30.0);
     follower->node()->set_drawable(sprite);
 
-    CollisionObject* col = new CollisionObject(follower);
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), follower);
     col->InitializeCollisionClass("Projectile");
     col->AddCollisionLogic("Mummy", new DamageCollisionExtra(75.0));
     col->set_shape(new pyramidworks::geometry::Circle(0.80));

@@ -3,12 +3,10 @@
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util.h>
+#include <pyramidworks/geometry.h>
 
 namespace pyramidworks {
 namespace geometry {
-
-class Circle;
-class Rect;
 
 /// \class GeometricShape geometricshape.h "pyramidworks/geometry/geometricshape.h"
 /// A geometric shape.

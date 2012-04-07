@@ -48,7 +48,7 @@ static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_
 static void CreateFlexibleSpritesheet(const char* path, double frame_width, double frame_height, const ugdk::Vector2D& hotspot) {
     ugdk::base::ResourceManager* resources = engine()->resource_manager();
     
-    ugdk::graphic::Texture* tex = resources->texture_container().Load(path);
+    ugdk::graphic::Texture* tex = resources->texture_container().Load(path, path);
 
     ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
     sheet->set_frame_size(ugdk::Vector2D(frame_width, frame_height));
@@ -60,7 +60,7 @@ static void CreateFlexibleSpritesheet(const char* path, double frame_width, doub
 static void CreateSimpleFlexibleSpritesheet(const char* path) {
     ugdk::base::ResourceManager* resources = engine()->resource_manager();
 
-    ugdk::graphic::Texture* tex = resources->texture_container().Load(path);
+    ugdk::graphic::Texture* tex = resources->texture_container().Load(path, path);
     
     ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
     resources->spritesheet_container().Insert(path, sheet);
@@ -106,23 +106,6 @@ void StartGame() {
     }
     level_manager()->Initialize();
 
-    pyramidworks::collision::CollisionManager* colmanager 
-        = pyramidworks::collision::CollisionManager::reference();
-    colmanager->Generate("WorldObject");
-
-    colmanager->Generate("Creature", "WorldObject");
-    colmanager->Generate("Hero", "Creature");
-    colmanager->Generate("Mummy", "Creature");
-
-    colmanager->Generate("Wall", "WorldObject");
-    colmanager->Generate("Block", "Wall");
-    colmanager->Generate("Door", "Wall");
-
-    colmanager->Generate("Item", "WorldObject");
-    colmanager->Generate("Projectile", "WorldObject");
-    colmanager->Generate("Button", "WorldObject");
-    colmanager->Generate("Explosion", "WorldObject");
-
 
     // TODO: scriptstuff
 }
@@ -152,7 +135,7 @@ int main(int argc, char *argv[]) {
 	engine_config.window_size  = settings->resolution_vector();
 	engine_config.fullscreen   = settings->fullscreen();
 
-	engine_config.base_path = Constants::DATA_LOCATION;
+    engine_config.base_path = Constants::DATA_LOCATION;
     struct stat st;
     // Removing the trailing slash.
     int s = stat(engine_config.base_path.substr(0, engine_config.base_path.size() - 1).c_str(), &st);
@@ -160,7 +143,7 @@ int main(int argc, char *argv[]) {
         engine_config.base_path = "./";
 
 #ifndef ISMAC
-	engine_config.window_icon = "images/eye.bmp";
+    engine_config.window_icon = "images/eye.bmp";
 #else
     // On Mac OS X, the icon should be handled with a *.icns file inside the app
     engine_config.window_icon = "";
@@ -181,9 +164,6 @@ int main(int argc, char *argv[]) {
 
         // Releases data persistant between levels.
         level_manager()->Finish();
-
-        // Clears all CollisionClasses.
-        pyramidworks::collision::CollisionManager::Delete();
 
         // Releases all loaded textures, to avoid issues when changing resolution.
         engine()->video_manager()->Release();

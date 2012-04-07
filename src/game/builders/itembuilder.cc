@@ -22,7 +22,7 @@ using namespace utils;
 using sprite::Item;
 using sprite::Creature;
 using sprite::Hero;
-using sprite::Follower;
+//using sprite::Follower;
 using sprite::Condition;
 using pyramidworks::collision::CollisionObject;
 

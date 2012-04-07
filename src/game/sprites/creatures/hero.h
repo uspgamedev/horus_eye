@@ -37,6 +37,8 @@ class Hero : public Creature {
 
     skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
+    void SetupCollision();
+
 	void Invulnerable(int time);
     
   private:
@@ -58,6 +60,7 @@ class Hero : public Creature {
     void GetKeys();
     void ChangeSecondaryWeapon(int slot);
     void CollisionSlow();
+    void AddKnownCollisions();
 
     friend class MummySlowCollision;
 };

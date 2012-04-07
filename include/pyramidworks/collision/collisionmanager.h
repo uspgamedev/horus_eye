@@ -3,28 +3,18 @@
 
 #include <string>
 #include <map>
+#include <ugdk/util/intervalkdtree.h>
+#include <pyramidworks/collision.h>
 
 namespace pyramidworks {
 namespace collision {
-
-#define GET_COLLISIONMASK(NAME) pyramidworks::collision::CollisionManager::reference()->Get( #NAME )
-
-class CollisionClass;
 
 /// \class CollisionManager collisionmanager.h "pyramidworks/collision/collisionmanager.h"
 /// A singleton that manages all collisions.
 class CollisionManager {
   public:
-    /// The singleton's reference method.
-    /** @return A pointer to the only CollisionManager. */
-    static CollisionManager* reference() {
-        return reference_ ? reference_ : reference_ = new CollisionManager;
-    }
-    static bool Delete() {
-        if(!reference_) return false;
-        delete reference_; // The destructor takes care of clearing everything.
-        return true;
-    }
+    CollisionManager(const ugdk::ikdtree::Box<2>& tree_bounding_box);
+    ~CollisionManager();
 
     /// Creates a CollisionClass with no parent.
     void Generate(const std::string &name);
@@ -45,12 +35,7 @@ class CollisionManager {
     CollisionClass* Get(const char n[]) { const std::string str(n); return Get(str); }
     
   private:
-    // Singleton stuff
-    CollisionManager() {}
-    ~CollisionManager();
-    
-    static CollisionManager *reference_;
-
+    const ugdk::ikdtree::Box<2> tree_bounding_box_;
     std::map<std::string, CollisionClass*> cache_;
 };
 

@@ -57,7 +57,9 @@ Mummy::Mummy(ugdk::graphic::FlexibleSpritesheet* img) {
 
     identifier_ = std::string("Mummy");
 
+    INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Mummy);
+    Creature::AddKnownCollisions();
     ADD_COLLISIONLOGIC(Mummy, new MummyAntiStackCollision(this));
 }
 

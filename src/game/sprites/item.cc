@@ -10,6 +10,7 @@
 
 #include "item.h"
 
+#include "game/scenes/world.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/utils/constants.h"
 

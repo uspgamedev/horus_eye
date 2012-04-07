@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
+#include <pyramidworks/collision.h>
 
 #include "game/utils/levelmanager.h"
 #include "game/utils/tilefwd.h"
@@ -37,7 +38,7 @@ class World : public ugdk::Scene {
     World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();
 
-	void Update(double delta_t);
+    void Update(double delta_t);
 
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
     void AddHero(const ugdk::Vector2D& pos);
@@ -45,12 +46,13 @@ class World : public ugdk::Scene {
     void AddNewWorldObjects();
 
     int CountRemainingEnemies();
-	void IncreaseNumberOfEnemies();
+    void IncreaseNumberOfEnemies();
     int max_enemies() { return max_enemies_; }
     void DecreaseEnemyCount() { remaining_enemies_--; }
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
     }
+    void SetupCollisionManager();
     void End();
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
@@ -65,7 +67,7 @@ class World : public ugdk::Scene {
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
     static Vector2D FromScreenCoordinates(const Vector2D& screen_coords);
 
-	static const Vector2D ConvertLightRadius(double radius);
+    static const Vector2D ConvertLightRadius(double radius);
 
     //getters
     sprite::Hero * hero() const { return hero_; }
@@ -75,9 +77,10 @@ class World : public ugdk::Scene {
     utils::GameMap& level_matrix() { return level_matrix_; }
     utils::ImageFactory* image_factory() const { return image_factory_; }
     resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
-	
+    pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
+    
     //setters
-	void set_level_width(int width) { level_width_ = width; }
+    void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::Hero *hero) { hero_ = hero; }
@@ -90,7 +93,7 @@ class World : public ugdk::Scene {
 
     ugdk::graphic::Node *world_node_;
 
-	utils::Hud *hud_;
+    utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;
@@ -107,8 +110,9 @@ class World : public ugdk::Scene {
 
   private:
     utils::LevelManager::LevelState level_state_;
-	bool konami_used_, lights_on_;
+    bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
+    pyramidworks::collision::CollisionManager* collision_manager_;
 
 };  // class World
 

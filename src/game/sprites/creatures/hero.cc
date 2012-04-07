@@ -76,10 +76,6 @@ Hero::Hero(ugdk::graphic::Spritesheet* img,
     secondary_weapon_ = NULL;
 
     light_oscilation_ = 0.0;
-    
-    SET_COLLISIONCLASS(Hero);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3));
-    ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
 }
 
 Hero::~Hero() {}
@@ -251,6 +247,22 @@ void Hero::Update(double delta_t) {
 
 void Hero::Invulnerable(int time) {
 	this->hit_duration_->Restart(time);
+}
+
+void Hero::SetupCollision() {
+    if(collision_object_) {
+        delete collision_object_;
+        collision_object_ = NULL;
+    }
+    INITIALIZE_COLLISION;
+    SET_COLLISIONCLASS(Hero);
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3));
+    AddKnownCollisions();
+}
+
+void Hero::AddKnownCollisions() {
+    Creature::AddKnownCollisions();
+    ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
 }
 
 }

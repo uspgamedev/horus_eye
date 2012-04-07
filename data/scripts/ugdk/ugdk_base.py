@@ -67,27 +67,125 @@ except AttributeError:
     _newclass = 0
 
 
-class ResourceContainer_Texture(_object):
+class SwigPyIterator(_object):
     __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, SwigPyIterator, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, SwigPyIterator, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_base.delete_SwigPyIterator
+    __del__ = lambda self : None;
+    def value(self): return _ugdk_base.SwigPyIterator_value(self)
+    def incr(self, n = 1): return _ugdk_base.SwigPyIterator_incr(self, n)
+    def decr(self, n = 1): return _ugdk_base.SwigPyIterator_decr(self, n)
+    def distance(self, *args): return _ugdk_base.SwigPyIterator_distance(self, *args)
+    def equal(self, *args): return _ugdk_base.SwigPyIterator_equal(self, *args)
+    def copy(self): return _ugdk_base.SwigPyIterator_copy(self)
+    def next(self): return _ugdk_base.SwigPyIterator_next(self)
+    def __next__(self): return _ugdk_base.SwigPyIterator___next__(self)
+    def previous(self): return _ugdk_base.SwigPyIterator_previous(self)
+    def advance(self, *args): return _ugdk_base.SwigPyIterator_advance(self, *args)
+    def __eq__(self, *args): return _ugdk_base.SwigPyIterator___eq__(self, *args)
+    def __ne__(self, *args): return _ugdk_base.SwigPyIterator___ne__(self, *args)
+    def __iadd__(self, *args): return _ugdk_base.SwigPyIterator___iadd__(self, *args)
+    def __isub__(self, *args): return _ugdk_base.SwigPyIterator___isub__(self, *args)
+    def __add__(self, *args): return _ugdk_base.SwigPyIterator___add__(self, *args)
+    def __sub__(self, *args): return _ugdk_base.SwigPyIterator___sub__(self, *args)
+    def __iter__(self): return self
+SwigPyIterator_swigregister = _ugdk_base.SwigPyIterator_swigregister
+SwigPyIterator_swigregister(SwigPyIterator)
+cvar = _ugdk_base.cvar
+LuaLang = cvar.LuaLang
+PythonLang = cvar.PythonLang
+
+class ResourceContainerBase(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainerBase, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainerBase, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_base.delete_ResourceContainerBase
+    __del__ = lambda self : None;
+ResourceContainerBase_swigregister = _ugdk_base.ResourceContainerBase_swigregister
+ResourceContainerBase_swigregister(ResourceContainerBase)
+
+class ResourceContainer_Texture(ResourceContainerBase):
+    __swig_setmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
     __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainer_Texture, name, value)
     __swig_getmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
     __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainer_Texture, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_base.new_ResourceContainer_Texture()
-        try: self.this.append(this)
-        except: self.this = this
     __swig_destroy__ = _ugdk_base.delete_ResourceContainer_Texture
     __del__ = lambda self : None;
     def Insert(self, *args): return _ugdk_base.ResourceContainer_Texture_Insert(self, *args)
     def Replace(self, *args): return _ugdk_base.ResourceContainer_Texture_Replace(self, *args)
     def Exists(self, *args): return _ugdk_base.ResourceContainer_Texture_Exists(self, *args)
     def Find(self, *args): return _ugdk_base.ResourceContainer_Texture_Find(self, *args)
+    def Load(self, *args): return _ugdk_base.ResourceContainer_Texture_Load(self, *args)
 ResourceContainer_Texture_swigregister = _ugdk_base.ResourceContainer_Texture_swigregister
 ResourceContainer_Texture_swigregister(ResourceContainer_Texture)
-cvar = _ugdk_base.cvar
-LuaLang = cvar.LuaLang
-PythonLang = cvar.PythonLang
+
+class ResourceContainer_AnimationSet(ResourceContainerBase):
+    __swig_setmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainer_AnimationSet, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainer_AnimationSet, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_base.delete_ResourceContainer_AnimationSet
+    __del__ = lambda self : None;
+    def Insert(self, *args): return _ugdk_base.ResourceContainer_AnimationSet_Insert(self, *args)
+    def Replace(self, *args): return _ugdk_base.ResourceContainer_AnimationSet_Replace(self, *args)
+    def Exists(self, *args): return _ugdk_base.ResourceContainer_AnimationSet_Exists(self, *args)
+    def Find(self, *args): return _ugdk_base.ResourceContainer_AnimationSet_Find(self, *args)
+    def Load(self, *args): return _ugdk_base.ResourceContainer_AnimationSet_Load(self, *args)
+ResourceContainer_AnimationSet_swigregister = _ugdk_base.ResourceContainer_AnimationSet_swigregister
+ResourceContainer_AnimationSet_swigregister(ResourceContainer_AnimationSet)
+
+class ResourceContainer_Spritesheet(ResourceContainerBase):
+    __swig_setmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainer_Spritesheet, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainer_Spritesheet, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_base.delete_ResourceContainer_Spritesheet
+    __del__ = lambda self : None;
+    def Insert(self, *args): return _ugdk_base.ResourceContainer_Spritesheet_Insert(self, *args)
+    def Replace(self, *args): return _ugdk_base.ResourceContainer_Spritesheet_Replace(self, *args)
+    def Exists(self, *args): return _ugdk_base.ResourceContainer_Spritesheet_Exists(self, *args)
+    def Find(self, *args): return _ugdk_base.ResourceContainer_Spritesheet_Find(self, *args)
+    def Load(self, *args): return _ugdk_base.ResourceContainer_Spritesheet_Load(self, *args)
+ResourceContainer_Spritesheet_swigregister = _ugdk_base.ResourceContainer_Spritesheet_swigregister
+ResourceContainer_Spritesheet_swigregister(ResourceContainer_Spritesheet)
+
+class ResourceContainer_LanguageWord(ResourceContainerBase):
+    __swig_setmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
+    __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceContainer_LanguageWord, name, value)
+    __swig_getmethods__ = {}
+    for _s in [ResourceContainerBase]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
+    __getattr__ = lambda self, name: _swig_getattr(self, ResourceContainer_LanguageWord, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_base.delete_ResourceContainer_LanguageWord
+    __del__ = lambda self : None;
+    def Insert(self, *args): return _ugdk_base.ResourceContainer_LanguageWord_Insert(self, *args)
+    def Replace(self, *args): return _ugdk_base.ResourceContainer_LanguageWord_Replace(self, *args)
+    def Exists(self, *args): return _ugdk_base.ResourceContainer_LanguageWord_Exists(self, *args)
+    def Find(self, *args): return _ugdk_base.ResourceContainer_LanguageWord_Find(self, *args)
+    def Load(self, *args): return _ugdk_base.ResourceContainer_LanguageWord_Load(self, *args)
+ResourceContainer_LanguageWord_swigregister = _ugdk_base.ResourceContainer_LanguageWord_swigregister
+ResourceContainer_LanguageWord_swigregister(ResourceContainer_LanguageWord)
 
 import ugdk_math
 import ugdk_input
@@ -191,24 +289,6 @@ def Engine_reference():
   return _ugdk_base.Engine_reference()
 Engine_reference = _ugdk_base.Engine_reference
 
-class TextureContainer(ResourceContainer_Texture):
-    __swig_setmethods__ = {}
-    for _s in [ResourceContainer_Texture]: __swig_setmethods__.update(getattr(_s,'__swig_setmethods__',{}))
-    __setattr__ = lambda self, name, value: _swig_setattr(self, TextureContainer, name, value)
-    __swig_getmethods__ = {}
-    for _s in [ResourceContainer_Texture]: __swig_getmethods__.update(getattr(_s,'__swig_getmethods__',{}))
-    __getattr__ = lambda self, name: _swig_getattr(self, TextureContainer, name)
-    __repr__ = _swig_repr
-    def Load(self, *args): return _ugdk_base.TextureContainer_Load(self, *args)
-    def __init__(self): 
-        this = _ugdk_base.new_TextureContainer()
-        try: self.this.append(this)
-        except: self.this = this
-    __swig_destroy__ = _ugdk_base.delete_TextureContainer
-    __del__ = lambda self : None;
-TextureContainer_swigregister = _ugdk_base.TextureContainer_swigregister
-TextureContainer_swigregister(TextureContainer)
-
 class ResourceManager(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, ResourceManager, name, value)
@@ -221,16 +301,20 @@ class ResourceManager(_object):
         except: self.this = this
     __swig_destroy__ = _ugdk_base.delete_ResourceManager
     __del__ = lambda self : None;
+    __swig_getmethods__["GetTextureFromTag"] = lambda x: _ugdk_base.ResourceManager_GetTextureFromTag
+    if _newclass:GetTextureFromTag = staticmethod(_ugdk_base.ResourceManager_GetTextureFromTag)
+    __swig_getmethods__["GetTextureFromFile"] = lambda x: _ugdk_base.ResourceManager_GetTextureFromFile
+    if _newclass:GetTextureFromFile = staticmethod(_ugdk_base.ResourceManager_GetTextureFromFile)
+    __swig_getmethods__["GetSpritesheetFromTag"] = lambda x: _ugdk_base.ResourceManager_GetSpritesheetFromTag
+    if _newclass:GetSpritesheetFromTag = staticmethod(_ugdk_base.ResourceManager_GetSpritesheetFromTag)
+    __swig_getmethods__["GetAnimationSetFromFile"] = lambda x: _ugdk_base.ResourceManager_GetAnimationSetFromFile
+    if _newclass:GetAnimationSetFromFile = staticmethod(_ugdk_base.ResourceManager_GetAnimationSetFromFile)
+    __swig_getmethods__["CreateTextFromLanguageTag"] = lambda x: _ugdk_base.ResourceManager_CreateTextFromLanguageTag
+    if _newclass:CreateTextFromLanguageTag = staticmethod(_ugdk_base.ResourceManager_CreateTextFromLanguageTag)
     def texture_container(self): return _ugdk_base.ResourceManager_texture_container(self)
     def spritesheet_container(self): return _ugdk_base.ResourceManager_spritesheet_container(self)
     def animation_loader(self): return _ugdk_base.ResourceManager_animation_loader(self)
     def word_container(self): return _ugdk_base.ResourceManager_word_container(self)
-    __swig_getmethods__["GetTextureFromTag"] = lambda x: _ugdk_base.ResourceManager_GetTextureFromTag
-    if _newclass:GetTextureFromTag = staticmethod(_ugdk_base.ResourceManager_GetTextureFromTag)
-    __swig_getmethods__["GetSpritesheetFromTag"] = lambda x: _ugdk_base.ResourceManager_GetSpritesheetFromTag
-    if _newclass:GetSpritesheetFromTag = staticmethod(_ugdk_base.ResourceManager_GetSpritesheetFromTag)
-    __swig_getmethods__["CreateTextFromLanguageTag"] = lambda x: _ugdk_base.ResourceManager_CreateTextFromLanguageTag
-    if _newclass:CreateTextFromLanguageTag = staticmethod(_ugdk_base.ResourceManager_CreateTextFromLanguageTag)
 ResourceManager_swigregister = _ugdk_base.ResourceManager_swigregister
 ResourceManager_swigregister(ResourceManager)
 
@@ -238,9 +322,17 @@ def ResourceManager_GetTextureFromTag(*args):
   return _ugdk_base.ResourceManager_GetTextureFromTag(*args)
 ResourceManager_GetTextureFromTag = _ugdk_base.ResourceManager_GetTextureFromTag
 
+def ResourceManager_GetTextureFromFile(*args):
+  return _ugdk_base.ResourceManager_GetTextureFromFile(*args)
+ResourceManager_GetTextureFromFile = _ugdk_base.ResourceManager_GetTextureFromFile
+
 def ResourceManager_GetSpritesheetFromTag(*args):
   return _ugdk_base.ResourceManager_GetSpritesheetFromTag(*args)
 ResourceManager_GetSpritesheetFromTag = _ugdk_base.ResourceManager_GetSpritesheetFromTag
+
+def ResourceManager_GetAnimationSetFromFile(*args):
+  return _ugdk_base.ResourceManager_GetAnimationSetFromFile(*args)
+ResourceManager_GetAnimationSetFromFile = _ugdk_base.ResourceManager_GetAnimationSetFromFile
 
 def ResourceManager_CreateTextFromLanguageTag(*args):
   return _ugdk_base.ResourceManager_CreateTextFromLanguageTag(*args)
@@ -270,14 +362,6 @@ RegisterType_Engine = _ugdk_base.RegisterType_Engine
 def GetNull_Engine():
   return _ugdk_base.GetNull_Engine()
 GetNull_Engine = _ugdk_base.GetNull_Engine
-
-def RegisterType_TextureContainer(*args):
-  return _ugdk_base.RegisterType_TextureContainer(*args)
-RegisterType_TextureContainer = _ugdk_base.RegisterType_TextureContainer
-
-def GetNull_TextureContainer():
-  return _ugdk_base.GetNull_TextureContainer()
-GetNull_TextureContainer = _ugdk_base.GetNull_TextureContainer
 
 def RegisterType_ResourceManager(*args):
   return _ugdk_base.RegisterType_ResourceManager(*args)

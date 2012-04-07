@@ -7,12 +7,13 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
-
-#include "block.h"
-
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
+
+#include "block.h"
+
+#include "game/scenes/world.h"
 #include "game/sprites/projectiles/projectile.h"
 #include "game/utils/constants.h"
 

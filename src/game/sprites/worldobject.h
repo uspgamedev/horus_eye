@@ -18,7 +18,7 @@ namespace pyramidworks {
 
 namespace sprite {
 
-#define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(this); }
+#define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), this); }
 
 #define SET_COLLISIONCLASS(CLASS)        { collision_object_->InitializeCollisionClass(#CLASS); }
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
@@ -55,7 +55,7 @@ class WorldObject : public ugdk::Entity {
     void set_light_radius(double radius);
 
     virtual pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
-        void set_shape(pyramidworks::geometry::GeometricShape* shape);
+    void set_shape(pyramidworks::geometry::GeometricShape* shape);
 
           ugdk::graphic::Node* node()       { return node_; }
     const ugdk::graphic::Node* node() const { return node_; }

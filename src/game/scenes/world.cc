@@ -6,6 +6,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/music.h>
+#include <ugdk/util/intervalkdtree.h>
 
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
@@ -44,19 +45,21 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         level_state_(LevelManager::NOT_FINISHED),
         konami_used_(false),
         lights_on_(true),
-        num_button_not_pressed_(0) {
+        num_button_not_pressed_(0),
+        collision_manager_(NULL) {
 
     content_node()->AddChild(world_node_);
     world_node_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
     hud_ = new utils::Hud(this);
-	interface_node()->AddChild(hud_->node());
+    interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 }
 
 // Destrutor
 World::~World() {
     if(image_factory_) delete image_factory_;
+    if(collision_manager_) delete collision_manager_;
 }
 
 bool worldObjectIsDead (const WorldObject* value) {
@@ -107,16 +110,16 @@ void World::VerifyCheats(double delta_t) {
     if(input->KeyPressed(ugdk::input::K_l))
         VIDEO_MANAGER()->SetLightSystem(lights_on_ = !lights_on_);
 
-	// EASTER EGG/TODO: remove before any release!
-	// Also erase musics/sf2Guile456.mid
-	/*if(!konami_used_) {
-		Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
-		if(input->CheckSequence(konami, 10)) {
-			hero_->Invulnerable(85000);
-			AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
-			konami_used_ = true;
-		}
-	}*/
+    // EASTER EGG/TODO: remove before any release!
+    // Also erase musics/sf2Guile456.mid
+    /*if(!konami_used_) {
+        Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
+        if(input->CheckSequence(konami, 10)) {
+            hero_->Invulnerable(85000);
+            AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
+            konami_used_ = true;
+        }
+    }*/
 }
 
 Vector2D World::ActualOffset() {
@@ -199,7 +202,7 @@ void World::Update(double delta_t) {
 
     if(VerifyPause()) return;
 
-	content_node()->modifier()->set_visible(true);
+    content_node()->modifier()->set_visible(true);
     Scene::Update(delta_t);
 
 #ifdef DEBUG
@@ -212,9 +215,9 @@ void World::Update(double delta_t) {
     AddNewWorldObjects();
     
     world_node_->modifier()->set_offset(-ActualOffset());
-	UpdateVisibility();
+    UpdateVisibility();
 
-	if (!hero_)
+    if (!hero_)
         level_state_ = LevelManager::FINISH_DIE;
 
     if (level_state_ != LevelManager::NOT_FINISHED)
@@ -226,12 +229,12 @@ void World::End() {
     super::End();
 
     this->RemoveEntity(hud_);
-	interface_node()->RemoveChild(hud_->node());
+    interface_node()->RemoveChild(hud_->node());
     delete hud_;
     hud_ = NULL;
 
-	if(hero_ != NULL) {
-		hero_->Invulnerable(0);
+    if(hero_ != NULL) {
+        hero_->Invulnerable(0);
         hero_->collision_object()->StopColliding();
     }
 
@@ -335,6 +338,28 @@ const Vector2D World::ConvertLightRadius(double radius) {
     
 sprite::WorldObject * World::hero_world_object() const {
     return dynamic_cast<WorldObject*> (hero_);
+}
+
+void World::SetupCollisionManager() {
+    double min_coords[2] = { -1, -1 };
+    double max_coords[2] = { this->level_width(), this->level_height() };
+    ugdk::ikdtree::Box<2> box(min_coords, max_coords);
+    collision_manager_ = new pyramidworks::collision::CollisionManager(box);
+
+    collision_manager_->Generate("WorldObject");
+
+    collision_manager_->Generate("Creature", "WorldObject");
+    collision_manager_->Generate("Hero", "Creature");
+    collision_manager_->Generate("Mummy", "Creature");
+
+    collision_manager_->Generate("Wall", "WorldObject");
+    collision_manager_->Generate("Block", "Wall");
+    collision_manager_->Generate("Door", "Wall");
+
+    collision_manager_->Generate("Item", "WorldObject");
+    collision_manager_->Generate("Projectile", "WorldObject");
+    collision_manager_->Generate("Button", "WorldObject");
+    collision_manager_->Generate("Explosion", "WorldObject");
 }
 
 } // namespace scene
