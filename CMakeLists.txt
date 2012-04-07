@@ -5,7 +5,7 @@ PROJECT(horus_eye CXX C)
 SET(GAME_UNIXNAME horus_eye)
 SET(GAME_DEBUGNAME horus_eye_debug)
 SET(GAME_NAME "Horus Eye")
-SET(GAME_VERSION "1.1.1 Alpha")
+SET(GAME_VERSION "1.1.2 Alpha")
 SET(CMAKE_BUILD_TYPE Release)
 # Arquivos de código fonte vão aqui!
 include (src/src_list.cmake)

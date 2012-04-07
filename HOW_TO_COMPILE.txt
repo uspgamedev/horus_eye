@@ -11,7 +11,7 @@ GNU/Linux:
  * libsdl-ttf2.0-dev
 
 3) Download and compile UGDK with static link type:
-- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.2.0
+- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.3.0
 - b. Check the provided HOW_TO_COMPILE for instructions on how to compile UGDK.
 - c. Copy ugdk/lib/libugdk.a to horus_eye/lib
 
@@ -36,7 +36,7 @@ Mac OS X
 - SDL_TTF 2.0
 
 3) Download and compile UGDK with static (or dynamic) link type:
-- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.2.0
+- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.3.0
 - b. Check the provided HOW_TO_COMPILE for instructions on how to compile UGDK.
 - c. Copy ugdk/lib/libugdk.a (or ugdk/lib/libugdk.dylib, if you compiled 
      a dynamic library) to horus_eye/lib
@@ -68,7 +68,7 @@ following headers and libraries installed:
 - SDL_TTF 2.0
 
 You will need to compile the UGDK and copy lib/Release/libugdk.lib to the horus_eye/lib folder.
-UGDK source: https://github.com/uspgamedev/ugdk/tarball/v0.2.0
+UGDK source: https://github.com/uspgamedev/ugdk/zipball/v0.3.0
 
 If you wish to use MinGW, feel free to generate the Makefile project using CMake.
 You can either use the cmake-gui or open a command prompt in the same folder of 
