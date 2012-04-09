@@ -4,24 +4,21 @@
 #include <map>
 #include <ugdk/math/vector2D.h>
 
-#include "game/sprites/creatures/creature.h"
-#include <game/resources/resource.h>
+#include "game/components/creature.h"
+#include "game/resources/resource.h"
 #include "game/resources/capacityblocks.h"
 
 namespace skills {
 class Skill;
 } // skills
 
-namespace ugdk {
-class Image;
-} // ugdk
-
-namespace sprite {
+namespace component {
 
 class Hero : public Creature {
   
   public:
-    Hero(ugdk::graphic::Spritesheet* img, 
+    Hero(sprite::WorldObject* owner, 
+         ugdk::graphic::Spritesheet* img, 
          resource::Energy &life, 
          resource::Energy &mana, 
          int num_blocks, 

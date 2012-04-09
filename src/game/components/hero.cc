@@ -14,11 +14,11 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 
 #include "game/utils/imagefactory.h"
 #include "game/sprites/item.h"
-#include "game/sprites/creatures/mummy.h"
+#include "game/components/mummy.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 
@@ -40,7 +40,7 @@ using resource::Resource;
 using resource::Energy;
 using resource::CountableResource;
 
-namespace sprite {
+namespace component {
 
 #define SQRT_3 1.7320508075688772935274463415059
 
@@ -48,19 +48,20 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-Hero::Hero(ugdk::graphic::Spritesheet* img, 
+Hero::Hero(sprite::WorldObject* owner,
+           ugdk::graphic::Spritesheet* img, 
            resource::Energy &life, 
            resource::Energy &mana, 
            int num_blocks, 
            double mana_per_block)
-    : Creature(life, mana),
+    : Creature(owner, life, mana),
       mana_blocks_(mana_, num_blocks, mana_per_block)  {
 
     Initialize(img, ANIMATIONS);
 
     // Animations
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
-    identifier_ = "Hero";
+    //owner->identifier_ = "Hero";
 
     for (int i = 0; i < 4; i++) {
         pressed_key_[i] = false;
@@ -202,7 +203,7 @@ void Hero::UpdateAim() {
 
 void Hero::Update(double delta_t) {
     Creature::Update(delta_t);
-    if(is_active()) {
+    if(owner_->is_active()) {
         if(Aiming()) {
             UpdateAim();
         }
@@ -240,9 +241,9 @@ void Hero::Update(double delta_t) {
     if(light_oscilation_ > 0.5) light_oscilation_ -= 0.5 * 2;
 
     if(light_oscilation_ < 0)
-        this->set_light_radius(this->light_radius() - delta_t);
+        owner_->set_light_radius(owner_->light_radius() - delta_t);
     else
-        this->set_light_radius(this->light_radius() + delta_t);
+        owner_->set_light_radius(owner_->light_radius() + delta_t);
 }
 
 void Hero::Invulnerable(int time) {
@@ -250,19 +251,19 @@ void Hero::Invulnerable(int time) {
 }
 
 void Hero::SetupCollision() {
-    if(collision_object_) {
-        delete collision_object_;
-        collision_object_ = NULL;
+    if(owner_->collision_object()) {
+        //delete collision_object_;
+        //collision_object_ = NULL;
     }
-    INITIALIZE_COLLISION;
-    SET_COLLISIONCLASS(Hero);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(0.3));
+    //INITIALIZE_COLLISION;
+    //SET_COLLISIONCLASS(Hero);
+    owner_->collision_object()->set_shape(new pyramidworks::geometry::Circle(0.3));
     AddKnownCollisions();
 }
 
 void Hero::AddKnownCollisions() {
     Creature::AddKnownCollisions();
-    ADD_COLLISIONLOGIC(Mummy, new MummySlowCollision(this));
+    owner_->collision_object()->AddCollisionLogic("Mummy", new MummySlowCollision(this));
 }
 
 }

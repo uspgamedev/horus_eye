@@ -1,11 +1,12 @@
-#ifndef HORUSEYE_GAME_SPRITE_CREATURE_H_
-#define HORUSEYE_GAME_SPRITE_CREATURE_H_
+#ifndef HORUSEYE_COMPONENT_CREATURE_H_
+#define HORUSEYE_COMPONENT_CREATURE_H_
 
 #include <list>
 
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/types.h>
+#include <pyramidworks/geometry.h>
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
@@ -14,31 +15,26 @@ namespace skills {
 class Skill;
 }
 
-namespace pyramidworks {
-namespace geometry {
-class Rect;
-}
-}
-
 namespace ugdk {
     class AnimationSet;
     namespace time {
         class TimeAccumulator;
     }
-    namespace graphic {
+    namespace graphic { 
         class Sprite;
         class Spritesheet;
     }
 }
 
 namespace sprite {
+    class Condition;
+}
 
-class Condition;
+namespace component {
 
-class Creature : public WorldObject , public ugdk::Observer {
-  
+class Creature : public ugdk::Observer { 
   public:
-    Creature();
+    Creature(sprite::WorldObject* owner);
     virtual ~Creature();
 
     resource::Energy& life() { return life_; }
@@ -65,7 +61,7 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     skills::usearguments::Aim& aim() { return aim_; }
 
-    virtual bool AddCondition(Condition* new_condition);
+    virtual bool AddCondition(sprite::Condition* new_condition);
     virtual void UpdateCondition(double dt);
     virtual void TakeDamage(double life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
@@ -74,7 +70,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeAnimations();
     static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
-  protected:  
+  protected:
     static int direction_mapping_[8];
     static ugdk::uint32 standing_animations_[16];
     static ugdk::uint32 walking_animations_[16];
@@ -102,7 +98,7 @@ class Creature : public WorldObject , public ugdk::Observer {
         static const int DOWN = 8;
     };
 
-    Creature(resource::Energy &life, resource::Energy &mana);
+    Creature(sprite::WorldObject* owner, resource::Energy &life, resource::Energy &mana);
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 
@@ -124,6 +120,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     static void InitializeStandingAnimations();
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
+
+
+    /// The owner.
+    sprite::WorldObject* owner_;
 
     /// Is this creature waiting for an animation to finish?
     bool waiting_animation_;
@@ -170,7 +170,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     ugdk::Vector2D walking_direction_;
 
     // The conditions currently affecting this creature.
-    std::list<Condition*> conditions_;
+    std::list<sprite::Condition*> conditions_;
 
     /// Where this creature is aiming.
     skills::usearguments::Position aim_destination_;
