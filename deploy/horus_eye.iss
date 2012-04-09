@@ -7,8 +7,8 @@
 ; (To generate a new GUID, click Tools | Generate GUID inside the IDE.)
 AppId={{14804803-0D1C-4CF8-933E-8202270C54AF}
 AppName=Horus Eye
-AppVersion=1.1.1
-AppVerName=Horus Eye v1.1.1
+AppVersion=1.1.2
+AppVerName=Horus Eye v1.1.2
 AppPublisher=USPGameDev
 AppPublisherURL=http://www.uspgamedev.org/
 AppSupportURL=http://www.uspgamedev.org/
@@ -16,10 +16,11 @@ AppUpdatesURL=http://www.uspgamedev.org/
 DefaultDirName={pf}\Horus Eye
 DefaultGroupName=Horus Eye
 AllowNoIcons=true
-OutputBaseFilename=Horus_Eye-v1.1.1_Installer
+OutputBaseFilename=Horus_Eye-v1.1.2_Installer
 Compression=lzma
 SolidCompression=true
 SetupIconFile=eye.ico
+ArchitecturesInstallIn64BitMode=x64
 
 [Languages]
 Name: english; MessagesFile: compiler:Default.isl
@@ -30,11 +31,13 @@ Name: desktopicon; Description: {cm:CreateDesktopIcon}; GroupDescription: {cm:Ad
 Name: quicklaunchicon; Description: {cm:CreateQuickLaunchIcon}; GroupDescription: {cm:AdditionalIcons}; Flags: unchecked; OnlyBelowVersion: 0,6.1
 
 [Files]
-Source: ..\bin\Release\Horus Eye.exe; DestDir: {app}; Flags: ignoreversion
+Source: ..\bin\Win32-Release\Horus Eye.exe; DestDir: {app}; Check: not Is64BitInstallMode; Flags: ignoreversion
+Source: ..\bin\x64-Release\Horus Eye.exe; DestDir: {app}; Check: Is64BitInstallMode; Flags: ignoreversion
+Source: ..\lib\*.dll; DestDir: {app}; Check: not Is64BitInstallMode; Flags: ignoreversion
+Source: ..\lib64\*.dll; DestDir: {app}; Check: Is64BitInstallMode; Flags: ignoreversion
 Source: ..\data\*; DestDir: {app}\data; Flags: ignoreversion recursesubdirs createallsubdirs
 Source: ..\license\*; DestDir: {app}\license; Flags: ignoreversion recursesubdirs createallsubdirs
-Source: ..\lib\*.dll; DestDir: {app}; Flags: ignoreversion
-Source: vcredist_x86.exe; DestDir: {app}; 
+Source: dotNetFx40_Full_setup.exe; DestDir: {app}; 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
@@ -44,6 +47,6 @@ Name: {commondesktop}\Horus Eye; Filename: {app}\Horus Eye.exe; Tasks: desktopic
 Name: {userappdata}\Microsoft\Internet Explorer\Quick Launch\Horus Eye; Filename: {app}\Horus Eye.exe; Tasks: quicklaunchicon; IconIndex: 0
 
 [Run]
-Filename: {app}\vcredist_x86.exe; Parameters: "/q:a /c:""VCREDI~3.EXE /q:a /c:""""msiexec /i vcredist.msi /qn"""" """; WorkingDir: {app}\; StatusMsg: Installing CRT...
+Filename: {app}\dotNetFx40_Full_setup.exe; Parameters: "/passive /promptrestart"; WorkingDir: {app}\; StatusMsg: Installing CRT...
 Filename: {app}\Horus Eye.exe; Description: {cm:LaunchProgram,Horus Eye}; Flags: nowait postinstall skipifsilent
 

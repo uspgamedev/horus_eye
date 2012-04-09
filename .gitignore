@@ -60,3 +60,5 @@ settings.ini
 doc/doxy/
 auto_deploy.sh
 *.pyc
+
+/deploy/dotNetFx40_Full_setup.exe
