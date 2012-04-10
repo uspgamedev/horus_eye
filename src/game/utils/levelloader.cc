@@ -10,8 +10,8 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/creatures/mummy.h"
-#include "game/sprites/creatures/pharaoh.h"
+#include "game/components/mummy.h"
+#include "game/components/pharaoh.h"
 #include "game/sprites/scenery/floor.h"
 #include "game/sprites/scenery/door.h"
 #include "game/sprites/scenery/wall.h"

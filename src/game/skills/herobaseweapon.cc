@@ -6,7 +6,7 @@
 
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/components/creature.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
 
@@ -16,7 +16,7 @@ using namespace scene;
 using namespace ugdk;
 using utils::Constants;
 
-HeroBaseWeapon::HeroBaseWeapon(sprite::Creature* owner) 
+HeroBaseWeapon::HeroBaseWeapon(component::Creature* owner) 
     : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()) {}
 
 void HeroBaseWeapon::Use(){

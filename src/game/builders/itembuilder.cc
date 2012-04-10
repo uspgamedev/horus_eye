@@ -2,8 +2,8 @@
 
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
-#include "game/sprites/creatures/hero.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/components/hero.h"
+#include "game/components/creature.h"
 #include "game/sprites/follower.h"
 #include "game/sprites/item.h"
 #include "game/sprites/condition.h"
@@ -20,8 +20,8 @@ namespace builder {
 
 using namespace utils;
 using sprite::Item;
-using sprite::Creature;
-using sprite::Hero;
+using component::Creature;
+using component::Hero;
 //using sprite::Follower;
 using sprite::Condition;
 using pyramidworks::collision::CollisionObject;
@@ -31,7 +31,7 @@ using pyramidworks::collision::CollisionObject;
 class RecoverLifeEvent : public sprite::ItemEvent {
   public:
     RecoverLifeEvent (int recover) : recover_(recover) {}
-    bool Use (sprite::Hero *);
+    bool Use (component::Hero *);
 
   private:
     int recover_;
@@ -49,7 +49,7 @@ bool RecoverLifeEvent::Use (Hero *hero) {
 class RecoverManaEvent : public sprite::ItemEvent {
     public:
     RecoverManaEvent (int recover) : recover_(recover) {}
-    bool Use (sprite::Hero *);
+    bool Use (component::Hero *);
 
     private:
     int recover_;
@@ -68,7 +68,7 @@ bool RecoverManaEvent::Use (Hero *hero) {
 class IncreaseSightEvent : public sprite::ItemEvent {
     public:
     IncreaseSightEvent (double additional_sight) : additional_sight_(additional_sight) {}
-    bool Use (sprite::Hero *);
+    bool Use (component::Hero *);
 
     private:
     double additional_sight_;
@@ -89,9 +89,9 @@ bool IncreaseSightEvent::Use (Hero *hero) {
 class BlueGemShieldEvent : public sprite::ItemEvent {
   public:
     BlueGemShieldEvent() {}
-    bool Use(sprite::Hero * hero) {
+    bool Use(component::Hero * hero) {
         EntityBuilder builder;
-        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero), hero->world_position());
+        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero->owner()), hero->owner()->world_position());
         return true;
     }
 };

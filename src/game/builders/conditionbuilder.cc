@@ -3,14 +3,14 @@
 #include "conditionbuilder.h"
 
 #include "game/utils/constants.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/components/creature.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
 
 using namespace utils;
-using sprite::Creature;
+using component::Creature;
 using sprite::Condition;
 
 class IncreaseSightCondition : public Condition {
@@ -34,13 +34,13 @@ void IncreaseSightCondition::Update(double dt) {
 
 void IncreaseSightCondition::StartCondition(Creature* obj) {
     Condition::StartCondition(obj);
-	obj->set_light_radius(obj->light_radius() + Constants::SIGHT_POTION_INCREASE);
+	obj->owner()->set_light_radius(obj->owner()->light_radius() + Constants::SIGHT_POTION_INCREASE);
 	obj->set_sight_count(1);
 }
 
 void IncreaseSightCondition::EndCondition(Creature* obj) {
     Condition::EndCondition(obj);
-	obj->set_light_radius(obj->light_radius() - Constants::SIGHT_POTION_INCREASE);
+	obj->owner()->set_light_radius(obj->owner()->light_radius() - Constants::SIGHT_POTION_INCREASE);
 	obj->set_sight_count(-1);
 }
 

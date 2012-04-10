@@ -3,15 +3,12 @@
 
 #include <vector>
 #include <string>
+#include "game/sprites.h"
 
 namespace scene {
 class World;
 class Loading;
 class Menu;
-}
-
-namespace sprite {
-class Hero;
 }
 
 namespace utils {
@@ -60,7 +57,7 @@ class LevelManager {
 	scene::Loading* loading_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
-	sprite::Hero *hero_;
+    sprite::WorldObject *hero_;
     LevelManager();
     bool restart_game_;
 };

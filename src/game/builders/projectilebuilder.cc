@@ -13,7 +13,7 @@
 
 #include "projectilebuilder.h"
 
-#include "game/sprites/creatures/creature.h"
+#include "game/components/creature.h"
 #include "game/sprites/explosion.h"
 #include "game/sprites/projectiles/carrier.h"
 #include "game/utils/constants.h"
@@ -27,6 +27,7 @@ class Image;
 namespace builder {
 
 using namespace sprite;
+using component::Creature;
 using ugdk::Vector2D;
 using utils::Constants;
 using pyramidworks::collision::CollisionObject;

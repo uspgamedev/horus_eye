@@ -2,7 +2,7 @@
 
 #include "projectile.h"
 
-#include "game/sprites/creatures/creature.h"
+#include "game/components/creature.h"
 
 using ugdk::Vector2D;
 

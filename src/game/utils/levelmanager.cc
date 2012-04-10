@@ -17,8 +17,8 @@
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
 #include "game/scenes/loading.h"
-#include "game/sprites/creatures/creature.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/creature.h"
+#include "game/components/hero.h"
 #include "game/builders/herobuilder.h"
 #include "game/sprites/explosion.h"
 #include "game/scenes/imagescene.h"
@@ -33,6 +33,7 @@ using namespace ugdk;
 using namespace std;
 using namespace scene;
 using namespace sprite;
+using component::Creature;
 
 namespace utils {
 
@@ -154,13 +155,13 @@ void LevelManager::LoadNextLevel() {
             hero_ = builder.Kha();
         }
     }
-    hero_->mana_blocks().Fill();
+    static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
     current_level_ = new World(hero_, factory);
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
     delete loader;
     Engine::reference()->PushScene(current_level_);
-    hero_->SetupCollision();
+    static_cast<component::Hero*>(hero_->logic())->SetupCollision();
 }
 
 void LevelManager::Finish() {

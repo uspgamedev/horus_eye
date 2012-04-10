@@ -3,6 +3,7 @@
 
 namespace component {
 
+class Logic;
 class Creature;
 class Hero;
 class Mummy;

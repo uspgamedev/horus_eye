@@ -6,15 +6,9 @@
 #include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
-
-namespace pyramidworks {
-    namespace geometry {
-        class GeometricShape;
-    }
-    namespace collision {
-        class CollisionObject;
-    }
-}
+#include <pyramidworks/collision.h>
+#include <pyramidworks/geometry.h>
+#include "game/components.h"
 
 namespace sprite {
 
@@ -64,6 +58,9 @@ class WorldObject : public ugdk::Entity {
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
+    void set_logic(component::Logic* logic) { logic_ = logic; }
+    component::Logic* logic() { return logic_; }
+
   protected:
     std::string identifier_;
 
@@ -83,6 +80,8 @@ class WorldObject : public ugdk::Entity {
     // The current status for the object.
     Status status_;
     double light_radius_;
+
+    component::Logic* logic_;
 
 };  // class WorldObject
 

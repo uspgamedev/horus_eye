@@ -5,7 +5,7 @@
 #include "pharaohrangedweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/mummy.h"
+#include "game/components/mummy.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 #include "game/skills/combatart.h"

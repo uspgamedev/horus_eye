@@ -15,11 +15,12 @@
 #include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/mummy.h"
+#include "game/components/mummy.h"
 #include "game/utils/constants.h"
 
 using namespace ugdk;
 using namespace utils;
+using component::Creature;
 
 #define CENTER_X    Constants::EXPLOSION_SPRITE_CENTER_X
 #define CENTER_Y    Constants::EXPLOSION_SPRITE_CENTER_Y

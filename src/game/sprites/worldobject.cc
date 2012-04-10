@@ -5,6 +5,7 @@
 
 #include "worldobject.h"
 
+#include "game/components/logic.h"
 #include "game/scenes/world.h"
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
@@ -23,7 +24,8 @@ WorldObject::WorldObject(double duration)
         node_(new ugdk::graphic::Node),
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
-        light_radius_(0.0) {
+        light_radius_(0.0),
+        logic_(NULL) {
             if(duration > 0.0) 
                 this->set_timed_life(duration);
 }
@@ -33,6 +35,7 @@ WorldObject::~WorldObject() {
         delete collision_object_;
     delete node_;
     if(timed_life_) delete timed_life_;
+    if(logic_) delete logic_;
 }
 
 void WorldObject::StartToDie() {
@@ -44,6 +47,8 @@ void WorldObject::StartToDie() {
 void WorldObject::Update(double dt) {
     if(timed_life_ && timed_life_->Expired())
         StartToDie();
+
+    if(logic_) logic_->Update(dt);
 
     if(status_ == STATUS_DYING) 
         Dying(dt);

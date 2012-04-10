@@ -13,15 +13,15 @@ using namespace ugdk;
 using namespace utils;
 using resource::Energy;
 
-namespace sprite {
+namespace component {
 
 #define SQRT_3 1.7320508075688772935274463415059
 #define PHARAOH_TIME_TO_THINK 0.05
 
-Pharaoh::Pharaoh(FlexibleSpritesheet* image, int life, int mana) : Mummy(image) {
+Pharaoh::Pharaoh(sprite::WorldObject* owner, FlexibleSpritesheet* image, int life, int mana) : Mummy(owner, image) {
 	life_ = Energy(life);
 	mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
-    identifier_ = "Pharaoh";
+    //identifier_ = "Pharaoh";
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;
@@ -46,10 +46,10 @@ void Pharaoh::Think(double dt) {
 		time_to_think_ = PHARAOH_TIME_TO_THINK;
 		speed_ = original_speed_;
 		VisionStrategy strategy;
-		if(strategy.IsVisible(world_position())) {
+		if(strategy.IsVisible(owner_->world_position())) {
 			standing_ = false;
 
-			path_ = strategy.Calculate(world_position());
+			path_ = strategy.Calculate(owner_->world_position());
 			UpdateDirection(path_.front());
 
             aim_destination_ = path_.front();

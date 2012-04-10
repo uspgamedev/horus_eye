@@ -10,7 +10,7 @@
 
 #include "entitybuilder.h"
 
-#include "game/sprites/creatures/creature.h"
+#include "game/components/creature.h"
 #include "game/sprites/follower.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
@@ -20,7 +20,7 @@
 
 namespace builder {
 
-using sprite::Creature;
+using component::Creature;
 using sprite::Follower;
 using pyramidworks::collision::CollisionObject;
 

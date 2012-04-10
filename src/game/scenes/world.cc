@@ -19,7 +19,7 @@
 #include "game/scenes/menubuilder.h"
 
 #include "game/sprites/worldobject.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 #include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
@@ -35,7 +35,7 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
-World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
+World::World(sprite::WorldObject *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
         world_node_(new ugdk::graphic::Node),
@@ -99,10 +99,11 @@ void World::VerifyCheats(double delta_t) {
         }
     }
     if(input->KeyPressed(ugdk::input::K_h)) {
+        component::Hero* hero_logic = static_cast<component::Hero*>(hero_->logic());
         if(input->KeyDown(ugdk::input::K_LSHIFT))
-            hero_->mana_blocks().Fill();
-        hero_->life().Fill();
-        hero_->mana().Fill();
+            hero_logic->mana_blocks().Fill();
+        hero_logic->life().Fill();
+        hero_logic->mana().Fill();
     }
     if(input->KeyPressed(ugdk::input::K_t))
         hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
@@ -234,7 +235,7 @@ void World::End() {
     hud_ = NULL;
 
     if(hero_ != NULL) {
-        hero_->Invulnerable(0);
+        //hero_->Invulnerable(0);
         hero_->collision_object()->StopColliding();
     }
 
@@ -337,7 +338,7 @@ const Vector2D World::ConvertLightRadius(double radius) {
 }
     
 sprite::WorldObject * World::hero_world_object() const {
-    return dynamic_cast<WorldObject*> (hero_);
+    return hero_;
 }
 
 void World::SetupCollisionManager() {

@@ -3,27 +3,21 @@
 
 #include <list>
 
+#include <ugdk/action.h>
+#include <ugdk/time.h>
+#include <ugdk/graphic.h>
+
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/types.h>
 #include <pyramidworks/geometry.h>
+#include "game/components/logic.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
 
 namespace skills {
-class Skill;
-}
-
-namespace ugdk {
-    class AnimationSet;
-    namespace time {
-        class TimeAccumulator;
-    }
-    namespace graphic { 
-        class Sprite;
-        class Spritesheet;
-    }
+    class Skill;
 }
 
 namespace sprite {
@@ -32,10 +26,12 @@ namespace sprite {
 
 namespace component {
 
-class Creature : public ugdk::Observer { 
+class Creature : public Logic, public ugdk::Observer { 
   public:
     Creature(sprite::WorldObject* owner);
     virtual ~Creature();
+
+    sprite::WorldObject* owner() { return owner_; }
 
     resource::Energy& life() { return life_; }
 	void set_life(resource::Energy &life) {

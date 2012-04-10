@@ -13,7 +13,7 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/skills/skill.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
 #define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT
@@ -177,10 +177,13 @@ void Hud::Update(double delta_t) {
         fps_meter_node_->set_drawable(ConvertNumberToText(fps, false));
     }
 #endif
-    if(world->hero() != NULL) {
+
+    component::Hero* hero_logic;
+    if(world->hero() && (hero_logic = static_cast<component::Hero*>(world->hero()->logic()))) {
+
         // Update the Selected weapon icon
-        if(displayed_skill_ != world->hero()->secondary_combat_art()) {
-            displayed_skill_ = world->hero()->secondary_combat_art();
+        if(displayed_skill_ != hero_logic->secondary_combat_art()) {
+            displayed_skill_ = hero_logic->secondary_combat_art();
             
             weapon_icon_->set_drawable(displayed_skill_->icon());
             if(displayed_skill_->icon() != NULL)
@@ -189,12 +192,12 @@ void Hud::Update(double delta_t) {
 
         
         // Life Bar
-        life_modifier_->set_offset(Vector2D(0.0, -(((double) world->hero()->life()) / world->hero()->life().max_value()) * LIFE_BAR_HEIGHT) );
+        life_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->life()) / hero_logic->life().max_value()) * LIFE_BAR_HEIGHT) );
         
         // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0, -(((double) world->hero()->mana()) / world->hero()->FullMana()) * MANA_BAR_HEIGHT) );
+        mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->mana()) / hero_logic->FullMana()) * MANA_BAR_HEIGHT) );
 
-        block_modifier_->set_offset(Vector2D(0.0, -(((double) world->hero()->mana_blocks().Get()) / world->hero()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+        block_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->mana_blocks().Get()) / hero_logic->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
     }
 }
 

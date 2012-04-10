@@ -1,7 +1,7 @@
 #include "mummyweapon.h"
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
-#include "game/sprites/creatures/mummy.h"
+#include "game/components/hero.h"
+#include "game/components/mummy.h"
 
 namespace sprite {
 class Hero;
@@ -16,9 +16,9 @@ void MummyWeapon::Use(){
     super::Use();
 
 	scene::World *world = WORLD();
-	sprite::Hero* hero = world->hero();
+	sprite::WorldObject* hero = world->hero();
 	
-	hero->TakeDamage(damage_);
+    static_cast<component::Hero*>(hero->logic())->TakeDamage(damage_);
 }
 
 bool MummyWeapon::IsValidUse() const {

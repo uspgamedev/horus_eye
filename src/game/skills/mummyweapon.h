@@ -4,13 +4,13 @@
 
 #include "game/skills/combatart.h"
 #include "game/skills/usearguments.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/components/creature.h"
 
 namespace skills {
 
 class MummyWeapon : public CombatArt<usearguments::Aim> {
   public:
-    MummyWeapon(sprite::Creature* owner, int damage = 1)
+    MummyWeapon(component::Creature* owner, int damage = 1)
         : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()),
           damage_(damage) {}
 

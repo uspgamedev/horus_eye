@@ -6,6 +6,7 @@
 #include <ugdk/action/scene.h>
 #include <pyramidworks/collision.h>
 
+#include "game/components.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
@@ -15,8 +16,6 @@ class Hud;
 class ImageFactory;
 }
 namespace sprite {
-class Hero;
-class Mummy;
 class WorldObject;
 }
 namespace ugdk {
@@ -35,7 +34,7 @@ namespace scene {
 class World : public ugdk::Scene {
   typedef ugdk::Scene super;
   public:
-    World(sprite::Hero *hero, utils::ImageFactory *factory);
+    World(sprite::WorldObject *hero, utils::ImageFactory *factory);
     virtual ~World();
 
     void Update(double delta_t);
@@ -70,7 +69,7 @@ class World : public ugdk::Scene {
     static const Vector2D ConvertLightRadius(double radius);
 
     //getters
-    sprite::Hero * hero() const { return hero_; }
+    sprite::WorldObject * hero() const { return hero_; }
     sprite::WorldObject * hero_world_object() const;
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
@@ -83,10 +82,10 @@ class World : public ugdk::Scene {
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
-    void set_hero(sprite::Hero *hero) { hero_ = hero; }
+    void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
 
   protected:
-    sprite::Hero *hero_;
+    sprite::WorldObject *hero_;
     std::list<sprite::WorldObject*> world_objects_, 
                                     colliding_world_objects_, 
                                     new_world_objects_;

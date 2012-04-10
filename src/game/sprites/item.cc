@@ -11,7 +11,7 @@
 #include "item.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 #include "game/utils/constants.h"
 
 #define CENTER_X    Constants::POTION_SPRITE_CENTER_X
@@ -25,6 +25,7 @@ namespace sprite {
 
 using namespace ugdk;
 using namespace utils;
+using component::Hero;
 
 COLLISION_DIRECT(Item*, UseCollision, obj) {
     Hero *hero = (Hero*) obj;
