@@ -43,6 +43,28 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
+class MummyDeathOp : public sprite::DeathOp {
+  public:
+    MummyDeathOp(Mummy* m) : mummy_(m) {}
+
+    void Callback() {
+        int potion = rand() % 100;
+        if (potion <=20){
+            builder::ItemBuilder builder;
+            ImageFactory* image_factory = WORLD()->image_factory();
+            if(potion > 10)
+                WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), mummy_->owner()->world_position());
+            else if(potion> 5)
+                WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), mummy_->owner()->world_position());
+            else
+                WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), mummy_->owner()->world_position());
+        }
+    }
+
+  protected:
+    Mummy* mummy_;
+};
+
 Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img) : Creature(owner) {
     Initialize(img, ANIMATIONS);
 
@@ -59,6 +81,8 @@ Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img
     owner_->collision_object()->InitializeCollisionClass("Mummy");
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
+
+    owner_->set_death_start_callback(new MummyDeathOp(this));
 }
 
 Mummy::~Mummy() {
@@ -94,7 +118,7 @@ void Mummy::RandomMovement(){
 
     if (interval_->Expired()) {
 
-        int dir = rand()%8;
+        int dir = rand() % 8;
 
         animation_direction_ = 0;
         if (dir < 3) animation_direction_ += Animation_::UP;
@@ -185,21 +209,6 @@ void Mummy::Update(double delta_t) {
         }
     }
 
-}
-
-void Mummy::StartToDie() {
-    owner_->StartToDie();
-    int potion = rand() % 100;
-    if (potion <=20){
-        builder::ItemBuilder builder;
-        ImageFactory* image_factory = WORLD()->image_factory();
-        if(potion > 10)
-            WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), this->last_stable_position_);
-        else if(potion> 5)
-            WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), this->last_stable_position_);
-        else
-            WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), this->last_stable_position_);
-    }
 }
 
 void Mummy::PlayHitSound() const {

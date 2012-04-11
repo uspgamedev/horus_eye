@@ -57,12 +57,12 @@ COLLISION_DIRECT(WorldObject*, DieCollision, data) {
 }
 
 COLLISION_DIRECT(double, DamageCollision, obj) {
-	Creature *creature = (Creature *) obj;
-    creature->TakeDamage(data_);
+	WorldObject *wobj = (WorldObject *) obj;
+    static_cast<Creature*>(wobj->logic())->TakeDamage(data_);
 }
 
 COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
-	Creature *creature = (Creature *) obj;
+	Creature *creature = static_cast<Creature*>(static_cast<WorldObject*>(obj)->logic());
     if (data_.obj->is_active())
         creature->TakeDamage(data_.damage);
     data_.obj->Die();

@@ -18,6 +18,14 @@ namespace sprite {
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
 #define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(#CLASS, LOGIC); }
 
+class DeathOp {
+  public:
+    ~DeathOp() {}
+    virtual void Callback() = 0;
+protected:
+    DeathOp() {}
+};
+
 class WorldObject : public ugdk::Entity {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
@@ -62,6 +70,10 @@ class WorldObject : public ugdk::Entity {
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
+    void set_death_start_callback(DeathOp* on_death_start_callback) {
+        on_death_start_callback_ = on_death_start_callback;
+    }
+
     void set_logic(component::Logic* logic) { logic_ = logic; }
     component::Logic* logic() { return logic_; }
 
@@ -76,6 +88,9 @@ class WorldObject : public ugdk::Entity {
 
     // 
     ugdk::time::TimeAccumulator* timed_life_;
+
+    // TODO: make this somethintg
+    DeathOp* on_death_start_callback_;
 
   private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.

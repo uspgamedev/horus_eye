@@ -23,6 +23,7 @@ WorldObject::WorldObject(double duration)
         collision_object_(NULL),
         node_(new ugdk::graphic::Node),
         timed_life_(NULL),
+        on_death_start_callback_(NULL),
         status_(STATUS_ACTIVE),
         light_radius_(0.0),
         logic_(NULL) {
@@ -35,6 +36,7 @@ WorldObject::~WorldObject() {
         delete collision_object_;
     delete node_;
     if(timed_life_) delete timed_life_;
+    if(on_death_start_callback_) delete on_death_start_callback_;
     if(logic_) delete logic_;
 }
 
@@ -42,6 +44,8 @@ void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
     if(collision_object_ != NULL)
         collision_object_->StopColliding();
+    if(on_death_start_callback_)
+        on_death_start_callback_->Callback();
 }
 
 void WorldObject::Update(double dt) {
