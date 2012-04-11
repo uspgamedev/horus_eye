@@ -252,11 +252,11 @@ void Hero::Invulnerable(int time) {
 
 void Hero::SetupCollision() {
     if(owner_->collision_object()) {
-        //delete collision_object_;
-        //collision_object_ = NULL;
+        delete owner_->collision_object();
+        owner_->set_collision_object(NULL);
     }
-    //INITIALIZE_COLLISION;
-    //SET_COLLISIONCLASS(Hero);
+    owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
+    owner_->collision_object()->InitializeCollisionClass("Hero");
     owner_->collision_object()->set_shape(new pyramidworks::geometry::Circle(0.3));
     AddKnownCollisions();
 }

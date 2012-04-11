@@ -61,9 +61,8 @@ Creature::Creature(WorldObject* owner)
         sprite_(NULL),
         blink_(false) {
             owner_->set_logic(this);
-    //INITIALIZE_COLLISION;
-    // Teach this creature how to collides with Walls.
-    //ADD_COLLISIONLOGIC(Wall, new RectCollision(this));
+            if(!owner_->collision_object())
+                owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
 }
 
 Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy &mana)
@@ -134,8 +133,8 @@ void Creature::TakeDamage(double life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
     int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
-    /*fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", identifier_.c_str(), creature_id,
-        life_points, (double) life_, (double) life_ - life_points);*/
+    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), creature_id,
+        life_points, (double) life_, (double) life_ - life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;

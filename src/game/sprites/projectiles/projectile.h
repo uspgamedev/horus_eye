@@ -13,8 +13,6 @@ class Projectile : public WorldObject {
     void Move(double delta_t);
     virtual void Update(double delta_t);
 
-    void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
-
   protected:
     double speed_;
     ugdk::Vector2D direction_;

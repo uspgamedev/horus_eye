@@ -38,6 +38,8 @@ class WorldObject : public ugdk::Entity {
     virtual void Die() { status_ = STATUS_DEAD; }
     virtual void StartToDie();
 
+    const std::string& identifier() const { return identifier_; }
+
     const ugdk::Vector2D& world_position() const { return world_position_; }
     virtual void set_world_position(const ugdk::Vector2D& pos);
 
@@ -48,7 +50,9 @@ class WorldObject : public ugdk::Entity {
     double light_radius() const { return light_radius_; }
     void set_light_radius(double radius);
 
-    virtual pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
+    void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
+    pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
+
     void set_shape(pyramidworks::geometry::GeometricShape* shape);
 
           ugdk::graphic::Node* node()       { return node_; }

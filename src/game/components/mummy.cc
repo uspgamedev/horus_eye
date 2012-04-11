@@ -56,9 +56,7 @@ Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img
     invulnerability_time_ = 300;
 
     //identifier_ = std::string("Mummy");
-
-    //INITIALIZE_COLLISION;
-    //SET_COLLISIONCLASS(Mummy);
+    owner_->collision_object()->InitializeCollisionClass("Mummy");
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
 }

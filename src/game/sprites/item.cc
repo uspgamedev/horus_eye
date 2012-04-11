@@ -28,8 +28,8 @@ using namespace utils;
 using component::Hero;
 
 COLLISION_DIRECT(Item*, UseCollision, obj) {
-    Hero *hero = (Hero*) obj;
-    if (data_->event_->Use(hero))
+    WorldObject *wobj = (WorldObject*) obj;
+    if (data_->event_->Use(static_cast<Hero*>(wobj->logic())))
         data_->Die();
 }
 
