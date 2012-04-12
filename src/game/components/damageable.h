@@ -44,9 +44,6 @@ class Damageable : public BaseComponent {
     /// Duration of the invulnerability after taking a hit.
     int invulnerability_time_;
 
-    /// Controls when to toggle the blink_ flag.
-    ugdk::time::TimeAccumulator *blink_time_;
-
     /// Controls the invulnerability after being hit.
     ugdk::time::TimeAccumulator *hit_duration_;
 

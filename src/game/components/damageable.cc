@@ -17,7 +17,6 @@ Damageable::Damageable(sprite::WorldObject* owner)
   : BaseComponent(owner),
     super_armor_(false),
     invulnerability_time_(0),
-    blink_time_(new ugdk::time::TimeAccumulator(75)),
     hit_duration_(new ugdk::time::TimeAccumulator(0)) {
         for(int i = 1; i <= 4; ++i) {
             char buffer[255];
@@ -26,8 +25,7 @@ Damageable::Damageable(sprite::WorldObject* owner)
         }
 }
 Damageable::~Damageable() {
-    if (hit_duration_) delete hit_duration_;
-    if (blink_time_) delete blink_time_;
+    delete hit_duration_;
 }
 
 void Damageable::TakeDamage(double life_points) {
@@ -52,7 +50,6 @@ void Damageable::TakeDamage(double life_points) {
         //sprite_->SelectAnimation(taking_damage_animation_);
     }
     hit_duration_->Restart(invulnerability_time_);
-    blink_time_->Restart();
 }
 
 void Damageable::PlayHitSound() const {

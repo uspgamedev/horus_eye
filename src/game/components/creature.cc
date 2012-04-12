@@ -107,17 +107,6 @@ void Creature::UpdateCondition(double dt) {
 	 conditions_.remove_if(deletecondition);
 }
 
-void Creature::AdjustBlink(double delta_t) {
-    if (!hit_duration_->Expired()) {
-        if (blink_time_->Expired()) {
-            blink_ = !blink_;
-            owner_->node()->modifier()->set_alpha(blink_ ? 1.0 : 0.20);
-            blink_time_->Restart();
-        }
-    } else 
-        owner_->node()->modifier()->set_alpha(1.0);
-}
-
 // ANIMATION STUFF
 
 void Creature::InitializeAnimations() {
