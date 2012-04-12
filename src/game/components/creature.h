@@ -154,10 +154,6 @@ class Creature : public Logic, public ugdk::Observer {
     /// Well, kinda hacky or not. TODO better comment
     ugdk::graphic::Sprite* sprite_;
 
-  private:
-    /// When true, this Creature is on the invisible part of the blinking effect.
-    bool blink_;
-
 };  // class Creature
 
 }  // namespace sprite

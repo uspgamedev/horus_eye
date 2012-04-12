@@ -3,7 +3,9 @@
 
 namespace component {
 
+class BaseComponent;
 class Damageable;
+class Graphic;
 class Logic;
 class Creature;
 class Hero;
