@@ -63,8 +63,8 @@ class WorldObject : public ugdk::Entity {
 
     void set_shape(pyramidworks::geometry::GeometricShape* shape);
 
-          ugdk::graphic::Node* node()       { return node_; }
-    const ugdk::graphic::Node* node() const { return node_; }
+          ugdk::graphic::Node* node();
+    const ugdk::graphic::Node* node() const;
 
     void set_timed_life(ugdk::time::TimeAccumulator*);
     void set_timed_life(double);
@@ -77,14 +77,17 @@ class WorldObject : public ugdk::Entity {
     void set_logic(component::Logic* logic) { logic_ = logic; }
     component::Logic* logic() { return logic_; }
 
+    void set_damageable(component::Damageable* damageable) { damageable_ = damageable; }
+    component::Damageable* damageable() { return damageable_; }
+
+    void set_graphic(component::Graphic* graphic) { graphic_ = graphic; }
+    component::Graphic* graphic() { return graphic_; }
+
   protected:
     std::string identifier_;
 
     // Collision component
     pyramidworks::collision::CollisionObject *collision_object_;
-
-    // Graphic component
-    ugdk::graphic::Node* node_;
 
     // 
     ugdk::time::TimeAccumulator* timed_life_;
@@ -99,6 +102,10 @@ class WorldObject : public ugdk::Entity {
     // The current status for the object.
     Status status_;
     double light_radius_;
+
+    component::Damageable* damageable_;
+
+    component::Graphic* graphic_;
 
     component::Logic* logic_;
 

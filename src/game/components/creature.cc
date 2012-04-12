@@ -54,8 +54,7 @@ Creature::Creature(WorldObject* owner)
         last_dt_(0.0),
         sight_count_(0),
         aim_(owner->world_position(), aim_destination_),
-        sprite_(NULL),
-        blink_(false) {
+        sprite_(NULL) {
             owner_->set_logic(this);
             if(!owner_->collision_object())
                 owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
@@ -67,12 +66,10 @@ Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy 
         animation_direction_(0),
         weapon_(NULL),
         last_stable_position_(),
-        life_(life),
         mana_(mana),
         sight_count_(0),
         aim_(owner->world_position(), aim_destination_),
-        sprite_(NULL),
-        blink_(false) {
+        sprite_(NULL) {
             owner_->set_logic(this);
 }
 
