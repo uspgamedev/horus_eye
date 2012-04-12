@@ -10,7 +10,7 @@
 
 #include "entitybuilder.h"
 
-#include "game/components/creature.h"
+#include "game/components/damageable.h"
 #include "game/sprites/follower.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
@@ -25,8 +25,8 @@ using sprite::Follower;
 using pyramidworks::collision::CollisionObject;
 
 COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
-	Creature *creature = (Creature *) obj;
-    creature->TakeDamage(data_);
+	sprite::WorldObject *wobj = static_cast<sprite::WorldObject*>(obj);
+    wobj->damageable()->TakeDamage(data_);
 }
 
 sprite::WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
