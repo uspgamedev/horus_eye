@@ -53,10 +53,6 @@ Creature::Creature(WorldObject* owner)
         last_stable_position_(),
         last_dt_(0.0),
         sight_count_(0),
-        super_armor_(false),
-        invulnerability_time_(0),
-        blink_time_(new ugdk::time::TimeAccumulator(75)),
-        hit_duration_(new ugdk::time::TimeAccumulator(0)),
         aim_(owner->world_position(), aim_destination_),
         sprite_(NULL),
         blink_(false) {
@@ -74,20 +70,13 @@ Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy 
         life_(life),
         mana_(mana),
         sight_count_(0),
-        super_armor_(false),
-        invulnerability_time_(0),
-        blink_time_(new ugdk::time::TimeAccumulator(75)),
-        hit_duration_(new ugdk::time::TimeAccumulator(0)),
         aim_(owner->world_position(), aim_destination_),
         sprite_(NULL),
         blink_(false) {
             owner_->set_logic(this);
 }
 
-Creature::~Creature() {
-    if (hit_duration_) delete hit_duration_;
-    if (blink_time_) delete blink_time_;
-}
+Creature::~Creature() {}
 
 void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set) {
     owner_->node()->set_drawable(sprite_ = new ugdk::graphic::Sprite(image, ANIMATIONS));
@@ -127,31 +116,6 @@ void Creature::AdjustBlink(double delta_t) {
         }
     } else 
         owner_->node()->modifier()->set_alpha(1.0);
-}
-
-void Creature::TakeDamage(double life_points) {
-    if(!hit_duration_->Expired()) return;
-#ifdef DEBUG
-    int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
-    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), creature_id,
-        life_points, (double) life_, (double) life_ - life_points);
-#endif
-    PlayHitSound();
-    life_ -= life_points;
-    if(life_.Empty()) {
-        if (owner_->is_active()) {
-            sprite_->SelectAnimation(dying_animation_);
-	        owner_->StartToDie();
-#ifdef DEBUG
-            fprintf(stderr, "\tTriggering death animation.\n");
-#endif
-        }
-    } else if(!super_armor_) {
-        waiting_animation_ = true;
-        sprite_->SelectAnimation(taking_damage_animation_);
-    }
-    hit_duration_->Restart(invulnerability_time_);
-    blink_time_->Restart();
 }
 
 // ANIMATION STUFF
@@ -281,7 +245,6 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
     walking_direction_ = walking_direction_.Normalize();
     Move(walking_direction_, last_dt_);
 }
-
 
 void Creature::Tick() {
     if (owner_->status() == WorldObject::STATUS_DYING) {

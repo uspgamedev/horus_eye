@@ -3,6 +3,7 @@
 
 namespace component {
 
+class Damageable;
 class Logic;
 class Creature;
 class Hero;

@@ -33,14 +33,6 @@ class Creature : public Logic, public ugdk::Observer {
 
     sprite::WorldObject* owner() { return owner_; }
 
-    resource::Energy& life() { return life_; }
-	void set_life(resource::Energy &life) {
-		life_ = life;
-	}
-	void set_life(double life) {
-	    life_.Set(life);
-	}
-
 	resource::Energy& mana() { return mana_; }
     void set_mana(resource::Energy &mana) {
         mana_ = mana;;
@@ -53,13 +45,10 @@ class Creature : public Logic, public ugdk::Observer {
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
 
-    void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
-
     skills::usearguments::Aim& aim() { return aim_; }
 
     virtual bool AddCondition(sprite::Condition* new_condition);
     virtual void UpdateCondition(double dt);
-    virtual void TakeDamage(double life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
 
     // Colisoes
@@ -138,23 +127,11 @@ class Creature : public Logic, public ugdk::Observer {
 
     double last_dt_;
 
-    /// The life and mana of this creature. An energy manages reneration.
-    resource::Energy life_, mana_;
+    /// The mana of this creature. An energy manages reneration.
+    resource::Energy mana_;
 
     /// How many sight buffs this creature has.
     int sight_count_;
-
-    /// When true, this creature does not flinch when hit.
-    bool super_armor_;
-
-    /// For how much time this creature will be invulnerable after taking a hit.
-    int invulnerability_time_;
-
-    /// Controls when to toggle the blink_ flag.
-    ugdk::time::TimeAccumulator *blink_time_;
-
-    /// Controls the invulnerability after being hit.
-    ugdk::time::TimeAccumulator *hit_duration_;
 
     /// How fast this creature moves per second.
     double speed_;
