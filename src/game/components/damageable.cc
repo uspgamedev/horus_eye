@@ -2,6 +2,7 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
 #include "damageable.h"
+#include "game/components/graphic.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/settings.h"
 
@@ -50,6 +51,7 @@ void Damageable::TakeDamage(double life_points) {
         //sprite_->SelectAnimation(taking_damage_animation_);
     }
     hit_duration_->Restart(invulnerability_time_);
+    owner_->graphic()->StartBlinking();
 }
 
 void Damageable::PlayHitSound() const {
