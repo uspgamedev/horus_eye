@@ -39,6 +39,7 @@
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
     <ClCompile Include="src\game\builders\projectilebuilder.cc" />
+    <ClCompile Include="src\game\components\animation.cc" />
     <ClCompile Include="src\game\components\creature.cc" />
     <ClCompile Include="src\game\components\damageable.cc" />
     <ClCompile Include="src\game\components\graphic.cc" />
@@ -103,7 +104,7 @@
     <ClInclude Include="src\game\builders\mummybuilder.h" />
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\components.h" />
-    <ClInclude Include="src\game\components\basecomponent.h" />
+    <ClInclude Include="src\game\components\animation.h" />
     <ClInclude Include="src\game\components\controller.h" />
     <ClInclude Include="src\game\components\creature.h" />
     <ClInclude Include="src\game\components\damageable.h" />

@@ -6,15 +6,17 @@
 #include <ugdk/time.h>
 
 #include "game/sprites.h"
-#include "game/components/basecomponent.h"
 #include "game/resources/energy.h"
 
 namespace component {
 
-class Damageable : public BaseComponent { 
+class Damageable { 
   public:
     Damageable(sprite::WorldObject* owner);
     virtual ~Damageable();
+
+          sprite::WorldObject* owner()       { return owner_; }
+    const sprite::WorldObject* owner() const { return owner_; }
 
     virtual void TakeDamage(double life_points);
 
@@ -38,6 +40,9 @@ class Damageable : public BaseComponent {
 
   protected:
     void PlayHitSound() const;
+
+    /// The owner.
+    sprite::WorldObject* owner_;
 
     /// The life part of the component. An energy manages reneration.
     resource::Energy life_;

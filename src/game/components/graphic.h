@@ -5,13 +5,12 @@
 #include <ugdk/time.h>
 
 #include "game/sprites.h"
-#include "game/components/basecomponent.h"
 
 namespace component {
 
-class Graphic : public BaseComponent {
+class Graphic {
   public:
-    Graphic(sprite::WorldObject* owner, ugdk::graphic::Sprite* sprite = NULL);
+    Graphic(sprite::WorldObject* owner);
     virtual ~Graphic();
 
           ugdk::graphic::Node* node()       { return node_; }
@@ -28,6 +27,9 @@ class Graphic : public BaseComponent {
   private:
     void AdjustBlink();
 
+    /// The owner.
+    sprite::WorldObject* owner_;
+
     bool is_blinking_;
 
     /// Controls when to toggle the blink_ flag.
@@ -35,8 +37,6 @@ class Graphic : public BaseComponent {
 
     /// When true, this component is on the invisible part of the blinking effect.
     bool blink_;
-
-    ugdk::graphic::Sprite* sprite_;
 
 };  // class Graphic
 

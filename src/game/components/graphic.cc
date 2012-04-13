@@ -5,13 +5,12 @@
 
 namespace component {
 
-Graphic::Graphic(sprite::WorldObject* owner, ugdk::graphic::Sprite* sprite)
-  : BaseComponent(owner),
-    node_(new ugdk::graphic::Node(sprite)),
+Graphic::Graphic(sprite::WorldObject* owner)
+  : owner_(owner),
+    node_(new ugdk::graphic::Node),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     is_blinking_(false),
-    blink_(false),
-    sprite_(sprite) {}
+    blink_(false) {}
 
 Graphic::~Graphic() {
     delete node_;

@@ -3,7 +3,7 @@
 
 namespace component {
 
-class BaseComponent;
+class Animation;
 class Damageable;
 class Graphic;
 class Logic;
