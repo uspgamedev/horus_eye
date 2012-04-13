@@ -51,11 +51,10 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
 
 Hero::Hero(sprite::WorldObject* owner,
            ugdk::graphic::Spritesheet* img, 
-           resource::Energy &life, 
            resource::Energy &mana, 
            int num_blocks, 
            double mana_per_block)
-    : Creature(owner, life, mana),
+    : Creature(owner, mana),
       mana_blocks_(mana_, num_blocks, mana_per_block)  {
 
     Initialize(img, ANIMATIONS);

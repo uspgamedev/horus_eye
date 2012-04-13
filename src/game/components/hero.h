@@ -19,7 +19,6 @@ class Hero : public Creature {
   public:
     Hero(sprite::WorldObject* owner, 
          ugdk::graphic::Spritesheet* img, 
-         resource::Energy &life, 
          resource::Energy &mana, 
          int num_blocks, 
          double mana_per_block);

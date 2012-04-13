@@ -85,7 +85,7 @@ class Creature : public Logic, public ugdk::Observer {
         static const int DOWN = 8;
     };
 
-    Creature(sprite::WorldObject* owner, resource::Energy &life, resource::Energy &mana);
+    Creature(sprite::WorldObject* owner, resource::Energy &mana);
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 

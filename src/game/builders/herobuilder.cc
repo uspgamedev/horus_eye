@@ -34,16 +34,16 @@ sprite::WorldObject* HeroBuilder::Kha() {
                          Constants::HERO_BASE_MANA_REGEN_RATIO);
 
     WorldObject* hero_wobj = new WorldObject;
+    hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
+    hero_wobj->set_damageable(new component::Damageable(hero_wobj));
+    hero_wobj->damageable()->life() = life;
+    hero_wobj->damageable()->life().Fill();
+
     Hero *hero = new Hero(hero_wobj, factory_->HeroImage(), 
-                                  life, 
                                   mana, 
                                   Constants::HERO_MAX_MANA_BLOCKS, 
                                   Constants::HERO_MANA_PER_BLOCK);
 
-    hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
-    hero_wobj->set_controller(new component::PlayerController(hero_wobj));
-    hero_wobj->set_damageable(new component::Damageable(hero_wobj));
-    hero_wobj->damageable()->life().Fill();
     hero->mana_blocks().Fill();
     hero->mana().Fill();
     hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));

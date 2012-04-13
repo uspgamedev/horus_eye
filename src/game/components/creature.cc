@@ -70,7 +70,7 @@ Creature::Creature(WorldObject* owner)
                 owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
 }
 
-Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy &mana)
+Creature::Creature(WorldObject* owner, resource::Energy &mana)
     :   owner_(owner),
         waiting_animation_(false),
         last_standing_direction_(Direction::Down()),
