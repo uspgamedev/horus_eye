@@ -92,7 +92,6 @@ class Creature : public Logic, public ugdk::Observer {
     virtual void PlayHitSound() const {}
 
     // funcoes
-    void AdjustBlink(double delta_t);
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     void Tick();

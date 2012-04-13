@@ -35,11 +35,6 @@ Pharaoh::~Pharaoh() {
 	delete summon_weapon_;
 }
 
-void Pharaoh::Update(double delta_t) {
-	Mummy::Update(delta_t);
-    AdjustBlink(delta_t);
-}
-
 void Pharaoh::Think(double dt) {
     Creature::Update(dt);
 	time_to_think_ -= dt;

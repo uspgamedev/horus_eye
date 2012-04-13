@@ -29,8 +29,6 @@ class Pharaoh : public Mummy {
 
   protected:
 	skills::Skill *ranged_weapon_, *summon_weapon_;
-
-	void Update(double delta_t);
     void Think(double dt);
 
 };

@@ -234,7 +234,6 @@ void Hero::Update(double delta_t) {
                 sprite_->SelectAnimation(last_standing_animation_);
         }
     }
-    AdjustBlink(delta_t);
     speed_ = original_speed_;
     //mana_ += mana_regen_ * mana_regen_ratio_.Get() * delta_t;
 
