@@ -11,7 +11,7 @@ namespace component {
 
 class Graphic : public BaseComponent {
   public:
-    Graphic(sprite::WorldObject* owner);
+    Graphic(sprite::WorldObject* owner, ugdk::graphic::Sprite* sprite = NULL);
     virtual ~Graphic();
 
           ugdk::graphic::Node* node()       { return node_; }
@@ -35,6 +35,8 @@ class Graphic : public BaseComponent {
 
     /// When true, this component is on the invisible part of the blinking effect.
     bool blink_;
+
+    ugdk::graphic::Sprite* sprite_;
 
 };  // class Graphic
 

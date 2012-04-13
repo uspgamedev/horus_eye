@@ -29,7 +29,7 @@ using component::Hero;
 
 COLLISION_DIRECT(Item*, UseCollision, obj) {
     WorldObject *wobj = (WorldObject*) obj;
-    if (data_->event_->Use(static_cast<Hero*>(wobj->logic())))
+    if (data_->event_->Use(wobj))
         data_->Die();
 }
 

@@ -35,7 +35,7 @@ Wall::Wall(FlexibleSpritesheet* image) : tile_(NULL) {
     sprite_ = new ugdk::graphic::Sprite(image);
     sprite_->SetDefaultFrame(visible_frame_);
 
-    node_->set_drawable(sprite_);
+    node()->set_drawable(sprite_);
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Wall);

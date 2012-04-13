@@ -75,8 +75,8 @@ Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new ugdk::time::TimeAccumulator(0);
-    invulnerability_time_ = 300;
-
+    //TODO
+    //invulnerability_time_ = 300;
     //identifier_ = std::string("Mummy");
     owner_->collision_object()->InitializeCollisionClass("Mummy");
     Creature::AddKnownCollisions();
@@ -90,10 +90,11 @@ Mummy::~Mummy() {
     WORLD()->DecreaseEnemyCount();
 }
 
+/*
 void Mummy::TakeDamage(double life_points) {
     Creature::TakeDamage(life_points);
     standing_ = false;
-}
+} */
 
 void Mummy::MummyAntiStack(sprite::WorldObject *obj) {
     Vector2D deviation = (owner_->world_position() - obj->world_position()).Normalize();

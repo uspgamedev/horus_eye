@@ -35,8 +35,6 @@ class Hero : public Creature {
     skills::Skill* secondary_combat_art() { return secondary_weapon_; }
 
     void SetupCollision();
-
-	void Invulnerable(int time);
     
   private:
     bool pressed_key_[4];

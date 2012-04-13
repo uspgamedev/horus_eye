@@ -37,8 +37,8 @@ Block::Block(ugdk::graphic::FlexibleSpritesheet* image) : moving_(false) {
     image->set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
 
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(image);
-    node_->set_drawable(sprite);
-    node_->modifier()->set_scale(Vector2D(1.0, 0.7)); // TODO make block offset
+    node()->set_drawable(sprite);
+    node()->modifier()->set_scale(Vector2D(1.0, 0.7)); // TODO make block offset
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Block);

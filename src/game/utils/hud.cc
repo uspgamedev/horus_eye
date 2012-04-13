@@ -14,6 +14,7 @@
 #include "game/utils/constants.h"
 #include "game/skills/skill.h"
 #include "game/components/hero.h"
+#include "game/components/damageable.h"
 
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
 #define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT
@@ -178,8 +179,9 @@ void Hud::Update(double delta_t) {
     }
 #endif
 
+    sprite::WorldObject* hero = world->hero();
     component::Hero* hero_logic;
-    if(world->hero() && (hero_logic = static_cast<component::Hero*>(world->hero()->logic()))) {
+    if(hero && (hero_logic = static_cast<component::Hero*>(hero->logic()))) {
 
         // Update the Selected weapon icon
         if(displayed_skill_ != hero_logic->secondary_combat_art()) {
@@ -192,7 +194,7 @@ void Hud::Update(double delta_t) {
 
         
         // Life Bar
-        life_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->life()) / hero_logic->life().max_value()) * LIFE_BAR_HEIGHT) );
+        life_modifier_->set_offset(Vector2D(0.0, -(((double) hero->damageable()->life()) / hero->damageable()->life().max_value()) * LIFE_BAR_HEIGHT) );
         
         // Mana Bar
         mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->mana()) / hero_logic->FullMana()) * MANA_BAR_HEIGHT) );

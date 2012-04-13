@@ -57,7 +57,9 @@ void WorldObject::Update(double dt) {
     if(timed_life_ && timed_life_->Expired())
         StartToDie();
 
+    if(damageable_) damageable_->Update(dt);
     if(logic_) logic_->Update(dt);
+    if(graphic_) graphic_->Update(dt);
 
     if(status_ == STATUS_DYING) 
         Dying(dt);
@@ -75,17 +77,17 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
 void WorldObject::set_light_radius(double radius) {
     light_radius_ = radius;
     
-	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
+    if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
         if(graphic_->node()->light() == NULL) graphic_->node()->set_light(new ugdk::graphic::Light);
-		Vector2D dimension = World::ConvertLightRadius(light_radius_);
-		graphic_->node()->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+        Vector2D dimension = World::ConvertLightRadius(light_radius_);
+        graphic_->node()->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
-	} else {
-		if(graphic_->node()->light()) {
-			delete graphic_->node()->light();
-			graphic_->node()->set_light(NULL);
-		}
-	}
+    } else {
+        if(graphic_->node()->light()) {
+            delete graphic_->node()->light();
+            graphic_->node()->set_light(NULL);
+        }
+    }
 }
 
 void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {

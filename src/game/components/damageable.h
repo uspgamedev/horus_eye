@@ -18,13 +18,17 @@ class Damageable : public BaseComponent {
 
     virtual void TakeDamage(double life_points);
 
+    void Update(double dt) {
+        life_.Update(dt);
+    }
+
     resource::Energy& life() { return life_; }
-	void set_life(resource::Energy &life) {
-		life_ = life;
-	}
-	void set_life(double life) {
-	    life_.Set(life);
-	}
+    void set_life(resource::Energy &life) {
+        life_ = life;
+    }
+    void set_life(double life) {
+        life_.Set(life);
+    }
 
     void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
 

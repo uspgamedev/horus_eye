@@ -1,15 +1,17 @@
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 #include "game/components/graphic.h"
 
 namespace component {
 
-Graphic::Graphic(sprite::WorldObject* owner)
+Graphic::Graphic(sprite::WorldObject* owner, ugdk::graphic::Sprite* sprite)
   : BaseComponent(owner),
-    node_(new ugdk::graphic::Node),
+    node_(new ugdk::graphic::Node(sprite)),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     is_blinking_(false),
-    blink_(false) {}
+    blink_(false),
+    sprite_(sprite) {}
 
 Graphic::~Graphic() {
     delete node_;

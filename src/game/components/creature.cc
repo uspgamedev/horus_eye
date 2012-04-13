@@ -173,7 +173,6 @@ void Creature::InitializeStandingAnimations() {
 
 void Creature::Update(double dt) {
     UpdateCondition(dt);
-    life_.Update(dt);
     mana_.Update(dt);
 }
 

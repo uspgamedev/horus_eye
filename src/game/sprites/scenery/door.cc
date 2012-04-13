@@ -28,7 +28,7 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
 
 Door::Door(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world) {
     image->set_hotspot(Vector2D(HOTSPOT_WIDTH, HOTSPOT_HEIGHT));
-    node_->set_drawable(new ugdk::graphic::Sprite(image));
+    node()->set_drawable(new ugdk::graphic::Sprite(image));
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Wall);

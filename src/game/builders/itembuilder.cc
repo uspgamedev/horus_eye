@@ -4,6 +4,7 @@
 #include "game/utils/constants.h"
 #include "game/components/hero.h"
 #include "game/components/creature.h"
+#include "game/components/damageable.h"
 #include "game/sprites/follower.h"
 #include "game/sprites/item.h"
 #include "game/sprites/condition.h"
@@ -31,15 +32,16 @@ using pyramidworks::collision::CollisionObject;
 class RecoverLifeEvent : public sprite::ItemEvent {
   public:
     RecoverLifeEvent (int recover) : recover_(recover) {}
-    bool Use (component::Hero *);
+    bool Use (sprite::WorldObject *);
 
   private:
     int recover_;
 };
 
-bool RecoverLifeEvent::Use (Hero *hero) {
-    if (hero->life() < hero->life().max_value()) {
-        hero->life() += recover_;
+bool RecoverLifeEvent::Use (sprite::WorldObject* hero) {
+    resource::Energy& life = hero->damageable()->life();
+    if (life < life.max_value()) {
+        life += recover_;
         return true;
     }
     return false;
@@ -49,14 +51,15 @@ bool RecoverLifeEvent::Use (Hero *hero) {
 class RecoverManaEvent : public sprite::ItemEvent {
     public:
     RecoverManaEvent (int recover) : recover_(recover) {}
-    bool Use (component::Hero *);
+    bool Use (sprite::WorldObject* );
 
     private:
     int recover_;
 
 };
 
-bool RecoverManaEvent::Use (Hero *hero) {
+bool RecoverManaEvent::Use (sprite::WorldObject* wobj) {
+    Creature* hero = static_cast<Creature*>(wobj->logic());
     if (hero->mana() < hero->max_mana()) {
         hero->set_mana(hero->mana() + recover_);
         return true;
@@ -68,14 +71,15 @@ bool RecoverManaEvent::Use (Hero *hero) {
 class IncreaseSightEvent : public sprite::ItemEvent {
     public:
     IncreaseSightEvent (double additional_sight) : additional_sight_(additional_sight) {}
-    bool Use (component::Hero *);
+    bool Use (sprite::WorldObject*);
 
     private:
     double additional_sight_;
     ConditionBuilder condition_builder_;
 };
 
-bool IncreaseSightEvent::Use (Hero *hero) {
+bool IncreaseSightEvent::Use (sprite::WorldObject* wobj) {
+    Creature* hero = static_cast<Creature*>(wobj->logic());
     if ( hero->sight_count() < Constants::SIGHT_POTION_MAX_STACK ) {
 	    Condition* condition = condition_builder_.increase_sight_condition(hero);
 	    if (hero->AddCondition(condition)) return true;
@@ -89,9 +93,9 @@ bool IncreaseSightEvent::Use (Hero *hero) {
 class BlueGemShieldEvent : public sprite::ItemEvent {
   public:
     BlueGemShieldEvent() {}
-    bool Use(component::Hero * hero) {
+    bool Use(sprite::WorldObject* hero) {
         EntityBuilder builder;
-        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero->owner()), hero->owner()->world_position());
+        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero), hero->world_position());
         return true;
     }
 };

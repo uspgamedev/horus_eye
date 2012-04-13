@@ -27,7 +27,7 @@ class Mummy : public Creature {
     
     void set_standing(bool standing) { standing_ = standing; }	
     void set_speed(double speed) { original_speed_ = speed_ = speed; }
-    void TakeDamage(double life_points);
+    //void TakeDamage(double life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
     void set_bound(double radius);
 

@@ -14,6 +14,7 @@
 #include "projectilebuilder.h"
 
 #include "game/components/creature.h"
+#include "game/components/damageable.h"
 #include "game/sprites/explosion.h"
 #include "game/sprites/projectiles/carrier.h"
 #include "game/utils/constants.h"
@@ -58,13 +59,13 @@ COLLISION_DIRECT(WorldObject*, DieCollision, data) {
 
 COLLISION_DIRECT(double, DamageCollision, obj) {
 	WorldObject *wobj = (WorldObject *) obj;
-    static_cast<Creature*>(wobj->logic())->TakeDamage(data_);
+    wobj->damageable()->TakeDamage(data_);
 }
 
 COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
-	Creature *creature = static_cast<Creature*>(static_cast<WorldObject*>(obj)->logic());
+	WorldObject *wobj = static_cast<WorldObject*>(obj);
     if (data_.obj->is_active())
-        creature->TakeDamage(data_.damage);
+        wobj->damageable()->TakeDamage(data_.damage);
     data_.obj->Die();
 }
 

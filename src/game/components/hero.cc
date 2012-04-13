@@ -69,8 +69,10 @@ Hero::Hero(sprite::WorldObject* owner,
     sprite_->SelectAnimation(last_standing_animation_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
+    /*
+    TODO: argh
     invulnerability_time_ = INVUL_TIME;
-    super_armor_ = true;
+    super_armor_ = true;*/
 
     slot_selected_ = -1;
     weapon_ = new skills::HeroBaseWeapon(this);
@@ -244,10 +246,6 @@ void Hero::Update(double delta_t) {
         owner_->set_light_radius(owner_->light_radius() - delta_t);
     else
         owner_->set_light_radius(owner_->light_radius() + delta_t);
-}
-
-void Hero::Invulnerable(int time) {
-	this->hit_duration_->Restart(time);
 }
 
 void Hero::SetupCollision() {

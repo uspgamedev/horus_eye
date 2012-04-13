@@ -20,6 +20,7 @@
 
 #include "game/sprites/worldobject.h"
 #include "game/components/hero.h"
+#include "game/components/damageable.h"
 #include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
@@ -102,7 +103,7 @@ void World::VerifyCheats(double delta_t) {
         component::Hero* hero_logic = static_cast<component::Hero*>(hero_->logic());
         if(input->KeyDown(ugdk::input::K_LSHIFT))
             hero_logic->mana_blocks().Fill();
-        hero_logic->life().Fill();
+        hero_->damageable()->life().Fill();
         hero_logic->mana().Fill();
     }
     if(input->KeyPressed(ugdk::input::K_t))
