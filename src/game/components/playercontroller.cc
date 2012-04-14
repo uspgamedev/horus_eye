@@ -2,9 +2,7 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/input/keys.h>
 #include "playercontroller.h"
-#include "game/components/graphic.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/settings.h"
 
 using namespace ugdk;
 
