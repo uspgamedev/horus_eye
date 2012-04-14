@@ -11,7 +11,7 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 #include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
@@ -41,7 +41,7 @@ void HeroLightWeapon::Use(){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner)
+HeroLightWeapon::HeroLightWeapon(component::Hero* owner)
     : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage(); // TODO: change icon

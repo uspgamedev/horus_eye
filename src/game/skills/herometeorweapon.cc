@@ -9,7 +9,7 @@
 #include "herometeorweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 #include "game/sprites/explosion.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/projectiles/carrier.h"
@@ -58,7 +58,7 @@ void HeroMeteorWeapon::Use(){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-HeroMeteorWeapon::HeroMeteorWeapon(sprite::Hero* owner)
+HeroMeteorWeapon::HeroMeteorWeapon(component::Hero* owner)
     : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightningIconImage(); // TODO: change icon

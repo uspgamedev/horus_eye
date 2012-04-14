@@ -13,7 +13,7 @@
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 
 namespace skills {
 
@@ -39,7 +39,7 @@ void HeroFireballWeapon::Use() {
 }
 
 
-HeroFireballWeapon::HeroFireballWeapon(sprite::Hero* owner)
+HeroFireballWeapon::HeroFireballWeapon(component::Hero* owner)
     : CombatArt<usearguments::Aim>(NULL, utils::Constants::FIREBALL_COST, owner->mana(), owner->aim()) {
 
     HudImageFactory factory;

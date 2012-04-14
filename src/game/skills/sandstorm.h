@@ -1,13 +1,10 @@
 #ifndef HORUSEYE_GAME_SKILLS_SANDSTORM_H_
 #define HORUSEYE_GAME_SKILLS_SANDSTORM_H_
 
+#include "game/components.h"
 #include "game/utils/constants.h"
 #include "game/skills/combatart.h"
 #include "game/skills/usearguments.h"
-
-namespace sprite {
-class Creature;
-} // namespace sprite
 
 namespace entities {
 class SandstormEmitter;
@@ -17,7 +14,7 @@ namespace skills {
 
 class Sandstorm : public CombatArt<usearguments::Aim> {
   public:
-    Sandstorm(sprite::Creature* owner);
+    Sandstorm(component::Creature* owner);
     ~Sandstorm();
 
     // inherited virtuals

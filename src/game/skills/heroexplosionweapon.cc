@@ -7,7 +7,7 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/explosion.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/hero.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -21,7 +21,7 @@ using utils::Constants;
 
 const double HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
 
-HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
+HeroExplosionWeapon::HeroExplosionWeapon(component::Hero* owner)
     : DivineGift<usearguments::Aim>(
         NULL, utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) {
 
