@@ -2,6 +2,7 @@
 #define HORUSEYE_COMPONENT_CREATURE_H_
 
 #include <list>
+#include <map>
 
 #include <ugdk/action.h>
 #include <ugdk/time.h>
@@ -50,7 +51,7 @@ class Creature : public Logic, public ugdk::Observer {
 
     virtual bool AddCondition(sprite::Condition* new_condition);
     virtual void UpdateCondition(double dt);
-    void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
+    void set_weapon(skills::Skill *weapon) { active_skills_[Controller::PRIMARY] = weapon; }
 
     // Colisoes
     static void InitializeAnimations();
@@ -119,8 +120,8 @@ class Creature : public Logic, public ugdk::Observer {
     /// 
     Direction last_standing_direction_;
 
-    /// The base weapon this creature uses.
-    skills::Skill* weapon_;
+    /// The active weapons this creature has.
+    std::map<Controller::SkillSlot, skills::Skill*> active_skills_;
 
     /// The last position this creature was that is guaranteed to not colide with any walls.
     ugdk::Vector2D last_stable_position_;

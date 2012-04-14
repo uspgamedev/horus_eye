@@ -66,6 +66,6 @@ void MummyController::Update(double dt) {
     Think(dt);
 }
 
-bool MummyController::IsUsingWeaponSlot(WeaponSlot slot) const { return true; }
+bool MummyController::IsUsingSkillSlot(SkillSlot slot) const { return true; }
 
 }  // namespace sprite

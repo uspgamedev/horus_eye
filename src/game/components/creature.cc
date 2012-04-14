@@ -9,15 +9,16 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/util/animationparser.h>
+#include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "creature.h"
 
 #include "game/sprites/condition.h"
 #include "game/scenes/world.h"
-#include <pyramidworks/geometry/circle.h>
-#include <pyramidworks/geometry/rect.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
+#include "game/skills/skill.h"
 
 using namespace ugdk;
 using namespace utils;
@@ -59,7 +60,6 @@ Creature::Creature(WorldObject* owner)
         waiting_animation_(false),
         last_standing_direction_(Direction::Down()),
         animation_direction_(),
-        weapon_(NULL),
         last_stable_position_(),
         last_dt_(0.0),
         sight_count_(0),
@@ -73,8 +73,8 @@ Creature::Creature(WorldObject* owner)
 Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy &mana)
     :   owner_(owner),
         waiting_animation_(false),
+        last_standing_direction_(Direction::Down()),
         animation_direction_(),
-        weapon_(NULL),
         last_stable_position_(),
         mana_(mana),
         sight_count_(0),
@@ -83,7 +83,11 @@ Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy 
             owner_->set_logic(this);
 }
 
-Creature::~Creature() {}
+Creature::~Creature() {
+    std::map<Controller::SkillSlot, skills::Skill*>::iterator it;
+    for(it = active_skills_.begin(); it != active_skills_.end(); ++it)
+        delete it->second;
+}
 
 void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set) {
     owner_->node()->set_drawable(sprite_ = new ugdk::graphic::Sprite(image, ANIMATIONS));

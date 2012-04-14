@@ -70,8 +70,7 @@ Hero::Hero(sprite::WorldObject* owner,
     super_armor_ = true;*/
 
     slot_selected_ = -1;
-    weapon_ = new skills::HeroBaseWeapon(this);
-    secondary_weapon_ = NULL;
+    active_skills_[Controller::PRIMARY] = new skills::HeroBaseWeapon(this);
 
     light_oscilation_ = 0.0;
 }
@@ -82,15 +81,15 @@ double Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
 }
 
-void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
-    if (!weapons_.count(slot)) weapons_[slot] = combat_art;
-    if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
+void Hero::AddWeapon(int slot, skills::Skill* skill) {
+    if (!skills_.count(slot)) skills_[slot] = skill;
+    if (!active_skills_[Controller::SECONDARY]) ChangeSecondaryWeapon(slot);
 }
 
 void Hero::ChangeSecondaryWeapon(int slot) {
     if (slot != slot_selected_) {
         slot_selected_ = slot;
-        secondary_weapon_ = weapons_[slot];
+        active_skills_[Controller::SECONDARY] = skills_[slot];
     }
 }
 
@@ -130,10 +129,6 @@ void Hero::UpdateAim() {
     aim_destination_ = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
 }
 
-static bool WeaponAvaiable(skills::Skill* weapon) {
-    return weapon && weapon->Available();
-}
-
 void Hero::Update(double delta_t) {
     Creature::Update(delta_t);
     if(owner_->is_active()) {
@@ -143,22 +138,20 @@ void Hero::Update(double delta_t) {
         component::Controller* controller = owner_->controller();
 
         if(!waiting_animation_) {
-            if(controller->IsUsingWeaponSlot(Controller::PRIMARY) && WeaponAvaiable(weapon_)) {
-                if(weapon_->IsValidUse()) {
-                    StartAttackAnimation();
-                    weapon_->Use();
+            std::map<Controller::SkillSlot, skills::Skill*>::iterator wit;
+            for(wit = active_skills_.begin(); wit != active_skills_.end(); ++wit) {
+                if(!wit->second) continue;
+                if(controller->IsUsingSkillSlot(wit->first) && wit->second->Available()) {
+                    if(wit->second->IsValidUse()) {
+                        StartAttackAnimation();
+                        wit->second->Use();
+                    }
+                    break;
                 }
-            } else if (controller->IsUsingWeaponSlot(Controller::SECONDARY) && WeaponAvaiable(secondary_weapon_)) {
-                if(secondary_weapon_->IsValidUse()) {
-                    StartAttackAnimation();
-                    secondary_weapon_->Use();
-                }
-
             }
         }
         if(!waiting_animation_) {
             walking_direction_ = controller->direction_vector();
-
             const Direction& direction = controller->direction();
             if(direction) {
                 last_standing_direction_ = direction;

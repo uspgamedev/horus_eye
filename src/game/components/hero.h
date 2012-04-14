@@ -32,13 +32,12 @@ class Hero : public Creature {
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
 
-    skills::Skill* secondary_combat_art() { return secondary_weapon_; }
+    skills::Skill* secondary_combat_art() { return active_skills_[Controller::SECONDARY]; }
 
     void SetupCollision();
     
   private:
-    std::map<int, skills::Skill*> weapons_;
-    skills::Skill *secondary_weapon_;
+    std::map<int, skills::Skill*> skills_;
     int slot_selected_;
     double light_oscilation_;
 

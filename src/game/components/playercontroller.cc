@@ -51,7 +51,7 @@ void PlayerController::Update(double dt) {
     current_direction_ = d.ToVector2D();
 }
 
-bool PlayerController::IsUsingWeaponSlot(WeaponSlot slot) const {
+bool PlayerController::IsUsingSkillSlot(SkillSlot slot) const {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
     switch(slot) {
     case PRIMARY:   return input_->MouseDown(ugdk::input::M_BUTTON_LEFT);

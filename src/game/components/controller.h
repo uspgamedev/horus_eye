@@ -67,7 +67,7 @@ class Direction {
 
 class Controller { 
   public:
-    enum WeaponSlot {
+    enum SkillSlot {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3
     };
 
@@ -79,7 +79,7 @@ class Controller {
 
     virtual void Update(double dt) = 0;
 
-    virtual bool IsUsingWeaponSlot(WeaponSlot) const = 0;
+    virtual bool IsUsingSkillSlot(SkillSlot) const = 0;
 
     virtual const ugdk::Vector2D& direction_vector() const = 0;
     virtual const Direction& direction() const { return dir_; }
