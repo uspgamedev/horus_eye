@@ -8,6 +8,7 @@
 #include "game/components/logic.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
+#include "game/components/controller.h"
 #include "game/scenes/world.h"
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
@@ -29,7 +30,8 @@ WorldObject::WorldObject(double duration)
         light_radius_(0.0),
         logic_(NULL),
         damageable_(NULL), 
-        graphic_(NULL) {
+        graphic_(NULL),
+        controller_(NULL) {
             if(duration > 0.0) 
                 this->set_timed_life(duration);
             graphic_ = new component::Graphic(this);
@@ -43,6 +45,7 @@ WorldObject::~WorldObject() {
     if(logic_) delete logic_;
     if(damageable_) delete damageable_;
     if(graphic_) delete graphic_;
+    if(controller_) delete controller_;
 }
 
 void WorldObject::StartToDie() {
@@ -57,6 +60,7 @@ void WorldObject::Update(double dt) {
     if(timed_life_ && timed_life_->Expired())
         StartToDie();
 
+    if(controller_) controller_->Update(dt);
     if(damageable_) damageable_->Update(dt);
     if(logic_) logic_->Update(dt);
     if(graphic_) graphic_->Update(dt);

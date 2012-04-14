@@ -83,6 +83,9 @@ class WorldObject : public ugdk::Entity {
     void set_graphic(component::Graphic* graphic) { graphic_ = graphic; }
     component::Graphic* graphic() { return graphic_; }
 
+    void set_controller(component::Controller* controller) { controller_ = controller; }
+    component::Controller* controller() { return controller_; }
+
   protected:
     std::string identifier_;
 
@@ -108,6 +111,8 @@ class WorldObject : public ugdk::Entity {
     component::Graphic* graphic_;
 
     component::Logic* logic_;
+
+    component::Controller* controller_;
 
 };  // class WorldObject
 
