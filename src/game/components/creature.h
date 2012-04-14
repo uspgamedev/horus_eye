@@ -33,13 +33,13 @@ class Creature : public Logic, public ugdk::Observer {
 
     sprite::WorldObject* owner() { return owner_; }
 
-	resource::Energy& mana() { return mana_; }
+    resource::Energy& mana() { return mana_; }
     void set_mana(resource::Energy &mana) {
         mana_ = mana;;
     }
-	void set_mana(double mana) {
-		mana_.Set(mana);
-	}
+    void set_mana(double mana) {
+        mana_.Set(mana);
+    }
     double max_mana() { return mana_.max_value(); }
 
     int sight_count() { return sight_count_; }

@@ -14,6 +14,7 @@ class Pharaoh;
 
 class Controller;
 class PlayerController;
+class MummyController;
 
 }  // namespace component
 

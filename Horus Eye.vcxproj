@@ -44,7 +44,9 @@
     <ClCompile Include="src\game\components\graphic.cc" />
     <ClCompile Include="src\game\components\hero.cc" />
     <ClCompile Include="src\game\components\mummy.cc" />
+    <ClCompile Include="src\game\components\mummycontroller.cc" />
     <ClCompile Include="src\game\components\pharaoh.cc" />
+    <ClCompile Include="src\game\components\playercontroller.cc" />
     <ClCompile Include="src\game\entities\sandstormemitter.cc" />
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
@@ -96,13 +98,16 @@
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
     <ClInclude Include="src\game\components.h" />
     <ClInclude Include="src\game\components\basecomponent.h" />
+    <ClInclude Include="src\game\components\controller.h" />
     <ClInclude Include="src\game\components\creature.h" />
     <ClInclude Include="src\game\components\damageable.h" />
     <ClInclude Include="src\game\components\graphic.h" />
     <ClInclude Include="src\game\components\hero.h" />
     <ClInclude Include="src\game\components\logic.h" />
     <ClInclude Include="src\game\components\mummy.h" />
+    <ClInclude Include="src\game\components\mummycontroller.h" />
     <ClInclude Include="src\game\components\pharaoh.h" />
+    <ClInclude Include="src\game\components\playercontroller.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\entities\sandstormemitter.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />

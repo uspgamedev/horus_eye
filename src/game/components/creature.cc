@@ -86,8 +86,8 @@ void Creature::AddKnownCollisions() {
 }
 
 bool deletecondition(Condition *condition) {
-	bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
-	if (is_finished) delete condition;
+    bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
+    if (is_finished) delete condition;
     return is_finished;
 }
 
@@ -98,10 +98,10 @@ bool Creature::AddCondition(Condition* new_condition) {
 }
 
 void Creature::UpdateCondition(double dt) {
-	 std::list<Condition*>::iterator i;
-	 for (i = conditions_.begin(); i != conditions_.end(); ++i) 
-		 (*i)->Update(dt);
-	 conditions_.remove_if(deletecondition);
+     std::list<Condition*>::iterator i;
+     for (i = conditions_.begin(); i != conditions_.end(); ++i) 
+         (*i)->Update(dt);
+     conditions_.remove_if(deletecondition);
 }
 
 // ANIMATION STUFF
@@ -235,7 +235,7 @@ void Creature::Tick() {
     if (owner_->status() == WorldObject::STATUS_DYING) {
         owner_->Die();
     }
-	waiting_animation_ = false;
+    waiting_animation_ = false;
 }
 
 int Creature::GetAttackingAnimationIndex(double angle) {
@@ -251,7 +251,7 @@ double Creature::GetAttackingAngle(Vector2D targetDirection) {
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
     }
-	return radianAngle;
+    return radianAngle;
 }
 
 }  // namespace sprite
