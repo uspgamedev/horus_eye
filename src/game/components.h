@@ -12,6 +12,9 @@ class Hero;
 class Mummy;
 class Pharaoh;
 
+class Controller;
+class PlayerController;
+
 }  // namespace component
 
 #endif
