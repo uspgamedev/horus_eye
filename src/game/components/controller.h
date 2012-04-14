@@ -31,7 +31,11 @@ class Direction {
     /** @return True, if the object matches the none direction. */
     bool operator!() const { return !direction_; }
 
+    operator const bool() const { return !!direction_; }
+
     bool operator== (const Direction& rhs) const { return direction_ == rhs.direction_; }
+
+    int value() const { return direction_; }
 
     int NumDirections() const {
         // Count how many bits 1 there is in direction_

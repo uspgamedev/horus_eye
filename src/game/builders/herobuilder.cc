@@ -4,6 +4,7 @@
 
 #include "game/components/hero.h"
 #include "game/components/damageable.h"
+#include "game/components/playercontroller.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/constants.h"
 #include "game/resources/energy.h"
@@ -40,6 +41,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
                                   Constants::HERO_MANA_PER_BLOCK);
 
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
+    hero_wobj->set_controller(new component::PlayerController(hero_wobj));
     hero_wobj->set_damageable(new component::Damageable(hero_wobj));
     hero_wobj->damageable()->life().Fill();
     hero->mana_blocks().Fill();

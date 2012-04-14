@@ -37,7 +37,6 @@ class Hero : public Creature {
     void SetupCollision();
     
   private:
-    bool pressed_key_[4];
     std::map<int, skills::Skill*> weapons_;
     skills::Skill *secondary_weapon_;
     int slot_selected_;
@@ -52,7 +51,6 @@ class Hero : public Creature {
     bool Aiming();
     bool ShootingWithWeapon();
     bool ShootingWithSecondaryWeapon();
-    void GetKeys();
     void ChangeSecondaryWeapon(int slot);
     void CollisionSlow();
     void AddKnownCollisions();

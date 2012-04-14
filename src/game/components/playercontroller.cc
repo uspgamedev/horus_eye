@@ -24,8 +24,7 @@ void PlayerController::Update(double dt) {
     if(input_->KeyDown(ugdk::input::K_s) && d.NumDirections() < 2) d |= Direction::Down();
     if(input_->KeyDown(ugdk::input::K_d) && d.NumDirections() < 2) d |= Direction::Right();
 
-    // Store d as the active dir_ only if it has at least one direction
-    if(!!d) dir_ = d;
+    dir_ = d;
 
     /* No weapons for u.
     if(weapons_.size() > 0) {

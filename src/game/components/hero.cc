@@ -15,6 +15,7 @@
 #include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/components/hero.h"
+#include "game/components/controller.h"
 
 #include "game/utils/imagefactory.h"
 #include "game/sprites/item.h"
@@ -63,9 +64,6 @@ Hero::Hero(sprite::WorldObject* owner,
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
     //owner->identifier_ = "Hero";
 
-    for (int i = 0; i < 4; i++) {
-        pressed_key_[i] = false;
-    }
     sprite_->SelectAnimation(last_standing_animation_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
@@ -107,64 +105,6 @@ void Hero::PlayHitSound() const {
 
 void Hero::CollisionSlow() {
    speed_ /= 1.19;
-}
-
-void Hero::GetKeys() {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
-
-    for (int i = 0; i < 4; i++) {
-        pressed_key_[i] = false;
-    }
-
-    animation_direction_ = 0;
-    int num_dirs = 0;
-    if(input_->KeyDown(ugdk::input::K_w)) {
-        pressed_key_[Direction_::UP] = true;
-        animation_direction_ += Animation_::UP;
-        num_dirs++;
-    }
-    if(input_->KeyDown(ugdk::input::K_a)) {
-        pressed_key_[Direction_::LEFT] = true;
-        animation_direction_ += Animation_::LEFT;
-        num_dirs++;
-    }
-    if(input_->KeyDown(ugdk::input::K_s) && num_dirs < 2) {
-        pressed_key_[Direction_::DOWN] = true;
-        animation_direction_ += Animation_::DOWN;
-        num_dirs++;
-    }
-    if(input_->KeyDown(ugdk::input::K_d) && num_dirs < 2) {
-        pressed_key_[Direction_::RIGHT] = true;
-        animation_direction_ += Animation_::RIGHT;
-        num_dirs++;
-    }
-
-    if(weapons_.size() > 0) {
-        if (input_->KeyPressed(ugdk::input::K_e)) {
-            int next_slot = slot_selected_;
-            do next_slot = (next_slot+1)%Constants::HERO_MAX_WEAPONS;
-            while (!weapons_.count(next_slot));
-            ChangeSecondaryWeapon(next_slot);
-        }
-        if (input_->KeyPressed(ugdk::input::K_q)) {
-            int next_slot = slot_selected_;
-            do next_slot = next_slot-1 < 0 ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
-            while (!weapons_.count(next_slot));
-            ChangeSecondaryWeapon(next_slot);
-        }
-    }
-
-    if (animation_direction_)
-        last_standing_animation_ = standing_animations_[animation_direction_];
-
-
-    Vector2D dir (0, 0);
-    for (int i = 0; i < 4; i++) {
-        if (pressed_key_[i]) {
-            dir = dir + directions_[i];
-        }
-    }
-    this->walking_direction_ = Vector2D::Normalized(dir);
 }
 
 void Hero::StartAttackAnimation() {
@@ -225,13 +165,17 @@ void Hero::Update(double delta_t) {
             }
         }
         if(!waiting_animation_) {
-            this->GetKeys();
-            Creature::Move(this->GetWalkingDirection(), delta_t);
+            owner_->controller()->Update(delta_t);
+            walking_direction_ = owner_->controller()->direction_vector();
 
-            if (animation_direction_)
-                sprite_->SelectAnimation(walking_animations_[animation_direction_]);
-            else
+            const Direction& direction = owner_->controller()->direction();
+            if(direction) {
+                last_standing_animation_ = standing_animations_[direction.value()];
+                sprite_->SelectAnimation(walking_animations_[direction.value()]);
+            } else {
                 sprite_->SelectAnimation(last_standing_animation_);
+            }
+            Creature::Move(this->GetWalkingDirection(), delta_t);
         }
     }
     speed_ = original_speed_;
