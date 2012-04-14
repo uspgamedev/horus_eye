@@ -69,9 +69,7 @@ Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img
     Initialize(img, ANIMATIONS);
 
     // Animations
-    last_standing_animation_ = standing_animations_[Animation_::DOWN];
-
-    sprite_->SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new ugdk::time::TimeAccumulator(0);
@@ -106,7 +104,8 @@ void Mummy::StartAttack(sprite::WorldObject* obj) {
     double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - owner_->node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
+    
+    last_standing_direction_ = direction_mapping_[attackAnimationIndex];
     sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
@@ -121,11 +120,12 @@ void Mummy::RandomMovement(){
 
         int dir = rand() % 8;
 
-        animation_direction_ = 0;
-        if (dir < 3) animation_direction_ += Animation_::UP;
-        if (dir >= 2 && dir < 5) animation_direction_ += Animation_::LEFT;
-        if (dir >= 4 && dir < 7) animation_direction_ += Animation_::DOWN;
-        if (dir >= 6 || dir == 0) animation_direction_ += Animation_::RIGHT;
+        Direction d;
+        if (dir < 3) d |= Direction::Up();
+        if (dir >= 2 && dir < 5) d |= Direction::Left();
+        if (dir >= 4 && dir < 7) d |= Direction::Down();
+        if (dir >= 6 || dir == 0) d |= Direction::Right();
+        animation_direction_ = d;
 
         interval_->Restart(WaitingTime());
         last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
@@ -141,7 +141,7 @@ void Mummy::UpdateDirection(Vector2D destination){
 
     Vector2D dir_ = path_.front() - owner_->world_position();
     last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
-    last_standing_animation_ = (standing_animations_[animation_direction_]);
+    last_standing_direction_ = animation_direction_;
 
 }
 
@@ -168,7 +168,7 @@ void Mummy::Think(double dt) {
         }
         else if(!standing_){
             RandomMovement();
-            last_standing_animation_ = (standing_animations_[animation_direction_]);
+            last_standing_direction_ = animation_direction_;
         }
     }
 }
@@ -195,18 +195,9 @@ void Mummy::Update(double delta_t) {
         Think(delta_t);
 
         if(!waiting_animation_) {
-            if (animation_direction_ & Animation_::UP)
-                dir = dir + directions_[Direction_::UP];
-            if (animation_direction_ & Animation_::DOWN)
-                dir = dir + directions_[Direction_::DOWN];
-            if (animation_direction_ & Animation_::LEFT)
-                dir = dir + directions_[Direction_::LEFT];
-            if (animation_direction_ & Animation_::RIGHT)
-                dir = dir + directions_[Direction_::RIGHT];
-
             Creature::Move(this->GetWalkingDirection(), delta_t);
             walking_direction_ = last_direction_;
-            sprite_->SelectAnimation(walking_animations_[animation_direction_]);
+            sprite_->SelectAnimation(walking_animations_[animation_direction_.value()]);
         }
     }
 

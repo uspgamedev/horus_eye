@@ -13,6 +13,7 @@ class PlayerController : public Controller {
 
     virtual void Update(double dt);
 
+    virtual bool IsUsingWeaponSlot(WeaponSlot) const;
     virtual const ugdk::Vector2D& direction_vector() const { return current_direction_; }
 
   protected:

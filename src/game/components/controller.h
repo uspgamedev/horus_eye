@@ -67,6 +67,10 @@ class Direction {
 
 class Controller { 
   public:
+    enum WeaponSlot {
+        PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3
+    };
+
     Controller(sprite::WorldObject* owner) : owner_(owner) {}
     virtual ~Controller() {}
 
@@ -74,6 +78,8 @@ class Controller {
     const sprite::WorldObject* owner() const { return owner_; }
 
     virtual void Update(double dt) = 0;
+
+    virtual bool IsUsingWeaponSlot(WeaponSlot) const = 0;
 
     virtual const ugdk::Vector2D& direction_vector() const = 0;
     virtual const Direction& direction() const { return dir_; }

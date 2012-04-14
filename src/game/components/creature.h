@@ -12,6 +12,7 @@
 #include <ugdk/base/types.h>
 #include <pyramidworks/geometry.h>
 #include "game/components/logic.h"
+#include "game/components/controller.h"
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
@@ -56,7 +57,7 @@ class Creature : public Logic, public ugdk::Observer {
     static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
   protected:
-    static int direction_mapping_[8];
+    static const Direction direction_mapping_[8];
     static ugdk::uint32 standing_animations_[16];
     static ugdk::uint32 walking_animations_[16];
     static ugdk::uint32 attacking_animations_[8];
@@ -113,10 +114,10 @@ class Creature : public Logic, public ugdk::Observer {
     bool waiting_animation_;
     
     ///
-    int animation_direction_;
+    Direction animation_direction_;
 
     /// 
-    ugdk::uint32 last_standing_animation_;
+    Direction last_standing_direction_;
 
     /// The base weapon this creature uses.
     skills::Skill* weapon_;

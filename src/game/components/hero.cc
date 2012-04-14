@@ -60,11 +60,8 @@ Hero::Hero(sprite::WorldObject* owner,
 
     Initialize(img, ANIMATIONS);
 
-    // Animations
-    last_standing_animation_ = standing_animations_[Animation_::DOWN];
     //owner->identifier_ = "Hero";
-
-    sprite_->SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     /*
@@ -116,23 +113,13 @@ void Hero::StartAttackAnimation() {
     double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
-    last_standing_animation_ = Creature::standing_animations_[direction_mapping_[attackAnimationIndex]];
+    last_standing_direction_ = direction_mapping_[attackAnimationIndex];
     sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
 bool Hero::Aiming() {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
     return input_->MouseDown(ugdk::input::M_BUTTON_LEFT) || input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);
-}
-
-bool Hero::ShootingWithWeapon() {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(ugdk::input::M_BUTTON_LEFT) && weapon_ && weapon_->Available();
-}
-
-bool Hero::ShootingWithSecondaryWeapon() {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(ugdk::input::M_BUTTON_RIGHT) && secondary_weapon_ && secondary_weapon_->Available();
 }
 
 void Hero::UpdateAim() {
@@ -143,20 +130,25 @@ void Hero::UpdateAim() {
     aim_destination_ = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
 }
 
+static bool WeaponAvaiable(skills::Skill* weapon) {
+    return weapon && weapon->Available();
+}
+
 void Hero::Update(double delta_t) {
     Creature::Update(delta_t);
     if(owner_->is_active()) {
         if(Aiming()) {
             UpdateAim();
         }
+        component::Controller* controller = owner_->controller();
+
         if(!waiting_animation_) {
-            if (ShootingWithWeapon()) {
+            if(controller->IsUsingWeaponSlot(Controller::PRIMARY) && WeaponAvaiable(weapon_)) {
                 if(weapon_->IsValidUse()) {
                     StartAttackAnimation();
                     weapon_->Use();
                 }
-
-            } else if (ShootingWithSecondaryWeapon()) {
+            } else if (controller->IsUsingWeaponSlot(Controller::SECONDARY) && WeaponAvaiable(secondary_weapon_)) {
                 if(secondary_weapon_->IsValidUse()) {
                     StartAttackAnimation();
                     secondary_weapon_->Use();
@@ -165,15 +157,14 @@ void Hero::Update(double delta_t) {
             }
         }
         if(!waiting_animation_) {
-            owner_->controller()->Update(delta_t);
-            walking_direction_ = owner_->controller()->direction_vector();
+            walking_direction_ = controller->direction_vector();
 
-            const Direction& direction = owner_->controller()->direction();
+            const Direction& direction = controller->direction();
             if(direction) {
-                last_standing_animation_ = standing_animations_[direction.value()];
+                last_standing_direction_ = direction;
                 sprite_->SelectAnimation(walking_animations_[direction.value()]);
             } else {
-                sprite_->SelectAnimation(last_standing_animation_);
+                sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
             }
             Creature::Move(this->GetWalkingDirection(), delta_t);
         }

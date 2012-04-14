@@ -54,6 +54,7 @@ void MummyController::RandomMovement(){
         if (dir >= 2 && dir < 5) d |= Direction::Left();
         if (dir >= 4 && dir < 7) d |= Direction::Down();
         if (dir >= 6 || dir == 0) d |= Direction::Right();
+        dir_ = d;
 
         interval_->Restart(WaitingTime());
         current_direction_ = d.ToVector2D();
@@ -64,5 +65,7 @@ void MummyController::Update(double dt) {
     if(!owner_->is_active()) return;
     Think(dt);
 }
+
+bool MummyController::IsUsingWeaponSlot(WeaponSlot slot) const { return true; }
 
 }  // namespace sprite

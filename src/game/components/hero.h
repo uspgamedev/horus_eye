@@ -49,8 +49,6 @@ class Hero : public Creature {
    
     void UpdateAim();
     bool Aiming();
-    bool ShootingWithWeapon();
-    bool ShootingWithSecondaryWeapon();
     void ChangeSecondaryWeapon(int slot);
     void CollisionSlow();
     void AddKnownCollisions();

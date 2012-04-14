@@ -30,7 +30,16 @@ using sprite::WorldObject;
 
 namespace component {
 
-int Creature::direction_mapping_[8];
+const Direction Creature::direction_mapping_[8] = {
+    Direction::Right(),
+    Direction::Right() | Direction::Up(),
+    Direction::Up(),
+    Direction::Up() | Direction::Left(),
+    Direction::Left(),
+    Direction::Left() | Direction::Down(),
+    Direction::Down(),
+    Direction::Down() | Direction::Right()
+};
 uint32 Creature::standing_animations_[16];
 uint32 Creature::walking_animations_[16];
 uint32 Creature::attacking_animations_[8];
@@ -48,7 +57,8 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
 Creature::Creature(WorldObject* owner)
     :   owner_(owner),
         waiting_animation_(false),
-        animation_direction_(0),
+        last_standing_direction_(Direction::Down()),
+        animation_direction_(),
         weapon_(NULL),
         last_stable_position_(),
         last_dt_(0.0),
@@ -63,7 +73,7 @@ Creature::Creature(WorldObject* owner)
 Creature::Creature(WorldObject* owner, resource::Energy &life, resource::Energy &mana)
     :   owner_(owner),
         waiting_animation_(false),
-        animation_direction_(0),
+        animation_direction_(),
         weapon_(NULL),
         last_stable_position_(),
         mana_(mana),
@@ -120,15 +130,6 @@ void Creature::InitializeAnimations() {
     directions_[Direction_::LEFT] = Vector2D(-1, 1);
     directions_[Direction_::DOWN] =  Vector2D(-1, -1);
     directions_[Direction_::UP] = Vector2D(1, 1);
-
-    direction_mapping_[0] = Animation_::RIGHT;
-    direction_mapping_[1] = Animation_::RIGHT | Animation_::UP;
-    direction_mapping_[2] = Animation_::UP;
-    direction_mapping_[3] = Animation_::UP | Animation_::LEFT;
-    direction_mapping_[4] = Animation_::LEFT;
-    direction_mapping_[5] = Animation_::LEFT | Animation_::DOWN;
-    direction_mapping_[6] = Animation_::DOWN;
-    direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 }
 
 void Creature::InitializeAttackingAnimations() {

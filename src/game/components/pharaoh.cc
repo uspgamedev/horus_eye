@@ -67,7 +67,7 @@ void Pharaoh::Think(double dt) {
 
 		} else if(!standing_) {
 			RandomMovement();
-			last_standing_animation_ = standing_animations_[animation_direction_];
+			last_standing_direction_ = animation_direction_;
         }
     }
 }
