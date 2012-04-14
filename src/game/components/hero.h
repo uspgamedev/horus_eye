@@ -39,7 +39,6 @@ class Hero : public Creature {
   private:
     std::map<int, skills::Skill*> skills_;
     int slot_selected_;
-    double light_oscilation_;
 
     resource::CapacityBlocks mana_blocks_;
 

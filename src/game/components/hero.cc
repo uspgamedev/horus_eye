@@ -71,8 +71,6 @@ Hero::Hero(sprite::WorldObject* owner,
 
     slot_selected_ = -1;
     active_skills_[Controller::PRIMARY] = new skills::HeroBaseWeapon(this);
-
-    light_oscilation_ = 0.0;
 }
 
 Hero::~Hero() {}
@@ -163,16 +161,6 @@ void Hero::Update(double delta_t) {
         }
     }
     speed_ = original_speed_;
-    //mana_ += mana_regen_ * mana_regen_ratio_.Get() * delta_t;
-
-
-    light_oscilation_ += delta_t;
-    if(light_oscilation_ > 0.5) light_oscilation_ -= 0.5 * 2;
-
-    if(light_oscilation_ < 0)
-        owner_->set_light_radius(owner_->light_radius() - delta_t);
-    else
-        owner_->set_light_radius(owner_->light_radius() + delta_t);
 }
 
 void Hero::SetupCollision() {
