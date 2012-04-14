@@ -138,13 +138,13 @@ void Hero::Update(double delta_t) {
         component::Controller* controller = owner_->controller();
 
         if(!waiting_animation_) {
-            std::map<Controller::SkillSlot, skills::Skill*>::iterator wit;
-            for(wit = active_skills_.begin(); wit != active_skills_.end(); ++wit) {
-                if(!wit->second) continue;
-                if(controller->IsUsingSkillSlot(wit->first) && wit->second->Available()) {
-                    if(wit->second->IsValidUse()) {
+            std::map<Controller::SkillSlot, skills::Skill*>::iterator itsk;
+            for(itsk = active_skills_.begin(); itsk != active_skills_.end(); ++itsk) {
+                if(!itsk->second) continue;
+                if(controller->IsUsingSkillSlot(itsk->first) && itsk->second->Available()) {
+                    if(itsk->second->IsValidUse()) {
                         StartAttackAnimation();
-                        wit->second->Use();
+                        itsk->second->Use();
                     }
                     break;
                 }
