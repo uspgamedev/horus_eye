@@ -84,8 +84,12 @@ class Controller {
     virtual const ugdk::Vector2D& direction_vector() const = 0;
     virtual const Direction& direction() const { return dir_; }
 
+    const ugdk::Vector2D& aim_destination() const { return aim_destination_; }
+
   protected:
     Direction dir_;
+
+    ugdk::Vector2D aim_destination_;
 
     /// The owner.
     sprite::WorldObject* owner_;

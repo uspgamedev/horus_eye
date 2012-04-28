@@ -30,14 +30,14 @@ namespace component {
 
 class Creature : public Logic, public ugdk::action::Observer { 
   public:
-    Creature(sprite::WorldObject* owner);
+    Creature(sprite::WorldObject* owner, Controller* controller);
     virtual ~Creature();
 
     sprite::WorldObject* owner() { return owner_; }
 
     resource::Energy& mana() { return mana_; }
     void set_mana(resource::Energy &mana) {
-        mana_ = mana;;
+        mana_ = mana;
     }
     void set_mana(double mana) {
         mana_.Set(mana);
@@ -85,7 +85,6 @@ class Creature : public Logic, public ugdk::action::Observer {
         static const int DOWN = 8;
     };
 
-    Creature(sprite::WorldObject* owner, resource::Energy &mana);
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 

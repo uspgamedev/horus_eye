@@ -3,27 +3,27 @@
 #include <ugdk/input/keys.h>
 #include "playercontroller.h"
 #include "game/sprites/worldobject.h"
+#include "game/scenes/world.h"
+#include "game/utils/constants.h"
 
 using namespace ugdk;
 
 using sprite::WorldObject;
+using utils::Constants;
 
 namespace component {
 
 void PlayerController::Update(double dt) {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
-    bool pressed_key[4];
 
-    for (int i = 0; i < 4; i++) {
-        pressed_key[i] = false;
-    }
+    Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT);
+    aim_destination_ = scene::World::FromScreenCoordinates(input_->GetMousePosition() + projectile_height);
 
     Direction d;
     if(input_->KeyDown(ugdk::input::K_w)) d |= Direction::Up();
     if(input_->KeyDown(ugdk::input::K_a)) d |= Direction::Left();
     if(input_->KeyDown(ugdk::input::K_s) && d.NumDirections() < 2) d |= Direction::Down();
     if(input_->KeyDown(ugdk::input::K_d) && d.NumDirections() < 2) d |= Direction::Right();
-
     dir_ = d;
 
     /* No weapons for u.
@@ -42,12 +42,6 @@ void PlayerController::Update(double dt) {
         }
     } */
 
-    /* Reference code.
-    directions_[Direction_::RIGHT] = Vector2D(1, -1);
-    directions_[Direction_::LEFT] = Vector2D(-1, 1);
-    directions_[Direction_::DOWN] =  Vector2D(-1, -1);
-    directions_[Direction_::UP] = Vector2D(1, 1);
-    */
     current_direction_ = d.ToVector2D();
 }
 

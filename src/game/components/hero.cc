@@ -59,10 +59,11 @@ Hero::Hero(sprite::WorldObject* owner,
            resource::Energy &mana, 
            int num_blocks, 
            double mana_per_block)
-    : Creature(owner, mana),
+    : Creature(owner, owner->controller()),
       mana_blocks_(mana_, num_blocks, mana_per_block)  {
 
     Initialize(img, ANIMATIONS);
+    this->set_mana(mana);
 
     //owner->identifier_ = "Hero";
     sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
@@ -120,25 +121,9 @@ void Hero::StartAttackAnimation() {
     sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
 }
 
-bool Hero::Aiming() {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
-    return input_->MouseDown(ugdk::input::M_BUTTON_LEFT) || input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);
-}
-
-void Hero::UpdateAim() {
-    // Setting up the Aim resource and local variables.
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    Vector2D projectile_height(0,Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
-
-    aim_destination_ = scene::World::FromScreenCoordinates(input->GetMousePosition() + projectile_height);
-}
-
 void Hero::Update(double delta_t) {
     Creature::Update(delta_t);
     if(owner_->is_active()) {
-        if(Aiming()) {
-            UpdateAim();
-        }
         component::Controller* controller = owner_->controller();
 
         if(!waiting_animation_) {

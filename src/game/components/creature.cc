@@ -56,7 +56,7 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
     data_->CollideWithRect(wobj->collision_object());
 }
 
-Creature::Creature(WorldObject* owner)
+Creature::Creature(WorldObject* owner, Controller* controller)
     :   owner_(owner),
         waiting_animation_(false),
         last_standing_direction_(Direction::Down()),
@@ -64,24 +64,13 @@ Creature::Creature(WorldObject* owner)
         last_stable_position_(),
         last_dt_(0.0),
         sight_count_(0),
-        aim_(owner->world_position(), aim_destination_),
+        aim_(owner->world_position(), controller->aim_destination()),
         sprite_(NULL) {
             owner_->set_logic(this);
-            if(!owner_->collision_object())
+            if(!owner_->controller())
+                owner_->set_controller(controller);
+            if(!owner_->collision_object() && WORLD())
                 owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
-}
-
-Creature::Creature(WorldObject* owner, resource::Energy &mana)
-    :   owner_(owner),
-        waiting_animation_(false),
-        last_standing_direction_(Direction::Down()),
-        animation_direction_(),
-        last_stable_position_(),
-        mana_(mana),
-        sight_count_(0),
-        aim_(owner->world_position(), aim_destination_),
-        sprite_(NULL) {
-            owner_->set_logic(this);
 }
 
 Creature::~Creature() {

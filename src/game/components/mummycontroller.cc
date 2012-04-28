@@ -5,6 +5,7 @@
 #include "mummycontroller.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
+#include "game/scenes/world.h"
 
 using namespace ugdk;
 
@@ -34,6 +35,10 @@ void MummyController::Think(double dt) {
     time_to_think_ -= dt;
     if(time_to_think_ <= 0){
         time_to_think_ = TIME_TO_THINK;
+
+        if(WORLD()->hero_world_object())
+            aim_destination_ = WORLD()->hero_world_object()->world_position();
+
         utils::VisionStrategy strategy;
         if(strategy.IsVisible(owner_->world_position()))
             path_ = strategy.Calculate(owner_->world_position());

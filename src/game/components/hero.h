@@ -44,8 +44,6 @@ class Hero : public Creature {
     virtual void Update(double delta_t);
     virtual void PlayHitSound() const;
    
-    void UpdateAim();
-    bool Aiming();
     void ChangeSecondaryWeapon(int slot);
     void CollisionSlow();
     void AddKnownCollisions();

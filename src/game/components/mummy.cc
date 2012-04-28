@@ -14,6 +14,7 @@
 
 #include "mummy.h"
 
+#include "game/components/mummycontroller.h"
 #include "game/scenes/world.h"
 #include "game/utils/geometryprimitives.h"
 #include "game/utils/visionstrategy.h"
@@ -65,7 +66,8 @@ class MummyDeathOp {
     Mummy* mummy_;
 };
 
-Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img) : Creature(owner) {
+Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img) 
+    :   Creature(owner, new MummyController(owner)) {
     Initialize(img, ANIMATIONS);
 
     // Animations
