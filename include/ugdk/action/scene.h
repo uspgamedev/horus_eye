@@ -8,6 +8,8 @@
 
 namespace ugdk {
 
+namespace action {
+
 class Entity;
 
 /**
@@ -20,7 +22,6 @@ class Entity;
 */
 class Scene {
   public:
-    Scene();
     virtual ~Scene();
 
     /// Method called when this Scene arrives on the top of the Scene stack.
@@ -63,6 +64,8 @@ class Scene {
 
   protected:
 
+    Scene();
+    
     /// Ends the scene activity.
     /** Note: do not release any resources in this method. */
     virtual void End();
@@ -85,6 +88,8 @@ class Scene {
   friend class Engine;
 }; // class Scene.
 
-}
+} /* namespace action */
+
+} /* namespace ugdk */
 
 #endif /* UGDK_ACTION_SCENE_H_ */

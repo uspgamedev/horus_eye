@@ -319,6 +319,7 @@ class TextManager(_object):
     def Initialize(self): return _ugdk_graphic.TextManager_Initialize(self)
     def Release(self): return _ugdk_graphic.TextManager_Release(self)
     def GetText(self, *args): return _ugdk_graphic.TextManager_GetText(self, *args)
+    def GetTextWithFont(self, *args): return _ugdk_graphic.TextManager_GetTextWithFont(self, *args)
     def GetTextFromFile(self, *args): return _ugdk_graphic.TextManager_GetTextFromFile(self, *args)
     def AddFont(self, *args): return _ugdk_graphic.TextManager_AddFont(self, *args)
 TextManager_swigregister = _ugdk_graphic.TextManager_swigregister
