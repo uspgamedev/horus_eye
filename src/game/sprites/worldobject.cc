@@ -89,12 +89,9 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
-    /*world_node_->AddChild(new_object->node());
-
-    if(new_object->collision_object() != NULL) {
-        colliding_world_objects_.push_front(new_object);
-        new_object->collision_object()->StartColliding();
-    }*/
+    /*scene->content_node()->AddChild(node());
+    if(collision_object() != NULL)
+        collision_object()->StartColliding();*/
 }
 
 }  // namespace sprite

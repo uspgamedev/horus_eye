@@ -88,7 +88,6 @@ class World : public ugdk::action::Scene {
   protected:
     sprite::Hero *hero_;
     std::list<sprite::WorldObject*> world_objects_, 
-                                    colliding_world_objects_, 
                                     new_world_objects_;
 
     utils::Hud *hud_;

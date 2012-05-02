@@ -68,19 +68,6 @@ bool worldObjectIsDead (const WorldObject* value) {
     return is_dead;
 }
 
-void World::HandleCollisions() {
-    std::vector<CollisionInstance> collision_list;
-    
-    std::list<sprite::WorldObject*>::iterator i;
-    for (i = colliding_world_objects_.begin(); i != colliding_world_objects_.end(); ++i)
-        (*i)->collision_object()->SearchCollisions(collision_list);
-
-    std::vector<CollisionInstance>::iterator it;
-    for(it = collision_list.begin(); it != collision_list.end(); ++it) {
-        it->first->Handle(it->second);
-    }
-}
-
 void World::VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
 
@@ -207,8 +194,6 @@ void World::Update(double delta_t) {
     VerifyCheats(delta_t);
 #endif
 
-    HandleCollisions();
-
     RemoveInactiveObjects();
     AddNewWorldObjects();
     
@@ -265,7 +250,6 @@ void World::AddNewWorldObjects() {
         content_node()->AddChild(new_object->node());
 
         if(new_object->collision_object() != NULL) {
-            colliding_world_objects_.push_front(new_object);
             new_object->collision_object()->StartColliding();
         }
     }
@@ -287,7 +271,6 @@ void World::RemoveInactiveObjects() {
     }
     for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
         if((*i)->status() == WorldObject::STATUS_DEAD) {
-            colliding_world_objects_.remove(*i);
             this->RemoveEntity(*i);
         }
     }
@@ -359,6 +342,8 @@ void World::SetupCollisionManager() {
     collision_manager_->Generate("Projectile", "WorldObject");
     collision_manager_->Generate("Button", "WorldObject");
     collision_manager_->Generate("Explosion", "WorldObject");
+
+    this->AddTask(collision_manager_->GenerateHandleCollisionTask());
 }
 
 } // namespace scene
