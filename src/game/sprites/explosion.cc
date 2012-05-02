@@ -29,7 +29,7 @@ using namespace utils;
 
 namespace sprite {
 
-AnimationSet*   Explosion::ANIMATIONS = NULL;
+action::AnimationSet*   Explosion::ANIMATIONS = NULL;
 const int       Explosion::HERO_FIREBALL_WEAPON = 0;
 const int       Explosion::HERO_EXPLOSION_WEAPON = 1;
 uint32          Explosion::WEAPON_ANIMATIONS[2];

@@ -267,11 +267,8 @@ class Scene(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, Scene, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Scene, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_action.new_Scene()
-        try: self.this.append(this)
-        except: self.this = this
     __swig_destroy__ = _ugdk_action.delete_Scene
     __del__ = lambda self : None;
     def Focus(self): return _ugdk_action.Scene_Focus(self)
@@ -282,8 +279,8 @@ class Scene(_object):
     def Update(self, *args): return _ugdk_action.Scene_Update(self, *args)
     def StopsPreviousMusic(self, *args): return _ugdk_action.Scene_StopsPreviousMusic(self, *args)
     def finished(self): return _ugdk_action.Scene_finished(self)
-    def content_node(self, *args): return _ugdk_action.Scene_content_node(self, *args)
-    def interface_node(self, *args): return _ugdk_action.Scene_interface_node(self, *args)
+    def content_node(self): return _ugdk_action.Scene_content_node(self)
+    def interface_node(self): return _ugdk_action.Scene_interface_node(self)
     def background_music(self): return _ugdk_action.Scene_background_music(self)
     def set_background_music(self, *args): return _ugdk_action.Scene_set_background_music(self, *args)
 Scene_swigregister = _ugdk_action.Scene_swigregister

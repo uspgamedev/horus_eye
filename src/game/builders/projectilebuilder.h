@@ -1,13 +1,10 @@
 #ifndef HORUSEYE_GAME_BUILDERS_PROJECTILEBUILDER_H_
 #define HORUSEYE_GAME_BUILDERS_PROJECTILEBUILDER_H_
 
+#include <ugdk/action.h>
+#include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 #include "game/sprites/projectiles/projectile.h"
-
-namespace ugdk {
-class Image;
-class AnimationSet;
-} // namespace ugdk
 
 namespace utils {
 class ImageFactory;
@@ -27,7 +24,7 @@ class ProjectileBuilder {
 
   private:
     utils::ImageFactory *factory_;
-    static ugdk::AnimationSet *fireball_animation_, *lightning_animation_;
+    static ugdk::action::AnimationSet *fireball_animation_, *lightning_animation_;
     static ugdk::uint32 fireball_animation_map_[8], lightning_animation_map_[8];
 
     void InitializeAnimations();

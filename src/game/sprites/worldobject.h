@@ -24,7 +24,7 @@ namespace sprite {
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
 #define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(#CLASS, LOGIC); }
 
-class WorldObject : public ugdk::Entity {
+class WorldObject : public ugdk::action::Entity {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
     WorldObject(double duration = -1.0);

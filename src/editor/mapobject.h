@@ -13,7 +13,7 @@ namespace ugdk {
 
 namespace editor {
 
-class MapObject : public ugdk::Entity {
+class MapObject : public ugdk::action::Entity {
   public:
     const static double TileSize;
 

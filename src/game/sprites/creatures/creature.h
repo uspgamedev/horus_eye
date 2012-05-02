@@ -3,9 +3,13 @@
 
 #include <list>
 
+#include <ugdk/action.h>
+#include <ugdk/graphic.h>
+#include <ugdk/time.h>
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/types.h>
+#include <pyramidworks/geometry.h>
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
@@ -14,28 +18,11 @@ namespace skills {
 class Skill;
 }
 
-namespace pyramidworks {
-namespace geometry {
-class Rect;
-}
-}
-
-namespace ugdk {
-    class AnimationSet;
-    namespace time {
-        class TimeAccumulator;
-    }
-    namespace graphic {
-        class Sprite;
-        class Spritesheet;
-    }
-}
-
 namespace sprite {
 
 class Condition;
 
-class Creature : public WorldObject , public ugdk::Observer {
+class Creature : public WorldObject , public ugdk::action::Observer {
   
   public:
     Creature();
@@ -81,7 +68,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     static ugdk::uint32 attacking_animations_[8];
     static ugdk::uint32 taking_damage_animation_;
     static ugdk::uint32 dying_animation_;
-    static ugdk::AnimationSet *ANIMATIONS;
+    static ugdk::action::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
 
     friend class RectCollision;
@@ -103,7 +90,7 @@ class Creature : public WorldObject , public ugdk::Observer {
     };
 
     Creature(resource::Energy &life, resource::Energy &mana);
-    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
+    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 
     virtual void Dying(double dt) {}

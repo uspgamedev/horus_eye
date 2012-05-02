@@ -5,8 +5,8 @@
 
 namespace scene {
 
-class Loading: public ugdk::Scene {
-  typedef ugdk::Scene super;
+class Loading: public ugdk::action::Scene {
+  typedef ugdk::action::Scene super;
   public:
     Loading();
     virtual ~Loading();

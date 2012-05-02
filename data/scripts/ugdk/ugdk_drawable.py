@@ -179,6 +179,7 @@ class Text(ugdk_graphic.Drawable):
         except: self.this = this
     __swig_destroy__ = _ugdk_drawable.delete_Text
     __del__ = lambda self : None;
+    def SetMessage(self, *args): return _ugdk_drawable.Text_SetMessage(self, *args)
     def Draw(self, *args): return _ugdk_drawable.Text_Draw(self, *args)
     def size(self): return _ugdk_drawable.Text_size(self)
 Text_swigregister = _ugdk_drawable.Text_swigregister

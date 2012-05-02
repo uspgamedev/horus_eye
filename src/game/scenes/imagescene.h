@@ -8,8 +8,8 @@
 
 namespace scene {
 
-class ImageScene: public ugdk::Scene {
-  typedef ugdk::Scene super;
+class ImageScene: public ugdk::action::Scene {
+  typedef ugdk::action::Scene super;
   public:
     ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image);
     virtual ~ImageScene();

@@ -20,6 +20,7 @@
 #include <pyramidworks/collision/collisionlogic.h>
 
 using namespace ugdk;
+using namespace ugdk::action;
 using namespace utils;
 
 using pyramidworks::geometry::Circle;
@@ -86,7 +87,7 @@ Creature::~Creature() {
     if (blink_time_) delete blink_time_;
 }
 
-void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set) {
+void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set) {
     this->node()->set_drawable(sprite_ = new ugdk::graphic::Sprite(image, ANIMATIONS));
     sprite_->AddObserverToAnimation(this);
 }
