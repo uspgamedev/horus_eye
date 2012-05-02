@@ -219,9 +219,12 @@ void World::End() {
     if(hero_ != NULL) {
         hero_->Invulnerable(0);
         hero_->collision_object()->StopColliding();
+        this->RemoveEntity(hero_);
+        content_node()->RemoveChild(hero_->node());
+        hero_ = NULL;
     }
 
-    this->RemoveAll();
+    this->RemoveAllEntities();
     for (int i = 0; i < (int)level_matrix_.size(); i++)
         for (int j = 0; j < (int)level_matrix_[i].size(); j++)
             delete level_matrix_[i][j];
@@ -275,20 +278,6 @@ void World::RemoveInactiveObjects() {
         }
     }
     world_objects_.remove_if(worldObjectIsDead);
-}
-
-void World::RemoveAll() {
-    std::list<sprite::WorldObject*>::iterator i;
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        if ( *i != hero_ ) {
-            delete (*i);
-        }
-    }
-    world_objects_.clear();
-    if(hero_ != NULL) {
-        this->content_node()->RemoveChild(hero_->node());
-    }
-    hero_ = NULL;
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {

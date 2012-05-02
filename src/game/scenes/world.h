@@ -102,7 +102,6 @@ class World : public ugdk::action::Scene {
     bool VerifyPause();
     void HandleCollisions();
     void RemoveInactiveObjects();
-    void RemoveAll();
     void UpdateVisibility();
 
   private:
