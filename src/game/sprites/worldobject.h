@@ -41,7 +41,7 @@ class WorldObject : public ugdk::action::Entity {
 
     virtual void Dying(double dt) { Die(); }
 
-    virtual void Die() { status_ = STATUS_DEAD; /*to_be_removed_ = true;*/ }
+    virtual void Die() { status_ = STATUS_DEAD; to_be_removed_ = true; }
     virtual void StartToDie();
 
     const ugdk::Vector2D& world_position() const { return world_position_; }

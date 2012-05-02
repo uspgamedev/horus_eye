@@ -43,8 +43,6 @@ class World : public ugdk::action::Scene {
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
     void AddHero(const ugdk::Vector2D& pos);
 
-    void AddNewWorldObjects();
-
     int CountRemainingEnemies();
     void IncreaseNumberOfEnemies();
     int max_enemies() { return max_enemies_; }
@@ -87,8 +85,6 @@ class World : public ugdk::action::Scene {
 
   protected:
     sprite::Hero *hero_;
-    std::list<sprite::WorldObject*> world_objects_, 
-                                    new_world_objects_;
 
     utils::Hud *hud_;
     int level_width_, level_height_;
@@ -100,8 +96,6 @@ class World : public ugdk::action::Scene {
     bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
     void VerifyCheats(double delta_t);
     bool VerifyPause();
-    void HandleCollisions();
-    void RemoveInactiveObjects();
     void UpdateVisibility();
 
   private:

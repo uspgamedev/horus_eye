@@ -193,10 +193,7 @@ void World::Update(double delta_t) {
 #ifdef DEBUG
     VerifyCheats(delta_t);
 #endif
-
-    RemoveInactiveObjects();
-    AddNewWorldObjects();
-    
+   
     content_node()->modifier()->set_offset(-ActualOffset());
     UpdateVisibility();
 
@@ -237,26 +234,7 @@ void World::IncreaseNumberOfEnemies() {
 
 void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
-    //QueuedAddEntity(new_object);
-    new_world_objects_.push_back(new_object);
-}
-
-void World::AddNewWorldObjects() {
-    for (list<sprite::WorldObject*>::iterator it = new_world_objects_.begin();
-         it != new_world_objects_.end();
-         ++it) {
-
-        WorldObject *new_object = *it;
-        world_objects_.push_front(new_object);
-        this->AddEntity(new_object);
-
-        content_node()->AddChild(new_object->node());
-
-        if(new_object->collision_object() != NULL) {
-            new_object->collision_object()->StartColliding();
-        }
-    }
-    new_world_objects_.clear();
+    QueuedAddEntity(new_object);
 }
 
 void World::AddHero(const ugdk::Vector2D& pos) {
@@ -265,19 +243,6 @@ void World::AddHero(const ugdk::Vector2D& pos) {
 
 int World::CountRemainingEnemies() {
     return 	remaining_enemies_;
-}
-
-void World::RemoveInactiveObjects() {
-    std::list<sprite::WorldObject*>::iterator i;
-    if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD) {
-        hero_ = NULL;
-    }
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        if((*i)->status() == WorldObject::STATUS_DEAD) {
-            this->RemoveEntity(*i);
-        }
-    }
-    world_objects_.remove_if(worldObjectIsDead);
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
