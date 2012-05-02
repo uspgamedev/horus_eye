@@ -34,7 +34,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
 
     if(position2.x < 0.0){
         WorldObject* hero = world->hero_world_object();
-        position2 = hero->world_position();
+        position2 = hero ? hero->world_position() : position1;
     }
 
     Vector2D distance = position2 - position1;

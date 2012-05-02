@@ -84,6 +84,11 @@ double Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
 }
 
+void Hero::Die() {
+    Creature::Die();
+    WORLD()->set_hero(NULL);
+}
+
 void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
     if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);

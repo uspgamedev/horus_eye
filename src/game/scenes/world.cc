@@ -242,7 +242,7 @@ void World::AddHero(const ugdk::Vector2D& pos) {
 }
 
 int World::CountRemainingEnemies() {
-    return 	remaining_enemies_;
+    return remaining_enemies_;
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
