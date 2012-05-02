@@ -32,8 +32,8 @@ namespace scene {
 // Classe World
 // O World e' uma cena onde o jogo se desencadeara'. O World contem
 // elementos como: heroi, mumias, cenario e hud.
-class World : public ugdk::Scene {
-  typedef ugdk::Scene super;
+class World : public ugdk::action::Scene {
+  typedef ugdk::action::Scene super;
   public:
     World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();

@@ -30,6 +30,7 @@
 #endif
 
 using namespace ugdk;
+using namespace ugdk::action;
 using namespace std;
 using namespace scene;
 using namespace sprite;

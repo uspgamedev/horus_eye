@@ -10,7 +10,7 @@ class Skill;
 } // skills
 
 namespace utils {
-class Hud: public ugdk::Entity {
+class Hud: public ugdk::action::Entity {
   public:
     Hud(scene::World*);
     virtual ~Hud();

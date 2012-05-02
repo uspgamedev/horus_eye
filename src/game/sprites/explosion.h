@@ -2,28 +2,17 @@
 #define HORUSEYE_GAME_SPRITES_EXPLOSION_H_
 
 #include "game/sprites/worldobject.h"
+#include <ugdk/action.h>
+#include <ugdk/graphic.h>
+#include <ugdk/time.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/observer.h>
 #include <ugdk/base/types.h>
-
-namespace ugdk {
-    class TimeAccumulator;
-    class AnimationSet;
-    namespace graphic {
-        class FlexibleSpritesheet;
-    }
-}
-
-namespace pyramidworks {
-namespace geometry {
-class Circle;
-}
-}
-
+#include <pyramidworks/geometry.h>
 
 namespace sprite {
 
-class Explosion : public WorldObject, ugdk::Observer {
+class Explosion : public WorldObject, ugdk::action::Observer {
   typedef WorldObject super;
   public:
     Explosion(ugdk::graphic::FlexibleSpritesheet *img, ugdk::uint32 animation, double radius, double damage);
@@ -44,7 +33,7 @@ class Explosion : public WorldObject, ugdk::Observer {
 
   protected:
 
-    static ugdk::AnimationSet  *ANIMATIONS;
+    static ugdk::action::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        WEAPON_ANIMATIONS[2];
 
   private:

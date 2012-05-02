@@ -71,13 +71,13 @@ bool worldObjectIsDead (const WorldObject* value) {
 }
 
 void World::HandleCollisions() {
-    std::list<CollisionInstance> collision_list;
+    std::vector<CollisionInstance> collision_list;
     
     std::list<sprite::WorldObject*>::iterator i;
     for (i = colliding_world_objects_.begin(); i != colliding_world_objects_.end(); ++i)
         (*i)->collision_object()->SearchCollisions(collision_list);
 
-    std::list<CollisionInstance>::iterator it;
+    std::vector<CollisionInstance>::iterator it;
     for(it = collision_list.begin(); it != collision_list.end(); ++it) {
         it->first->Handle(it->second);
     }

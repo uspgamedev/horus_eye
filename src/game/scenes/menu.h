@@ -9,7 +9,7 @@
 
 namespace scene {
 
-class Menu: public ugdk::Scene {
+class Menu: public ugdk::action::Scene {
   public:
 
     Menu (int selection_num);

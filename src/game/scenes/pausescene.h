@@ -5,7 +5,7 @@
 
 namespace scene {
 
-class PauseScene: public ugdk::Scene {
+class PauseScene: public ugdk::action::Scene {
   public:
     PauseScene ();
     virtual ~PauseScene ();
