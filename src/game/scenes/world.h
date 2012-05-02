@@ -91,8 +91,6 @@ class World : public ugdk::action::Scene {
                                     colliding_world_objects_, 
                                     new_world_objects_;
 
-    ugdk::graphic::Node *world_node_;
-
     utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;

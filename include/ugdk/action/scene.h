@@ -2,6 +2,8 @@
 #define UGDK_ACTION_SCENE_H_
 
 #include <list>
+#include <queue>
+#include <ugdk/action.h>
 #include <ugdk/audio.h>
 #include <ugdk/graphic.h>
 #include <ugdk/base/types.h>
@@ -9,8 +11,6 @@
 namespace ugdk {
 
 namespace action {
-
-class Entity;
 
 /**
    @class Scene
@@ -31,9 +31,16 @@ class Scene {
     virtual void DeFocus() {}
 
     /// Adds an Entity to the scene.
-    void AddEntity(Entity *entity) { entities_.push_back(entity); };
+    void AddEntity(Entity *entity);
+
     /// Removes the specified Entity from the scene.
-    void RemoveEntity(Entity *entity) { entities_.remove(entity); };
+    void RemoveEntity(Entity *entity) { entities_.remove(entity); }
+
+    /// Will be added at the end of the 
+    void QueuedAddEntity(Entity *entity) { queued_entities_.push(entity); }
+
+    /// Adds a Task to the scene.
+    void AddTask(Task *task) { tasks_.push_back(task); }
 
     /// Finishes the scene.
     void Finish() { End(); finished_ = true; }
@@ -77,6 +84,12 @@ class Scene {
     Music* background_music_;
 
   private:
+    void UpdateEntities(double delta_t);
+    void UpdateTasks(double delta_t);
+    void DeleteToBeRemovedEntities();
+    void DeleteFinishedTasks();
+    void FlushEntityQueue();
+
     /// Whether this scene stops the previous music even if wont play any music.
     bool stops_previous_music_;
 
@@ -84,6 +97,8 @@ class Scene {
     graphic::Node* interface_node_;
 
     std::list<Entity*> entities_;
+    std::queue<Entity*> queued_entities_;
+    std::list<Task*> tasks_;
    
   friend class Engine;
 }; // class Scene.

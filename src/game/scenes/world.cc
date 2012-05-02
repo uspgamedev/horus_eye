@@ -38,7 +38,6 @@ using pyramidworks::collision::CollisionInstance;
 World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
-        world_node_(new ugdk::graphic::Node),
         remaining_enemies_(0),
         max_enemies_(0),
         image_factory_(factory),
@@ -48,8 +47,7 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         num_button_not_pressed_(0),
         collision_manager_(NULL) {
 
-    content_node()->AddChild(world_node_);
-    world_node_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+    content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
     hud_ = new utils::Hud(this);
     interface_node()->AddChild(hud_->node());
@@ -214,7 +212,7 @@ void World::Update(double delta_t) {
     RemoveInactiveObjects();
     AddNewWorldObjects();
     
-    world_node_->modifier()->set_offset(-ActualOffset());
+    content_node()->modifier()->set_offset(-ActualOffset());
     UpdateVisibility();
 
     if (!hero_)
@@ -251,7 +249,8 @@ void World::IncreaseNumberOfEnemies() {
 
 void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
-    new_world_objects_.push_front(new_object);
+    //QueuedAddEntity(new_object);
+    new_world_objects_.push_back(new_object);
 }
 
 void World::AddNewWorldObjects() {
@@ -263,7 +262,7 @@ void World::AddNewWorldObjects() {
         world_objects_.push_front(new_object);
         this->AddEntity(new_object);
 
-        world_node_->AddChild(new_object->node());
+        content_node()->AddChild(new_object->node());
 
         if(new_object->collision_object() != NULL) {
             colliding_world_objects_.push_front(new_object);
@@ -304,7 +303,7 @@ void World::RemoveAll() {
     }
     world_objects_.clear();
     if(hero_ != NULL) {
-        this->world_node_->RemoveChild(hero_->node());
+        this->content_node()->RemoveChild(hero_->node());
     }
     hero_ = NULL;
 }
@@ -326,7 +325,7 @@ Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
 }
 
 Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
-    Vector2D    global_screen_coords = screen_coords - WORLD()->world_node_->modifier()->offset(),
+    Vector2D    global_screen_coords = screen_coords - WORLD()->content_node()->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
     return (transformed * (1.0/60.373835392));
 }
