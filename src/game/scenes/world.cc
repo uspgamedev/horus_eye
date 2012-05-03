@@ -1,21 +1,19 @@
 #include <cmath>
 #include <iostream>
-#include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/task.h>
-#include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/music.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/time/timemanager.h>
+#include <ugdk/input/inputmanager.h>
 #include <ugdk/util/intervalkdtree.h>
 
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "world.h"
 
-#include "game/scenes/imagescene.h"
 #include "game/scenes/menu.h"
 #include "game/scenes/menubuilder.h"
 
@@ -36,21 +34,25 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
-bool VerifyCheats(double delta_t) {
+bool VerifyCheats(double delta_t, World*& world) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    LevelManager *level_manager = LevelManager::reference();
-    World* world = level_manager->get_current_level();
     Hero* hero = world->hero();
 
-    if (input->KeyPressed(ugdk::input::K_p)) {
-        level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
-        world->FinishLevel(LevelManager::FINISH_WARP);
-
-    } else if (input->KeyPressed(ugdk::input::K_o)) {
-        unsigned int cur_level = level_manager->GetNextLevelID();
-        if(cur_level > 0) {
-            level_manager->SetNextLevel(cur_level - 1);
+    static uint32 last_level_warp = 0;
+    if(Engine::reference()->time_handler()->TimeSince(last_level_warp) > 1250) {
+        LevelManager *level_manager = LevelManager::reference();
+        if (input->KeyPressed(ugdk::input::K_p)) {
+            level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
             world->FinishLevel(LevelManager::FINISH_WARP);
+            last_level_warp = Engine::reference()->time_handler()->TimeElapsed();
+
+        } else if (input->KeyPressed(ugdk::input::K_o)) {
+            unsigned int cur_level = level_manager->GetNextLevelID();
+            if(cur_level > 0) {
+                level_manager->SetNextLevel(cur_level - 1);
+                world->FinishLevel(LevelManager::FINISH_WARP);
+                last_level_warp = Engine::reference()->time_handler()->TimeElapsed();
+            }
         }
     }
     if(hero) {
@@ -80,55 +82,10 @@ bool VerifyCheats(double delta_t) {
         }
     }*/
 
-    return false;
+    return true;
 }
 
-bool VerifyPause(double dt) {
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
-        MenuBuilder builder;
-        Engine::reference()->PushScene(builder.BuildPauseMenu());
-    }
-    return false;
-}
-
-World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
-    :   Scene(),
-        hero_(hero),
-        remaining_enemies_(0),
-        max_enemies_(0),
-        image_factory_(factory),
-        level_state_(LevelManager::NOT_FINISHED),
-        konami_used_(false),
-        lights_on_(true),
-        num_button_not_pressed_(0),
-        collision_manager_(NULL) {
-
-    content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
-
-    hud_ = new utils::Hud(this);
-    interface_node()->AddChild(hud_->node());
-    this->AddEntity(hud_);
-
-    this->AddTask(new ugdk::action::GenericTask(VerifyPause));
-#ifdef DEBUG
-    this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
-#endif
-}
-
-// Destrutor
-World::~World() {
-    if(image_factory_) delete image_factory_;
-    if(collision_manager_) delete collision_manager_;
-}
-
-Vector2D World::ActualOffset() {
-    Vector2D result = -VIDEO_MANAGER()->video_size()*0.5;
-    if(hero_) result += hero_->node()->modifier()->offset();
-    return result;
-}
-
-bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
+static bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
     if ((double)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
         return true;
     else if ((Tile::FromTilePos(pos) - Tile::FromTilePos(origin)).length() <= radius )
@@ -136,7 +93,7 @@ bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
     else return false;
 }
 
-void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
+static void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
 
     list<Tile*>     queue;
     Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
@@ -173,30 +130,66 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
 
 }
 
-void World::UpdateVisibility() {
+bool UpdateOffset(double dt, World*& world) {
+    Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
+    if(world->hero()) result -= world->hero()->node()->modifier()->offset();
+    world->content_node()->modifier()->set_offset(result);
+    return true;
+}
 
-    if(!hero_) return;
+bool UpdateVisibility(double dt, World*& world) {
+    if(!world->hero()) return false;
 
-    GameMap& map = level_matrix();
+    GameMap& map = world->level_matrix();
 
-    TilePos hero_pos = Tile::ToTilePos(hero_->world_position());
+    TilePos hero_pos = Tile::ToTilePos(world->hero()->world_position());
 
     hero_pos.i =  map.size() - hero_pos.i - 1;
 
     Tile::CleanVisibility(map);
-    SpreadLight(map, hero_pos, 1.5*hero_->light_radius());
+    SpreadLight(map, hero_pos, 1.5*world->hero()->light_radius());
 
+    return true;
 }
 
-void World::Update(double delta_t) {
-    Scene::Update(delta_t);
-   
-    content_node()->modifier()->set_offset(-ActualOffset());
-    UpdateVisibility();
+bool FinishLevelTask(double dt, const LevelManager::LevelState*& state) {
+    if (*state != LevelManager::NOT_FINISHED) {
+        LevelManager::reference()->FinishLevel(*state);
+        return false;
+    }
+    return true;
+}
 
-    if (level_state_ != LevelManager::NOT_FINISHED)
-        LevelManager::reference()->FinishLevel(level_state_);
+World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
+    :   Scene(),
+        hero_(hero),
+        remaining_enemies_(0),
+        max_enemies_(0),
+        image_factory_(factory),
+        level_state_(LevelManager::NOT_FINISHED),
+        konami_used_(false),
+        lights_on_(true),
+        num_button_not_pressed_(0),
+        collision_manager_(NULL) {
 
+    content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+
+    hud_ = new utils::Hud(this);
+    interface_node()->AddChild(hud_->node());
+    this->AddEntity(hud_);
+
+    this->AddTask(new ugdk::action::GenericTask<const LevelManager::LevelState*>(FinishLevelTask, &level_state_, 1000));
+#ifdef DEBUG
+    this->AddTask(new ugdk::action::GenericTask<World*>(VerifyCheats, this));
+#endif
+    this->AddTask(new ugdk::action::GenericTask<World*>(UpdateOffset, this));
+    this->AddTask(new ugdk::action::GenericTask<World*>(UpdateVisibility, this));
+}
+
+// Destrutor
+World::~World() {
+    if(image_factory_) delete image_factory_;
+    if(collision_manager_) delete collision_manager_;
 }
 
 void World::End() {

@@ -8,6 +8,8 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
+#include <ugdk/action/task.h>
+#include <ugdk/input/inputmanager.h>
 
 #include "game/utils/levelmanager.h"
 
@@ -34,6 +36,15 @@ using namespace ugdk::action;
 using namespace std;
 using namespace scene;
 using namespace sprite;
+
+static bool VerifyPause(double dt, ugdk::input::Key& key) {
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    if(input->KeyPressed(key)) {
+        MenuBuilder builder;
+        Engine::reference()->PushScene(builder.BuildPauseMenu());
+    }
+    return true;
+}
 
 namespace utils {
 
@@ -78,12 +89,6 @@ void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::str
     }
 }
 
-void finishAndDeleteCurrentScene() {
-    Engine *engine = Engine::reference();
-    Scene* current_scene = engine->CurrentScene();
-    current_scene->Finish();
-}
-
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
@@ -117,7 +122,7 @@ void LevelManager::FinishLevel(LevelState state) {
     if(state == FINISH_WIN)
         ++level_list_iterator_;
 
-    finishAndDeleteCurrentScene();
+    current_level_->Finish();
     current_level_ = NULL;
 
     switch(state) {
@@ -156,7 +161,10 @@ void LevelManager::LoadNextLevel() {
         }
     }
     hero_->mana_blocks().Fill();
+
     current_level_ = new World(hero_, factory);
+    current_level_->AddTask(new ugdk::action::GenericTask<ugdk::input::Key>(VerifyPause, ugdk::input::K_ESCAPE));
+
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
     delete loader;
