@@ -84,6 +84,15 @@ bool VerifyCheats(double delta_t) {
     return false;
 }
 
+bool VerifyPause(double dt) {
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
+        MenuBuilder builder;
+        Engine::reference()->PushScene(builder.BuildPauseMenu());
+    }
+    return false;
+}
+
 World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
@@ -102,6 +111,7 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
+    this->AddTask(new ugdk::action::GenericTask(VerifyPause));
 #ifdef DEBUG
     this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
 #endif
@@ -117,16 +127,6 @@ Vector2D World::ActualOffset() {
     Vector2D result = -VIDEO_MANAGER()->video_size()*0.5;
     if(hero_) result += hero_->node()->modifier()->offset();
     return result;
-}
-
-bool World::VerifyPause() {
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
-        MenuBuilder builder;
-        Engine::reference()->PushScene(builder.BuildPauseMenu());
-        return true;
-    }
-    return false;
 }
 
 bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
@@ -190,9 +190,6 @@ void World::UpdateVisibility() {
 }
 
 void World::Update(double delta_t) {
-
-    if(VerifyPause()) return;
-
     content_node()->modifier()->set_visible(true);
     Scene::Update(delta_t);
    
