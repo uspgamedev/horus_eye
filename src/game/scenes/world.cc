@@ -36,7 +36,6 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
-
 bool VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
     LevelManager *level_manager = LevelManager::reference();
@@ -190,14 +189,10 @@ void World::UpdateVisibility() {
 }
 
 void World::Update(double delta_t) {
-    content_node()->modifier()->set_visible(true);
     Scene::Update(delta_t);
    
     content_node()->modifier()->set_offset(-ActualOffset());
     UpdateVisibility();
-
-    if (!hero_)
-        level_state_ = LevelManager::FINISH_DIE;
 
     if (level_state_ != LevelManager::NOT_FINISHED)
         LevelManager::reference()->FinishLevel(level_state_);

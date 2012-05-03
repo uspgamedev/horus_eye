@@ -86,7 +86,9 @@ double Hero::FullMana() {
 
 void Hero::Die() {
     Creature::Die();
-    WORLD()->set_hero(NULL);
+    scene::World* world = WORLD();
+    world->set_hero(NULL);
+    world->FinishLevel(LevelManager::FINISH_DIE);
 }
 
 void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
@@ -251,7 +253,7 @@ void Hero::Update(double delta_t) {
 }
 
 void Hero::Invulnerable(int time) {
-	this->hit_duration_->Restart(time);
+    this->hit_duration_->Restart(time);
 }
 
 void Hero::SetupCollision() {
