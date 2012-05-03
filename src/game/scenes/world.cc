@@ -3,6 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/action/scene.h>
+#include <ugdk/action/task.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/music.h>
@@ -35,6 +36,54 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
+
+bool VerifyCheats(double delta_t) {
+    ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    LevelManager *level_manager = LevelManager::reference();
+    World* world = level_manager->get_current_level();
+    Hero* hero = world->hero();
+
+    if (input->KeyPressed(ugdk::input::K_p)) {
+        level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
+        world->FinishLevel(LevelManager::FINISH_WARP);
+
+    } else if (input->KeyPressed(ugdk::input::K_o)) {
+        unsigned int cur_level = level_manager->GetNextLevelID();
+        if(cur_level > 0) {
+            level_manager->SetNextLevel(cur_level - 1);
+            world->FinishLevel(LevelManager::FINISH_WARP);
+        }
+    }
+    if(hero) {
+        if(input->KeyPressed(ugdk::input::K_h)) {
+            if(input->KeyDown(ugdk::input::K_LSHIFT))
+                hero->mana_blocks().Fill();
+            hero->life().Fill();
+            hero->mana().Fill();
+        }
+        if(input->KeyPressed(ugdk::input::K_t))
+            hero->set_world_position(World::FromScreenCoordinates(input->GetMousePosition()));
+    }
+
+    if(input->KeyPressed(ugdk::input::K_l)) {
+        static bool lights_on = true;
+        VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
+    }
+
+    // EASTER EGG/TODO: remove before any release!
+    // Also erase musics/sf2Guile456.mid
+    /*if(!konami_used_) {
+        Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
+        if(input->CheckSequence(konami, 10)) {
+            hero_->Invulnerable(85000);
+            AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
+            konami_used_ = true;
+        }
+    }*/
+
+    return false;
+}
+
 World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
@@ -52,59 +101,16 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
     hud_ = new utils::Hud(this);
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
+
+#ifdef DEBUG
+    this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
+#endif
 }
 
 // Destrutor
 World::~World() {
     if(image_factory_) delete image_factory_;
     if(collision_manager_) delete collision_manager_;
-}
-
-bool worldObjectIsDead (const WorldObject* value) {
-    bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
-    if (is_dead) {
-        delete value;
-    }
-    return is_dead;
-}
-
-void World::VerifyCheats(double delta_t) {
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
-
-    if (input->KeyPressed(ugdk::input::K_p)) {
-        LevelManager *level_manager = LevelManager::reference();
-        level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
-        level_state_ = LevelManager::FINISH_WARP;
-    } else if (input->KeyPressed(ugdk::input::K_o)) {
-        LevelManager *level_manager = LevelManager::reference();
-        unsigned int cur_level = level_manager->GetNextLevelID();
-        if(cur_level > 0) {
-            level_manager->SetNextLevel(cur_level - 1);
-            level_state_ = LevelManager::FINISH_WARP;
-        }
-    }
-    if(input->KeyPressed(ugdk::input::K_h)) {
-        if(input->KeyDown(ugdk::input::K_LSHIFT))
-            hero_->mana_blocks().Fill();
-        hero_->life().Fill();
-        hero_->mana().Fill();
-    }
-    if(input->KeyPressed(ugdk::input::K_t))
-        hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
-
-    if(input->KeyPressed(ugdk::input::K_l))
-        VIDEO_MANAGER()->SetLightSystem(lights_on_ = !lights_on_);
-
-    // EASTER EGG/TODO: remove before any release!
-    // Also erase musics/sf2Guile456.mid
-    /*if(!konami_used_) {
-        Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
-        if(input->CheckSequence(konami, 10)) {
-            hero_->Invulnerable(85000);
-            AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
-            konami_used_ = true;
-        }
-    }*/
 }
 
 Vector2D World::ActualOffset() {
@@ -189,10 +195,6 @@ void World::Update(double delta_t) {
 
     content_node()->modifier()->set_visible(true);
     Scene::Update(delta_t);
-
-#ifdef DEBUG
-    VerifyCheats(delta_t);
-#endif
    
     content_node()->modifier()->set_offset(-ActualOffset());
     UpdateVisibility();

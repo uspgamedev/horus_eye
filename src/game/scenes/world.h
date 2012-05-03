@@ -94,7 +94,6 @@ class World : public ugdk::action::Scene {
 
     Vector2D ActualOffset();
     bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
-    void VerifyCheats(double delta_t);
     bool VerifyPause();
     void UpdateVisibility();
 
