@@ -1,7 +1,8 @@
 #include <cmath>
 #include <iostream>
+#include <functional>
 #include <ugdk/action/scene.h>
-#include <ugdk/action/task.h>
+#include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
@@ -34,13 +35,14 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
-bool VerifyCheats(double delta_t, World*& world) {
+bool VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    LevelManager *level_manager = LevelManager::reference();
+    World* world = level_manager->get_current_level();
     Hero* hero = world->hero();
 
     static uint32 last_level_warp = 0;
     if(Engine::reference()->time_handler()->TimeSince(last_level_warp) > 1250) {
-        LevelManager *level_manager = LevelManager::reference();
         if (input->KeyPressed(ugdk::input::K_p)) {
             level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
             world->FinishLevel(LevelManager::FINISH_WARP);
@@ -130,14 +132,16 @@ static void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) 
 
 }
 
-bool UpdateOffset(double dt, World*& world) {
+bool UpdateOffset(double dt) {
+    World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
     if(world->hero()) result -= world->hero()->node()->modifier()->offset();
     world->content_node()->modifier()->set_offset(result);
     return true;
 }
 
-bool UpdateVisibility(double dt, World*& world) {
+bool UpdateVisibility(double dt) {
+    World* world = WORLD();
     if(!world->hero()) return false;
 
     GameMap& map = world->level_matrix();
@@ -152,7 +156,7 @@ bool UpdateVisibility(double dt, World*& world) {
     return true;
 }
 
-bool FinishLevelTask(double dt, const LevelManager::LevelState*& state) {
+bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     if (*state != LevelManager::NOT_FINISHED) {
         LevelManager::reference()->FinishLevel(*state);
         return false;
@@ -178,12 +182,12 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
-    this->AddTask(new ugdk::action::GenericTask<const LevelManager::LevelState*>(FinishLevelTask, &level_state_, 1000));
+    this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
 #ifdef DEBUG
-    this->AddTask(new ugdk::action::GenericTask<World*>(VerifyCheats, this));
+    this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
 #endif
-    this->AddTask(new ugdk::action::GenericTask<World*>(UpdateOffset, this));
-    this->AddTask(new ugdk::action::GenericTask<World*>(UpdateVisibility, this));
+    this->AddTask(new ugdk::action::GenericTask(UpdateOffset));
+    this->AddTask(new ugdk::action::GenericTask(UpdateVisibility));
 }
 
 // Destrutor

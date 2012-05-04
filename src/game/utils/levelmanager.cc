@@ -8,7 +8,7 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
-#include <ugdk/action/task.h>
+#include <ugdk/action/generictask.h>
 #include <ugdk/input/inputmanager.h>
 
 #include "game/utils/levelmanager.h"
@@ -37,9 +37,9 @@ using namespace std;
 using namespace scene;
 using namespace sprite;
 
-static bool VerifyPause(double dt, ugdk::input::Key& key) {
+static bool VerifyPause(double dt) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(key)) {
+    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
         MenuBuilder builder;
         Engine::reference()->PushScene(builder.BuildPauseMenu());
     }
@@ -163,7 +163,7 @@ void LevelManager::LoadNextLevel() {
     hero_->mana_blocks().Fill();
 
     current_level_ = new World(hero_, factory);
-    current_level_->AddTask(new ugdk::action::GenericTask<ugdk::input::Key>(VerifyPause, ugdk::input::K_ESCAPE));
+    current_level_->AddTask(new ugdk::action::GenericTask(VerifyPause));
 
     LevelLoader *loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
