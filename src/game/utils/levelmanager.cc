@@ -154,12 +154,10 @@ void LevelManager::LoadNextLevel() {
     hero_->mana_blocks().Fill();
 
     current_level_ = new World(hero_, factory);
-    
-    LevelLoader* loader = new LevelLoader(current_level_);
-    loader->Load(level_list_.at(level_list_iterator_));
-    delete loader;
-
     {
+        LevelLoader loader(current_level_);
+        loader.Load(level_list_.at(level_list_iterator_));
+
         builder::TaskBuilder task_builder;
         current_level_->AddTask(task_builder.PauseMenuTask());
         current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
