@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
+#include <ugdk/math/vector2d.h>
 #include <pyramidworks/collision.h>
 
 #include "game/utils/levelmanager.h"
@@ -18,9 +19,6 @@ namespace sprite {
 class Hero;
 class Mummy;
 class WorldObject;
-}
-namespace ugdk {
-    class Vector2D;
 }
 using ugdk::Vector2D;
 using std::vector;
@@ -38,12 +36,8 @@ class World : public ugdk::action::Scene {
     World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();
 
-    void Update(double delta_t);
-
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
     void AddHero(const ugdk::Vector2D& pos);
-
-    void AddNewWorldObjects();
 
     int CountRemainingEnemies();
     void IncreaseNumberOfEnemies();
@@ -87,26 +81,12 @@ class World : public ugdk::action::Scene {
 
   protected:
     sprite::Hero *hero_;
-    std::list<sprite::WorldObject*> world_objects_, 
-                                    colliding_world_objects_, 
-                                    new_world_objects_;
-
-    ugdk::graphic::Node *world_node_;
 
     utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;
     utils::ImageFactory* image_factory_;
-
-    Vector2D ActualOffset();
-    bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
-    void VerifyCheats(double delta_t);
-    bool VerifyPause();
-    void HandleCollisions();
-    void RemoveInactiveObjects();
-    void RemoveAll();
-    void UpdateVisibility();
 
   private:
     utils::LevelManager::LevelState level_state_;

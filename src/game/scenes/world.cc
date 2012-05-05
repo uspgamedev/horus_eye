@@ -1,20 +1,20 @@
 #include <cmath>
 #include <iostream>
+#include <functional>
+#include <ugdk/action/scene.h>
+#include <ugdk/action/generictask.h>
+#include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
-#include <ugdk/action/scene.h>
-#include <ugdk/math/vector2D.h>
+#include <ugdk/time/timemanager.h>
 #include <ugdk/input/inputmanager.h>
-#include <ugdk/audio/music.h>
 #include <ugdk/util/intervalkdtree.h>
 
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "world.h"
 
-#include "game/scenes/imagescene.h"
 #include "game/scenes/menu.h"
 #include "game/scenes/menubuilder.h"
 
@@ -35,80 +35,43 @@ using namespace utils;
 using namespace std;
 using pyramidworks::collision::CollisionInstance;
 
-World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
-    :   Scene(),
-        hero_(hero),
-        world_node_(new ugdk::graphic::Node),
-        remaining_enemies_(0),
-        max_enemies_(0),
-        image_factory_(factory),
-        level_state_(LevelManager::NOT_FINISHED),
-        konami_used_(false),
-        lights_on_(true),
-        num_button_not_pressed_(0),
-        collision_manager_(NULL) {
-
-    content_node()->AddChild(world_node_);
-    world_node_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
-
-    hud_ = new utils::Hud(this);
-    interface_node()->AddChild(hud_->node());
-    this->AddEntity(hud_);
-}
-
-// Destrutor
-World::~World() {
-    if(image_factory_) delete image_factory_;
-    if(collision_manager_) delete collision_manager_;
-}
-
-bool worldObjectIsDead (const WorldObject* value) {
-    bool is_dead = ((*value).status() == WorldObject::STATUS_DEAD);
-    if (is_dead) {
-        delete value;
-    }
-    return is_dead;
-}
-
-void World::HandleCollisions() {
-    std::vector<CollisionInstance> collision_list;
-    
-    std::list<sprite::WorldObject*>::iterator i;
-    for (i = colliding_world_objects_.begin(); i != colliding_world_objects_.end(); ++i)
-        (*i)->collision_object()->SearchCollisions(collision_list);
-
-    std::vector<CollisionInstance>::iterator it;
-    for(it = collision_list.begin(); it != collision_list.end(); ++it) {
-        it->first->Handle(it->second);
-    }
-}
-
-void World::VerifyCheats(double delta_t) {
+bool VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    LevelManager *level_manager = LevelManager::reference();
+    World* world = level_manager->get_current_level();
+    Hero* hero = world->hero();
 
-    if (input->KeyPressed(ugdk::input::K_p)) {
-        LevelManager *level_manager = LevelManager::reference();
-        level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
-        level_state_ = LevelManager::FINISH_WARP;
-    } else if (input->KeyPressed(ugdk::input::K_o)) {
-        LevelManager *level_manager = LevelManager::reference();
-        unsigned int cur_level = level_manager->GetNextLevelID();
-        if(cur_level > 0) {
-            level_manager->SetNextLevel(cur_level - 1);
-            level_state_ = LevelManager::FINISH_WARP;
+    static uint32 last_level_warp = 0;
+    if(Engine::reference()->time_handler()->TimeSince(last_level_warp) > 1250) {
+        if (input->KeyPressed(ugdk::input::K_p)) {
+            level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
+            world->FinishLevel(LevelManager::FINISH_WARP);
+            last_level_warp = Engine::reference()->time_handler()->TimeElapsed();
+
+        } else if (input->KeyPressed(ugdk::input::K_o)) {
+            unsigned int cur_level = level_manager->GetNextLevelID();
+            if(cur_level > 0) {
+                level_manager->SetNextLevel(cur_level - 1);
+                world->FinishLevel(LevelManager::FINISH_WARP);
+                last_level_warp = Engine::reference()->time_handler()->TimeElapsed();
+            }
         }
     }
-    if(input->KeyPressed(ugdk::input::K_h)) {
-        if(input->KeyDown(ugdk::input::K_LSHIFT))
-            hero_->mana_blocks().Fill();
-        hero_->life().Fill();
-        hero_->mana().Fill();
+    if(hero) {
+        if(input->KeyPressed(ugdk::input::K_h)) {
+            if(input->KeyDown(ugdk::input::K_LSHIFT))
+                hero->mana_blocks().Fill();
+            hero->life().Fill();
+            hero->mana().Fill();
+        }
+        if(input->KeyPressed(ugdk::input::K_t))
+            hero->set_world_position(World::FromScreenCoordinates(input->GetMousePosition()));
     }
-    if(input->KeyPressed(ugdk::input::K_t))
-        hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
-    if(input->KeyPressed(ugdk::input::K_l))
-        VIDEO_MANAGER()->SetLightSystem(lights_on_ = !lights_on_);
+    if(input->KeyPressed(ugdk::input::K_l)) {
+        static bool lights_on = true;
+        VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
+    }
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
@@ -120,25 +83,11 @@ void World::VerifyCheats(double delta_t) {
             konami_used_ = true;
         }
     }*/
+
+    return true;
 }
 
-Vector2D World::ActualOffset() {
-    Vector2D result = -VIDEO_MANAGER()->video_size()*0.5;
-    if(hero_) result += hero_->node()->modifier()->offset();
-    return result;
-}
-
-bool World::VerifyPause() {
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
-        MenuBuilder builder;
-        Engine::reference()->PushScene(builder.BuildPauseMenu());
-        return true;
-    }
-    return false;
-}
-
-bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
+static bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
     if ((double)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
         return true;
     else if ((Tile::FromTilePos(pos) - Tile::FromTilePos(origin)).length() <= radius )
@@ -146,7 +95,7 @@ bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
     else return false;
 }
 
-void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
+static void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
 
     list<Tile*>     queue;
     Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
@@ -183,46 +132,68 @@ void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
 
 }
 
-void World::UpdateVisibility() {
+bool UpdateOffset(double dt) {
+    World* world = WORLD();
+    Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
+    if(world->hero()) result -= world->hero()->node()->modifier()->offset();
+    world->content_node()->modifier()->set_offset(result);
+    return true;
+}
 
-    if(!hero_) return;
+bool UpdateVisibility(double dt) {
+    World* world = WORLD();
+    if(!world->hero()) return false;
 
-    GameMap& map = level_matrix();
+    GameMap& map = world->level_matrix();
 
-    TilePos hero_pos = Tile::ToTilePos(hero_->world_position());
+    TilePos hero_pos = Tile::ToTilePos(world->hero()->world_position());
 
     hero_pos.i =  map.size() - hero_pos.i - 1;
 
     Tile::CleanVisibility(map);
-    SpreadLight(map, hero_pos, 1.5*hero_->light_radius());
+    SpreadLight(map, hero_pos, 1.5*world->hero()->light_radius());
 
+    return true;
 }
 
-void World::Update(double delta_t) {
+bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
+    if (*state != LevelManager::NOT_FINISHED) {
+        LevelManager::reference()->FinishLevel(*state);
+        return false;
+    }
+    return true;
+}
 
-    if(VerifyPause()) return;
+World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
+    :   Scene(),
+        hero_(hero),
+        remaining_enemies_(0),
+        max_enemies_(0),
+        image_factory_(factory),
+        level_state_(LevelManager::NOT_FINISHED),
+        konami_used_(false),
+        lights_on_(true),
+        num_button_not_pressed_(0),
+        collision_manager_(NULL) {
 
-    content_node()->modifier()->set_visible(true);
-    Scene::Update(delta_t);
+    content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
+    hud_ = new utils::Hud(this);
+    interface_node()->AddChild(hud_->node());
+    this->AddEntity(hud_);
+
+    this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
 #ifdef DEBUG
-    VerifyCheats(delta_t);
+    this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
 #endif
+    this->AddTask(new ugdk::action::GenericTask(UpdateOffset));
+    this->AddTask(new ugdk::action::GenericTask(UpdateVisibility));
+}
 
-    HandleCollisions();
-
-    RemoveInactiveObjects();
-    AddNewWorldObjects();
-    
-    world_node_->modifier()->set_offset(-ActualOffset());
-    UpdateVisibility();
-
-    if (!hero_)
-        level_state_ = LevelManager::FINISH_DIE;
-
-    if (level_state_ != LevelManager::NOT_FINISHED)
-        LevelManager::reference()->FinishLevel(level_state_);
-
+// Destrutor
+World::~World() {
+    if(image_factory_) delete image_factory_;
+    if(collision_manager_) delete collision_manager_;
 }
 
 void World::End() {
@@ -236,9 +207,12 @@ void World::End() {
     if(hero_ != NULL) {
         hero_->Invulnerable(0);
         hero_->collision_object()->StopColliding();
+        this->RemoveEntity(hero_);
+        content_node()->RemoveChild(hero_->node());
+        hero_ = NULL;
     }
 
-    this->RemoveAll();
+    this->RemoveAllEntities();
     for (int i = 0; i < (int)level_matrix_.size(); i++)
         for (int j = 0; j < (int)level_matrix_[i].size(); j++)
             delete level_matrix_[i][j];
@@ -251,26 +225,7 @@ void World::IncreaseNumberOfEnemies() {
 
 void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
-    new_world_objects_.push_front(new_object);
-}
-
-void World::AddNewWorldObjects() {
-    for (list<sprite::WorldObject*>::iterator it = new_world_objects_.begin();
-         it != new_world_objects_.end();
-         ++it) {
-
-        WorldObject *new_object = *it;
-        world_objects_.push_front(new_object);
-        this->AddEntity(new_object);
-
-        world_node_->AddChild(new_object->node());
-
-        if(new_object->collision_object() != NULL) {
-            colliding_world_objects_.push_front(new_object);
-            new_object->collision_object()->StartColliding();
-        }
-    }
-    new_world_objects_.clear();
+    QueuedAddEntity(new_object);
 }
 
 void World::AddHero(const ugdk::Vector2D& pos) {
@@ -278,35 +233,7 @@ void World::AddHero(const ugdk::Vector2D& pos) {
 }
 
 int World::CountRemainingEnemies() {
-    return 	remaining_enemies_;
-}
-
-void World::RemoveInactiveObjects() {
-    std::list<sprite::WorldObject*>::iterator i;
-    if(hero_ != NULL && hero_->status() == WorldObject::STATUS_DEAD) {
-        hero_ = NULL;
-    }
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        if((*i)->status() == WorldObject::STATUS_DEAD) {
-            colliding_world_objects_.remove(*i);
-            this->RemoveEntity(*i);
-        }
-    }
-    world_objects_.remove_if(worldObjectIsDead);
-}
-
-void World::RemoveAll() {
-    std::list<sprite::WorldObject*>::iterator i;
-    for (i = world_objects_.begin(); i != world_objects_.end(); ++i) {
-        if ( *i != hero_ ) {
-            delete (*i);
-        }
-    }
-    world_objects_.clear();
-    if(hero_ != NULL) {
-        this->world_node_->RemoveChild(hero_->node());
-    }
-    hero_ = NULL;
+    return remaining_enemies_;
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
@@ -326,7 +253,7 @@ Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
 }
 
 Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
-    Vector2D    global_screen_coords = screen_coords - WORLD()->world_node_->modifier()->offset(),
+    Vector2D    global_screen_coords = screen_coords - WORLD()->content_node()->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
     return (transformed * (1.0/60.373835392));
 }
@@ -360,6 +287,8 @@ void World::SetupCollisionManager() {
     collision_manager_->Generate("Projectile", "WorldObject");
     collision_manager_->Generate("Button", "WorldObject");
     collision_manager_->Generate("Explosion", "WorldObject");
+
+    this->AddTask(collision_manager_->GenerateHandleCollisionTask());
 }
 
 } // namespace scene

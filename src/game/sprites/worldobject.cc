@@ -61,17 +61,17 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
 void WorldObject::set_light_radius(double radius) {
     light_radius_ = radius;
     
-	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
+    if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
         if(node_->light() == NULL) node_->set_light(new ugdk::graphic::Light);
-		Vector2D dimension = World::ConvertLightRadius(light_radius_);
-		node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+        Vector2D dimension = World::ConvertLightRadius(light_radius_);
+        node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
-	} else {
-		if(node_->light()) {
-			delete node_->light();
-			node_->set_light(NULL);
-		}
-	}
+    } else {
+        if(node_->light()) {
+            delete node_->light();
+            node_->set_light(NULL);
+        }
+    }
 }
 
 void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
@@ -86,6 +86,12 @@ void WorldObject::set_timed_life(ugdk::time::TimeAccumulator* timer) {
 void WorldObject::set_timed_life(double duration) {
     #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
     set_timed_life(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration)));
+}
+
+void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
+    scene->content_node()->AddChild(node());
+    if(collision_object() != NULL)
+        collision_object()->StartColliding();
 }
 
 }  // namespace sprite

@@ -84,6 +84,13 @@ double Hero::FullMana() {
     return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
 }
 
+void Hero::Die() {
+    Creature::Die();
+    scene::World* world = WORLD();
+    world->set_hero(NULL);
+    world->FinishLevel(LevelManager::FINISH_DIE);
+}
+
 void Hero::AddWeapon(int slot, skills::Skill* combat_art) {
     if (!weapons_.count(slot)) weapons_[slot] = combat_art;
     if (!secondary_weapon_) ChangeSecondaryWeapon(slot);
@@ -246,7 +253,7 @@ void Hero::Update(double delta_t) {
 }
 
 void Hero::Invulnerable(int time) {
-	this->hit_duration_->Restart(time);
+    this->hit_duration_->Restart(time);
 }
 
 void Hero::SetupCollision() {

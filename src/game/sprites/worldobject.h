@@ -41,7 +41,7 @@ class WorldObject : public ugdk::action::Entity {
 
     virtual void Dying(double dt) { Die(); }
 
-    virtual void Die() { status_ = STATUS_DEAD; }
+    virtual void Die() { status_ = STATUS_DEAD; to_be_removed_ = true; }
     virtual void StartToDie();
 
     const ugdk::Vector2D& world_position() const { return world_position_; }
@@ -63,6 +63,8 @@ class WorldObject : public ugdk::action::Entity {
     void set_timed_life(ugdk::time::TimeAccumulator*);
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
+
+    virtual void OnSceneAdd(ugdk::action::Scene* scene);
 
   protected:
     std::string identifier_;

@@ -230,6 +230,9 @@ class CollisionManager(_object):
     __del__ = lambda self : None;
     def Generate(self, *args): return _pyramidworks_collision.CollisionManager_Generate(self, *args)
     def Get(self, *args): return _pyramidworks_collision.CollisionManager_Get(self, *args)
+    def AddActiveObject(self, *args): return _pyramidworks_collision.CollisionManager_AddActiveObject(self, *args)
+    def RemoveActiveObject(self, *args): return _pyramidworks_collision.CollisionManager_RemoveActiveObject(self, *args)
+    def GenerateHandleCollisionTask(self): return _pyramidworks_collision.CollisionManager_GenerateHandleCollisionTask(self)
 CollisionManager_swigregister = _pyramidworks_collision.CollisionManager_swigregister
 CollisionManager_swigregister(CollisionManager)
 
