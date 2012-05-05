@@ -87,72 +87,11 @@ bool VerifyCheats(double delta_t) {
     return true;
 }
 
-static bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
-    if ((double)(abs((pos.i - origin.i)) + abs((pos.j - origin.j))) <= radius)
-        return true;
-    else if ((Tile::FromTilePos(pos) - Tile::FromTilePos(origin)).length() <= radius )
-        return true;
-    else return false;
-}
-
-static void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
-
-    list<Tile*>     queue;
-    Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
-    Tile            *origin = Tile::GetFromMapPosition(map, origin_pos);
-    VisionStrategy  vision;
-
-    if (!origin) return;
-
-    origin_world_pos.y = map.size() - origin_world_pos.y - 1;
-    queue.push_back(origin);
-
-    while (queue.size() > 0) {
-        Tile *tile = *(queue.begin());
-        queue.pop_front();
-        if(tile == NULL) continue;
-        if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
-            tile->Check();
-            Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
-            tile_world_pos.y = map.size() - tile_world_pos.y - 1;
-            bool is_obstacle = (tile->object() == WALL) || (tile->object() == ENTRY),
-                 is_visible = vision.IsLightVisible(origin_world_pos, tile_world_pos);
-            if (is_obstacle || is_visible) {
-                tile->set_visible(true);
-                if (!is_obstacle)
-                    for (int dir = Tile::BEGIN; dir < Tile::END; ++dir) {
-                        Tile *next = tile->Next(map, (Tile::TileDir)dir);
-                        if (next && !next->checked()) {
-                            queue.push_back(next);
-                        }
-                    }
-            }
-        }
-    }
-
-}
-
 bool UpdateOffset(double dt) {
     World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
     if(world->hero()) result -= world->hero()->node()->modifier()->offset();
     world->content_node()->modifier()->set_offset(result);
-    return true;
-}
-
-bool UpdateVisibility(double dt) {
-    World* world = WORLD();
-    if(!world->hero()) return false;
-
-    GameMap& map = world->level_matrix();
-
-    TilePos hero_pos = Tile::ToTilePos(world->hero()->world_position());
-
-    hero_pos.i =  map.size() - hero_pos.i - 1;
-
-    Tile::CleanVisibility(map);
-    SpreadLight(map, hero_pos, 1.5*world->hero()->light_radius());
-
     return true;
 }
 
@@ -187,7 +126,6 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
     this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
 #endif
     this->AddTask(new ugdk::action::GenericTask(UpdateOffset));
-    this->AddTask(new ugdk::action::GenericTask(UpdateVisibility));
 }
 
 // Destrutor

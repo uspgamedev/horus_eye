@@ -273,9 +273,9 @@ class Observer(_object):
     __getattr__ = lambda self, name: _swig_getattr(self, Observer, name)
     def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    def Tick(self): return _ugdk_action.Observer_Tick(self)
     __swig_destroy__ = _ugdk_action.delete_Observer
     __del__ = lambda self : None;
+    def Tick(self): return _ugdk_action.Observer_Tick(self)
 Observer_swigregister = _ugdk_action.Observer_swigregister
 Observer_swigregister(Observer)
 

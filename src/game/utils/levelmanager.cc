@@ -8,8 +8,6 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
-#include <ugdk/action/generictask.h>
-#include <ugdk/input/inputmanager.h>
 
 #include "game/utils/levelmanager.h"
 
@@ -22,10 +20,12 @@
 #include "game/sprites/creatures/creature.h"
 #include "game/sprites/creatures/hero.h"
 #include "game/builders/herobuilder.h"
+#include "game/builders/taskbuilder.h"
 #include "game/sprites/explosion.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
+#include "game/utils/tile.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -36,15 +36,6 @@ using namespace ugdk::action;
 using namespace std;
 using namespace scene;
 using namespace sprite;
-
-static bool VerifyPause(double dt) {
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
-    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
-        MenuBuilder builder;
-        Engine::reference()->PushScene(builder.BuildPauseMenu());
-    }
-    return true;
-}
 
 namespace utils {
 
@@ -163,11 +154,17 @@ void LevelManager::LoadNextLevel() {
     hero_->mana_blocks().Fill();
 
     current_level_ = new World(hero_, factory);
-    current_level_->AddTask(new ugdk::action::GenericTask(VerifyPause));
-
-    LevelLoader *loader = new LevelLoader(current_level_);
+    
+    LevelLoader* loader = new LevelLoader(current_level_);
     loader->Load(level_list_.at(level_list_iterator_));
     delete loader;
+
+    {
+        builder::TaskBuilder task_builder;
+        current_level_->AddTask(task_builder.PauseMenuTask());
+        current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
+    }
+
     Engine::reference()->PushScene(current_level_);
     hero_->SetupCollision();
 }
