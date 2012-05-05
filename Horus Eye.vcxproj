@@ -41,6 +41,7 @@
     <ClCompile Include="src\game\builders\projectilebuilder.cc" />
     <ClCompile Include="src\game\builders\taskbuilder.cc" />
     <ClCompile Include="src\game\entities\sandstormemitter.cc" />
+    <ClCompile Include="src\game\initializer.cc" />
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
@@ -102,6 +103,7 @@
     <ClInclude Include="src\game\builders\taskbuilder.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\entities\sandstormemitter.h" />
+    <ClInclude Include="src\game\initializer.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
     <ClInclude Include="src\game\resources\capacityblocks.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />
