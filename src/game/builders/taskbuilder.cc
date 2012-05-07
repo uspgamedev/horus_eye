@@ -3,12 +3,13 @@
 #include <ugdk/action/generictask.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/input/inputmanager.h>
+#include <ugdk/ui/menu.h>
 #include <ugdk/math/vector2D.h>
 
 #include "taskbuilder.h"
 
 #include "game/scenes/menu.h"
-#include "game/scenes/menubuilder.h"
+#include "game/builders/goodmenubuilder.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/tile.h"
 #include "game/utils/visionstrategy.h"
@@ -23,8 +24,8 @@ using utils::GameMap;
 static bool VerifyPause(double dt) {
     ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();
     if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
-        scene::MenuBuilder builder;
-        ugdk::Engine::reference()->PushScene(builder.BuildPauseMenu());
+        builder::MenuBuilder builder;
+        ugdk::Engine::reference()->PushScene(builder.PauseMenu());
     }
     return true;
 }

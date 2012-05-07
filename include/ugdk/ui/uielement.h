@@ -1,0 +1,40 @@
+#ifndef UGDK_UI_UIELEMENT_H_
+#define UGDK_UI_UIELEMENT_H_
+
+#include <functional>
+#include <string>
+
+#include <ugdk/util.h>
+#include <ugdk/graphic.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/util/intervalkdtree.h>
+
+namespace ugdk {
+namespace ui {
+
+class UIElement {
+  public:
+    typedef std::tr1::function<void (const UIElement *)> UICallback;
+    
+    UIElement(const Vector2D& top_left, const Vector2D& bottom_right, UICallback function);
+    
+    virtual ~UIElement();
+
+    ikdtree::Box<2> GetBoundingBox() const { return ikdtree::Box<2>(top_left_.val, bottom_right_.val); }
+    
+    graphic::Node* node() const { return node_; }
+
+    void Interact() const { if(function_) function_(this); }
+
+  private:
+    std::string name_;
+    UICallback function_;
+    Vector2D top_left_;
+    Vector2D bottom_right_;
+    graphic::Node* node_;
+};
+
+} // namespace ui
+} // namespace ugdk
+
+#endif /* UGDK_UIELEMENT_H_ */

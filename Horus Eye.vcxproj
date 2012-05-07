@@ -35,6 +35,7 @@
     <ClCompile Include="src\externals\inifile.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\entitybuilder.cc" />
+    <ClCompile Include="src\game\builders\goodmenubuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
@@ -96,6 +97,7 @@
     <ClInclude Include="src\externals\inifile.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\entitybuilder.h" />
+    <ClInclude Include="src\game\builders\goodmenubuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
