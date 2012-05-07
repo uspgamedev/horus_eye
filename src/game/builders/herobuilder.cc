@@ -35,6 +35,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
 
     WorldObject* hero_wobj = new WorldObject;
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
+    hero_wobj->set_controller(new component::PlayerController(hero_wobj));
     hero_wobj->set_damageable(new component::Damageable(hero_wobj));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->life().Fill();
