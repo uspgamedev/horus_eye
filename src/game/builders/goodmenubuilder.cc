@@ -25,15 +25,6 @@ using ugdk::ui::UIElement;
 
 namespace builder {
 
-bool FinishOnEscape(Menu* menu, double dt) {
-    ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();
-    if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
-        menu->Finish();
-        return false;
-    }
-    return true;
-}
-
 void PauseContinueCallback(Menu* menu, const UIElement * source) {
     menu->Finish();
 }
@@ -67,7 +58,7 @@ Menu* MenuBuilder::PauseMenu() const {
     menu->AddObject(exit_element);
 
     menu->StopsPreviousMusic(false);
-    menu->AddTask(new ugdk::action::GenericTask(bind(FinishOnEscape, menu, _1)));
+    menu->AddCallback(ugdk::input::K_ESCAPE, Menu::FINISH_MENU);
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
     bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     menu->interface_node()->set_drawable(bg);
