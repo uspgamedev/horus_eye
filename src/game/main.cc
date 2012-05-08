@@ -1,30 +1,21 @@
 #include <string>
-#include <sys/stat.h>
-#include <cerrno>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
-#include <pyramidworks/collision/collisionmanager.h>
 
-#include <ugdk/graphic/spritesheet/fixedspritesheet.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
-
-/*
-#include <ugdk/modules.h>
-#include <ugdk/script/scriptmanager.h>
-#include <ugdk/script/langwrapper.h>
-#include <ugdk/script/virtualobj.h>
-#include <ugdk/script/lua/luawrapper.h>
-#include <ugdk/script/lua/header.h>
-#include <ugdk/script/python/pythonwrapper.h>
-*/
+#include "initializer.h"
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
+
+#ifdef WIN32
+#include <windows.h>
+#endif
 
 using namespace utils;
 
@@ -34,36 +25,6 @@ utils::LevelManager* level_manager() {
 
 ugdk::Engine* engine() {
     return ugdk::Engine::reference();
-}
-
-static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_height, const ugdk::Vector2D& hotspot) {
-    ugdk::graphic::FixedSpritesheetData sheet_data(path);
-
-    sheet_data.FillWithFramesize(frame_width, frame_height, hotspot);
-
-    ugdk::graphic::FixedSpritesheet* sheet = new ugdk::graphic::FixedSpritesheet(sheet_data);
-    engine()->resource_manager()->spritesheet_container().Insert(path, sheet);
-}
-
-static void CreateFlexibleSpritesheet(const char* path, double frame_width, double frame_height, const ugdk::Vector2D& hotspot) {
-    ugdk::base::ResourceManager* resources = engine()->resource_manager();
-    
-    ugdk::graphic::Texture* tex = resources->texture_container().Load(path, path);
-
-    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
-    sheet->set_frame_size(ugdk::Vector2D(frame_width, frame_height));
-    sheet->set_hotspot(hotspot);
-
-    resources->spritesheet_container().Insert(path, sheet);
-}
-
-static void CreateSimpleFlexibleSpritesheet(const char* path) {
-    ugdk::base::ResourceManager* resources = engine()->resource_manager();
-
-    ugdk::graphic::Texture* tex = resources->texture_container().Load(path, path);
-    
-    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
-    resources->spritesheet_container().Insert(path, sheet);
 }
 
 void StartGame() {
@@ -76,71 +37,34 @@ void StartGame() {
 
     engine()->video_manager()->SetLightSystem(true);
 
-    CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
-    CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0, 102.0)); // Kha
-    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Regular Mummy
-    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D(60.0, 120.0)); // Giant Mummy
-    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Pharaoh
-    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Shooting Mummy
-    
-    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Magic Missile
-    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Blue Gem
-    CreateFlexibleSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D(64.0, 110.0)); // Blue Gem
-    CreateSimpleFlexibleSpritesheet("images/fireball_0.png");
-    CreateSimpleFlexibleSpritesheet("images/green_fire_ball.png");
-    CreateSimpleFlexibleSpritesheet("images/explosion.png");
-    CreateSimpleFlexibleSpritesheet("images/quake.png");
-    CreateSimpleFlexibleSpritesheet("images/life_potion2.png");
-    CreateSimpleFlexibleSpritesheet("images/mana_potion.png");
-    CreateSimpleFlexibleSpritesheet("images/sight_potion.png");
-    CreateSimpleFlexibleSpritesheet("images/stairs3.png");
-    CreateSimpleFlexibleSpritesheet("images/ground2_106x54.png");
-    CreateSimpleFlexibleSpritesheet("images/stoneblock3.png");
-    CreateSimpleFlexibleSpritesheet("images/door.png");
-    CreateSimpleFlexibleSpritesheet("images/lightning_bolt.png");
-    CreateSimpleFlexibleSpritesheet("images/yellow_fire_ball.png");
-    CreateSimpleFlexibleSpritesheet("images/tile_switch.png");
+    LoadSpritesheets();
 
     if(!engine()->language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");
     }
     level_manager()->Initialize();
-
-
-    // TODO: scriptstuff
 }
-/*
-void InitScripts() {
-
-    using ugdk::script::LangWrapper;
-    using ugdk::script::lua::LuaWrapper;
-    using ugdk::script::python::PythonWrapper;
-
-    // Initializing lua
-    LuaWrapper* lua_wrapper = new LuaWrapper();
-    ugdk::RegisterLuaModules(lua_wrapper);
-    SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
-
-    // Initializing python
-    PythonWrapper* py_wrapper = new PythonWrapper();
-    ugdk::RegisterPythonModules(py_wrapper);
-    SCRIPT_MANAGER()->Register("Python", py_wrapper);
-}*/
 
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-	ugdk::Configuration engine_config;
-	engine_config.window_title = "Horus Eye";
-	engine_config.window_size  = settings->resolution_vector();
-	engine_config.fullscreen   = settings->fullscreen();
+    ugdk::Configuration engine_config;
+    engine_config.window_title = "Horus Eye";
+    engine_config.window_size  = settings->resolution_vector();
+    engine_config.fullscreen   = settings->fullscreen();
 
     engine_config.base_path = Constants::DATA_LOCATION;
-    struct stat st;
-    // Removing the trailing slash.
-    int s = stat(engine_config.base_path.substr(0, engine_config.base_path.size() - 1).c_str(), &st);
-    if(s < 0 && errno == ENOENT)
+    if(!VerifyFolderExists(engine_config.base_path)) {
+#ifdef WIN32
+        MessageBox(HWND_DESKTOP, "Horus Eye could not find the Data folder.", "Fatal Error", MB_OK | MB_ICONERROR);
+        return 2;
+#else
         engine_config.base_path = "./";
+#ifdef DEBUG
+        fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", Constants::DATA_LOCATION.c_str());
+#endif
+#endif
+    }
 
 #ifndef ISMAC
     engine_config.window_icon = "images/eye.bmp";

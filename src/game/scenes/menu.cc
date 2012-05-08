@@ -205,8 +205,8 @@ void Menu::Select () {
 
 void Menu::set_visibility(const bool visibility) {
 	visible_ = visibility;
-      content_node()->modifier()->set_visible(visibility);
-    interface_node()->modifier()->set_visible(visibility);
+      content_node()->set_active(visibility);
+    interface_node()->set_active(visibility);
 }
 
 }

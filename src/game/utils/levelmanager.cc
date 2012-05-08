@@ -20,20 +20,28 @@
 #include "game/components/creature.h"
 #include "game/components/hero.h"
 #include "game/builders/herobuilder.h"
+#include "game/builders/taskbuilder.h"
 #include "game/sprites/explosion.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
+#include "game/utils/tile.h"
 
 #ifdef WIN32
 #include <windows.h>
 #endif
 
 using namespace ugdk;
+using namespace ugdk::action;
 using namespace std;
 using namespace scene;
 using namespace sprite;
 using component::Creature;
+
+using ugdk::Engine;
+using ugdk::base::ResourceManager;
+using ugdk::graphic::Drawable;
+using ugdk::graphic::TexturedRectangle;
 
 namespace utils {
 
@@ -78,22 +86,16 @@ void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::str
     }
 }
 
-void finishAndDeleteCurrentScene() {
-    Engine *engine = Engine::reference();
-    Scene* current_scene = engine->CurrentScene();
-    current_scene->Finish();
-}
-
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
-    Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
+    Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
+    Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
     scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
@@ -101,11 +103,13 @@ void LevelManager::ShowCredits() {
 void LevelManager::ShowEnding() {
     loading_->Finish();
     loading_ = NULL;
-    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/you_win.png"))));
+    Drawable* message = new TexturedRectangle(ResourceManager::GetTextureFromFile("images/you_win.png"));
+    Engine::reference()->PushScene(new ImageScene(NULL, message));
 }
 
 void LevelManager::ShowGameOver() {
-    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/game_over.png"))));
+    Drawable* message = new TexturedRectangle(ResourceManager::GetTextureFromFile("images/game_over.png"));
+    Engine::reference()->PushScene(new ImageScene(NULL, message));
 }
 
 void LevelManager::FinishLevel(LevelState state) {
@@ -117,7 +121,7 @@ void LevelManager::FinishLevel(LevelState state) {
     if(state == FINISH_WIN)
         ++level_list_iterator_;
 
-    finishAndDeleteCurrentScene();
+    current_level_->Finish();
     current_level_ = NULL;
 
     switch(state) {
@@ -130,9 +134,7 @@ void LevelManager::FinishLevel(LevelState state) {
         loading_ = NULL;
         // no break on purpose
     case NOT_FINISHED:
-        if (hero_)
-            delete hero_;
-            hero_ = NULL;
+        DeleteHero();
         return;
     case FINISH_WIN:
     case FINISH_WARP:
@@ -144,8 +146,7 @@ void LevelManager::FinishLevel(LevelState state) {
 void LevelManager::LoadNextLevel() {
     if(level_list_iterator_ == level_list_.size()) {
         ShowEnding();
-        if (hero_) delete hero_;
-        hero_ = NULL;
+        DeleteHero();
         return;
     }
     utils::ImageFactory *factory = new utils::ImageFactory();
@@ -156,26 +157,36 @@ void LevelManager::LoadNextLevel() {
         }
     }
     static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
+
     current_level_ = new World(hero_, factory);
-    LevelLoader *loader = new LevelLoader(current_level_);
-    loader->Load(level_list_.at(level_list_iterator_));
-    delete loader;
+    {
+        LevelLoader loader(current_level_);
+        loader.Load(level_list_.at(level_list_iterator_));
+
+        builder::TaskBuilder task_builder;
+        current_level_->AddTask(task_builder.PauseMenuTask());
+        current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
+    }
+
     Engine::reference()->PushScene(current_level_);
     static_cast<component::Hero*>(hero_->logic())->SetupCollision();
 }
 
 void LevelManager::Finish() {
-    if (hero_ != NULL) {
-        delete hero_;
-        hero_ = NULL;
-    }
+    DeleteHero();
     if (loading_)
         delete loading_;
     Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
-    //MenuBuilder::ReleaseAnimations();
 }
 
 LevelManager::~LevelManager() {}
+
+void LevelManager::DeleteHero() {
+    if (hero_ != NULL) {
+        delete hero_;
+        hero_ = NULL;
+    }
+}
 
 }

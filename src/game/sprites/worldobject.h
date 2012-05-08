@@ -26,7 +26,7 @@ protected:
     DeathOp() {}
 };
 
-class WorldObject : public ugdk::Entity {
+class WorldObject : public ugdk::action::Entity {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
     WorldObject(double duration = -1.0);
@@ -43,7 +43,7 @@ class WorldObject : public ugdk::Entity {
 
     virtual void Dying(double dt) { Die(); }
 
-    virtual void Die() { status_ = STATUS_DEAD; }
+    virtual void Die() { status_ = STATUS_DEAD; to_be_removed_ = true; }
     virtual void StartToDie();
 
     const std::string& identifier() const { return identifier_; }
@@ -69,6 +69,8 @@ class WorldObject : public ugdk::Entity {
     void set_timed_life(ugdk::time::TimeAccumulator*);
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
+
+    virtual void OnSceneAdd(ugdk::action::Scene* scene);
 
     void set_death_start_callback(DeathOp* on_death_start_callback) {
         on_death_start_callback_ = on_death_start_callback;

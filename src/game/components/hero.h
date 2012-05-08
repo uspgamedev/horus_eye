@@ -26,6 +26,8 @@ class Hero : public Creature {
 
     double FullMana();
 
+    void Die();
+
     resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
 
     void AddWeapon(int slot, skills::Skill* combat_art);

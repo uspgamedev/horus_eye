@@ -24,6 +24,7 @@
 namespace scene {
 
 using namespace ugdk;
+using namespace ugdk::action;
 using namespace utils;
 using namespace std;
 

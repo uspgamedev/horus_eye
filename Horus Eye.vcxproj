@@ -39,6 +39,7 @@
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
     <ClCompile Include="src\game\builders\projectilebuilder.cc" />
+    <ClCompile Include="src\game\builders\taskbuilder.cc" />
     <ClCompile Include="src\game\components\animation.cc" />
     <ClCompile Include="src\game\components\creature.cc" />
     <ClCompile Include="src\game\components\damageable.cc" />
@@ -49,6 +50,7 @@
     <ClCompile Include="src\game\components\pharaoh.cc" />
     <ClCompile Include="src\game\components\playercontroller.cc" />
     <ClCompile Include="src\game\entities\sandstormemitter.cc" />
+    <ClCompile Include="src\game\initializer.cc" />
     <ClCompile Include="src\game\main.cc" />
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
@@ -103,6 +105,7 @@
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
     <ClInclude Include="src\game\builders\projectilebuilder.h" />
+    <ClInclude Include="src\game\builders\taskbuilder.h" />
     <ClInclude Include="src\game\components.h" />
     <ClInclude Include="src\game\components\animation.h" />
     <ClInclude Include="src\game\components\controller.h" />
@@ -117,6 +120,7 @@
     <ClInclude Include="src\game\components\playercontroller.h" />
     <ClInclude Include="src\game\config.h" />
     <ClInclude Include="src\game\entities\sandstormemitter.h" />
+    <ClInclude Include="src\game\initializer.h" />
     <ClInclude Include="src\game\resources\blockresource.h" />
     <ClInclude Include="src\game\resources\capacityblocks.h" />
     <ClInclude Include="src\game\resources\containedresource.h" />

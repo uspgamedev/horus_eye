@@ -21,10 +21,6 @@
 #include "game/utils/imagefactory.h"
 #include "game/scenes/world.h"
 
-namespace ugdk {
-class Image;
-}
-
 namespace builder {
 
 using namespace sprite;
@@ -40,8 +36,8 @@ static int GetAnimationIndexFromDir(Vector2D &dir) {
     return (animation_index % 8);
 }
 
-ugdk::AnimationSet* ProjectileBuilder::fireball_animation_ = NULL;
-ugdk::AnimationSet* ProjectileBuilder::lightning_animation_ = NULL;
+ugdk::action::AnimationSet* ProjectileBuilder::fireball_animation_ = NULL;
+ugdk::action::AnimationSet* ProjectileBuilder::lightning_animation_ = NULL;
 ugdk::uint32 ProjectileBuilder::fireball_animation_map_[8], 
              ProjectileBuilder::lightning_animation_map_[8];
 

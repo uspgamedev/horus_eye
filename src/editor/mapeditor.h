@@ -11,7 +11,7 @@ namespace editor {
 
 class MapObject;
 
-class MapEditor : public ugdk::Scene {
+class MapEditor : public ugdk::action::Scene {
   public:
     MapEditor();
     virtual ~MapEditor();

@@ -241,6 +241,50 @@ class LanguageManager(_object):
 LanguageManager_swigregister = _ugdk_util.LanguageManager_swigregister
 LanguageManager_swigregister(LanguageManager)
 
+class Box2D(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Box2D, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Box2D, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_util.new_Box2D(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def setBox(self, *args): return _ugdk_util.Box2D_setBox(self, *args)
+    __swig_destroy__ = _ugdk_util.delete_Box2D
+    __del__ = lambda self : None;
+    def IsBelow(self, *args): return _ugdk_util.Box2D_IsBelow(self, *args)
+    def IsAbove(self, *args): return _ugdk_util.Box2D_IsAbove(self, *args)
+    def Contains(self, *args): return _ugdk_util.Box2D_Contains(self, *args)
+    def Intersects(self, *args): return _ugdk_util.Box2D_Intersects(self, *args)
+Box2D_swigregister = _ugdk_util.Box2D_swigregister
+Box2D_swigregister(Box2D)
+
+
+def CreateBox2D(*args):
+  return _ugdk_util.CreateBox2D(*args)
+CreateBox2D = _ugdk_util.CreateBox2D
+class Box3D(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Box3D, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Box3D, name)
+    __repr__ = _swig_repr
+    def __init__(self, *args): 
+        this = _ugdk_util.new_Box3D(*args)
+        try: self.this.append(this)
+        except: self.this = this
+    def setBox(self, *args): return _ugdk_util.Box3D_setBox(self, *args)
+    __swig_destroy__ = _ugdk_util.delete_Box3D
+    __del__ = lambda self : None;
+    def IsBelow(self, *args): return _ugdk_util.Box3D_IsBelow(self, *args)
+    def IsAbove(self, *args): return _ugdk_util.Box3D_IsAbove(self, *args)
+    def Contains(self, *args): return _ugdk_util.Box3D_Contains(self, *args)
+    def Intersects(self, *args): return _ugdk_util.Box3D_Intersects(self, *args)
+Box3D_swigregister = _ugdk_util.Box3D_swigregister
+Box3D_swigregister(Box3D)
+
 
 def RegisterType_AnimationParser(*args):
   return _ugdk_util.RegisterType_AnimationParser(*args)

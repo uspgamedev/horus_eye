@@ -2,13 +2,10 @@
 #define HORUSEYE_GAME_SCENES_MENUBUILDER_H_
 
 #include <vector>
+#include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/base/types.h>
 #include "menuhandler.h"
-
-namespace ugdk {
-class AnimationSet;
-}
 
 namespace utils {
 class Settings;
@@ -29,7 +26,7 @@ class MenuBuilder {
     Menu *BuildSettingsMenu();
   protected:
     void CreateSelectionSprites(Menu* menu, double height = 0);
-    static ugdk::AnimationSet  *ANIMATIONS;
+    static ugdk::action::AnimationSet  *ANIMATIONS;
     static ugdk::uint32        SELECTION_EYE,
                                     HERO_SHOOTING,
                                     MUMMY_DYING,

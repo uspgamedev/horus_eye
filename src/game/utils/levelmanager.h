@@ -16,7 +16,7 @@ namespace utils {
 class LevelManager {
   public:
     static LevelManager* reference() {
-		static LevelManager* r = new LevelManager();
+        static LevelManager* r = new LevelManager();
         return r;
     }
     void Initialize();
@@ -40,25 +40,26 @@ class LevelManager {
     void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
     unsigned int GetNextLevelID() { return level_list_iterator_; }
 
-	void LoadNextLevel();
-	void Finish();
+    void LoadNextLevel();
+    void Finish();
     ~LevelManager();
 
     void QueueRestartGame() { restart_game_ = true; }
     bool RestartGameQueued() { return restart_game_; }
-	void LoadLevelList(std::string, std::vector<std::string>& level_list);
+    void LoadLevelList(std::string, std::vector<std::string>& level_list);
 
     void InformLoadingDeleted() { loading_ = NULL; }
 
   private:
+    LevelManager();
+    void DeleteHero();
 
     scene::World* current_level_;
     scene::Menu* menu_;
-	scene::Loading* loading_;
+    scene::Loading* loading_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
     sprite::WorldObject *hero_;
-    LevelManager();
     bool restart_game_;
 };
 

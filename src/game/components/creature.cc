@@ -21,6 +21,7 @@
 #include "game/skills/skill.h"
 
 using namespace ugdk;
+using namespace ugdk::action;
 using namespace utils;
 
 using pyramidworks::geometry::Circle;
@@ -89,7 +90,7 @@ Creature::~Creature() {
         delete it->second;
 }
 
-void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set) {
+void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set) {
     owner_->node()->set_drawable(sprite_ = new ugdk::graphic::Sprite(image, ANIMATIONS));
     sprite_->AddObserverToAnimation(this);
 }

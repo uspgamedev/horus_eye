@@ -149,6 +149,7 @@ AnimationFrameVector_swigregister(AnimationFrameVector)
 import ugdk_base
 import ugdk_graphic
 import ugdk_audio
+import ugdk_action
 DEFAULT_PERIOD = _ugdk_action.DEFAULT_PERIOD
 class AnimationFrame(_object):
     __swig_setmethods__ = {}
@@ -236,6 +237,21 @@ class AnimationSet(_object):
 AnimationSet_swigregister = _ugdk_action.AnimationSet_swigregister
 AnimationSet_swigregister(AnimationSet)
 
+class Task(_object):
+    __swig_setmethods__ = {}
+    __setattr__ = lambda self, name, value: _swig_setattr(self, Task, name, value)
+    __swig_getmethods__ = {}
+    __getattr__ = lambda self, name: _swig_getattr(self, Task, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
+    __repr__ = _swig_repr
+    __swig_destroy__ = _ugdk_action.delete_Task
+    __del__ = lambda self : None;
+    def __call__(self, *args): return _ugdk_action.Task___call__(self, *args)
+    def priority(self): return _ugdk_action.Task_priority(self)
+    def finished(self): return _ugdk_action.Task_finished(self)
+Task_swigregister = _ugdk_action.Task_swigregister
+Task_swigregister(Task)
+
 class Entity(_object):
     __swig_setmethods__ = {}
     __setattr__ = lambda self, name, value: _swig_setattr(self, Entity, name, value)
@@ -243,9 +259,10 @@ class Entity(_object):
     __getattr__ = lambda self, name: _swig_getattr(self, Entity, name)
     def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    def Update(self, *args): return _ugdk_action.Entity_Update(self, *args)
     __swig_destroy__ = _ugdk_action.delete_Entity
     __del__ = lambda self : None;
+    def to_be_removed(self): return _ugdk_action.Entity_to_be_removed(self)
+    def Update(self, *args): return _ugdk_action.Entity_Update(self, *args)
 Entity_swigregister = _ugdk_action.Entity_swigregister
 Entity_swigregister(Entity)
 
@@ -256,9 +273,9 @@ class Observer(_object):
     __getattr__ = lambda self, name: _swig_getattr(self, Observer, name)
     def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined - class is abstract")
     __repr__ = _swig_repr
-    def Tick(self): return _ugdk_action.Observer_Tick(self)
     __swig_destroy__ = _ugdk_action.delete_Observer
     __del__ = lambda self : None;
+    def Tick(self): return _ugdk_action.Observer_Tick(self)
 Observer_swigregister = _ugdk_action.Observer_swigregister
 Observer_swigregister(Observer)
 
@@ -267,23 +284,23 @@ class Scene(_object):
     __setattr__ = lambda self, name, value: _swig_setattr(self, Scene, name, value)
     __swig_getmethods__ = {}
     __getattr__ = lambda self, name: _swig_getattr(self, Scene, name)
+    def __init__(self, *args, **kwargs): raise AttributeError("No constructor defined")
     __repr__ = _swig_repr
-    def __init__(self): 
-        this = _ugdk_action.new_Scene()
-        try: self.this.append(this)
-        except: self.this = this
     __swig_destroy__ = _ugdk_action.delete_Scene
     __del__ = lambda self : None;
     def Focus(self): return _ugdk_action.Scene_Focus(self)
     def DeFocus(self): return _ugdk_action.Scene_DeFocus(self)
     def AddEntity(self, *args): return _ugdk_action.Scene_AddEntity(self, *args)
     def RemoveEntity(self, *args): return _ugdk_action.Scene_RemoveEntity(self, *args)
+    def QueuedAddEntity(self, *args): return _ugdk_action.Scene_QueuedAddEntity(self, *args)
+    def RemoveAllEntities(self): return _ugdk_action.Scene_RemoveAllEntities(self)
+    def AddTask(self, *args): return _ugdk_action.Scene_AddTask(self, *args)
     def Finish(self): return _ugdk_action.Scene_Finish(self)
     def Update(self, *args): return _ugdk_action.Scene_Update(self, *args)
     def StopsPreviousMusic(self, *args): return _ugdk_action.Scene_StopsPreviousMusic(self, *args)
     def finished(self): return _ugdk_action.Scene_finished(self)
-    def content_node(self, *args): return _ugdk_action.Scene_content_node(self, *args)
-    def interface_node(self, *args): return _ugdk_action.Scene_interface_node(self, *args)
+    def content_node(self): return _ugdk_action.Scene_content_node(self)
+    def interface_node(self): return _ugdk_action.Scene_interface_node(self)
     def background_music(self): return _ugdk_action.Scene_background_music(self)
     def set_background_music(self, *args): return _ugdk_action.Scene_set_background_music(self, *args)
 Scene_swigregister = _ugdk_action.Scene_swigregister
@@ -345,6 +362,14 @@ RegisterType_Scene = _ugdk_action.RegisterType_Scene
 def GetNull_Scene():
   return _ugdk_action.GetNull_Scene()
 GetNull_Scene = _ugdk_action.GetNull_Scene
+
+def RegisterType_Task(*args):
+  return _ugdk_action.RegisterType_Task(*args)
+RegisterType_Task = _ugdk_action.RegisterType_Task
+
+def GetNull_Task():
+  return _ugdk_action.GetNull_Task()
+GetNull_Task = _ugdk_action.GetNull_Task
 print "Python ugdk_action confirm exports!"
 module = __import__(__name__)
 for key,value in module.__dict__.items():

@@ -4,6 +4,7 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
+#include <ugdk/math/vector2d.h>
 #include <pyramidworks/collision.h>
 
 #include "game/components.h"
@@ -18,9 +19,6 @@ class ImageFactory;
 namespace sprite {
 class WorldObject;
 }
-namespace ugdk {
-    class Vector2D;
-}
 using ugdk::Vector2D;
 using std::vector;
 
@@ -31,18 +29,14 @@ namespace scene {
 // Classe World
 // O World e' uma cena onde o jogo se desencadeara'. O World contem
 // elementos como: heroi, mumias, cenario e hud.
-class World : public ugdk::Scene {
-  typedef ugdk::Scene super;
+class World : public ugdk::action::Scene {
+  typedef ugdk::action::Scene super;
   public:
     World(sprite::WorldObject *hero, utils::ImageFactory *factory);
     virtual ~World();
 
-    void Update(double delta_t);
-
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
     void AddHero(const ugdk::Vector2D& pos);
-
-    void AddNewWorldObjects();
 
     int CountRemainingEnemies();
     void IncreaseNumberOfEnemies();
@@ -86,26 +80,12 @@ class World : public ugdk::Scene {
 
   protected:
     sprite::WorldObject *hero_;
-    std::list<sprite::WorldObject*> world_objects_, 
-                                    colliding_world_objects_, 
-                                    new_world_objects_;
-
-    ugdk::graphic::Node *world_node_;
 
     utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;
     utils::ImageFactory* image_factory_;
-
-    Vector2D ActualOffset();
-    bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
-    void VerifyCheats(double delta_t);
-    bool VerifyPause();
-    void HandleCollisions();
-    void RemoveInactiveObjects();
-    void RemoveAll();
-    void UpdateVisibility();
 
   private:
     utils::LevelManager::LevelState level_state_;

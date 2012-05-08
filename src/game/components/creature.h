@@ -64,7 +64,7 @@ class Creature : public Logic, public ugdk::Observer {
     static ugdk::uint32 attacking_animations_[8];
     static ugdk::uint32 taking_damage_animation_;
     static ugdk::uint32 dying_animation_;
-    static ugdk::AnimationSet *ANIMATIONS;
+    static ugdk::action::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
 
     friend class RectCollision;
@@ -86,7 +86,7 @@ class Creature : public Logic, public ugdk::Observer {
     };
 
     Creature(sprite::WorldObject* owner, resource::Energy &mana);
-    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
+    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 
     virtual void Dying(double dt) {}

@@ -155,10 +155,10 @@ void Mummy::Think(double dt) {
             standing_ = false;
             
             path_ = strategy.Calculate(owner_->world_position());
-            UpdateDirection(path_.front());
-            
+            if(!path_.empty()) UpdateDirection(path_.front());
+			
             if(weapon_->Available()) {
-                aim_destination_ = path_.front();
+                if(!path_.empty()) aim_destination_ = path_.front();
                 if(weapon_->IsValidUse()){
                     weapon_->Use();
                     this->StartAttack(NULL);
