@@ -29,7 +29,7 @@ direction_mapping_[6] = Animation_::DOWN;
 direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT; 
 */
 
-Animation::Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::AnimationSet* animation_set)
+Animation::Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::action::AnimationSet* animation_set)
     :   graphic_(graphic),
         sprite_(new ugdk::graphic::Sprite(spritesheet, animation_set)),
         animation_set_(animation_set) {

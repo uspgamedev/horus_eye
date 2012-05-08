@@ -28,7 +28,7 @@ namespace sprite {
 
 namespace component {
 
-class Creature : public Logic, public ugdk::Observer { 
+class Creature : public Logic, public ugdk::action::Observer { 
   public:
     Creature(sprite::WorldObject* owner);
     virtual ~Creature();

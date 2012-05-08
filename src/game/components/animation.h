@@ -10,9 +10,9 @@
 
 namespace component {
 
-class Animation : public ugdk::Observer {
+class Animation : public ugdk::action::Observer {
   public:
-    Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::AnimationSet* animation_set);
+    Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::action::AnimationSet* animation_set);
     virtual ~Animation();
 
     void Update(double dt);
@@ -41,7 +41,7 @@ class Animation : public ugdk::Observer {
 
     ugdk::graphic::Sprite* sprite_;
 
-    ugdk::AnimationSet* animation_set_;
+    ugdk::action::AnimationSet* animation_set_;
 
     ugdk::uint32 animation_index_[3][16];
 

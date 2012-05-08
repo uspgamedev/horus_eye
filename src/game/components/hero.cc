@@ -49,6 +49,11 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
+static void HeroDeathEvent() {
+    WORLD()->set_hero(NULL);
+    WORLD()->FinishLevel(LevelManager::FINISH_DIE);
+}
+
 Hero::Hero(sprite::WorldObject* owner,
            ugdk::graphic::Spritesheet* img, 
            resource::Energy &mana, 
@@ -70,6 +75,8 @@ Hero::Hero(sprite::WorldObject* owner,
 
     slot_selected_ = -1;
     active_skills_[Controller::PRIMARY] = new skills::HeroBaseWeapon(this);
+
+    owner_->set_death_start_callback(HeroDeathEvent);
 }
 
 Hero::~Hero() {}

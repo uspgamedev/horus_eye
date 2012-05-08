@@ -1,13 +1,6 @@
 #ifndef HORUSEYE_FRAMEWORK_TYPES_H_
 #define HORUSEYE_FRAMEWORK_TYPES_H_
 
-#ifdef WIN32
-#define _CRTDBG_MAP_ALLOC
-#include <stdlib.h>
-#include <crtdbg.h>
-#endif
-
-
 #include <stdint.h>
 
 #ifdef SWIG

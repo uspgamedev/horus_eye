@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
 #include <string>
+#include <functional>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
@@ -17,14 +18,6 @@ namespace sprite {
 #define SET_COLLISIONCLASS(CLASS)        { collision_object_->InitializeCollisionClass(#CLASS); }
 #define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
 #define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(#CLASS, LOGIC); }
-
-class DeathOp {
-  public:
-    ~DeathOp() {}
-    virtual void Callback() = 0;
-protected:
-    DeathOp() {}
-};
 
 class WorldObject : public ugdk::action::Entity {
   public:
@@ -72,7 +65,7 @@ class WorldObject : public ugdk::action::Entity {
 
     virtual void OnSceneAdd(ugdk::action::Scene* scene);
 
-    void set_death_start_callback(DeathOp* on_death_start_callback) {
+    void set_death_start_callback(std::tr1::function<void (void)> on_death_start_callback) {
         on_death_start_callback_ = on_death_start_callback;
     }
 
@@ -98,7 +91,7 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life_;
 
     // TODO: make this somethintg
-    DeathOp* on_death_start_callback_;
+    std::tr1::function<void (void)> on_death_start_callback_;
 
   private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.

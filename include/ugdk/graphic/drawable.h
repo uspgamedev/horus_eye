@@ -1,9 +1,6 @@
 #ifndef HORUSEYE_FRAMEWORK_DRAWABLE_H_
 #define HORUSEYE_FRAMEWORK_DRAWABLE_H_
 
-#ifdef DEBUG
-#include <string>
-#endif
 #include <ugdk/math/vector2D.h>
 
 namespace ugdk {
@@ -44,14 +41,6 @@ class Drawable {
     Drawable() {}
 
     ugdk::Vector2D hotspot_;
-
-#ifdef DEBUG
-    std::string name_;
-  public:
-    void set_name(const std::string& name) { name_ = name; }
-    const std::string& name() const { return name_; }    
-#endif
-
 };
 
 }  // namespace graphic

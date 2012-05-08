@@ -34,20 +34,14 @@ using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
+using component::Hero;
 using pyramidworks::collision::CollisionInstance;
 
 bool VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->get_current_level();
-    Hero* hero = world->hero();
-
-
-
-
-
-
-
+    WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
     if(Engine::reference()->time_handler()->TimeSince(last_level_warp) > 1250) {
@@ -67,10 +61,11 @@ bool VerifyCheats(double delta_t) {
     }
     if(hero) {
         if(input->KeyPressed(ugdk::input::K_h)) {
+            component::Hero* hero_logic = static_cast<component::Hero*>(hero->logic());
             if(input->KeyDown(ugdk::input::K_LSHIFT))
-                hero->mana_blocks().Fill();
-            hero->life().Fill();
-            hero->mana().Fill();
+                hero_logic->mana_blocks().Fill();
+            hero->damageable()->life().Fill();
+            hero_logic->mana().Fill();
         }
         if(input->KeyPressed(ugdk::input::K_t))
             hero->set_world_position(World::FromScreenCoordinates(input->GetMousePosition()));
@@ -80,15 +75,6 @@ bool VerifyCheats(double delta_t) {
         static bool lights_on = true;
         VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
     }
-    if(input->KeyPressed(ugdk::input::K_h)) {
-        component::Hero* hero_logic = static_cast<component::Hero*>(hero_->logic());
-        if(input->KeyDown(ugdk::input::K_LSHIFT))
-            hero_logic->mana_blocks().Fill();
-        hero_->damageable()->life().Fill();
-        hero_logic->mana().Fill();
-    }
-    if(input->KeyPressed(ugdk::input::K_t))
-        hero_->set_world_position(FromScreenCoordinates(input->GetMousePosition()));
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
@@ -120,7 +106,7 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
-World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
+World::World(sprite::WorldObject *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
         remaining_enemies_(0),

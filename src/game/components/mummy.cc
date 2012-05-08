@@ -43,11 +43,11 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-class MummyDeathOp : public sprite::DeathOp {
+class MummyDeathOp {
   public:
     MummyDeathOp(Mummy* m) : mummy_(m) {}
 
-    void Callback() {
+    void operator()() {
         int potion = rand() % 100;
         if (potion <=20){
             builder::ItemBuilder builder;
@@ -80,7 +80,7 @@ Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
 
-    owner_->set_death_start_callback(new MummyDeathOp(this));
+    owner_->set_death_start_callback(MummyDeathOp(this));
 }
 
 Mummy::~Mummy() {
@@ -101,6 +101,7 @@ void Mummy::MummyAntiStack(sprite::WorldObject *obj) {
 
 void Mummy::StartAttack(sprite::WorldObject* obj) {
     if(obj == NULL) obj = WORLD()->hero_world_object();
+    if(obj == NULL) return;
     double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - owner_->node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;

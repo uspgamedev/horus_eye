@@ -17,7 +17,8 @@ void MummyWeapon::Use(){
 
 	scene::World *world = WORLD();
 	sprite::WorldObject* hero = world->hero();
-    hero->damageable()->TakeDamage(damage_);
+    if(hero && hero->damageable())
+        hero->damageable()->TakeDamage(damage_);
 }
 
 bool MummyWeapon::IsValidUse() const {
