@@ -6,36 +6,30 @@
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 
+#include "game/components/direction.h"
 #include "game/components/graphic.h"
 
 namespace component {
 
 class Animation : public ugdk::action::Observer {
   public:
-    Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::action::AnimationSet* animation_set);
-    virtual ~Animation();
-
-    void Update(double dt);
-
-  private:
-    static int direction_mapping_[8];
-    struct Direction_ {
-        static const int RIGHT = 0;
-        static const int LEFT = 1;
-        static const int UP = 2;
-        static const int DOWN = 3;
-    };
-    struct Animation_ {
-        static const int RIGHT = 1;
-        static const int LEFT = 2;
-        static const int UP = 4;
-        static const int DOWN = 8;
-    };
-    enum AnimtionTypes_ {
+    enum AnimtionTypes {
         STANDING  = 0,
         WALKING   = 1,
         ATTACKING = 2
     };
+
+    Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::action::AnimationSet* animation_set);
+    virtual ~Animation();
+
+    void Update(double dt);
+    void Tick();
+
+    void set_direction(const Direction& dir);
+    void select_animation(AnimtionTypes types);
+
+  private:
+    static int direction_mapping_[8];
 
     Graphic* graphic_;
 
@@ -44,6 +38,9 @@ class Animation : public ugdk::action::Observer {
     ugdk::action::AnimationSet* animation_set_;
 
     ugdk::uint32 animation_index_[3][16];
+
+    Direction current_direction_;
+    AnimtionTypes current_animation_;
 
 };  // class Graphic
 

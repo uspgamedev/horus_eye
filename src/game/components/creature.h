@@ -27,7 +27,7 @@ namespace sprite {
 }
 
 namespace component {
-
+    
 class Creature : public Logic, public ugdk::action::Observer { 
   public:
     Creature(sprite::WorldObject* owner, Controller* controller);
@@ -36,12 +36,8 @@ class Creature : public Logic, public ugdk::action::Observer {
     sprite::WorldObject* owner() { return owner_; }
 
     resource::Energy& mana() { return mana_; }
-    void set_mana(resource::Energy &mana) {
-        mana_ = mana;
-    }
-    void set_mana(double mana) {
-        mana_.Set(mana);
-    }
+    void set_mana(resource::Energy &mana) { mana_ = mana; }
+    void set_mana(double mana) { mana_.Set(mana); }
     double max_mana() { return mana_.max_value(); }
 
     int sight_count() { return sight_count_; }
@@ -51,9 +47,9 @@ class Creature : public Logic, public ugdk::action::Observer {
 
     virtual bool AddCondition(sprite::Condition* new_condition);
     virtual void UpdateCondition(double dt);
+
     void set_weapon(skills::Skill *weapon) { active_skills_[Controller::PRIMARY] = weapon; }
 
-    // Colisoes
     static void InitializeAnimations();
     static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
@@ -88,11 +84,9 @@ class Creature : public Logic, public ugdk::action::Observer {
     void Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 
-    virtual void Dying(double dt) {}
     virtual void Update(double dt);
-    virtual void PlayHitSound() const {}
+    virtual void PlayHitSound() const = 0;
 
-    // funcoes
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     void Tick();
