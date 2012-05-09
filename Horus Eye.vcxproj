@@ -86,6 +86,7 @@
     <ClCompile Include="src\game\utils\hud.cc" />
     <ClCompile Include="src\game\utils\hudimagefactory.cc" />
     <ClCompile Include="src\game\utils\imagefactory.cc" />
+    <ClCompile Include="src\game\utils\isometricanimationset.cc" />
     <ClCompile Include="src\game\utils\levelloader.cc" />
     <ClCompile Include="src\game\utils\levelmanager.cc" />
     <ClCompile Include="src\game\utils\settings.cc" />
@@ -111,6 +112,7 @@
     <ClInclude Include="src\game\components\controller.h" />
     <ClInclude Include="src\game\components\creature.h" />
     <ClInclude Include="src\game\components\damageable.h" />
+    <ClInclude Include="src\game\components\direction.h" />
     <ClInclude Include="src\game\components\graphic.h" />
     <ClInclude Include="src\game\components\hero.h" />
     <ClInclude Include="src\game\components\logic.h" />
@@ -179,6 +181,7 @@
     <ClInclude Include="src\game\utils\hud.h" />
     <ClInclude Include="src\game\utils\hudimagefactory.h" />
     <ClInclude Include="src\game\utils\imagefactory.h" />
+    <ClInclude Include="src\game\utils\isometricanimationset.h" />
     <ClInclude Include="src\game\utils\levelloader.h" />
     <ClInclude Include="src\game\utils\levelmanager.h" />
     <ClInclude Include="src\game\utils\settings.h" />
