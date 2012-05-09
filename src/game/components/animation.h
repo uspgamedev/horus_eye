@@ -8,25 +8,20 @@
 
 #include "game/components/direction.h"
 #include "game/components/graphic.h"
+#include "game/utils/isometricanimationset.h"
 
 namespace component {
 
 class Animation : public ugdk::action::Observer {
   public:
-    enum AnimtionTypes {
-        STANDING  = 0,
-        WALKING   = 1,
-        ATTACKING = 2
-    };
-
-    Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, ugdk::action::AnimationSet* animation_set);
+    Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, utils::IsometricAnimationSet* animation_set);
     virtual ~Animation();
 
     void Update(double dt);
     void Tick();
 
     void set_direction(const Direction& dir);
-    void select_animation(AnimtionTypes types);
+    void select_animation(utils::AnimtionType types);
 
   private:
     static int direction_mapping_[8];
@@ -35,12 +30,10 @@ class Animation : public ugdk::action::Observer {
 
     ugdk::graphic::Sprite* sprite_;
 
-    ugdk::action::AnimationSet* animation_set_;
-
-    ugdk::uint32 animation_index_[3][16];
+    utils::IsometricAnimationSet* isometric_animation_set_;
 
     Direction current_direction_;
-    AnimtionTypes current_animation_;
+    utils::AnimtionType current_animation_;
 
 };  // class Graphic
 

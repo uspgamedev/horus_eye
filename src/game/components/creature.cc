@@ -64,8 +64,7 @@ Creature::Creature(WorldObject* owner, Controller* controller)
         last_stable_position_(),
         last_dt_(0.0),
         sight_count_(0),
-        aim_(owner->world_position(), controller->aim_destination()),
-        sprite_(NULL) {
+        aim_(owner->world_position(), controller->aim_destination()) {
             owner_->set_logic(this);
             if(!owner_->controller())
                 owner_->set_controller(controller);
@@ -77,11 +76,6 @@ Creature::~Creature() {
     std::map<Controller::SkillSlot, skills::Skill*>::iterator it;
     for(it = active_skills_.begin(); it != active_skills_.end(); ++it)
         delete it->second;
-}
-
-void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set) {
-    owner_->node()->set_drawable(sprite_ = new ugdk::graphic::Sprite(image, ANIMATIONS));
-    sprite_->AddObserverToAnimation(this);
 }
 
 void Creature::AddKnownCollisions() {
@@ -114,9 +108,6 @@ void Creature::InitializeAnimations() {
     if (ANIMATIONS != NULL) return;
 
     ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd");
-    InitializeAttackingAnimations();
-    InitializeWalkingAnimations();
-    InitializeStandingAnimations();
     taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
     dying_animation_ = ANIMATIONS->MakeIndex("DYING");
 
@@ -125,44 +116,6 @@ void Creature::InitializeAnimations() {
     directions_[Direction_::DOWN] =  Vector2D(-1, -1);
     directions_[Direction_::UP] = Vector2D(1, 1);
 }
-
-void Creature::InitializeAttackingAnimations() {
-    attacking_animations_[6] = ANIMATIONS->MakeIndex("ATTACKING_DOWN");
-    attacking_animations_[4] = ANIMATIONS->MakeIndex("ATTACKING_LEFT");
-    attacking_animations_[0] = ANIMATIONS->MakeIndex("ATTACKING_RIGHT");
-    attacking_animations_[2] = ANIMATIONS->MakeIndex("ATTACKING_UP");
-    attacking_animations_[7] = ANIMATIONS->MakeIndex("ATTACKING_DOWN_RIGHT");
-    attacking_animations_[5] = ANIMATIONS->MakeIndex("ATTACKING_DOWN_LEFT");
-    attacking_animations_[1] = ANIMATIONS->MakeIndex("ATTACKING_UP_RIGHT");
-    attacking_animations_[3] = ANIMATIONS->MakeIndex("ATTACKING_UP_LEFT");
-}
-
-void Creature::InitializeWalkingAnimations() {
-    for (int i = 0; i < 16; i++) walking_animations_[i] = -1;
-
-    walking_animations_[Animation_::DOWN                    ] = ANIMATIONS->MakeIndex("WALKING_DOWN");
-    walking_animations_[Animation_::UP                      ] = ANIMATIONS->MakeIndex("WALKING_UP");
-    walking_animations_[                   Animation_::LEFT ] = ANIMATIONS->MakeIndex("WALKING_LEFT");
-    walking_animations_[                   Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_RIGHT");
-    walking_animations_[Animation_::DOWN | Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_DOWN_RIGHT");
-    walking_animations_[Animation_::DOWN | Animation_::LEFT ] = ANIMATIONS->MakeIndex("WALKING_DOWN_LEFT");
-    walking_animations_[Animation_::UP   | Animation_::RIGHT] = ANIMATIONS->MakeIndex("WALKING_UP_RIGHT");
-    walking_animations_[Animation_::UP   | Animation_::LEFT ] = ANIMATIONS->MakeIndex("WALKING_UP_LEFT");
-}
-
-void Creature::InitializeStandingAnimations() {
-    for (int i = 0; i < 16; i++) standing_animations_[i] = -1;
-
-    standing_animations_[Animation_::DOWN                    ] = ANIMATIONS->MakeIndex("STANDING_DOWN");
-    standing_animations_[                   Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_LEFT");
-    standing_animations_[                   Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_RIGHT");
-    standing_animations_[Animation_::UP                      ] = ANIMATIONS->MakeIndex("STANDING_UP");
-    standing_animations_[Animation_::DOWN | Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_DOWN_RIGHT");
-    standing_animations_[Animation_::DOWN | Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_DOWN_LEFT");
-    standing_animations_[Animation_::UP   | Animation_::RIGHT] = ANIMATIONS->MakeIndex("STANDING_UP_RIGHT");
-    standing_animations_[Animation_::UP   | Animation_::LEFT ] = ANIMATIONS->MakeIndex("STANDING_UP_LEFT");
-}
-
 
 // ============= other stuff
 
@@ -224,13 +177,6 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
     // normalize the walking_direction_ and move correctly this time.
     walking_direction_ = walking_direction_.Normalize();
     Move(walking_direction_, last_dt_);
-}
-
-void Creature::Tick() {
-    if (owner_->status() == WorldObject::STATUS_DYING) {
-        owner_->Die();
-    }
-    waiting_animation_ = false;
 }
 
 int Creature::GetAttackingAnimationIndex(double angle) {

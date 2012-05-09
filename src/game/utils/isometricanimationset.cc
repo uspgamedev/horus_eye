@@ -42,12 +42,4 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
 
 IsometricAnimationSet::~IsometricAnimationSet() {}
 
-ugdk::action::Animation* IsometricAnimationSet::Get(IsometricAnimationSet::AnimtionType type, const component::Direction dir) {
-    return animation_set_->Get(animation_index_[type][dir.value()]);
-}
-
-ugdk::action::Animation* IsometricAnimationSet::Search(const std::string& name) {
-    return animation_set_->Search(name);
-}
-
 }  // namespace component

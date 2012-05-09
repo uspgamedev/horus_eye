@@ -28,7 +28,7 @@ namespace sprite {
 
 namespace component {
     
-class Creature : public Logic, public ugdk::action::Observer { 
+class Creature : public Logic { 
   public:
     Creature(sprite::WorldObject* owner, Controller* controller);
     virtual ~Creature();
@@ -81,7 +81,6 @@ class Creature : public Logic, public ugdk::action::Observer {
         static const int DOWN = 8;
     };
 
-    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::action::AnimationSet *set = NULL);
     virtual void AddKnownCollisions();
 
     virtual void Update(double dt);
@@ -89,7 +88,6 @@ class Creature : public Logic, public ugdk::action::Observer {
 
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
-    void Tick();
     double GetAttackingAngle(ugdk::Vector2D targetDirection);
     int GetAttackingAnimationIndex(double angle);
     virtual ugdk::Vector2D GetWalkingDirection() {
@@ -144,9 +142,6 @@ class Creature : public Logic, public ugdk::action::Observer {
 
     /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
     skills::usearguments::Aim aim_;
-
-    /// Well, kinda hacky or not. TODO better comment
-    ugdk::graphic::Sprite* sprite_;
 
 };  // class Creature
 

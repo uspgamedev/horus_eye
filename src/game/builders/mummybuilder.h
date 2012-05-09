@@ -7,7 +7,7 @@
 namespace builder {
 class MummyBuilder {
   public:
-    MummyBuilder() {}
+    MummyBuilder();
 
     sprite::WorldObject *StandingMummy(ugdk::graphic::FlexibleSpritesheet* image);
     sprite::WorldObject *WalkingMummy(ugdk::graphic::FlexibleSpritesheet* image);

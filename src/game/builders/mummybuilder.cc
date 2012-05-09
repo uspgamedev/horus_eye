@@ -1,3 +1,4 @@
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/graphic/node.h>
 
@@ -6,6 +7,9 @@
 #include "game/components/mummy.h"
 #include "game/components/pharaoh.h"
 #include "game/components/damageable.h"
+#include "game/components/animation.h"
+#include "game/components/graphic.h"
+#include "game/utils/isometricanimationset.h"
 #include "game/utils/constants.h"
 #include "game/skills/mummyweapon.h"
 #include "game/skills/mummyrangedweapon.h"
@@ -21,8 +25,18 @@ using utils::Constants;
 using resource::Energy;
 using ugdk::Vector2D;
 
+static utils::IsometricAnimationSet* ANIMATIONS = NULL;
+
+MummyBuilder::MummyBuilder() {
+    if(ANIMATIONS == NULL) {
+        ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
+    }
+}
+
 sprite::WorldObject* MummyBuilder::StandingMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = new WorldObject;
+    wobj->set_graphic(new component::Graphic(wobj));
+    wobj->set_animation(new component::Animation(wobj->graphic(), image, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj));
     wobj->damageable()->life() = Energy(Constants::MUMMY_LIFE);
 
@@ -41,6 +55,8 @@ sprite::WorldObject* MummyBuilder::WalkingMummy(ugdk::graphic::FlexibleSpriteshe
 
 sprite::WorldObject* MummyBuilder::StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = new WorldObject;
+    wobj->set_graphic(new component::Graphic(wobj));
+    wobj->set_animation(new component::Animation(wobj->graphic(), image, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj));
     wobj->damageable()->life() = Energy(Constants::RANGED_MUMMY_LIFE);
 
@@ -59,6 +75,8 @@ sprite::WorldObject* MummyBuilder::RangedMummy(ugdk::graphic::FlexibleSpriteshee
 
 sprite::WorldObject* MummyBuilder::StandingBigMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = new WorldObject;
+    wobj->set_graphic(new component::Graphic(wobj));
+    wobj->set_animation(new component::Animation(wobj->graphic(), image, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj));
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->life() = Energy(Constants::BIG_MUMMY_LIFE);

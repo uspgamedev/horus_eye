@@ -16,6 +16,7 @@
 
 #include "game/components/hero.h"
 #include "game/components/controller.h"
+#include "game/components/animation.h"
 
 #include "game/utils/imagefactory.h"
 #include "game/sprites/item.h"
@@ -55,18 +56,17 @@ static void HeroDeathEvent() {
 }
 
 Hero::Hero(sprite::WorldObject* owner,
-           ugdk::graphic::Spritesheet* img, 
            resource::Energy &mana, 
            int num_blocks, 
            double mana_per_block)
     : Creature(owner, owner->controller()),
       mana_blocks_(mana_, num_blocks, mana_per_block)  {
 
-    Initialize(img, ANIMATIONS);
     this->set_mana(mana);
 
     //owner->identifier_ = "Hero";
-    sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
+    owner_->animation()->select_animation(utils::STANDING);
+    owner_->animation()->set_direction(last_standing_direction_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     /*
@@ -118,7 +118,8 @@ void Hero::StartAttackAnimation() {
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_direction_ = direction_mapping_[attackAnimationIndex];
-    sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
+    //sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
+    owner_->animation()->select_animation(utils::ATTACKING);
 }
 
 void Hero::Update(double delta_t) {
@@ -144,9 +145,11 @@ void Hero::Update(double delta_t) {
             const Direction& direction = controller->direction();
             if(direction) {
                 last_standing_direction_ = direction;
-                sprite_->SelectAnimation(walking_animations_[direction.value()]);
+                owner_->animation()->select_animation(utils::WALKING);
+                owner_->animation()->set_direction(direction);
             } else {
-                sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
+                owner_->animation()->select_animation(utils::STANDING);
+                owner_->animation()->set_direction(last_standing_direction_);
             }
             Creature::Move(this->GetWalkingDirection(), delta_t);
         }

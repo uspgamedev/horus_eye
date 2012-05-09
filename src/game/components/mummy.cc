@@ -15,6 +15,7 @@
 #include "mummy.h"
 
 #include "game/components/mummycontroller.h"
+#include "game/components/animation.h"
 #include "game/scenes/world.h"
 #include "game/utils/geometryprimitives.h"
 #include "game/utils/visionstrategy.h"
@@ -68,10 +69,10 @@ class MummyDeathOp {
 
 Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img) 
     :   Creature(owner, new MummyController(owner)) {
-    Initialize(img, ANIMATIONS);
 
     // Animations
-    sprite_->SelectAnimation(standing_animations_[last_standing_direction_.value()]);
+    owner->animation()->select_animation(utils::STANDING);
+    owner->animation()->set_direction(last_standing_direction_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new ugdk::time::TimeAccumulator(0);
@@ -109,7 +110,8 @@ void Mummy::StartAttack(sprite::WorldObject* obj) {
     waiting_animation_ = true;
     
     last_standing_direction_ = direction_mapping_[attackAnimationIndex];
-    sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    //sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    owner_->animation()->select_animation(utils::ATTACKING);
 }
 
 void Mummy::set_bound(double radius) {
@@ -159,7 +161,7 @@ void Mummy::Think(double dt) {
             
             path_ = strategy.Calculate(owner_->world_position());
             if(!path_.empty()) UpdateDirection(path_.front());
-			
+            
             if(weapon_->Available()) {
                 if(!path_.empty()) aim_destination_ = path_.front();
                 if(weapon_->IsValidUse()){
@@ -200,7 +202,8 @@ void Mummy::Update(double delta_t) {
         if(!waiting_animation_) {
             Creature::Move(this->GetWalkingDirection(), delta_t);
             walking_direction_ = last_direction_;
-            sprite_->SelectAnimation(walking_animations_[animation_direction_.value()]);
+            owner_->animation()->select_animation(utils::WALKING);
+            owner_->animation()->set_direction(animation_direction_);
         }
     }
 

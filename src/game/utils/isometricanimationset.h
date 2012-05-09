@@ -7,19 +7,22 @@
 
 namespace utils {
 
+enum AnimtionType {
+    STANDING  = 0,
+    WALKING   = 1,
+    ATTACKING = 2
+};
+
 class IsometricAnimationSet {
   public:
-    enum AnimtionType {
-        STANDING  = 0,
-        WALKING   = 1,
-        ATTACKING = 2
-    };
-
     IsometricAnimationSet(ugdk::action::AnimationSet* animation_set);
     virtual ~IsometricAnimationSet();
 
-    ugdk::action::Animation* Get(AnimtionType type, const component::Direction dir);
-    ugdk::action::Animation* Search(const std::string& name);
+    int Get(AnimtionType type, const component::Direction dir) {
+        return animation_index_[type][dir.value()];
+    }
+    
+    ugdk::action::AnimationSet* animation_set() { return animation_set_; }
 
   private:
     ugdk::action::AnimationSet* animation_set_;

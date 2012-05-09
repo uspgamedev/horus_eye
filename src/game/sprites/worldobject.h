@@ -81,6 +81,9 @@ class WorldObject : public ugdk::action::Entity {
     void set_controller(component::Controller* controller) { controller_ = controller; }
     component::Controller* controller() { return controller_; }
 
+    void set_animation(component::Animation* animation) { animation_ = animation; }
+    component::Animation* animation() { return animation_; }
+
   protected:
     std::string identifier_;
 
@@ -108,6 +111,8 @@ class WorldObject : public ugdk::action::Entity {
     component::Logic* logic_;
 
     component::Controller* controller_;
+
+    component::Animation* animation_;
 
 };  // class WorldObject
 
