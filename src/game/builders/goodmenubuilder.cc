@@ -41,6 +41,7 @@ Menu* MenuBuilder::PauseMenu() const {
 
     Text* cont_text = ResourceManager::CreateTextFromLanguageTag("Continue");
     Text* exit_text = ResourceManager::CreateTextFromLanguageTag("Return to Menu");
+    cont_text->set_hotspot(ugdk::graphic::Drawable::CENTER);
 
     ugdk::Vector2D cont_position = target * 0.5;
     cont_position.y -= cont_text->size().y;
@@ -48,11 +49,11 @@ Menu* MenuBuilder::PauseMenu() const {
     ugdk::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    UIElement* cont_element = new UIElement(cont_position - cont_text->size() * 0.5, cont_position + cont_text->size() * 0.5, menu, bind(PauseContinueCallback, menu, _1));
-    UIElement* exit_element = new UIElement(exit_position - exit_text->size() * 0.5, exit_position + exit_text->size() * 0.5, menu, bind(PauseExitCallback, menu, _1));
+    UIElement* cont_element = new UIElement(cont_position, menu, bind(PauseContinueCallback, menu, _1));
+    UIElement* exit_element = new UIElement(exit_position - exit_text->size() * 0.5, menu, bind(PauseExitCallback, menu, _1));
 
-    cont_element->node()->set_drawable(cont_text);
-    exit_element->node()->set_drawable(exit_text);
+    cont_element->set_drawable(cont_text);
+    exit_element->set_drawable(exit_text);
     
     menu->AddObject(cont_element);
     menu->AddObject(exit_element);
