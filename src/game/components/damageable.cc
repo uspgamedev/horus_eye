@@ -14,10 +14,10 @@ using sprite::WorldObject;
 
 namespace component {
 
-Damageable::Damageable(sprite::WorldObject* owner)
+Damageable::Damageable(sprite::WorldObject* owner, int invulnerability_time)
   : owner_(owner),
     super_armor_(false),
-    invulnerability_time_(0),
+    invulnerability_time_(invulnerability_time),
     hit_duration_(new ugdk::time::TimeAccumulator(0)) {
         for(int i = 1; i <= 4; ++i) {
             char buffer[255];
@@ -32,8 +32,7 @@ Damageable::~Damageable() {
 void Damageable::TakeDamage(double life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
-    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), creature_id,
+    fprintf(stderr, "Damage to %s [%p]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), this,
         life_points, (double) life_, (double) life_ - life_points);
 #endif
     PlayHitSound();
@@ -41,7 +40,7 @@ void Damageable::TakeDamage(double life_points) {
     if(life_.Empty()) {
         if (owner_->is_active()) {
             //sprite_->SelectAnimation(dying_animation_);
-	        owner_->StartToDie();
+            owner_->StartToDie();
 #ifdef DEBUG
             fprintf(stderr, "\tTriggering death animation.\n");
 #endif

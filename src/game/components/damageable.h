@@ -12,7 +12,7 @@ namespace component {
 
 class Damageable { 
   public:
-    Damageable(sprite::WorldObject* owner);
+    Damageable(sprite::WorldObject* owner, int invulnerability_time = 0);
     virtual ~Damageable();
 
           sprite::WorldObject* owner()       { return owner_; }
