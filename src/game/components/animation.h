@@ -21,7 +21,12 @@ class Animation : public ugdk::action::Observer {
     void Tick();
 
     void set_direction(const Direction& dir);
-    void select_animation(utils::AnimtionType types);
+    void set_animation(utils::AnimtionType type);
+    void queue_animation(utils::AnimtionType type);
+
+    bool has_queued_animation() const { return has_queued_animation_; }
+    void flag_uninterrutible() { uninterrutible_ = true; }
+    bool is_uninterrutible() const { return uninterrutible_; }
 
   private:
     static int direction_mapping_[8];
@@ -33,7 +38,10 @@ class Animation : public ugdk::action::Observer {
     utils::IsometricAnimationSet* isometric_animation_set_;
 
     Direction current_direction_;
-    utils::AnimtionType current_animation_;
+    utils::AnimtionType current_animation_, queued_animation_;
+    bool has_queued_animation_;
+    bool uninterrutible_;
+
 
 };  // class Graphic
 

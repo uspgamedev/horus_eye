@@ -35,7 +35,6 @@ MummyBuilder::MummyBuilder() {
 
 sprite::WorldObject* MummyBuilder::StandingMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = new WorldObject;
-    wobj->set_graphic(new component::Graphic(wobj));
     wobj->set_animation(new component::Animation(wobj->graphic(), image, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj));
     wobj->damageable()->life() = Energy(Constants::MUMMY_LIFE);
@@ -55,7 +54,6 @@ sprite::WorldObject* MummyBuilder::WalkingMummy(ugdk::graphic::FlexibleSpriteshe
 
 sprite::WorldObject* MummyBuilder::StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = new WorldObject;
-    wobj->set_graphic(new component::Graphic(wobj));
     wobj->set_animation(new component::Animation(wobj->graphic(), image, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj));
     wobj->damageable()->life() = Energy(Constants::RANGED_MUMMY_LIFE);
@@ -75,7 +73,6 @@ sprite::WorldObject* MummyBuilder::RangedMummy(ugdk::graphic::FlexibleSpriteshee
 
 sprite::WorldObject* MummyBuilder::StandingBigMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = new WorldObject;
-    wobj->set_graphic(new component::Graphic(wobj));
     wobj->set_animation(new component::Animation(wobj->graphic(), image, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj));
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));

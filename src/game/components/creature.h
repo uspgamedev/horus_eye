@@ -51,16 +51,9 @@ class Creature : public Logic {
     void set_weapon(skills::Skill *weapon) { active_skills_[Controller::PRIMARY] = weapon; }
 
     static void InitializeAnimations();
-    static void ReleaseAnimations() { ANIMATIONS = NULL; }
 
   protected:
     static const Direction direction_mapping_[8];
-    static ugdk::uint32 standing_animations_[16];
-    static ugdk::uint32 walking_animations_[16];
-    static ugdk::uint32 attacking_animations_[8];
-    static ugdk::uint32 taking_damage_animation_;
-    static ugdk::uint32 dying_animation_;
-    static ugdk::action::AnimationSet *ANIMATIONS;
     static ugdk::Vector2D directions_[4];
 
     friend class RectCollision;
@@ -71,14 +64,6 @@ class Creature : public Logic {
         static const int LEFT = 1;
         static const int UP = 2;
         static const int DOWN = 3;
-    };
-
-    class Animation_ {
-      public:
-        static const int RIGHT = 1;
-        static const int LEFT = 2;
-        static const int UP = 4;
-        static const int DOWN = 8;
     };
 
     virtual void AddKnownCollisions();
@@ -94,16 +79,10 @@ class Creature : public Logic {
         return walking_direction_;
     }
     void CollideWithRect(const pyramidworks::collision::CollisionObject*);
-    static void InitializeStandingAnimations();
-    static void InitializeWalkingAnimations();
-    static void InitializeAttackingAnimations();
 
 
     /// The owner.
     sprite::WorldObject* owner_;
-
-    /// Is this creature waiting for an animation to finish?
-    bool waiting_animation_;
     
     ///
     Direction animation_direction_;

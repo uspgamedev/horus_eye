@@ -38,8 +38,22 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
     animation_index_[ATTACKING][5] = animation_set->MakeIndex("ATTACKING_DOWN_LEFT");
     animation_index_[ATTACKING][1] = animation_set->MakeIndex("ATTACKING_UP_RIGHT");
     animation_index_[ATTACKING][3] = animation_set->MakeIndex("ATTACKING_UP_LEFT");
+
+    int dying = animation_set->MakeIndex("DYING");
+    int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");
+    for(int i = 0; i < 16; i++) {
+        animation_index_[DYING][i] = dying;
+        animation_index_[TAKING_HIT][i] = taking_damage;
+    }
 }
 
 IsometricAnimationSet::~IsometricAnimationSet() {}
+
+int IsometricAnimationSet::Get(AnimtionType type, const component::Direction dir) {
+    /*switch(type) {
+    default:*/
+        return animation_index_[type][dir.value()];
+    //}
+}
 
 }  // namespace component

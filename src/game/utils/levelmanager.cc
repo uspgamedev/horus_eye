@@ -176,7 +176,6 @@ void LevelManager::Finish() {
     DeleteHero();
     if (loading_)
         delete loading_;
-    Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
 }
 

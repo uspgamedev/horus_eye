@@ -65,7 +65,7 @@ Hero::Hero(sprite::WorldObject* owner,
     this->set_mana(mana);
 
     //owner->identifier_ = "Hero";
-    owner_->animation()->select_animation(utils::STANDING);
+    owner_->animation()->set_animation(utils::STANDING);
     owner_->animation()->set_direction(last_standing_direction_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
@@ -116,10 +116,12 @@ void Hero::StartAttackAnimation() {
 
     double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center);
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    waiting_animation_ = true;
+    
     last_standing_direction_ = direction_mapping_[attackAnimationIndex];
     //sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
-    owner_->animation()->select_animation(utils::ATTACKING);
+    owner_->animation()->set_direction(Direction::Right());
+    owner_->animation()->set_animation(utils::ATTACKING);
+    owner_->animation()->flag_uninterrutible();
 }
 
 void Hero::Update(double delta_t) {
@@ -127,7 +129,7 @@ void Hero::Update(double delta_t) {
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
 
-        if(!waiting_animation_) {
+        if(!owner_->animation()->is_uninterrutible()) {
             std::map<Controller::SkillSlot, skills::Skill*>::iterator itsk;
             for(itsk = active_skills_.begin(); itsk != active_skills_.end(); ++itsk) {
                 if(!itsk->second) continue;
@@ -140,15 +142,15 @@ void Hero::Update(double delta_t) {
                 }
             }
         }
-        if(!waiting_animation_) {
+        if(!owner_->animation()->is_uninterrutible()) {
             walking_direction_ = controller->direction_vector();
             const Direction& direction = controller->direction();
             if(direction) {
                 last_standing_direction_ = direction;
-                owner_->animation()->select_animation(utils::WALKING);
+                owner_->animation()->set_animation(utils::WALKING);
                 owner_->animation()->set_direction(direction);
             } else {
-                owner_->animation()->select_animation(utils::STANDING);
+                owner_->animation()->set_animation(utils::STANDING);
                 owner_->animation()->set_direction(last_standing_direction_);
             }
             Creature::Move(this->GetWalkingDirection(), delta_t);

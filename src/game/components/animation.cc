@@ -32,7 +32,9 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 Animation::Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, utils::IsometricAnimationSet* iso_animation_set)
     :   graphic_(graphic),
         sprite_(new ugdk::graphic::Sprite(spritesheet, iso_animation_set->animation_set())),
-        isometric_animation_set_(iso_animation_set) {
+        isometric_animation_set_(iso_animation_set),
+        has_queued_animation_(false),
+        uninterrutible_(false) {
         
     graphic->node()->set_drawable(sprite_);
     sprite_->AddObserverToAnimation(this);
@@ -45,17 +47,26 @@ void Animation::Update(double dt) {
 }
 
 void Animation::Tick() {
-    sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+    uninterrutible_ = false;
+    if(has_queued_animation_) {
+        has_queued_animation_ = false;
+        set_animation(queued_animation_);
+    }
 }
 
 void Animation::set_direction(const Direction& dir) { 
     current_direction_ = dir;
-    sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+    if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
 }
 
-void Animation::select_animation(utils::AnimtionType types) { 
-    current_animation_ = types;
-    sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+void Animation::set_animation(utils::AnimtionType type) { 
+    current_animation_ = type;
+    if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+}
+
+void Animation::queue_animation(utils::AnimtionType type) {
+    queued_animation_ = type;
+    has_queued_animation_ = true;
 }
 
 }  // namespace component

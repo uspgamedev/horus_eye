@@ -43,7 +43,6 @@ sprite::WorldObject* HeroBuilder::Kha() {
                          Constants::HERO_BASE_MANA_REGEN_RATIO);
 
     WorldObject* hero_wobj = new WorldObject;
-    hero_wobj->set_graphic(new component::Graphic(hero_wobj));
     hero_wobj->set_animation(new component::Animation(hero_wobj->graphic(), factory_->HeroImage(), ANIMATIONS));
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     hero_wobj->set_controller(new component::PlayerController(hero_wobj));

@@ -42,14 +42,7 @@ const Direction Creature::direction_mapping_[8] = {
     Direction::Down(),
     Direction::Down() | Direction::Right()
 };
-uint32 Creature::standing_animations_[16];
-uint32 Creature::walking_animations_[16];
-uint32 Creature::attacking_animations_[8];
-uint32 Creature::taking_damage_animation_ = -1;
-uint32 Creature::dying_animation_ = -1;
 Vector2D Creature::directions_[4];
-
-AnimationSet* Creature::ANIMATIONS = NULL;
 
 COLLISION_DIRECT(Creature*, RectCollision, obj) {
     WorldObject *wobj = (WorldObject *) obj;
@@ -58,7 +51,6 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
 
 Creature::Creature(WorldObject* owner, Controller* controller)
     :   owner_(owner),
-        waiting_animation_(false),
         last_standing_direction_(Direction::Down()),
         animation_direction_(),
         last_stable_position_(),
@@ -105,12 +97,6 @@ void Creature::UpdateCondition(double dt) {
 // ANIMATION STUFF
 
 void Creature::InitializeAnimations() {
-    if (ANIMATIONS != NULL) return;
-
-    ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd");
-    taking_damage_animation_ = ANIMATIONS->MakeIndex("TAKING_DAMAGE");
-    dying_animation_ = ANIMATIONS->MakeIndex("DYING");
-
     directions_[Direction_::RIGHT] = Vector2D(1, -1);
     directions_[Direction_::LEFT] = Vector2D(-1, 1);
     directions_[Direction_::DOWN] =  Vector2D(-1, -1);

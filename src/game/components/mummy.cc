@@ -71,7 +71,7 @@ Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img
     :   Creature(owner, new MummyController(owner)) {
 
     // Animations
-    owner->animation()->select_animation(utils::STANDING);
+    owner->animation()->set_animation(utils::STANDING);
     owner->animation()->set_direction(last_standing_direction_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
@@ -107,11 +107,11 @@ void Mummy::StartAttack(sprite::WorldObject* obj) {
     if(obj == NULL) return;
     double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - owner_->node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    waiting_animation_ = true;
-    
+       
     last_standing_direction_ = direction_mapping_[attackAnimationIndex];
     //sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
-    owner_->animation()->select_animation(utils::ATTACKING);
+    owner_->animation()->set_animation(utils::ATTACKING);
+    owner_->animation()->flag_uninterrutible();
 }
 
 void Mummy::set_bound(double radius) {
@@ -196,13 +196,13 @@ void Mummy::Update(double delta_t) {
         }
     }
 
-    if (!waiting_animation_ && owner_->is_active()) {
+    if (!owner_->animation()->is_uninterrutible() && owner_->is_active()) {
         Think(delta_t);
 
-        if(!waiting_animation_) {
+        if(!owner_->animation()->is_uninterrutible()) {
             Creature::Move(this->GetWalkingDirection(), delta_t);
             walking_direction_ = last_direction_;
-            owner_->animation()->select_animation(utils::WALKING);
+            owner_->animation()->set_animation(utils::WALKING);
             owner_->animation()->set_direction(animation_direction_);
         }
     }

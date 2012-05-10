@@ -2,6 +2,7 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
 #include "damageable.h"
+#include "game/components/animation.h"
 #include "game/components/graphic.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/settings.h"
@@ -39,15 +40,16 @@ void Damageable::TakeDamage(double life_points) {
     life_ -= life_points;
     if(life_.Empty()) {
         if (owner_->is_active()) {
-            //sprite_->SelectAnimation(dying_animation_);
+            owner_->animation()->set_animation(utils::DYING);
+            owner_->animation()->flag_uninterrutible();
             owner_->StartToDie();
 #ifdef DEBUG
             fprintf(stderr, "\tTriggering death animation.\n");
 #endif
         }
     } else if(!super_armor_) {
-        //waiting_animation_ = true;
-        //sprite_->SelectAnimation(taking_damage_animation_);
+        owner_->animation()->set_animation(utils::TAKING_HIT);
+        owner_->animation()->flag_uninterrutible();
     }
     hit_duration_->Restart(invulnerability_time_);
     owner_->graphic()->StartBlinking();

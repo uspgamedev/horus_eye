@@ -10,7 +10,9 @@ namespace utils {
 enum AnimtionType {
     STANDING  = 0,
     WALKING   = 1,
-    ATTACKING = 2
+    ATTACKING = 2,
+    DYING     = 3,
+    TAKING_HIT = 4
 };
 
 class IsometricAnimationSet {
@@ -18,15 +20,13 @@ class IsometricAnimationSet {
     IsometricAnimationSet(ugdk::action::AnimationSet* animation_set);
     virtual ~IsometricAnimationSet();
 
-    int Get(AnimtionType type, const component::Direction dir) {
-        return animation_index_[type][dir.value()];
-    }
+    int Get(AnimtionType type, const component::Direction dir);
     
     ugdk::action::AnimationSet* animation_set() { return animation_set_; }
 
   private:
     ugdk::action::AnimationSet* animation_set_;
-    ugdk::uint32 animation_index_[3][16];
+    ugdk::uint32 animation_index_[5][16];
 
 };  // class IsometricAnimationSet
 
