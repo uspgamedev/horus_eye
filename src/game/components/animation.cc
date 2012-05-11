@@ -63,6 +63,9 @@ void Animation::set_direction(const Direction& dir) {
 }
 
 void Animation::set_animation(utils::AnimtionType type) { 
+    if(current_animation_ != type && animation_callbacks_[current_animation_])
+        animation_callbacks_[current_animation_](owner_);
+
     current_animation_ = type;
     if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
 }
