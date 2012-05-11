@@ -52,7 +52,8 @@ void Damageable::TakeDamage(double life_points) {
         owner_->animation()->flag_uninterrutible();
     }
     hit_duration_->Restart(invulnerability_time_);
-    owner_->graphic()->StartBlinking();
+    if(invulnerability_time_ > 0)
+        owner_->graphic()->StartBlinking(invulnerability_time_);
 }
 
 void Damageable::PlayHitSound() const {

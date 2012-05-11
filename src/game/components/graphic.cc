@@ -9,6 +9,7 @@ Graphic::Graphic(sprite::WorldObject* owner)
   : owner_(owner),
     node_(new ugdk::graphic::Node),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
+    blink_duration_(new ugdk::time::TimeAccumulator(0)),
     is_blinking_(false),
     blink_(false) {}
 
@@ -17,9 +18,13 @@ Graphic::~Graphic() {
     delete blink_time_;
 }
 
-void Graphic::StartBlinking() {
+void Graphic::StartBlinking(int duration) {
     is_blinking_ = true;
     blink_time_->Restart();
+    if(duration <= 0)
+        blink_duration_->Pause();
+    else
+        blink_duration_->Restart(duration);
 }
 
 void Graphic::StopBlinking() {
@@ -28,6 +33,8 @@ void Graphic::StopBlinking() {
 }
 
 void Graphic::AdjustBlink() {
+    if(is_blinking_ && !blink_duration_->IsPaused() && blink_duration_->Expired())
+        StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {
         blink_ = !blink_;
         node()->modifier()->set_alpha(blink_ ? 1.0 : 0.20);

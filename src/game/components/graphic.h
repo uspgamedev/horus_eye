@@ -18,7 +18,7 @@ class Graphic {
 
     void Update(double dt) { AdjustBlink(); }
 
-    void StartBlinking();
+    void StartBlinking(int duration = -1);
     void StopBlinking();
 
   protected:
@@ -34,6 +34,9 @@ class Graphic {
 
     /// Controls when to toggle the blink_ flag.
     ugdk::time::TimeAccumulator *blink_time_;
+
+    /// Controls when to stop blinking.
+    ugdk::time::TimeAccumulator *blink_duration_;
 
     /// When true, this component is on the invisible part of the blinking effect.
     bool blink_;
