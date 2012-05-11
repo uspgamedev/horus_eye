@@ -67,7 +67,7 @@ class MummyDeathOp {
     Mummy* mummy_;
 };
 
-Mummy::Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img) 
+Mummy::Mummy(sprite::WorldObject* owner) 
     :   Creature(owner, new MummyController(owner)) {
 
     // Animations

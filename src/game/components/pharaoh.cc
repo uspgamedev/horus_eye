@@ -18,7 +18,7 @@ namespace component {
 #define SQRT_3 1.7320508075688772935274463415059
 #define PHARAOH_TIME_TO_THINK 0.05
 
-Pharaoh::Pharaoh(sprite::WorldObject* owner, FlexibleSpritesheet* image, int life, int mana) : Mummy(owner, image) {
+Pharaoh::Pharaoh(sprite::WorldObject* owner, int mana) : Mummy(owner) {
 	mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;

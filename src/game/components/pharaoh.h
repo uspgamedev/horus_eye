@@ -19,7 +19,7 @@ namespace component {
 class Pharaoh : public Mummy {
 
   public:
-    Pharaoh(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* image, int life, int mana);
+    Pharaoh(sprite::WorldObject* owner, int mana);
     ~Pharaoh();
 
 	void set_ranged_weapon(skills::Skill *weapon) { ranged_weapon_ = weapon; }

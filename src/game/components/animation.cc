@@ -3,6 +3,7 @@
 #include <ugdk/action/animationset.h>
 #include <ugdk/time/timeaccumulator.h>
 #include "game/components/animation.h"
+#include "game/components/graphic.h"
 
 using ugdk::Vector2D;
 
@@ -29,14 +30,14 @@ direction_mapping_[6] = Animation_::DOWN;
 direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT; 
 */
 
-Animation::Animation(Graphic* graphic, ugdk::graphic::Spritesheet *spritesheet, utils::IsometricAnimationSet* iso_animation_set)
-    :   graphic_(graphic),
+Animation::Animation(sprite::WorldObject* wobj, ugdk::graphic::Spritesheet *spritesheet, utils::IsometricAnimationSet* iso_animation_set)
+    :   owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
         has_queued_animation_(false),
         uninterrutible_(false) {
         
-    graphic->node()->set_drawable(sprite_);
+    wobj->graphic()->node()->set_drawable(sprite_);
     sprite_->AddObserverToAnimation(this);
 }
 
@@ -47,6 +48,8 @@ void Animation::Update(double dt) {
 }
 
 void Animation::Tick() {
+    if(animation_callbacks_[current_animation_])
+        animation_callbacks_[current_animation_](owner_);
     uninterrutible_ = false;
     if(has_queued_animation_) {
         has_queued_animation_ = false;

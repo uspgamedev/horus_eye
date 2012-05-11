@@ -30,6 +30,7 @@ class Hero : public Creature {
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
 
+    void ChangeSecondaryWeapon(int slot);
     skills::Skill* secondary_combat_art() { return active_skills_[Controller::SECONDARY]; }
 
     void SetupCollision();
@@ -43,7 +44,6 @@ class Hero : public Creature {
     virtual void Update(double delta_t);
     virtual void PlayHitSound() const;
    
-    void ChangeSecondaryWeapon(int slot);
     void CollisionSlow();
     void AddKnownCollisions();
 

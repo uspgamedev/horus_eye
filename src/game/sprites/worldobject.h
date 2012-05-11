@@ -34,7 +34,7 @@ class WorldObject : public ugdk::action::Entity {
     // The BIG Awesome update method. TODO explain better
     virtual void Update(double dt);
 
-    virtual void Dying(double dt) { Die(); }
+    virtual void Dying(double dt) { /*Die();*/ }
 
     virtual void Die() { status_ = STATUS_DEAD; to_be_removed_ = true; }
     virtual void StartToDie();

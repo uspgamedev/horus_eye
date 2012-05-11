@@ -22,7 +22,7 @@ namespace component {
 class Mummy : public Creature {
   
   public:
-    Mummy(sprite::WorldObject* owner, ugdk::graphic::FlexibleSpritesheet* img);
+    Mummy(sprite::WorldObject* owner);
     ~Mummy();
     
     void set_standing(bool standing) { standing_ = standing; }	
