@@ -46,10 +46,10 @@ Item::Item(ugdk::graphic::FlexibleSpritesheet* img) : total_time_((1.0*rand()/RA
 }
 
 void Item::Update(double delta_t) {
-	WorldObject::Update(delta_t);
+    WorldObject::Update(delta_t);
     total_time_ += delta_t;
     if (total_time_ >= PERIOD) total_time_ -= PERIOD;
-	this->node()->drawable()->set_hotspot(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
+    this->node()->drawable()->set_hotspot(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
 }
 
 }

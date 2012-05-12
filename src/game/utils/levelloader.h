@@ -26,10 +26,10 @@ class LevelLoader {
 
   protected:
     scene::World * world_;
-	bool InRange (int i,int j);
-	bool IsWall(int i, int j);
-	void TokenToWorldObject(char token, int i, int j, const Vector2D& position, std::vector<std::vector<sprite::Wall* > > &wall_matrix);
-	void InitializeWallTypes(std::vector<std::vector<sprite::Wall *> > wall_matrix);
+    bool InRange (int i,int j);
+    bool IsWall(int i, int j);
+    void TokenToWorldObject(char token, int i, int j, const Vector2D& position, std::vector<std::vector<sprite::Wall* > > &wall_matrix);
+    void InitializeWallTypes(std::vector<std::vector<sprite::Wall *> > wall_matrix);
 
 };
 

@@ -25,7 +25,7 @@ using sprite::Follower;
 using pyramidworks::collision::CollisionObject;
 
 COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
-	sprite::WorldObject *wobj = static_cast<sprite::WorldObject*>(obj);
+    sprite::WorldObject *wobj = static_cast<sprite::WorldObject*>(obj);
     wobj->damageable()->TakeDamage(data_);
 }
 

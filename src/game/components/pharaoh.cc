@@ -19,7 +19,7 @@ namespace component {
 #define PHARAOH_TIME_TO_THINK 0.05
 
 Pharaoh::Pharaoh(sprite::WorldObject* owner, int mana) : Mummy(owner) {
-	mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
+    mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;
@@ -31,43 +31,43 @@ Pharaoh::Pharaoh(sprite::WorldObject* owner, int mana) : Mummy(owner) {
 }
 
 Pharaoh::~Pharaoh() {
-	delete ranged_weapon_;
-	delete summon_weapon_;
+    delete ranged_weapon_;
+    delete summon_weapon_;
 }
 
 void Pharaoh::Think(double dt) {
     Creature::Update(dt);
-	time_to_think_ -= dt;
-	if(time_to_think_ <= 0) {
-		time_to_think_ = PHARAOH_TIME_TO_THINK;
-		speed_ = original_speed_;
-		VisionStrategy strategy;
-		if(strategy.IsVisible(owner_->world_position())) {
-			standing_ = false;
+    time_to_think_ -= dt;
+    if(time_to_think_ <= 0) {
+        time_to_think_ = PHARAOH_TIME_TO_THINK;
+        speed_ = original_speed_;
+        VisionStrategy strategy;
+        if(strategy.IsVisible(owner_->world_position())) {
+            standing_ = false;
 
-			path_ = strategy.Calculate(owner_->world_position());
-			UpdateDirection(path_.front());
+            path_ = strategy.Calculate(owner_->world_position());
+            UpdateDirection(path_.front());
 
             aim_destination_ = path_.front();
             if(weapon_->Available() && weapon_->IsValidUse()){
-				weapon_->Use();
+                weapon_->Use();
                 this->StartAttack(NULL);
-				speed_ = 0;
+                speed_ = 0;
 
-			} else if(ranged_weapon_->Available() && ranged_weapon_->IsValidUse()) {
-				ranged_weapon_->Use();
+            } else if(ranged_weapon_->Available() && ranged_weapon_->IsValidUse()) {
+                ranged_weapon_->Use();
                 this->StartAttack(NULL);
-				speed_ = 0;
+                speed_ = 0;
 
-			} else if (summon_weapon_->Available() && summon_weapon_->IsValidUse()) {
-			    summon_weapon_->Use();
+            } else if (summon_weapon_->Available() && summon_weapon_->IsValidUse()) {
+                summon_weapon_->Use();
                 this->StartAttack(NULL);
-				speed_ = 0;
-			}
+                speed_ = 0;
+            }
 
-		} else if(!standing_) {
-			RandomMovement();
-			last_standing_direction_ = animation_direction_;
+        } else if(!standing_) {
+            RandomMovement();
+            last_standing_direction_ = animation_direction_;
         }
     }
 }

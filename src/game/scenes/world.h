@@ -4,7 +4,7 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/math/vector2d.h>
+#include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision.h>
 
 #include "game/components.h"

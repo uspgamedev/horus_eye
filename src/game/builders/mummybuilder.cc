@@ -47,32 +47,32 @@ sprite::WorldObject* MummyBuilder::StandingMummy(ugdk::graphic::FlexibleSpritesh
     WorldObject* wobj = build_mummy_wobj(image, Constants::MUMMY_LIFE);
 
     Mummy* mummy = new Mummy(wobj);
-	mummy->set_speed(Constants::MUMMY_SPEED);
-	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
-	mummy->set_bound(Constants::MUMMY_RADIUS);
+    mummy->set_speed(Constants::MUMMY_SPEED);
+    mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
+    mummy->set_bound(Constants::MUMMY_RADIUS);
     return wobj;
 }
 
 sprite::WorldObject* MummyBuilder::WalkingMummy(ugdk::graphic::FlexibleSpritesheet *image) {
-	sprite::WorldObject* obj = StandingMummy(image);
+    sprite::WorldObject* obj = StandingMummy(image);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
-	return obj;
+    return obj;
 }
 
 sprite::WorldObject* MummyBuilder::StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = build_mummy_wobj(image, Constants::RANGED_MUMMY_LIFE);
 
     Mummy* mummy = new Mummy(wobj);
-	mummy->set_speed(Constants::MUMMY_SPEED);
-	mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
-	mummy->set_bound(Constants::MUMMY_RADIUS);
-	return wobj;
+    mummy->set_speed(Constants::MUMMY_SPEED);
+    mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
+    mummy->set_bound(Constants::MUMMY_RADIUS);
+    return wobj;
 }
 
 sprite::WorldObject* MummyBuilder::RangedMummy(ugdk::graphic::FlexibleSpritesheet *image) {
-	sprite::WorldObject* obj = StandingRangedMummy(image);
+    sprite::WorldObject* obj = StandingRangedMummy(image);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
-	return obj;
+    return obj;
 }
 
 sprite::WorldObject* MummyBuilder::StandingBigMummy(ugdk::graphic::FlexibleSpritesheet *image) {
@@ -82,33 +82,33 @@ sprite::WorldObject* MummyBuilder::StandingBigMummy(ugdk::graphic::FlexibleSprit
 
     Mummy *mummy = new Mummy(wobj);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
-	mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
+    mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
     return wobj;
 }
 
 sprite::WorldObject * MummyBuilder::BigMummy(ugdk::graphic::FlexibleSpritesheet *image) {
-	sprite::WorldObject* obj = StandingBigMummy(image);
+    sprite::WorldObject* obj = StandingBigMummy(image);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
-	return obj;
+    return obj;
 }
 
 sprite::WorldObject * MummyBuilder::StandingPharaoh(ugdk::graphic::FlexibleSpritesheet *image) {
     WorldObject* wobj = build_mummy_wobj(image, Constants::PHARAOH_LIFE);
     wobj->damageable()->set_super_armor(true);
-	Pharaoh *pharaoh = new Pharaoh(wobj, Constants::PHARAOH_MANA);
+    Pharaoh *pharaoh = new Pharaoh(wobj, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
-	pharaoh->set_weapon(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
-	pharaoh->set_ranged_weapon(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
-	pharaoh->set_summon_weapon(new skills::PharaohSummonWeapon(pharaoh));
+    pharaoh->set_weapon(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
+    pharaoh->set_ranged_weapon(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
+    pharaoh->set_summon_weapon(new skills::PharaohSummonWeapon(pharaoh));
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
-	return wobj;
+    return wobj;
 }
 
 sprite::WorldObject * MummyBuilder::WalkingPharaoh(ugdk::graphic::FlexibleSpritesheet *image) {
-	sprite::WorldObject* obj = StandingPharaoh(image);
+    sprite::WorldObject* obj = StandingPharaoh(image);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
-	return obj;
+    return obj;
 }
 
 } // namespace builder

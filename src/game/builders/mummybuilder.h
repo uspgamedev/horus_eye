@@ -15,8 +15,8 @@ class MummyBuilder {
     sprite::WorldObject *StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet* image);
     sprite::WorldObject *BigMummy(ugdk::graphic::FlexibleSpritesheet* image);
     sprite::WorldObject *StandingBigMummy(ugdk::graphic::FlexibleSpritesheet* image);
-	sprite::WorldObject *WalkingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
-	sprite::WorldObject *StandingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::WorldObject *WalkingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::WorldObject *StandingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
 
 };
 

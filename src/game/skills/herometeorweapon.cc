@@ -36,7 +36,7 @@ void HeroMeteorWeapon::Use(){
     utils::ImageFactory *factory = world->image_factory();
 
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
-	permanent_light->set_light_radius(4.0);
+    permanent_light->set_light_radius(4.0);
 
     sprite::Explosion *explosion = new sprite::Explosion(factory->ExplosionImage(), 
         sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::METEOR_EXPLOSION_RADIUS, Constants::METEOR_EXPLOSION_DAMAGE);

@@ -15,8 +15,8 @@ const double MummyWeapon::range_ = 1.0;
 void MummyWeapon::Use(){
     super::Use();
 
-	scene::World *world = WORLD();
-	sprite::WorldObject* hero = world->hero();
+    scene::World *world = WORLD();
+    sprite::WorldObject* hero = world->hero();
     if(hero && hero->damageable())
         hero->damageable()->TakeDamage(damage_);
 }

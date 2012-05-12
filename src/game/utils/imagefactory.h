@@ -31,7 +31,7 @@ class ImageFactory {
     virtual FlexibleSpritesheet* WallImage();
     virtual FlexibleSpritesheet* EntryImage();
     virtual FlexibleSpritesheet* LightningImage();
-	virtual FlexibleSpritesheet* LightImage();
+    virtual FlexibleSpritesheet* LightImage();
     virtual FlexibleSpritesheet* TileSwitchImage();
 };
 

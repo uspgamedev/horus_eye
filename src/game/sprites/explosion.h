@@ -37,7 +37,7 @@ class Explosion : public WorldObject, ugdk::action::Observer {
     static ugdk::uint32        WEAPON_ANIMATIONS[2];
 
   private:
-	int damage_;
+    int damage_;
     double radius_;
     double expansion_speed_;
     ugdk::Vector2D direction_;

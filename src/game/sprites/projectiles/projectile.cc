@@ -20,9 +20,9 @@ void Projectile::Move(double delta_t) {
 }
 
 void Projectile::Update(double delta_t) {
-	super::Update(delta_t);
-	if (is_active())
-	    this->Move(delta_t);
+    super::Update(delta_t);
+    if (is_active())
+        this->Move(delta_t);
 }
 
 }
