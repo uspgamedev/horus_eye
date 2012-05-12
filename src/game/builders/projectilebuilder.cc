@@ -13,10 +13,9 @@
 
 #include "projectilebuilder.h"
 
-#include "game/components/creature.h"
 #include "game/components/damageable.h"
+#include "game/components/projectile.h"
 #include "game/sprites/explosion.h"
-#include "game/sprites/projectiles/carrier.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
 #include "game/scenes/world.h"
@@ -24,10 +23,28 @@
 namespace builder {
 
 using namespace sprite;
-using component::Creature;
+using component::Projectile;
 using ugdk::Vector2D;
 using utils::Constants;
+using sprite::WorldObject;
 using pyramidworks::collision::CollisionObject;
+
+class Carrier {
+  protected:
+    std::list<WorldObject*> drop_list_;
+  public:
+    Carrier(std::list<WorldObject*> &list) : drop_list_(list) {}
+    Carrier(WorldObject *drop) { drop_list_.push_back(drop); }
+
+    void operator()(WorldObject *wobj) {
+        std::list<WorldObject*>::iterator it;
+        scene::World* world = WORLD();
+        for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
+            world->AddWorldObject(*it, wobj->world_position());
+        drop_list_.clear();
+        wobj->Die();
+    }
+};
 
 static int GetAnimationIndexFromDir(Vector2D &dir) {
     double raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
@@ -50,7 +67,7 @@ struct ObjectAndDamage {
 };
 
 COLLISION_DIRECT(WorldObject*, DieCollision, data) { 
-    data_->Die();
+    data_->StartToDie();
 }
 
 COLLISION_DIRECT(double, DamageCollision, obj) {
@@ -62,16 +79,18 @@ COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
     WorldObject *wobj = static_cast<WorldObject*>(obj);
     if (data_.obj->is_active())
         wobj->damageable()->TakeDamage(data_.damage);
-    data_.obj->Die();
+    data_.obj->StartToDie();
 }
 
-static CollisionObject* buildBasicCollision(Projectile* proj, double radius) {
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), proj);
+static WorldObject* buildObject(double duration, double radius) {
+    WorldObject* wobj = new WorldObject(Constants::PROJECTILE_DURATION);
+
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Projectile");
-    col->AddCollisionLogic("Wall", new DieCollision(proj));
-    proj->set_collision_object(col);
-    proj->set_shape(new pyramidworks::geometry::Circle(radius));
-    return col;
+    col->AddCollisionLogic("Wall", new DieCollision(wobj));
+    wobj->set_collision_object(col);
+    wobj->set_shape(new pyramidworks::geometry::Circle(radius));
+    return wobj;
 }
 
 void ProjectileBuilder::InitializeAnimations() {
@@ -100,65 +119,71 @@ void ProjectileBuilder::InitializeAnimations() {
     }
 }
 
-Projectile* ProjectileBuilder::MagicMissile(Vector2D &dir) {
+WorldObject* ProjectileBuilder::MagicMissile(Vector2D &dir) {
     factory_->MagicMissileImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
 
-    Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
-    proj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
-    proj->set_light_radius(1.0);
+    WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
+    wobj->set_light_radius(1.0);
 
-    CollisionObject* col = buildBasicCollision(proj, 0.15);
-    struct ObjectAndDamage data(proj, Constants::PROJECTILE_DAMAGE);
-    col->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
-    return proj;
+    Projectile *proj = new Projectile(wobj, Constants::PROJECTILE_SPEED, dir);
+    wobj->set_logic(proj);
+
+    struct ObjectAndDamage data(wobj, Constants::PROJECTILE_DAMAGE);
+    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
+    return wobj;
 }
 
-Projectile* ProjectileBuilder::MummyProjectile(Vector2D &dir, int damage) {
-    Projectile *proj = new Projectile(Constants::PROJECTILE_SPEED, Constants::PROJECTILE_DURATION, dir);
-    proj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MummyProjectileImage() ));
-    proj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
-    proj->set_light_radius(0.75);
+sprite::WorldObject* ProjectileBuilder::MummyProjectile(ugdk::Vector2D &dir, int damage) {
+    WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MummyProjectileImage() ));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
+    wobj->set_light_radius(0.75);
 
-    CollisionObject* col = buildBasicCollision(proj, 0.15);
-    struct ObjectAndDamage data(proj, damage);
-    col->AddCollisionLogic("Hero", new DamageAndDieCollision(data));
-    return proj;
+    Projectile *proj = new Projectile(wobj, Constants::PROJECTILE_SPEED, dir);
+    wobj->set_logic(proj);
+
+    struct ObjectAndDamage data(wobj, damage);
+    wobj->collision_object()->AddCollisionLogic("Hero", new DamageAndDieCollision(data));
+
+    return wobj;
 }
 
-Projectile* ProjectileBuilder::LightningBolt(Vector2D &dir) {
+WorldObject* ProjectileBuilder::LightningBolt(Vector2D &dir) {
     factory_->LightningImage()->set_hotspot(Vector2D(Constants::LIGHTNING_SPRITE_CENTER_X, Constants::LIGHTNING_SPRITE_CENTER_Y + Constants::LIGHTNING_SPRITE_HEIGHT));
 
-    Projectile *proj = new Projectile(Constants::LIGHTNING_SPEED, Constants::LIGHTNING_DURATION, dir);
+    WorldObject* wobj = buildObject(Constants::LIGHTNING_DURATION, 0.25);
+
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite( factory_->LightningImage(), lightning_animation_ );
     sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
-    proj->node()->set_drawable(sprite);
-    proj->set_light_radius(1.0);
-
-
-    CollisionObject* col = buildBasicCollision(proj, 0.25);
-    col->AddCollisionLogic("Mummy", new DamageCollision(Constants::LIGHTNING_DAMAGE));
-    return proj;
+    wobj->node()->set_drawable(sprite);
+    wobj->set_light_radius(1.0);
+    wobj->set_logic(new Projectile(wobj, Constants::LIGHTNING_SPEED, dir));
+    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageCollision(Constants::LIGHTNING_DAMAGE));
+    return wobj;
 }
 
-Projectile* ProjectileBuilder::Fireball(Vector2D &dir) {
+WorldObject* ProjectileBuilder::Fireball(Vector2D &dir) {
     factory_->FireballImage()->set_hotspot(Vector2D(Constants::FIREBALL_SPRITE_CENTER_X, Constants::FIREBALL_SPRITE_CENTER_Y + Constants::FIREBALL_SPRITE_HEIGHT));
 
     Explosion *explosion = new Explosion(factory_->ExplosionImage(), 
         Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
-    Projectile *proj = new Carrier(Constants::FIREBALL_SPEED, Constants::FIREBALL_DURATION, dir, explosion);
+
+    WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
+
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite( factory_->FireballImage(), fireball_animation_ );
     sprite->SelectAnimation(GetAnimationIndexFromDir(dir));
-    proj->node()->set_drawable(sprite);
-    proj->set_light_radius(1.0);
+    wobj->node()->set_drawable(sprite);
+    wobj->set_light_radius(1.0);
 
     // Give the light an orange color
     ugdk::Color light_color(1.0, 0.521568, 0.082352);
-    proj->node()->light()->set_color(light_color);
+    wobj->node()->light()->set_color(light_color);
 
-
-    CollisionObject* col = buildBasicCollision(proj, 0.25);
-    col->AddCollisionLogic("Mummy", new DieCollision(proj));
-    return proj;
+    wobj->set_death_start_callback(Carrier(explosion));
+    wobj->set_logic(new Projectile(wobj, Constants::FIREBALL_SPEED, dir));
+    wobj->collision_object()->AddCollisionLogic("Mummy", new DieCollision(wobj));
+    return wobj;
 }
 
 }

@@ -14,7 +14,6 @@
 #include "block.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/projectiles/projectile.h"
 #include "game/utils/constants.h"
 
 #define BLOCK_MOVE_SPEED 2.0

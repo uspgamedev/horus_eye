@@ -4,7 +4,7 @@
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
-#include "game/sprites/projectiles/projectile.h"
+#include "game/sprites/worldobject.h"
 
 namespace utils {
 class ImageFactory;
@@ -17,10 +17,10 @@ class ProjectileBuilder {
     ProjectileBuilder(utils::ImageFactory *factory) : factory_(factory) { InitializeAnimations(); }
     ~ProjectileBuilder() {}
 
-    sprite::Projectile* MagicMissile(ugdk::Vector2D &dir);
-    sprite::Projectile* MummyProjectile(ugdk::Vector2D &dir, int damage = 1);
-    sprite::Projectile* LightningBolt(ugdk::Vector2D &dir);
-    sprite::Projectile* Fireball(ugdk::Vector2D &dir);
+    sprite::WorldObject* MagicMissile(ugdk::Vector2D &dir);
+    sprite::WorldObject* MummyProjectile(ugdk::Vector2D &dir, int damage = 1);
+    sprite::WorldObject* LightningBolt(ugdk::Vector2D &dir);
+    sprite::WorldObject* Fireball(ugdk::Vector2D &dir);
 
   private:
     utils::ImageFactory *factory_;
