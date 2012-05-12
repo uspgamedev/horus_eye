@@ -73,7 +73,6 @@
     <ClCompile Include="src\game\sprites\follower.cc" />
     <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\projectiles\carrier.cc" />
-    <ClCompile Include="src\game\sprites\projectiles\projectile.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\button.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
