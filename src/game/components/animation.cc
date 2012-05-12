@@ -34,6 +34,7 @@ Animation::Animation(sprite::WorldObject* wobj, ugdk::graphic::Spritesheet *spri
     :   owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
+        current_animation_(utils::STANDING),
         has_queued_animation_(false),
         uninterrutible_(false) {
         
