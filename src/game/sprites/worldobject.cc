@@ -26,6 +26,7 @@ WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
         collision_object_(NULL),
         timed_life_(NULL),
+        on_death_start_callback_(&WorldObject::Die),
         status_(STATUS_ACTIVE),
         light_radius_(0.0),
         logic_(NULL),
@@ -54,7 +55,7 @@ void WorldObject::StartToDie() {
     if(collision_object_ != NULL)
         collision_object_->StopColliding();
     if(on_death_start_callback_)
-        on_death_start_callback_();
+        on_death_start_callback_(this);
 }
 
 void WorldObject::Update(double dt) {

@@ -65,7 +65,7 @@ class WorldObject : public ugdk::action::Entity {
 
     virtual void OnSceneAdd(ugdk::action::Scene* scene);
 
-    void set_death_start_callback(std::tr1::function<void (void)> on_death_start_callback) {
+    void set_death_start_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
         on_death_start_callback_ = on_death_start_callback;
     }
 
@@ -94,7 +94,7 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life_;
 
     // TODO: make this somethintg
-    std::tr1::function<void (void)> on_death_start_callback_;
+    std::tr1::function<void (WorldObject*)> on_death_start_callback_;
 
   private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.

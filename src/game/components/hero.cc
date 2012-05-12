@@ -50,7 +50,7 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-static void HeroDeathEvent() {
+static void HeroDeathEvent(sprite::WorldObject* wobj) {
     WORLD()->set_hero(NULL);
     WORLD()->FinishLevel(LevelManager::FINISH_DIE);
 }

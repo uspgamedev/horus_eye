@@ -45,27 +45,19 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-class MummyDeathOp {
-  public:
-    MummyDeathOp(Mummy* m) : mummy_(m) {}
-
-    void operator()() {
-        int potion = rand() % 100;
-        if (potion <=20){
-            builder::ItemBuilder builder;
-            ImageFactory* image_factory = WORLD()->image_factory();
-            if(potion > 10)
-                WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), mummy_->owner()->world_position());
-            else if(potion> 5)
-                WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), mummy_->owner()->world_position());
-            else
-                WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), mummy_->owner()->world_position());
-        }
+static void MummyDeath(sprite::WorldObject* wobj) {
+    int potion = rand() % 100;
+    if (potion <=20){
+        builder::ItemBuilder builder;
+        ImageFactory* image_factory = WORLD()->image_factory();
+        if(potion > 10)
+            WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), wobj->world_position());
+        else if(potion> 5)
+            WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), wobj->world_position());
+        else
+            WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), wobj->world_position());
     }
-
-  protected:
-    Mummy* mummy_;
-};
+}
 
 Mummy::Mummy(sprite::WorldObject* owner) 
     :   Creature(owner, new MummyController(owner)) {
@@ -83,7 +75,7 @@ Mummy::Mummy(sprite::WorldObject* owner)
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
 
-    owner_->set_death_start_callback(MummyDeathOp(this));
+    owner_->set_death_start_callback(MummyDeath);
 }
 
 Mummy::~Mummy() {
