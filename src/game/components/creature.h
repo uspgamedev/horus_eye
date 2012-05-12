@@ -50,21 +50,8 @@ class Creature : public Logic {
 
     void set_weapon(skills::Skill *weapon) { active_skills_[Controller::PRIMARY] = weapon; }
 
-    static void InitializeAnimations();
-
   protected:
-    static const Direction direction_mapping_[8];
-    static ugdk::Vector2D directions_[4];
-
     friend class RectCollision;
-    
-    class Direction_ {
-      public:
-        static const int RIGHT = 0;
-        static const int LEFT = 1;
-        static const int UP = 2;
-        static const int DOWN = 3;
-    };
 
     virtual void AddKnownCollisions();
 

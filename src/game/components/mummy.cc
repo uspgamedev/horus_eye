@@ -83,12 +83,6 @@ Mummy::~Mummy() {
     WORLD()->DecreaseEnemyCount();
 }
 
-/*
-void Mummy::TakeDamage(double life_points) {
-    Creature::TakeDamage(life_points);
-    standing_ = false;
-} */
-
 void Mummy::MummyAntiStack(sprite::WorldObject *obj) {
     Vector2D deviation = (owner_->world_position() - obj->world_position()).Normalize();
     walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
@@ -97,11 +91,9 @@ void Mummy::MummyAntiStack(sprite::WorldObject *obj) {
 void Mummy::StartAttack(sprite::WorldObject* obj) {
     if(obj == NULL) obj = WORLD()->hero_world_object();
     if(obj == NULL) return;
-    double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - owner_->node()->modifier()->offset());
-    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-       
-    last_standing_direction_ = direction_mapping_[attackAnimationIndex];
-    //sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    Direction d = Direction::FromScreenVector(obj->node()->modifier()->offset() - owner_->node()->modifier()->offset());
+    last_standing_direction_ = d;
+    owner_->animation()->set_direction(d);
     owner_->animation()->set_animation(utils::ATTACKING);
     owner_->animation()->flag_uninterrutible();
 }
@@ -131,15 +123,12 @@ void Mummy::RandomMovement(){
 
 void Mummy::UpdateDirection(Vector2D destination){
     Vector2D dir_animation = World::FromWorldCoordinates(destination) - owner_->node()->modifier()->offset(); 
-    double angle = GetAttackingAngle(dir_animation);
-    int dir = GetAttackingAnimationIndex(angle);
-
-    animation_direction_ = direction_mapping_[dir];
+    Direction d = Direction::FromScreenVector(dir_animation);
+    animation_direction_ = d;
 
     Vector2D dir_ = path_.front() - owner_->world_position();
     last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
     last_standing_direction_ = animation_direction_;
-
 }
 
 void Mummy::Think(double dt) {

@@ -1,8 +1,23 @@
+#include <sstream>
+
 #include <ugdk/action/animationset.h>
 #include "game/utils/isometricanimationset.h"
 
 using ugdk::Vector2D;
 using component::Direction;
+
+typedef std::pair<int, const char*> DirectionValue;
+static DirectionValue DIRECTION_VALUES[8] = {
+    DirectionValue((Direction::Down()                     ).value(), "DOWN"),
+    DirectionValue((                    Direction::Left() ).value(), "LEFT"),
+    DirectionValue((                    Direction::Right()).value(), "RIGHT"),
+    DirectionValue((Direction::Up()                       ).value(), "UP"),
+    DirectionValue((Direction::Down() | Direction::Right()).value(), "DOWN_RIGHT"),
+    DirectionValue((Direction::Down() | Direction::Left() ).value(), "DOWN_LEFT"),
+    DirectionValue((Direction::Up()   | Direction::Right()).value(), "UP_RIGHT"),
+    DirectionValue((Direction::Up()   | Direction::Left() ).value(), "UP_LEFT")
+
+};
 
 namespace utils {
 
@@ -12,32 +27,16 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
     for(int i = 0; i < 16; i++)
         animation_index_[STANDING][i] = animation_index_[WALKING][i] = animation_index_[ATTACKING][i] = -1;
 
-    animation_index_[STANDING][(Direction::Down()                     ).value()] = animation_set->MakeIndex("STANDING_DOWN");
-    animation_index_[STANDING][(                    Direction::Left() ).value()] = animation_set->MakeIndex("STANDING_LEFT");
-    animation_index_[STANDING][(                    Direction::Right()).value()] = animation_set->MakeIndex("STANDING_RIGHT");
-    animation_index_[STANDING][(Direction::Up()                       ).value()] = animation_set->MakeIndex("STANDING_UP");
-    animation_index_[STANDING][(Direction::Down() | Direction::Right()).value()] = animation_set->MakeIndex("STANDING_DOWN_RIGHT");
-    animation_index_[STANDING][(Direction::Down() | Direction::Left() ).value()] = animation_set->MakeIndex("STANDING_DOWN_LEFT");
-    animation_index_[STANDING][(Direction::Up()   | Direction::Right()).value()] = animation_set->MakeIndex("STANDING_UP_RIGHT");
-    animation_index_[STANDING][(Direction::Up()   | Direction::Left() ).value()] = animation_set->MakeIndex("STANDING_UP_LEFT");
-
-    animation_index_[WALKING][(Direction::Down()                     ).value()] = animation_set->MakeIndex("WALKING_DOWN");
-    animation_index_[WALKING][(Direction::Up()                       ).value()] = animation_set->MakeIndex("WALKING_UP");
-    animation_index_[WALKING][(                    Direction::Left() ).value()] = animation_set->MakeIndex("WALKING_LEFT");
-    animation_index_[WALKING][(                    Direction::Right()).value()] = animation_set->MakeIndex("WALKING_RIGHT");
-    animation_index_[WALKING][(Direction::Down() | Direction::Right()).value()] = animation_set->MakeIndex("WALKING_DOWN_RIGHT");
-    animation_index_[WALKING][(Direction::Down() | Direction::Left() ).value()] = animation_set->MakeIndex("WALKING_DOWN_LEFT");
-    animation_index_[WALKING][(Direction::Up()   | Direction::Right()).value()] = animation_set->MakeIndex("WALKING_UP_RIGHT");
-    animation_index_[WALKING][(Direction::Up()   | Direction::Left() ).value()] = animation_set->MakeIndex("WALKING_UP_LEFT");
-
-    animation_index_[ATTACKING][6] = animation_set->MakeIndex("ATTACKING_DOWN");
-    animation_index_[ATTACKING][4] = animation_set->MakeIndex("ATTACKING_LEFT");
-    animation_index_[ATTACKING][0] = animation_set->MakeIndex("ATTACKING_RIGHT");
-    animation_index_[ATTACKING][2] = animation_set->MakeIndex("ATTACKING_UP");
-    animation_index_[ATTACKING][7] = animation_set->MakeIndex("ATTACKING_DOWN_RIGHT");
-    animation_index_[ATTACKING][5] = animation_set->MakeIndex("ATTACKING_DOWN_LEFT");
-    animation_index_[ATTACKING][1] = animation_set->MakeIndex("ATTACKING_UP_RIGHT");
-    animation_index_[ATTACKING][3] = animation_set->MakeIndex("ATTACKING_UP_LEFT");
+    for(int i = 0; i < 8; ++i) {
+        const DirectionValue& it = DIRECTION_VALUES[i];
+        std::stringstream standing, walking, attacking;
+        standing << "STANDING_" << it.second;
+        walking << "WALKING_" <<  it.second;
+        attacking << "ATTACKING_" << it.second;
+        animation_index_[STANDING][it.first] = animation_set->MakeIndex(standing.str());
+        animation_index_[WALKING][it.first] = animation_set->MakeIndex(walking.str());
+        animation_index_[ATTACKING][it.first] = animation_set->MakeIndex(attacking.str());
+    }
 
     int dying = animation_set->MakeIndex("DYING");
     int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");

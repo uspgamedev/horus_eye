@@ -32,18 +32,6 @@ using sprite::WorldObject;
 
 namespace component {
 
-const Direction Creature::direction_mapping_[8] = {
-    Direction::Right(),
-    Direction::Right() | Direction::Up(),
-    Direction::Up(),
-    Direction::Up() | Direction::Left(),
-    Direction::Left(),
-    Direction::Left() | Direction::Down(),
-    Direction::Down(),
-    Direction::Down() | Direction::Right()
-};
-Vector2D Creature::directions_[4];
-
 COLLISION_DIRECT(Creature*, RectCollision, obj) {
     WorldObject *wobj = (WorldObject *) obj;
     data_->CollideWithRect(wobj->collision_object());
@@ -92,15 +80,6 @@ void Creature::UpdateCondition(double dt) {
      for (i = conditions_.begin(); i != conditions_.end(); ++i) 
          (*i)->Update(dt);
      conditions_.remove_if(deletecondition);
-}
-
-// ANIMATION STUFF
-
-void Creature::InitializeAnimations() {
-    directions_[Direction_::RIGHT] = Vector2D(1, -1);
-    directions_[Direction_::LEFT] = Vector2D(-1, 1);
-    directions_[Direction_::DOWN] =  Vector2D(-1, -1);
-    directions_[Direction_::UP] = Vector2D(1, 1);
 }
 
 // ============= other stuff

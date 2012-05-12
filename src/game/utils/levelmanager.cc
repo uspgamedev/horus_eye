@@ -53,7 +53,6 @@ void LevelManager::Initialize() {
     current_level_ = NULL;
     level_list_iterator_ = 0;
     hero_ = NULL;
-    Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
     MenuBuilder builder;

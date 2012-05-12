@@ -114,12 +114,9 @@ void Hero::StartAttackAnimation() {
     Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
     Vector2D screen_center = Engine::reference()->window_size() * 0.5;
 
-    double attackAngle = GetAttackingAngle(input_->GetMousePosition() - screen_center);
-    int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
-    
-    last_standing_direction_ = direction_mapping_[attackAnimationIndex];
-    //sprite_->SelectAnimation(Creature::attacking_animations_[attackAnimationIndex]);
-    owner_->animation()->set_direction(Direction::Right());
+    Direction d = Direction::FromScreenVector(input_->GetMousePosition() - screen_center);
+    last_standing_direction_ = d;
+    owner_->animation()->set_direction(d);
     owner_->animation()->set_animation(utils::ATTACKING);
     owner_->animation()->flag_uninterrutible();
 }
