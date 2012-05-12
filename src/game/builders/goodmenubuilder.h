@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_BUILDERS_MENUBUILDER_H_
 
 #include <ugdk/ui.h>
+#include <ugdk/action.h>
 
 namespace builder {
 
@@ -10,7 +11,7 @@ class MenuBuilder {
     MenuBuilder() {}
     ~MenuBuilder() {}
 
-    ugdk::ui::Menu* PauseMenu() const;
+    ugdk::action::Scene* PauseMenu() const;
 };
 
 }
