@@ -22,6 +22,9 @@ class HudImageFactory {
     TexturedRectangle* EarthquakeIconImage();
     TexturedRectangle* LightningIconImage();
     TexturedRectangle* EyeImage();
+    TexturedRectangle* LightIconImage();
+    TexturedRectangle* SandstormIconImage();
+    TexturedRectangle* MeteorIconImage();
 };
 
 }
