@@ -8,7 +8,7 @@ namespace component {
 class PlayerController : public Controller { 
   typedef Controller super;
   public:
-    PlayerController(sprite::WorldObject* owner) : super(owner) {}
+    PlayerController(sprite::WorldObject* owner) : super(owner), skill_selected_(0) {}
     virtual ~PlayerController() {}
 
     virtual void Update(double dt);
@@ -18,6 +18,7 @@ class PlayerController : public Controller {
 
   protected:
     ugdk::Vector2D current_direction_;
+    int skill_selected_;
 
 };  // class PlayerController
 

@@ -91,11 +91,13 @@ void Hero::AddWeapon(int slot, skills::Skill* skill) {
     if (!active_skills_[Controller::SECONDARY]) ChangeSecondaryWeapon(slot);
 }
 
-void Hero::ChangeSecondaryWeapon(int slot) {
-    if (slot != slot_selected_) {
+bool Hero::ChangeSecondaryWeapon(int slot) {
+    if(skills_.find(slot) == skills_.end()) return false;
+    if(slot != slot_selected_) {
         slot_selected_ = slot;
         active_skills_[Controller::SECONDARY] = skills_[slot];
     }
+    return true;
 }
 
 void Hero::PlayHitSound() const {

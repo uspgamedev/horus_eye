@@ -2,6 +2,8 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/input/keys.h>
 #include "playercontroller.h"
+
+#include "game/components/hero.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
@@ -26,21 +28,21 @@ void PlayerController::Update(double dt) {
     if(input_->KeyDown(ugdk::input::K_d) && d.NumDirections() < 2) d |= Direction::Right();
     dir_ = d;
 
-    /* No weapons for u.
-    if(weapons_.size() > 0) {
+    Hero* hero = static_cast<Hero*>(owner_->logic());
+    if(hero->num_skills() > 0) {
         if (input_->KeyPressed(ugdk::input::K_e)) {
-            int next_slot = slot_selected_;
-            do next_slot = (next_slot+1)%Constants::HERO_MAX_WEAPONS;
-            while (!weapons_.count(next_slot));
-            ChangeSecondaryWeapon(next_slot);
+            int next_slot = skill_selected_;
+            do next_slot = (next_slot+1) % Constants::HERO_MAX_WEAPONS;
+            while (!hero->ChangeSecondaryWeapon(next_slot));
+            skill_selected_ = next_slot;
         }
         if (input_->KeyPressed(ugdk::input::K_q)) {
-            int next_slot = slot_selected_;
-            do next_slot = next_slot-1 < 0 ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
-            while (!weapons_.count(next_slot));
-            ChangeSecondaryWeapon(next_slot);
+            int next_slot = skill_selected_;
+            do next_slot = ((next_slot-1) < 0) ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
+            while (!hero->ChangeSecondaryWeapon(next_slot));
+            skill_selected_ = next_slot;
         }
-    } */
+    }
 
     current_direction_ = d.ToVector2D();
 }
