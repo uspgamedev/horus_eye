@@ -36,11 +36,15 @@ void PauseExitCallback(Scene* menu, const UIElement * source) {
     WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
 }
 
+//void FinishMenuCallback(Menu* menu) {
+//    menu->FinishScene(menu);
+//}
+
 Scene* MenuBuilder::PauseMenu() const {
     ugdk::action::Scene* pause_menu = new Scene();
     ugdk::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0));
+    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), pause_menu);
 
     Text* cont_text = ResourceManager::CreateTextFromLanguageTag("Continue");
     Text* exit_text = ResourceManager::CreateTextFromLanguageTag("Return to Menu");
@@ -62,7 +66,8 @@ Scene* MenuBuilder::PauseMenu() const {
     menu->AddObject(exit_element);
 
     pause_menu->StopsPreviousMusic(false);
-    //menu->AddCallback(ugdk::input::K_ESCAPE, pause_menu->Finish());
+    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::FINISH_MENU);
+    menu->AddCallback(ugdk::input::K_RETURN, &ugdk::ui::Menu::InteractWithFocused);
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
     bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     pause_menu->interface_node()->set_drawable(bg);
