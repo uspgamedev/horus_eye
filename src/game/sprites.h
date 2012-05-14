@@ -6,7 +6,6 @@ namespace sprite {
 class Condition;
 class Explosion;
 class Follower;
-class Item;
 class ItemEvent;
 class WorldObject;
 

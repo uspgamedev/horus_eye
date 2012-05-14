@@ -17,7 +17,6 @@
 #include "game/sprites/scenery/wall.h"
 #include "game/sprites/scenery/block.h"
 #include "game/sprites/scenery/button.h"
-#include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/utils/imagefactory.h"

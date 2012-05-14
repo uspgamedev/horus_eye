@@ -49,6 +49,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->life().Fill();
+    hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
 
     Hero *hero = new Hero(hero_wobj, mana, 

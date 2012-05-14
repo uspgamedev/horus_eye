@@ -2,6 +2,8 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "constants.h"
 
 using namespace ugdk;
@@ -58,30 +60,24 @@ FlexibleSpritesheet* ImageFactory::QuakeImage() {
     return quake_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::LifePotionImage() {
-    FlexibleSpritesheet *life_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/life_potion2.png"));
-    if(life_potion_image_) life_potion_image_->set_frame_size(Vector2D(30, 30));
-    return life_potion_image_;
+ugdk::graphic::Drawable* ImageFactory::LifePotionImage() {
+    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/life_potion2.png"));
 }
 
-FlexibleSpritesheet* ImageFactory::ManaPotionImage() {
-    FlexibleSpritesheet *mana_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/mana_potion.png"));
-    if(mana_potion_image_) mana_potion_image_->set_frame_size(Vector2D(30, 30));
-    return mana_potion_image_;
+ugdk::graphic::Drawable* ImageFactory::ManaPotionImage() {
+    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/mana_potion.png"));
 }
 
-FlexibleSpritesheet* ImageFactory::BlueGemImage() {
-    return static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/yellow_fire_ball.png"));
+ugdk::graphic::Drawable* ImageFactory::BlueGemImage() {
+    return new graphic::Sprite(RESOURCE_MANAGER()->spritesheet_container().Find("images/yellow_fire_ball.png"));
 }
 
 ugdk::graphic::Spritesheet* ImageFactory::ShieldImage() {
     return RESOURCE_MANAGER()->spritesheet_container().Find("images/shield.png");
 }
 
-FlexibleSpritesheet* ImageFactory::SightPotionImage() {
-    FlexibleSpritesheet *sight_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/sight_potion.png"));
-    if(sight_potion_image_) sight_potion_image_->set_frame_size(Vector2D(30, 30));
-    return sight_potion_image_;
+ugdk::graphic::Drawable* ImageFactory::SightPotionImage() {
+    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
 }
 
 FlexibleSpritesheet* ImageFactory::DoorImage() {

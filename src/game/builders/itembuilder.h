@@ -4,7 +4,7 @@
 #include <ugdk/graphic.h>
 
 namespace sprite {
-class Item;
+class WorldObject;
 }
 
 namespace builder {
@@ -14,10 +14,10 @@ class ItemBuilder {
     ItemBuilder() {}
     ~ItemBuilder() {}
 
-    sprite::Item* LifePotion(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::Item* ManaPotion(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::Item* SightPotion(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::Item* BlueGem(ugdk::graphic::FlexibleSpritesheet* image);
+    sprite::WorldObject* LifePotion(ugdk::graphic::Drawable* image);
+    sprite::WorldObject* ManaPotion(ugdk::graphic::Drawable* image);
+    sprite::WorldObject* SightPotion(ugdk::graphic::Drawable* image);
+    sprite::WorldObject* BlueGem(ugdk::graphic::Drawable* image);
 };
 
 }

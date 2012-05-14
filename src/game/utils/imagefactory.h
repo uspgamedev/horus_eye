@@ -9,30 +9,30 @@ namespace utils {
 class ImageFactory {
   public:
     ImageFactory() {}
-    virtual ~ImageFactory(){}
+    ~ImageFactory(){}
 
-    virtual ugdk::graphic::Spritesheet* HeroImage();
-    virtual FlexibleSpritesheet* MummyImage();
-    virtual FlexibleSpritesheet* RangedMummyImage();
-    virtual FlexibleSpritesheet* BigMummyImage();
-    virtual FlexibleSpritesheet* PharaohImage();
-    virtual FlexibleSpritesheet* MagicMissileImage();
-    virtual FlexibleSpritesheet* FireballImage();
-    virtual FlexibleSpritesheet* MummyProjectileImage();
-    virtual FlexibleSpritesheet* ExplosionImage();
-    virtual FlexibleSpritesheet* QuakeImage();
-    virtual FlexibleSpritesheet* LifePotionImage();
-    virtual FlexibleSpritesheet* ManaPotionImage();
-    virtual FlexibleSpritesheet* SightPotionImage();
-    virtual FlexibleSpritesheet* BlueGemImage();
-    virtual ugdk::graphic::Spritesheet* ShieldImage();
-    virtual FlexibleSpritesheet* DoorImage();
-    virtual FlexibleSpritesheet* FloorImage();
-    virtual FlexibleSpritesheet* WallImage();
-    virtual FlexibleSpritesheet* EntryImage();
-    virtual FlexibleSpritesheet* LightningImage();
-    virtual FlexibleSpritesheet* LightImage();
-    virtual FlexibleSpritesheet* TileSwitchImage();
+    ugdk::graphic::Spritesheet* HeroImage();
+    FlexibleSpritesheet* MummyImage();
+    FlexibleSpritesheet* RangedMummyImage();
+    FlexibleSpritesheet* BigMummyImage();
+    FlexibleSpritesheet* PharaohImage();
+    FlexibleSpritesheet* MagicMissileImage();
+    FlexibleSpritesheet* FireballImage();
+    FlexibleSpritesheet* MummyProjectileImage();
+    FlexibleSpritesheet* ExplosionImage();
+    FlexibleSpritesheet* QuakeImage();
+    ugdk::graphic::Drawable* LifePotionImage();
+    ugdk::graphic::Drawable* ManaPotionImage();
+    ugdk::graphic::Drawable* SightPotionImage();
+    ugdk::graphic::Drawable* BlueGemImage();
+    ugdk::graphic::Spritesheet* ShieldImage();
+    FlexibleSpritesheet* DoorImage();
+    FlexibleSpritesheet* FloorImage();
+    FlexibleSpritesheet* WallImage();
+    FlexibleSpritesheet* EntryImage();
+    FlexibleSpritesheet* LightningImage();
+    FlexibleSpritesheet* LightImage();
+    FlexibleSpritesheet* TileSwitchImage();
 };
 
 }

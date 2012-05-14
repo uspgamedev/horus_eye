@@ -71,7 +71,6 @@
     <ClCompile Include="src\game\skills\sandstorm.cc" />
     <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\sprites\follower.cc" />
-    <ClCompile Include="src\game\sprites\item.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\button.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
@@ -162,7 +161,6 @@
     <ClInclude Include="src\game\entities\emitterentity.h" />
     <ClInclude Include="src\game\sprites\explosion.h" />
     <ClInclude Include="src\game\sprites\follower.h" />
-    <ClInclude Include="src\game\sprites\item.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\components\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />

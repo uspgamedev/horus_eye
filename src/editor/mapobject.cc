@@ -79,16 +79,16 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
         break;
     case POTIONL:
         if(sprite_image_ == NULL) {
-            sprite_image_ = img_factory.LifePotionImage();
+            sprite_image_ = NULL; //img_factory.LifePotionImage();
         }
     case POTIONM:
         if(sprite_image_ == NULL) {
-            sprite_image_ = img_factory.ManaPotionImage();
+            sprite_image_ = NULL; //img_factory.ManaPotionImage();
         }
     case POTIONS:
         tile_image_->set_color(Color(0.0, 1.0, 0.5));
         if(sprite_image_ == NULL) {
-            sprite_image_ = img_factory.SightPotionImage();
+            sprite_image_ = NULL; //img_factory.SightPotionImage();
         }
         break;
     case BLOCK:

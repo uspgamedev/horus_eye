@@ -55,9 +55,9 @@ void LoadSpritesheets() {
     CreateSimpleFlexibleSpritesheet("images/green_fire_ball.png");
     CreateSimpleFlexibleSpritesheet("images/explosion.png");
     CreateSimpleFlexibleSpritesheet("images/quake.png");
-    CreateSimpleFlexibleSpritesheet("images/life_potion2.png");
-    CreateSimpleFlexibleSpritesheet("images/mana_potion.png");
-    CreateSimpleFlexibleSpritesheet("images/sight_potion.png");
+    //CreateSimpleFlexibleSpritesheet("images/life_potion2.png");
+    //CreateSimpleFlexibleSpritesheet("images/mana_potion.png");
+    //CreateSimpleFlexibleSpritesheet("images/sight_potion.png");
     CreateSimpleFlexibleSpritesheet("images/stairs3.png");
     CreateSimpleFlexibleSpritesheet("images/ground2_106x54.png");
     CreateSimpleFlexibleSpritesheet("images/stoneblock3.png");

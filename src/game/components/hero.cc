@@ -19,7 +19,6 @@
 #include "game/components/animation.h"
 
 #include "game/utils/imagefactory.h"
-#include "game/sprites/item.h"
 #include "game/components/mummy.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
