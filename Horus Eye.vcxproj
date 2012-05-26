@@ -74,7 +74,6 @@
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\button.cc" />
     <ClCompile Include="src\game\sprites\scenery\door.cc" />
-    <ClCompile Include="src\game\sprites\scenery\floor.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
@@ -166,7 +165,6 @@
     <ClInclude Include="src\game\sprites\scenery\block.h" />
     <ClInclude Include="src\game\sprites\scenery\button.h" />
     <ClInclude Include="src\game\sprites\scenery\door.h" />
-    <ClInclude Include="src\game\sprites\scenery\floor.h" />
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />

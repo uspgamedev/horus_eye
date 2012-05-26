@@ -12,7 +12,6 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/scenery/floor.h"
 #include "game/sprites/scenery/door.h"
 #include "game/sprites/scenery/wall.h"
 #include "game/sprites/scenery/block.h"
@@ -233,6 +232,7 @@ void LevelLoader::Load(string file_name) {
                 ugdk::graphic::Node* floor = matrix[i][j]->floor();
                 floor->set_drawable(world_->image_factory()->FloorImage());
                 floor->modifier()->set_offset(World::FromWorldCoordinates(position));
+                floor->modifier()->set_color(Color(0.5, 0.5, 0.5));
                 floors->AddChild(floor);
             }
 

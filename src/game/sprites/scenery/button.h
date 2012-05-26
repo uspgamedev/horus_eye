@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SPRITE_BUTTON_H_
 
 #include <ugdk/time/timeaccumulator.h>
-#include "game/sprites/scenery/floor.h"
+#include "game/sprites/worldobject.h"
 
 namespace scene {
 class World;
@@ -10,8 +10,8 @@ class World;
 
 namespace sprite {
 
-class Button : public Floor {
-  private: typedef Floor super;
+class Button : public WorldObject {
+  typedef WorldObject super;
   public:
     Button(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world, double active_time = 1.0);
     ~Button() { delete reactive_time_; }
@@ -23,10 +23,13 @@ class Button : public Floor {
     virtual void Press();
     virtual void DePress();
 
+    void set_world_position(const ugdk::Vector2D& pos);
+
   private:
     ugdk::time::TimeAccumulator *reactive_time_;
     bool pressed_;
     scene::World *world_;
+    ugdk::graphic::Sprite *sprite_;
 };
 
 }

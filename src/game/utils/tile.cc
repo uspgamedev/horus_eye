@@ -18,6 +18,7 @@ void Tile::CleanVisibility(GameMap& map) {
         for (int j = 0; j < (int)map[i].size(); ++j) {
             Tile *tile = map[i][j];
             tile->visible_ = false;
+            tile->floor()->modifier()->set_color(ugdk::Color(0.5, 0.5, 0.5));
             tile->Uncheck();
         }
 
