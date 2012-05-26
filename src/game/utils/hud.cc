@@ -13,7 +13,7 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/skills/skill.h"
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/components/damageable.h"
 
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT

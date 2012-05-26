@@ -4,7 +4,7 @@
 #include <map>
 #include <ugdk/math/vector2D.h>
 
-#include "game/components/creature.h"
+#include "game/components/logic/creature.h"
 #include "game/resources/resource.h"
 #include "game/resources/capacityblocks.h"
 

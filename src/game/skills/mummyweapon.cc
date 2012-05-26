@@ -1,7 +1,6 @@
 #include "mummyweapon.h"
 #include "game/scenes/world.h"
 #include "game/components/damageable.h"
-#include "game/components/mummy.h"
 
 namespace sprite {
 class Hero;

@@ -14,12 +14,12 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/components/controller.h"
 #include "game/components/animation.h"
 
 #include "game/utils/imagefactory.h"
-#include "game/components/mummy.h"
+#include "game/components/logic/mummy.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
 

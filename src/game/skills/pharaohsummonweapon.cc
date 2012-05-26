@@ -1,7 +1,6 @@
 #include "pharaohsummonweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/components/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
 #include "game/builders/mummybuilder.h"

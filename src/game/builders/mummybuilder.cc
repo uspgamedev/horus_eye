@@ -4,8 +4,8 @@
 
 #include "mummybuilder.h"
 
-#include "game/components/mummy.h"
-#include "game/components/pharaoh.h"
+#include "game/components/logic/mummy.h"
+#include "game/components/logic/pharaoh.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"

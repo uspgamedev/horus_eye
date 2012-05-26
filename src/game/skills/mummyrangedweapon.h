@@ -4,7 +4,7 @@
 #include "game/skills/combatart.h"
 #include "game/utils/constants.h" 
 #include "game/skills/usearguments.h"
-#include "game/components/creature.h"
+#include "game/components/logic/creature.h"
 
 namespace skills {
 

@@ -15,7 +15,6 @@
 #include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/scenes/world.h"
-#include "game/components/mummy.h"
 #include "game/components/damageable.h"
 #include "game/utils/constants.h"
 

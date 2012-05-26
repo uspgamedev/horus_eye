@@ -13,7 +13,7 @@
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 
 namespace skills {
 

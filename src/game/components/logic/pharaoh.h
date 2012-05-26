@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
 #define HORUSEYE_GAME_SPRITE_PHARAOH_H_
 
-#include "game/components/mummy.h"
+#include "game/components/logic/mummy.h"
 #include "game/skills/combatart.h"
 #include "game/skills/usearguments.h"
 

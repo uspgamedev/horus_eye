@@ -3,7 +3,7 @@
 #include "conditionbuilder.h"
 
 #include "game/utils/constants.h"
-#include "game/components/creature.h"
+#include "game/components/logic/creature.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 

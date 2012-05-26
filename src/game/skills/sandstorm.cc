@@ -6,7 +6,7 @@
 #include "game/scenes/world.h"
 #include "game/utils/settings.h"
 #include "game/entities/sandstormemitter.h"
-#include "game/components/creature.h"
+#include "game/components/logic/mummy.h"
 
 namespace skills {
 

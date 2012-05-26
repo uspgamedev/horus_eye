@@ -11,7 +11,7 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"

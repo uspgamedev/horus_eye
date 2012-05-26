@@ -2,7 +2,7 @@
 
 #include "herobuilder.h"
 
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"

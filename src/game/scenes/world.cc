@@ -19,7 +19,7 @@
 #include "game/scenes/menubuilder.h"
 
 #include "game/sprites/worldobject.h"
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/components/damageable.h"
 #include "game/utils/tile.h"
 #include "game/utils/hud.h"

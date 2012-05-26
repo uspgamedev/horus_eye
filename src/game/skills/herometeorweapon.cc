@@ -9,7 +9,7 @@
 #include "herometeorweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/sprites/explosion.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/scenery/wall.h"

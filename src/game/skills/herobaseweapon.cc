@@ -6,7 +6,7 @@
 
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
-#include "game/components/creature.h"
+#include "game/components/logic/creature.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
 

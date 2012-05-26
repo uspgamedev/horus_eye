@@ -4,7 +4,7 @@
 #include <queue>
 #include <ugdk/math/vector2D.h>
 
-#include "game/components/creature.h"
+#include "game/components/logic/creature.h"
 
 namespace ugdk {
     namespace graphic {

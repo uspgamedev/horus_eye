@@ -3,7 +3,7 @@
 #include <ugdk/input/keys.h>
 #include "playercontroller.h"
 
-#include "game/components/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
