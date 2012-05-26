@@ -13,7 +13,6 @@
 #include "game/components/creature.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
-#include "game/sprites/follower.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/itemevent.h"

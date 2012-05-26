@@ -11,17 +11,17 @@
 #include "entitybuilder.h"
 
 #include "game/components/damageable.h"
-#include "game/sprites/follower.h"
+#include "game/components/follower.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
-
 namespace builder {
 
 using component::Creature;
-using sprite::Follower;
+using component::Follower;
+using sprite::WorldObject;
 using pyramidworks::collision::CollisionObject;
 
 COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
@@ -36,16 +36,17 @@ sprite::WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(img.ShieldImage(), set);
     sprite->SelectAnimation("IDLE");
     
-    Follower* follower = new Follower(target, 30.0);
-    follower->node()->set_drawable(sprite);
+    WorldObject* wobj = new WorldObject(30.0);
+    wobj->node()->set_drawable(sprite);
+    wobj->set_logic(new Follower(wobj, target));
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), follower);
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Projectile");
     col->AddCollisionLogic("Mummy", new DamageCollisionExtra(75.0));
     col->set_shape(new pyramidworks::geometry::Circle(0.80));
 
-    follower->set_collision_object(col);
-    return follower;
+    wobj->set_collision_object(col);
+    return wobj;
 }
 
 }

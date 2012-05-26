@@ -30,7 +30,7 @@ class Hero : public Creature {
     void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
 
-    int num_skills() const { return skills_.size(); }
+    size_t num_skills() const { return skills_.size(); }
     bool ChangeSecondaryWeapon(int slot);
     skills::Skill* secondary_combat_art() { return active_skills_[Controller::SECONDARY]; }
 
