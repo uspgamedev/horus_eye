@@ -74,7 +74,7 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
     case FLOOR:
         tile_image_->set_color(Color(0.5, 0.5, 0.5));
         if(sprite_image_ == NULL) {
-            sprite_image_ = img_factory.FloorImage();
+            //sprite_image_ = img_factory.FloorImage();
         }
         break;
     case POTIONL:
@@ -112,32 +112,32 @@ MapObject::MapObject(int i, int j, char type, int level_width, int level_height)
         }
         break;
     }
-	if(sprite_image_)
-		isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::Sprite(sprite_image_));
-	else
-		isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::SolidRectangle(Vector2D(TileSize, TileSize)));
-	
+    if(sprite_image_)
+        isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::Sprite(sprite_image_));
+    else
+        isometric_node_ = new ugdk::graphic::Node(new ugdk::graphic::SolidRectangle(Vector2D(TileSize, TileSize)));
+    
     Vector2D position ((double)x_, (double)(level_height - y_ - 1));
-	isometric_node_->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
-	if(type_ == FLOOR || type_ == EMPTY)
+    isometric_node_->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
+    if(type_ == FLOOR || type_ == EMPTY)
         isometric_node_->set_zindex(-1337000.0);
     else
         isometric_node_->set_zindex(scene::World::FromWorldLinearCoordinates(position).y);
 
-	tile_node_ = new ugdk::graphic::Node(tile_image_);
-	tile_node_->modifier()->set_offset(Vector2D(x_*TileSize, y_*TileSize));
+    tile_node_ = new ugdk::graphic::Node(tile_image_);
+    tile_node_->modifier()->set_offset(Vector2D(x_*TileSize, y_*TileSize));
 }
 
 MapObject::~MapObject() {
-	delete isometric_node_;
-	delete tile_node_;
+    delete isometric_node_;
+    delete tile_node_;
 }
 
 void MapObject::Update(double delta_t) {}
 
 void MapObject::Select(bool on) {
-	isometric_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
-	tile_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
+    isometric_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
+    tile_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
 }
 
 }

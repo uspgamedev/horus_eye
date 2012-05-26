@@ -86,10 +86,10 @@ FlexibleSpritesheet* ImageFactory::DoorImage() {
     return door_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::FloorImage() {
-    FlexibleSpritesheet *floor_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/ground2_106x54.png"));
-    if(floor_image_) floor_image_->set_frame_size(Vector2D(106,54));
-    return floor_image_;
+ugdk::graphic::Drawable* ImageFactory::FloorImage() {
+    ugdk::graphic::Drawable* draw = new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
+    draw->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
+    return draw;
 }
 
 FlexibleSpritesheet* ImageFactory::WallImage() {

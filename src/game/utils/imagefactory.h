@@ -27,7 +27,7 @@ class ImageFactory {
     ugdk::graphic::Drawable* BlueGemImage();
     ugdk::graphic::Spritesheet* ShieldImage();
     FlexibleSpritesheet* DoorImage();
-    FlexibleSpritesheet* FloorImage();
+    ugdk::graphic::Drawable* FloorImage();
     FlexibleSpritesheet* WallImage();
     FlexibleSpritesheet* EntryImage();
     FlexibleSpritesheet* LightningImage();

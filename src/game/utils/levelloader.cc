@@ -2,7 +2,9 @@
 #include <functional>
 #include <locale>
 #include <cstdio>
+#include <cfloat>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/audio/audiomanager.h>
 
@@ -124,71 +126,59 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
             case WALL: {
                 wall_matrix[i][j] = new Wall(image_factory->WallImage());
                 world_->AddWorldObject(wall_matrix[i][j], position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case ENTRY: {
                 wall_matrix[i][j] = new Wall(image_factory->EntryImage());
                 world_->AddWorldObject(wall_matrix[i][j], position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case BLOCK: {
                 world_->AddWorldObject(new Block(image_factory->WallImage()), position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case HERO: {
                 world_->AddHero(position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case STANDING_MUMMY: {
                 world_->AddWorldObject(mummy_builder.StandingMummy(image_factory->MummyImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case MUMMY: {
                 world_->AddWorldObject(mummy_builder.WalkingMummy(image_factory->MummyImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case BIG_MUMMY: {
                 world_->AddWorldObject(mummy_builder.BigMummy(image_factory->BigMummyImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case STANDING_BIG_MUMMY: {
                 world_->AddWorldObject(mummy_builder.StandingBigMummy(image_factory->BigMummyImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case RANGED_MUMMY: {
                 world_->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case STANDING_RANGED_MUMMY: {
                 world_->AddWorldObject(mummy_builder.StandingRangedMummy(image_factory->RangedMummyImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case PHARAOH: {
                 world_->AddWorldObject(mummy_builder.WalkingPharaoh(image_factory->PharaohImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case STANDING_PHARAOH: {
                 world_->AddWorldObject(mummy_builder.StandingPharaoh(image_factory->PharaohImage()), position);
                 world_->IncreaseNumberOfEnemies();
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case DOOR: {
@@ -196,32 +186,24 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
                 if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
                     Vector2D pos = position + Vector2D(0.5, 0);
                     world_->AddWorldObject(new Door(image_factory->DoorImage(), world_), pos);
-
                 }
-            }
-            //no break on purpose
-            case FLOOR: {
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
+            case FLOOR: { break; }
             case POTIONL: {
                 world_->AddWorldObject(potion_builder.LifePotion(image_factory->LifePotionImage()), position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case POTIONM: {
                 world_->AddWorldObject(potion_builder.ManaPotion(image_factory->ManaPotionImage()), position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case POTIONS: {
                 world_->AddWorldObject(potion_builder.SightPotion(image_factory->SightPotionImage()), position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case BLUEGEM: {
                 world_->AddWorldObject(potion_builder.BlueGem(image_factory->BlueGemImage()), position);
-                world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
                 break;
             }
             case BUTTON: {
@@ -240,15 +222,26 @@ void LevelLoader::Load(string file_name) {
 
     vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
 
+    ugdk::graphic::Node* floors = new ugdk::graphic::Node;
+
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {
             char token = matrix[i][j]->object();
             Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
 
+            if(token != EMPTY) {
+                ugdk::graphic::Node* floor = matrix[i][j]->floor();
+                floor->set_drawable(world_->image_factory()->FloorImage());
+                floor->modifier()->set_offset(World::FromWorldCoordinates(position));
+                floors->AddChild(floor);
+            }
+
             TokenToWorldObject(token, i, j, position, wall_matrix);
         }
     }
     InitializeWallTypes(wall_matrix);
+    world_->content_node()->AddChild(floors);
+    floors->set_zindex(-FLT_MAX);
 }
 
 } // namespace utils
