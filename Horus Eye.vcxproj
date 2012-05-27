@@ -72,7 +72,6 @@
     <ClCompile Include="src\game\components\logic\follower.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\button.cc" />
-    <ClCompile Include="src\game\sprites\scenery\door.cc" />
     <ClCompile Include="src\game\builders\explosionbuilder.cc" />
     <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
@@ -163,11 +162,11 @@
     <ClInclude Include="src\game\components\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
     <ClInclude Include="src\game\sprites\scenery\button.h" />
-    <ClInclude Include="src\game\sprites\scenery\door.h" />
     <ClInclude Include="src\game\builders\explosionbuilder.h" />
     <ClInclude Include="src\game\sprites\scenery\wall.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
+    <ClInclude Include="src\game\scenes.h" />
     <ClInclude Include="src\game\sprites\worldobject.h" />
     <ClInclude Include="src\game\utils\constants.h" />
     <ClInclude Include="src\game\utils\geometryprimitives.h" />

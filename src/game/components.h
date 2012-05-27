@@ -18,4 +18,4 @@ class MummyController;
 
 }  // namespace component
 
-#endif
+#endif // HORUSEYE_GAME_COMPONENTS_H_

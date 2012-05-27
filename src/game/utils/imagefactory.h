@@ -26,7 +26,7 @@ class ImageFactory {
     ugdk::graphic::Drawable* SightPotionImage();
     ugdk::graphic::Drawable* BlueGemImage();
     ugdk::graphic::Spritesheet* ShieldImage();
-    FlexibleSpritesheet* DoorImage();
+    ugdk::graphic::Spritesheet* DoorImage();
     ugdk::graphic::Drawable* FloorImage();
     FlexibleSpritesheet* WallImage();
     FlexibleSpritesheet* EntryImage();

@@ -78,10 +78,8 @@ ugdk::graphic::Drawable* ImageFactory::SightPotionImage() {
     return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
 }
 
-FlexibleSpritesheet* ImageFactory::DoorImage() {
-    FlexibleSpritesheet *door_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/stairs3.png"));
-    if(door_image_) door_image_->set_frame_size(Vector2D(153, 109));
-    return door_image_;
+ugdk::graphic::Spritesheet* ImageFactory::DoorImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/stairs3.png");
 }
 
 ugdk::graphic::Drawable* ImageFactory::FloorImage() {

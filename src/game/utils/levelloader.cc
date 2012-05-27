@@ -12,12 +12,12 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/scenery/door.h"
 #include "game/sprites/scenery/wall.h"
 #include "game/sprites/scenery/block.h"
 #include "game/sprites/scenery/button.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
+#include "game/builders/entitybuilder.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
 
@@ -119,6 +119,7 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position, vector<vector<Wall* > > &wall_matrix) {
     builder::MummyBuilder mummy_builder;
     builder::ItemBuilder potion_builder;
+    builder::EntityBuilder entity_builder;
     ImageFactory* image_factory = world_->image_factory();
     if(token != EMPTY) {
         switch(token) {
@@ -184,7 +185,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
                 GameMap& matrix = world_->level_matrix();
                 if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
                     Vector2D pos = position + Vector2D(0.5, 0);
-                    world_->AddWorldObject(new Door(image_factory->DoorImage(), world_), pos);
+                    world_->AddWorldObject(entity_builder.Door(world_), pos);
                 }
                 break;
             }

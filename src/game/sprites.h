@@ -4,10 +4,9 @@
 namespace sprite {
 
 class Condition;
-class Explosion;
 class ItemEvent;
 class WorldObject;
 
-}  // namespace component
+}  // namespace sprite
 
-#endif
+#endif // HORUSEYE_GAME_SPRITES_H_
