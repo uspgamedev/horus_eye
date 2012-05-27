@@ -69,7 +69,6 @@
     <ClCompile Include="src\game\skills\pharaohrangedweapon.cc" />
     <ClCompile Include="src\game\skills\pharaohsummonweapon.cc" />
     <ClCompile Include="src\game\skills\sandstorm.cc" />
-    <ClCompile Include="src\game\sprites\explosion.cc" />
     <ClCompile Include="src\game\components\logic\follower.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\button.cc" />
@@ -158,7 +157,6 @@
     <ClInclude Include="src\game\sprites\creatures\mummy.h" />
     <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
     <ClInclude Include="src\game\entities\emitterentity.h" />
-    <ClInclude Include="src\game\sprites\explosion.h" />
     <ClInclude Include="src\game\components\logic\follower.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\components\projectile.h" />

@@ -42,19 +42,19 @@ static void CreateSimpleFlexibleSpritesheet(const char* path) {
 
 void LoadSpritesheets() {
     CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
-    CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0, 102.0)); // Kha
-    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Regular Mummy
-    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D(60.0, 120.0)); // Giant Mummy
-    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Pharaoh
-    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Shooting Mummy
+    CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D( 55.0, 102.0)); // Kha
+    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Regular Mummy
+    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Giant Mummy
+    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Pharaoh
+    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Shooting Mummy
     
-    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Magic Missile
-    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Blue Gem
-    CreateFlexibleSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D(64.0, 110.0)); // Blue Gem
+    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Magic Missile
+    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Blue Gem
+    CreateFlexibleSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D( 64.0, 110.0)); // Shield
     CreateSimpleFlexibleSpritesheet("images/fireball_0.png");
     CreateSimpleFlexibleSpritesheet("images/green_fire_ball.png");
-    CreateSimpleFlexibleSpritesheet("images/explosion.png");
-    CreateSimpleFlexibleSpritesheet("images/quake.png");
+    CreateFlexibleSpritesheet("images/explosion.png"          , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Fireball Explosion
+    CreateFlexibleSpritesheet("images/quake.png"              , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Quake Explosion
     //CreateSimpleFlexibleSpritesheet("images/life_potion2.png");
     //CreateSimpleFlexibleSpritesheet("images/mana_potion.png");
     //CreateSimpleFlexibleSpritesheet("images/sight_potion.png");

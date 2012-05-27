@@ -5,8 +5,8 @@
 
 #include "heroexplosionweapon.h"
 
+#include "game/builders/entitybuilder.h"
 #include "game/scenes/world.h"
-#include "game/sprites/explosion.h"
 #include "game/components/logic/hero.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
@@ -33,11 +33,12 @@ void HeroExplosionWeapon::Use() {
     super::Use();
 
     World *world = WORLD();
-    sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
+    builder::EntityBuilder builder;
+    /*sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
                                             sprite::Explosion::HERO_EXPLOSION_WEAPON,
                                             Constants::QUAKE_EXPLOSION_RADIUS,
-                                            Constants::QUAKE_EXPLOSION_DAMAGE);
-    world->AddWorldObject(explosion, use_argument_.destination_);
+                                            Constants::QUAKE_EXPLOSION_DAMAGE);*/
+    world->AddWorldObject(builder.EarthquakeExplosion(), use_argument_.destination_);
 
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

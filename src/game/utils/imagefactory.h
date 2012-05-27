@@ -19,7 +19,7 @@ class ImageFactory {
     FlexibleSpritesheet* MagicMissileImage();
     FlexibleSpritesheet* FireballImage();
     FlexibleSpritesheet* MummyProjectileImage();
-    FlexibleSpritesheet* ExplosionImage();
+    ugdk::graphic::Spritesheet* ExplosionImage();
     FlexibleSpritesheet* QuakeImage();
     ugdk::graphic::Drawable* LifePotionImage();
     ugdk::graphic::Drawable* ManaPotionImage();

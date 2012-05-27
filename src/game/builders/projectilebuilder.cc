@@ -13,10 +13,10 @@
 
 #include "projectilebuilder.h"
 
+#include "game/builders/entitybuilder.h"
 #include "game/components/animation.h"
 #include "game/components/damageable.h"
 #include "game/components/projectile.h"
-#include "game/sprites/explosion.h"
 #include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
 #include "game/scenes/world.h"
@@ -125,7 +125,7 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
     return wobj;
 }
 
-sprite::WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int damage) {
+WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int damage) {
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MummyProjectileImage() ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
@@ -154,8 +154,8 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
 WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     factory_->FireballImage()->set_hotspot(Vector2D(Constants::FIREBALL_SPRITE_CENTER_X, Constants::FIREBALL_SPRITE_CENTER_Y + Constants::FIREBALL_SPRITE_HEIGHT));
 
-    Explosion *explosion = new Explosion(factory_->ExplosionImage(), 
-        Explosion::HERO_FIREBALL_WEAPON, Constants::FIREBALL_EXPLOSION_RADIUS, Constants::FIREBALL_EXPLOSION_DAMAGE);
+    builder::EntityBuilder builder;
+    WorldObject *explosion = builder.FireballExplosion();
 
     WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
     wobj->set_animation(new component::Animation(wobj, factory_->FireballImage(), fireball_animation_));

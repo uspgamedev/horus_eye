@@ -48,10 +48,8 @@ FlexibleSpritesheet* ImageFactory::MummyProjectileImage() {
     return mummy_projectile_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::ExplosionImage() {
-    FlexibleSpritesheet *explosion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/explosion.png"));
-    if(explosion_image_) explosion_image_->set_frame_size( Vector2D(256, 128) );
-    return explosion_image_;
+ugdk::graphic::Spritesheet* ImageFactory::ExplosionImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/explosion.png");
 }
 
 FlexibleSpritesheet* ImageFactory::QuakeImage() {

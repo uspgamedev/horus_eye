@@ -11,6 +11,9 @@ class EntityBuilder {
     ~EntityBuilder() {}
 
     sprite::WorldObject* BlueShieldEntity(sprite::WorldObject *target);
+    sprite::WorldObject* FireballExplosion();
+    sprite::WorldObject* EarthquakeExplosion();
+    sprite::WorldObject* MeteorExplosion();
 };
 
 }

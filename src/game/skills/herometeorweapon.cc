@@ -8,11 +8,10 @@
 
 #include "herometeorweapon.h"
 
+#include "game/builders/entitybuilder.h"
 #include "game/scenes/world.h"
 #include "game/components/logic/hero.h"
-#include "game/sprites/explosion.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/scenery/wall.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -54,12 +53,8 @@ void HeroMeteorWeapon::Use(){
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
     permanent_light->set_light_radius(4.0);
 
-    sprite::Explosion *explosion = new sprite::Explosion(factory->ExplosionImage(), 
-        sprite::Explosion::HERO_FIREBALL_WEAPON, Constants::METEOR_EXPLOSION_RADIUS, Constants::METEOR_EXPLOSION_DAMAGE);
-
-    static double explosion_fireball_ratio = (Constants::METEOR_EXPLOSION_RADIUS / Constants::FIREBALL_EXPLOSION_RADIUS);
-    explosion->node()->modifier()->set_scale(Vector2D(explosion_fireball_ratio));
-    //explosion->set_hotspot(explosion->hotspot() * explosion_fireball_ratio); Oh noes TODO fix hotspot
+    builder::EntityBuilder builder;
+    sprite::WorldObject *explosion = builder.MeteorExplosion();
 
     std::list<sprite::WorldObject*> list;
     list.push_back(explosion);

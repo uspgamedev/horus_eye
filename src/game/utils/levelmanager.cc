@@ -20,7 +20,6 @@
 #include "game/components/logic/hero.h"
 #include "game/builders/herobuilder.h"
 #include "game/builders/taskbuilder.h"
-#include "game/sprites/explosion.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
@@ -52,7 +51,6 @@ void LevelManager::Initialize() {
     current_level_ = NULL;
     level_list_iterator_ = 0;
     hero_ = NULL;
-    Explosion::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
     MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
@@ -174,7 +172,6 @@ void LevelManager::Finish() {
     DeleteHero();
     if (loading_)
         delete loading_;
-    Explosion::ReleaseAnimations();
 }
 
 LevelManager::~LevelManager() {}
