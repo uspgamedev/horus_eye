@@ -32,9 +32,7 @@ COLLISION_DIRECT(Block*, PushOnCollision, obj) {
     data_->PushToward(pushdir);
 }
 
-Block::Block(ugdk::graphic::FlexibleSpritesheet* image) : moving_(false) {
-    image->set_hotspot(Vector2D(Constants::WALL_HOTSPOT_X, Constants::WALL_HOTSPOT_Y));
-
+Block::Block(ugdk::graphic::Spritesheet* image) : moving_(false) {
     ugdk::graphic::Sprite* sprite = new ugdk::graphic::Sprite(image);
     node()->set_drawable(sprite);
     node()->modifier()->set_scale(Vector2D(1.0, 0.7)); // TODO make block offset

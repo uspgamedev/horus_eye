@@ -57,8 +57,8 @@ void LoadSpritesheets() {
     CreateFlexibleSpritesheet("images/quake.png"              , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Quake Explosion
     CreateFlexibleSpritesheet("images/stairs3.png"            , 153, 109, ugdk::Vector2D( 76.5,  63.5)); // Door stairs
     CreateSimpleFlexibleSpritesheet("images/ground2_106x54.png");
-    CreateSimpleFlexibleSpritesheet("images/stoneblock3.png");
-    CreateSimpleFlexibleSpritesheet("images/door.png");
+    CreateFlexibleSpritesheet("images/stoneblock3.png"        , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Wall 
+    CreateFlexibleSpritesheet("images/door.png"               , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Entry
     CreateSimpleFlexibleSpritesheet("images/lightning_bolt.png");
     CreateSimpleFlexibleSpritesheet("images/yellow_fire_ball.png");
     CreateSimpleFlexibleSpritesheet("images/tile_switch.png");

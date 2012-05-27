@@ -12,7 +12,7 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/scenery/wall.h"
+#include "game/components/logic/wall.h"
 #include "game/sprites/scenery/block.h"
 #include "game/sprites/scenery/button.h"
 #include "game/builders/itembuilder.h"
@@ -44,6 +44,7 @@ using namespace std;
 using namespace scene;
 using namespace sprite;
 using namespace ugdk;
+using component::Wall;
 
 #define LINE_SIZE 1024
 
@@ -124,13 +125,15 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
     if(token != EMPTY) {
         switch(token) {
             case WALL: {
-                wall_matrix[i][j] = new Wall(image_factory->WallImage());
-                world_->AddWorldObject(wall_matrix[i][j], position);
+                WorldObject* wobj = entity_builder.Wall();
+                wall_matrix[i][j] = static_cast<Wall*>(wobj->logic());
+                world_->AddWorldObject(wobj, position);
                 break;
             }
             case ENTRY: {
-                wall_matrix[i][j] = new Wall(image_factory->EntryImage());
-                world_->AddWorldObject(wall_matrix[i][j], position);
+                WorldObject* wobj = entity_builder.Entry();
+                wall_matrix[i][j] = static_cast<Wall*>(wobj->logic());
+                world_->AddWorldObject(wobj, position);
                 break;
             }
             case BLOCK: {

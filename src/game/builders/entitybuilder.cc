@@ -14,6 +14,7 @@
 
 #include "game/components/damageable.h"
 #include "game/components/logic/follower.h"
+#include "game/components/logic/wall.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
@@ -61,8 +62,6 @@ WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
     return wobj;
 }
 
-
-
 WorldObject* EntityBuilder::Door(scene::World* world) {
     WorldObject* wobj = new WorldObject;
     wobj->node()->set_drawable(new Sprite(world->image_factory()->DoorImage()));
@@ -74,6 +73,27 @@ WorldObject* EntityBuilder::Door(scene::World* world) {
     wobj->set_collision_object(col);
 
     return wobj;
+}
+
+static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
+    WorldObject* wobj = new WorldObject;
+    wobj->set_logic(new component::Wall(wobj, sheet));
+
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+    col->InitializeCollisionClass("Wall");
+    col->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
+    wobj->set_collision_object(col);
+    return wobj;
+}
+
+WorldObject* EntityBuilder::Wall() {
+    utils::ImageFactory factory;
+    return buildWall(factory.WallImage());
+}
+
+WorldObject* EntityBuilder::Entry() {
+    utils::ImageFactory factory;
+    return buildWall(factory.EntryImage());
 }
 
 }

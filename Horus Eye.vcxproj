@@ -46,6 +46,7 @@
     <ClCompile Include="src\game\components\graphic.cc" />
     <ClCompile Include="src\game\components\logic\hero.cc" />
     <ClCompile Include="src\game\components\logic\mummy.cc" />
+    <ClCompile Include="src\game\components\logic\wall.cc" />
     <ClCompile Include="src\game\components\mummycontroller.cc" />
     <ClCompile Include="src\game\components\logic\pharaoh.cc" />
     <ClCompile Include="src\game\components\playercontroller.cc" />
@@ -73,7 +74,6 @@
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
     <ClCompile Include="src\game\sprites\scenery\button.cc" />
     <ClCompile Include="src\game\builders\explosionbuilder.cc" />
-    <ClCompile Include="src\game\sprites\scenery\wall.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
@@ -112,6 +112,7 @@
     <ClInclude Include="src\game\components\logic\hero.h" />
     <ClInclude Include="src\game\components\logic.h" />
     <ClInclude Include="src\game\components\logic\mummy.h" />
+    <ClInclude Include="src\game\components\logic\wall.h" />
     <ClInclude Include="src\game\components\mummycontroller.h" />
     <ClInclude Include="src\game\components\logic\pharaoh.h" />
     <ClInclude Include="src\game\components\playercontroller.h" />
@@ -163,7 +164,6 @@
     <ClInclude Include="src\game\sprites\scenery\block.h" />
     <ClInclude Include="src\game\sprites\scenery\button.h" />
     <ClInclude Include="src\game\builders\explosionbuilder.h" />
-    <ClInclude Include="src\game\sprites\scenery\wall.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
     <ClInclude Include="src\game\scenes.h" />

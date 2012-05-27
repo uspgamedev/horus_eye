@@ -13,6 +13,8 @@ class EntityBuilder {
 
     sprite::WorldObject* BlueShieldEntity(sprite::WorldObject *target);
     sprite::WorldObject* Door(scene::World* world);
+    sprite::WorldObject* Wall();
+    sprite::WorldObject* Entry();
 };
 
 }

@@ -4,16 +4,12 @@
 #include <ugdk/math/vector2D.h>
 #include "game/sprites/worldobject.h"
 
-namespace ugdk {
-class Image;
-}
-
 namespace sprite {
 
 class Block : public WorldObject {
   
   public:
-    Block(ugdk::graphic::FlexibleSpritesheet* image);
+    Block(ugdk::graphic::Spritesheet* image);
     ~Block();
     virtual void Update(double dt);
     

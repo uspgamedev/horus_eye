@@ -88,16 +88,12 @@ ugdk::graphic::Drawable* ImageFactory::FloorImage() {
     return draw;
 }
 
-FlexibleSpritesheet* ImageFactory::WallImage() {
-    FlexibleSpritesheet *wall_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/stoneblock3.png"));
-    if(wall_image_) wall_image_->set_frame_size(Vector2D(106, 157));
-    return wall_image_;
+ugdk::graphic::Spritesheet* ImageFactory::WallImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/stoneblock3.png");
 }
 
-FlexibleSpritesheet* ImageFactory::EntryImage() {
-    FlexibleSpritesheet *entry_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/door.png"));
-    if(entry_image_) entry_image_->set_frame_size(Vector2D(106, 157));
-    return entry_image_;
+ugdk::graphic::Spritesheet* ImageFactory::EntryImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/door.png");
 }
 
 FlexibleSpritesheet* ImageFactory::LightningImage() {
