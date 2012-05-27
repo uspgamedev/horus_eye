@@ -8,7 +8,7 @@
 
 #include "herometeorweapon.h"
 
-#include "game/builders/entitybuilder.h"
+#include "game/builders/explosionbuilder.h"
 #include "game/scenes/world.h"
 #include "game/components/logic/hero.h"
 #include "game/sprites/worldobject.h"
@@ -53,7 +53,7 @@ void HeroMeteorWeapon::Use(){
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
     permanent_light->set_light_radius(4.0);
 
-    builder::EntityBuilder builder;
+    builder::ExplosionBuilder builder;
     sprite::WorldObject *explosion = builder.MeteorExplosion();
 
     std::list<sprite::WorldObject*> list;

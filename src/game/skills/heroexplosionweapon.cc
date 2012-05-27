@@ -5,7 +5,7 @@
 
 #include "heroexplosionweapon.h"
 
-#include "game/builders/entitybuilder.h"
+#include "game/builders/explosionbuilder.h"
 #include "game/scenes/world.h"
 #include "game/components/logic/hero.h"
 #include "game/utils/visionstrategy.h"
@@ -33,11 +33,7 @@ void HeroExplosionWeapon::Use() {
     super::Use();
 
     World *world = WORLD();
-    builder::EntityBuilder builder;
-    /*sprite::Explosion* explosion = new sprite::Explosion(world->image_factory()->QuakeImage(),
-                                            sprite::Explosion::HERO_EXPLOSION_WEAPON,
-                                            Constants::QUAKE_EXPLOSION_RADIUS,
-                                            Constants::QUAKE_EXPLOSION_DAMAGE);*/
+    builder::ExplosionBuilder builder;
     world->AddWorldObject(builder.EarthquakeExplosion(), use_argument_.destination_);
 
     if(utils::Settings::reference()->sound_effects())

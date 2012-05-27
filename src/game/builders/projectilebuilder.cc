@@ -13,7 +13,7 @@
 
 #include "projectilebuilder.h"
 
-#include "game/builders/entitybuilder.h"
+#include "game/builders/explosionbuilder.h"
 #include "game/components/animation.h"
 #include "game/components/damageable.h"
 #include "game/components/projectile.h"
@@ -154,7 +154,7 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
 WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     factory_->FireballImage()->set_hotspot(Vector2D(Constants::FIREBALL_SPRITE_CENTER_X, Constants::FIREBALL_SPRITE_CENTER_Y + Constants::FIREBALL_SPRITE_HEIGHT));
 
-    builder::EntityBuilder builder;
+    builder::ExplosionBuilder builder;
     WorldObject *explosion = builder.FireballExplosion();
 
     WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
