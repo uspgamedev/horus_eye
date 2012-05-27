@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_COMPONENT_FOLLOWER_H_
-#define HORUSEYE_COMPONENT_FOLLOWER_H_
+#ifndef HORUSEYE_COMPONENT_LOGIC_FOLLOWER_H_
+#define HORUSEYE_COMPONENT_LOGIC_FOLLOWER_H_
 
 #include "game/components/logic.h"
 #include "game/sprites.h"
@@ -22,4 +22,4 @@ class Follower : public Logic {
 
 }  // namespace component
 
-#endif  // HORUSEYE_COMPONENT_FOLLOWER_H_
+#endif  // HORUSEYE_COMPONENT_LOGIC_FOLLOWER_H_

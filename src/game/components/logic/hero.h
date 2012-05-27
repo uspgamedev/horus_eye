@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_SPRITE_HERO_H_
-#define HORUSEYE_GAME_SPRITE_HERO_H_
+#ifndef HORUSEYE_COMPONENT_LOGIC_HERO_H_
+#define HORUSEYE_COMPONENT_LOGIC_HERO_H_
 
 #include <map>
 #include <ugdk/math/vector2D.h>
@@ -52,4 +52,4 @@ class Hero : public Creature {
 };
 
 }
-#endif // HORUSEYE_GAME_SPRITE_HERO_H_
+#endif // HORUSEYE_COMPONENT_LOGIC_HERO_H_

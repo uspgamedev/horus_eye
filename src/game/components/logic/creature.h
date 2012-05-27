@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_COMPONENT_CREATURE_H_
-#define HORUSEYE_COMPONENT_CREATURE_H_
+#ifndef HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
+#define HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
 
 #include <list>
 #include <map>
@@ -113,4 +113,4 @@ class Creature : public Logic {
 
 }  // namespace sprite
 
-#endif  // HORUSEYE_GAME_SPRITE_CREATURE_H_
+#endif  // HORUSEYE_COMPONENT_LOGIC_CREATURE_H_

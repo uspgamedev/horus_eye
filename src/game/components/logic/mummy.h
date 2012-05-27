@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_SPRITE_MUMMY_H_
-#define HORUSEYE_GAME_SPRITE_MUMMY_H_
+#ifndef HORUSEYE_COMPONENT_LOGIC_MUMMY_H_
+#define HORUSEYE_COMPONENT_LOGIC_MUMMY_H_
 
 #include <queue>
 #include <ugdk/math/vector2D.h>
@@ -52,4 +52,4 @@ class Mummy : public Creature {
 };
 
 }
-#endif // MUMMY_H_
+#endif // HORUSEYE_COMPONENT_LOGIC_MUMMY_H_

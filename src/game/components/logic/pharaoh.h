@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_SPRITE_PHARAOH_H_
-#define HORUSEYE_GAME_SPRITE_PHARAOH_H_
+#ifndef HORUSEYE_COMPONENT_LOGIC_PHARAOH_H_
+#define HORUSEYE_COMPONENT_LOGIC_PHARAOH_H_
 
 #include "game/components/logic/mummy.h"
 #include "game/skills/combatart.h"
@@ -34,4 +34,4 @@ class Pharaoh : public Mummy {
 };
 
 }
-#endif // PHARAOH_H_
+#endif // HORUSEYE_COMPONENT_LOGIC_PHARAOH_H_
