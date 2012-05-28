@@ -84,6 +84,7 @@
     <ClCompile Include="src\game\utils\imagefactory.cc" />
     <ClCompile Include="src\game\utils\levelloader.cc" />
     <ClCompile Include="src\game\utils\levelmanager.cc" />
+    <ClCompile Include="src\game\utils\menuimagefactory.cc" />
     <ClCompile Include="src\game\utils\settings.cc" />
     <ClCompile Include="src\game\utils\tile.cc" />
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
@@ -165,6 +166,7 @@
     <ClInclude Include="src\game\utils\imagefactory.h" />
     <ClInclude Include="src\game\utils\levelloader.h" />
     <ClInclude Include="src\game\utils\levelmanager.h" />
+    <ClInclude Include="src\game\utils\menuimagefactory.h" />
     <ClInclude Include="src\game\utils\settings.h" />
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />
