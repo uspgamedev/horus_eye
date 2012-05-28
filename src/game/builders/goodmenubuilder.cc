@@ -6,6 +6,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable/solidrectangle.h>
@@ -38,6 +39,7 @@ void PauseExitCallback(Scene* menu, const UIElement * source) {
     WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
 }
 
+
 //void FinishMenuCallback(Menu* menu) {
 //    menu->FinishScene(menu);
 //}
@@ -48,14 +50,12 @@ Scene* MenuBuilder::PauseMenu() const {
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), pause_menu);
-    menu->SetOptionDrawables(mif.HorusEye(), 0);
-    menu->SetOptionDrawables(mif.HorusEye(), 1);
+    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
+    menu->SetOptionDrawable(mif.HorusEye(), 0);
+    menu->SetOptionDrawable(mif.HorusEye(), 1);
 
     Text* cont_text = ResourceManager::CreateTextFromLanguageTag("Continue");
     Text* exit_text = ResourceManager::CreateTextFromLanguageTag("Return to Menu");
-    cont_text->set_hotspot(ugdk::graphic::Drawable::CENTER);
-    exit_text->set_hotspot(ugdk::graphic::Drawable::CENTER);
 
     ugdk::Vector2D cont_position = target * 0.5;
     cont_position.y -= cont_text->size().y;
@@ -63,21 +63,19 @@ Scene* MenuBuilder::PauseMenu() const {
     ugdk::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    UIElement* cont_element = new UIElement(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1));
-    UIElement* exit_element = new UIElement(exit_position, exit_text, bind(PauseExitCallback, pause_menu, _1));
-    
-    menu->AddObject(cont_element);
-    menu->AddObject(exit_element);
+    menu->AddObject(new UIElement(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1)));
+    menu->AddObject(new UIElement(exit_position, exit_text, bind(PauseExitCallback, pause_menu, _1)));
 
     pause_menu->StopsPreviousMusic(false);
-    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::FINISH_MENU);
-    menu->AddCallback(ugdk::input::K_RETURN, &ugdk::ui::Menu::InteractWithFocused);
+    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    pause_menu->interface_node()->AddChild(menu->node());
+    pause_menu->AddEntity(menu);
+
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
     bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     pause_menu->interface_node()->set_drawable(bg);
-    pause_menu->interface_node()->AddChild(menu->node());
 
-    pause_menu->AddEntity(menu);
     return pause_menu;
 }
 
