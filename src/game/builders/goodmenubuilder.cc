@@ -49,7 +49,8 @@ Scene* MenuBuilder::PauseMenu() const {
     utils::MenuImageFactory mif;
 
     Menu* menu = new Menu(box, Vector2D(0.0, 0.0), pause_menu);
-    menu->SetOptionDrawable(mif.HorusEye());
+    menu->SetOptionDrawables(mif.HorusEye(), 0);
+    menu->SetOptionDrawables(mif.HorusEye(), 1);
 
     Text* cont_text = ResourceManager::CreateTextFromLanguageTag("Continue");
     Text* exit_text = ResourceManager::CreateTextFromLanguageTag("Return to Menu");
@@ -62,11 +63,8 @@ Scene* MenuBuilder::PauseMenu() const {
     ugdk::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    UIElement* cont_element = new UIElement(cont_position, menu, bind(PauseContinueCallback, pause_menu, _1));
-    UIElement* exit_element = new UIElement(exit_position, menu, bind(PauseExitCallback, pause_menu, _1));
-
-    cont_element->set_drawable(cont_text);
-    exit_element->set_drawable(exit_text);
+    UIElement* cont_element = new UIElement(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1));
+    UIElement* exit_element = new UIElement(exit_position, exit_text, bind(PauseExitCallback, pause_menu, _1));
     
     menu->AddObject(cont_element);
     menu->AddObject(exit_element);
