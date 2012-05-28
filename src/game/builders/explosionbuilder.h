@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_BUILDERS_EXPLOSIONBUILDER_H_
 #define HORUSEYE_GAME_BUILDERS_EXPLOSIONBUILDER_H_
 
-#include "game/sprites/worldobject.h"
+#include "game/sprites.h"
 
 namespace builder {
 

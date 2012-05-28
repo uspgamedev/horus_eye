@@ -33,6 +33,7 @@
     <ClCompile Include="src\editor\mapobject.cc" />
     <ClCompile Include="src\editor\scenes\editormenu.cc" />
     <ClCompile Include="src\externals\inifile.cc" />
+    <ClCompile Include="src\game\builders\doodadbuilder.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\entitybuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
@@ -95,6 +96,7 @@
     <ClInclude Include="src\editor\mapobject.h" />
     <ClInclude Include="src\editor\scenes\editormenu.h" />
     <ClInclude Include="src\externals\inifile.h" />
+    <ClInclude Include="src\game\builders\doodadbuilder.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\entitybuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />

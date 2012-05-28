@@ -18,6 +18,7 @@
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/builders/entitybuilder.h"
+#include "game/builders/doodadbuilder.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
 
@@ -121,17 +122,18 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
     builder::MummyBuilder mummy_builder;
     builder::ItemBuilder potion_builder;
     builder::EntityBuilder entity_builder;
+    builder::DoodadBuilder doodad_builder;
     ImageFactory* image_factory = world_->image_factory();
     if(token != EMPTY) {
         switch(token) {
             case WALL: {
-                WorldObject* wobj = entity_builder.Wall();
+                WorldObject* wobj = doodad_builder.Wall();
                 wall_matrix[i][j] = static_cast<Wall*>(wobj->logic());
                 world_->AddWorldObject(wobj, position);
                 break;
             }
             case ENTRY: {
-                WorldObject* wobj = entity_builder.Entry();
+                WorldObject* wobj = doodad_builder.Entry();
                 wall_matrix[i][j] = static_cast<Wall*>(wobj->logic());
                 world_->AddWorldObject(wobj, position);
                 break;
@@ -188,7 +190,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
                 GameMap& matrix = world_->level_matrix();
                 if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
                     Vector2D pos = position + Vector2D(0.5, 0);
-                    world_->AddWorldObject(entity_builder.Door(world_), pos);
+                    world_->AddWorldObject(doodad_builder.Door(world_), pos);
                 }
                 break;
             }

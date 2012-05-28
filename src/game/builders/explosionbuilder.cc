@@ -12,6 +12,7 @@
 
 #include "explosionbuilder.h"
 
+#include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
 #include "game/components/logic/follower.h"
 #include "game/scenes/world.h"
