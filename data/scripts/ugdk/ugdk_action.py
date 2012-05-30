@@ -213,6 +213,7 @@ class AnimationManager(_object):
     def Select(self, *args): return _ugdk_action.AnimationManager_Select(self, *args)
     def Update(self, *args): return _ugdk_action.AnimationManager_Update(self, *args)
     def AddObserver(self, *args): return _ugdk_action.AnimationManager_AddObserver(self, *args)
+    def AddTickFunction(self, *args): return _ugdk_action.AnimationManager_AddTickFunction(self, *args)
 AnimationManager_swigregister = _ugdk_action.AnimationManager_swigregister
 AnimationManager_swigregister(AnimationManager)
 

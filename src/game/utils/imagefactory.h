@@ -32,7 +32,7 @@ class ImageFactory {
     ugdk::graphic::Spritesheet* EntryImage();
     FlexibleSpritesheet* LightningImage();
     FlexibleSpritesheet* LightImage();
-    FlexibleSpritesheet* TileSwitchImage();
+    ugdk::graphic::Spritesheet* TileSwitchImage();
 };
 
 }

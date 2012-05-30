@@ -14,7 +14,7 @@ class DoodadBuilder {
     sprite::WorldObject* Door(scene::World* world);
     sprite::WorldObject* Wall();
     sprite::WorldObject* Entry();
-    //sprite::WorldObject* Button();
+    sprite::WorldObject* Button();
 };
 
 }

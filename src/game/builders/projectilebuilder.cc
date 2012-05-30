@@ -96,7 +96,7 @@ static CollisionObject* buildCollisionObject(WorldObject* wobj) {
 }
 
 static WorldObject* buildObject(double duration, double radius) {
-    WorldObject* wobj = new WorldObject(Constants::PROJECTILE_DURATION);
+    WorldObject* wobj = new WorldObject(duration);
     wobj->set_collision_object(buildCollisionObject(wobj));
     wobj->set_shape(new pyramidworks::geometry::Circle(radius));
     return wobj;

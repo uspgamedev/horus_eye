@@ -7,6 +7,7 @@
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
+#include <pyramidworks/collision/genericcollisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 
@@ -23,10 +24,12 @@
 namespace builder {
 
 using std::tr1::bind;
+using namespace std::tr1::placeholders;
 using ugdk::action::AnimationSet;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
 using pyramidworks::collision::CollisionObject;
+using pyramidworks::collision::GenericCollisionLogic;
 using component::Creature;
 using component::Follower;
 using sprite::WorldObject;
@@ -38,7 +41,7 @@ COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
 }
 
 COLLISION_DIRECT(scene::World*, WinCollision, obj) {
-    if (data_->CountRemainingEnemies() == 0 && data_->num_button_not_pressed().Get() == 0)
+    if (data_->CountRemainingEnemies() == 0 && data_->num_button_not_pressed().Get() <= 0)
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
@@ -76,4 +79,50 @@ WorldObject* DoodadBuilder::Entry() {
     return buildWall(factory.EntryImage());
 }
 
+
+class ButtonLogic : public component::Logic {
+public:
+	ButtonLogic(Sprite* sprite) : pressed_(false), sprite_(sprite) {
+		sprite_->SetDefaultFrame(2); 
+	}
+
+	void Update(double dt) {}
+
+	void Press() {
+		if(!pressed_) {
+			sprite_->SetDefaultFrame(0);
+			WORLD()->num_button_not_pressed() -= 1;
+			pressed_ = true;
+		}
+	}
+
+private:
+	bool pressed_;
+	Sprite* sprite_;
+};
+
+static void CollisionButton(ButtonLogic* button_logic, void*) {
+	button_logic->Press();
 }
+
+WorldObject* DoodadBuilder::Button() {
+    utils::ImageFactory factory;
+	WorldObject* wobj = new WorldObject;
+
+	Sprite* sprite = new Sprite(factory.TileSwitchImage());
+	ButtonLogic* logic = new ButtonLogic(sprite);
+
+    wobj->node()->set_drawable(sprite);
+	wobj->set_logic(logic);
+
+	CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+    col->InitializeCollisionClass("Button");
+    //col->AddCollisionLogic("Hero", new WinCollision(world));
+	col->AddCollisionLogic("Hero", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
+    col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
+    wobj->set_collision_object(col);
+
+	return wobj;
+}
+
+} // namespace builder

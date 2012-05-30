@@ -108,10 +108,8 @@ FlexibleSpritesheet* ImageFactory::LightImage() {
     return light_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::TileSwitchImage() {
-    FlexibleSpritesheet *floor_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/tile_switch.png"));
-    if(floor_image_) floor_image_->set_frame_size(Vector2D(106,54));
-    return floor_image_;
+ugdk::graphic::Spritesheet* ImageFactory::TileSwitchImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/tile_switch.png");
 }
 
 }

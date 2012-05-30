@@ -160,6 +160,7 @@ class Sprite(ugdk_graphic.Drawable):
     def SetAnimationSlowdownFactor(self, *args): return _ugdk_drawable.Sprite_SetAnimationSlowdownFactor(self, *args)
     def GetAnimationFPS(self): return _ugdk_drawable.Sprite_GetAnimationFPS(self)
     def AddObserverToAnimation(self, *args): return _ugdk_drawable.Sprite_AddObserverToAnimation(self, *args)
+    def AddTickFunctionToAnimation(self, *args): return _ugdk_drawable.Sprite_AddTickFunctionToAnimation(self, *args)
     def GetAnimationFrameNumber(self): return _ugdk_drawable.Sprite_GetAnimationFrameNumber(self)
     def SetDefaultFrame(self, *args): return _ugdk_drawable.Sprite_SetDefaultFrame(self, *args)
 Sprite_swigregister = _ugdk_drawable.Sprite_swigregister

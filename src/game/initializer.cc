@@ -61,7 +61,8 @@ void LoadSpritesheets() {
     CreateFlexibleSpritesheet("images/door.png"               , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Entry
     CreateSimpleFlexibleSpritesheet("images/lightning_bolt.png");
     CreateSimpleFlexibleSpritesheet("images/yellow_fire_ball.png");
-    CreateSimpleFlexibleSpritesheet("images/tile_switch.png");
+	CreateFlexibleSpritesheet("images/tile_switch.png"        , 106,  54, ugdk::Vector2D( 53.0,   27.0)); // Door stairs
+	
 }
 
 bool VerifyFolderExists(const std::string& path) {
