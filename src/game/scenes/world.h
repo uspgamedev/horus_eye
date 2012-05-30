@@ -8,6 +8,7 @@
 #include <pyramidworks/collision.h>
 
 #include "game/components.h"
+#include "game/scenes/gamelayer.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
@@ -78,6 +79,10 @@ class World : public ugdk::action::Scene {
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
 
+	ugdk::graphic::Node* layer_node(GameLayer layer) { 
+		return layers_[layer];
+	}
+
   protected:
     sprite::WorldObject *hero_;
 
@@ -92,6 +97,7 @@ class World : public ugdk::action::Scene {
     bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
     pyramidworks::collision::CollisionManager* collision_manager_;
+	ugdk::graphic::Node *layers_[2];
 
 };  // class World
 

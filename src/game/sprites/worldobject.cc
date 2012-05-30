@@ -30,6 +30,7 @@ WorldObject::WorldObject(double duration)
         status_(STATUS_ACTIVE),
         light_radius_(0.0),
         logic_(NULL),
+		layer_(scene::FOREGROUND_LAYER),
         damageable_(NULL), 
         graphic_(NULL),
         controller_(NULL),
@@ -115,7 +116,7 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
-    scene->content_node()->AddChild(node());
+	static_cast<World*>(scene)->layer_node(layer_)->AddChild(node());
     if(collision_object() != NULL)
         collision_object()->StartColliding();
 }

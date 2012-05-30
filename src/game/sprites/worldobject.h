@@ -9,6 +9,7 @@
 #include <ugdk/time.h>
 #include <pyramidworks/collision.h>
 #include <pyramidworks/geometry.h>
+#include "game/scenes/gamelayer.h"
 #include "game/components.h"
 
 namespace sprite {
@@ -84,6 +85,9 @@ class WorldObject : public ugdk::action::Entity {
     void set_animation(component::Animation* animation) { animation_ = animation; }
     component::Animation* animation() { return animation_; }
 
+	void set_layer(scene::GameLayer layer) { layer_ = layer; }
+	scene::GameLayer layer() const { return layer_; }
+
   protected:
     std::string identifier_;
 
@@ -103,6 +107,7 @@ class WorldObject : public ugdk::action::Entity {
     // The current status for the object.
     Status status_;
     double light_radius_;
+	scene::GameLayer layer_;
 
     component::Damageable* damageable_;
 

@@ -114,11 +114,12 @@ WorldObject* DoodadBuilder::Button() {
 
     wobj->node()->set_drawable(sprite);
 	wobj->set_logic(logic);
+	wobj->set_layer(scene::BACKGROUND_LAYER);
 
 	CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Button");
-    //col->AddCollisionLogic("Hero", new WinCollision(world));
 	col->AddCollisionLogic("Hero", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
+	col->AddCollisionLogic("Block", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
     col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
     wobj->set_collision_object(col);
 

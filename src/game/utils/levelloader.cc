@@ -14,7 +14,6 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/logic/wall.h"
 #include "game/sprites/scenery/block.h"
-#include "game/sprites/scenery/button.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/builders/entitybuilder.h"

@@ -73,7 +73,6 @@
     <ClCompile Include="src\game\skills\sandstorm.cc" />
     <ClCompile Include="src\game\components\logic\follower.cc" />
     <ClCompile Include="src\game\sprites\scenery\block.cc" />
-    <ClCompile Include="src\game\sprites\scenery\button.cc" />
     <ClCompile Include="src\game\builders\explosionbuilder.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
@@ -128,6 +127,7 @@
     <ClInclude Include="src\game\resources\energy.h" />
     <ClInclude Include="src\game\resources\resource.h" />
     <ClInclude Include="src\game\resources\simpleresource.h" />
+    <ClInclude Include="src\game\scenes\gamelayer.h" />
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
     <ClInclude Include="src\game\scenes\menu.h" />
@@ -164,7 +164,6 @@
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\components\projectile.h" />
     <ClInclude Include="src\game\sprites\scenery\block.h" />
-    <ClInclude Include="src\game\sprites\scenery\button.h" />
     <ClInclude Include="src\game\builders\explosionbuilder.h" />
     <ClInclude Include="src\game\skills\herobaseweapon.h" />
     <ClInclude Include="src\game\skills\combatart.h" />
