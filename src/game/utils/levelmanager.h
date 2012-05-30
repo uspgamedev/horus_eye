@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include "constants.h"
 
 namespace scene {
 class World;
@@ -58,7 +59,7 @@ class LevelManager {
     void DeleteHero();
 
     scene::World* current_level_;
-    scene::Menu* menu_;
+    ugdk::action::Scene* menu_;
     scene::Loading* loading_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;

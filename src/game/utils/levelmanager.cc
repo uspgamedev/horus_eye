@@ -19,6 +19,7 @@
 #include "game/scenes/loading.h"
 #include "game/sprites/creatures/creature.h"
 #include "game/sprites/creatures/hero.h"
+#include "game/builders/goodmenubuilder.h"
 #include "game/builders/herobuilder.h"
 #include "game/builders/taskbuilder.h"
 #include "game/sprites/explosion.h"
@@ -55,8 +56,8 @@ void LevelManager::Initialize() {
     Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
-    MenuBuilder builder;
-    menu_ = builder.BuildMainMenu();
+    builder::MenuBuilder builder;
+    menu_ = builder.MainMenu();
     Engine::reference()->PushScene(menu_);
 
     loading_ = NULL;
