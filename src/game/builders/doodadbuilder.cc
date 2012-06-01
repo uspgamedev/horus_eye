@@ -126,4 +126,17 @@ WorldObject* DoodadBuilder::Button() {
 	return wobj;
 }
 
+
+WorldObject* DoodadBuilder::Block() {
+	utils::ImageFactory factory;
+	WorldObject* wobj = new WorldObject;
+	
+	Sprite* sprite = new Sprite(factory.WallImage());
+
+	wobj->node()->set_drawable(sprite);
+	wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
+
+	return wobj;
+}
+
 } // namespace builder

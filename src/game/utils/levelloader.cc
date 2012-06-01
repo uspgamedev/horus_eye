@@ -138,8 +138,9 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
                 break;
             }
             case BLOCK: {
-                world_->AddWorldObject(new Block(image_factory->WallImage()), position);
-                break;
+                //world_->AddWorldObject(new Block(image_factory->WallImage()), position);
+                world_->AddWorldObject(doodad_builder.Block(), position);
+				break;
             }
             case HERO: {
                 world_->AddHero(position);

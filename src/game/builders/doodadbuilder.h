@@ -15,6 +15,7 @@ class DoodadBuilder {
     sprite::WorldObject* Wall();
     sprite::WorldObject* Entry();
     sprite::WorldObject* Button();
+	sprite::WorldObject* Block();
 };
 
 }
