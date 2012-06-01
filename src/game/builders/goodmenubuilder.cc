@@ -195,20 +195,45 @@ static std::string on_off_[2] = {"Off", "On" };
 struct SettingsFunction {
     std::string name;
     std::tr1::function<void (utils::Settings*, int)> function;
-    int max_val;
+    std::vector<std::string> values;
 };
-static SettingsFunction SETTING_FUNCTIONS[] = { 
-    { "Resolution",     &Settings::set_resolution, 12 },
-    { "Fullscreen",     &Settings::set_fullscreen, 2 },
-    { "Music",          &Settings::set_background_music, 2 },
-    { "Sound Effects",  &Settings::set_sound_effects, 2 },
-    { "Language",       &Settings::set_language, 2 },
-};
+static void fillSettingsFunction(SettingsFunction* sf) {
+    sf[0].name = "Resolution";
+    sf[0].function = &Settings::set_resolution;
+    const Vector2D *resolutions = Settings::reference()->ResolutionList();
+    for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
+        std::ostringstream stm;
+        stm << static_cast<int>(resolutions[i].x) << "x" << static_cast<int>(resolutions[i].y);
+        sf[0].values.push_back(stm.str());
+    }
+
+    sf[1].name = "Fullscreen";
+    sf[1].function = &Settings::set_fullscreen;
+    sf[1].values.push_back("Off");
+    sf[1].values.push_back("On");
+
+    sf[2].name = "Music";
+    sf[2].function = &Settings::set_background_music;
+    sf[2].values.push_back("Off");
+    sf[2].values.push_back("On");
+
+    sf[3].name = "Sound Effects";
+    sf[3].function = &Settings::set_sound_effects;
+    sf[3].values.push_back("Off");
+    sf[3].values.push_back("On");
+
+    sf[4].name = "Language";
+    sf[4].function = &Settings::set_language;
+    const std::string *language_name = Settings::reference()->LanguageNameList();
+    sf[4].values.push_back(language_name[0]);
+    sf[4].values.push_back(language_name[1]);
+}
+
 
 struct ConveninentSettingsData {
     ugdk::graphic::Node **nodes_[5];
     int sprites_active_[5];
-    const SettingsFunction* setting_functions_;
+    SettingsFunction setting_functions_[5];
     std::map<const UIElement*, int> indices_;
 
     ~ConveninentSettingsData() {
@@ -219,7 +244,7 @@ struct ConveninentSettingsData {
 static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, int modifier, const UIElement * source) {
     if(data->indices_.find(source) == data->indices_.end()) return;
     int value = data->indices_[source];
-    int max_val = data->setting_functions_[value].max_val;
+    int max_val = (int) data->setting_functions_[value].values.size();
     std::tr1::function<void (utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
 
     data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(false);
@@ -245,9 +270,15 @@ static void ApplySettings(const UIElement * source) {
     ugdk::Engine::reference()->quit();
 }
 
+static std::wstring convertFromString(const std::string& str) {
+    std::wstring str2(str.length(), L' '); // Make room for characters
+    std::copy(str.begin(), str.end(), str2.begin());
+    return str2;
+}
+
 std::tr1::shared_ptr<ConveninentSettingsData> makeSettingsData(Node* node) {
     ConveninentSettingsData* data = new ConveninentSettingsData;
-    data->setting_functions_ = SETTING_FUNCTIONS;
+    fillSettingsFunction(data->setting_functions_);
 
     Settings* settings_ = Settings::reference();
 
@@ -257,50 +288,22 @@ std::tr1::shared_ptr<ConveninentSettingsData> makeSettingsData(Node* node) {
     data->sprites_active_[3] = settings_->sound_effects();
     data->sprites_active_[4] = settings_->language();
 
-    const Vector2D *resolutions = Settings::reference()->ResolutionList();
-    const std::string *language_name = settings_->LanguageNameList();
-
-    data->nodes_[0] = new ugdk::graphic::Node*[Settings::NUM_RESOLUTIONS];
-
     double second_column_x = VIDEO_MANAGER()->video_size().x * 0.8;
-
-    // Creates the resolution names vector.
-    for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
-        std::wostringstream stm;
-        stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
-        ugdk::graphic::Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), "FontB");
-        tex->set_hotspot(ugdk::graphic::Drawable::CENTER);
-        data->nodes_[0][i] = new ugdk::graphic::Node(tex);
-        data->nodes_[0][i]->modifier()->set_offset(Vector2D(second_column_x, 70.0));
-        node->AddChild(data->nodes_[0][i]);
-        if ( i != data->sprites_active_[0] ) data->nodes_[0][i]->modifier()->set_visible(false);
-    }
-
-    for (int i = 0; i < 3; ++i) {
-        data->nodes_[i + 1] = new ugdk::graphic::Node*[2];
-        for (int j = 0; j < 2; ++j) {
-            ugdk::graphic::Drawable *img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(on_off_[j]);
+    
+    for(int i = 0; i < 5; ++i) {
+        size_t size = data->setting_functions_[i].values.size();
+        data->nodes_[i] = new ugdk::graphic::Node*[size];
+        for(size_t j = 0; j < size; ++j) {
+            ugdk::graphic::Drawable *img = ResourceManager::CreateTextFromLanguageTag(data->setting_functions_[i].values[j]);
+            if(img == NULL)
+                img = TEXT_MANAGER()->GetText(convertFromString(data->setting_functions_[i].values[j]), "FontB");
             img->set_hotspot(ugdk::graphic::Drawable::CENTER);
-            data->nodes_[i + 1][j] = new ugdk::graphic::Node(img);
-
-            data->nodes_[i + 1][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 2) ));
-            node->AddChild(data->nodes_[i + 1][j]);
-            if ( j != data->sprites_active_[i+1] ) data->nodes_[i + 1][j]->modifier()->set_visible(false);
+            data->nodes_[i][j] = new ugdk::graphic::Node(img);
+            data->nodes_[i][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
+            node->AddChild(data->nodes_[i][j]);
+            if ( j != data->sprites_active_[i] ) data->nodes_[i][j]->modifier()->set_visible(false);
         }
     }
-    
-    data->nodes_[4] = new ugdk::graphic::Node*[Settings::NUM_LANGUAGES];
-
-    for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
-        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(language_name[i]);
-        img->set_hotspot(ugdk::graphic::Drawable::CENTER);
-        
-        data->nodes_[4][i] = new ugdk::graphic::Node(img);
-        data->nodes_[4][i]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * 5));
-        node->AddChild(data->nodes_[4][i]);
-        if ( i != data->sprites_active_[4] ) data->nodes_[4][i]->modifier()->set_visible(false);
-    }
-
     return std::tr1::shared_ptr<ConveninentSettingsData>(data);
 }
 
@@ -318,7 +321,7 @@ Scene* MenuBuilder::SettingsMenu() const {
     double left_column = target.x * 0.15;
 
     for (int i = 0; i < 5; ++i) {
-        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(SETTING_FUNCTIONS[i].name);
+        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(data->setting_functions_[i].name);
         ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * (i + 1));
         UIElement* uie = new UIElement(pos, img, bind(ElementPress, data, _1));
         data->indices_[uie] = i;
