@@ -209,13 +209,16 @@ struct ConveninentSettingsData {
     ugdk::graphic::Node **nodes_[5];
     int sprites_active_[5];
     const SettingsFunction* setting_functions_;
+    std::map<const UIElement*, int> indices_;
 
     ~ConveninentSettingsData() {
         puts("puts puts");
     }
 };
 
-static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, int value, int modifier, const UIElement * source) {
+static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, int modifier, const UIElement * source) {
+    if(data->indices_.find(source) == data->indices_.end()) return;
+    int value = data->indices_[source];
     int max_val = data->setting_functions_[value].max_val;
     std::tr1::function<void (utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
 
@@ -226,6 +229,14 @@ static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, in
     settingsfunc(Settings::reference(), data->sprites_active_[value]);
 
     data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(true);
+}
+
+static void ElementPress(std::tr1::shared_ptr<ConveninentSettingsData> data, const UIElement * source) {
+    ChangeSetting(data, +1, source);
+}
+
+static void PressArrow(std::tr1::shared_ptr<ConveninentSettingsData> data, int modifier, Menu* menu) {
+    ChangeSetting(data, modifier, menu->focused_element());
 }
 
 static void ApplySettings(const UIElement * source) {
@@ -251,7 +262,7 @@ std::tr1::shared_ptr<ConveninentSettingsData> makeSettingsData(Node* node) {
 
     data->nodes_[0] = new ugdk::graphic::Node*[Settings::NUM_RESOLUTIONS];
 
-    double second_column_x = 600.0;
+    double second_column_x = VIDEO_MANAGER()->video_size().x * 0.8;
 
     // Creates the resolution names vector.
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
@@ -304,12 +315,14 @@ Scene* MenuBuilder::SettingsMenu() const {
     menu->SetOptionDrawable(mif.HorusEye(), 1);
 
     std::tr1::shared_ptr<ConveninentSettingsData> data = makeSettingsData(settings_menu->interface_node());
-    double left_column = 90;
+    double left_column = target.x * 0.15;
 
     for (int i = 0; i < 5; ++i) {
         ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(SETTING_FUNCTIONS[i].name);
         ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * (i + 1));
-        menu->AddObject(new UIElement(pos, img, bind(ChangeSetting, data, i, +1, _1)));
+        UIElement* uie = new UIElement(pos, img, bind(ElementPress, data, _1));
+        data->indices_[uie] = i;
+        menu->AddObject(uie);
     }
 
     {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Apply");
@@ -322,6 +335,9 @@ Scene* MenuBuilder::SettingsMenu() const {
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::K_RIGHT , bind(PressArrow, data, +1, _1));
+    menu->AddCallback(ugdk::input::K_LEFT  , bind(PressArrow, data, -1, _1));
+
     settings_menu->interface_node()->AddChild(menu->node());
     settings_menu->AddEntity(menu);
     return settings_menu;
