@@ -1,3 +1,4 @@
+#include <sstream>
 #include <functional>
 
 #include <ugdk/action/generictask.h>
@@ -21,6 +22,7 @@
 #include "game/scenes/menubuilder.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/menuimagefactory.h"
+#include "game/utils/settings.h"
 
 #include "editor/mapeditor.h"
 
@@ -32,6 +34,7 @@ using ugdk::ui::Menu;
 using ugdk::action::Scene;
 using ugdk::ui::UIElement;
 using ugdk::graphic::Node;
+using utils::Settings;
 
 namespace builder {
 
@@ -61,16 +64,16 @@ void MainMenuEditor(Scene* menu, const UIElement * source) {
 }
 
 void MainMenuSettings(Scene* menu, const UIElement * source) {
-    scene::MenuBuilder builder;
-    //ugdk::Engine::reference()->PushScene(builder.BuildSettingsMenu());
+    MenuBuilder builder;
+    ugdk::Engine::reference()->PushScene(builder.SettingsMenu());
 }
 
 void MainMenuCredits(Scene* menu, const UIElement * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
 
-void MainMenuExit(Scene* menu, const UIElement * source) {
-    ugdk::Engine::reference()->quit();
+void SceneExit(Scene* scene, const UIElement * source) {
+    scene->Finish();
 }
 
 
@@ -175,7 +178,7 @@ Scene* MenuBuilder::MainMenu() const {
     menu->AddObject(new UIElement(editor_position,   editor_text,   bind(MainMenuEditor, main_menu, _1)));
     menu->AddObject(new UIElement(settings_position, settings_text, bind(MainMenuSettings, main_menu, _1)));
     menu->AddObject(new UIElement(credits_position,  credits_text,  bind(MainMenuCredits, main_menu, _1)));
-    menu->AddObject(new UIElement(exit_position,     exit_text,     bind(MainMenuExit, main_menu, _1)));
+    menu->AddObject(new UIElement(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
@@ -183,6 +186,145 @@ Scene* MenuBuilder::MainMenu() const {
     main_menu->AddEntity(menu);
 
     return main_menu;
+}
+
+// Future nuke
+static std::string on_off_[2] = {"Off", "On" };
+
+
+struct SettingsFunction {
+    std::string name;
+    std::tr1::function<void (utils::Settings*, int)> function;
+    int max_val;
+};
+static SettingsFunction SETTING_FUNCTIONS[] = { 
+    { "Resolution",     &Settings::set_resolution, 12 },
+    { "Fullscreen",     &Settings::set_fullscreen, 2 },
+    { "Music",          &Settings::set_background_music, 2 },
+    { "Sound Effects",  &Settings::set_sound_effects, 2 },
+    { "Language",       &Settings::set_language, 2 },
+};
+
+struct ConveninentSettingsData {
+    ugdk::graphic::Node **nodes_[5];
+    int sprites_active_[5];
+    const SettingsFunction* setting_functions_;
+
+    ~ConveninentSettingsData() {
+        puts("puts puts");
+    }
+};
+
+static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, int value, int modifier, const UIElement * source) {
+    int max_val = data->setting_functions_[value].max_val;
+    std::tr1::function<void (utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
+
+    data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(false);
+    data->sprites_active_[value] = (data->sprites_active_[value] + modifier) % max_val;
+    if (data->sprites_active_[value] < 0) data->sprites_active_[value] += max_val;
+
+    settingsfunc(Settings::reference(), data->sprites_active_[value]);
+
+    data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(true);
+}
+
+static void ApplySettings(const UIElement * source) {
+    Settings::reference()->WriteToDisk();
+    utils::LevelManager::reference()->QueueRestartGame();
+    ugdk::Engine::reference()->quit();
+}
+
+std::tr1::shared_ptr<ConveninentSettingsData> makeSettingsData(Node* node) {
+    ConveninentSettingsData* data = new ConveninentSettingsData;
+    data->setting_functions_ = SETTING_FUNCTIONS;
+
+    Settings* settings_ = Settings::reference();
+
+    data->sprites_active_[0] = Settings::reference()->resolution();
+    data->sprites_active_[1] = settings_->fullscreen();
+    data->sprites_active_[2] = settings_->background_music();
+    data->sprites_active_[3] = settings_->sound_effects();
+    data->sprites_active_[4] = settings_->language();
+
+    const Vector2D *resolutions = Settings::reference()->ResolutionList();
+    const std::string *language_name = settings_->LanguageNameList();
+
+    data->nodes_[0] = new ugdk::graphic::Node*[Settings::NUM_RESOLUTIONS];
+
+    double second_column_x = 600.0;
+
+    // Creates the resolution names vector.
+    for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
+        std::wostringstream stm;
+        stm << static_cast<int>(resolutions[i].x) << L"x" << static_cast<int>(resolutions[i].y);
+        ugdk::graphic::Drawable* tex = TEXT_MANAGER()->GetText(stm.str(), "FontB");
+        tex->set_hotspot(ugdk::graphic::Drawable::CENTER);
+        data->nodes_[0][i] = new ugdk::graphic::Node(tex);
+        data->nodes_[0][i]->modifier()->set_offset(Vector2D(second_column_x, 70.0));
+        node->AddChild(data->nodes_[0][i]);
+        if ( i != data->sprites_active_[0] ) data->nodes_[0][i]->modifier()->set_visible(false);
+    }
+
+    for (int i = 0; i < 3; ++i) {
+        data->nodes_[i + 1] = new ugdk::graphic::Node*[2];
+        for (int j = 0; j < 2; ++j) {
+            ugdk::graphic::Drawable *img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(on_off_[j]);
+            img->set_hotspot(ugdk::graphic::Drawable::CENTER);
+            data->nodes_[i + 1][j] = new ugdk::graphic::Node(img);
+
+            data->nodes_[i + 1][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 2) ));
+            node->AddChild(data->nodes_[i + 1][j]);
+            if ( j != data->sprites_active_[i+1] ) data->nodes_[i + 1][j]->modifier()->set_visible(false);
+        }
+    }
+    
+    data->nodes_[4] = new ugdk::graphic::Node*[Settings::NUM_LANGUAGES];
+
+    for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
+        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(language_name[i]);
+        img->set_hotspot(ugdk::graphic::Drawable::CENTER);
+        
+        data->nodes_[4][i] = new ugdk::graphic::Node(img);
+        data->nodes_[4][i]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * 5));
+        node->AddChild(data->nodes_[4][i]);
+        if ( i != data->sprites_active_[4] ) data->nodes_[4][i]->modifier()->set_visible(false);
+    }
+
+    return std::tr1::shared_ptr<ConveninentSettingsData>(data);
+}
+
+Scene* MenuBuilder::SettingsMenu() const {
+    ugdk::action::Scene* settings_menu = new Scene();
+    ugdk::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
+    ugdk::ikdtree::Box<2> box(origin.val, target.val);
+    utils::MenuImageFactory mif;
+
+    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
+    menu->SetOptionDrawable(mif.HorusEye(), 0);
+    menu->SetOptionDrawable(mif.HorusEye(), 1);
+
+    std::tr1::shared_ptr<ConveninentSettingsData> data = makeSettingsData(settings_menu->interface_node());
+    double left_column = 90;
+
+    for (int i = 0; i < 5; ++i) {
+        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(SETTING_FUNCTIONS[i].name);
+        ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * (i + 1));
+        menu->AddObject(new UIElement(pos, img, bind(ChangeSetting, data, i, +1, _1)));
+    }
+
+    {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Apply");
+        ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * 7);
+        menu->AddObject(new UIElement(pos, img, ApplySettings)); }
+
+    {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Exit");
+        ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * 8);
+        menu->AddObject(new UIElement(pos, img, bind(SceneExit, settings_menu, _1))); }
+
+    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    settings_menu->interface_node()->AddChild(menu->node());
+    settings_menu->AddEntity(menu);
+    return settings_menu;
 }
 
 }

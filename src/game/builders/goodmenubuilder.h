@@ -13,6 +13,7 @@ class MenuBuilder {
 
     ugdk::action::Scene* PauseMenu() const;
     ugdk::action::Scene* MainMenu() const;
+    ugdk::action::Scene* SettingsMenu() const;
 };
 
 }
