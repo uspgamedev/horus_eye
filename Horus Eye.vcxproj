@@ -47,7 +47,6 @@
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
     <ClCompile Include="src\game\scenes\menu.cc" />
-    <ClCompile Include="src\game\scenes\menubuilder.cc" />
     <ClCompile Include="src\game\scenes\pausescene.cc" />
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
@@ -117,7 +116,6 @@
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
     <ClInclude Include="src\game\scenes\menu.h" />
-    <ClInclude Include="src\game\scenes\menubuilder.h" />
     <ClInclude Include="src\game\scenes\menuhandler.h" />
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />

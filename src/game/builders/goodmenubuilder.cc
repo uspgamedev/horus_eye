@@ -36,6 +36,12 @@ using ugdk::ui::UIElement;
 using ugdk::graphic::Node;
 using utils::Settings;
 
+static std::wstring convertFromString(const std::string& str) {
+    std::wstring str2(str.length(), L' '); // Make room for characters
+    std::copy(str.begin(), str.end(), str2.begin());
+    return str2;
+}
+
 namespace builder {
 
 void Focus_Callback(Scene* scene) {
@@ -75,11 +81,6 @@ void MainMenuCredits(Scene* menu, const UIElement * source) {
 void SceneExit(Scene* scene, const UIElement * source) {
     scene->Finish();
 }
-
-
-//void FinishMenuCallback(Menu* menu) {
-//    menu->FinishScene(menu);
-//}
 
 Scene* MenuBuilder::PauseMenu() const {
     ugdk::action::Scene* pause_menu = new Scene();
@@ -188,10 +189,6 @@ Scene* MenuBuilder::MainMenu() const {
     return main_menu;
 }
 
-// Future nuke
-static std::string on_off_[2] = {"Off", "On" };
-
-
 struct SettingsFunction {
     std::string name;
     std::tr1::function<void (utils::Settings*, int)> function;
@@ -229,15 +226,43 @@ static void fillSettingsFunction(SettingsFunction* sf) {
     sf[4].values.push_back(language_name[1]);
 }
 
-
 struct ConveninentSettingsData {
     ugdk::graphic::Node **nodes_[5];
     int sprites_active_[5];
     SettingsFunction setting_functions_[5];
     std::map<const UIElement*, int> indices_;
 
+    ConveninentSettingsData(Node* node) {
+        fillSettingsFunction(this->setting_functions_);
+
+        Settings* settings_ = Settings::reference();
+
+        this->sprites_active_[0] = Settings::reference()->resolution();
+        this->sprites_active_[1] = settings_->fullscreen();
+        this->sprites_active_[2] = settings_->background_music();
+        this->sprites_active_[3] = settings_->sound_effects();
+        this->sprites_active_[4] = settings_->language();
+
+        double second_column_x = VIDEO_MANAGER()->video_size().x * 0.8;
+    
+        for(int i = 0; i < 5; ++i) {
+            size_t size = this->setting_functions_[i].values.size();
+            this->nodes_[i] = new ugdk::graphic::Node*[size];
+            for(size_t j = 0; j < size; ++j) {
+                ugdk::graphic::Drawable *img = ResourceManager::CreateTextFromLanguageTag(this->setting_functions_[i].values[j]);
+                if(img == NULL)
+                    img = TEXT_MANAGER()->GetText(convertFromString(this->setting_functions_[i].values[j]), "FontB");
+                img->set_hotspot(ugdk::graphic::Drawable::CENTER);
+                this->nodes_[i][j] = new ugdk::graphic::Node(img);
+                this->nodes_[i][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
+                node->AddChild(this->nodes_[i][j]);
+                if ( j != this->sprites_active_[i] ) this->nodes_[i][j]->modifier()->set_visible(false);
+            }
+        }
+    }
     ~ConveninentSettingsData() {
-        puts("puts puts");
+        for(int i = 0; i < 5; ++i)
+            delete nodes_[i];
     }
 };
 
@@ -270,43 +295,6 @@ static void ApplySettings(const UIElement * source) {
     ugdk::Engine::reference()->quit();
 }
 
-static std::wstring convertFromString(const std::string& str) {
-    std::wstring str2(str.length(), L' '); // Make room for characters
-    std::copy(str.begin(), str.end(), str2.begin());
-    return str2;
-}
-
-std::tr1::shared_ptr<ConveninentSettingsData> makeSettingsData(Node* node) {
-    ConveninentSettingsData* data = new ConveninentSettingsData;
-    fillSettingsFunction(data->setting_functions_);
-
-    Settings* settings_ = Settings::reference();
-
-    data->sprites_active_[0] = Settings::reference()->resolution();
-    data->sprites_active_[1] = settings_->fullscreen();
-    data->sprites_active_[2] = settings_->background_music();
-    data->sprites_active_[3] = settings_->sound_effects();
-    data->sprites_active_[4] = settings_->language();
-
-    double second_column_x = VIDEO_MANAGER()->video_size().x * 0.8;
-    
-    for(int i = 0; i < 5; ++i) {
-        size_t size = data->setting_functions_[i].values.size();
-        data->nodes_[i] = new ugdk::graphic::Node*[size];
-        for(size_t j = 0; j < size; ++j) {
-            ugdk::graphic::Drawable *img = ResourceManager::CreateTextFromLanguageTag(data->setting_functions_[i].values[j]);
-            if(img == NULL)
-                img = TEXT_MANAGER()->GetText(convertFromString(data->setting_functions_[i].values[j]), "FontB");
-            img->set_hotspot(ugdk::graphic::Drawable::CENTER);
-            data->nodes_[i][j] = new ugdk::graphic::Node(img);
-            data->nodes_[i][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
-            node->AddChild(data->nodes_[i][j]);
-            if ( j != data->sprites_active_[i] ) data->nodes_[i][j]->modifier()->set_visible(false);
-        }
-    }
-    return std::tr1::shared_ptr<ConveninentSettingsData>(data);
-}
-
 Scene* MenuBuilder::SettingsMenu() const {
     ugdk::action::Scene* settings_menu = new Scene();
     ugdk::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
@@ -317,7 +305,7 @@ Scene* MenuBuilder::SettingsMenu() const {
     menu->SetOptionDrawable(mif.HorusEye(), 0);
     menu->SetOptionDrawable(mif.HorusEye(), 1);
 
-    std::tr1::shared_ptr<ConveninentSettingsData> data = makeSettingsData(settings_menu->interface_node());
+    std::tr1::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(settings_menu->interface_node()));
     double left_column = target.x * 0.15;
 
     for (int i = 0; i < 5; ++i) {

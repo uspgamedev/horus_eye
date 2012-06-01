@@ -32,8 +32,8 @@ using namespace std;
 #define SELECTION_WIDTH         864
 #define SELECTION_HEIGHT        155
 
-#define MENU_TOP                VIDEO_MANAGER()->video_size().y/2.0 - (EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT/2.0)
-#define MENU_BOTTOM             MENU_TOP + EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT
+#define MENU_TOP                5 //VIDEO_MANAGER()->video_size().y/2.0 - (EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT/2.0)
+#define MENU_BOTTOM             5 //MENU_TOP + EditorMenuBuilder::EDITOR_SELECT_NUM*RECT_HEIGHT
 #define MENU_LEFT               VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
 #define MENU_RIGHT              MENU_LEFT + RECT_WIDTH
 
@@ -53,7 +53,7 @@ scene::Menu* EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
     menu->set_content_box(Frame(MENU_LEFT, MENU_TOP, MENU_RIGHT, MENU_BOTTOM));
 
     // Setting the selection sprite.
-    CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::EDITOR_SELECT_NUM);
+    //CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::EDITOR_SELECT_NUM);
 
 	// The background color.
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
@@ -162,7 +162,7 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
     menu->set_content_box(Frame(MENU_LEFT, MENU_TOP, MENU_RIGHT, MENU_BOTTOM));
 
     // Setting the selection sprite.
-    CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
+    //CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
 
 	ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     bg->set_color(ugdk::Color(0.25, 0.25, 0.25, 0.8));

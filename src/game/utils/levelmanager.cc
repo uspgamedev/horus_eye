@@ -11,7 +11,6 @@
 
 #include "game/utils/levelmanager.h"
 
-#include "game/scenes/menubuilder.h"
 #include "game/scenes/menu.h"
 #include "game/scenes/world.h"
 #include "game/scenes/imagescene.h"
@@ -55,7 +54,6 @@ void LevelManager::Initialize() {
     hero_ = NULL;
     Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
-    MenuBuilder::InitializeAnimations();
     builder::MenuBuilder builder;
     menu_ = builder.MainMenu();
     Engine::reference()->PushScene(menu_);
