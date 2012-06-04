@@ -213,6 +213,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
             }
             case BUTTON: {
 				world_->AddWorldObject(doodad_builder.Button(), position);
+				world_->num_button_not_pressed() += 1;
                 break;
             }
         }
