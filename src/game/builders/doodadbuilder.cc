@@ -28,6 +28,7 @@ using namespace std::tr1::placeholders;
 using ugdk::action::AnimationSet;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
+using ugdk::time::TimeAccumulator;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::GenericCollisionLogic;
 using component::Creature;
@@ -126,15 +127,84 @@ WorldObject* DoodadBuilder::Button() {
 	return wobj;
 }
 
+class BlockLogic : public component::Logic {
+public:
+	BlockLogic(WorldObject* owner) : owner_(owner), 
+		time_left_(new TimeAccumulator(0)) {}
+
+	void Update(double dt) {
+		if(time_left_->Expired()) {
+			// Not moving anywhere
+			last_stable_position_ = owner_->world_position();
+		} else {
+			MoveBlock(dt);
+		}
+	}
+
+	void PushToward(const Vector2D& pushdir) {
+		if(!time_left_->Expired()) return; // One cannot affect a block while it moves.
+		direction_ = pushdir;
+
+		if(pushdir.x > fabs(pushdir.y)) 
+			direction_ = Vector2D(-1, 0);
+		else if (pushdir.x < -fabs(pushdir.y))
+			direction_ = Vector2D(+1, 0);
+		else if (pushdir.y > fabs(pushdir.x))
+			direction_ = Vector2D(0, -1);
+		else
+			direction_ = Vector2D(0, +1);
+
+		static double BLOCK_MOVE_SPEED = 2.0;
+		direction_ = direction_ * BLOCK_MOVE_SPEED;
+
+		time_left_->Restart(500);
+	}
+
+	void RevertPosition() {
+		owner_->set_world_position(last_stable_position_);
+		time_left_->Restart(0);
+	}
+
+	WorldObject* owner() { return owner_; }
+
+private:
+	void MoveBlock(double dt) {
+		Vector2D newpos = owner_->world_position();
+		newpos += direction_ * dt;
+		owner_->set_world_position(newpos);
+	}
+
+	WorldObject* owner_;
+	Vector2D last_stable_position_, direction_;
+	TimeAccumulator* time_left_;
+};
+
+static void PushOnCollision(BlockLogic* logic, void* obj) {
+	Vector2D pushdir = (((WorldObject *)obj)->world_position() - logic->owner()->world_position()).Normalize();
+    logic->PushToward(pushdir);
+}
+
+static void InvalidMovementCollision(BlockLogic* data, void* obj) {
+	data->RevertPosition();
+}
 
 WorldObject* DoodadBuilder::Block() {
 	utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 	
 	Sprite* sprite = new Sprite(factory.WallImage());
+	BlockLogic* logic = new BlockLogic(wobj);
+	wobj->set_logic(logic);
 
 	wobj->node()->set_drawable(sprite);
 	wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
+
+	CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+	col->InitializeCollisionClass("Block");
+	col->AddCollisionLogic("Projectile", new GenericCollisionLogic(bind(PushOnCollision, logic, _1)));
+	col->AddCollisionLogic("Wall", new GenericCollisionLogic(bind(InvalidMovementCollision, logic, _1)));
+	col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
+	wobj->set_collision_object(col);
 
 	return wobj;
 }
