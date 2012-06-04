@@ -6,7 +6,7 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
-
+#include <SDL.h>
 #include "initializer.h"
 
 #include "utils/constants.h"

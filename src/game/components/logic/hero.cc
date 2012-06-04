@@ -76,7 +76,7 @@ Hero::Hero(sprite::WorldObject* owner,
     slot_selected_ = -1;
     active_skills_[Controller::PRIMARY] = new skills::HeroBaseWeapon(this);
 
-    owner_->set_death_start_callback(HeroDeathEvent);
+    owner_->set_death_end_callback(HeroDeathEvent);
 }
 
 Hero::~Hero() {}

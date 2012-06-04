@@ -35,9 +35,7 @@ class WorldObject : public ugdk::action::Entity {
     // The BIG Awesome update method. TODO explain better
     virtual void Update(double dt);
 
-    virtual void Dying(double dt) { /*Die();*/ }
-
-    virtual void Die() { status_ = STATUS_DEAD; to_be_removed_ = true; }
+    virtual void Die();
     virtual void StartToDie();
 
     const std::string& identifier() const { return identifier_; }
@@ -70,6 +68,10 @@ class WorldObject : public ugdk::action::Entity {
         on_death_start_callback_ = on_death_start_callback;
     }
 
+    void set_death_end_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback) {
+        on_death_end_callback_ = on_death_end_callback;
+    }
+
     void set_logic(component::Logic* logic) { logic_ = logic; }
     component::Logic* logic() { return logic_; }
 
@@ -99,6 +101,7 @@ class WorldObject : public ugdk::action::Entity {
 
     // TODO: make this somethintg
     std::tr1::function<void (WorldObject*)> on_death_start_callback_;
+	std::tr1::function<void (WorldObject*)> on_death_end_callback_;
 
   private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.

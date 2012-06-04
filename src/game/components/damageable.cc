@@ -19,7 +19,7 @@ Damageable::Damageable(sprite::WorldObject* owner, int invulnerability_time)
   : owner_(owner),
     super_armor_(false),
     invulnerability_time_(invulnerability_time),
-    hit_duration_(new ugdk::time::TimeAccumulator(0)) {
+    hit_duration_(new ugdk::time::TimeAccumulator(invulnerability_time)) {
         for(int i = 1; i <= 4; ++i) {
             char buffer[255];
             sprintf(buffer, "samples/hit%d.wav", i);
@@ -51,7 +51,7 @@ void Damageable::TakeDamage(double life_points) {
         owner_->animation()->set_animation(utils::TAKING_HIT);
         owner_->animation()->flag_uninterrutible();
     }
-    hit_duration_->Restart(invulnerability_time_);
+    hit_duration_->Restart();
     if(invulnerability_time_ > 0)
         owner_->graphic()->StartBlinking(invulnerability_time_);
 }
