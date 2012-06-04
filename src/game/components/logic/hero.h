@@ -43,7 +43,6 @@ class Hero : public Creature {
     resource::CapacityBlocks mana_blocks_;
 
     virtual void Update(double delta_t);
-    virtual void PlayHitSound() const;
    
     void CollisionSlow();
     void AddKnownCollisions();

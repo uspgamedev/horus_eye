@@ -45,7 +45,6 @@ class Mummy : public Creature {
     virtual void Think(double dt);
     void UpdateDirection(ugdk::Vector2D destination);
     void RandomMovement();
-    void PlayHitSound() const;
 
     void MummyAntiStack(sprite::WorldObject *);
     friend class MummyAntiStackCollision;

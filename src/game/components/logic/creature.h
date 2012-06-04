@@ -56,7 +56,6 @@ class Creature : public Logic {
     virtual void AddKnownCollisions();
 
     virtual void Update(double dt);
-    virtual void PlayHitSound() const = 0;
 
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);

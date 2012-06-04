@@ -12,7 +12,7 @@ namespace component {
 
 class Damageable { 
   public:
-    Damageable(sprite::WorldObject* owner, int invulnerability_time = 0);
+    Damageable(sprite::WorldObject* owner, int invulnerability_time = 0, bool blinks = false);
     virtual ~Damageable();
 
           sprite::WorldObject* owner()       { return owner_; }
@@ -58,6 +58,8 @@ class Damageable {
 
     /// List of possible sound effects to play when hit.
     std::vector<std::string> hit_sounds_;
+
+	bool blinks_;
 
 };  // class Creature
 

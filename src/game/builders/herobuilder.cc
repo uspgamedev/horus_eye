@@ -46,7 +46,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->set_animation(new component::Animation(hero_wobj, factory_->HeroImage(), ANIMATIONS));
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     hero_wobj->set_controller(new component::PlayerController(hero_wobj));
-    hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000));
+    hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->life().Fill();
     hero_wobj->damageable()->set_super_armor(true);

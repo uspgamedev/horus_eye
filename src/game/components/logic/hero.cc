@@ -63,15 +63,10 @@ Hero::Hero(sprite::WorldObject* owner,
 
     this->set_mana(mana);
 
-    //owner->identifier_ = "Hero";
+	owner->set_identifier("Hero");
     owner_->animation()->set_animation(utils::STANDING);
     owner_->animation()->set_direction(last_standing_direction_);
     original_speed_ = speed_ = Constants::HERO_SPEED;
-
-    /*
-    TODO: argh
-    invulnerability_time_ = INVUL_TIME;
-    super_armor_ = true;*/
 
     slot_selected_ = -1;
     active_skills_[Controller::PRIMARY] = new skills::HeroBaseWeapon(this);
@@ -98,12 +93,6 @@ bool Hero::ChangeSecondaryWeapon(int slot) {
     }
     return true;
 }
-
-void Hero::PlayHitSound() const {
-    if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("samples/hero_hit.wav")->Play();
-}
-
 
 void Hero::CollisionSlow() {
    speed_ /= 1.19;
