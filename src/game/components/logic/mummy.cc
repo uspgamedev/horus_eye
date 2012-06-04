@@ -74,7 +74,7 @@ Mummy::Mummy(sprite::WorldObject* owner)
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
 
-    owner_->set_death_start_callback(MummyDeath);
+    owner_->set_start_to_die_callback(MummyDeath);
 }
 
 Mummy::~Mummy() {

@@ -26,7 +26,6 @@ WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
         collision_object_(NULL),
         timed_life_(NULL),
-        on_death_start_callback_(),
         status_(STATUS_ACTIVE),
         light_radius_(0.0),
         logic_(NULL),
@@ -46,7 +45,7 @@ WorldObject::~WorldObject() {
     if(timed_life_) delete timed_life_;
     if(logic_) delete logic_;
     if(damageable_) delete damageable_;
-    if(graphic_) delete graphic_;
+    delete graphic_;
     if(controller_) delete controller_;
     if(animation_) delete animation_;
 }
@@ -54,13 +53,13 @@ WorldObject::~WorldObject() {
 void WorldObject::Die() {
 	status_ = STATUS_DEAD; 
 	to_be_removed_ = true;
-	if(on_death_end_callback_) on_death_end_callback_(this);
+	if(on_die_callback_) on_die_callback_(this);
 }
 
 void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
     if(collision_object_) collision_object_->StopColliding();
-    if(on_death_start_callback_) on_death_start_callback_(this);
+    if(on_start_to_die_callback_) on_start_to_die_callback_(this);
 	if(!animation_) Die();
 }
 
@@ -72,7 +71,7 @@ void WorldObject::Update(double dt) {
     if(damageable_) damageable_->Update(dt);
     if(logic_) logic_->Update(dt);
     if(animation_) animation_->Update(dt);
-    if(graphic_) graphic_->Update(dt);
+    graphic_->Update(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {

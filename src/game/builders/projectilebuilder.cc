@@ -164,7 +164,7 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     wobj->set_light_radius(1.0);
     // Give the light an orange color
     wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
-    wobj->set_death_start_callback(Carrier(explosion));
+    wobj->set_start_to_die_callback(Carrier(explosion));
     wobj->set_logic(new Projectile(wobj, Constants::FIREBALL_SPEED, dir));
     wobj->collision_object()->AddCollisionLogic("Mummy", new DieCollision(wobj));
     return wobj;

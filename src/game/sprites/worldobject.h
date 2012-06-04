@@ -14,17 +14,11 @@
 
 namespace sprite {
 
-#define INITIALIZE_COLLISION { if(collision_object_ == NULL) collision_object_ = new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), this); }
-
-#define SET_COLLISIONCLASS(CLASS)        { collision_object_->InitializeCollisionClass(#CLASS); }
-#define SET_COLLISIONSHAPE(SHAPE)        set_shape(SHAPE);
-#define ADD_COLLISIONLOGIC(CLASS, LOGIC) { collision_object_->AddCollisionLogic(#CLASS, LOGIC); }
-
 class WorldObject : public ugdk::action::Entity {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
     WorldObject(double duration = -1.0);
-    virtual ~WorldObject();
+    ~WorldObject();
 
     /** An WorldObject may be one of three states:
       * STATUS_ACTIVE: this object is operating normally.
@@ -33,15 +27,16 @@ class WorldObject : public ugdk::action::Entity {
     enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
 
     // The BIG Awesome update method. TODO explain better
-    virtual void Update(double dt);
+    void Update(double dt);
 
-    virtual void Die();
-    virtual void StartToDie();
+    void Die();
+    void StartToDie();
 
+	void set_identifier(const std::string& identifier) { identifier_ = identifier; }
     const std::string& identifier() const { return identifier_; }
 
     const ugdk::Vector2D& world_position() const { return world_position_; }
-    virtual void set_world_position(const ugdk::Vector2D& pos);
+    void set_world_position(const ugdk::Vector2D& pos);
 
     Status status() const { return status_; }
     bool is_active() const { return status_ == STATUS_ACTIVE; }
@@ -62,14 +57,14 @@ class WorldObject : public ugdk::action::Entity {
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
-    virtual void OnSceneAdd(ugdk::action::Scene* scene);
+    void OnSceneAdd(ugdk::action::Scene* scene);
 
-    void set_death_start_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
-        on_death_start_callback_ = on_death_start_callback;
+    void set_start_to_die_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
+        on_start_to_die_callback_ = on_death_start_callback;
     }
 
-    void set_death_end_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback) {
-        on_death_end_callback_ = on_death_end_callback;
+    void set_die_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback) {
+        on_die_callback_ = on_death_end_callback;
     }
 
     void set_logic(component::Logic* logic) { logic_ = logic; }
@@ -100,8 +95,8 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life_;
 
     // TODO: make this somethintg
-    std::tr1::function<void (WorldObject*)> on_death_start_callback_;
-	std::tr1::function<void (WorldObject*)> on_death_end_callback_;
+    std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
+	std::tr1::function<void (WorldObject*)> on_die_callback_;
 
   private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.

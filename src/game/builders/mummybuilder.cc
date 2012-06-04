@@ -36,7 +36,7 @@ MummyBuilder::MummyBuilder() {
 static WorldObject* build_mummy_wobj(ugdk::graphic::Spritesheet* image, double life) {
     WorldObject* wobj = new WorldObject;
     wobj->set_animation(new component::Animation(wobj, image, ANIMATIONS));
-    wobj->set_damageable(new component::Damageable(wobj));
+    wobj->set_damageable(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
     return wobj;

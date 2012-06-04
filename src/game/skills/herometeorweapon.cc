@@ -61,7 +61,7 @@ void HeroMeteorWeapon::Use(){
     list.push_back(permanent_light);
 
     WorldObject* warning_effect = new WorldObject(3.0);
-    warning_effect->set_death_start_callback(MeteorCarrier(list));
+    warning_effect->set_start_to_die_callback(MeteorCarrier(list));
 
     world->AddWorldObject(warning_effect, use_argument_.destination_);
 
