@@ -19,6 +19,7 @@
 #include "game/builders/doodadbuilder.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
+#include "game/utils/settings.h"
 
 
 /* Util functions found at http://stackoverflow.com/q/217605 */
@@ -70,7 +71,8 @@ void LevelLoader::LoadMatrix(string file_name) {
             }
         }
 
-        world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music));
+		if(Settings::reference()->background_music())
+			world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music));
         world_->set_level_width(width);
         world_->set_level_height(height);
         world_->set_level_matrix(matrix);

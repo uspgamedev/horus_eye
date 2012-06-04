@@ -24,6 +24,7 @@
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
 #include "game/utils/tile.h"
+#include "game/utils/settings.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -86,13 +87,15 @@ void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
     Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
+	if(Settings::reference()->background_music())
+		scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
     Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
+	if(Settings::reference()->background_music())
+		scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
