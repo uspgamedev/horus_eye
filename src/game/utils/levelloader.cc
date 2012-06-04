@@ -13,7 +13,6 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/logic/wall.h"
-#include "game/sprites/scenery/block.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/builders/entitybuilder.h"
@@ -138,7 +137,6 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
                 break;
             }
             case BLOCK: {
-                //world_->AddWorldObject(new Block(image_factory->WallImage()), position);
                 world_->AddWorldObject(doodad_builder.Block(), position);
 				break;
             }
