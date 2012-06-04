@@ -40,5 +40,14 @@ TexturedRectangle* HudImageFactory::EarthquakeIconImage() {
 TexturedRectangle* HudImageFactory::LightningIconImage() {
     return new TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/hud_magic_lightning.png"));
 }
+TexturedRectangle* HudImageFactory::LightIconImage() {
+    return new TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/hud_magic_light.png"));
+}
+TexturedRectangle* HudImageFactory::MeteorIconImage() {
+    return new TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/hud_magic_meteor.png"));
+}
+TexturedRectangle* HudImageFactory::SandstormIconImage() {
+    return new TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/hud_magic_sandstorm.png"));
+}
 }
 

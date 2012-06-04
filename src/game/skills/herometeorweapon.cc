@@ -72,7 +72,7 @@ void HeroMeteorWeapon::Use(){
 HeroMeteorWeapon::HeroMeteorWeapon(component::Hero* owner)
     : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, owner->mana(), owner->mana_blocks(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
-    icon_ = imfac.LightningIconImage(); // TODO: change icon
+    icon_ = imfac.MeteorIconImage(); // TODO: change icon
 }
 
 bool HeroMeteorWeapon::IsValidUse() const {

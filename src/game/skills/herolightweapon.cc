@@ -44,7 +44,7 @@ void HeroLightWeapon::Use(){
 HeroLightWeapon::HeroLightWeapon(component::Hero* owner)
     : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
     HudImageFactory imfac;
-    icon_ = imfac.EarthquakeIconImage(); // TODO: change icon
+    icon_ = imfac.LightIconImage(); // TODO: change icon
 }
 
 bool HeroLightWeapon::IsValidUse() const {
