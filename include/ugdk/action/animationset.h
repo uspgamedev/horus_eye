@@ -51,13 +51,6 @@ class AnimationSet {
     SequenceMap sequences_;
     IndexArray indexed_sequences_;
 
-#ifdef DEBUG
-    std::string name_;
-  public:
-    void set_name(const std::string& name) { name_ = name; }
-    const std::string& name() const { return name_; }    
-#endif
-
 };
 
 } /* namespace action */

@@ -3,16 +3,13 @@
 
 #include "game/skills/combatart.h"
 #include "game/skills/usearguments.h"
-
-namespace sprite {
-class Creature;
-}
+#include "game/components.h"
 
 namespace skills {
 
 class HeroBaseWeapon : public CombatArt<usearguments::Aim> {
   public:
-    HeroBaseWeapon(sprite::Creature* owner);
+    HeroBaseWeapon(component::Creature* owner);
     virtual void Use();
 
   private:

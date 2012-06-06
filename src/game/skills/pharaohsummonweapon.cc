@@ -1,7 +1,6 @@
 #include "pharaohsummonweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/visionstrategy.h"
 #include "game/builders/mummybuilder.h"
@@ -21,7 +20,7 @@ bool isObstacle(utils::Tile* tile) {
     return (tile->object() == WALL || tile->object() == DOOR || tile->object() == ENTRY);
 }
 
-PharaohSummonWeapon::PharaohSummonWeapon(sprite::Creature* owner)
+PharaohSummonWeapon::PharaohSummonWeapon(component::Creature* owner)
     : CombatArt<usearguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST, owner->mana(), owner->aim()) {}
 
 void PharaohSummonWeapon::Use() {

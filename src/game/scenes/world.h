@@ -7,6 +7,8 @@
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision.h>
 
+#include "game/components.h"
+#include "game/scenes/gamelayer.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
@@ -16,8 +18,6 @@ class Hud;
 class ImageFactory;
 }
 namespace sprite {
-class Hero;
-class Mummy;
 class WorldObject;
 }
 using ugdk::Vector2D;
@@ -33,7 +33,7 @@ namespace scene {
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
-    World(sprite::Hero *hero, utils::ImageFactory *factory);
+    World(sprite::WorldObject *hero, utils::ImageFactory *factory);
     virtual ~World();
 
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
@@ -64,7 +64,7 @@ class World : public ugdk::action::Scene {
     static const Vector2D ConvertLightRadius(double radius);
 
     //getters
-    sprite::Hero * hero() const { return hero_; }
+    sprite::WorldObject * hero() const { return hero_; }
     sprite::WorldObject * hero_world_object() const;
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
@@ -77,10 +77,14 @@ class World : public ugdk::action::Scene {
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
-    void set_hero(sprite::Hero *hero) { hero_ = hero; }
+    void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
+
+	ugdk::graphic::Node* layer_node(GameLayer layer) { 
+		return layers_[layer];
+	}
 
   protected:
-    sprite::Hero *hero_;
+    sprite::WorldObject *hero_;
 
     utils::Hud *hud_;
     int level_width_, level_height_;
@@ -93,6 +97,7 @@ class World : public ugdk::action::Scene {
     bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
     pyramidworks::collision::CollisionManager* collision_manager_;
+	ugdk::graphic::Node *layers_[2];
 
 };  // class World
 

@@ -3,14 +3,14 @@
 #include "conditionbuilder.h"
 
 #include "game/utils/constants.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/components/logic/creature.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
 
 using namespace utils;
-using sprite::Creature;
+using component::Creature;
 using sprite::Condition;
 
 class IncreaseSightCondition : public Condition {
@@ -21,27 +21,27 @@ class IncreaseSightCondition : public Condition {
     ~IncreaseSightCondition() { delete condition_duration_; }
 
     void Update(double dt);
-  	void EndCondition(Creature *creature);
-  	void StartCondition(Creature *creature);
+    void EndCondition(Creature *creature);
+    void StartCondition(Creature *creature);
         
   private:
     ugdk::time::TimeAccumulator *condition_duration_;
 };
 void IncreaseSightCondition::Update(double dt) {
-	if ( phase_ != PHASE_FINISHED && condition_duration_->Expired())
-	    EndCondition(owner_);
+    if ( phase_ != PHASE_FINISHED && condition_duration_->Expired())
+        EndCondition(owner_);
 }
 
 void IncreaseSightCondition::StartCondition(Creature* obj) {
     Condition::StartCondition(obj);
-	obj->set_light_radius(obj->light_radius() + Constants::SIGHT_POTION_INCREASE);
-	obj->set_sight_count(1);
+    obj->owner()->set_light_radius(obj->owner()->light_radius() + Constants::SIGHT_POTION_INCREASE);
+    obj->set_sight_count(1);
 }
 
 void IncreaseSightCondition::EndCondition(Creature* obj) {
     Condition::EndCondition(obj);
-	obj->set_light_radius(obj->light_radius() - Constants::SIGHT_POTION_INCREASE);
-	obj->set_sight_count(-1);
+    obj->owner()->set_light_radius(obj->owner()->light_radius() - Constants::SIGHT_POTION_INCREASE);
+    obj->set_sight_count(-1);
 }
 
 Condition* ConditionBuilder::increase_sight_condition(Creature *owner) {

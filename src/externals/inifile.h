@@ -1,27 +1,27 @@
 /*******************************************************************************************************************************
-	Programmer: Ludvik Jerabek
-	Date: June 15th, 2009
+    Programmer: Ludvik Jerabek
+    Date: June 15th, 2009
 
     Defined Classed: CIniFileW CIniFileA
 
-	Purpose: C++ Inifile Reader\Writer. Uses std::set and stdext::hash_set to implement an efficient ini object.
+    Purpose: C++ Inifile Reader\Writer. Uses std::set and stdext::hash_set to implement an efficient ini object.
 
-	Summary: This is a total re-write of the original CIniFile class written in 2006. Originally the data structures
+    Summary: This is a total re-write of the original CIniFile class written in 2006. Originally the data structures
              underlying the CIniFile object were std::list which was extreamly inefficient when dealing with huge ini files.
 
 
-		   Note: The class currently supports std::wstring and std::string. The typedef CIniFile is based on the whether of no
+           Note: The class currently supports std::wstring and std::string. The typedef CIniFile is based on the whether of no
                  _UNICODE is defined. If _UNICODE is define in your project CIniFile is a CIniFileW if _UNICODE is not defined
                  then CIniFile is a CIniFileA object.
 
-		   Defines:
+           Defines:
 
-		           _TRACE_CINIFILE - If defined enables call tracing to standard output
-		                  _UNICODE - If defined the CIniFile will be defined as CIniFileW instead of CIniFileA
-	          _FORCE_UNIX_LINEFEED - If defined when _WIN32 is defined (WINDOWS) the default linefeed CRLF is overridden to CR
-		   _FORCE_WINDOWS_LINEFEED - If defined when _WIN32 is not defined (*NIX) the default linefeed CR is overridden to CRLF
+                   _TRACE_CINIFILE - If defined enables call tracing to standard output
+                          _UNICODE - If defined the CIniFile will be defined as CIniFileW instead of CIniFileA
+              _FORCE_UNIX_LINEFEED - If defined when _WIN32 is defined (WINDOWS) the default linefeed CRLF is overridden to CR
+           _FORCE_WINDOWS_LINEFEED - If defined when _WIN32 is not defined (*NIX) the default linefeed CR is overridden to CRLF
 
-		   Updates:
+           Updates:
 
             12\01\2005 - Initial MFC Release.
             01\12\2006 - Ported to Ansi C++ Non-MFC.

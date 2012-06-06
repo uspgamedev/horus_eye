@@ -6,7 +6,7 @@
 #include "game/scenes/world.h"
 #include "game/utils/settings.h"
 #include "game/entities/sandstormemitter.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/components/logic/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 
@@ -19,7 +19,7 @@ using utils::Constants;
 using entities::SandstormEmitter;
 using usearguments::Aim;
 
-Sandstorm::Sandstorm(sprite::Creature* owner) 
+Sandstorm::Sandstorm(component::Creature* owner) 
   : CombatArt<Aim>(NULL, Constants::SANDSTORM_COST, owner->mana(), owner->aim()),
     emitter_(NULL),
     maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST) {

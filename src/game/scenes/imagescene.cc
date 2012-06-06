@@ -40,7 +40,7 @@ ImageScene::~ImageScene() {}
 
 void ImageScene::End() {
     super::End();
-	interface_node()->modifier()->set_visible(false);
+    interface_node()->modifier()->set_visible(false);
 }
 
 void ImageScene::Update(double delta_t) {

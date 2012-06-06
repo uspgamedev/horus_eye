@@ -3,7 +3,7 @@
 
 #include "game/sprites/condition.h"
 
-namespace sprite {
+namespace component {
 class Creature;
 }
 
@@ -14,7 +14,7 @@ class ConditionBuilder {
     ConditionBuilder() {}
     ~ConditionBuilder() {}
 
-    sprite::Condition* increase_sight_condition(sprite::Creature *owner);
+    sprite::Condition* increase_sight_condition(component::Creature *owner);
 };
 
 }

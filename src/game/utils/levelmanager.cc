@@ -17,15 +17,14 @@
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
 #include "game/scenes/loading.h"
-#include "game/sprites/creatures/creature.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/logic/hero.h"
 #include "game/builders/herobuilder.h"
 #include "game/builders/taskbuilder.h"
-#include "game/sprites/explosion.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
 #include "game/utils/tile.h"
+#include "game/utils/settings.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -36,6 +35,7 @@ using namespace ugdk::action;
 using namespace std;
 using namespace scene;
 using namespace sprite;
+using component::Creature;
 
 using ugdk::Engine;
 using ugdk::base::ResourceManager;
@@ -52,8 +52,6 @@ void LevelManager::Initialize() {
     current_level_ = NULL;
     level_list_iterator_ = 0;
     hero_ = NULL;
-    Creature::InitializeAnimations();
-    Explosion::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
     MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
@@ -89,13 +87,15 @@ void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
     Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
+	if(Settings::reference()->background_music())
+		scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
     Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
+	if(Settings::reference()->background_music())
+		scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
@@ -155,7 +155,7 @@ void LevelManager::LoadNextLevel() {
             hero_ = builder.Kha();
         }
     }
-    hero_->mana_blocks().Fill();
+    static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
 
     current_level_ = new World(hero_, factory);
     {
@@ -168,15 +168,13 @@ void LevelManager::LoadNextLevel() {
     }
 
     Engine::reference()->PushScene(current_level_);
-    hero_->SetupCollision();
+    static_cast<component::Hero*>(hero_->logic())->SetupCollision();
 }
 
 void LevelManager::Finish() {
     DeleteHero();
     if (loading_)
         delete loading_;
-    Creature::ReleaseAnimations();
-    Explosion::ReleaseAnimations();
 }
 
 LevelManager::~LevelManager() {}
