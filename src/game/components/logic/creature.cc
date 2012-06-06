@@ -40,8 +40,6 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
 Creature::Creature(WorldObject* owner, Controller* controller)
     :   owner_(owner),
         last_standing_direction_(Direction::Down()),
-        animation_direction_(),
-        last_stable_position_(),
         last_dt_(0.0),
         sight_count_(0),
         aim_(owner->world_position(), controller->aim_destination()) {

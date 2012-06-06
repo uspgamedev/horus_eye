@@ -7,7 +7,6 @@
 #include <ugdk/graphic/node.h>
 
 namespace ugdk {
-class ugdk::graphic::Drawable;
 class Image;
 }
 

@@ -48,8 +48,6 @@ void MummyController::Think(double dt) {
 }
 
 void MummyController::RandomMovement(){
-    double PI = acos(-1.0);
-
     if (interval_->Expired()) {
 
         int dir = rand() % 8;

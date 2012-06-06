@@ -28,10 +28,10 @@ WorldObject::WorldObject(double duration)
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
         light_radius_(0.0),
-        logic_(NULL),
 		layer_(scene::FOREGROUND_LAYER),
         damageable_(NULL), 
         graphic_(NULL),
+        logic_(NULL),
         controller_(NULL),
         animation_(NULL) {
             if(duration > 0.0) 
@@ -43,9 +43,9 @@ WorldObject::~WorldObject() {
     if(collision_object_ != NULL)
         delete collision_object_;
     if(timed_life_) delete timed_life_;
-    if(logic_) delete logic_;
     if(damageable_) delete damageable_;
     delete graphic_;
+    if(logic_) delete logic_;
     if(controller_) delete controller_;
     if(animation_) delete animation_;
 }

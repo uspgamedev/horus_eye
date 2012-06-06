@@ -50,13 +50,6 @@ class Carrier {
     }
 };
 
-static int GetAnimationIndexFromDir(const Vector2D &dir) {
-    double raw_angle = scene::World::FromWorldLinearCoordinates(dir).angle();
-    double angle = (raw_angle / acos(-1.0)) + 1.0;
-    int animation_index = (int)((angle * 4.0) + 0.5);
-    return (animation_index % 8);
-}
-
 component::Direction GetFromScreenVector(const Vector2D& dir) {
     return component::Direction::FromScreenVector(scene::World::FromWorldLinearCoordinates(dir));
 }

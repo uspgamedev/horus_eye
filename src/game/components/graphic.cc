@@ -6,11 +6,11 @@
 namespace component {
 
 Graphic::Graphic(sprite::WorldObject* owner)
-  : owner_(owner),
-    node_(new ugdk::graphic::Node),
+  : node_(new ugdk::graphic::Node),
+    owner_(owner),
+    is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
-    is_blinking_(false),
     blink_(false) {}
 
 Graphic::~Graphic() {
