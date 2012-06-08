@@ -21,7 +21,7 @@ Loading::Loading() {
     loading_ = new ugdk::graphic::Node(loading_image);
     loading_->modifier()->set_offset(position);
 
-	interface_node()->AddChild(loading_);
+    interface_node()->AddChild(loading_);
     loading_->modifier()->set_visible(false);
     has_been_drawn_ = false;
 

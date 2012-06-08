@@ -19,7 +19,7 @@ class CombatArt : public ArgSkill<UseArgument_T> {
 
     /// Verifies if the caster has enough mana.
     /** @return true if mana is greater than the cost */
-	virtual bool Available() const { return caster_mana_.Has(mana_cost_); }
+    virtual bool Available() const { return caster_mana_.Has(mana_cost_); }
 
     /// A generic CombatArt has no use restrictions.
     /** @return true */

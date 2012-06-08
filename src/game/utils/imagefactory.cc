@@ -2,6 +2,8 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "constants.h"
 
 using namespace ugdk;
@@ -46,10 +48,8 @@ FlexibleSpritesheet* ImageFactory::MummyProjectileImage() {
     return mummy_projectile_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::ExplosionImage() {
-    FlexibleSpritesheet *explosion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/explosion.png"));
-    if(explosion_image_) explosion_image_->set_frame_size( Vector2D(256, 128) );
-    return explosion_image_;
+ugdk::graphic::Spritesheet* ImageFactory::ExplosionImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/explosion.png");
 }
 
 FlexibleSpritesheet* ImageFactory::QuakeImage() {
@@ -58,54 +58,42 @@ FlexibleSpritesheet* ImageFactory::QuakeImage() {
     return quake_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::LifePotionImage() {
-    FlexibleSpritesheet *life_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/life_potion2.png"));
-    if(life_potion_image_) life_potion_image_->set_frame_size(Vector2D(30, 30));
-    return life_potion_image_;
+ugdk::graphic::Drawable* ImageFactory::LifePotionImage() {
+    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/life_potion2.png"));
 }
 
-FlexibleSpritesheet* ImageFactory::ManaPotionImage() {
-    FlexibleSpritesheet *mana_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/mana_potion.png"));
-    if(mana_potion_image_) mana_potion_image_->set_frame_size(Vector2D(30, 30));
-    return mana_potion_image_;
+ugdk::graphic::Drawable* ImageFactory::ManaPotionImage() {
+    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/mana_potion.png"));
 }
 
-FlexibleSpritesheet* ImageFactory::BlueGemImage() {
-    return static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/yellow_fire_ball.png"));
+ugdk::graphic::Drawable* ImageFactory::BlueGemImage() {
+    return new graphic::Sprite(RESOURCE_MANAGER()->spritesheet_container().Find("images/yellow_fire_ball.png"));
 }
 
 ugdk::graphic::Spritesheet* ImageFactory::ShieldImage() {
     return RESOURCE_MANAGER()->spritesheet_container().Find("images/shield.png");
 }
 
-FlexibleSpritesheet* ImageFactory::SightPotionImage() {
-    FlexibleSpritesheet *sight_potion_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/sight_potion.png"));
-    if(sight_potion_image_) sight_potion_image_->set_frame_size(Vector2D(30, 30));
-    return sight_potion_image_;
+ugdk::graphic::Drawable* ImageFactory::SightPotionImage() {
+    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
 }
 
-FlexibleSpritesheet* ImageFactory::DoorImage() {
-    FlexibleSpritesheet *door_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/stairs3.png"));
-    if(door_image_) door_image_->set_frame_size(Vector2D(153, 109));
-    return door_image_;
+ugdk::graphic::Spritesheet* ImageFactory::DoorImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/stairs3.png");
 }
 
-FlexibleSpritesheet* ImageFactory::FloorImage() {
-    FlexibleSpritesheet *floor_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/ground2_106x54.png"));
-    if(floor_image_) floor_image_->set_frame_size(Vector2D(106,54));
-    return floor_image_;
+ugdk::graphic::Drawable* ImageFactory::FloorImage() {
+    ugdk::graphic::Drawable* draw = new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
+    draw->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
+    return draw;
 }
 
-FlexibleSpritesheet* ImageFactory::WallImage() {
-    FlexibleSpritesheet *wall_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/stoneblock3.png"));
-    if(wall_image_) wall_image_->set_frame_size(Vector2D(106, 157));
-    return wall_image_;
+ugdk::graphic::Spritesheet* ImageFactory::WallImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/stoneblock3.png");
 }
 
-FlexibleSpritesheet* ImageFactory::EntryImage() {
-    FlexibleSpritesheet *entry_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/door.png"));
-    if(entry_image_) entry_image_->set_frame_size(Vector2D(106, 157));
-    return entry_image_;
+ugdk::graphic::Spritesheet* ImageFactory::EntryImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/door.png");
 }
 
 FlexibleSpritesheet* ImageFactory::LightningImage() {
@@ -120,10 +108,8 @@ FlexibleSpritesheet* ImageFactory::LightImage() {
     return light_image_;
 }
 
-FlexibleSpritesheet* ImageFactory::TileSwitchImage() {
-    FlexibleSpritesheet *floor_image_ = static_cast<FlexibleSpritesheet*>(RESOURCE_MANAGER()->spritesheet_container().Find("images/tile_switch.png"));
-    if(floor_image_) floor_image_->set_frame_size(Vector2D(106,54));
-    return floor_image_;
+ugdk::graphic::Spritesheet* ImageFactory::TileSwitchImage() {
+    return RESOURCE_MANAGER()->spritesheet_container().Find("images/tile_switch.png");
 }
 
 }

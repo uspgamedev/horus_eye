@@ -3,10 +3,9 @@
 
 #include <cstdlib>
 #include "game/utils/constants.h"
+#include "game/components.h"
 
 namespace sprite {
-
-class Creature;
 
 class Condition {
   public:
@@ -17,12 +16,12 @@ class Condition {
     virtual void Update(double delta_t) = 0;
     virtual Phase phase() { return phase_; }
 
-    virtual void StartCondition(Creature *creature) { phase_ = PHASE_ACTIVE; }
-  	virtual void EndCondition(Creature *creature) { phase_ = PHASE_FINISHED; }
+    virtual void StartCondition(component::Creature *creature) { phase_ = PHASE_ACTIVE; }
+  	virtual void EndCondition(component::Creature *creature) { phase_ = PHASE_FINISHED; }
     
   protected:
-  	Condition (Creature* owner) : owner_(owner), phase_(PHASE_IDLE) {}
-  	Creature* owner_;
+    component::Creature* owner_;
+  	Condition(component::Creature* owner) : owner_(owner), phase_(PHASE_IDLE) {}
     Phase phase_;
 };
 

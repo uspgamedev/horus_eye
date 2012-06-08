@@ -1,7 +1,6 @@
 #include "mummyweapon.h"
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
-#include "game/sprites/creatures/mummy.h"
+#include "game/components/damageable.h"
 
 namespace sprite {
 class Hero;
@@ -15,10 +14,10 @@ const double MummyWeapon::range_ = 1.0;
 void MummyWeapon::Use(){
     super::Use();
 
-	scene::World *world = WORLD();
-	sprite::Hero* hero = world->hero();
-	
-	hero->TakeDamage(damage_);
+    scene::World *world = WORLD();
+    sprite::WorldObject* hero = world->hero();
+    if(hero && hero->damageable())
+        hero->damageable()->TakeDamage(damage_);
 }
 
 bool MummyWeapon::IsValidUse() const {

@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_UTILS_TILE_H_
 
 #include <vector>
+#include <ugdk/graphic.h>
 
 #include "tilefwd.h"
 
@@ -46,8 +47,7 @@ typedef struct TilePos{
 
 class Tile {
   public:
-    Tile (int i = -1, int j = -1, char object = EMPTY)
-        : pos_(i,j), object_(object), visible_(false) {}
+    Tile (int i = -1, int j = -1, char object = EMPTY);
     virtual ~Tile () {}
 
     bool valid() const { return pos_.i >= 0 && pos_.j >= 0; }
@@ -57,6 +57,7 @@ class Tile {
     int i() const { return pos_.i; }
     int j() const { return pos_.j; }
     const TilePos& pos() const { return pos_; }
+    ugdk::graphic::Node* floor() { return floor_; }
 
     void set_visible(bool value) { visible_ = value; }
 
@@ -112,6 +113,8 @@ class Tile {
     TilePos pos_;
     char    object_;
     bool    visible_, checked_;
+    ugdk::graphic::Node* floor_;
+
 
     static Tile* SafeGetFromMap(GameMap &map, int i, int j) {
         if (i < 0 || i >= (int)map.size())

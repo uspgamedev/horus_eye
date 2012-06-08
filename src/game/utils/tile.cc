@@ -1,9 +1,16 @@
 #include "tile.h"
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/modifier.h>
 
 namespace utils {
 
 using namespace ugdk;
+
+Tile::Tile (int i, int j, char object)
+    : pos_(i,j), object_(object), visible_(false), floor_(new graphic::Node) {
+        floor_->modifier()->ToggleFlag(graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+}
 
 void Tile::CleanVisibility(GameMap& map) {
 
@@ -11,6 +18,7 @@ void Tile::CleanVisibility(GameMap& map) {
         for (int j = 0; j < (int)map[i].size(); ++j) {
             Tile *tile = map[i][j];
             tile->visible_ = false;
+            tile->floor()->modifier()->set_color(ugdk::Color(0.5, 0.5, 0.5));
             tile->Uncheck();
         }
 

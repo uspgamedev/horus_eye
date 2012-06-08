@@ -18,7 +18,8 @@
 #include "game/scenes/menu.h"
 
 #include "game/sprites/worldobject.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/components/logic/hero.h"
+#include "game/components/damageable.h"
 #include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
@@ -32,13 +33,14 @@ using namespace ugdk;
 using namespace sprite;
 using namespace utils;
 using namespace std;
+using component::Hero;
 using pyramidworks::collision::CollisionInstance;
 
 bool VerifyCheats(double delta_t) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->get_current_level();
-    Hero* hero = world->hero();
+    WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
     if(Engine::reference()->time_handler()->TimeSince(last_level_warp) > 1250) {
@@ -58,10 +60,11 @@ bool VerifyCheats(double delta_t) {
     }
     if(hero) {
         if(input->KeyPressed(ugdk::input::K_h)) {
+            component::Hero* hero_logic = static_cast<component::Hero*>(hero->logic());
             if(input->KeyDown(ugdk::input::K_LSHIFT))
-                hero->mana_blocks().Fill();
-            hero->life().Fill();
-            hero->mana().Fill();
+                hero_logic->mana_blocks().Fill();
+            hero->damageable()->life().Fill();
+            hero_logic->mana().Fill();
         }
         if(input->KeyPressed(ugdk::input::K_t))
             hero->set_world_position(World::FromScreenCoordinates(input->GetMousePosition()));
@@ -102,7 +105,7 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
-World::World(sprite::Hero *hero, utils::ImageFactory *factory) 
+World::World(sprite::WorldObject *hero, utils::ImageFactory *factory) 
     :   Scene(),
         hero_(hero),
         remaining_enemies_(0),
@@ -115,6 +118,14 @@ World::World(sprite::Hero *hero, utils::ImageFactory *factory)
         collision_manager_(NULL) {
 
     content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+
+	layers_[BACKGROUND_LAYER] = new graphic::Node;
+	layers_[FOREGROUND_LAYER] = new graphic::Node;
+	layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
+	layers_[FOREGROUND_LAYER]->set_zindex(FOREGROUND_LAYER);
+
+	content_node()->AddChild(layers_[BACKGROUND_LAYER]);
+	content_node()->AddChild(layers_[FOREGROUND_LAYER]);
 
     hud_ = new utils::Hud(this);
     interface_node()->AddChild(hud_->node());
@@ -142,10 +153,10 @@ void World::End() {
     hud_ = NULL;
 
     if(hero_ != NULL) {
-        hero_->Invulnerable(0);
+        //hero_->Invulnerable(0);
         hero_->collision_object()->StopColliding();
         this->RemoveEntity(hero_);
-        content_node()->RemoveChild(hero_->node());
+		layer_node(hero_->layer())->RemoveChild(hero_->node());
         hero_ = NULL;
     }
 
@@ -201,7 +212,7 @@ const Vector2D World::ConvertLightRadius(double radius) {
 }
     
 sprite::WorldObject * World::hero_world_object() const {
-    return dynamic_cast<WorldObject*> (hero_);
+    return hero_;
 }
 
 void World::SetupCollisionManager() {

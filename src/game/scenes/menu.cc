@@ -99,7 +99,7 @@ void Menu::set_handler(MenuHandler* handler) {
 }
 
 void Menu::set_content_box(ugdk::Frame content_box) {
-	set_content_box(content_box, ugdk::graphic::Drawable::CENTER);
+    set_content_box(content_box, ugdk::graphic::Drawable::CENTER);
 }
 
 void Menu::set_content_box(ugdk::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment) {
@@ -112,15 +112,15 @@ void Menu::set_selection_sprite(ugdk::graphic::Drawable *drawable) {
     selection_node_[0]->set_drawable(drawable);
     selection_node_[1]->set_drawable(NULL);
 
-	drawable->set_hotspot(option_alignment_);
+    drawable->set_hotspot(option_alignment_);
 }
 
 void Menu::set_selection_sprite(ugdk::graphic::Drawable **drawable) {
     selection_node_[0]->set_drawable(drawable[0]);
     selection_node_[1]->set_drawable(drawable[1]);
 
-	drawable[0]->set_hotspot(option_alignment_);
-	drawable[1]->set_hotspot(option_alignment_);
+    drawable[0]->set_hotspot(option_alignment_);
+    drawable[1]->set_hotspot(option_alignment_);
 }
 
 void Menu::set_option_sprite(int index, ugdk::graphic::Drawable *drawable) {
@@ -144,14 +144,14 @@ void Menu::AddNode(ugdk::graphic::Node *node) {
 }
 
 void Menu::DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment) {
-	option_alignment_ = alignment;
+    option_alignment_ = alignment;
 
     double height = content_box_.height()/selection_num_;
-	double width = content_box_.right()-content_box_.left();
+    double width = content_box_.right()-content_box_.left();
 
-	Vector2D offset;
+    Vector2D offset;
     switch (option_alignment_) {
-		case ugdk::graphic::Drawable::TOP_LEFT    : offset = Vector2D(        0.0,          0.0); break;
+        case ugdk::graphic::Drawable::TOP_LEFT    : offset = Vector2D(        0.0,          0.0); break;
         case ugdk::graphic::Drawable::TOP         : offset = Vector2D(width * 0.5,          0.0); break;
         case ugdk::graphic::Drawable::TOP_RIGHT   : offset = Vector2D(       width,          0.0); break;
         case ugdk::graphic::Drawable::LEFT        : offset = Vector2D(        0.0, height * 0.5); break;
@@ -163,7 +163,7 @@ void Menu::DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment) {
     }
     for (int i = 0; i < selection_num_; ++i) {
         double y = content_box_.top() + static_cast<double>(i)*height;
-		selection_pos_[i] = Vector2D(content_box_.left(), y) + offset;
+        selection_pos_[i] = Vector2D(content_box_.left(), y) + offset;
     }
 
     for (int i = 0; i < SELECTION_SPRITES; i++)
@@ -204,7 +204,7 @@ void Menu::Select () {
 }
 
 void Menu::set_visibility(const bool visibility) {
-	visible_ = visibility;
+    visible_ = visibility;
       content_node()->set_active(visibility);
     interface_node()->set_active(visibility);
 }

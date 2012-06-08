@@ -3,7 +3,6 @@
 
 #include "mummyrangedweapon.h"
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/mummy.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 

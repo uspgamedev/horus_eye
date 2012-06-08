@@ -38,55 +38,62 @@ static bool IsNear(const TilePos &origin, const TilePos &pos, double radius) {
     else return false;
 }
 
-static void SpreadLight(GameMap &map, const TilePos &origin_pos, double radius) {
+class UpdateVisibility : public ugdk::action::Task {
+  public:
+    UpdateVisibility(sprite::WorldObject* _hero, GameMap& _map)
+        : hero(_hero), map(_map) {}
 
-    std::list<Tile*>     queue;
-    Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
-    Tile            *origin = Tile::GetFromMapPosition(map, origin_pos);
-    utils::VisionStrategy  vision;
+    void operator()(double dt) {
+        if(!hero->is_active()) return;
 
-    if (!origin) return;
+        TilePos hero_pos = Tile::ToTilePos(hero->world_position());
 
-    origin_world_pos.y = map.size() - origin_world_pos.y - 1;
-    queue.push_back(origin);
+        hero_pos.i = static_cast<int>(map.size()) - hero_pos.i - 1;
 
-    while (queue.size() > 0) {
-        Tile *tile = *(queue.begin());
-        queue.pop_front();
-        if(tile == NULL) continue;
-        if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
-            tile->Check();
-            Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
-            tile_world_pos.y = map.size() - tile_world_pos.y - 1;
-            bool is_obstacle = (tile->object() == WALL) || (tile->object() == ENTRY),
-                 is_visible = vision.IsLightVisible(origin_world_pos, tile_world_pos);
-            if (is_obstacle || is_visible) {
-                tile->set_visible(true);
-                if (!is_obstacle)
-                    for (int dir = Tile::BEGIN; dir < Tile::END; ++dir) {
-                        Tile *next = tile->Next(map, (Tile::TileDir)dir);
-                        if (next && !next->checked()) {
-                            queue.push_back(next);
+        Tile::CleanVisibility(map);
+        SpreadLight(hero_pos, 1.5*hero->light_radius());
+    }
+
+  private:
+    void SpreadLight(const TilePos &origin_pos, double radius) {
+        std::list<Tile*>     queue;
+        Vector2D        origin_world_pos = Tile::FromTilePos(origin_pos);
+        Tile            *origin = Tile::GetFromMapPosition(map, origin_pos);
+        utils::VisionStrategy  vision;
+
+        if (!origin) return;
+
+        origin_world_pos.y = map.size() - origin_world_pos.y - 1;
+        queue.push_back(origin);
+
+        while (queue.size() > 0) {
+            Tile *tile = queue.front();
+            queue.pop_front();
+            if(tile == NULL) continue;
+            if (!tile->checked() && IsNear(origin_pos, tile->pos(), radius)) {
+                tile->Check();
+                Vector2D tile_world_pos = Tile::FromTilePos(tile->pos());
+                tile_world_pos.y = map.size() - tile_world_pos.y - 1;
+                bool is_obstacle = (tile->object() == WALL) || (tile->object() == ENTRY),
+                     is_visible = vision.IsLightVisible(origin_world_pos, tile_world_pos);
+                if (is_obstacle || is_visible) {
+                    tile->set_visible(true);
+                    tile->floor()->modifier()->set_color(ugdk::Color());
+                    if (!is_obstacle)
+                        for (int dir = Tile::BEGIN; dir < Tile::END; ++dir) {
+                            Tile *next = tile->Next(map, (Tile::TileDir)dir);
+                            if (next && !next->checked()) {
+                                queue.push_back(next);
+                            }
                         }
-                    }
+                }
             }
         }
     }
 
-}
-
-bool UpdateVisibility(sprite::WorldObject* hero, GameMap& map, double dt) {
-    if(!hero->is_active()) return false;
-
-    TilePos hero_pos = Tile::ToTilePos(hero->world_position());
-
-    hero_pos.i = static_cast<int>(map.size()) - hero_pos.i - 1;
-
-    Tile::CleanVisibility(map);
-    SpreadLight(map, hero_pos, 1.5*hero->light_radius());
-
-    return true;
-}
+    sprite::WorldObject* hero;
+    GameMap& map;
+};
 
 
 namespace builder {
@@ -96,7 +103,7 @@ ugdk::action::Task* TaskBuilder::PauseMenuTask() const {
 }
 
 ugdk::action::Task* TaskBuilder::VisibilityTask(sprite::WorldObject* hero, GameMap& map) const {
-    return new ugdk::action::GenericTask(bind(UpdateVisibility, hero, map, _1));
+    return new UpdateVisibility(hero, map);
 }
 
 }

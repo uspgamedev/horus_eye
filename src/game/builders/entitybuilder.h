@@ -1,7 +1,8 @@
 #ifndef HORUSEYE_GAME_BUILDERS_ENTITYBUILDER_H_
 #define HORUSEYE_GAME_BUILDERS_ENTITYBUILDER_H_
 
-#include "game/sprites/worldobject.h"
+#include "game/scenes.h"
+#include "game/sprites.h"
 
 namespace builder {
 
