@@ -2,39 +2,12 @@ SET(GAME_SRCS
     ./src/externals/inifile.cc 
     ./src/externals/inifile.h 
     ./src/mac/SDLMain.h 
-    ./src/game/sprites/explosion.cc 
-    ./src/game/sprites/follower.cc 
-    ./src/game/sprites/item.h 
-    ./src/game/sprites/follower.h 
-    ./src/game/sprites/item.cc 
-    ./src/game/sprites/creatures/pharaoh.cc 
-    ./src/game/sprites/creatures/mummy.cc 
-    ./src/game/sprites/creatures/hero.cc 
-    ./src/game/sprites/creatures/hero.h 
-    ./src/game/sprites/creatures/mummy.h 
-    ./src/game/sprites/creatures/creature.cc 
-    ./src/game/sprites/creatures/creature.h 
-    ./src/game/sprites/creatures/pharaoh.h 
-    ./src/game/sprites/creatures.h 
+    ./src/game/sprites.h 
     ./src/game/sprites/worldobject.h 
-    ./src/game/sprites/explosion.h 
-    ./src/game/sprites/scenery/floor.cc 
-    ./src/game/sprites/scenery/block.h 
-    ./src/game/sprites/scenery/wall.cc 
-    ./src/game/sprites/scenery/door.h 
-    ./src/game/sprites/scenery/button.h 
-    ./src/game/sprites/scenery/block.cc 
-    ./src/game/sprites/scenery/button.cc 
-    ./src/game/sprites/scenery/door.cc 
-    ./src/game/sprites/scenery/wall.h 
-    ./src/game/sprites/scenery/floor.h 
-    ./src/game/sprites/projectiles/carrier.cc 
-    ./src/game/sprites/projectiles/projectile.cc 
-    ./src/game/sprites/projectiles/projectile.h 
-    ./src/game/sprites/projectiles/carrier.h 
     ./src/game/sprites/condition.h 
     ./src/game/sprites/itemevent.h 
     ./src/game/sprites/worldobject.cc 
+    ./src/game/scenes.h 
     ./src/game/scenes/imagescene.cc 
     ./src/game/scenes/menuhandler.h 
     ./src/game/scenes/menu.h 
@@ -42,6 +15,7 @@ SET(GAME_SRCS
     ./src/game/scenes/scrollingimagescene.cc 
     ./src/game/scenes/pausescene.cc 
     ./src/game/scenes/world.cc 
+    ./src/game/scenes/gamelayer.h 
     ./src/game/scenes/loading.cc 
     ./src/game/scenes/loading.h 
     ./src/game/scenes/menu.cc 
@@ -61,6 +35,7 @@ SET(GAME_SRCS
     ./src/game/utils/levelloader.h 
     ./src/game/utils/hud.h 
     ./src/game/utils/geometryprimitives.h 
+    ./src/game/utils/isometricanimationset.h 
     ./src/game/utils/hudimagefactory.cc 
     ./src/game/utils/menuimagefactory.cc 
     ./src/game/utils/settings.cc 
@@ -68,6 +43,7 @@ SET(GAME_SRCS
     ./src/game/utils/constants.h 
     ./src/game/utils/geometryprimitives.cc 
     ./src/game/utils/tile.h 
+    ./src/game/utils/isometricanimationset.cc 
     ./src/game/utils/tilefwd.h 
     ./src/game/utils/levelmanager.cc 
     ./src/game/utils/constants.cc 
@@ -103,13 +79,17 @@ SET(GAME_SRCS
     ./src/game/builders/projectilebuilder.cc 
     ./src/game/builders/mummybuilder.cc 
     ./src/game/builders/taskbuilder.h 
+    ./src/game/builders/doodadbuilder.h 
+    ./src/game/builders/doodadbuilder.cc 
     ./src/game/builders/entitybuilder.cc 
     ./src/game/builders/goodmenubuilder.cc 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/herobuilder.h 
     ./src/game/builders/entitybuilder.h 
     ./src/game/builders/conditionbuilder.cc 
+    ./src/game/builders/explosionbuilder.h 
     ./src/game/builders/itembuilder.cc 
+    ./src/game/builders/explosionbuilder.cc 
     ./src/game/builders/conditionbuilder.h 
     ./src/game/builders/projectilebuilder.h 
     ./src/game/builders/mummybuilder.h 
@@ -123,8 +103,35 @@ SET(GAME_SRCS
     ./src/game/resources/containedresource.h 
     ./src/game/resources/capacityblocks.h 
     ./src/game/resources/energy.h 
+    ./src/game/components.h 
     ./src/game/main.cc 
     ./src/game/config.h 
+    ./src/game/components/mummycontroller.h 
+    ./src/game/components/controller.h 
+    ./src/game/components/graphic.cc 
+    ./src/game/components/damageable.h 
+    ./src/game/components/logic/follower.cc 
+    ./src/game/components/logic/pharaoh.cc 
+    ./src/game/components/logic/follower.h 
+    ./src/game/components/logic/wall.cc 
+    ./src/game/components/logic/mummy.cc 
+    ./src/game/components/logic/hero.cc 
+    ./src/game/components/logic/hero.h 
+    ./src/game/components/logic/mummy.h 
+    ./src/game/components/logic/creature.cc 
+    ./src/game/components/logic/wall.h 
+    ./src/game/components/logic/creature.h 
+    ./src/game/components/logic/pharaoh.h 
+    ./src/game/components/graphic.h 
+    ./src/game/components/direction.h 
+    ./src/game/components/animation.h 
+    ./src/game/components/damageable.cc 
+    ./src/game/components/mummycontroller.cc 
+    ./src/game/components/animation.cc 
+    ./src/game/components/projectile.h 
+    ./src/game/components/playercontroller.h 
+    ./src/game/components/playercontroller.cc 
+    ./src/game/components/logic.h 
     ./src/editor/mapobject.h 
     ./src/editor/scenes/editormenu.h 
     ./src/editor/scenes/editormenu.cc 
