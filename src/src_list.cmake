@@ -9,7 +9,6 @@ SET(GAME_SRCS
     ./src/game/sprites/worldobject.cc 
     ./src/game/scenes.h 
     ./src/game/scenes/imagescene.cc 
-    ./src/game/scenes/menubuilder.h 
     ./src/game/scenes/menuhandler.h 
     ./src/game/scenes/menu.h 
     ./src/game/scenes/world.h 
@@ -23,7 +22,7 @@ SET(GAME_SRCS
     ./src/game/scenes/imagescene.h 
     ./src/game/scenes/scrollingimagescene.h 
     ./src/game/scenes/pausescene.h 
-    ./src/game/scenes/menubuilder.cc 
+    ./src/game/utils/menuimagefactory.h 
     ./src/game/utils/imagefactory.h 
     ./src/game/utils/hud.cc 
     ./src/game/utils/levelmanager.h 
@@ -38,6 +37,7 @@ SET(GAME_SRCS
     ./src/game/utils/geometryprimitives.h 
     ./src/game/utils/isometricanimationset.h 
     ./src/game/utils/hudimagefactory.cc 
+    ./src/game/utils/menuimagefactory.cc 
     ./src/game/utils/settings.cc 
     ./src/game/utils/levelloader.cc 
     ./src/game/utils/constants.h 
@@ -82,6 +82,7 @@ SET(GAME_SRCS
     ./src/game/builders/doodadbuilder.h 
     ./src/game/builders/doodadbuilder.cc 
     ./src/game/builders/entitybuilder.cc 
+    ./src/game/builders/goodmenubuilder.cc 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/herobuilder.h 
     ./src/game/builders/entitybuilder.h 
@@ -92,6 +93,7 @@ SET(GAME_SRCS
     ./src/game/builders/conditionbuilder.h 
     ./src/game/builders/projectilebuilder.h 
     ./src/game/builders/mummybuilder.h 
+    ./src/game/builders/goodmenubuilder.h 
     ./src/game/entities/emitterentity.h 
     ./src/game/entities/sandstormemitter.cc 
     ./src/game/entities/sandstormemitter.h 

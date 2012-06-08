@@ -2,7 +2,6 @@
 #define HORUSEYE_GAME_SCENES_EDITORMENUBUILDER_H_
 
 #include "game/scenes/menuhandler.h"
-#include "game/scenes/menubuilder.h"
 #include <vector>
 #include <ugdk/graphic/node.h>
 
@@ -28,7 +27,7 @@ class MapEditor;
 		
 		talvez alguma opcao ou grafico nele pra mostrar os comando de teclado...*/
 
-class EditorMenuBuilder : scene::MenuBuilder {
+class EditorMenuBuilder {
   public:
     EditorMenuBuilder () {}
     virtual ~EditorMenuBuilder () {}

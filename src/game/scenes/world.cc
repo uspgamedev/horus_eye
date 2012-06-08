@@ -16,7 +16,6 @@
 #include "world.h"
 
 #include "game/scenes/menu.h"
-#include "game/scenes/menubuilder.h"
 
 #include "game/sprites/worldobject.h"
 #include "game/components/logic/hero.h"

@@ -36,6 +36,7 @@
     <ClCompile Include="src\game\builders\doodadbuilder.cc" />
     <ClCompile Include="src\game\builders\conditionbuilder.cc" />
     <ClCompile Include="src\game\builders\entitybuilder.cc" />
+    <ClCompile Include="src\game\builders\goodmenubuilder.cc" />
     <ClCompile Include="src\game\builders\herobuilder.cc" />
     <ClCompile Include="src\game\builders\itembuilder.cc" />
     <ClCompile Include="src\game\builders\mummybuilder.cc" />
@@ -57,7 +58,6 @@
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
     <ClCompile Include="src\game\scenes\menu.cc" />
-    <ClCompile Include="src\game\scenes\menubuilder.cc" />
     <ClCompile Include="src\game\scenes\pausescene.cc" />
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
@@ -83,6 +83,7 @@
     <ClCompile Include="src\game\utils\isometricanimationset.cc" />
     <ClCompile Include="src\game\utils\levelloader.cc" />
     <ClCompile Include="src\game\utils\levelmanager.cc" />
+    <ClCompile Include="src\game\utils\menuimagefactory.cc" />
     <ClCompile Include="src\game\utils\settings.cc" />
     <ClCompile Include="src\game\utils\tile.cc" />
     <ClCompile Include="src\game\utils\visionstrategy.cc" />
@@ -97,6 +98,7 @@
     <ClInclude Include="src\game\builders\doodadbuilder.h" />
     <ClInclude Include="src\game\builders\conditionbuilder.h" />
     <ClInclude Include="src\game\builders\entitybuilder.h" />
+    <ClInclude Include="src\game\builders\goodmenubuilder.h" />
     <ClInclude Include="src\game\builders\herobuilder.h" />
     <ClInclude Include="src\game\builders\itembuilder.h" />
     <ClInclude Include="src\game\builders\mummybuilder.h" />
@@ -130,7 +132,6 @@
     <ClInclude Include="src\game\scenes\imagescene.h" />
     <ClInclude Include="src\game\scenes\loading.h" />
     <ClInclude Include="src\game\scenes\menu.h" />
-    <ClInclude Include="src\game\scenes\menubuilder.h" />
     <ClInclude Include="src\game\scenes\menuhandler.h" />
     <ClInclude Include="src\game\scenes\pausescene.h" />
     <ClInclude Include="src\game\scenes\scrollingimagescene.h" />
@@ -175,6 +176,7 @@
     <ClInclude Include="src\game\utils\isometricanimationset.h" />
     <ClInclude Include="src\game\utils\levelloader.h" />
     <ClInclude Include="src\game\utils\levelmanager.h" />
+    <ClInclude Include="src\game\utils\menuimagefactory.h" />
     <ClInclude Include="src\game\utils\settings.h" />
     <ClInclude Include="src\game\utils\tile.h" />
     <ClInclude Include="src\game\utils\visionstrategy.h" />

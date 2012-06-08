@@ -11,13 +11,13 @@
 
 #include "game/utils/levelmanager.h"
 
-#include "game/scenes/menubuilder.h"
 #include "game/scenes/menu.h"
 #include "game/scenes/world.h"
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
 #include "game/scenes/loading.h"
 #include "game/components/logic/hero.h"
+#include "game/builders/goodmenubuilder.h"
 #include "game/builders/herobuilder.h"
 #include "game/builders/taskbuilder.h"
 #include "game/scenes/imagescene.h"
@@ -52,9 +52,8 @@ void LevelManager::Initialize() {
     current_level_ = NULL;
     level_list_iterator_ = 0;
     hero_ = NULL;
-    MenuBuilder::InitializeAnimations();
-    MenuBuilder builder;
-    menu_ = builder.BuildMainMenu();
+    builder::MenuBuilder builder;
+    menu_ = builder.MainMenu();
     Engine::reference()->PushScene(menu_);
 
     loading_ = NULL;
