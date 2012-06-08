@@ -1,5 +1,6 @@
 #include <sstream>
 #include <functional>
+#include <memory>
 
 #include <ugdk/action/generictask.h>
 #include <ugdk/action/scene.h>
@@ -19,7 +20,6 @@
 #include "goodmenubuilder.h"
 
 #include "game/scenes/world.h"
-#include "game/scenes/menubuilder.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/menuimagefactory.h"
 #include "game/utils/settings.h"
