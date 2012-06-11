@@ -1,5 +1,7 @@
 musics/Arabesque.ogg
 15 34
+1
+4 4 pizza
   #########E#  
   #..UUUUUU@#  
   #..UUUUUU.#  

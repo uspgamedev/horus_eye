@@ -62,6 +62,22 @@ void LevelLoader::LoadMatrix(string file_name) {
         sscanf(buffer, "%d %d", &width, &height);
 
         GameMap matrix(height);
+        arguments_.resize(height);
+        for (int i = 0; i < height; ++i)
+        	arguments_[i].resize(width);
+
+        fgets(buffer, LINE_SIZE, file);
+		int num_arguments;
+		sscanf(buffer, "%d", &num_arguments);
+
+		for (int i = 0; i < num_arguments; ++i) {
+			fgets(buffer, LINE_SIZE, file);
+			int x, y;
+			sscanf(buffer, "%d %d", &x, &y);
+			char* arg = strchr(buffer, ' ');
+			arg = strchr(arg + 1, ' ');
+			arguments_[y][x] = std::string(arg + 1);
+		}
 
         for (int i = 0; i < height; ++i) {
             fgets(buffer, LINE_SIZE, file);

@@ -31,6 +31,8 @@ class LevelLoader {
     void TokenToWorldObject(char token, int i, int j, const Vector2D& position, std::vector<std::vector<component::Wall* > > &wall_matrix);
     void InitializeWallTypes(std::vector<std::vector<component::Wall*> > wall_matrix);
 
+    std::vector<std::vector<std::string> > arguments_;
+
 };
 
 }
