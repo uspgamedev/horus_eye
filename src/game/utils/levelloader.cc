@@ -13,10 +13,6 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/logic/wall.h"
-#include "game/builders/itembuilder.h"
-#include "game/builders/mummybuilder.h"
-#include "game/builders/entitybuilder.h"
-#include "game/builders/doodadbuilder.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
 #include "game/utils/settings.h"
@@ -113,7 +109,7 @@ bool LevelLoader::IsWall(int i, int j) {
     return InRange(i,j) ? world_->level_matrix()[i][j]->object() == WALL : false;
 }
 
-void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
+void LevelLoader::InitializeWallTypes() {
     GameMap& matrix = world_->level_matrix();
     
     for (int i = 0; i < (int)matrix.size(); ++i) {
@@ -121,15 +117,15 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
             if(matrix[i][j]->object() == WALL) {
                 if(IsWall(i, j-1)) {
                     if(IsWall(i+1, j)) {
-                        wall_matrix[i][j]->set_type(Wall::MIDDLE);
+                        wall_matrix_[i][j]->set_type(Wall::MIDDLE);
                     } else {
-                        wall_matrix[i][j]->set_type(Wall::RIGHT);
+                        wall_matrix_[i][j]->set_type(Wall::RIGHT);
                     }
                 } else {
                     if(IsWall(i+1, j)) {
-                        wall_matrix[i][j]->set_type(Wall::BOTTOM);
+                        wall_matrix_[i][j]->set_type(Wall::BOTTOM);
                     } else {
-                        wall_matrix[i][j]->set_type(Wall::BOTTOMRIGHT);
+                        wall_matrix_[i][j]->set_type(Wall::BOTTOMRIGHT);
                     }
                 }
             }
@@ -137,106 +133,79 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
     }
 }
 
-void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position, vector<vector<Wall* > > &wall_matrix) {
-    builder::MummyBuilder mummy_builder;
-    builder::ItemBuilder potion_builder;
-    builder::EntityBuilder entity_builder;
-    builder::DoodadBuilder doodad_builder;
-    ImageFactory* image_factory = world_->image_factory();
-    if(token != EMPTY) {
-        switch(token) {
-            case WALL: {
-                WorldObject* wobj = doodad_builder.Wall();
-                wall_matrix[i][j] = static_cast<Wall*>(wobj->logic());
-                world_->AddWorldObject(wobj, position);
-                break;
-            }
-            case ENTRY: {
-                WorldObject* wobj = doodad_builder.Entry();
-                wall_matrix[i][j] = static_cast<Wall*>(wobj->logic());
-                world_->AddWorldObject(wobj, position);
-                break;
-            }
-            case BLOCK: {
-                world_->AddWorldObject(doodad_builder.Block(), position);
-				break;
-            }
-            case HERO: {
-                world_->AddHero(position);
-                break;
-            }
-            case STANDING_MUMMY: {
-                world_->AddWorldObject(mummy_builder.StandingMummy(image_factory->MummyImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case MUMMY: {
-                world_->AddWorldObject(mummy_builder.WalkingMummy(image_factory->MummyImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case BIG_MUMMY: {
-                world_->AddWorldObject(mummy_builder.BigMummy(image_factory->BigMummyImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case STANDING_BIG_MUMMY: {
-                world_->AddWorldObject(mummy_builder.StandingBigMummy(image_factory->BigMummyImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case RANGED_MUMMY: {
-                world_->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case STANDING_RANGED_MUMMY: {
-                world_->AddWorldObject(mummy_builder.StandingRangedMummy(image_factory->RangedMummyImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case PHARAOH: {
-                world_->AddWorldObject(mummy_builder.WalkingPharaoh(image_factory->PharaohImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case STANDING_PHARAOH: {
-                world_->AddWorldObject(mummy_builder.StandingPharaoh(image_factory->PharaohImage()), position);
-                world_->IncreaseNumberOfEnemies();
-                break;
-            }
-            case DOOR: {
-                GameMap& matrix = world_->level_matrix();
-                if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
-                    Vector2D pos = position + Vector2D(0.5, 0);
-                    world_->AddWorldObject(doodad_builder.Door(world_), pos);
-                }
-                break;
-            }
-            case FLOOR: { break; }
-            case POTIONL: {
-                world_->AddWorldObject(potion_builder.LifePotion(image_factory->LifePotionImage()), position);
-                break;
-            }
-            case POTIONM: {
-                world_->AddWorldObject(potion_builder.ManaPotion(image_factory->ManaPotionImage()), position);
-                break;
-            }
-            case POTIONS: {
-                world_->AddWorldObject(potion_builder.SightPotion(image_factory->SightPotionImage()), position);
-                break;
-            }
-            case BLUEGEM: {
-                world_->AddWorldObject(potion_builder.BlueGem(image_factory->BlueGemImage()), position);
-                break;
-            }
-            case BUTTON: {
-				world_->AddWorldObject(doodad_builder.Button(arguments_[i][j]), position);
-				world_->num_button_not_pressed() += 1;
-                break;
-            }
-        }
-    }
+WorldObject* LevelLoader::GenerateBlock(const std::string&) {
+	return doodad_builder_.Block();
+}
+WorldObject* LevelLoader::GenerateStandingMummy(const std::string&) {
+	return mummy_builder_.StandingMummy(world_->image_factory()->MummyImage());
+}
+WorldObject* LevelLoader::GenerateMummy(const std::string&) {
+	return mummy_builder_.WalkingMummy(world_->image_factory()->MummyImage());
+}
+WorldObject* LevelLoader::GenerateStandingBigMummy(const std::string&) {
+	return mummy_builder_.StandingBigMummy(world_->image_factory()->BigMummyImage());
+}
+WorldObject* LevelLoader::GenerateBigMummy(const std::string&) {
+	return mummy_builder_.BigMummy(world_->image_factory()->BigMummyImage());
+}
+WorldObject* LevelLoader::GenerateStandingRangedMummy(const std::string&) {
+	return mummy_builder_.StandingRangedMummy(world_->image_factory()->RangedMummyImage());
+}
+WorldObject* LevelLoader::GenerateRangedMummy(const std::string&) {
+	return mummy_builder_.RangedMummy(world_->image_factory()->RangedMummyImage());
+}
+WorldObject* LevelLoader::GenerateStandingPharaoh(const std::string&) {
+	return mummy_builder_.StandingPharaoh(world_->image_factory()->PharaohImage());
+}
+WorldObject* LevelLoader::GeneratePharaoh(const std::string&) {
+	return mummy_builder_.WalkingPharaoh(world_->image_factory()->PharaohImage());
+}
+WorldObject* LevelLoader::GenerateLifePotion(const std::string&) {
+	return potion_builder_.LifePotion(world_->image_factory()->LifePotionImage());
+}
+WorldObject* LevelLoader::GenerateManaPotion(const std::string&) {
+	return potion_builder_.ManaPotion(world_->image_factory()->ManaPotionImage());
+}
+WorldObject* LevelLoader::GenerateSightPotion(const std::string&) {
+	return potion_builder_.SightPotion(world_->image_factory()->SightPotionImage());
+}
+WorldObject* LevelLoader::GenerateBlueGem(const std::string&) {
+	return potion_builder_.BlueGem(world_->image_factory()->BlueGemImage());
+}
+WorldObject* LevelLoader::GenerateButton(const std::string& arg) {
+	world_->num_button_not_pressed() += 1;
+	return doodad_builder_.Button(arg);
+}
+
+void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position) {
+	switch(token) {
+		case WALL: {
+			WorldObject* wobj = doodad_builder_.Wall();
+			wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
+			world_->AddWorldObject(wobj, position);
+			break;
+		}
+		case ENTRY: {
+			WorldObject* wobj = doodad_builder_.Entry();
+			wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
+			world_->AddWorldObject(wobj, position);
+			break;
+		}
+		case HERO: {
+			world_->AddHero(position);
+			break;
+		}
+		case DOOR: {
+			GameMap& matrix = world_->level_matrix();
+			if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
+				Vector2D pos = position + Vector2D(0.5, 0);
+				world_->AddWorldObject(doodad_builder_.Door(world_), pos);
+			}
+			break;
+		}
+		default: {
+		}
+	}
 }
 
 void LevelLoader::Load(string file_name) {
@@ -249,26 +218,48 @@ void LevelLoader::Load(string file_name) {
 	GameMap& matrix = world_->level_matrix();
 
     vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
+    wall_matrix_ = wall_matrix;
 
     ugdk::graphic::Node* floors = new ugdk::graphic::Node;
 
+    token_function_[BLOCK] = &LevelLoader::GenerateBlock;
+    token_function_[STANDING_MUMMY] = &LevelLoader::GenerateStandingMummy;
+    token_function_[STANDING_BIG_MUMMY] = &LevelLoader::GenerateStandingBigMummy;
+    token_function_[STANDING_RANGED_MUMMY] = &LevelLoader::GenerateStandingRangedMummy;
+    token_function_[STANDING_PHARAOH] = &LevelLoader::GenerateStandingPharaoh;
+    token_function_[MUMMY] = &LevelLoader::GenerateMummy;
+    token_function_[BIG_MUMMY] = &LevelLoader::GenerateBigMummy;
+    token_function_[RANGED_MUMMY] = &LevelLoader::GenerateRangedMummy;
+    token_function_[PHARAOH] = &LevelLoader::GeneratePharaoh;
+    token_function_[POTIONL] = &LevelLoader::GenerateLifePotion;
+    token_function_[POTIONM] = &LevelLoader::GenerateManaPotion;
+    token_function_[POTIONS] = &LevelLoader::GenerateSightPotion;
+    token_function_[BLUEGEM] = &LevelLoader::GenerateBlueGem;
+    token_function_[BUTTON] = &LevelLoader::GenerateButton;
+
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {
-            char token = matrix[i][j]->object();
-            Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
+        	Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
 
-            if(token != EMPTY) {
+        	char token = matrix[i][j]->object();
+        	if(token_function_[token]) {
+				WorldObject* obj = token_function_[token](this, arguments_[i][j]);
+				if(obj) {
+					world_->AddWorldObject(obj, position);
+				}
+        	} else {
+        		TokenToWorldObject(token, i, j, position);
+        	}
+            if(matrix[i][j]->has_floor()) {
                 ugdk::graphic::Node* floor = matrix[i][j]->floor();
                 floor->set_drawable(world_->image_factory()->FloorImage());
                 floor->modifier()->set_offset(World::FromWorldCoordinates(position));
                 floor->modifier()->set_color(Color(0.5, 0.5, 0.5));
                 floors->AddChild(floor);
             }
-
-            TokenToWorldObject(token, i, j, position, wall_matrix);
         }
     }
-    InitializeWallTypes(wall_matrix);
+    InitializeWallTypes();
     world_->content_node()->AddChild(floors);
     floors->set_zindex(-FLT_MAX);
 }
