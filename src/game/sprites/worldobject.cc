@@ -34,7 +34,7 @@ WorldObject::WorldObject(double duration)
         graphic_(NULL),
         controller_(NULL),
         animation_(NULL) {
-            if(duration > 0.0) 
+            if(duration >= 0.0) 
                 this->set_timed_life(duration);
             graphic_ = new component::Graphic(this);
 }

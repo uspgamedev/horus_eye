@@ -97,4 +97,15 @@ WorldObject* ExplosionBuilder::MeteorExplosion() {
     return wobj;
 }
 
+WorldObject* ExplosionBuilder::MeleeExplosion(double damage, double range) {
+	WorldObject* wobj = new WorldObject(0.5);
+
+	CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+    col->InitializeCollisionClass("Explosion");
+	col->set_shape(new pyramidworks::geometry::Circle(range));
+    col->AddCollisionLogic("Hero", new ExplosionCollision(damage));
+	wobj->set_collision_object(col);
+	return wobj;
+}
+
 }

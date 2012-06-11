@@ -13,6 +13,7 @@ class ExplosionBuilder {
     sprite::WorldObject* FireballExplosion();
     sprite::WorldObject* EarthquakeExplosion();
     sprite::WorldObject* MeteorExplosion();
+	sprite::WorldObject* MeleeExplosion(double damage, double range);
 };
 
 }

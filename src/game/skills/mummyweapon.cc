@@ -1,6 +1,7 @@
 #include "mummyweapon.h"
 #include "game/scenes/world.h"
 #include "game/components/damageable.h"
+#include "game/builders/explosionbuilder.h"
 
 namespace sprite {
 class Hero;
@@ -14,10 +15,11 @@ const double MummyWeapon::range_ = 1.0;
 void MummyWeapon::Use(){
     super::Use();
 
+	builder::ExplosionBuilder builder;
+	sprite::WorldObject* punch = builder.MeleeExplosion(damage_,range_);
+
     scene::World *world = WORLD();
-    sprite::WorldObject* hero = world->hero();
-    if(hero && hero->damageable())
-        hero->damageable()->TakeDamage(damage_);
+	world->AddWorldObject(punch, use_argument_.origin_);
 }
 
 bool MummyWeapon::IsValidUse() const {
