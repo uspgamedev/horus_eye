@@ -48,56 +48,59 @@ using component::Wall;
 
 #define LINE_SIZE 1024
 
-void LevelLoader::LoadMatrix(string file_name) {
+bool LevelLoader::LoadMatrix(string file_name) {
     FILE *file = fopen(PATH_MANAGER()->ResolvePath(file_name).c_str(), "r");
 
-    if(file != NULL) {
-        char buffer[LINE_SIZE];
-        fgets(buffer, LINE_SIZE, file);
-        string music(buffer);
-        trim(music);
-
-        fgets(buffer, LINE_SIZE, file);
-        int width, height;
-        sscanf(buffer, "%d %d", &width, &height);
-
-        GameMap matrix(height);
-        arguments_.resize(height);
-        for (int i = 0; i < height; ++i)
-        	arguments_[i].resize(width);
-
-        fgets(buffer, LINE_SIZE, file);
-		int num_arguments;
-		sscanf(buffer, "%d", &num_arguments);
-
-		for (int i = 0; i < num_arguments; ++i) {
-			fgets(buffer, LINE_SIZE, file);
-			int x, y;
-			sscanf(buffer, "%d %d", &x, &y);
-			char* arg = strchr(buffer, ' ');
-			arg = strchr(arg + 1, ' ');
-			arguments_[y][x] = std::string(arg + 1);
-		}
-
-        for (int i = 0; i < height; ++i) {
-            fgets(buffer, LINE_SIZE, file);
-            matrix[i] = TileRow(width);
-            for (int j = 0; j < width; j++) {
-                matrix[i][j] = new Tile(i, j, buffer[j]);
-            }
-        }
-
-		if(Settings::reference()->background_music())
-			world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music));
-        world_->set_level_width(width);
-        world_->set_level_height(height);
-        world_->set_level_matrix(matrix);
-
-        fclose(file);
-    } else {
-        fprintf(stdout, "CANNOT OPEN FILE: %s\n", file_name.c_str());
-        exit(1);
+    if(file == NULL) {
+		fprintf(stderr, "CANNOT OPEN FILE: %s\n", file_name.c_str());
+		return false;
     }
+	char buffer[LINE_SIZE];
+	fgets(buffer, LINE_SIZE, file);
+	string music(buffer);
+	trim(music);
+
+	fgets(buffer, LINE_SIZE, file);
+	int width, height;
+	if(sscanf(buffer, "%d %d", &width, &height) < 2) return false;
+
+	GameMap matrix(height);
+	arguments_.resize(height);
+	for (int i = 0; i < height; ++i)
+		arguments_[i].resize(width);
+
+	fgets(buffer, LINE_SIZE, file);
+	int num_arguments;
+	if(sscanf(buffer, "%d", &num_arguments) < 1) return false;
+
+	for (int i = 0; i < num_arguments; ++i) {
+		fgets(buffer, LINE_SIZE, file);
+		int x, y;
+		if(sscanf(buffer, "%d %d", &x, &y) < 2) return false;
+		char* arg = strchr(buffer, ' ');
+		arg = strchr(arg + 1, ' ');
+		if(!arg || strlen(arg) < 2) return false;
+		arg[strlen(arg) - 1] = '\0'; // remove linefeed
+		arguments_[y][x] = std::string(arg + 1);
+		printf("Buffer '%s', x=%d; y=%d; arg='%s'\n", buffer, x, y, arguments_[y][x].c_str());
+	}
+
+	for (int i = 0; i < height; ++i) {
+		fgets(buffer, LINE_SIZE, file);
+		matrix[i] = TileRow(width);
+		for (int j = 0; j < width; j++) {
+			matrix[i][j] = new Tile(i, j, buffer[j]);
+		}
+	}
+
+	if(Settings::reference()->background_music())
+		world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music));
+	world_->set_level_width(width);
+	world_->set_level_height(height);
+	world_->set_level_matrix(matrix);
+
+	fclose(file);
+	return true;
 }
 
 bool LevelLoader::InRange (int i,int j) {
@@ -228,7 +231,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
                 break;
             }
             case BUTTON: {
-				world_->AddWorldObject(doodad_builder.Button(), position);
+				world_->AddWorldObject(doodad_builder.Button(arguments_[i][j]), position);
 				world_->num_button_not_pressed() += 1;
                 break;
             }
@@ -238,9 +241,12 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
 
 void LevelLoader::Load(string file_name) {
 
-    LoadMatrix(file_name);
-    GameMap& matrix = world_->level_matrix();
+	bool load_success = LoadMatrix(file_name);
+
     world_->SetupCollisionManager();
+    if(!load_success) return;
+
+	GameMap& matrix = world_->level_matrix();
 
     vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
 

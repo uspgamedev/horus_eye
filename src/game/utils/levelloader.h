@@ -22,7 +22,7 @@ class LevelLoader {
     virtual ~LevelLoader() {}
 
     void Load(std::string);
-    void LoadMatrix(std::string);
+    bool LoadMatrix(std::string);
 
   protected:
     scene::World * world_;

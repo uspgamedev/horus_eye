@@ -6,7 +6,7 @@ musics/Arabesque.ogg
   #..UUUUUU@#  
   #..UUUUUU.#  
   #..UUUUUU.#  
-  #..UDDUUU.#  
+  #.U.DDUUU.#  
   #..UUUUUU.#  
   #..UUUUUU.#  
   #.........#  
