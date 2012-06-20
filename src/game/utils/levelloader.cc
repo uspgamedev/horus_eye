@@ -61,7 +61,7 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
 	
-    std::vector<ArgumentList> line(width, ArgumentList(1));
+    std::vector<ArgumentList> line(width);
     arguments_.resize(height, line);
 
     if(level_data["arguments"]) {
@@ -70,7 +70,7 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
             VirtualObj::Vector data = it->value<VirtualObj::Vector>();
             int x = data[0].value<int>();
             int y = data[1].value<int>();
-            arguments_[y][x][0] = data[2].value<std::string>();
+            arguments_[y][x].push_back(data[2].value<std::string>());
             printf("x=%d; y=%d; arg='%s'\n", x, y, arguments_[y][x][0].c_str());
         }
     }
@@ -133,6 +133,7 @@ void LevelLoader::InitializeWallTypes() {
     }
 }
 
+/*
 WorldObject* GenerateStandingMummy(const std::vector<std::string>&) {
 	return mummy_builder_.StandingMummy(world_->image_factory()->MummyImage());
 }
@@ -157,30 +158,19 @@ WorldObject* GenerateStandingPharaoh(const std::vector<std::string>&) {
 WorldObject* GeneratePharaoh(const std::vector<std::string>&) {
 	return mummy_builder_.WalkingPharaoh(world_->image_factory()->PharaohImage());
 }
-WorldObject* GenerateLifePotion(const std::vector<std::string>&) {
-	return potion_builder_.LifePotion(world_->image_factory()->LifePotionImage());
-}
-WorldObject* GenerateManaPotion(const std::vector<std::string>&) {
-	return potion_builder_.ManaPotion(world_->image_factory()->ManaPotionImage());
-}
-WorldObject* GenerateSightPotion(const std::vector<std::string>&) {
-	return potion_builder_.SightPotion(world_->image_factory()->SightPotionImage());
-}
-WorldObject* GenerateBlueGem(const std::vector<std::string>&) {
-	return potion_builder_.BlueGem(world_->image_factory()->BlueGemImage());
-}
+*/
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position) {
-    builder::DoodadBuilder doodad_builder_;
+    ArgumentList blank;
 	switch(token) {
 		case WALL: {
-			WorldObject* wobj = doodad_builder_.Wall();
+			WorldObject* wobj = builder::DoodadBuilder::Wall(blank);
 			wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
 			world_->AddWorldObject(wobj, position);
 			break;
 		}
 		case ENTRY: {
-			WorldObject* wobj = doodad_builder_.Entry();
+			WorldObject* wobj = builder::DoodadBuilder::Entry(blank);
 			wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
 			world_->AddWorldObject(wobj, position);
 			break;
@@ -193,7 +183,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
 			GameMap& matrix = world_->level_matrix();
 			if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
 				Vector2D pos = position + Vector2D(0.5, 0);
-				world_->AddWorldObject(doodad_builder_.Door(world_), pos);
+				world_->AddWorldObject(builder::DoodadBuilder::Door(blank, world_), pos);
 			}
 			break;
 		}
@@ -216,25 +206,23 @@ void LevelLoader::Load(const std::string& file_name) {
 
     ugdk::graphic::Node* floors = new ugdk::graphic::Node;
 
-    builder::DoodadBuilder doodad_builder_;
     builder::MummyBuilder mummy_builder_;
-    builder::ItemBuilder potion_builder_;
     builder::EntityBuilder entity_builder_;
 
-    token_function_[BLOCK] = bind(builder::DoodadBuilder::Block, doodad_builder_, _1);
-    token_function_[STANDING_MUMMY] = &LevelLoader::GenerateStandingMummy;
+    token_function_[BLOCK] = builder::DoodadBuilder::Block;
+    /*token_function_[STANDING_MUMMY] = &LevelLoader::GenerateStandingMummy;
     token_function_[STANDING_BIG_MUMMY] = &LevelLoader::GenerateStandingBigMummy;
     token_function_[STANDING_RANGED_MUMMY] = &LevelLoader::GenerateStandingRangedMummy;
     token_function_[STANDING_PHARAOH] = &LevelLoader::GenerateStandingPharaoh;
     token_function_[MUMMY] = &LevelLoader::GenerateMummy;
     token_function_[BIG_MUMMY] = &LevelLoader::GenerateBigMummy;
     token_function_[RANGED_MUMMY] = &LevelLoader::GenerateRangedMummy;
-    token_function_[PHARAOH] = &LevelLoader::GeneratePharaoh;
-    token_function_[POTIONL] = bind(builder::ItemBuilder::LifePotion, potion_builder_, _1);
-    token_function_[POTIONM] = bind(builder::ItemBuilder::ManaPotion, potion_builder_, _1);
-    token_function_[POTIONS] = bind(builder::ItemBuilder::SightPotion, potion_builder_, _1);
-    token_function_[BLUEGEM] = bind(builder::ItemBuilder::BlueGem, potion_builder_, _1);
-    token_function_[BUTTON] = bind(builder::DoodadBuilder::Block, doodad_builder_, _1, world_); // TODO: world_->num_button_not_pressed() += 1;
+    token_function_[PHARAOH] = &LevelLoader::GeneratePharaoh;*/
+    token_function_[POTIONL] = builder::ItemBuilder::LifePotion;
+    token_function_[POTIONM] = builder::ItemBuilder::ManaPotion;
+    token_function_[POTIONS] = builder::ItemBuilder::SightPotion;
+    token_function_[BLUEGEM] = builder::ItemBuilder::BlueGem;
+    token_function_[BUTTON] = builder::DoodadBuilder::Button; // TODO: world_->num_button_not_pressed() += 1;
 
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {
@@ -242,7 +230,7 @@ void LevelLoader::Load(const std::string& file_name) {
 
         	char token = matrix[i][j]->object();
         	if(token_function_[token]) {
-				WorldObject* obj = token_function_[token](this, arguments_[i][j][0]);
+				WorldObject* obj = token_function_[token](arguments_[i][j]);
 				if(obj) {
 					world_->AddWorldObject(obj, position);
 				}

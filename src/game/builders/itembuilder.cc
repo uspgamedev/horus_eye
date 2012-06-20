@@ -29,6 +29,7 @@ class FlexibleSpritesheet;
 }
 
 namespace builder {
+namespace ItemBuilder {
 
 using namespace utils;
 using sprite::WorldObject;
@@ -159,32 +160,33 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
 
 //=======================================
 
-WorldObject* ItemBuilder::LifePotion(const std::vector<std::string>& arguments) {
+WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.LifePotionImage());
     wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE)));
     return wobj;
 }
 
-WorldObject* ItemBuilder::ManaPotion(const std::vector<std::string>& arguments) {
+WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
     wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA)));
     return wobj;
 }
 
-WorldObject* ItemBuilder::SightPotion(const std::vector<std::string>& arguments) {
+WorldObject* SightPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.SightPotionImage());
     wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE)));
     return wobj;
 }
 
-WorldObject* ItemBuilder::BlueGem(const std::vector<std::string>& arguments) {
+WorldObject* BlueGem(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.BlueGemImage());
     wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new BlueGemShieldEvent));
     return wobj;
 }
 
-}
+} // namespace ItemBuilder
+} // namespace builder

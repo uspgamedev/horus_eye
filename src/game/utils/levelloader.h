@@ -45,7 +45,7 @@ class LevelLoader {
     void InitializeWallTypes();
 
     std::vector<std::vector<ArgumentList> > arguments_;
-    std::map<char, std::tr1::function<sprite::WorldObject* (LevelLoader*, const std::string&)> > token_function_;
+    std::map<char, WorldObjectFactoryMethod> token_function_;
     std::vector<std::vector<component::Wall* > > wall_matrix_;
 };
 

@@ -22,6 +22,7 @@
 #include "game/utils/constants.h"
 
 namespace builder {
+namespace DoodadBuilder {
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
@@ -46,7 +47,7 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-WorldObject* DoodadBuilder::Door(const std::vector<std::string>& arguments, scene::World* world) {
+WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world) {
     WorldObject* wobj = new WorldObject;
     wobj->node()->set_drawable(new Sprite(world->image_factory()->DoorImage()));
 
@@ -70,12 +71,12 @@ static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     return wobj;
 }
 
-WorldObject* DoodadBuilder::Wall(const std::vector<std::string>& arguments) {
+WorldObject* Wall(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     return buildWall(factory.WallImage());
 }
 
-WorldObject* DoodadBuilder::Entry(const std::vector<std::string>& arguments) {
+WorldObject* Entry(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     return buildWall(factory.EntryImage());
 }
@@ -118,7 +119,7 @@ static void CollisionButton(ButtonLogic* button_logic, void*) {
 	button_logic->Press();
 }
 
-WorldObject* DoodadBuilder::Button(const std::vector<std::string>& arguments) {
+WorldObject* Button(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 
@@ -205,7 +206,7 @@ static void InvalidMovementCollision(BlockLogic* data, void* obj) {
 	data->RevertPosition();
 }
 
-WorldObject* DoodadBuilder::Block(const std::vector<std::string>& arguments) {
+WorldObject* Block(const std::vector<std::string>& arguments) {
 	utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 	
@@ -226,4 +227,5 @@ WorldObject* DoodadBuilder::Block(const std::vector<std::string>& arguments) {
 	return wobj;
 }
 
+} // namespace DoodadBuilder
 } // namespace builder

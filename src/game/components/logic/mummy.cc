@@ -47,14 +47,13 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
 static void MummyDeath(sprite::WorldObject* wobj) {
     int potion = rand() % 100;
     if (potion <=20){
-        builder::ItemBuilder builder;
-        ImageFactory* image_factory = WORLD()->image_factory();
+        std::vector<std::string> blank;
         if(potion > 10)
-            WORLD()->AddWorldObject(builder.LifePotion(image_factory->LifePotionImage()), wobj->world_position());
+            WORLD()->AddWorldObject(builder::ItemBuilder::LifePotion(blank), wobj->world_position());
         else if(potion> 5)
-            WORLD()->AddWorldObject(builder.ManaPotion(image_factory->ManaPotionImage()), wobj->world_position());
+            WORLD()->AddWorldObject(builder::ItemBuilder::ManaPotion(blank), wobj->world_position());
         else
-            WORLD()->AddWorldObject(builder.SightPotion(image_factory->SightPotionImage()), wobj->world_position());
+            WORLD()->AddWorldObject(builder::ItemBuilder::SightPotion(blank), wobj->world_position());
     }
 }
 
