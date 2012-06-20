@@ -47,27 +47,6 @@ class LevelLoader {
     std::vector<std::vector<ArgumentList> > arguments_;
     std::map<char, std::tr1::function<sprite::WorldObject* (LevelLoader*, const std::string&)> > token_function_;
     std::vector<std::vector<component::Wall* > > wall_matrix_;
-
-    builder::DoodadBuilder doodad_builder_;
-    builder::MummyBuilder mummy_builder_;
-    builder::ItemBuilder potion_builder_;
-    builder::EntityBuilder entity_builder_;
-
-    sprite::WorldObject* GenerateBlock(const std::string&);
-    sprite::WorldObject* GenerateStandingMummy(const std::string&);
-    sprite::WorldObject* GenerateMummy(const std::string&);
-    sprite::WorldObject* GenerateStandingBigMummy(const std::string&);
-    sprite::WorldObject* GenerateBigMummy(const std::string&);
-    sprite::WorldObject* GenerateStandingRangedMummy(const std::string&);
-    sprite::WorldObject* GenerateRangedMummy(const std::string&);
-    sprite::WorldObject* GenerateStandingPharaoh(const std::string&);
-    sprite::WorldObject* GeneratePharaoh(const std::string&);
-    sprite::WorldObject* GenerateLifePotion(const std::string&);
-    sprite::WorldObject* GenerateManaPotion(const std::string&);
-    sprite::WorldObject* GenerateSightPotion(const std::string&);
-    sprite::WorldObject* GenerateBlueGem(const std::string&);
-    sprite::WorldObject* GenerateButton(const std::string&);
-
 };
 
 }

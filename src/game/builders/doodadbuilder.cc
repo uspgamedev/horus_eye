@@ -46,7 +46,7 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-WorldObject* DoodadBuilder::Door(scene::World* world) {
+WorldObject* DoodadBuilder::Door(const std::vector<std::string>& arguments, scene::World* world) {
     WorldObject* wobj = new WorldObject;
     wobj->node()->set_drawable(new Sprite(world->image_factory()->DoorImage()));
 
@@ -70,12 +70,12 @@ static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     return wobj;
 }
 
-WorldObject* DoodadBuilder::Wall() {
+WorldObject* DoodadBuilder::Wall(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     return buildWall(factory.WallImage());
 }
 
-WorldObject* DoodadBuilder::Entry() {
+WorldObject* DoodadBuilder::Entry(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     return buildWall(factory.EntryImage());
 }
@@ -118,13 +118,13 @@ static void CollisionButton(ButtonLogic* button_logic, void*) {
 	button_logic->Press();
 }
 
-WorldObject* DoodadBuilder::Button(const std::string& argument) {
+WorldObject* DoodadBuilder::Button(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 
 	Sprite* sprite = new Sprite(factory.TileSwitchImage());
 	ButtonLogic* logic;
-	if(argument.compare("pizza") == 0) {
+    if(arguments.size() > 0 && arguments[0].compare("pizza") == 0) {
 		logic = new ButtonLogic(sprite, PIZZAMATAHERO);
 		WORLD()->num_button_not_pressed() -= 1;
 	} else
@@ -205,7 +205,7 @@ static void InvalidMovementCollision(BlockLogic* data, void* obj) {
 	data->RevertPosition();
 }
 
-WorldObject* DoodadBuilder::Block() {
+WorldObject* DoodadBuilder::Block(const std::vector<std::string>& arguments) {
 	utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 	

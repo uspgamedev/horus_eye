@@ -45,6 +45,8 @@ using namespace sprite;
 using namespace ugdk;
 using component::Wall;
 using ugdk::script::VirtualObj;
+using std::tr1::bind;
+using namespace std::tr1::placeholders;
 
 #define LINE_SIZE 1024
 
@@ -131,51 +133,45 @@ void LevelLoader::InitializeWallTypes() {
     }
 }
 
-WorldObject* LevelLoader::GenerateBlock(const std::string&) {
-	return doodad_builder_.Block();
-}
-WorldObject* LevelLoader::GenerateStandingMummy(const std::string&) {
+WorldObject* GenerateStandingMummy(const std::vector<std::string>&) {
 	return mummy_builder_.StandingMummy(world_->image_factory()->MummyImage());
 }
-WorldObject* LevelLoader::GenerateMummy(const std::string&) {
+WorldObject* GenerateMummy(const std::vector<std::string>&) {
 	return mummy_builder_.WalkingMummy(world_->image_factory()->MummyImage());
 }
-WorldObject* LevelLoader::GenerateStandingBigMummy(const std::string&) {
+WorldObject* GenerateStandingBigMummy(const std::vector<std::string>&) {
 	return mummy_builder_.StandingBigMummy(world_->image_factory()->BigMummyImage());
 }
-WorldObject* LevelLoader::GenerateBigMummy(const std::string&) {
+WorldObject* GenerateBigMummy(const std::vector<std::string>&) {
 	return mummy_builder_.BigMummy(world_->image_factory()->BigMummyImage());
 }
-WorldObject* LevelLoader::GenerateStandingRangedMummy(const std::string&) {
+WorldObject* GenerateStandingRangedMummy(const std::vector<std::string>&) {
 	return mummy_builder_.StandingRangedMummy(world_->image_factory()->RangedMummyImage());
 }
-WorldObject* LevelLoader::GenerateRangedMummy(const std::string&) {
+WorldObject* GenerateRangedMummy(const std::vector<std::string>&) {
 	return mummy_builder_.RangedMummy(world_->image_factory()->RangedMummyImage());
 }
-WorldObject* LevelLoader::GenerateStandingPharaoh(const std::string&) {
+WorldObject* GenerateStandingPharaoh(const std::vector<std::string>&) {
 	return mummy_builder_.StandingPharaoh(world_->image_factory()->PharaohImage());
 }
-WorldObject* LevelLoader::GeneratePharaoh(const std::string&) {
+WorldObject* GeneratePharaoh(const std::vector<std::string>&) {
 	return mummy_builder_.WalkingPharaoh(world_->image_factory()->PharaohImage());
 }
-WorldObject* LevelLoader::GenerateLifePotion(const std::string&) {
+WorldObject* GenerateLifePotion(const std::vector<std::string>&) {
 	return potion_builder_.LifePotion(world_->image_factory()->LifePotionImage());
 }
-WorldObject* LevelLoader::GenerateManaPotion(const std::string&) {
+WorldObject* GenerateManaPotion(const std::vector<std::string>&) {
 	return potion_builder_.ManaPotion(world_->image_factory()->ManaPotionImage());
 }
-WorldObject* LevelLoader::GenerateSightPotion(const std::string&) {
+WorldObject* GenerateSightPotion(const std::vector<std::string>&) {
 	return potion_builder_.SightPotion(world_->image_factory()->SightPotionImage());
 }
-WorldObject* LevelLoader::GenerateBlueGem(const std::string&) {
+WorldObject* GenerateBlueGem(const std::vector<std::string>&) {
 	return potion_builder_.BlueGem(world_->image_factory()->BlueGemImage());
-}
-WorldObject* LevelLoader::GenerateButton(const std::string& arg) {
-	world_->num_button_not_pressed() += 1;
-	return doodad_builder_.Button(arg);
 }
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position) {
+    builder::DoodadBuilder doodad_builder_;
 	switch(token) {
 		case WALL: {
 			WorldObject* wobj = doodad_builder_.Wall();
@@ -220,7 +216,12 @@ void LevelLoader::Load(const std::string& file_name) {
 
     ugdk::graphic::Node* floors = new ugdk::graphic::Node;
 
-    token_function_[BLOCK] = &LevelLoader::GenerateBlock;
+    builder::DoodadBuilder doodad_builder_;
+    builder::MummyBuilder mummy_builder_;
+    builder::ItemBuilder potion_builder_;
+    builder::EntityBuilder entity_builder_;
+
+    token_function_[BLOCK] = bind(builder::DoodadBuilder::Block, doodad_builder_, _1);
     token_function_[STANDING_MUMMY] = &LevelLoader::GenerateStandingMummy;
     token_function_[STANDING_BIG_MUMMY] = &LevelLoader::GenerateStandingBigMummy;
     token_function_[STANDING_RANGED_MUMMY] = &LevelLoader::GenerateStandingRangedMummy;
@@ -233,7 +234,7 @@ void LevelLoader::Load(const std::string& file_name) {
     token_function_[POTIONM] = &LevelLoader::GenerateManaPotion;
     token_function_[POTIONS] = &LevelLoader::GenerateSightPotion;
     token_function_[BLUEGEM] = &LevelLoader::GenerateBlueGem;
-    token_function_[BUTTON] = &LevelLoader::GenerateButton;
+    token_function_[BUTTON] = bind(builder::DoodadBuilder::Block, doodad_builder_, _1, world_); // TODO: world_->num_button_not_pressed() += 1;
 
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {
