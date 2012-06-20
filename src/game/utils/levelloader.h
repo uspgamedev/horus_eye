@@ -25,6 +25,9 @@ using ugdk::Vector2D;
 
 namespace utils {
 
+typedef std::tr1::function<sprite::WorldObject* (const std::vector<std::string>&)> WorldObjectFactoryMethod;
+typedef std::vector<std::string> ArgumentList;
+
 class LevelLoader;
 class LevelLoader {
   public:
@@ -41,7 +44,7 @@ class LevelLoader {
     void TokenToWorldObject(char token, int i, int j, const Vector2D& position);
     void InitializeWallTypes();
 
-    std::vector<std::vector<std::string> > arguments_;
+    std::vector<std::vector<ArgumentList> > arguments_;
     std::map<char, std::tr1::function<sprite::WorldObject* (LevelLoader*, const std::string&)> > token_function_;
     std::vector<std::vector<component::Wall* > > wall_matrix_;
 

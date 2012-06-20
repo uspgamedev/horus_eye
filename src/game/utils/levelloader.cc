@@ -53,45 +53,47 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
 	VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + file_name);
 	if(!level_data) return false;
 
-	//TODO: error checking
-	std::string music_name = level_data["music"].value<std::string>();
-	int width = level_data["width"].value<int>();
-	int height = level_data["height"].value<int>();
+    if(!level_data["width"] || !level_data["height"] || !level_data["matrix"]) return false;
+
+    std::string music_name = level_data["music"] ? level_data["music"].value<std::string>() : "";
+    int width = level_data["width"].value<int>();
+    int height = level_data["height"].value<int>();
 	
-	arguments_.resize(height, std::vector<std::string>(width));
+    std::vector<ArgumentList> line(width, ArgumentList(1));
+    arguments_.resize(height, line);
 
-	VirtualObj::Vector arguments = level_data["arguments"].value<VirtualObj::Vector>();
-	for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
-		
-		VirtualObj::Vector data = it->value<VirtualObj::Vector>();
-		int x = data[0].value<int>();
-		int y = data[1].value<int>();
-		arguments_[y][x] = data[2].value<std::string>();
-		printf("x=%d; y=%d; arg='%s'\n", x, y, arguments_[y][x].c_str());
-	}
+    if(level_data["arguments"]) {
+        VirtualObj::Vector arguments = level_data["arguments"].value<VirtualObj::Vector>();
+        for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
+            VirtualObj::Vector data = it->value<VirtualObj::Vector>();
+            int x = data[0].value<int>();
+            int y = data[1].value<int>();
+            arguments_[y][x][0] = data[2].value<std::string>();
+            printf("x=%d; y=%d; arg='%s'\n", x, y, arguments_[y][x][0].c_str());
+        }
+    }
+    std::string matrix = level_data["matrix"].value<std::string>();
 
-	std::string matrix = level_data["matrix"].value<std::string>();
-
-	GameMap gamemap(height, TileRow(width));
-	{
-		int y = 0, x = 0;
-		for(std::string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
-			if(*it == '\n') {
-				//TODO if(x != width) { } (tratar erro?)
-				x = 0;
-				++y;
-				if(y == height) break;
-				continue;
-			}
-			gamemap[y][x] = new Tile(y, x, *it);
-			++x;
-		}
-	}
-	if(Settings::reference()->background_music())
-		world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music_name));
-	world_->set_level_width(width);
-	world_->set_level_height(height);
-	world_->set_level_matrix(gamemap);
+    GameMap gamemap(height, TileRow(width));
+    {
+        int y = 0, x = 0;
+        for(std::string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
+            if(*it == '\n') {
+                //TODO if(x != width) { } (tratar erro?)
+                x = 0;
+                ++y;
+                if(y == height) break;
+                continue;
+            }
+            gamemap[y][x] = new Tile(y, x, *it);
+            ++x;
+        }
+    }
+    if(Settings::reference()->background_music() && music_name.length() > 0)
+        world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music_name));
+    world_->set_level_width(width);
+    world_->set_level_height(height);
+    world_->set_level_matrix(gamemap);
 	return true;
 }
 
@@ -239,7 +241,7 @@ void LevelLoader::Load(const std::string& file_name) {
 
         	char token = matrix[i][j]->object();
         	if(token_function_[token]) {
-				WorldObject* obj = token_function_[token](this, arguments_[i][j]);
+				WorldObject* obj = token_function_[token](this, arguments_[i][j][0]);
 				if(obj) {
 					world_->AddWorldObject(obj, position);
 				}
