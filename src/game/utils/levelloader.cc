@@ -17,6 +17,9 @@
 #include "game/utils/tile.h"
 #include "game/utils/settings.h"
 
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
+
 
 /* Util functions found at http://stackoverflow.com/q/217605 */
 // trim from start
@@ -41,61 +44,54 @@ using namespace scene;
 using namespace sprite;
 using namespace ugdk;
 using component::Wall;
+using ugdk::script::VirtualObj;
 
 #define LINE_SIZE 1024
 
-bool LevelLoader::LoadMatrix(string file_name) {
-    FILE *file = fopen(PATH_MANAGER()->ResolvePath(file_name).c_str(), "r");
+bool LevelLoader::LoadMatrix(const std::string& file_name) {
 
-    if(file == NULL) {
-		fprintf(stderr, "CANNOT OPEN FILE: %s\n", file_name.c_str());
-		return false;
-    }
-	char buffer[LINE_SIZE];
-	fgets(buffer, LINE_SIZE, file);
-	string music(buffer);
-	trim(music);
+	VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + file_name);
+	if(!level_data) return false;
 
-	fgets(buffer, LINE_SIZE, file);
-	int width, height;
-	if(sscanf(buffer, "%d %d", &width, &height) < 2) return false;
+	//TODO: error checking
+	std::string music_name = level_data["music"].value<std::string>();
+	int width = level_data["width"].value<int>();
+	int height = level_data["height"].value<int>();
+	
+	arguments_.resize(height, std::vector<std::string>(width));
 
-	GameMap matrix(height);
-	arguments_.resize(height);
-	for (int i = 0; i < height; ++i)
-		arguments_[i].resize(width);
-
-	fgets(buffer, LINE_SIZE, file);
-	int num_arguments;
-	if(sscanf(buffer, "%d", &num_arguments) < 1) return false;
-
-	for (int i = 0; i < num_arguments; ++i) {
-		fgets(buffer, LINE_SIZE, file);
-		int x, y;
-		if(sscanf(buffer, "%d %d", &x, &y) < 2) return false;
-		char* arg = strchr(buffer, ' ');
-		arg = strchr(arg + 1, ' ');
-		if(!arg || strlen(arg) < 2) return false;
-		arg[strlen(arg) - 1] = '\0'; // remove linefeed
-		arguments_[y][x] = std::string(arg + 1);
-		printf("Buffer '%s', x=%d; y=%d; arg='%s'\n", buffer, x, y, arguments_[y][x].c_str());
+	VirtualObj::Vector arguments = level_data["arguments"].value<VirtualObj::Vector>();
+	for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
+		
+		VirtualObj::Vector data = it->value<VirtualObj::Vector>();
+		int x = data[0].value<int>();
+		int y = data[1].value<int>();
+		arguments_[y][x] = data[2].value<std::string>();
+		printf("x=%d; y=%d; arg='%s'\n", x, y, arguments_[y][x].c_str());
 	}
 
-	for (int i = 0; i < height; ++i) {
-		fgets(buffer, LINE_SIZE, file);
-		matrix[i] = TileRow(width);
-		for (int j = 0; j < width; j++) {
-			matrix[i][j] = new Tile(i, j, buffer[j]);
+	std::string matrix = level_data["matrix"].value<std::string>();
+
+	GameMap gamemap(height, TileRow(width));
+	{
+		int y = 0, x = 0;
+		for(std::string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
+			if(*it == '\n') {
+				//TODO if(x != width) { } (tratar erro?)
+				x = 0;
+				++y;
+				if(y == height) break;
+				continue;
+			}
+			gamemap[y][x] = new Tile(y, x, *it);
+			++x;
 		}
 	}
-
 	if(Settings::reference()->background_music())
-		world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music));
+		world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music_name));
 	world_->set_level_width(width);
 	world_->set_level_height(height);
-	world_->set_level_matrix(matrix);
-
-	fclose(file);
+	world_->set_level_matrix(gamemap);
 	return true;
 }
 
@@ -208,7 +204,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
 	}
 }
 
-void LevelLoader::Load(string file_name) {
+void LevelLoader::Load(const std::string& file_name) {
 
 	bool load_success = LoadMatrix(file_name);
 

@@ -31,8 +31,8 @@ class LevelLoader {
     LevelLoader(scene::World * world) : world_(world) {}
     virtual ~LevelLoader() {}
 
-    void Load(std::string);
-    bool LoadMatrix(std::string);
+    void Load(const std::string&);
+    bool LoadMatrix(const std::string&);
 
   protected:
     scene::World * world_;
