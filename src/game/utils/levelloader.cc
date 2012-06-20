@@ -230,10 +230,10 @@ void LevelLoader::Load(const std::string& file_name) {
     token_function_[BIG_MUMMY] = &LevelLoader::GenerateBigMummy;
     token_function_[RANGED_MUMMY] = &LevelLoader::GenerateRangedMummy;
     token_function_[PHARAOH] = &LevelLoader::GeneratePharaoh;
-    token_function_[POTIONL] = &LevelLoader::GenerateLifePotion;
-    token_function_[POTIONM] = &LevelLoader::GenerateManaPotion;
-    token_function_[POTIONS] = &LevelLoader::GenerateSightPotion;
-    token_function_[BLUEGEM] = &LevelLoader::GenerateBlueGem;
+    token_function_[POTIONL] = bind(builder::ItemBuilder::LifePotion, potion_builder_, _1);
+    token_function_[POTIONM] = bind(builder::ItemBuilder::ManaPotion, potion_builder_, _1);
+    token_function_[POTIONS] = bind(builder::ItemBuilder::SightPotion, potion_builder_, _1);
+    token_function_[BLUEGEM] = bind(builder::ItemBuilder::BlueGem, potion_builder_, _1);
     token_function_[BUTTON] = bind(builder::DoodadBuilder::Block, doodad_builder_, _1, world_); // TODO: world_->num_button_not_pressed() += 1;
 
     for (int i = 0; i < (int)matrix.size(); ++i) {
