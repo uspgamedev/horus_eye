@@ -134,9 +134,10 @@ void LevelLoader::InitializeWallTypes() {
 }
 
 /*
-WorldObject* GenerateStandingMummy(const std::vector<std::string>&) {
+WorldObject* GenerateStandingMummy(const std::vector<std::string>& arguments) {
 	return mummy_builder_.StandingMummy(world_->image_factory()->MummyImage());
 }
+
 WorldObject* GenerateMummy(const std::vector<std::string>&) {
 	return mummy_builder_.WalkingMummy(world_->image_factory()->MummyImage());
 }
@@ -206,18 +207,17 @@ void LevelLoader::Load(const std::string& file_name) {
 
     ugdk::graphic::Node* floors = new ugdk::graphic::Node;
 
-    builder::MummyBuilder mummy_builder_;
     builder::EntityBuilder entity_builder_;
 
     token_function_[BLOCK] = builder::DoodadBuilder::Block;
-    /*token_function_[STANDING_MUMMY] = &LevelLoader::GenerateStandingMummy;
-    token_function_[STANDING_BIG_MUMMY] = &LevelLoader::GenerateStandingBigMummy;
-    token_function_[STANDING_RANGED_MUMMY] = &LevelLoader::GenerateStandingRangedMummy;
-    token_function_[STANDING_PHARAOH] = &LevelLoader::GenerateStandingPharaoh;
-    token_function_[MUMMY] = &LevelLoader::GenerateMummy;
-    token_function_[BIG_MUMMY] = &LevelLoader::GenerateBigMummy;
-    token_function_[RANGED_MUMMY] = &LevelLoader::GenerateRangedMummy;
-    token_function_[PHARAOH] = &LevelLoader::GeneratePharaoh;*/
+    token_function_[STANDING_MUMMY] = builder::MummyBuilder::StandingMummy;
+    token_function_[STANDING_BIG_MUMMY] = builder::MummyBuilder::StandingBigMummy;
+    token_function_[STANDING_RANGED_MUMMY] = builder::MummyBuilder::StandingRangedMummy;
+    token_function_[STANDING_PHARAOH] = builder::MummyBuilder::StandingPharaoh;
+    token_function_[MUMMY] = builder::MummyBuilder::WalkingMummy;
+    token_function_[BIG_MUMMY] = builder::MummyBuilder::WalkingBigMummy;
+    token_function_[RANGED_MUMMY] = builder::MummyBuilder::WalkingRangedMummy;
+    token_function_[PHARAOH] = builder::MummyBuilder::WalkingPharaoh;
     token_function_[POTIONL] = builder::ItemBuilder::LifePotion;
     token_function_[POTIONM] = builder::ItemBuilder::ManaPotion;
     token_function_[POTIONS] = builder::ItemBuilder::SightPotion;
