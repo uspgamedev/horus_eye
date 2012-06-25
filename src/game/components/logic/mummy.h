@@ -30,6 +30,7 @@ class Mummy : public Creature {
     //void TakeDamage(double life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
     void set_bound(double radius);
+    void OnWorldAdd(scene::World* world);
 
     void StartAttack(sprite::WorldObject* obj);
     

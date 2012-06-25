@@ -58,14 +58,11 @@ void PharaohSummonWeapon::Use() {
     int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
         world->AddWorldObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos);
-        world->IncreaseNumberOfEnemies();
     }
     else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
         world->AddWorldObject(WalkingBigMummy(std::vector<std::string>()), mummyPos);
-        world->IncreaseNumberOfEnemies();
     }
     else {
         world->AddWorldObject(WalkingMummy(std::vector<std::string>()), mummyPos);
-        world->IncreaseNumberOfEnemies();
     }
 }

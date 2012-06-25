@@ -100,6 +100,10 @@ void Mummy::set_bound(double radius) {
     owner_->collision_object()->set_shape(new pyramidworks::geometry::Circle(radius));
 }
 
+void Mummy::OnWorldAdd(scene::World* world) {
+    world->IncreaseNumberOfEnemies();
+}
+
 void Mummy::RandomMovement(){
     double PI = acos(-1.0);
 
