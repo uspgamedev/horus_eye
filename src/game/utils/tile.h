@@ -58,6 +58,7 @@ class Tile {
     int j() const { return pos_.j; }
     const TilePos& pos() const { return pos_; }
     ugdk::graphic::Node* floor() { return floor_; }
+    bool has_floor() const { return object_ != EMPTY; }
 
     void set_visible(bool value) { visible_ = value; }
 

@@ -1,5 +1,8 @@
-musics/running_from_something.ogg
-40 60
+music = "musics/running_from_something.ogg"
+width = 40
+height = 60
+arguments = {}
+matrix = [[
                                         
        #########################        
        #.......................#        
@@ -60,3 +63,4 @@ musics/running_from_something.ogg
                                         
                                         
                                         
+]]

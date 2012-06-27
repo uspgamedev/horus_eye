@@ -13,6 +13,11 @@
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
 
+#include <ugdk/modules.h>
+#include <pyramidworks/modules.h>
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/languages/lua/luawrapper.h>
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -25,6 +30,16 @@ utils::LevelManager* level_manager() {
 
 ugdk::Engine* engine() {
     return ugdk::Engine::reference();
+}
+
+static void InitScripts() {
+    using ugdk::script::lua::LuaWrapper;
+
+    //inicializando lua
+    LuaWrapper* lua_wrapper = new LuaWrapper();
+    ugdk::RegisterLuaModules(lua_wrapper);
+    pyramidworks::RegisterLuaModules(lua_wrapper);
+    SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
 }
 
 void StartGame() {
@@ -73,7 +88,7 @@ int main(int argc, char *argv[]) {
     engine_config.window_icon = "";
 #endif
 
-    //InitScripts();
+    InitScripts();
     engine()->Initialize(engine_config);
 
     engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");

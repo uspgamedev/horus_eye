@@ -1,8 +1,8 @@
 7
-levels/level_1.txt
-levels/level_lightningtest.txt
-levels/level_2.txt
-levels/level_3.txt
-levels/level_4.txt
-levels/level_turtle.txt
-levels/throne_level.txt
+level_1
+level_lightningtest
+level_2
+level_3
+level_4
+level_turtle
+throne_level

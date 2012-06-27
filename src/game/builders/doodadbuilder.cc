@@ -22,6 +22,7 @@
 #include "game/utils/constants.h"
 
 namespace builder {
+namespace DoodadBuilder {
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
@@ -46,7 +47,7 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
         data_->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-WorldObject* DoodadBuilder::Door(scene::World* world) {
+WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world) {
     WorldObject* wobj = new WorldObject;
     wobj->node()->set_drawable(new Sprite(world->image_factory()->DoorImage()));
 
@@ -70,20 +71,31 @@ static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     return wobj;
 }
 
-WorldObject* DoodadBuilder::Wall() {
+WorldObject* Wall(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     return buildWall(factory.WallImage());
 }
 
-WorldObject* DoodadBuilder::Entry() {
+WorldObject* Entry(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     return buildWall(factory.EntryImage());
+}
+
+static void PIZZAMATAHERO() {
+	WORLD()->hero()->damageable()->TakeDamage(12341231231.0);
+}
+
+static void WorldPressButton() {
+	WORLD()->num_button_not_pressed() -= 1;
 }
 
 
 class ButtonLogic : public component::Logic {
 public:
-	ButtonLogic(Sprite* sprite) : pressed_(false), sprite_(sprite) {
+	ButtonLogic(Sprite* sprite, std::tr1::function<void (void)> callback)
+		:	pressed_(false),
+		 	sprite_(sprite),
+		 	callback_(callback) {
 		sprite_->SetDefaultFrame(2); 
 	}
 
@@ -92,7 +104,7 @@ public:
 	void Press() {
 		if(!pressed_) {
 			sprite_->SetDefaultFrame(0);
-			WORLD()->num_button_not_pressed() -= 1;
+			callback_();
 			pressed_ = true;
 		}
 	}
@@ -100,18 +112,24 @@ public:
 private:
 	bool pressed_;
 	Sprite* sprite_;
+	std::tr1::function<void (void)> callback_;
 };
 
 static void CollisionButton(ButtonLogic* button_logic, void*) {
 	button_logic->Press();
 }
 
-WorldObject* DoodadBuilder::Button() {
+WorldObject* Button(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 
 	Sprite* sprite = new Sprite(factory.TileSwitchImage());
-	ButtonLogic* logic = new ButtonLogic(sprite);
+	ButtonLogic* logic;
+    if(arguments.size() > 0 && arguments[0].compare("pizza") == 0) {
+		logic = new ButtonLogic(sprite, PIZZAMATAHERO);
+		WORLD()->num_button_not_pressed() -= 1;
+	} else
+		logic = new ButtonLogic(sprite, WorldPressButton);
 
     wobj->node()->set_drawable(sprite);
 	wobj->set_logic(logic);
@@ -188,7 +206,7 @@ static void InvalidMovementCollision(BlockLogic* data, void* obj) {
 	data->RevertPosition();
 }
 
-WorldObject* DoodadBuilder::Block() {
+WorldObject* Block(const std::vector<std::string>& arguments) {
 	utils::ImageFactory factory;
 	WorldObject* wobj = new WorldObject;
 	
@@ -209,4 +227,5 @@ WorldObject* DoodadBuilder::Block() {
 	return wobj;
 }
 
+} // namespace DoodadBuilder
 } // namespace builder

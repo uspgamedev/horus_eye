@@ -5,18 +5,17 @@
 #include "game/sprites.h"
 
 namespace builder {
-class MummyBuilder {
-  public:
-    MummyBuilder();
 
-    sprite::WorldObject *StandingMummy(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *WalkingMummy(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *RangedMummy(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *StandingRangedMummy(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *BigMummy(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *StandingBigMummy(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *WalkingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
-    sprite::WorldObject *StandingPharaoh(ugdk::graphic::FlexibleSpritesheet* image);
+namespace MummyBuilder {
+
+    sprite::WorldObject *WalkingMummy(const std::vector<std::string>& arguments);
+    sprite::WorldObject *StandingMummy(const std::vector<std::string>& arguments);
+    sprite::WorldObject *WalkingRangedMummy(const std::vector<std::string>& arguments);
+    sprite::WorldObject *StandingRangedMummy(const std::vector<std::string>& arguments);
+    sprite::WorldObject *WalkingBigMummy(const std::vector<std::string>& arguments);
+    sprite::WorldObject *StandingBigMummy(const std::vector<std::string>& arguments);
+    sprite::WorldObject *WalkingPharaoh(const std::vector<std::string>& arguments);
+    sprite::WorldObject *StandingPharaoh(const std::vector<std::string>& arguments);
 
 };
 

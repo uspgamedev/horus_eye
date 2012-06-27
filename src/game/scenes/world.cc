@@ -112,6 +112,8 @@ World::World(sprite::WorldObject *hero, utils::ImageFactory *factory)
         max_enemies_(0),
         image_factory_(factory),
         level_state_(LevelManager::NOT_FINISHED),
+        level_width_(10),
+        level_height_(10),
         konami_used_(false),
         lights_on_(true),
         num_button_not_pressed_(0),
@@ -130,6 +132,8 @@ World::World(sprite::WorldObject *hero, utils::ImageFactory *factory)
     hud_ = new utils::Hud(this);
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
+
+    QueuedAddEntity(hero_);
 
     this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
 #ifdef DEBUG
@@ -177,7 +181,7 @@ void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D
 }
 
 void World::AddHero(const ugdk::Vector2D& pos) {
-    this->AddWorldObject(hero_, pos);
+	hero_->set_world_position(pos);
 }
 
 int World::CountRemainingEnemies() {

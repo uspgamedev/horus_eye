@@ -1,5 +1,8 @@
-musics/Arabesque.ogg
-64 64
+music = "musics/Arabesque.ogg"
+width = 64
+height = 64
+arguments = {}
+matrix = [[
                            ###E###                              
                           ##..@..##                             
                          ##.......##                            
@@ -64,3 +67,4 @@ musics/Arabesque.ogg
        ######                                  ######           
                                                                 
                                                                 
+]]

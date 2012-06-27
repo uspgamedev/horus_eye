@@ -14,6 +14,7 @@ class Creature;
 }
 
 using namespace skills;
+using namespace builder::MummyBuilder;
 using ugdk::Vector2D;
 
 bool isObstacle(utils::Tile* tile) {
@@ -52,19 +53,16 @@ void PharaohSummonWeapon::Use() {
        */
     scene::World *world = WORLD();
     utils::ImageFactory *image_factory = world->image_factory();
-    builder::MummyBuilder mummy_builder;
+    
 
     int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
-        world->AddWorldObject(mummy_builder.RangedMummy(image_factory->RangedMummyImage()), mummyPos);
-        world->IncreaseNumberOfEnemies();
+        world->AddWorldObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos);
     }
     else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-        world->AddWorldObject(mummy_builder.BigMummy(image_factory->BigMummyImage()), mummyPos);
-        world->IncreaseNumberOfEnemies();
+        world->AddWorldObject(WalkingBigMummy(std::vector<std::string>()), mummyPos);
     }
     else {
-        world->AddWorldObject(mummy_builder.WalkingMummy(image_factory->MummyImage()), mummyPos);
-        world->IncreaseNumberOfEnemies();
+        world->AddWorldObject(WalkingMummy(std::vector<std::string>()), mummyPos);
     }
 }

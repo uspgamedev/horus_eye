@@ -9,17 +9,14 @@ class WorldObject;
 
 namespace builder {
 
-class ItemBuilder {
-  public:
-    ItemBuilder() {}
-    ~ItemBuilder() {}
+namespace ItemBuilder {
 
-    sprite::WorldObject* LifePotion(ugdk::graphic::Drawable* image);
-    sprite::WorldObject* ManaPotion(ugdk::graphic::Drawable* image);
-    sprite::WorldObject* SightPotion(ugdk::graphic::Drawable* image);
-    sprite::WorldObject* BlueGem(ugdk::graphic::Drawable* image);
-};
+sprite::WorldObject* LifePotion(const std::vector<std::string>& arguments);
+sprite::WorldObject* ManaPotion(const std::vector<std::string>& arguments);
+sprite::WorldObject* SightPotion(const std::vector<std::string>& arguments);
+sprite::WorldObject* BlueGem(const std::vector<std::string>& arguments);
 
+}
 }
 
 #endif /* HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_ */
