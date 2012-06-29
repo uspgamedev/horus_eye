@@ -1,3 +1,4 @@
+#include <functional>
 #include <ugdk/graphic/node.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
@@ -13,6 +14,12 @@ namespace ScriptBuilder {
     
 using ugdk::script::VirtualObj;
 using sprite::WorldObject;
+using std::tr1::bind;
+using namespace std::tr1::placeholders;
+
+static void On_die_callback(WorldObject* wobj, VirtualObj vobj) {
+    vobj();
+}
 
 /** arguments[0] is the script name. */
 WorldObject* Script(const std::vector<std::string>& arguments) {
@@ -24,6 +31,12 @@ WorldObject* Script(const std::vector<std::string>& arguments) {
 
     if(script_data["drawable"])
         wobj->graphic()->node()->set_drawable(script_data["drawable"].value<ugdk::graphic::Drawable*>(true));
+
+    if(script_data["timed_life"])
+        wobj->set_timed_life(script_data["timed_life"].value<double>());
+
+    if(script_data["on_die_callback"])
+        wobj->set_die_callback(bind(On_die_callback, _1, script_data["on_die_callback"]));
 
 	return wobj;
 }
