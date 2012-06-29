@@ -7,6 +7,8 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 
 #include "levelloader.h"
 
@@ -17,10 +19,6 @@
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
 #include "game/utils/settings.h"
-
-#include <ugdk/script/scriptmanager.h>
-#include <ugdk/script/virtualobj.h>
-
 
 /* Util functions found at http://stackoverflow.com/q/217605 */
 // trim from start

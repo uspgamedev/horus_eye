@@ -17,6 +17,7 @@
 #include <pyramidworks/modules.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/languages/lua/luawrapper.h>
+#include <ugdk/script/languages/python/pythonwrapper.h>
 
 #ifdef WIN32
 #include <windows.h>
@@ -34,12 +35,19 @@ ugdk::Engine* engine() {
 
 static void InitScripts() {
     using ugdk::script::lua::LuaWrapper;
+    using ugdk::script::python::PythonWrapper;
 
     //inicializando lua
     LuaWrapper* lua_wrapper = new LuaWrapper();
     ugdk::RegisterLuaModules(lua_wrapper);
     pyramidworks::RegisterLuaModules(lua_wrapper);
     SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
+
+    //inicializando python
+    PythonWrapper* py_wrapper = new PythonWrapper();
+    ugdk::RegisterPythonModules(py_wrapper);
+    pyramidworks::RegisterPythonModules(py_wrapper);
+    SCRIPT_MANAGER()->Register("Python", py_wrapper);
 }
 
 void StartGame() {
