@@ -5,16 +5,16 @@ arguments = {
 	{ 4, 4, "pizza" }
 }
 matrix = [[
-  #########E#  
-  #..UUUUUU@#  
-  #..UUUUUU.#  
-  #..UUUUUU.#  
-  #.U.DDUUU.#  
-  #..UUUUUU.#  
-  #..UUUUUU.#  
-  #.........#  
-  #...#######  
-  #.K.#        
+ ##########E#  
+ #...UUUUUU@#  
+ #...UUUUUU.#  
+ #..!UUUUUU.#  
+ #..U.DDUUU.#  
+ #...UUUUUU.#  
+ #...UUUUUU.#  
+ #..........#  
+ #....#######  
+ ##.K.#        
   #...#        
   #...#######  
   #........N#  

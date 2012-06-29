@@ -74,6 +74,7 @@
     <ClCompile Include="src\game\components\logic\follower.cc" />
     <ClCompile Include="src\game\builders\explosionbuilder.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
+    <ClCompile Include="src\game\builders\scriptbuilder.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
     <ClCompile Include="src\game\utils\geometryprimitives.cc" />
@@ -161,6 +162,7 @@
     <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
     <ClInclude Include="src\game\entities\emitterentity.h" />
     <ClInclude Include="src\game\components\logic\follower.h" />
+    <ClInclude Include="src\game\builders\scriptbuilder.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\components\projectile.h" />
     <ClInclude Include="src\game\builders\explosionbuilder.h" />
