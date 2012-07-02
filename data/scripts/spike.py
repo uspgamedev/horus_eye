@@ -1,5 +1,7 @@
 from ugdk.ugdk_drawable import Sprite
 from ugdk.ugdk_base import ResourceManager_GetSpritesheetFromTag as GetSpritesheetFromTag, ResourceManager_GetAnimationSetFromFile as GetAnimationSetFromFile
+from ugdk.pyramidworks_collision import *
+from ugdk.pyramidworks_geometry import *
 
 import random
 
@@ -15,4 +17,6 @@ def generate():
     d['drawable'].SelectAnimation("HERO_FIREBALL_WEAPON")
     d['timed_life'] = 5.0
     d['on_die_callback'] = on_die_callback
+
+    d['collision_object'] = CollisionObject()
     return d

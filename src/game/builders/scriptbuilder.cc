@@ -38,6 +38,9 @@ WorldObject* Script(const std::vector<std::string>& arguments) {
     if(script_data["on_die_callback"])
         wobj->set_die_callback(bind(On_die_callback, _1, script_data["on_die_callback"]));
 
+    if(script_data["collision_object"])
+        wobj->set_collision_object(script_data["collision_object"].value<pyramidworks::collision::CollisionObject*>(true));
+
 	return wobj;
 }
 
