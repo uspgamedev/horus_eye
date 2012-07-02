@@ -3,11 +3,13 @@
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/genericcollisionlogic.h>
 
 #include "scriptbuilder.h"
 
 #include "game/components/graphic.h"
 #include "game/components/logic.h"
+#include "game/components/damageable.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 
@@ -18,12 +20,22 @@ using ugdk::script::VirtualObj;
 using sprite::WorldObject;
 using std::tr1::bind;
 using pyramidworks::collision::CollisionObject;
+using pyramidworks::collision::CollisionLogic;
 using namespace std::tr1::placeholders;
+
+// TODO: variable damage
+static void DealDamage(void* data) {
+    static_cast<WorldObject*>(data)->damageable()->TakeDamage(100);
+}
+
+// TODO: receive a VirtualObject (argument)
+static CollisionLogic* create_cologic_deal_damage(WorldObject* wobj) {
+    return new pyramidworks::collision::GenericCollisionLogic(DealDamage);
+}
 
 static void On_die_callback(WorldObject* wobj, VirtualObj vobj) {
     vobj();
 }
-
 
 static void create_drawable(WorldObject* wobj, VirtualObj data) {
     wobj->graphic()->node()->set_drawable(data.value<ugdk::graphic::Drawable*>(true));
@@ -35,24 +47,38 @@ static void create_die_callback(WorldObject* wobj, VirtualObj data) {
     wobj->set_die_callback(bind(On_die_callback, _1, data));
 }
 static void create_collision(WorldObject* wobj, VirtualObj coldata) {
+    if(!coldata["class"] || !coldata["shape"]) return;
+
     CollisionObject* colobj = new CollisionObject(WORLD()->collision_manager(), wobj);
     wobj->set_collision_object(colobj);
 
     colobj->InitializeCollisionClass(coldata["class"].value<std::string>());
     colobj->set_shape(coldata["shape"].value<pyramidworks::geometry::GeometricShape*>(true));
+
+    if(coldata["known_collision"]) {
+        VirtualObj::Vector known_collisions = coldata["known_collision"].value<VirtualObj::Vector>();
+        for(VirtualObj::Vector::iterator it = known_collisions.begin(); it != known_collisions.end(); ++it) {
+            VirtualObj::Vector logicvect = it->value<VirtualObj::Vector>();
+            if(logicvect.size() < 2) continue;
+            std::string classname = logicvect[0].value<std::string>();
+            std::string logicname = logicvect[1].value<std::string>();
+            // TODO: use logicname
+            colobj->AddCollisionLogic(classname, create_cologic_deal_damage(wobj));
+        }
+    }
 }
 
+#define NUM_FIELDS 4
 typedef void (*ScriptWobj)(WorldObject*, VirtualObj);
 struct {
     std::string name;
     ScriptWobj func;
-} valid_names[] = {
+} valid_names[NUM_FIELDS] = {
     { "drawable", create_drawable },
     { "timed_life", create_timedlife },
     { "on_die_callback", create_die_callback },
     { "collision", create_collision }
 };
-#define NUM_FIELDS 4
 
 
 /** arguments[0] is the script name. */
