@@ -1,4 +1,6 @@
-#include <functional>
+#include <cmath>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/drawable/sprite.h>

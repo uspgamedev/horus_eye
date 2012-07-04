@@ -79,9 +79,11 @@ SET(GAME_SRCS
     ./src/game/builders/projectilebuilder.cc 
     ./src/game/builders/mummybuilder.cc 
     ./src/game/builders/taskbuilder.h 
+    ./src/game/builders/scriptbuilder.cc 
     ./src/game/builders/doodadbuilder.h 
     ./src/game/builders/doodadbuilder.cc 
     ./src/game/builders/entitybuilder.cc 
+    ./src/game/builders/scriptbuilder.h 
     ./src/game/builders/goodmenubuilder.cc 
     ./src/game/builders/itembuilder.h 
     ./src/game/builders/herobuilder.h 
