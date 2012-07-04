@@ -41,14 +41,14 @@ static WorldObject* build_mummy_wobj(ugdk::graphic::Spritesheet* image, double l
     return wobj;
 }
 
-sprite::WorldObject* MummyBuilder::WalkingMummy(const std::vector<std::string>& arguments) {
+sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     sprite::WorldObject* obj = StandingMummy(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject* MummyBuilder::StandingMummy(const std::vector<std::string>& arguments) {
+sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj(factory.MummyImage(), Constants::MUMMY_LIFE);
 
@@ -59,7 +59,7 @@ sprite::WorldObject* MummyBuilder::StandingMummy(const std::vector<std::string>&
     return wobj;
 }
 
-sprite::WorldObject* MummyBuilder::StandingRangedMummy(const std::vector<std::string>& arguments) {
+sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj(factory.RangedMummyImage(), Constants::RANGED_MUMMY_LIFE);
 
@@ -70,13 +70,13 @@ sprite::WorldObject* MummyBuilder::StandingRangedMummy(const std::vector<std::st
     return wobj;
 }
 
-sprite::WorldObject* MummyBuilder::WalkingRangedMummy(const std::vector<std::string>& arguments) {
+sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingRangedMummy(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject* MummyBuilder::StandingBigMummy(const std::vector<std::string>& arguments) {
+sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj(factory.BigMummyImage(), Constants::BIG_MUMMY_LIFE);
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
@@ -89,13 +89,13 @@ sprite::WorldObject* MummyBuilder::StandingBigMummy(const std::vector<std::strin
     return wobj;
 }
 
-sprite::WorldObject * MummyBuilder::WalkingBigMummy(const std::vector<std::string>& arguments) {
+sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingBigMummy(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject * MummyBuilder::StandingPharaoh(const std::vector<std::string>& arguments) {
+sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj(factory.PharaohImage(), Constants::PHARAOH_LIFE);
     wobj->damageable()->set_super_armor(true);
@@ -108,7 +108,7 @@ sprite::WorldObject * MummyBuilder::StandingPharaoh(const std::vector<std::strin
     return wobj;
 }
 
-sprite::WorldObject * MummyBuilder::WalkingPharaoh(const std::vector<std::string>& arguments) {
+sprite::WorldObject * WalkingPharaoh(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPharaoh(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
