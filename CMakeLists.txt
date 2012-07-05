@@ -87,9 +87,9 @@ include_directories(${LUA_INCLUDE_DIR})
 find_package(PythonLibs 2.7 REQUIRED)
 include_directories(${PYTHON_INCLUDE_DIRS})
 
-find_package(Boost 1.48.0 REQUIRED)
-include_directories("${Boost_INCLUDE_DIRS}/boost/tr1/tr1")
-include_directories(${Boost_INCLUDE_DIRS})
+#find_package(Boost 1.48.0 REQUIRED)
+#include_directories("${Boost_INCLUDE_DIRS}/boost/tr1/tr1")
+#include_directories(${Boost_INCLUDE_DIRS})
 
 find_library (LUGDK ugdk_d lib/)
 if (NOT LUGDK)
@@ -127,6 +127,8 @@ IF(UNIX)
                          ${SDLTTF_LIBRARY}
                          ${SDLIMAGE_LIBRARY}
                          ${OPENGL_LIBRARIES}
+						 ${LUA_LIBRARIES}
+						 ${PYTHON_LIBRARIES}
                         )
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
   # Debug target.

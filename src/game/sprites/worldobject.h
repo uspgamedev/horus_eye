@@ -2,7 +2,8 @@
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
 #include <string>
-#include <functional>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
