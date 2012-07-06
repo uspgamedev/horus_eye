@@ -3,6 +3,7 @@
 
 #include <string>
 #include <ugdk/action.h>
+#include <ugdk/base/types.h>
 #include "game/components/direction.h"
 
 namespace utils {
