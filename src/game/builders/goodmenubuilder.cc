@@ -79,6 +79,12 @@ void MainMenuCredits(Scene* menu, const UIElement * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
 
+#ifdef DEBUG
+void MainMenuDebugPlay(Scene* menu, const UIElement * source) {
+    utils::LevelManager::reference()->DebugLoadSpecificLevel("debug_level");
+}
+#endif
+
 void SceneExit(Scene* scene, const UIElement * source) {
     scene->Finish();
 }
@@ -181,6 +187,14 @@ Scene* MenuBuilder::MainMenu() const {
     menu->AddObject(new UIElement(settings_position, settings_text, bind(MainMenuSettings, main_menu, _1)));
     menu->AddObject(new UIElement(credits_position,  credits_text,  bind(MainMenuCredits, main_menu, _1)));
     menu->AddObject(new UIElement(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
+
+#ifdef DEBUG
+    Text* debug_text    = ResourceManager::CreateTextFromLanguageTag("DebugStage");
+    ugdk::Vector2D debug_position;
+    debug_position.x = debug_text->size().x * 0.6;
+    debug_position.y = 50.0;
+    menu->AddObject(new UIElement(debug_position,    debug_text,    bind(MainMenuDebugPlay, main_menu, _1)));
+#endif
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);

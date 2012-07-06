@@ -7,6 +7,7 @@
 #WORDS
 // Main menu
 [Play]{FontA}:Jogar
+[DebugStage]{FontA}:Fase de Debug
 [Help]{FontA}:Ajuda
 [Editor]{FontA}:Editor
 [Settings]{FontA}:Configurações

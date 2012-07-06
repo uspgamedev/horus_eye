@@ -51,9 +51,16 @@ class LevelManager {
 
     void InformLoadingDeleted() { loading_ = NULL; }
 
+#ifdef DEBUG
+    void DebugLoadSpecificLevel(const std::string& level_name) {
+        loadSpecificLevel(level_name);
+    }
+#endif
+
   private:
     LevelManager();
     void DeleteHero();
+    void loadSpecificLevel(const std::string& level_name);
 
     scene::World* current_level_;
     ugdk::action::Scene* menu_;
