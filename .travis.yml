@@ -4,15 +4,12 @@ before_script:
   - wget http://dfn.dl.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.tar.gz
   - tar xf boost_1_49_0.tar.gz
   - sudo mv boost_1_49_0/boost /usr/local/include
-  - git clone --depth=100 --quiet git://github.com/uspgamedev/ugdk.git ugdk
-  - cd ugdk
-  - git checkout dev
   - cmake .
-  - make
-  - ./deploy.sh ../
-  - cd ..
-  - cmake .
-script: "make"
+  - make ugdk
+  - cd externals/ugdk
+  - ./deploy.sh ../../
+  - cd ../../
+script: "make horus_eye"
 notifications:
   email:
       - travis@uspgamedev.org
