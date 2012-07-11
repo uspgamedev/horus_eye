@@ -1,19 +1,18 @@
-
-# Inicializando...
-CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(horus_eye CXX C)
 SET(GAME_UNIXNAME horus_eye)
 SET(GAME_DEBUGNAME horus_eye_debug)
 SET(GAME_NAME "Horus Eye")
 SET(GAME_VERSION "1.1.2 Alpha")
 SET(CMAKE_BUILD_TYPE Release)
-# Arquivos de código fonte vão aqui!
+
+# Arquivos de codigo fonte vao aqui!
 include (src/src_list.cmake)
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     SET(GAME_SRCS ${GAME_SRCS} src/mac/SDLMain.h src/mac/SDLMain.m)
 ENDIF ()
 
-MESSAGE("${GAME_NAME} version ${GAME_VERSION}")
+MESSAGE("== ${GAME_NAME} version ${GAME_VERSION} ==")
 
 IF (UNIVERSAL)
   # Necessary for a Mac Universal Binary
@@ -22,211 +21,34 @@ IF (UNIVERSAL)
   SET (MACOSX_DEPLOYMENT_TARGET 10.5)
 ENDIF (UNIVERSAL)
 
-# #define's que voce queira incluir na compilacao
-# separe por espacos
-SET(DEFS "" CACHE STRING "#define's que voce queira incluir na compilacao; separe por espacos")
-IF(WIN32)
-  SET(DEFS "${DEFS} WIN32")
-  IF(MSVC)
-    SET(DEFS "${DEFS} _CRT_SECURE_NO_DEPRECATE __MSVC__")
-  ENDIF(MSVC)
-ENDIF(WIN32)
+set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
+if (UNIX OR MINGW)
+    # se for o g++ para *nix ou o MinGW para Windows:
+    add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -msse2 -DBOOST_HAS_TR1_TUPLE)
+elseif (MSVC) 
+    add_definitions(/D_CRT_SECURE_NO_WARNINGS /DBOOST_ALL_NO_LIB /DBOOST_HAS_TR1_TUPLE /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /arch:SSE2 /fp:fast /MP)
+endif ()
+if(WIN32)
+    add_definitions(-DWIN32)
+endif()
 
-# CFLAGS: flags que voce queira enviar ao compilador
 # LDFLAGS: flags que voce queira enviar ao ligador
-SET(CFLAGS "" CACHE STRING "flags enviadas ao compilador")
 SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
-IF(UNIX)
-  # se for o g++ para *nix:
-  SET(CFLAGS "${CFLAGS} -g -Wall -ansi -O3 -U_FORTIFY_SOURCE -msse2")
-  IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    IF(UNIVERSAL)
-      SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
-    ELSE()
-      SET(LDFLAGS "${LDFLAGS}")
-    ENDIF()
-  ELSE()
-    SET(LDFLAGS "${LDFLAGS}")
-  ENDIF()
-ELSE(UNIX)
-  IF(MINGW)
-    # se for o g++ para Windows:
-    SET(CFLAGS "${CFLAGS} -Wall -ansi -O3 -U_FORTIFY_SOURCE")
-    SET(LDFLAGS "${LDFLAGS}")
-  ELSE(MINGW)
-    # se for o Microsoft Visual C++:
-    SET(CFLAGS "${CFLAGS}")
-    SET(LDFLAGS "${LDFLAGS}")
-  ENDIF(MINGW)
-ENDIF(UNIX)
 
-# ${GAME_SRCS} esta' definido?
-IF(NOT GAME_SRCS)
-  MESSAGE(FATAL_ERROR "Erro: GAME_SRCS nao esta' definido! Favor rodar o script ./update_cmake antes do cmake")
-ENDIF(NOT GAME_SRCS)
+# se for o g++ para *nix:
+IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
+    SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
+ENDIF()
 
-# Encontrando as bibliotecas necessarias:
-find_package(OpenGL REQUIRED)
-include_directories(${OPENGL_INCLUDE_DIR})
-
-find_package(SDL REQUIRED)
-include_directories(${SDL_INCLUDE_DIR})
-
-find_package(SDL_mixer REQUIRED)
-include_directories(${SDLMIXER_INCLUDE_DIR})
-
-find_package(SDL_ttf REQUIRED)
-include_directories(${SDLTTF_INCLUDE_DIR})
-
-find_package(SDL_image REQUIRED)
-include_directories(${SDLIMAGE_INCLUDE_DIR})
-
-find_package(Lua51 REQUIRED)
-include_directories(${LUA_INCLUDE_DIR})
-
-find_package(PythonLibs 2.7 REQUIRED)
-include_directories(${PYTHON_INCLUDE_DIRS})
-
-#find_package(Boost 1.48.0 REQUIRED)
-#include_directories("${Boost_INCLUDE_DIRS}/boost/tr1/tr1")
-#include_directories(${Boost_INCLUDE_DIRS})
-
-find_library (LUGDK ugdk_d lib/)
-if (NOT LUGDK)
-    find_library (LUGDK ugdk lib/)
-    if (NOT LUGDK)
-        message (FATAL_ERROR "Fatal error: libugdk not found!")
-    endif (NOT LUGDK)
-endif (NOT LUGDK)
-
-# pre-processor: #define's
-IF(MSVC)
-  FOREACH(d ${DEFS})
-    SET(CFLAGS_EXTRA "${CFLAGS_EXTRA} /D${d}")
-  ENDFOREACH(d)
-ELSE(MSVC)
-  FOREACH(d ${DEFS})
-    SET(CFLAGS_EXTRA "${CFLAGS_EXTRA} -D${d}")
-  ENDFOREACH(d)
-ENDIF(MSVC)
+subdirs(externals/ugdk)
 
 cmake_policy(SET CMP0015 NEW)
-link_directories ("lib")
 include_directories ("include")
 include_directories ("src")
+include_directories ("externals/sdl1.2/include")
+include_directories ("externals/ugdk/src")
 
-# *nix executable
-IF(UNIX)
-  ADD_EXECUTABLE(${GAME_UNIXNAME} ${GAME_SRCS})
-  SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES (${GAME_UNIXNAME}
-                         m
-                         ${LUGDK}
-                         ${SDL_LIBRARY}
-                         ${SDLMIXER_LIBRARY}
-                         ${SDLTTF_LIBRARY}
-                         ${SDLIMAGE_LIBRARY}
-                         ${OPENGL_LIBRARIES}
-						 ${LUA_LIBRARIES}
-						 ${PYTHON_LIBRARIES}
-                        )
-  SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
-  # Debug target.
-  ADD_EXECUTABLE(${GAME_DEBUGNAME} EXCLUDE_FROM_ALL ${GAME_SRCS})
-  SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} 
-                         m
-                         ${LUGDK}
-                         ${SDL_LIBRARY}
-                         ${SDLMIXER_LIBRARY}
-                         ${SDLTTF_LIBRARY}
-                         ${SDLIMAGE_LIBRARY}
-                         ${OPENGL_LIBRARIES}
-                        )
-  SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
-ENDIF(UNIX)
-
-# Windows executable
-IF(WIN32)
-
-  # MSVC fix
-  IF(MSVC)
-    STRING(REGEX REPLACE "[.]cc" ".h" GAME_HEADERS "${GAME_SRCS}")
-    SET(GAME_SRCS ${GAME_SRCS} ${GAME_HEADERS})
-  ENDIF(MSVC)
-
-  # Executables
-  ADD_EXECUTABLE(${GAME_UNIXNAME} WIN32 ${GAME_SRCS})
-  ADD_EXECUTABLE(${GAME_DEBUGNAME} WIN32 ${GAME_SRCS})
-
-  # Other properties
-  IF(MSVC)
-
-    # Release properties
-    SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-    SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "/D_CRT_SECURE_NO_DEPRECATE /D__WIN32__ /D__MSVC__ ${CFLAGS} ${CFLAGS_EXTRA}")
-    TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
-    # Debug properties.
-    SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-    SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "/D_CRT_SECURE_NO_DEPRECATE /D__WIN32__ /D__MSVC__ ${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
-    TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
-
-  ELSE(MSVC)
-
-    # RC compiler
-    IF(NOT CMAKE_RC_COMPILER)
-      SET(CMAKE_RC_COMPILER windres)
-    ENDIF(NOT CMAKE_RC_COMPILER)
-
-    SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-    SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
-    TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
-    # Debug.
-    SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-    SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
-    TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m mingw32 SDLmain SDL SDL_image SDL_mixer SDL_ttf OpenGL32 glu32)
-
-    # icone
-    EXECUTE_PROCESS(COMMAND ${CMAKE_RC_COMPILER} -O coff -o horus_eye.res -i ./horus_eye.rc)
-    SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "horus_eye.res")
-    SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "horus_eye.res")
-
-  ENDIF(MSVC)
-
-ENDIF(WIN32)
-
-# Misc
+ADD_EXECUTABLE(${GAME_UNIXNAME} ${GAME_SRCS})
+SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
 SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES PROJECT_NAME "${GAME_NAME}")
-SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES PROJECT_NAME "${GAME_NAME} (DEBUG)")
-
-# Installing on *nix
-IF(UNIX)
-  IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    # Mac
-    SET(CHECKMAC "#define ISMAC 1")
-    SET(GAME_INSTALL_DIR ".")
-  ELSE()
-    SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}/data")
-    set (GAME_LOCAL_DIR "./data")
-    SET(GAME_FINAL_DIR "/usr/bin")
-    
-    INSTALL(CODE "MESSAGE(\"Installing ${GAME_NAME} ${GAME_VERSION}... Make sure you have root privileges.\")")
-    install (CODE
-      "set_target_properties (${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS) \"${CFLAGS} ${CFLAGS_EXTRA} -DINSTALLED\""
-    )
-    
-    INSTALL(TARGETS ${GAME_UNIXNAME} RUNTIME DESTINATION ${GAME_INSTALL_DIR})
-    #INSTALL(FILES license.txt readme.html DESTINATION ${GAME_INSTALL_DIR})
-    INSTALL(DIRECTORY data DESTINATION ${GAME_INSTALL_DIR})
-
-    INSTALL(CODE "MESSAGE(\"Done! Please run ${GAME_UNIXNAME} to start ${GAME_NAME}.\")")
-  ENDIF()
-ELSE(UNIX)
-  SET(GAME_INSTALL_DIR "./data")
-ENDIF(UNIX)
-
-CONFIGURE_FILE(
-    "${PROJECT_SOURCE_DIR}/src/game/config.h.in"
-    "${PROJECT_SOURCE_DIR}/src/game/config.h"
-)
-
+TARGET_LINK_LIBRARIES (${GAME_UNIXNAME} ugdk)
