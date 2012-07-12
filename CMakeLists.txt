@@ -1,20 +1,14 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(horus_eye CXX C)
-SET(GAME_UNIXNAME horus_eye)
-SET(GAME_NAME "Horus Eye")
-SET(GAME_VERSION "1.1.2 Alpha")
-SET(CMAKE_BUILD_TYPE Release)
+set(horus_eye_VERSION_MAJOR 1)
+set(horus_eye_VERSION_MINOR 1)
+set(horus_eye_VERSION_SUBMINOR 2)
+SET(horus_eye_FULL_VERSION "${horus_eye_VERSION_MAJOR}.${horus_eye_VERSION_MINOR}.${horus_eye_VERSION_SUBMINOR} Alpha")
 
-include (src/src_list.cmake)
-if (WIN32) # Adding the icon to the windows executable
-	set(GAME_SRCS ${GAME_SRCS} horus_eye.rc)
-endif()
+MESSAGE("== Horus Eye -- version ${GAME_VERSION} ==")
 
-IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    SET(GAME_SRCS ${GAME_SRCS} src/mac/SDLMain.h src/mac/SDLMain.m)
-ENDIF ()
-
-MESSAGE("== ${GAME_NAME} version ${GAME_VERSION} ==")
+# TODO: document why we need this.
+cmake_policy(SET CMP0015 NEW)
 
 IF (UNIVERSAL)
   # Necessary for a Mac Universal Binary
@@ -23,46 +17,12 @@ IF (UNIVERSAL)
   SET (MACOSX_DEPLOYMENT_TARGET 10.5)
 ENDIF (UNIVERSAL)
 
-set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
-if (UNIX OR MINGW)
-    # se for o g++ para *nix ou o MinGW para Windows:
-    add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -msse2 -DBOOST_HAS_TR1_TUPLE)
-elseif (MSVC) 
-    add_definitions(/D_CRT_SECURE_NO_WARNINGS /DBOOST_ALL_NO_LIB /DBOOST_HAS_TR1_TUPLE /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /arch:SSE2 /fp:fast /MP)
-endif ()
-if(WIN32)
-    add_definitions(-DWIN32)
-endif()
-
-# LDFLAGS: flags que voce queira enviar ao ligador
-SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
-
-# se for o g++ para *nix:
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
-    SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mmacosx-version-min=10.5")
 ENDIF()
 
-subdirs(externals/ugdk)
-
-cmake_policy(SET CMP0015 NEW)
-include_directories ("include")
-include_directories ("src")
+# FindUGDK
+add_subdirectory(externals/ugdk)
 include_directories ("externals/ugdk/src")
 
-find_package(SDL REQUIRED)
-include_directories(${SDL_INCLUDE_DIR})
-
-find_package(SDL_mixer REQUIRED)
-include_directories(${SDLMIXER_INCLUDE_DIR})
-
-ADD_EXECUTABLE(${GAME_UNIXNAME} ${GAME_SRCS})
-SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES PROJECT_NAME "${GAME_NAME}")
-TARGET_LINK_LIBRARIES (${GAME_UNIXNAME} ugdk)
-
-set(GAME_LOCAL_DIR "./data")
-
-CONFIGURE_FILE(
-    "src/game/config.h.in"
-    "src/game/config.h"
-)
+add_subdirectory(src) # The game binary.

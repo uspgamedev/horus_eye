@@ -1,8 +1,9 @@
 #!/bin/bash
-FILES=`find ./src/ | grep "^.*\.\(h\|cc\)$"`
-echo "SET(GAME_SRCS " > ./src/src_list.cmake
+cd src
+FILES=`find ./ | grep "^.*\.\(h\|cc\)$"`
+echo "SET(GAME_SRCS " > ./src_list.cmake
 for f in $FILES; do
-	echo "    $f " >> ./src/src_list.cmake
+	echo "    $f " >> ./src_list.cmake
 done
-echo ")" >> ./src/src_list.cmake
-echo "Arquivo src/src_list.txt criado com sucesso."
+echo ")" >> ./src_list.cmake
+echo "Arquivo src_list.txt criado com sucesso."
