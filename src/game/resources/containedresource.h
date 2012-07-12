@@ -72,8 +72,10 @@ class ContainedResource : public Resource<resource_t> {
 
     typedef Resource<resource_t> super;
     void Normalize() {
-        super::resource_pool() = std::min(super::resource_pool(), max_value_);
-        super::resource_pool() = std::max(super::resource_pool(), min_value_);
+        using std::min;
+        using std::max;
+        super::resource_pool() = min(super::resource_pool(), max_value_);
+        super::resource_pool() = max(super::resource_pool(), min_value_);
     }
 
   private:

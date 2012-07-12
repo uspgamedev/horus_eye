@@ -88,9 +88,9 @@ int main(int argc, char *argv[]) {
         return 2;
 #else
         engine_config.base_path = "./";
+#endif
 #ifdef DEBUG
         fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", constants::data_location().c_str());
-#endif
 #endif
     }
 

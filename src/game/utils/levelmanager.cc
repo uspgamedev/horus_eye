@@ -1,5 +1,6 @@
 #include <fstream>
 #include <iostream>
+#include <curl/curl.h>
 
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
@@ -91,6 +92,16 @@ void LevelManager::ShowIntro() {
     if(Settings::reference()->background_music())
         scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
+
+//#ifndef DEBUG
+    CURL *curl = curl_easy_init();
+    if(curl) {
+        curl_easy_setopt(curl, CURLOPT_URL, "http://uspgamedev.org/");
+        curl_easy_setopt(curl, CURLOPT_POSTFIELDS, "game=horus_eye");
+        curl_easy_perform(curl);
+        curl_easy_cleanup(curl);
+    }
+//#endif
 }
 
 void LevelManager::ShowCredits() {
