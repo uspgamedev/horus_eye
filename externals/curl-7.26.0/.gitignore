@@ -18,10 +18,12 @@ Win32/
 *.exp
 *.rc
 *.lib
+*.so
 *.manifest
 *.lastbuildstate
 cmake_install.cmake
 lib/Makefile.inc.cmake
 lib/cmake_install.cmake
 src/Makefile.inc.cmake
+src/curl
 lib/curl_config.h
