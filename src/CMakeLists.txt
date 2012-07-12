@@ -35,7 +35,7 @@ horus_add_scriptlang (python)
 set (GENERATED_SRC ${GENERATED_SRC})
 
 add_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
-target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES})
+target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES} ${CURL_LIBRARIES})
 
 set(GAME_LOCAL_DIR "./data")
 

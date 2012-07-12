@@ -25,12 +25,18 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/resources-v${RESOURCES_VERSION}.tgz)
   file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz ${CMAKE_CURRENT_SOURCE_DIR}/resources-v${RESOURCES_VERSION}.tgz)
   execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v${RESOURCES_VERSION}.tgz)
 endif()
-set(BUILD_CURL_EXE OFF)
-set(BUILD_CURL_TESTS OFF)
-subdirs(externals/curl-7.26.0)
+
+find_package(CURL)
+if(NOT CURL_FOUND)
+	set(CURL_INCLUDE_DIRS	"externals/curl-7.26.0/include")
+	set(CURL_LIBRARIES		libcurl)
+	set(BUILD_CURL_EXE OFF)
+	set(BUILD_CURL_TESTS OFF)
+	subdirs(externals/curl-7.26.0)
+endif()
 
 cmake_policy(SET CMP0015 NEW)
-include_directories ("externals/curl-7.26.0/include")
+include_directories (${CURL_INCLUDE_DIRS})
 
 # FindUGDK
 option (USE_EMBBEDED_UGDK "" OFF)
