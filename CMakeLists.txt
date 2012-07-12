@@ -1,13 +1,15 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(horus_eye CXX C)
 SET(GAME_UNIXNAME horus_eye)
-SET(GAME_DEBUGNAME horus_eye_debug)
 SET(GAME_NAME "Horus Eye")
 SET(GAME_VERSION "1.1.2 Alpha")
 SET(CMAKE_BUILD_TYPE Release)
 
-# Arquivos de codigo fonte vao aqui!
 include (src/src_list.cmake)
+if (WIN32) # Adding the icon to the windows executable
+	set(GAME_SRCS ${GAME_SRCS} horus_eye.rc)
+endif()
+
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     SET(GAME_SRCS ${GAME_SRCS} src/mac/SDLMain.h src/mac/SDLMain.m)
 ENDIF ()
