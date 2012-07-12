@@ -47,8 +47,13 @@ subdirs(externals/ugdk)
 cmake_policy(SET CMP0015 NEW)
 include_directories ("include")
 include_directories ("src")
-include_directories ("externals/sdl1.2/include")
 include_directories ("externals/ugdk/src")
+
+find_package(SDL REQUIRED)
+include_directories(${SDL_INCLUDE_DIR})
+
+find_package(SDL_mixer REQUIRED)
+include_directories(${SDLMIXER_INCLUDE_DIR})
 
 ADD_EXECUTABLE(${GAME_UNIXNAME} ${GAME_SRCS})
 SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
