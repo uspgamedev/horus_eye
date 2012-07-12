@@ -62,3 +62,8 @@ auto_deploy.sh
 *.pyc
 
 /deploy/dotNetFx40_Full_setup.exe
+*.vcxproj
+*.filters
+*.user
+x64/
+Win32/
