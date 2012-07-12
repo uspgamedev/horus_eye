@@ -102,8 +102,8 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
     owner_->set_world_position(last_stable_position_);
 
     // Get all values we'll need
-    const pyramidworks::geometry::Circle *circle =
-        (const pyramidworks::geometry::Circle*) owner_->collision_object()->shape();
+    //const pyramidworks::geometry::Circle *circle =
+    //    (const pyramidworks::geometry::Circle*) owner_->collision_object()->shape();
 
     const pyramidworks::geometry::Rect *rect = 
         (const pyramidworks::geometry::Rect*) coll_obj->shape();

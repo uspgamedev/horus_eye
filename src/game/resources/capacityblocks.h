@@ -67,6 +67,8 @@ class CapacityBlocks : public CountableResource {
     Energy& contents_;
     const double capacity_per_block_;
 
+    CapacityBlocks& operator=(CapacityBlocks&);
+
 };
 
 } /* namespace sprite */

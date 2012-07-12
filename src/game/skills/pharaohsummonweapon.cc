@@ -52,8 +52,6 @@ void PharaohSummonWeapon::Use() {
        So in this example, we will summon a big mummy.
        */
     scene::World *world = WORLD();
-    utils::ImageFactory *image_factory = world->image_factory();
-    
 
     int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
