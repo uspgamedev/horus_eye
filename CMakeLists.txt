@@ -123,6 +123,8 @@ IF(UNIX)
                          ${SDLTTF_LIBRARY}
                          ${SDLIMAGE_LIBRARY}
                          ${OPENGL_LIBRARIES}
+						 ${LUA_LIBRARIES}
+						 ${PYTHON_LIBRARIES}
                         )
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
   # Debug target.

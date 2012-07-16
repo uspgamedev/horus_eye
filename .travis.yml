@@ -1,0 +1,18 @@
+before_script:
+  - sudo apt-get update > /dev/null
+  - sudo apt-get install cmake libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-net1.2-dev libsdl-ttf2.0-dev swig2.0 liblua5.1-0-dev python-dev  > /dev/null
+  - wget http://dfn.dl.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.tar.gz
+  - tar xf boost_1_49_0.tar.gz
+  - sudo mv boost_1_49_0/boost /usr/local/include
+  - git clone --depth=100 --quiet git://github.com/uspgamedev/ugdk.git ugdk
+  - cd ugdk
+  - git checkout dev
+  - cmake .
+  - make
+  - ./deploy.sh ../
+  - cd ..
+  - cmake .
+script: "make"
+notifications:
+  email:
+      - travis@uspgamedev.org

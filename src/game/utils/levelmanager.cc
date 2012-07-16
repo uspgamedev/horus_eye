@@ -128,7 +128,7 @@ void LevelManager::FinishLevel(LevelState state) {
         ShowGameOver();
         // no break on purpose
     case FINISH_QUIT:
-        loading_->Finish();
+        if(loading_) loading_->Finish();
         loading_ = NULL;
         // no break on purpose
     case NOT_FINISHED:
@@ -147,27 +147,7 @@ void LevelManager::LoadNextLevel() {
         DeleteHero();
         return;
     }
-    utils::ImageFactory *factory = new utils::ImageFactory();
-    if (level_list_iterator_ == 0) {
-        if (hero_ == NULL) {
-            builder::HeroBuilder builder(factory);
-            hero_ = builder.Kha();
-        }
-    }
-    static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
-
-    current_level_ = new World(hero_, factory);
-    {
-        LevelLoader loader(current_level_);
-        loader.Load(level_list_.at(level_list_iterator_));
-
-        builder::TaskBuilder task_builder;
-        current_level_->AddTask(task_builder.PauseMenuTask());
-        current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
-    }
-
-    Engine::reference()->PushScene(current_level_);
-    static_cast<component::Hero*>(hero_->logic())->SetupCollision();
+    loadSpecificLevel(level_list_.at(level_list_iterator_));
 }
 
 void LevelManager::Finish() {
@@ -183,6 +163,28 @@ void LevelManager::DeleteHero() {
         delete hero_;
         hero_ = NULL;
     }
+}
+
+void LevelManager::loadSpecificLevel(const std::string& level_name) {
+    utils::ImageFactory *factory = new utils::ImageFactory();
+    if (hero_ == NULL) {
+        builder::HeroBuilder builder(factory);
+        hero_ = builder.Kha();
+    }
+    static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
+
+    current_level_ = new World(hero_, factory);
+    {
+        LevelLoader loader(current_level_);
+        loader.Load(level_name);
+
+        builder::TaskBuilder task_builder;
+        current_level_->AddTask(task_builder.PauseMenuTask());
+        current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
+    }
+
+    Engine::reference()->PushScene(current_level_);
+    static_cast<component::Hero*>(hero_->logic())->SetupCollision();
 }
 
 }

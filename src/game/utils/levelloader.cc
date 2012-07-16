@@ -8,19 +8,18 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 
 #include "levelloader.h"
 
+#include "game/builders/scriptbuilder.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/logic/wall.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/tile.h"
 #include "game/utils/settings.h"
-
-#include <ugdk/script/scriptmanager.h>
-#include <ugdk/script/virtualobj.h>
-
 
 /* Util functions found at http://stackoverflow.com/q/217605 */
 // trim from start
@@ -134,34 +133,6 @@ void LevelLoader::InitializeWallTypes() {
     }
 }
 
-/*
-WorldObject* GenerateStandingMummy(const std::vector<std::string>& arguments) {
-	return mummy_builder_.StandingMummy(world_->image_factory()->MummyImage());
-}
-
-WorldObject* GenerateMummy(const std::vector<std::string>&) {
-	return mummy_builder_.WalkingMummy(world_->image_factory()->MummyImage());
-}
-WorldObject* GenerateStandingBigMummy(const std::vector<std::string>&) {
-	return mummy_builder_.StandingBigMummy(world_->image_factory()->BigMummyImage());
-}
-WorldObject* GenerateBigMummy(const std::vector<std::string>&) {
-	return mummy_builder_.BigMummy(world_->image_factory()->BigMummyImage());
-}
-WorldObject* GenerateStandingRangedMummy(const std::vector<std::string>&) {
-	return mummy_builder_.StandingRangedMummy(world_->image_factory()->RangedMummyImage());
-}
-WorldObject* GenerateRangedMummy(const std::vector<std::string>&) {
-	return mummy_builder_.RangedMummy(world_->image_factory()->RangedMummyImage());
-}
-WorldObject* GenerateStandingPharaoh(const std::vector<std::string>&) {
-	return mummy_builder_.StandingPharaoh(world_->image_factory()->PharaohImage());
-}
-WorldObject* GeneratePharaoh(const std::vector<std::string>&) {
-	return mummy_builder_.WalkingPharaoh(world_->image_factory()->PharaohImage());
-}
-*/
-
 void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position) {
     ArgumentList blank;
 	switch(token) {
@@ -224,6 +195,7 @@ void LevelLoader::Load(const std::string& file_name) {
     token_function_[POTIONS] = builder::ItemBuilder::SightPotion;
     token_function_[BLUEGEM] = builder::ItemBuilder::BlueGem;
     token_function_[BUTTON] = builder::DoodadBuilder::Button; // TODO: world_->num_button_not_pressed() += 1;
+    token_function_[SCRIPT] = builder::ScriptBuilder::Script;
 
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {

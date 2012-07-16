@@ -74,6 +74,7 @@
     <ClCompile Include="src\game\components\logic\follower.cc" />
     <ClCompile Include="src\game\builders\explosionbuilder.cc" />
     <ClCompile Include="src\game\skills\herobaseweapon.cc" />
+    <ClCompile Include="src\game\builders\scriptbuilder.cc" />
     <ClCompile Include="src\game\sprites\worldobject.cc" />
     <ClCompile Include="src\game\utils\constants.cc" />
     <ClCompile Include="src\game\utils\geometryprimitives.cc" />
@@ -161,6 +162,7 @@
     <ClInclude Include="src\game\sprites\creatures\pharaoh.h" />
     <ClInclude Include="src\game\entities\emitterentity.h" />
     <ClInclude Include="src\game\components\logic\follower.h" />
+    <ClInclude Include="src\game\builders\scriptbuilder.h" />
     <ClInclude Include="src\game\sprites\itemevent.h" />
     <ClInclude Include="src\game\components\projectile.h" />
     <ClInclude Include="src\game\builders\explosionbuilder.h" />
@@ -182,6 +184,7 @@
     <ClInclude Include="src\game\utils\visionstrategy.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="data\scripts\spike.py" />
     <None Include="deploy\eye.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -351,7 +354,7 @@
       <SubSystem>Console</SubSystem>
       <EntryPointSymbol>
       </EntryPointSymbol>
-      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;ugdk_d.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>SDL.lib;SDLmain.lib;SDL_image.lib;SDL_mixer.lib;SDL_ttf.lib;OpenGL32.lib;glu32.lib;ugdk_d.lib;Ws2_32.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>msvcrt.lib;%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
       <Profile>true</Profile>
     </Link>
@@ -497,7 +500,7 @@
       <OptimizeReferences>true</OptimizeReferences>
       <EnableCOMDATFolding>
       </EnableCOMDATFolding>
-      <AdditionalDependencies>OpenGL32.lib;glu32.lib;ugdk.lib;SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;SDL_mixer.lib;Ws2_32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>OpenGL32.lib;glu32.lib;ugdk.lib;SDL.lib;SDLmain.lib;SDL_image.lib;SDL_ttf.lib;SDL_mixer.lib;Ws2_32.lib;lua51.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <LinkTimeCodeGeneration>UseLinkTimeCodeGeneration</LinkTimeCodeGeneration>
       <Profile>true</Profile>
     </Link>
