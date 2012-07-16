@@ -3,7 +3,8 @@
 
 #include <vector>
 #include <string>
-#include <functional>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/builders/entitybuilder.h"

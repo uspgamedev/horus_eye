@@ -2,6 +2,7 @@
 #define HORUSEYE_UTILS_ISOMETRICANIMATIONSET_H_
 
 #include <string>
+#include <ugdk/base/types.h>
 #include <ugdk/action.h>
 #include "game/components/direction.h"
 

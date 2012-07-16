@@ -1,5 +1,6 @@
 #include <algorithm>
-#include <functional>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <locale>
 #include <cstdio>
 #include <cfloat>

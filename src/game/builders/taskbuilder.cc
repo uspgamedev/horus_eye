@@ -1,5 +1,6 @@
 #include <list>
-#include <functional>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <ugdk/action/generictask.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/input/inputmanager.h>

@@ -1,5 +1,7 @@
 #include <sstream>
-#include <functional>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
+#include FROM_TR1(memory)
 #include <memory>
 
 #include <ugdk/action/generictask.h>

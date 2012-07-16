@@ -62,3 +62,6 @@ auto_deploy.sh
 *.pyc
 
 /deploy/dotNetFx40_Full_setup.exe
+lib/libgtest.so
+lib/libgtest_main.so
+
