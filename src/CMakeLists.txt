@@ -12,13 +12,10 @@ ENDIF ()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 if (UNIX OR MINGW)
     # se for o g++ para *nix ou o MinGW para Windows:
-    add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -msse2 -DBOOST_HAS_TR1_TUPLE)
+    add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -msse2)
 elseif (MSVC) 
-    add_definitions(/D_CRT_SECURE_NO_WARNINGS /DBOOST_ALL_NO_LIB /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /arch:SSE2 /fp:fast /MP)
+    add_definitions(/D_CRT_SECURE_NO_WARNINGS /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /arch:SSE2 /fp:fast /MP)
 endif ()
-if(WIN32)
-#    add_definitions(-DWIN32)
-endif()
 
 include_directories (".")
 

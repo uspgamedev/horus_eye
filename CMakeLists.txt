@@ -5,7 +5,7 @@ set(horus_eye_VERSION_MINOR 1)
 set(horus_eye_VERSION_SUBMINOR 2)
 SET(horus_eye_FULL_VERSION "${horus_eye_VERSION_MAJOR}.${horus_eye_VERSION_MINOR}.${horus_eye_VERSION_SUBMINOR} Alpha")
 
-MESSAGE("== Horus Eye -- version ${GAME_VERSION} ==")
+MESSAGE("== Horus Eye -- version ${horus_eye_FULL_VERSION} ==")
 
 # TODO: document why we need this.
 cmake_policy(SET CMP0015 NEW)
