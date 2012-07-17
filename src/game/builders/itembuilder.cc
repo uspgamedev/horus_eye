@@ -1,5 +1,4 @@
 #include <cmath>
-
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>

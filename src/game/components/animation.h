@@ -1,7 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_ANIMATION_H_
 #define HORUSEYE_COMPONENT_ANIMATION_H_
 
-#include <functional>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
