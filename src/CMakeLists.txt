@@ -27,6 +27,15 @@ include_directories(${SDLMIXER_INCLUDE_DIR})
 
 add_executable(horus_eye ${GAME_SRCS})
 target_link_libraries(horus_eye ugdk)
+if(WIN32)
+    add_custom_command(TARGET horus_eye POST_BUILD 
+    COMMAND xcopy externals\\ugdk\\src\\generated\\*.py data\\scripts\\ugdk\\ /q /k /y
+    WORKING_DIRECTORY ../ COMMENT "Python scripts")
+else()
+    add_custom_command(TARGET horus_eye POST_BUILD 
+    COMMAND cp -v externals/ugdk/src/generated/*.py data/scripts/ugdk
+    WORKING_DIRECTORY ../ COMMENT "Python scripts")
+endif()
 
 set(GAME_LOCAL_DIR "./data")
 

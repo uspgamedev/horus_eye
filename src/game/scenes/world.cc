@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
-#include <ugdk/portable/tr1.h>\n#include FROM_TR1(functional)
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <ugdk/action/scene.h>
 #include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>
@@ -121,13 +122,13 @@ World::World(sprite::WorldObject *hero, utils::ImageFactory *factory)
 
     content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
-	layers_[BACKGROUND_LAYER] = new graphic::Node;
-	layers_[FOREGROUND_LAYER] = new graphic::Node;
-	layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
-	layers_[FOREGROUND_LAYER]->set_zindex(FOREGROUND_LAYER);
+    layers_[BACKGROUND_LAYER] = new graphic::Node;
+    layers_[FOREGROUND_LAYER] = new graphic::Node;
+    layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
+    layers_[FOREGROUND_LAYER]->set_zindex(FOREGROUND_LAYER);
 
-	content_node()->AddChild(layers_[BACKGROUND_LAYER]);
-	content_node()->AddChild(layers_[FOREGROUND_LAYER]);
+    content_node()->AddChild(layers_[BACKGROUND_LAYER]);
+    content_node()->AddChild(layers_[FOREGROUND_LAYER]);
 
     hud_ = new utils::Hud(this);
     interface_node()->AddChild(hud_->node());
@@ -160,7 +161,7 @@ void World::End() {
         //hero_->Invulnerable(0);
         hero_->collision_object()->StopColliding();
         this->RemoveEntity(hero_);
-		layer_node(hero_->layer())->RemoveChild(hero_->node());
+        layer_node(hero_->layer())->RemoveChild(hero_->node());
         hero_ = NULL;
     }
 
@@ -181,7 +182,7 @@ void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D
 }
 
 void World::AddHero(const ugdk::Vector2D& pos) {
-	hero_->set_world_position(pos);
+    hero_->set_world_position(pos);
 }
 
 int World::CountRemainingEnemies() {
