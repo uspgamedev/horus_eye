@@ -1,7 +1,7 @@
 #include "imagefactory.h"
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
+#include <ugdk/graphic/spritesheet.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "constants.h"
@@ -20,40 +20,40 @@ Spritesheet* ImageFactory::HeroImage() {
     return ResourceManager::GetSpritesheetFromTag("images/sprite-sheet_MOD3.png");
 }
 
-FlexibleSpritesheet* ImageFactory::MummyImage(){
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/mummy_blue_120x140.png"));
+Spritesheet* ImageFactory::MummyImage(){
+    return ResourceManager::GetSpritesheetFromTag("images/mummy_blue_120x140.png");
 }
 
-FlexibleSpritesheet* ImageFactory::BigMummyImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/mummy_green_120x140.png"));
+Spritesheet* ImageFactory::BigMummyImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/mummy_green_120x140.png");
 }
 
-FlexibleSpritesheet* ImageFactory::PharaohImage(){
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/pharaoh_120x140.png"));
+Spritesheet* ImageFactory::PharaohImage(){
+    return ResourceManager::GetSpritesheetFromTag("images/pharaoh_120x140.png");
 }
 
-FlexibleSpritesheet* ImageFactory::RangedMummyImage(){
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/mummy_red_120x140.png"));
+Spritesheet* ImageFactory::RangedMummyImage(){
+    return ResourceManager::GetSpritesheetFromTag("images/mummy_red_120x140.png");
 }
 
-FlexibleSpritesheet* ImageFactory::MagicMissileImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/blue_fire_ball.png"));
+Spritesheet* ImageFactory::MagicMissileImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/blue_fire_ball.png");
 }
 
-FlexibleSpritesheet* ImageFactory::FireballImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/fireball_0.png"));
+Spritesheet* ImageFactory::FireballImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/fireball_0.png");
 }
 
-FlexibleSpritesheet* ImageFactory::MummyProjectileImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/green_fire_ball.png"));
+Spritesheet* ImageFactory::MummyProjectileImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/green_fire_ball.png");
 }
 
 Spritesheet* ImageFactory::ExplosionImage() {
     return ResourceManager::GetSpritesheetFromTag("images/explosion.png");
 }
 
-FlexibleSpritesheet* ImageFactory::QuakeImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/quake.png"));
+Spritesheet* ImageFactory::QuakeImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/quake.png");
 }
 
 Drawable* ImageFactory::LifePotionImage() {
@@ -94,12 +94,12 @@ Spritesheet* ImageFactory::EntryImage() {
     return ResourceManager::GetSpritesheetFromTag("images/door.png");
 }
 
-FlexibleSpritesheet* ImageFactory::LightningImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/lightning_bolt.png"));
+Spritesheet* ImageFactory::LightningImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/lightning_bolt.png");
 }
 
-FlexibleSpritesheet* ImageFactory::LightImage() {
-    return static_cast<FlexibleSpritesheet*>(ResourceManager::GetSpritesheetFromTag("images/yellow_fire_ball.png"));
+Spritesheet* ImageFactory::LightImage() {
+    return ResourceManager::GetSpritesheetFromTag("images/yellow_fire_ball.png");
 }
 
 Spritesheet* ImageFactory::TileSwitchImage() {

@@ -19,49 +19,27 @@ static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_
     engine()->resource_manager()->spritesheet_container().Insert(path, sheet);
 }
 
-static void CreateFlexibleSpritesheet(const char* path, double frame_width, double frame_height, const ugdk::Vector2D& hotspot) {
-    ugdk::base::ResourceManager* resources = engine()->resource_manager();
-    
-    ugdk::graphic::Texture* tex = resources->texture_container().Load(path, path);
-
-    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
-    sheet->set_frame_size(ugdk::Vector2D(frame_width, frame_height));
-    sheet->set_hotspot(hotspot);
-
-    resources->spritesheet_container().Insert(path, sheet);
-}
-
-static void CreateSimpleFlexibleSpritesheet(const char* path) {
-    ugdk::base::ResourceManager* resources = engine()->resource_manager();
-
-    ugdk::graphic::Texture* tex = resources->texture_container().Load(path, path);
-    
-    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
-    resources->spritesheet_container().Insert(path, sheet);
-}
-
 void LoadSpritesheets() {
     //CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
     //CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D( 55.0, 102.0)); // Kha
-    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Regular Mummy
-    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Giant Mummy
-    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Pharaoh
-    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Shooting Mummy
+    CreateFixedSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Regular Mummy
+    CreateFixedSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Giant Mummy
+    CreateFixedSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Pharaoh
+    CreateFixedSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Shooting Mummy
     
-    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Magic Missile
-    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Blue Gem
-    CreateFlexibleSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D( 64.0, 110.0)); // Shield
-    CreateFlexibleSpritesheet("images/fireball_0.png"         ,  64,  64, ugdk::Vector2D( 32.0,  32.0)); // Fireball
-    CreateFlexibleSpritesheet("images/green_fire_ball.png"    ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // MummyProjectileImage
-    CreateFlexibleSpritesheet("images/explosion.png"          , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Fireball Explosion
-    CreateFlexibleSpritesheet("images/quake.png"              , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Quake Explosion
-    CreateFlexibleSpritesheet("images/stairs3.png"            , 153, 109, ugdk::Vector2D( 76.5,  63.5)); // Door stairs
-    //CreateFlexibleSpritesheet("images/ground2_106x54.png"     , 106,  54, ugdk::Vector2D( 53.0,  27.0));
-    CreateFlexibleSpritesheet("images/stoneblock3.png"        , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Wall 
-    CreateFlexibleSpritesheet("images/door.png"               , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Entry
-    CreateFlexibleSpritesheet("images/lightning_bolt.png"     ,  64,  64, ugdk::Vector2D( 32.0,   32.0)); // Lightning Bolt
-    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D( 16.0,   16.0)); // Light
-	CreateFlexibleSpritesheet("images/tile_switch.png"        , 106,  54, ugdk::Vector2D( 53.0,   27.0)); // Door stairs
+    CreateFixedSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Magic Missile
+    CreateFixedSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Blue Gem
+    CreateFixedSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D( 64.0, 110.0)); // Shield
+    CreateFixedSpritesheet("images/fireball_0.png"         ,  64,  64, ugdk::Vector2D( 32.0,  32.0)); // Fireball
+    CreateFixedSpritesheet("images/green_fire_ball.png"    ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // MummyProjectileImage
+    CreateFixedSpritesheet("images/explosion.png"          , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Fireball Explosion
+    CreateFixedSpritesheet("images/quake.png"              , 256, 128, ugdk::Vector2D(128.0,  64.0)); // Quake Explosion
+    CreateFixedSpritesheet("images/stairs3.png"            , 153, 109, ugdk::Vector2D( 76.5,  63.5)); // Door stairs
+    CreateFixedSpritesheet("images/stoneblock3.png"        , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Wall 
+    CreateFixedSpritesheet("images/door.png"               , 106, 157, ugdk::Vector2D( 53.0,  130.0)); // Entry
+    CreateFixedSpritesheet("images/lightning_bolt.png"     ,  64,  64, ugdk::Vector2D( 32.0,   32.0)); // Lightning Bolt
+    CreateFixedSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D( 16.0,   16.0)); // Light
+	CreateFixedSpritesheet("images/tile_switch.png"        , 106,  54, ugdk::Vector2D( 53.0,   27.0)); // Door stairs
 }
 
 bool VerifyFolderExists(const std::string& path) {
