@@ -4,7 +4,7 @@ from ugdk.pyramidworks_geometry import *
 
 def generate():
     d = {}
-    d['drawable'] = Sprite(GetSpritesheetFromTag("images/explosion.png"), GetAnimationSetFromFile("animations/explosion.gdd"))
+    d['drawable'] = Sprite(GetSpritesheetFromTag("explosion"), GetAnimationSetFromFile("animations/explosion.gdd"))
     d['drawable'].SelectAnimation("HERO_FIREBALL_WEAPON")
     
     d['collision'] = {

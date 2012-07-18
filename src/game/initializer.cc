@@ -19,14 +19,7 @@ static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_
     engine()->resource_manager()->spritesheet_container().Insert(path, sheet);
 }
 
-void LoadSpritesheets() {
-    //CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
-    //CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D( 55.0, 102.0)); // Kha
-    //CreateFixedSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Regular Mummy
-    //CreateFixedSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Giant Mummy
-    //CreateFixedSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Pharaoh
-    //CreateFixedSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Shooting Mummy
-    
+void LoadSpritesheets() {    
     CreateFixedSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Magic Missile
     CreateFixedSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D( 16.0,  16.0)); // Blue Gem
     CreateFixedSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D( 64.0, 110.0)); // Shield
