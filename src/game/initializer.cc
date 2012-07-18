@@ -41,7 +41,7 @@ static void CreateSimpleFlexibleSpritesheet(const char* path) {
 }
 
 void LoadSpritesheets() {
-    CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
+    //CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
     CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D( 55.0, 102.0)); // Kha
     CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Regular Mummy
     CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D( 60.0, 120.0)); // Giant Mummy
