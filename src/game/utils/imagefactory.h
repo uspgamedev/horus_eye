@@ -20,18 +20,18 @@ class ImageFactory {
     ugdk::graphic::Spritesheet* MummyProjectileImage();
     ugdk::graphic::Spritesheet* ExplosionImage();
     ugdk::graphic::Spritesheet* QuakeImage();
-    ugdk::graphic::Drawable* LifePotionImage();
-    ugdk::graphic::Drawable* ManaPotionImage();
-    ugdk::graphic::Drawable* SightPotionImage();
-    ugdk::graphic::Drawable* BlueGemImage();
     ugdk::graphic::Spritesheet* ShieldImage();
     ugdk::graphic::Spritesheet* DoorImage();
-    ugdk::graphic::Drawable* FloorImage();
     ugdk::graphic::Spritesheet* WallImage();
     ugdk::graphic::Spritesheet* EntryImage();
     ugdk::graphic::Spritesheet* LightningImage();
     ugdk::graphic::Spritesheet* LightImage();
     ugdk::graphic::Spritesheet* TileSwitchImage();
+    ugdk::graphic::Drawable* LifePotionImage();
+    ugdk::graphic::Drawable* ManaPotionImage();
+    ugdk::graphic::Drawable* SightPotionImage();
+    ugdk::graphic::Drawable* BlueGemImage();
+    ugdk::graphic::Drawable* FloorImage();
 };
 
 }

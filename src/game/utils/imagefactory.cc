@@ -41,19 +41,47 @@ Spritesheet* ImageFactory::MagicMissileImage() {
 }
 
 Spritesheet* ImageFactory::FireballImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/fireball_0.png");
+    return ResourceManager::GetSpritesheetFromTag("fireball");
 }
 
 Spritesheet* ImageFactory::MummyProjectileImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/green_fire_ball.png");
+    return ResourceManager::GetSpritesheetFromTag("mummy_projectile");
 }
 
 Spritesheet* ImageFactory::ExplosionImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/explosion.png");
+    return ResourceManager::GetSpritesheetFromTag("fireball_explosion");
 }
 
 Spritesheet* ImageFactory::QuakeImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/quake.png");
+    return ResourceManager::GetSpritesheetFromTag("quake");
+}
+
+Spritesheet* ImageFactory::ShieldImage() {
+    return ResourceManager::GetSpritesheetFromTag("shield");
+}
+
+Spritesheet* ImageFactory::DoorImage() {
+    return ResourceManager::GetSpritesheetFromTag("stairs");
+}
+
+Spritesheet* ImageFactory::WallImage() {
+    return ResourceManager::GetSpritesheetFromTag("wall");
+}
+
+Spritesheet* ImageFactory::EntryImage() {
+    return ResourceManager::GetSpritesheetFromTag("door");
+}
+
+Spritesheet* ImageFactory::LightningImage() {
+    return ResourceManager::GetSpritesheetFromTag("lightning_bolt");
+}
+
+Spritesheet* ImageFactory::LightImage() {
+    return ResourceManager::GetSpritesheetFromTag("light");
+}
+
+Spritesheet* ImageFactory::TileSwitchImage() {
+    return ResourceManager::GetSpritesheetFromTag("tile_switch");
 }
 
 Drawable* ImageFactory::LifePotionImage() {
@@ -65,45 +93,17 @@ Drawable* ImageFactory::ManaPotionImage() {
 }
 
 Drawable* ImageFactory::BlueGemImage() {
-    return new graphic::Sprite(ResourceManager::GetSpritesheetFromTag("images/yellow_fire_ball.png"));
-}
-
-Spritesheet* ImageFactory::ShieldImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/shield.png");
+    return new graphic::Sprite(ResourceManager::GetSpritesheetFromTag("light"));
 }
 
 Drawable* ImageFactory::SightPotionImage() {
     return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
 }
 
-Spritesheet* ImageFactory::DoorImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/stairs3.png");
-}
-
 Drawable* ImageFactory::FloorImage() {
     Drawable* draw = new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
     draw->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
     return draw;
-}
-
-Spritesheet* ImageFactory::WallImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/stoneblock3.png");
-}
-
-Spritesheet* ImageFactory::EntryImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/door.png");
-}
-
-Spritesheet* ImageFactory::LightningImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/lightning_bolt.png");
-}
-
-Spritesheet* ImageFactory::LightImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/yellow_fire_ball.png");
-}
-
-Spritesheet* ImageFactory::TileSwitchImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/tile_switch.png");
 }
 
 }
