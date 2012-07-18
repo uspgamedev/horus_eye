@@ -17,27 +17,27 @@ namespace utils {
 #define HERO_HOTSPOT_Y 102.0
   
 Spritesheet* ImageFactory::HeroImage() {
-    return ResourceManager::GetSpritesheetFromTag("sprite-sheet_MOD3");
+    return ResourceManager::GetSpritesheetFromTag("hero");
 }
 
 Spritesheet* ImageFactory::MummyImage(){
-    return ResourceManager::GetSpritesheetFromTag("mummy_blue_120x140");
+    return ResourceManager::GetSpritesheetFromTag("mummy_basic");
 }
 
 Spritesheet* ImageFactory::BigMummyImage() {
-    return ResourceManager::GetSpritesheetFromTag("mummy_green_120x140");
+    return ResourceManager::GetSpritesheetFromTag("mummy_big");
 }
 
 Spritesheet* ImageFactory::PharaohImage(){
-    return ResourceManager::GetSpritesheetFromTag("pharaoh_120x140");
+    return ResourceManager::GetSpritesheetFromTag("pharaoh");
 }
 
 Spritesheet* ImageFactory::RangedMummyImage(){
-    return ResourceManager::GetSpritesheetFromTag("mummy_red_120x140");
+    return ResourceManager::GetSpritesheetFromTag("mummy_ranged");
 }
 
 Spritesheet* ImageFactory::MagicMissileImage() {
-    return ResourceManager::GetSpritesheetFromTag("images/blue_fire_ball.png");
+    return ResourceManager::GetSpritesheetFromTag("magic_missile");
 }
 
 Spritesheet* ImageFactory::FireballImage() {
