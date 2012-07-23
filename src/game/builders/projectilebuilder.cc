@@ -132,7 +132,7 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int d
 
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
     WorldObject* wobj = buildObject(Constants::LIGHTNING_DURATION, 0.25);
-    wobj->set_animation(new component::Animation(wobj, factory_->LightningImage(), lightning_animation_));
+    wobj->set_animation(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
     wobj->animation()->set_direction(GetFromScreenVector(dir));
     wobj->animation()->set_animation(utils::ATTACKING);
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::LIGHTNING_SPRITE_HEIGHT));
@@ -147,7 +147,7 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     WorldObject *explosion = builder.FireballExplosion();
 
     WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
-    wobj->set_animation(new component::Animation(wobj, factory_->FireballImage(), fireball_animation_));
+    wobj->set_animation(new component::Animation(wobj, "fireball", fireball_animation_));
     wobj->animation()->set_direction(GetFromScreenVector(dir));
     wobj->animation()->set_animation(utils::ATTACKING);
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::FIREBALL_SPRITE_HEIGHT));

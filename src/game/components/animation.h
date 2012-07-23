@@ -18,7 +18,7 @@ class Animation : public ugdk::action::Observer {
   public:
     typedef std::tr1::function<void (sprite::WorldObject*)> AnimationCallback;
 
-    Animation(sprite::WorldObject*, ugdk::graphic::Spritesheet *spritesheet, utils::IsometricAnimationSet* animation_set);
+    Animation(sprite::WorldObject*, const std::string& spritesheet_tag, utils::IsometricAnimationSet* animation_set);
     virtual ~Animation();
 
     void Update(double dt);

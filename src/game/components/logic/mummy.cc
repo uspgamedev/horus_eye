@@ -5,7 +5,6 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>

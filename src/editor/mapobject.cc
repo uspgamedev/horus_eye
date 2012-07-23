@@ -1,7 +1,6 @@
 #include <iostream>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/solidrectangle.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/graphic/node.h>
 #include "mapobject.h"
 #include "game/utils/imagefactory.h"
