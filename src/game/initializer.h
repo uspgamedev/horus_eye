@@ -3,7 +3,6 @@
 
 #include <string>
 
-void LoadSpritesheets();
 bool VerifyFolderExists(const std::string& path);
 
 #endif
