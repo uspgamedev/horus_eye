@@ -184,7 +184,7 @@
     <ClInclude Include="src\game\utils\visionstrategy.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="data\scripts\spike.py" />
+    <None Include="data\scripts\objects\spike.py" />
     <None Include="deploy\eye.ico" />
   </ItemGroup>
   <ItemGroup>
