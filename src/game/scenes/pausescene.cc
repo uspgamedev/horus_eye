@@ -10,10 +10,9 @@ namespace scene {
 
 PauseScene::PauseScene () {
     ugdk::graphic::SolidRectangle* rect = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
-    rect->set_color(ugdk::Color(0.5, 0.5, 0.5));
+    rect->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
 
     ugdk::graphic::Node* node = new ugdk::graphic::Node(rect);
-    node->modifier()->set_alpha(0.5);
 
     content_node()->AddChild(node);
 }

@@ -29,7 +29,9 @@ void Graphic::StartBlinking(int duration) {
 
 void Graphic::StopBlinking() {
     is_blinking_ = false;
-    node()->modifier()->set_alpha(1.0);
+    ugdk::Color c = node()->modifier()->color();
+    c.a = 1.0;
+    node()->modifier()->set_color(c);
 }
 
 void Graphic::AdjustBlink() {
@@ -37,7 +39,9 @@ void Graphic::AdjustBlink() {
         StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {
         blink_ = !blink_;
-        node()->modifier()->set_alpha(blink_ ? 1.0 : 0.20);
+        ugdk::Color c = node()->modifier()->color();
+        c.a = blink_ ? 1.0 : 0.20;
+        node()->modifier()->set_color(c);
         blink_time_->Restart();
     }
 }

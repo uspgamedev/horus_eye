@@ -11,7 +11,7 @@
 #include <ugdk/math/vector2D.h>
 
 #ifdef SWIG
-#pragma SWIG nowarn=312
+#pragma SWIG nowarn=325
 #endif
 #ifndef __GL_H__
 extern "C" {
@@ -67,9 +67,7 @@ class Spritesheet {
         return frame_sizes_.size();
     }
 
-    const Vector2D& frame_size(int frame_number) const {
-        return frame_sizes_[frame_number];
-    }
+    const Vector2D& frame_size(size_t frame_number) const;
 
     /** Draws at position, a draw_size square with the given frame_number
         modified by mirror and both the image and given color and alpha. */
