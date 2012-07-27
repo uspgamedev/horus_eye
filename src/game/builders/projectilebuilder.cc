@@ -106,10 +106,9 @@ void ProjectileBuilder::InitializeAnimations() {
 }
 
 WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
-    factory_->MagicMissileImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y + Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT) );
-
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     wobj->set_light_radius(1.0);
     wobj->set_logic(new Projectile(wobj, Constants::PROJECTILE_SPEED, dir));
 
@@ -132,12 +131,11 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int d
 }
 
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
-    factory_->LightningImage()->set_hotspot(Vector2D(Constants::LIGHTNING_SPRITE_CENTER_X, Constants::LIGHTNING_SPRITE_CENTER_Y + Constants::LIGHTNING_SPRITE_HEIGHT));
-
     WorldObject* wobj = buildObject(Constants::LIGHTNING_DURATION, 0.25);
-    wobj->set_animation(new component::Animation(wobj, factory_->LightningImage(), lightning_animation_));
+    wobj->set_animation(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
     wobj->animation()->set_direction(GetFromScreenVector(dir));
     wobj->animation()->set_animation(utils::ATTACKING);
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::LIGHTNING_SPRITE_HEIGHT));
     wobj->set_light_radius(1.0);
     wobj->set_logic(new Projectile(wobj, Constants::LIGHTNING_SPEED, dir));
     wobj->collision_object()->AddCollisionLogic("Mummy", new DamageCollision(Constants::LIGHTNING_DAMAGE));
@@ -145,15 +143,14 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
 }
 
 WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
-    factory_->FireballImage()->set_hotspot(Vector2D(Constants::FIREBALL_SPRITE_CENTER_X, Constants::FIREBALL_SPRITE_CENTER_Y + Constants::FIREBALL_SPRITE_HEIGHT));
-
     builder::ExplosionBuilder builder;
     WorldObject *explosion = builder.FireballExplosion();
 
     WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
-    wobj->set_animation(new component::Animation(wobj, factory_->FireballImage(), fireball_animation_));
+    wobj->set_animation(new component::Animation(wobj, "fireball", fireball_animation_));
     wobj->animation()->set_direction(GetFromScreenVector(dir));
     wobj->animation()->set_animation(utils::ATTACKING);
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::FIREBALL_SPRITE_HEIGHT));
     wobj->set_light_radius(1.0);
     // Give the light an orange color
     wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));

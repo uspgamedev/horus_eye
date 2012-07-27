@@ -124,8 +124,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     life_bar->AddChild(new Node(life_bar_image,  life_modifier_ = new Modifier));
     mana_bar->AddChild(new Node(img_fac.ManaBarImage(), block_modifier_ = new Modifier));
     mana_bar->AddChild(new Node(mana_bar_image,  mana_modifier_ = new Modifier));
-    block_modifier_->set_alpha(0.75);
-    block_modifier_->set_color(ugdk::Color(0.5, 0.5, 0.5));
+    block_modifier_->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.75));
 
 
     TexturedRectangle* mummy_counter_image = img_fac.MummyCounterImage();

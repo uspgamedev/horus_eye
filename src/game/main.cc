@@ -60,8 +60,6 @@ void StartGame() {
 
     engine()->video_manager()->SetLightSystem(true);
 
-    LoadSpritesheets();
-
     if(!engine()->language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");
     }

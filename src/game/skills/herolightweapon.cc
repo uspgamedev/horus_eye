@@ -33,7 +33,6 @@ void HeroLightWeapon::Use(){
 
     sprite::WorldObject *light = new sprite::WorldObject(5.0);
     light->node()->set_drawable(new ugdk::graphic::Sprite(world->image_factory()->LightImage()));
-    world->image_factory()->LightImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
     light->set_light_radius(4.0);
     world->AddWorldObject(light, use_argument_.destination_);
 

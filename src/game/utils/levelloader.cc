@@ -52,15 +52,15 @@ using namespace std::tr1::placeholders;
 
 bool LevelLoader::LoadMatrix(const std::string& file_name) {
 
-	VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + file_name);
-	if(!level_data) return false;
+    VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + file_name);
+    if(!level_data) return false;
 
     if(!level_data["width"] || !level_data["height"] || !level_data["matrix"]) return false;
 
     std::string music_name = level_data["music"] ? level_data["music"].value<std::string>() : "";
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
-	
+    
     std::vector<ArgumentList> line(width);
     arguments_.resize(height, line);
 
@@ -71,7 +71,6 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
             int x = data[0].value<int>();
             int y = data[1].value<int>();
             arguments_[y][x].push_back(data[2].value<std::string>());
-            printf("x=%d; y=%d; arg='%s'\n", x, y, arguments_[y][x][0].c_str());
         }
     }
     std::string matrix = level_data["matrix"].value<std::string>();
@@ -96,7 +95,7 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
     world_->set_level_width(width);
     world_->set_level_height(height);
     world_->set_level_matrix(gamemap);
-	return true;
+    return true;
 }
 
 bool LevelLoader::InRange (int i,int j) {
@@ -135,44 +134,44 @@ void LevelLoader::InitializeWallTypes() {
 
 void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position) {
     ArgumentList blank;
-	switch(token) {
-		case WALL: {
-			WorldObject* wobj = builder::DoodadBuilder::Wall(blank);
-			wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
-			world_->AddWorldObject(wobj, position);
-			break;
-		}
-		case ENTRY: {
-			WorldObject* wobj = builder::DoodadBuilder::Entry(blank);
-			wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
-			world_->AddWorldObject(wobj, position);
-			break;
-		}
-		case HERO: {
-			world_->AddHero(position);
-			break;
-		}
-		case DOOR: {
-			GameMap& matrix = world_->level_matrix();
-			if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
-				Vector2D pos = position + Vector2D(0.5, 0);
-				world_->AddWorldObject(builder::DoodadBuilder::Door(blank, world_), pos);
-			}
-			break;
-		}
-		default: {
-		}
-	}
+    switch(token) {
+        case WALL: {
+            WorldObject* wobj = builder::DoodadBuilder::Wall(blank);
+            wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
+            world_->AddWorldObject(wobj, position);
+            break;
+        }
+        case ENTRY: {
+            WorldObject* wobj = builder::DoodadBuilder::Entry(blank);
+            wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
+            world_->AddWorldObject(wobj, position);
+            break;
+        }
+        case HERO: {
+            world_->AddHero(position);
+            break;
+        }
+        case DOOR: {
+            GameMap& matrix = world_->level_matrix();
+            if(j < world_->level_width()-1 && matrix[i][j+1]->object() == DOOR) {
+                Vector2D pos = position + Vector2D(0.5, 0);
+                world_->AddWorldObject(builder::DoodadBuilder::Door(blank, world_), pos);
+            }
+            break;
+        }
+        default: {
+        }
+    }
 }
 
 void LevelLoader::Load(const std::string& file_name) {
 
-	bool load_success = LoadMatrix(file_name);
+    bool load_success = LoadMatrix(file_name);
 
     world_->SetupCollisionManager();
     if(!load_success) return;
 
-	GameMap& matrix = world_->level_matrix();
+    GameMap& matrix = world_->level_matrix();
 
     vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
     wall_matrix_ = wall_matrix;
@@ -199,17 +198,17 @@ void LevelLoader::Load(const std::string& file_name) {
 
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {
-        	Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
+            Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
 
-        	char token = matrix[i][j]->object();
-        	if(token_function_[token]) {
-				WorldObject* obj = token_function_[token](arguments_[i][j]);
-				if(obj) {
-					world_->AddWorldObject(obj, position);
-				}
-        	} else {
-        		TokenToWorldObject(token, i, j, position);
-        	}
+            char token = matrix[i][j]->object();
+            if(token_function_[token]) {
+                WorldObject* obj = token_function_[token](arguments_[i][j]);
+                if(obj) {
+                    world_->AddWorldObject(obj, position);
+                }
+            } else {
+                TokenToWorldObject(token, i, j, position);
+            }
             if(matrix[i][j]->has_floor()) {
                 ugdk::graphic::Node* floor = matrix[i][j]->floor();
                 floor->set_drawable(world_->image_factory()->FloorImage());

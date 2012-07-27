@@ -1,7 +1,6 @@
 #include <iostream>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/solidrectangle.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/graphic/node.h>
 #include "mapobject.h"
 #include "game/utils/imagefactory.h"
@@ -136,8 +135,13 @@ MapObject::~MapObject() {
 void MapObject::Update(double delta_t) {}
 
 void MapObject::Select(bool on) {
-    isometric_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
-    tile_node_->modifier()->set_alpha(on ? 0.5 : 1.0);
+    Color c = isometric_node_->modifier()->color();
+    c.a = on ? 0.5 : 1.0;
+    isometric_node_->modifier()->set_color(c);
+    
+    c = tile_node_->modifier()->color();
+    c.a = on ? 0.5 : 1.0;
+    tile_node_->modifier()->set_color(c);
 }
 
 }

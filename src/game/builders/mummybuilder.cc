@@ -1,5 +1,4 @@
 #include <ugdk/base/resourcemanager.h>
-#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/graphic/node.h>
 
 #include "mummybuilder.h"
@@ -29,15 +28,26 @@ using ugdk::Vector2D;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
-static WorldObject* build_mummy_wobj(ugdk::graphic::Spritesheet* image, double life) {
+static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
     WorldObject* wobj = new WorldObject;
-    wobj->set_animation(new component::Animation(wobj, image, ANIMATIONS));
+    wobj->set_animation(new component::Animation(wobj, tag, ANIMATIONS));
     wobj->set_damageable(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
+    return wobj;
+}
+
+sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
+    utils::ImageFactory factory;
+    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE);
+
+    Mummy* mummy = new Mummy(wobj);
+    mummy->set_speed(Constants::MUMMY_SPEED);
+    mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
+    mummy->set_bound(Constants::MUMMY_RADIUS);
     return wobj;
 }
 
@@ -48,20 +58,9 @@ sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
     return obj;
 }
 
-sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
-    WorldObject* wobj = build_mummy_wobj(factory.MummyImage(), Constants::MUMMY_LIFE);
-
-    Mummy* mummy = new Mummy(wobj);
-    mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
-    mummy->set_bound(Constants::MUMMY_RADIUS);
-    return wobj;
-}
-
 sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = build_mummy_wobj(factory.RangedMummyImage(), Constants::RANGED_MUMMY_LIFE);
+    WorldObject* wobj = build_mummy_wobj("mummy_ranged", Constants::RANGED_MUMMY_LIFE);
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
@@ -78,7 +77,7 @@ sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& argument
 
 sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = build_mummy_wobj(factory.BigMummyImage(), Constants::BIG_MUMMY_LIFE);
+    WorldObject* wobj = build_mummy_wobj("mummy_big", Constants::BIG_MUMMY_LIFE);
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->set_super_armor(true);
 
@@ -97,7 +96,7 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = build_mummy_wobj(factory.PharaohImage(), Constants::PHARAOH_LIFE);
+    WorldObject* wobj = build_mummy_wobj("pharaoh", Constants::PHARAOH_LIFE);
     wobj->damageable()->set_super_armor(true);
     Pharaoh *pharaoh = new Pharaoh(wobj, Constants::PHARAOH_MANA);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);

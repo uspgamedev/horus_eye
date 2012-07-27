@@ -99,12 +99,12 @@ struct {
 
 /** arguments[0] is the script name. */
 WorldObject* Script(const std::vector<std::string>& arguments) {
-    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule(arguments[0]);
-    if(!script_generator) {
-        fprintf(stderr, "Unable to load script '%s'\n", arguments[0].c_str());
+    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("objects." + arguments[0]);
+    if(!script_generator) return NULL;
+    if(!script_generator["generate"]) {
+        fprintf(stderr, "Function 'generate' not found in 'objects.%s'.\n", arguments[0].c_str());
         return NULL;
     }
-    if(!script_generator["generate"]) return NULL;
 
     VirtualObj script_data = script_generator["generate"]();
     WorldObject* wobj = new WorldObject;
