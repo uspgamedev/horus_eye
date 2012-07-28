@@ -17,7 +17,7 @@ elseif (MSVC)
     add_definitions(/D_CRT_SECURE_NO_WARNINGS /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /arch:SSE2 /fp:fast /MP)
 endif ()
 
-include_directories (${CMAKE_CURRENT_LIST_DIR})
+include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
 add_executable(horus_eye ${GAME_SRCS})
 target_link_libraries(horus_eye ugdk)
