@@ -23,6 +23,6 @@ ENDIF()
 
 # FindUGDK
 add_subdirectory(externals/ugdk)
-include_directories ("externals/ugdk/src")
+include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
 
 add_subdirectory(src) # The game binary.
