@@ -10,17 +10,12 @@ class Loading: public ugdk::action::Scene {
   public:
     Loading();
     virtual ~Loading();
-    virtual void Update(double delta_t);
 
     /// When the Loading gains focus, it becomes visible.
     virtual void Focus();
 
     /// When the Loading loses focus, it becomes invisible.
     virtual void DeFocus();
-
-  protected:
-    bool has_been_drawn_;
-    ugdk::graphic::Node *loading_;
 };
 
 }
