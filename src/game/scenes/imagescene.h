@@ -14,8 +14,6 @@ class ImageScene: public ugdk::action::Scene {
     ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image);
     virtual ~ImageScene();
 
-    virtual void Update(double delta_t);
-
   protected:
     void End();
     ugdk::graphic::Node *scene_layers_[2];
