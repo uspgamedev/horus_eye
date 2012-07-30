@@ -1,6 +1,7 @@
 #include <cmath>
 #include <iostream>
-#include <ugdk/portable/tr1.h>\n#include FROM_TR1(functional)
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 #include <ugdk/action/scene.h>
 #include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>

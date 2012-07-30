@@ -1,5 +1,5 @@
 #!/bin/bash
-FILES=`find ./src/ | grep "^.*\.\(h\|cc\)$"`
+FILES=`find ./src/ | grep "^.*\.\(h\|cc\)$" | sort -h`
 echo "SET(GAME_SRCS " > ./src/src_list.cmake
 for f in $FILES; do
 	echo "    $f " >> ./src/src_list.cmake

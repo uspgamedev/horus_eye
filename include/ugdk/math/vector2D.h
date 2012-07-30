@@ -20,14 +20,14 @@ class Vector2D {
     /** Create the vector (x,y) with x = val and y = val being val a constant
     *  @param val is a constant
     */
-    explicit Vector2D(double val) : x(val), y(val) {}
+    explicit Vector2D(double value) : x(value), y(value) {}
 
     /// Initializes both fields with given values.
     /** Create the vector (x,y) with x = x-value and y = y-value
     *  @param x is the x-value argument
     *  @param y is the y-value argument
     */
-    Vector2D(double x, double y) : x(x), y(y) {}
+    Vector2D(double _x, double _y) : x(_x), y(_y) {}
 
     ~Vector2D() { }
 
@@ -167,6 +167,15 @@ class Vector2D {
     static Vector2D Rotate(Vector2D &a, double angle) {
         return a.Rotate(angle);
     }
+
+
+	/// Compares this vector to the given vector, return True if they are equivalent.
+		/** Two vectors are equivalent if the coordinates are equal.
+        *  @return True if vectors are equivalent.
+        */
+	bool operator==(const Vector2D &rhs) {
+		return x==rhs.x && y==rhs.y;
+	}
 
     // TODO document and revise
     Vector2D& operator+=(const Vector2D &other);
