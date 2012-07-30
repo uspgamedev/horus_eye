@@ -41,10 +41,12 @@ SET(GAME_SRCS
     ./game/components/direction.h 
     ./game/components/graphic.cc 
     ./game/components/graphic.h 
+    ./game/components.h 
     ./game/components/logic/creature.cc 
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
+    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
     ./game/components/logic/mummy.cc 
@@ -53,14 +55,11 @@ SET(GAME_SRCS
     ./game/components/logic/pharaoh.h 
     ./game/components/logic/wall.cc 
     ./game/components/logic/wall.h 
-    ./game/components/logic.h 
     ./game/components/mummycontroller.cc 
     ./game/components/mummycontroller.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
     ./game/components/projectile.h 
-    ./game/components.h 
-    ./game/config.h 
     ./game/entities/emitterentity.h 
     ./game/entities/sandstormemitter.cc 
     ./game/entities/sandstormemitter.h 
@@ -73,6 +72,7 @@ SET(GAME_SRCS
     ./game/resources/energy.h 
     ./game/resources/resource.h 
     ./game/scenes/gamelayer.h 
+    ./game/scenes.h 
     ./game/scenes/imagescene.cc 
     ./game/scenes/imagescene.h 
     ./game/scenes/loading.cc 
@@ -80,13 +80,10 @@ SET(GAME_SRCS
     ./game/scenes/menu.cc 
     ./game/scenes/menu.h 
     ./game/scenes/menuhandler.h 
-    ./game/scenes/pausescene.cc 
-    ./game/scenes/pausescene.h 
     ./game/scenes/scrollingimagescene.cc 
     ./game/scenes/scrollingimagescene.h 
     ./game/scenes/world.cc 
     ./game/scenes/world.h 
-    ./game/scenes.h 
     ./game/skills/combatart.h 
     ./game/skills/divinegift.h 
     ./game/skills/herobaseweapon.cc 
@@ -114,10 +111,10 @@ SET(GAME_SRCS
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
     ./game/sprites/condition.h 
+    ./game/sprites.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
-    ./game/sprites.h 
     ./game/utils/constants.cc 
     ./game/utils/constants.h 
     ./game/utils/geometryprimitives.cc 
@@ -139,8 +136,8 @@ SET(GAME_SRCS
     ./game/utils/settings.cc 
     ./game/utils/settings.h 
     ./game/utils/tile.cc 
-    ./game/utils/tile.h 
     ./game/utils/tilefwd.h 
+    ./game/utils/tile.h 
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 

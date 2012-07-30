@@ -86,7 +86,7 @@ static void create_die_callback(WorldObject* wobj, VirtualObj data) {
 
 #define NUM_FIELDS 4
 typedef void (*ScriptWobj)(WorldObject*, VirtualObj);
-struct {
+struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
     std::string name;
     ScriptWobj func;
 } valid_names[NUM_FIELDS] = {

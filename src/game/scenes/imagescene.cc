@@ -1,7 +1,11 @@
 #include "imagescene.h"
+
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
+
 #include <ugdk/base/engine.h>
+#include <ugdk/action/generictask.h>
 #include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/input/inputmanager.h>
@@ -10,12 +14,22 @@
 
 namespace scene {
 
+using ugdk::action::GenericTask;
+using std::tr1::bind;
+using namespace std::tr1::placeholders;
+
 #define BG  0
 #define IMG 1
 
+static bool FinishImageSceneTask(ugdk::action::Scene* scene, double) {
+    ugdk::input::InputManager *input = INPUT_MANAGER();
+    if (input->KeyPressed(ugdk::input::K_RETURN) || input->KeyPressed(ugdk::input::K_ESCAPE) ||
+        input->KeyPressed(ugdk::input::K_KP_ENTER) || input->MouseUp(ugdk::input::M_BUTTON_LEFT))
+        scene->Finish();
+    return true;
+}
+
 ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image) {
-
-
     // Node [0], background image
     if (background) {
         scene_layers_[BG] = new ugdk::graphic::Node(background);
@@ -34,6 +48,8 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
         interface_node()->AddChild(scene_layers_[IMG]);
     }
     else scene_layers_[IMG] = NULL;
+
+    this->AddTask(new GenericTask(bind(FinishImageSceneTask, this, _1)));
 }
 
 ImageScene::~ImageScene() {}
@@ -41,14 +57,6 @@ ImageScene::~ImageScene() {}
 void ImageScene::End() {
     super::End();
     interface_node()->modifier()->set_visible(false);
-}
-
-void ImageScene::Update(double delta_t) {
-    super::Update(delta_t);
-    ugdk::input::InputManager *input = INPUT_MANAGER();
-    if (input->KeyPressed(ugdk::input::K_RETURN) || input->KeyPressed(ugdk::input::K_ESCAPE) ||
-        input->KeyPressed(ugdk::input::K_KP_ENTER) || input->MouseUp(ugdk::input::M_BUTTON_LEFT))
-        Finish();
 }
 
 }

@@ -36,8 +36,6 @@ Menu::Menu (int selection_num)
     content_box_defined_ = false;
 
     selection_pos_ = new Vector2D[selection_num_];
-    Engine *engine = Engine::reference();
-
     for (int i = 0; i < SELECTION_SPRITES ; i++)
         interface_node()->AddChild(selection_node_[i] = new ugdk::graphic::Node);
 
