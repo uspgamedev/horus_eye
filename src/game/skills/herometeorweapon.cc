@@ -48,8 +48,6 @@ void HeroMeteorWeapon::Use(){
 
     World *world = WORLD();
 
-    utils::ImageFactory *factory = world->image_factory();
-
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
     permanent_light->set_light_radius(4.0);
 

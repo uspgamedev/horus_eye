@@ -271,7 +271,7 @@ struct ConveninentSettingsData {
                 this->nodes_[i][j] = new ugdk::graphic::Node(img);
                 this->nodes_[i][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
                 node->AddChild(this->nodes_[i][j]);
-                if ( j != this->sprites_active_[i] ) this->nodes_[i][j]->modifier()->set_visible(false);
+                if ( static_cast<int>(j) != this->sprites_active_[i] ) this->nodes_[i][j]->modifier()->set_visible(false);
             }
         }
     }
