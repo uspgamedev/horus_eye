@@ -58,7 +58,6 @@
     <ClCompile Include="src\game\scenes\imagescene.cc" />
     <ClCompile Include="src\game\scenes\loading.cc" />
     <ClCompile Include="src\game\scenes\menu.cc" />
-    <ClCompile Include="src\game\scenes\pausescene.cc" />
     <ClCompile Include="src\game\scenes\scrollingimagescene.cc" />
     <ClCompile Include="src\game\scenes\world.cc" />
     <ClCompile Include="src\game\skills\heroexplosionweapon.cc" />
