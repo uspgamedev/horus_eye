@@ -19,6 +19,8 @@ endif ()
 
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
+set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR} )
+
 add_executable(horus_eye ${GAME_SRCS})
 target_link_libraries(horus_eye ugdk)
 if(WIN32)
