@@ -24,7 +24,7 @@ using namespace std::tr1::placeholders;
 static bool FinishImageSceneTask(ugdk::action::Scene* scene, double) {
     ugdk::input::InputManager *input = INPUT_MANAGER();
     if (input->KeyPressed(ugdk::input::K_RETURN) || input->KeyPressed(ugdk::input::K_ESCAPE) ||
-        input->KeyPressed(ugdk::input::K_KP_ENTER) || input->MouseUp(ugdk::input::M_BUTTON_LEFT))
+        input->KeyPressed(ugdk::input::K_KP_ENTER) || input->MouseReleased(ugdk::input::M_BUTTON_LEFT))
         scene->Finish();
     return true;
 }

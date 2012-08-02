@@ -1,12 +1,16 @@
 
-#ifndef HORUSEYE_FRAMEWORK_VECTOR2D_H_
-#define HORUSEYE_FRAMEWORK_VECTOR2D_H_
+#ifndef UGDK_MATH_VECTOR2D_H_
+#define UGDK_MATH_VECTOR2D_H_
 
 #ifdef SWIG
 #pragma SWIG nowarn=312
 #endif
 
 namespace ugdk {
+
+namespace math {
+class Integer2D;
+} // namespace math
 
 // 2 dimension vectors, using doubles.
 class Vector2D {
@@ -28,6 +32,9 @@ class Vector2D {
     *  @param y is the y-value argument
     */
     Vector2D(double _x, double _y) : x(_x), y(_y) {}
+
+    /// Copy constructor from Integer2D.
+    Vector2D(const ugdk::math::Integer2D& int2d);
 
     ~Vector2D() { }
 
@@ -230,4 +237,4 @@ Vector2D operator*(const double  &scalar, const Vector2D &right);
 
 }  // namespace ugdk
 
-#endif  // HORUSEYE_FRAMEWORK_VECTOR2D_H_
+#endif  // UGDK_MATH_VECTOR2D_H_

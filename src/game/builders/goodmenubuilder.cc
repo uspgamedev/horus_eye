@@ -16,7 +16,8 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/ui/menu.h>
-#include <ugdk/ui/uielement.h>
+#include <ugdk/ui/button.h>
+#include <ugdk/util/intervalkdtree.h>
 
 #include "goodmenubuilder.h"
 
@@ -29,12 +30,13 @@
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
+using ugdk::action::Scene;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Text;
-using ugdk::ui::Menu;
-using ugdk::action::Scene;
-using ugdk::ui::UIElement;
 using ugdk::graphic::Node;
+using ugdk::ui::Menu;
+using ugdk::ui::Button;
+using ugdk::ui::UIElement;
 using utils::Settings;
 
 static std::wstring convertFromString(const std::string& str) {
@@ -53,39 +55,39 @@ void DeFocus_Callback(Scene* scene) {
     scene->interface_node()->set_active(false);
 }
 
-void PauseContinueCallback(Scene* menu, const UIElement * source) {
+void PauseContinueCallback(Scene* menu, const Button * source) {
     menu->Finish();
 }
 
-void PauseExitCallback(Scene* menu, const UIElement * source) {
+void PauseExitCallback(Scene* menu, const Button * source) {
     menu->Finish();
     WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
 }
 
-void MainMenuPlay(Scene* menu, const UIElement * source) {
+void MainMenuPlay(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowIntro();
 }
 
-void MainMenuEditor(Scene* menu, const UIElement * source) {
+void MainMenuEditor(Scene* menu, const Button * source) {
     ugdk::Engine::reference()->PushScene(new editor::MapEditor());
 }
 
-void MainMenuSettings(Scene* menu, const UIElement * source) {
+void MainMenuSettings(Scene* menu, const Button * source) {
     MenuBuilder builder;
     ugdk::Engine::reference()->PushScene(builder.SettingsMenu());
 }
 
-void MainMenuCredits(Scene* menu, const UIElement * source) {
+void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
 
 #ifdef DEBUG
-void MainMenuDebugPlay(Scene* menu, const UIElement * source) {
+void MainMenuDebugPlay(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->DebugLoadSpecificLevel("debug_level");
 }
 #endif
 
-void SceneExit(Scene* scene, const UIElement * source) {
+void SceneExit(Scene* scene, const Button * source) {
     scene->Finish();
 }
 
@@ -108,8 +110,8 @@ Scene* MenuBuilder::PauseMenu() const {
     ugdk::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    menu->AddObject(new UIElement(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1)));
-    menu->AddObject(new UIElement(exit_position, exit_text, bind(PauseExitCallback, pause_menu, _1)));
+    menu->AddObject(new Button(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1)));
+    menu->AddObject(new Button(exit_position, exit_text, bind(PauseExitCallback, pause_menu, _1)));
 
     pause_menu->StopsPreviousMusic(false);
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
@@ -182,18 +184,18 @@ Scene* MenuBuilder::MainMenu() const {
     exit_position.x = target.x * 0.5;
     exit_position.y = target.y * 0.5 + settings_text->size().y + credits_text->size().y + 100.0;
 
-    menu->AddObject(new UIElement(play_position,     play_text,     bind(MainMenuPlay, main_menu, _1)));
-    menu->AddObject(new UIElement(editor_position,   editor_text,   bind(MainMenuEditor, main_menu, _1)));
-    menu->AddObject(new UIElement(settings_position, settings_text, bind(MainMenuSettings, main_menu, _1)));
-    menu->AddObject(new UIElement(credits_position,  credits_text,  bind(MainMenuCredits, main_menu, _1)));
-    menu->AddObject(new UIElement(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
+    menu->AddObject(new Button(play_position,     play_text,     bind(MainMenuPlay, main_menu, _1)));
+    menu->AddObject(new Button(editor_position,   editor_text,   bind(MainMenuEditor, main_menu, _1)));
+    menu->AddObject(new Button(settings_position, settings_text, bind(MainMenuSettings, main_menu, _1)));
+    menu->AddObject(new Button(credits_position,  credits_text,  bind(MainMenuCredits, main_menu, _1)));
+    menu->AddObject(new Button(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
 
 #ifdef DEBUG
     Text* debug_text    = ResourceManager::CreateTextFromLanguageTag("DebugStage");
     ugdk::Vector2D debug_position;
     debug_position.x = debug_text->size().x * 0.6;
     debug_position.y = 50.0;
-    menu->AddObject(new UIElement(debug_position,    debug_text,    bind(MainMenuDebugPlay, main_menu, _1)));
+    menu->AddObject(new Button(debug_position,    debug_text,    bind(MainMenuDebugPlay, main_menu, _1)));
 #endif
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
@@ -242,7 +244,7 @@ static void fillSettingsFunction(SettingsFunction* sf) {
 }
 
 struct ConveninentSettingsData {
-    ugdk::graphic::Node **nodes_[5];
+    Node **nodes_[5];
     int sprites_active_[5];
     SettingsFunction setting_functions_[5];
     std::map<const UIElement*, int> indices_;
@@ -262,13 +264,13 @@ struct ConveninentSettingsData {
     
         for(int i = 0; i < 5; ++i) {
             size_t size = this->setting_functions_[i].values.size();
-            this->nodes_[i] = new ugdk::graphic::Node*[size];
+            this->nodes_[i] = new Node*[size];
             for(size_t j = 0; j < size; ++j) {
                 ugdk::graphic::Drawable *img = ResourceManager::CreateTextFromLanguageTag(this->setting_functions_[i].values[j]);
                 if(img == NULL)
                     img = TEXT_MANAGER()->GetText(convertFromString(this->setting_functions_[i].values[j]), "FontB");
                 img->set_hotspot(ugdk::graphic::Drawable::CENTER);
-                this->nodes_[i][j] = new ugdk::graphic::Node(img);
+                this->nodes_[i][j] = new Node(img);
                 this->nodes_[i][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
                 node->AddChild(this->nodes_[i][j]);
                 if ( static_cast<int>(j) != this->sprites_active_[i] ) this->nodes_[i][j]->modifier()->set_visible(false);
@@ -296,7 +298,7 @@ static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, in
     data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(true);
 }
 
-static void ElementPress(std::tr1::shared_ptr<ConveninentSettingsData> data, const UIElement * source) {
+static void ElementPress(std::tr1::shared_ptr<ConveninentSettingsData> data, const Button * source) {
     ChangeSetting(data, +1, source);
 }
 
@@ -304,7 +306,7 @@ static void PressArrow(std::tr1::shared_ptr<ConveninentSettingsData> data, int m
     ChangeSetting(data, modifier, menu->focused_element());
 }
 
-static void ApplySettings(const UIElement * source) {
+static void ApplySettings(const Button * source) {
     Settings::reference()->WriteToDisk();
     utils::LevelManager::reference()->QueueRestartGame();
     ugdk::Engine::reference()->quit();
@@ -326,18 +328,18 @@ Scene* MenuBuilder::SettingsMenu() const {
     for (int i = 0; i < 5; ++i) {
         ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(data->setting_functions_[i].name);
         ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * (i + 1));
-        UIElement* uie = new UIElement(pos, img, bind(ElementPress, data, _1));
+        Button* uie = new Button(pos, img, bind(ElementPress, data, _1));
         data->indices_[uie] = i;
         menu->AddObject(uie);
     }
 
     {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Apply");
         ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * 7);
-        menu->AddObject(new UIElement(pos, img, ApplySettings)); }
+        menu->AddObject(new Button(pos, img, ApplySettings)); }
 
     {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Exit");
         ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * 8);
-        menu->AddObject(new UIElement(pos, img, bind(SceneExit, settings_menu, _1))); }
+        menu->AddObject(new Button(pos, img, bind(SceneExit, settings_menu, _1))); }
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);

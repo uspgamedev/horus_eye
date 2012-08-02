@@ -11,13 +11,14 @@ namespace graphic {
 
 class Sprite : public Drawable {
   public:
-    Sprite(Spritesheet *spritesheet, action::AnimationSet *set = NULL);
+    Sprite(const Spritesheet *spritesheet, action::AnimationSet *set = NULL);
     explicit Sprite(const std::string& spritesheet_tag, action::AnimationSet *set = NULL);
     explicit Sprite(const std::string& spritesheet_tag, const std::string& animation_set_tag);
-    explicit Sprite(Spritesheet *spritesheet, const std::string& animation_set_tag);
+    explicit Sprite(const Spritesheet *spritesheet, const std::string& animation_set_tag);
     virtual ~Sprite();
 
-    void Draw(double dt);
+    void Update(double dt);
+    void Draw() const;
     const Vector2D& size() const;
     
     /// Change the current animation to a new animation from the previously selected AnimationSet.
@@ -75,13 +76,12 @@ class Sprite : public Drawable {
 
        
   private:
-    Spritesheet *spritesheet_;
+    const Spritesheet *spritesheet_;
     action::AnimationManager *animation_manager_;
 
     /// Update the Sprite based on the time variation.
     /** One of the two main functions of the UGDK Engine. Most of the game logic 
         resides within the Update of child classes.*/
-    void Update(double delta_t);
 };
 
 }  // namespace graphic
