@@ -66,6 +66,8 @@ SET(GAME_SRCS
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 
+    ./game/modules.cc
+    ./game/modules.h 
     ./game/resources/capacityblocks.h 
     ./game/resources/containedresource.h 
     ./game/resources/countableresource.h 

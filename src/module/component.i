@@ -9,6 +9,7 @@
 
 %}
 
+%import(module="ugdk_action") <ugdk/action/entity.h>
 %include <game/sprites/worldobject.h>
 
 namespace sprite {
