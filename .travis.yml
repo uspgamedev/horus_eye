@@ -1,15 +1,10 @@
 install:
   - sudo apt-get install cmake libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-net1.2-dev libsdl-ttf2.0-dev swig2.0 liblua5.1-0-dev python-dev
-  - wget http://dfn.dl.sourceforge.net/project/boost/boost/1.49.0/boost_1_49_0.tar.gz
-  - tar xf boost_1_49_0.tar.gz
-  - sudo mv boost_1_49_0/boost /usr/local/include
+  - wget http://uspgamedev.org/downloads/projects/ugdk/v0.4.0/libugdk_0.4.0_squeeze_i386.deb
+  - sudo dpkg -i libugdk_0.4.0_squeeze_i386.deb
 
 script:
   - cmake .
-  - make ugdk
-  - cd externals/ugdk
-  - ./deploy.sh ../../
-  - cd ../../
   - make horus_eye
 
 notifications:
