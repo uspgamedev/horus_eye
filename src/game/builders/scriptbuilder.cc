@@ -36,6 +36,7 @@ typedef CollisionLogic* (*CollisionLogicGenerator)(WorldObject*, VirtualObj);
 std::map<std::string, CollisionLogicGenerator> CollisionLogicGeneratorsPopulator() {
     std::map<std::string, CollisionLogicGenerator> result;
     result["deal_damage"] = create_cologic_deal_damage;
+    // TODO: MOAR!
     return result;
 }
 static std::map<std::string, CollisionLogicGenerator> collision_logic_generators = CollisionLogicGeneratorsPopulator();
@@ -56,7 +57,14 @@ static void create_collision(WorldObject* wobj, VirtualObj coldata) {
             if(logicvect.size() < 3) continue;
             std::string classname = logicvect[0].value<std::string>();
             std::string logicname = logicvect[1].value<std::string>();
-            colobj->AddCollisionLogic(classname, collision_logic_generators[logicname](wobj, logicvect[2]));
+            VirtualObj argument = logicvect[2];
+            if(collision_logic_generators.find(logicname) == collision_logic_generators.end()) {
+                // TODO: print warning
+                // Unknown logic.
+                continue;
+            }
+            CollisionLogic* logic = collision_logic_generators[logicname](wobj, argument);
+            colobj->AddCollisionLogic(classname, logic);
         }
     }
 }

@@ -11,6 +11,7 @@
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/types.h>
+#include <ugdk/util/uncopyable.h>
 #include <pyramidworks/geometry.h>
 #include "game/components/logic.h"
 #include "game/components/controller.h"
@@ -28,7 +29,7 @@ namespace sprite {
 
 namespace component {
     
-class Creature : public Logic { 
+class Creature : public Logic, public ugdk::util::Uncopyable { 
   public:
     Creature(sprite::WorldObject* owner, Controller* controller);
     virtual ~Creature();

@@ -3,25 +3,35 @@
 *~
 /Debug
 /DebugFast
-/ipch
 /Release
-/config.h
+/ipch
+/x64
+/Win32
+/horus_eye
+
 /Makefile
-/cmake*
-/horus_eye*
-/CMake*
+
 !/CMakeLists.txt
-/Horus Eye.vcxproj.user
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+
 *.suo
 *.sdf
 *.vsp
-/src/game/build
-/src/game/config.h
-/include/link_ugdk
-/include/ugdk/config/config.h
+*.pyc
+*.opensdf
+*.vsps
+*.vcxproj
+*.filters
+*.user
+*.sln
+!Horus Eye.sln
+
+/include
 settings.bin
 settings.ini
-/Windows Release
+
 /Default
 /bin
 /tmp
@@ -45,10 +55,9 @@ settings.ini
 /lib64/libugdk_d.so
 /lib64/link_libugdk.a
 /lib64/link_libugdk_d.a
-/Horus Eye.opensdf
 /*.dll
-*.vsps
 /deploy/vcredist_x86.exe
+/deploy/dotNetFx40_Full_setup.exe
 /deploy/Output
 /deploy/Horus Eye.app/
 /deploy/Horus Eye.dmg
@@ -58,10 +67,3 @@ settings.ini
 /license/Creative_Commons_Legal_Code/Thumbs.db
 /license/legalcode_arquivos/Thumbs.db
 doc/doxy/
-auto_deploy.sh
-*.pyc
-
-/deploy/dotNetFx40_Full_setup.exe
-lib/libgtest.so
-lib/libgtest_main.so
-

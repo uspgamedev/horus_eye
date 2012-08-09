@@ -4,6 +4,7 @@
 #include <cstdlib>
 
 #include <ugdk/graphic.h>
+#include <ugdk/util/uncopyable.h>
 
 namespace skills {
 
@@ -11,7 +12,7 @@ namespace skills {
 /** Abstract class. Contains an icon.
 * @see CombatArt, DivineGift
 */
-class Skill {
+class Skill : public ugdk::util::Uncopyable {
   public:
     virtual ~Skill() {}
 

@@ -20,20 +20,7 @@ typedef struct {
     bool ValidateData() const;
 } SettingsData;
 
-class DataSource {
-  public:
-    DataSource(const std::string filename) : filename_(filename) {}
-    virtual ~DataSource() {}
-
-    virtual bool Read(       SettingsData &data) const = 0;
-    virtual bool Write(const SettingsData &data) const = 0;
-
-  private:
-    const std::string filename_;
-
-  protected:
-    const std::string& filename() const { return filename_; }
-};
+class DataSource;
 
 class Settings {
   public:

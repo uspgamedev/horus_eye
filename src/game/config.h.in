@@ -6,7 +6,7 @@
 
 @CHECKMAC@
 
-#define GAME_VERSION L"@GAME_VERSION@"
+#define GAME_VERSION L"@horus_eye_FULL_VERSION@"
 
 #ifndef ISMAC
 # ifndef INSTALLED
