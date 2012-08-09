@@ -10,7 +10,7 @@ namespace context {
 
 sprite::WorldObject* WorldObjectByTag (const std::string& tag);
 
-void SetTag (sprite::WorldObject* obj, const std::string& tag);
+void CreateTag (sprite::WorldObject* obj, const std::string& tag);
 
 } // namespace context
 

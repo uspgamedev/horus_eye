@@ -6,6 +6,9 @@ arguments = {
     { 4, 2, "spike" },
     { 4, 3, "spike" }
 }
+tags = {
+    { 4, 1, "EXPLO" }
+}
 matrix = [[
 ###########E###
 #...!UUUUUU@# #

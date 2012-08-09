@@ -1,27 +1,26 @@
 
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(unordered_map)
-
+#include <cstdio>
 #include "game/context.h"
+#include "game/scenes/world.h"
+#include "game/utils/levelmanager.h"
 
 namespace context {
 
 using std::string;
-using std::tr1::unordered_map;
 using sprite::WorldObject;
-
-typedef unordered_map<std::string, WorldObject*> TagTable;
-
-static TagTable tagged_;
+using scene::World;
 
 WorldObject* WorldObjectByTag (const std::string& tag) {
-    TagTable::iterator match = tagged_.find(tag);
-    if (match == tagged_.end()) return NULL;
-    return match->second;
+    return utils::LevelManager::reference()->get_current_level()
+            ->WorldObjectByTag(tag);
 }
 
-void SetTag (WorldObject* obj, const std::string& tag) {
-    tagged_[tag] = obj;
+void CreateTag (WorldObject* obj, const std::string& tag) {
+    World* world = utils::LevelManager::reference()->get_current_level();
+    if (world)
+        world->CreateTag(obj, tag);
+    else
+        fprintf(stderr, "Attempt to create tag in NULL world.\n");
 }
 
 } // namespace context
