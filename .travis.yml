@@ -1,4 +1,5 @@
 install:
+  - sudo apt-get install gdebi
   - wget http://uspgamedev.org/downloads/projects/ugdk/v0.4.0/libugdk_0.4.0_squeeze_i386.deb
   - sudo gdebi libugdk_0.4.0_squeeze_i386.deb
 
@@ -8,4 +9,4 @@ script:
 
 notifications:
   email:
-      - travis@uspgamedev.org
+    - henrique@uspgamedev.org
