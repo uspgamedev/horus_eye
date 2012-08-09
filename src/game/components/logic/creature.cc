@@ -8,7 +8,6 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
-#include <ugdk/util/animationparser.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>

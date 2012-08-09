@@ -21,8 +21,17 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mmacosx-version-min=10.5")
 ENDIF()
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
+
 # FindUGDK
-add_subdirectory(externals/ugdk)
-include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
+find_package(UGDK)
+if(UGDK_FOUND)
+    include_directories(${UGDK_INCLUDE_DIRS})
+    set(UGDK_EXTERNAL_LIBRARIES ${UGDK_LIBRARIES})
+else(UGDK_FOUND)
+    add_subdirectory(externals/ugdk)
+    include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
+    set(UGDK_EXTERNAL_LIBRARIES libugdk)
+endif(UGDK_FOUND)
 
 add_subdirectory(src) # The game binary.
