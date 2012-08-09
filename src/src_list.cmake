@@ -63,6 +63,8 @@ SET(GAME_SRCS
     ./game/entities/emitterentity.h 
     ./game/entities/sandstormemitter.cc 
     ./game/entities/sandstormemitter.h 
+    ./game/context.cc 
+    ./game/context.h 
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 
