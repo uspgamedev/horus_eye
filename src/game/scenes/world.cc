@@ -244,4 +244,15 @@ void World::SetupCollisionManager() {
     this->AddTask(collision_manager_->GenerateHandleCollisionTask());
 }
 
+
+WorldObject* World::WorldObjectByTag (const std::string& tag) {
+    TagTable::iterator match = tagged_.find(tag);
+    if (match == tagged_.end()) return NULL;
+    return match->second;
+}
+
+void World::CreateTag (WorldObject* obj, const std::string& tag) {
+    tagged_[tag] = obj;
+}
+
 } // namespace scene

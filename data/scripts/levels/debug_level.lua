@@ -2,9 +2,12 @@ music = "musics/Arabesque.ogg"
 width = 15
 height = 34
 arguments = {
-    { 4, 1, "spike" },
+    { 4, 1, "spike2" },
     { 4, 2, "spike" },
     { 4, 3, "spike" }
+}
+tags = {
+    { 4, 3, "EXPLO" }
 }
 matrix = [[
 ###########E###

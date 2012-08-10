@@ -21,7 +21,19 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR} )
 
-add_executable(horus_eye ${GAME_SRCS})
+# Find Lua and Python
+find_package (Lua51)
+include_directories (${LUA_INCLUDE_DIR})
+find_package (PythonLibs 2.6)
+include_directories (${PYTHON_INCLUDE_DIRS})
+
+include (module/module_list.cmake)
+include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
+horus_add_scriptlang (lua)
+horus_add_scriptlang (python)
+set (GENERATED_SRC ${GENERATED_SRC})
+
+add_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES})
 set(GAME_LOCAL_DIR "./data")
 

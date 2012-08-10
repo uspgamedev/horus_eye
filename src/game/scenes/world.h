@@ -3,6 +3,8 @@
 
 #include <list>
 #include <vector>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(unordered_map)
 #include <ugdk/action/scene.h>
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision.h>
@@ -79,6 +81,9 @@ class World : public ugdk::action::Scene {
     void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
 
+    sprite::WorldObject* WorldObjectByTag (const std::string& tag);
+    void CreateTag (sprite::WorldObject* obj, const std::string& tag);
+
 	ugdk::graphic::Node* layer_node(GameLayer layer) { 
 		return layers_[layer];
 	}
@@ -93,11 +98,14 @@ class World : public ugdk::action::Scene {
     utils::ImageFactory* image_factory_;
 
   private:
+    typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
+
     utils::LevelManager::LevelState level_state_;
     bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
     pyramidworks::collision::CollisionManager* collision_manager_;
 	ugdk::graphic::Node *layers_[2];
+	TagTable tagged_;
 
 };  // class World
 

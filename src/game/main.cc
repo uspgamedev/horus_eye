@@ -19,6 +19,8 @@
 #include <ugdk/script/languages/lua/luawrapper.h>
 #include <ugdk/script/languages/python/pythonwrapper.h>
 
+#include "modules.h"
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -41,12 +43,14 @@ static void InitScripts() {
     LuaWrapper* lua_wrapper = new LuaWrapper();
     ugdk::RegisterLuaModules(lua_wrapper);
     pyramidworks::RegisterLuaModules(lua_wrapper);
+    RegisterLuaModules(lua_wrapper);
     SCRIPT_MANAGER()->Register("Lua", lua_wrapper);
 
     //inicializando python
     PythonWrapper* py_wrapper = new PythonWrapper();
     ugdk::RegisterPythonModules(py_wrapper);
     pyramidworks::RegisterPythonModules(py_wrapper);
+    RegisterPythonModules(py_wrapper);
     SCRIPT_MANAGER()->Register("Python", py_wrapper);
 }
 

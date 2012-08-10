@@ -77,8 +77,9 @@ static void create_timedlife(WorldObject* wobj, VirtualObj data) {
 }
 
 static void On_die_callback(WorldObject* wobj, VirtualObj vobj) {
-    // TODO: send the wobj as a VirtualObj to the vobj.
-    vobj();
+    VirtualObj arg = VirtualObj(vobj.wrapper());
+    arg.set_value<WorldObject*>(wobj);
+    vobj(VirtualObj::List(1, arg));
 }
 static void create_die_callback(WorldObject* wobj, VirtualObj data) {
     wobj->set_die_callback(bind(On_die_callback, _1, data));

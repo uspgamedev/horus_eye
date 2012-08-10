@@ -61,16 +61,32 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
     
-    std::vector<ArgumentList> line(width);
-    arguments_.resize(height, line);
+    {
+        std::vector<ArgumentList> line(width);
+        arguments_.resize(height, line);
 
-    if(level_data["arguments"]) {
-        VirtualObj::Vector arguments = level_data["arguments"].value<VirtualObj::Vector>();
-        for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
-            VirtualObj::Vector data = it->value<VirtualObj::Vector>();
-            int x = data[0].value<int>();
-            int y = data[1].value<int>();
-            arguments_[y][x].push_back(data[2].value<std::string>());
+        if(level_data["arguments"]) {
+            VirtualObj::Vector arguments = level_data["arguments"].value<VirtualObj::Vector>();
+            for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
+                VirtualObj::Vector data = it->value<VirtualObj::Vector>();
+                int x = data[0].value<int>();
+                int y = data[1].value<int>();
+                arguments_[y][x].push_back(data[2].value<std::string>());
+            }
+        }
+    }
+    {
+        std::vector<string> line(width);
+        tags_.resize(height, line);
+
+        if(level_data["tags"]) {
+            VirtualObj::Vector tags = level_data["tags"].value<VirtualObj::Vector>();
+            for (VirtualObj::Vector::iterator it = tags.begin(); it != tags.end(); ++it) {
+                VirtualObj::Vector data = it->value<VirtualObj::Vector>();
+                int x = data[0].value<int>();
+                int y = data[1].value<int>();
+                tags_[y][x] = data[2].value<std::string>();
+            }
         }
     }
     std::string matrix = level_data["matrix"].value<std::string>();
@@ -205,6 +221,9 @@ void LevelLoader::Load(const std::string& file_name) {
                 WorldObject* obj = token_function_[token](arguments_[i][j]);
                 if(obj) {
                     world_->AddWorldObject(obj, position);
+                    string tag = tags_[i][j];
+                    if (!tag.empty())
+                        world_->CreateTag(obj, tag);
                 }
             } else {
                 TokenToWorldObject(token, i, j, position);
