@@ -16,6 +16,9 @@ function generate ()
     shape = Rect(1.0, 1.0),
     known_collision = {
       {"Hero", "deal_damage", 100.0}
+    },
+    custom_collision = {
+      Hero = function(self, obj) obj:damageable():TakeDamage(200) end
     }
   }
 

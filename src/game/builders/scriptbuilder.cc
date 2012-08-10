@@ -21,7 +21,25 @@ using sprite::WorldObject;
 using std::tr1::bind;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
+using pyramidworks::collision::GenericCollisionLogic;
 using namespace std::tr1::placeholders;
+
+class ScriptCollision {
+  public:
+    ScriptCollision (const VirtualObj& logic, WorldObject* obj) :
+        logic_(logic), self_(obj) {}
+    void operator () (void* data) {
+        WorldObject *another = static_cast<WorldObject*>(data);
+        VirtualObj  self (logic_.wrapper()),
+                    target (logic_.wrapper());
+        self.set_value<WorldObject*>(self_);
+        target.set_value<WorldObject*>(another);
+        logic_((self, target));
+    }
+  private:
+    VirtualObj  logic_;
+    WorldObject *self_;
+};
 
 // TODO: variable damage
 static void DealDamage(void* data) {
@@ -64,6 +82,16 @@ static void create_collision(WorldObject* wobj, VirtualObj coldata) {
                 continue;
             }
             CollisionLogic* logic = collision_logic_generators[logicname](wobj, argument);
+            colobj->AddCollisionLogic(classname, logic);
+        }
+    }
+
+    if(coldata["custom_collision"]) {
+        VirtualObj::Map custom_collisions = coldata["custom_collision"].value<VirtualObj::Map>();
+        for(VirtualObj::Map::iterator it = custom_collisions.begin(); it != custom_collisions.end(); ++it) {
+            std::string classname = it->first.value<std::string>();
+            VirtualObj scriptlogic = it->second;
+            CollisionLogic* logic = new GenericCollisionLogic(ScriptCollision(scriptlogic, wobj));
             colobj->AddCollisionLogic(classname, logic);
         }
     }
