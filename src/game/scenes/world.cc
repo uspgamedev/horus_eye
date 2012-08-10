@@ -137,9 +137,9 @@ World::World(sprite::WorldObject *hero, utils::ImageFactory *factory)
     QueuedAddEntity(hero_);
 
     this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
-#ifdef DEBUG
+//#ifdef DEBUG
     this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
-#endif
+//#endif
     this->AddTask(new ugdk::action::GenericTask(UpdateOffset));
 }
 

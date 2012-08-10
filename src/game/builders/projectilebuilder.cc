@@ -78,10 +78,10 @@ COLLISION_DIRECT(WorldObject*, BounceCollision, data) {
     ugdk::Vector2D wall_position = wall->world_position();
     ugdk::Vector2D new_direction = projectile_position - wall_position;
     double angle = new_direction.Angle();
-    if( (angle >= PI/4 && angle <= 3*PI/4) || (angle >= 5*PI/4 && angle <= 7*PI/4) )
-        projectile_logic->set_direction(new_direction.Mirrored(ugdk::enums::mirroraxis::HORZ));
-    else
+    if( (angle >= PI/4 && angle <= 3*PI/4) || (angle <= -PI/4 && angle >= -3*PI/4) )
         projectile_logic->set_direction(new_direction.Mirrored(ugdk::enums::mirroraxis::VERT));
+    else
+        projectile_logic->set_direction(new_direction.Mirrored(ugdk::enums::mirroraxis::HORZ));
 
 }
 
