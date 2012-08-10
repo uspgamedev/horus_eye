@@ -8,9 +8,7 @@ local Rect = pyramidworks_geometry.Rect
 
 function generate ()
   local args = {}
-  print "hey"
   args.drawable = Sprite("fireball_explosion", "animations/explosion.gdd")
-  print "hey2"
   args.drawable:SelectAnimation("HERO_FIREBALL_WEAPON")
 
   args.collision = {
