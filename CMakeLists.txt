@@ -25,13 +25,13 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Mo
 
 # FindUGDK
 find_package(UGDK)
-if(UGDK_FOUND)
+if(UGDK_FOUND AND UGDK_INCLUDE_DIR AND UGDK_LIBRARY)
     include_directories(${UGDK_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES ${UGDK_LIBRARIES})
-else(UGDK_FOUND)
+else()
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES libugdk)
-endif(UGDK_FOUND)
+endif()
 
 add_subdirectory(src) # The game binary.
