@@ -155,6 +155,9 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
             WorldObject* wobj = builder::DoodadBuilder::Wall(blank);
             wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
             world_->AddWorldObject(wobj, position);
+            string tag = tags_[i][j];
+            if (!tag.empty())
+                world_->CreateTag(wobj, tag);
             break;
         }
         case ENTRY: {
