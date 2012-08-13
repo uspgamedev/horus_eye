@@ -2,6 +2,7 @@
 %module component
 
 %include <module/export.swig>
+%include <module/ownership.swig>
 //%include <module/proxy.swig>
 %include "std_string.i"
 %include "std_map.i"
@@ -20,8 +21,34 @@
 %}
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
+
+// context::*
+
 %include <game/context.h>
+
+// sprite::WorldObject
+
+%ignore sprite::WorldObject::set_start_to_die_callback (std::tr1::function<void (WorldObject*)> on_death_start_callback);
+%ignore sprite::WorldObject::set_die_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback);
+
+enable_disown(pyramidworks::collision::CollisionObject* col)
+enable_disown(component::Logic* logic)
+enable_disown(component::Damageable* damageable)
+enable_disown(component::Graphic* graphic)
+enable_disown(component::Controller* controller)
+enable_disown(component::Animation* animation)
+enable_disown(component::Logic* logic)
+
 %include <game/sprites/worldobject.h>
+
+disable_disown(pyramidworks::collision::CollisionObject* col)
+disable_disown(component::Logic* logic)
+disable_disown(component::Damageable* damageable)
+disable_disown(component::Graphic* graphic)
+disable_disown(component::Controller* controller)
+disable_disown(component::Animation* animation)
+disable_disown(component::Logic* logic)
+
 %include <game/components/direction.h>
 %include <game/components/logic.h>
 %include <game/components/damageable.h>
