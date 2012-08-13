@@ -6,7 +6,7 @@ set (GENERATED_DIR "generated")
 set (GENERATED_SRC "")
 
 # Does this work everywhere?
-find_package (SWIG)
+find_package (SWIG REQUIRED)
 
 macro (horus_add_scriptlang lang)
 
@@ -24,21 +24,13 @@ macro (horus_add_scriptlang lang)
 
 endmacro (horus_add_scriptlang lang)
 
-if (SWIG_FOUND)
+include (${CMAKE_SOURCE_DIR}/cmake/UseSWIG.cmake)
 
-  include (${CMAKE_SOURCE_DIR}/cmake/UseSWIG.cmake)
-  
-  # Is MODULE_SRC defined?
-  if (NOT MODULE_SRC)
-      message (FATAL_ERROR "Variable MODULE_SRC not defined! Please do so in the file src/module_list.cmake!")
-  endif (NOT MODULE_SRC)
-  
-  set_source_files_properties (${MODULE_SRC} PROPERTIES CPLUSPLUS ON)
-  set_source_files_properties (${MODULE_SRC} PROPERTIES SWIG_FLAGS "")
-  
-else (SWIG_FOUND)
+# Is MODULE_SRC defined?
+if (NOT MODULE_SRC)
+  message (FATAL_ERROR "Variable MODULE_SRC not defined! Please do so in the file src/module_list.cmake!")
+endif (NOT MODULE_SRC)
 
-  message (WARNING "Could NOT find SWIG. No script modules will be compiled.")
-
-endif (SWIG_FOUND)
+set_source_files_properties (${MODULE_SRC} PROPERTIES CPLUSPLUS ON)
+set_source_files_properties (${MODULE_SRC} PROPERTIES SWIG_FLAGS "")
 
