@@ -10,7 +10,7 @@ class Constants {
     const static int
         PROJECTILE_SPRITE_WIDTH = 32,
         PROJECTILE_SPRITE_HEIGHT = 32,
-        PROJECTILE_DURATION = 3500,
+        PROJECTILE_DURATION = 4,
 
         EXPLOSION_SPRITE_WIDTH = 128,
         EXPLOSION_SPRITE_HEIGHT = 256,
