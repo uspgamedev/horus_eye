@@ -36,7 +36,9 @@ Wall::Wall(sprite::WorldObject* owner, ugdk::graphic::Spritesheet* sheet)
 
     owner->node()->set_drawable(sprite_);
 }
-Wall::~Wall() {}
+Wall::~Wall() {
+    tile_->set_object(' ');
+}
 
 void Wall::set_type(WallType walltype) {
     wall_type_ = walltype;
