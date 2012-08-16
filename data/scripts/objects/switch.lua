@@ -9,12 +9,12 @@ local Rect = pyramidworks_geometry.Rect
 function generate ()
   local args = {}
   local activated = false
-  args.drawable = Sprite("eye", "animations/switch.gdd")
+  args.drawable = Sprite("switch", "animations/switch.gdd")
   args.drawable:SelectAnimation "SWITCH_ON"
 
   args.collision = {
     class = "Wall",
-    shape = Rect(1.0, 1.0),
+    shape = Rect(0.8, 0.8),
     known_collision = {},
     custom_collision = {
       Projectile = function(self, obj)
