@@ -19,6 +19,7 @@ class ProjectileBuilder {
     ~ProjectileBuilder() {}
 
     sprite::WorldObject* MagicMissile(const ugdk::Vector2D &dir);
+    sprite::WorldObject* MagicBall(const ugdk::Vector2D &dir);
     sprite::WorldObject* MummyProjectile(const ugdk::Vector2D &dir, int damage = 1);
     sprite::WorldObject* LightningBolt(const ugdk::Vector2D &dir);
     sprite::WorldObject* Fireball(const ugdk::Vector2D &dir);
