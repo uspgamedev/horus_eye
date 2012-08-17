@@ -23,6 +23,7 @@ namespace utils {
 #define ENTRY                    'E'
 #define MUMMY                    'm'
 #define STANDING_MUMMY           'M'
+#define STANDING_PAPER_MUMMY     'z'
 #define RANGED_MUMMY             'r'
 #define STANDING_RANGED_MUMMY    'R'
 #define BIG_MUMMY                'b'

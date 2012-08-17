@@ -14,6 +14,8 @@ sprite::WorldObject *WalkingRangedMummy(const std::vector<std::string>& argument
 sprite::WorldObject *StandingRangedMummy(const std::vector<std::string>& arguments);
 sprite::WorldObject *WalkingBigMummy(const std::vector<std::string>& arguments);
 sprite::WorldObject *StandingBigMummy(const std::vector<std::string>& arguments);
+sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments);
+sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments);
 sprite::WorldObject *WalkingPharaoh(const std::vector<std::string>& arguments);
 sprite::WorldObject *StandingPharaoh(const std::vector<std::string>& arguments);
 
