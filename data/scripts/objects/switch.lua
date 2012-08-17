@@ -1,5 +1,6 @@
 
 require "ugdk.drawable"
+require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
 
@@ -8,9 +9,19 @@ local Rect = pyramidworks_geometry.Rect
 
 function generate ()
   local args = {}
-  local activated = false
-  args.drawable = Sprite("switch", "animations/switch.gdd")
-  args.drawable:SelectAnimation "SWITCH_ON"
+  local sprite = Sprite("switch", "animations/switch.gdd")
+  local observer = proxy "Observer"
+  
+  observer.activated = false
+  function observer:Tick ()
+    if self.activated then
+      sprite:SelectAnimation "SWITCH_ON"
+    end
+  end
+  
+  args.drawable = sprite
+  args.drawable:SelectAnimation "SWITCH_OFF"
+  args.drawable:AddObserverToAnimation(observer)
 
   args.collision = {
     class = "Wall",
@@ -18,14 +29,15 @@ function generate ()
     known_collision = {},
     custom_collision = {
       Projectile = function(self, obj)
-        if not activated then
+        if not observer.activated then
           for i=1,3 do
             local door = component.WorldObjectByTag("DOOR_"..i)
             if not door then
               print "door not found"
             else
               door:Die()
-              activated = true
+              observer.activated = true
+              sprite:SelectAnimation "SWITCH_START"
             end
           end
         end
