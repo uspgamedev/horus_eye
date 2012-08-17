@@ -22,12 +22,12 @@ local function make_switch ()
 end
 
 function generate ()
-  local args = {}
+  local descriptor = {}
   local switch = make_switch()
   
-  args.drawable = switch.sprite
+  descriptor.drawable = switch.sprite
 
-  args.collision = {
+  descriptor.collision = {
     class = "Wall",
     shape = Rect(0.8, 0.8),
     known_collision = {},
@@ -49,5 +49,5 @@ function generate ()
     }
   }
 
-  return args
+  return descriptor
 end
