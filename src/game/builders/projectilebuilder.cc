@@ -22,6 +22,8 @@
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 
+#define PI 3.1415926535897932384626433832795
+
 namespace builder {
 
 using namespace sprite;
@@ -69,6 +71,20 @@ COLLISION_DIRECT(WorldObject*, DieCollision, data) {
     data_->StartToDie();
 }
 
+COLLISION_DIRECT(WorldObject*, BounceCollision, data) {
+    component::Projectile* projectile_logic = dynamic_cast<component::Projectile*>(data_->logic());
+    WorldObject* wall = static_cast<WorldObject*>(data);
+    ugdk::Vector2D projectile_position = data_->world_position();
+    ugdk::Vector2D wall_position = wall->world_position();
+    ugdk::Vector2D new_direction = projectile_position - wall_position;
+    double angle = new_direction.Angle();
+    if( (angle >= PI/4 && angle <= 3*PI/4) || (angle <= -PI/4 && angle >= -3*PI/4) )
+        projectile_logic->set_direction(new_direction.Mirrored(ugdk::enums::mirroraxis::VERT));
+    else
+        projectile_logic->set_direction(new_direction.Mirrored(ugdk::enums::mirroraxis::HORZ));
+
+}
+
 COLLISION_DIRECT(double, DamageCollision, obj) {
     WorldObject *wobj = (WorldObject *) obj;
     wobj->damageable()->TakeDamage(data_);
@@ -114,6 +130,19 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
 
     struct ObjectAndDamage data(wobj, Constants::PROJECTILE_DAMAGE);
     wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
+    return wobj;
+}
+
+WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
+    WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
+    wobj->set_light_radius(1.0);
+    wobj->set_logic(new Projectile(wobj, Constants::PROJECTILE_SPEED, dir));
+
+    struct ObjectAndDamage data(wobj, Constants::PROJECTILE_DAMAGE);
+    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
+    wobj->collision_object()->AddCollisionLogic("Wall", new BounceCollision(wobj));
     return wobj;
 }
 

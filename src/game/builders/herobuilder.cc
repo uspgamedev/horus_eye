@@ -63,9 +63,9 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));
     hero->AddWeapon(3, new skills::HeroLightWeapon(hero));
     hero->AddWeapon(4, new skills::HeroMeteorWeapon(hero));
-#ifdef DEBUG
+//#ifdef DEBUG
     hero->AddWeapon(5, new skills::Sandstorm(hero));
-#endif
+//#endif
     // Add here the other initial weapons of the hero.
 
     return hero_wobj;

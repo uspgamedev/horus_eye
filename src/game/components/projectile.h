@@ -23,6 +23,9 @@ class Projectile : public Logic {
         Move(delta_t);
     }
 
+    void set_direction(ugdk::Vector2D direction) { direction_ = direction; }
+    ugdk::Vector2D get_direction() { return direction_; }
+
   protected:
     sprite::WorldObject* owner_;
     double speed_;
