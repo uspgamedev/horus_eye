@@ -7,9 +7,6 @@ SET(horus_eye_FULL_VERSION "${horus_eye_VERSION_MAJOR}.${horus_eye_VERSION_MINOR
 
 MESSAGE("== Horus Eye -- version ${horus_eye_FULL_VERSION} ==")
 
-# TODO: document why we need this.
-cmake_policy(SET CMP0015 NEW)
-
 IF (UNIVERSAL)
   # Necessary for a Mac Universal Binary
   SET (CMAKE_OSX_ARCHITECTURES ppc;i386;x86_64)
@@ -22,6 +19,9 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
 ENDIF()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
+
+file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v1.tgz ${CMAKE_CURRENT_SOURCE_DIR}/resources-v1.tgz)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v1.tgz -C data/)
 
 # FindUGDK
 option (USE_EMBBEDED_UGDK "" OFF)
