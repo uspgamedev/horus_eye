@@ -20,8 +20,9 @@ ENDIF()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 
-file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v1.tgz ${CMAKE_CURRENT_SOURCE_DIR}/resources-v1.tgz)
-execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v1.tgz -C data/)
+set(RESOURCES_VERSION 2)
+file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz ${CMAKE_CURRENT_SOURCE_DIR}/resources-v${RESOURCES_VERSION}.tgz)
+execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v${RESOURCES_VERSION}.tgz)
 
 # FindUGDK
 option (USE_EMBBEDED_UGDK "" OFF)
