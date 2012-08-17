@@ -55,6 +55,7 @@ class Tile {
     bool visible() const { return visible_; }
     bool checked() const { return checked_; }
     char object() const { return object_; }
+    void set_object(char object) { object_ = object; }
     int i() const { return pos_.i; }
     int j() const { return pos_.j; }
     const TilePos& pos() const { return pos_; }

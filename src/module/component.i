@@ -37,7 +37,6 @@ enable_disown(component::Damageable* damageable)
 enable_disown(component::Graphic* graphic)
 enable_disown(component::Controller* controller)
 enable_disown(component::Animation* animation)
-enable_disown(component::Logic* logic)
 
 %include <game/sprites/worldobject.h>
 
@@ -47,7 +46,6 @@ disable_disown(component::Damageable* damageable)
 disable_disown(component::Graphic* graphic)
 disable_disown(component::Controller* controller)
 disable_disown(component::Animation* animation)
-disable_disown(component::Logic* logic)
 
 %include <game/components/direction.h>
 %include <game/components/logic.h>
