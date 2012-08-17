@@ -54,6 +54,9 @@ class Constants {
         BIG_MUMMY_LIFE = 1200,
         BIG_MUMMY_DAMAGE = 300,
 
+        PAPER_MUMMY_LIFE = 1,
+        PAPER_MUMMY_DAMAGE = 25,
+
         FIREBALL_EXPLOSION_DAMAGE = 200,
         FIREBALL_COST = 200,
         QUAKE_EXPLOSION_DAMAGE = 400,

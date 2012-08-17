@@ -203,6 +203,7 @@ void LevelLoader::Load(const std::string& file_name) {
     token_function_[STANDING_MUMMY] = builder::MummyBuilder::StandingMummy;
     token_function_[STANDING_BIG_MUMMY] = builder::MummyBuilder::StandingBigMummy;
     token_function_[STANDING_RANGED_MUMMY] = builder::MummyBuilder::StandingRangedMummy;
+    token_function_[STANDING_PAPER_MUMMY] = builder::MummyBuilder::StandingPaperMummy;
     token_function_[STANDING_PHARAOH] = builder::MummyBuilder::StandingPharaoh;
     token_function_[MUMMY] = builder::MummyBuilder::WalkingMummy;
     token_function_[BIG_MUMMY] = builder::MummyBuilder::WalkingBigMummy;

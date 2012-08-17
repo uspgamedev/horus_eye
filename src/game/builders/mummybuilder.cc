@@ -13,6 +13,7 @@
 #include "game/utils/constants.h"
 #include "game/skills/mummyweapon.h"
 #include "game/skills/mummyrangedweapon.h"
+#include "game/skills/papermummyweapon.h"
 #include "game/skills/pharaohrangedweapon.h"
 #include "game/skills/pharaohsummonweapon.h"
 #include <game/resources/energy.h>
@@ -90,6 +91,24 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingBigMummy(arguments);
+    static_cast<Mummy*>(obj->logic())->set_standing(false);
+    return obj;
+}
+
+sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
+    utils::ImageFactory factory;
+    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::PAPER_MUMMY_LIFE);
+
+    Mummy* mummy = new Mummy(wobj);
+    mummy->set_speed(Constants::MUMMY_SPEED);
+    mummy->set_weapon(new skills::PaperMummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE));
+    mummy->set_bound(Constants::MUMMY_RADIUS);
+    return wobj;
+}
+
+sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments) {
+    utils::ImageFactory factory;
+    sprite::WorldObject* obj = StandingPaperMummy(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
 }
