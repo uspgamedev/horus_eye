@@ -60,15 +60,16 @@ SET(GAME_SRCS
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
     ./game/components/projectile.h 
+    ./game/config.h 
+    ./game/context.cc 
+    ./game/context.h 
     ./game/entities/emitterentity.h 
     ./game/entities/sandstormemitter.cc 
     ./game/entities/sandstormemitter.h 
-    ./game/context.cc 
-    ./game/context.h 
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 
-    ./game/modules.cc
+    ./game/modules.cc 
     ./game/modules.h 
     ./game/resources/capacityblocks.h 
     ./game/resources/containedresource.h 
@@ -106,6 +107,8 @@ SET(GAME_SRCS
     ./game/skills/mummyrangedweapon.h 
     ./game/skills/mummyweapon.cc 
     ./game/skills/mummyweapon.h 
+    ./game/skills/papermummyweapon.cc 
+    ./game/skills/papermummyweapon.h 
     ./game/skills/pharaohrangedweapon.cc 
     ./game/skills/pharaohrangedweapon.h 
     ./game/skills/pharaohsummonweapon.cc 
@@ -145,4 +148,6 @@ SET(GAME_SRCS
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
+    ./module/componentLUA_wrap.cc 
+    ./module/componentPYTHON_wrap.cc 
 )
