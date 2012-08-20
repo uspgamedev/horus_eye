@@ -5,6 +5,8 @@
 #include <string>
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
+#include <ugdk/script/virtualobj.h>
+
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
 #include "game/builders/entitybuilder.h"
@@ -20,7 +22,7 @@ namespace component {
     class Wall;
 }
 namespace sprite {
-	class WorldObject;
+    class WorldObject;
 }
 using ugdk::Vector2D;
 
@@ -49,6 +51,7 @@ class LevelLoader {
     std::vector<std::vector<std::string> > tags_;
     std::map<char, WorldObjectFactoryMethod> token_function_;
     std::vector<std::vector<component::Wall* > > wall_matrix_;
+    ugdk::script::VirtualObj::Vector objects_;
 };
 
 }

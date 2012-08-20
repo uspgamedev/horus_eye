@@ -106,6 +106,14 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
             ++x;
         }
     }
+
+    if(level_data["objects"]) {
+        objects_ = level_data["objects"].value<VirtualObj::Vector>();
+        //FUCKING MAGIC
+        //OBJECTOS!!!!11111
+        //DONE
+    }
+
     if(Settings::reference()->background_music() && music_name.length() > 0)
         world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music_name));
     world_->set_level_width(width);
@@ -239,6 +247,24 @@ void LevelLoader::Load(const std::string& file_name) {
                 floor->modifier()->set_color(Color(0.5, 0.5, 0.5));
                 floors->AddChild(floor);
             }
+        }
+    }
+    //ofr object in object list add object hzuzzah
+    for (VirtualObj::Vector::iterator it = objects_.begin(); it != objects_.end(); ++it ) {
+        VirtualObj::Vector object = it->value<VirtualObj::Vector>();
+        if (object.size() < 3){
+            printf("dafuq\n");
+            continue;
+        }
+        double x = object[0].value<double>();
+        double y = object[1].value<double>();
+        char objecttype = object[2].value<string>()[0];
+        std::vector<std::string> args;
+        for(size_t i = 3; i < object.size(); ++i)
+            args.push_back(object[i].value<std::string>());
+        WorldObject* obj = token_function_[objecttype](args);
+        if(obj){
+            world_->AddWorldObject(obj, Vector2D(x,y));
         }
     }
     InitializeWallTypes();
