@@ -157,11 +157,9 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
     switch(token) {
         case WALL: {
             WorldObject* wobj = builder::DoodadBuilder::Wall(blank);
+            wobj->set_tag(tags_[i][j]);
             wall_matrix_[i][j] = static_cast<Wall*>(wobj->logic());
             world_->AddWorldObject(wobj, position);
-            string tag = tags_[i][j];
-            if (!tag.empty())
-                world_->CreateTag(wobj, tag);
             break;
         }
         case ENTRY: {
@@ -230,10 +228,8 @@ void LevelLoader::Load(const std::string& file_name) {
             if(token_function_[token]) {
                 WorldObject* obj = token_function_[token](arguments_[i][j]);
                 if(obj) {
+                    obj->set_tag(tags_[i][j]);
                     world_->AddWorldObject(obj, position);
-                    string tag = tags_[i][j];
-                    if (!tag.empty())
-                        world_->CreateTag(obj, tag);
                 }
             } else {
                 TokenToWorldObject(token, i, j, position);

@@ -33,8 +33,11 @@ class WorldObject : public ugdk::action::Entity {
     void Die();
     void StartToDie();
 
-	void set_identifier(const std::string& identifier) { identifier_ = identifier; }
+    void set_identifier(const std::string& identifier) { identifier_ = identifier; }
     const std::string& identifier() const { return identifier_; }
+
+    void set_tag(const std::string& tag) { tag_ = tag; }
+    const std::string& tag() const { return tag_; }
 
     const ugdk::Vector2D& world_position() const { return world_position_; }
     void set_world_position(const ugdk::Vector2D& pos);
@@ -83,8 +86,8 @@ class WorldObject : public ugdk::action::Entity {
     void set_animation(component::Animation* animation) { animation_ = animation; }
     component::Animation* animation() { return animation_; }
 
-	void set_layer(scene::GameLayer layer) { layer_ = layer; }
-	scene::GameLayer layer() const { return layer_; }
+    void set_layer(scene::GameLayer layer) { layer_ = layer; }
+    scene::GameLayer layer() const { return layer_; }
 
   protected:
     std::string identifier_;
@@ -97,16 +100,18 @@ class WorldObject : public ugdk::action::Entity {
 
     // TODO: make this somethintg
     std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
-	std::tr1::function<void (WorldObject*)> on_die_callback_;
+    std::tr1::function<void (WorldObject*)> on_die_callback_;
 
   private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::Vector2D world_position_;
 
+    std::string tag_;
+
     // The current status for the object.
     Status status_;
     double light_radius_;
-	scene::GameLayer layer_;
+    scene::GameLayer layer_;
 
     component::Damageable* damageable_;
 

@@ -12,8 +12,6 @@ namespace context {
 
 sprite::WorldObject* WorldObjectByTag (const std::string& tag);
 
-void CreateTag (sprite::WorldObject* obj, const std::string& tag);
-
 pyramidworks::collision::CollisionObject* MakeCollisionObject (sprite::WorldObject* obj);
 
 } // namespace context

@@ -17,14 +17,6 @@ WorldObject* WorldObjectByTag (const std::string& tag) {
     return WORLD()->WorldObjectByTag(tag);
 }
 
-void CreateTag (WorldObject* obj, const std::string& tag) {
-    World *world = WORLD();
-    if (world)
-        world->CreateTag(obj, tag);
-    else
-        fprintf(stderr, "Attempt to create tag in NULL world.\n");
-}
-
 CollisionObject* MakeCollisionObject (WorldObject* obj) {
     World *world = WORLD();
     if (!world) return NULL;

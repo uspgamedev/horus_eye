@@ -176,6 +176,8 @@ void World::IncreaseNumberOfEnemies() {
 
 void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
+    if(!new_object->tag().empty())
+        tagged_[new_object->tag()] = new_object;
     QueuedAddEntity(new_object);
 }
 
@@ -248,9 +250,9 @@ WorldObject* World::WorldObjectByTag (const std::string& tag) {
     if (match == tagged_.end()) return NULL;
     return match->second;
 }
-
-void World::CreateTag (WorldObject* obj, const std::string& tag) {
-    tagged_[tag] = obj;
+    
+void World::RemoveTag(const std::string& tag) {
+    tagged_[tag] = NULL;
 }
 
 } // namespace scene

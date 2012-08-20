@@ -80,7 +80,7 @@ class World : public ugdk::action::Scene {
     void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
-    void CreateTag (sprite::WorldObject* obj, const std::string& tag);
+    void RemoveTag(const std::string& tag);
 
     ugdk::graphic::Node* layer_node(GameLayer layer) { 
         return layers_[layer];

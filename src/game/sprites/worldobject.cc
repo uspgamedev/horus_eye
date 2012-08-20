@@ -28,7 +28,7 @@ WorldObject::WorldObject(double duration)
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
         light_radius_(0.0),
-		layer_(scene::FOREGROUND_LAYER),
+        layer_(scene::FOREGROUND_LAYER),
         damageable_(NULL), 
         graphic_(NULL),
         logic_(NULL),
@@ -51,16 +51,17 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Die() {
-	status_ = STATUS_DEAD; 
-	to_be_removed_ = true;
-	if(on_die_callback_) on_die_callback_(this);
+    status_ = STATUS_DEAD;
+    if(!tag_.empty()) WORLD()->RemoveTag(tag_);
+    to_be_removed_ = true;
+    if(on_die_callback_) on_die_callback_(this);
 }
 
 void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
     if(collision_object_) collision_object_->StopColliding();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
-	if(!animation_) Die();
+    if(!animation_) Die();
 }
 
 void WorldObject::Update(double dt) {
@@ -117,7 +118,7 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
-	World* world = static_cast<World*>(scene);
+    World* world = static_cast<World*>(scene);
     world->layer_node(layer_)->AddChild(node());
     if(collision_object() != NULL)
         collision_object()->StartColliding();
