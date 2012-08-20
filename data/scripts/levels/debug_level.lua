@@ -15,9 +15,9 @@ tags = {
 }
 matrix = [[
 ###########E###
-#...!UUUUUU@# #
-#...!UUUUUU.# #
-#...!UUUUUU.# #
+#..z!UUUUUU@# #
+#..z!UUUUUU.# #
+#..z!UUUUUU.# #
 #.UUU.DD.UU.###
 #.UUUUUUUUU...#
 #.UUUUUUUUU...#

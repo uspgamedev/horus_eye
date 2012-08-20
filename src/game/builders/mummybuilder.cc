@@ -1,4 +1,5 @@
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/base/types.h>
 #include <ugdk/graphic/node.h>
 
 #include "mummybuilder.h"
@@ -98,6 +99,9 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::PAPER_MUMMY_LIFE);
+    ugdk::Color color = wobj->graphic()->node()->modifier()->color();
+    color.set_a(0.5);
+    wobj->graphic()->node()->modifier()->set_color(color);
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
