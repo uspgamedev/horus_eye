@@ -17,7 +17,6 @@
 
 namespace utils {
 class Hud;
-class ImageFactory;
 }
 namespace sprite {
 class WorldObject;
@@ -35,7 +34,7 @@ namespace scene {
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
-    World(sprite::WorldObject *hero, utils::ImageFactory *factory);
+    World(sprite::WorldObject *hero);
     virtual ~World();
 
     void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
@@ -71,7 +70,6 @@ class World : public ugdk::action::Scene {
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
     utils::GameMap& level_matrix() { return level_matrix_; }
-    utils::ImageFactory* image_factory() const { return image_factory_; }
     resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
     
@@ -84,9 +82,9 @@ class World : public ugdk::action::Scene {
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
     void CreateTag (sprite::WorldObject* obj, const std::string& tag);
 
-	ugdk::graphic::Node* layer_node(GameLayer layer) { 
-		return layers_[layer];
-	}
+    ugdk::graphic::Node* layer_node(GameLayer layer) { 
+        return layers_[layer];
+    }
 
   protected:
     sprite::WorldObject *hero_;
@@ -95,7 +93,6 @@ class World : public ugdk::action::Scene {
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;
-    utils::ImageFactory* image_factory_;
 
   private:
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
@@ -104,8 +101,8 @@ class World : public ugdk::action::Scene {
     bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
     pyramidworks::collision::CollisionManager* collision_manager_;
-	ugdk::graphic::Node *layers_[2];
-	TagTable tagged_;
+    ugdk::graphic::Node *layers_[2];
+    TagTable tagged_;
 
 };  // class World
 

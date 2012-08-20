@@ -31,7 +31,7 @@ void HeroFireballWeapon::Use() {
 
     World *world = WORLD();
 
-    builder::ProjectileBuilder proj(world->image_factory());
+    builder::ProjectileBuilder proj;
     world->AddWorldObject(proj.Fireball(versor), pos);
 
     if(utils::Settings::reference()->sound_effects())

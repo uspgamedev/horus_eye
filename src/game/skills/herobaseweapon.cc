@@ -26,7 +26,7 @@ void HeroBaseWeapon::Use(){
 
     Vector2D versor = (use_argument_.destination_ - use_argument_.origin_).Normalize(),
              pos = use_argument_.origin_;
-    builder::ProjectileBuilder proj(world->image_factory());
+    builder::ProjectileBuilder proj;
     world->AddWorldObject(proj.MagicMissile(versor), pos);
 
     if(utils::Settings::reference()->sound_effects())

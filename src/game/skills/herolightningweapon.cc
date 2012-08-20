@@ -31,7 +31,7 @@ void HeroLightningWeapon::Use() {
 
     World *world = WORLD();
 
-    builder::ProjectileBuilder proj(world->image_factory());
+    builder::ProjectileBuilder proj;
     world->AddWorldObject(proj.LightningBolt(versor), pos);
 
 

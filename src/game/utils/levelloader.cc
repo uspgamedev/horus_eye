@@ -107,12 +107,8 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
         }
     }
 
-    if(level_data["objects"]) {
+    if(level_data["objects"])
         objects_ = level_data["objects"].value<VirtualObj::Vector>();
-        //FUCKING MAGIC
-        //OBJECTOS!!!!11111
-        //DONE
-    }
 
     if(Settings::reference()->background_music() && music_name.length() > 0)
         world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music_name));
@@ -224,6 +220,8 @@ void LevelLoader::Load(const std::string& file_name) {
     token_function_[BUTTON] = builder::DoodadBuilder::Button; // TODO: world_->num_button_not_pressed() += 1;
     token_function_[SCRIPT] = builder::ScriptBuilder::Script;
 
+    ImageFactory factory;
+
     for (int i = 0; i < (int)matrix.size(); ++i) {
         for (int j = 0; j < (int)matrix[i].size(); ++j) {
             Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
@@ -242,7 +240,7 @@ void LevelLoader::Load(const std::string& file_name) {
             }
             if(matrix[i][j]->has_floor()) {
                 ugdk::graphic::Node* floor = matrix[i][j]->floor();
-                floor->set_drawable(world_->image_factory()->FloorImage());
+                floor->set_drawable(factory.FloorImage());
                 floor->modifier()->set_offset(World::FromWorldCoordinates(position));
                 floor->modifier()->set_color(Color(0.5, 0.5, 0.5));
                 floors->AddChild(floor);

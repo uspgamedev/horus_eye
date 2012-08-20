@@ -106,14 +106,13 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
-World::World(sprite::WorldObject *hero, utils::ImageFactory *factory) 
+World::World(sprite::WorldObject *hero) 
     :   Scene(),
         hero_(hero),
         level_width_(10),
         level_height_(10),
         remaining_enemies_(0),
         max_enemies_(0),
-        image_factory_(factory),
         level_state_(LevelManager::NOT_FINISHED),
         konami_used_(false),
         lights_on_(true),
@@ -145,7 +144,6 @@ World::World(sprite::WorldObject *hero, utils::ImageFactory *factory)
 
 // Destrutor
 World::~World() {
-    if(image_factory_) delete image_factory_;
     if(collision_manager_) delete collision_manager_;
 }
 

@@ -7,7 +7,6 @@
 #include "game/sprites/worldobject.h"
 
 namespace utils {
-class ImageFactory;
 class IsometricAnimationSet;
 } // namespace utils
 
@@ -15,7 +14,7 @@ namespace builder {
 
 class ProjectileBuilder {
   public:
-    ProjectileBuilder(utils::ImageFactory *factory) : factory_(factory) { InitializeAnimations(); }
+    ProjectileBuilder() { InitializeAnimations(); }
     ~ProjectileBuilder() {}
 
     sprite::WorldObject* MagicMissile(const ugdk::Vector2D &dir);
@@ -25,7 +24,6 @@ class ProjectileBuilder {
     sprite::WorldObject* Fireball(const ugdk::Vector2D &dir);
 
   private:
-    utils::ImageFactory *factory_;
     static utils::IsometricAnimationSet *fireball_animation_, *lightning_animation_;
     void InitializeAnimations();
 };

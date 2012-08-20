@@ -123,7 +123,7 @@ void ProjectileBuilder::InitializeAnimations() {
 
 WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
-    wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     wobj->set_light_radius(1.0);
     wobj->set_logic(new Projectile(wobj, Constants::PROJECTILE_SPEED, dir));
@@ -135,7 +135,7 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
 
 WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
-    wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MagicMissileImage()));
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     wobj->set_light_radius(1.0);
     wobj->set_logic(new Projectile(wobj, Constants::PROJECTILE_SPEED, dir));
@@ -148,7 +148,7 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
 
 WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int damage) {
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
-    wobj->node()->set_drawable(new ugdk::graphic::Sprite( factory_->MummyProjectileImage() ));
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
     wobj->set_light_radius(0.75);
     wobj->set_logic(new Projectile(wobj, Constants::PROJECTILE_SPEED, dir));

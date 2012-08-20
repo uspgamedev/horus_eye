@@ -38,14 +38,14 @@ class LevelLoader {
     virtual ~LevelLoader() {}
 
     void Load(const std::string&);
-    bool LoadMatrix(const std::string&);
 
-  protected:
+  private:
     scene::World * world_;
     bool InRange (int i,int j);
     bool IsWall(int i, int j);
     void TokenToWorldObject(char token, int i, int j, const Vector2D& position);
     void InitializeWallTypes();
+    bool LoadMatrix(const std::string&);
 
     std::vector<std::vector<ArgumentList> > arguments_;
     std::vector<std::vector<std::string> > tags_;

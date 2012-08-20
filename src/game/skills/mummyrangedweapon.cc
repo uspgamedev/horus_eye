@@ -27,7 +27,7 @@ void MummyRangedWeapon::Use(){
     Vector2D versor = (hero->world_position() - use_argument_.origin_).Normalize();
     Vector2D pos = use_argument_.origin_;
 
-    builder::ProjectileBuilder proj(world->image_factory());
+    builder::ProjectileBuilder proj;
     world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);
     
     if(utils::Settings::reference()->sound_effects())

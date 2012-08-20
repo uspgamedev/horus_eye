@@ -86,15 +86,15 @@ void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
     Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
-	if(Settings::reference()->background_music())
-		scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
+    if(Settings::reference()->background_music())
+        scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
     Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
-	if(Settings::reference()->background_music())
-		scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
+    if(Settings::reference()->background_music())
+        scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
@@ -173,7 +173,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     }
     static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
 
-    current_level_ = new World(hero_, factory);
+    current_level_ = new World(hero_);
     {
         LevelLoader loader(current_level_);
         loader.Load(level_name);

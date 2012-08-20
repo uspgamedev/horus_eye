@@ -33,7 +33,7 @@ void PharaohRangedWeapon::Use() {
     Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
     Vector2D offsetright = Vector2D::Rotate(versor,-angle);
 
-    builder::ProjectileBuilder proj(world->image_factory());
+    builder::ProjectileBuilder proj;
     world->AddWorldObject(proj.MummyProjectile(versor, damage_), pos);
     world->AddWorldObject(proj.MummyProjectile(offsetleft, damage_), pos);
     world->AddWorldObject(proj.MummyProjectile(offsetright, damage_), pos);

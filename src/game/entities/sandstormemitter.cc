@@ -53,8 +53,9 @@ void SandstormEmitter::Update(double dt) {
         versor[3] =
             aim_ortogonal * -sin(Constants::SANDSTORM_ANGLE/2.0)
             + aim_versor  *  cos(Constants::SANDSTORM_ANGLE/2.0);
+        
+        ProjectileBuilder proj;
         for(int i=0;i<4;i++) {
-            ProjectileBuilder proj(world->image_factory());
             world->AddWorldObject(proj.MagicBall(versor[i]), aim_.origin_);
             // TODO:FIREBALL!?
         }

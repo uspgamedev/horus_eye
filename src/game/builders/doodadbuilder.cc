@@ -51,7 +51,7 @@ COLLISION_DIRECT(scene::World*, WinCollision, obj) {
 
 WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world) {
     WorldObject* wobj = new WorldObject;
-    wobj->node()->set_drawable(new Sprite(world->image_factory()->DoorImage()));
+    wobj->node()->set_drawable(new Sprite("stairs"));
 
     CollisionObject* col = new CollisionObject(world->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
@@ -84,149 +84,149 @@ WorldObject* Entry(const std::vector<std::string>& arguments) {
 }
 
 static void PIZZAMATAHERO() {
-	WORLD()->hero()->damageable()->TakeDamage(12341231231.0);
+    WORLD()->hero()->damageable()->TakeDamage(12341231231.0);
 }
 
 static void WorldPressButton() {
-	WORLD()->num_button_not_pressed() -= 1;
+    WORLD()->num_button_not_pressed() -= 1;
 }
 
 
 class ButtonLogic : public component::Logic {
 public:
-	ButtonLogic(Sprite* sprite, std::tr1::function<void (void)> callback)
-		:	pressed_(false),
-		 	sprite_(sprite),
-		 	callback_(callback) {
-		sprite_->SetDefaultFrame(2); 
-	}
+    ButtonLogic(Sprite* sprite, std::tr1::function<void (void)> callback)
+        :	pressed_(false),
+            sprite_(sprite),
+            callback_(callback) {
+        sprite_->SetDefaultFrame(2); 
+    }
 
-	void Update(double dt) {}
+    void Update(double dt) {}
 
-	void Press() {
-		if(!pressed_) {
-			sprite_->SetDefaultFrame(0);
-			callback_();
-			pressed_ = true;
-		}
-	}
+    void Press() {
+        if(!pressed_) {
+            sprite_->SetDefaultFrame(0);
+            callback_();
+            pressed_ = true;
+        }
+    }
 
 private:
-	bool pressed_;
-	Sprite* sprite_;
-	std::tr1::function<void (void)> callback_;
+    bool pressed_;
+    Sprite* sprite_;
+    std::tr1::function<void (void)> callback_;
 };
 
 static void CollisionButton(ButtonLogic* button_logic, void*) {
-	button_logic->Press();
+    button_logic->Press();
 }
 
 WorldObject* Button(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-	WorldObject* wobj = new WorldObject;
+    WorldObject* wobj = new WorldObject;
 
-	Sprite* sprite = new Sprite(factory.TileSwitchImage());
-	ButtonLogic* logic;
+    Sprite* sprite = new Sprite(factory.TileSwitchImage());
+    ButtonLogic* logic;
     if(arguments.size() > 0 && arguments[0].compare("pizza") == 0) {
-		logic = new ButtonLogic(sprite, PIZZAMATAHERO);
-		WORLD()->num_button_not_pressed() -= 1;
-	} else
-		logic = new ButtonLogic(sprite, WorldPressButton);
+        logic = new ButtonLogic(sprite, PIZZAMATAHERO);
+        WORLD()->num_button_not_pressed() -= 1;
+    } else
+        logic = new ButtonLogic(sprite, WorldPressButton);
 
     wobj->node()->set_drawable(sprite);
-	wobj->set_logic(logic);
-	wobj->set_layer(scene::BACKGROUND_LAYER);
+    wobj->set_logic(logic);
+    wobj->set_layer(scene::BACKGROUND_LAYER);
 
-	CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Button");
-	col->AddCollisionLogic("Hero", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
-	col->AddCollisionLogic("Block", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
+    col->AddCollisionLogic("Hero", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
+    col->AddCollisionLogic("Block", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
     col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
     wobj->set_collision_object(col);
 
-	return wobj;
+    return wobj;
 }
 
 class BlockLogic : public component::Logic {
 public:
-	BlockLogic(WorldObject* owner) : owner_(owner), 
-		time_left_(new TimeAccumulator(0)) {}
+    BlockLogic(WorldObject* owner) : owner_(owner), 
+        time_left_(new TimeAccumulator(0)) {}
 
-	void Update(double dt) {
-		if(time_left_->Expired()) {
-			// Not moving anywhere
-			last_stable_position_ = owner_->world_position();
-		} else {
-			MoveBlock(dt);
-		}
-	}
+    void Update(double dt) {
+        if(time_left_->Expired()) {
+            // Not moving anywhere
+            last_stable_position_ = owner_->world_position();
+        } else {
+            MoveBlock(dt);
+        }
+    }
 
-	void PushToward(const Vector2D& pushdir) {
-		if(!time_left_->Expired()) return; // One cannot affect a block while it moves.
-		direction_ = pushdir;
+    void PushToward(const Vector2D& pushdir) {
+        if(!time_left_->Expired()) return; // One cannot affect a block while it moves.
+        direction_ = pushdir;
 
-		if(pushdir.x > fabs(pushdir.y)) 
-			direction_ = Vector2D(-1, 0);
-		else if (pushdir.x < -fabs(pushdir.y))
-			direction_ = Vector2D(+1, 0);
-		else if (pushdir.y > fabs(pushdir.x))
-			direction_ = Vector2D(0, -1);
-		else
-			direction_ = Vector2D(0, +1);
+        if(pushdir.x > fabs(pushdir.y)) 
+            direction_ = Vector2D(-1, 0);
+        else if (pushdir.x < -fabs(pushdir.y))
+            direction_ = Vector2D(+1, 0);
+        else if (pushdir.y > fabs(pushdir.x))
+            direction_ = Vector2D(0, -1);
+        else
+            direction_ = Vector2D(0, +1);
 
-		static double BLOCK_MOVE_SPEED = 2.0;
-		direction_ = direction_ * BLOCK_MOVE_SPEED;
+        static double BLOCK_MOVE_SPEED = 2.0;
+        direction_ = direction_ * BLOCK_MOVE_SPEED;
 
-		time_left_->Restart(500);
-	}
+        time_left_->Restart(500);
+    }
 
-	void RevertPosition() {
-		owner_->set_world_position(last_stable_position_);
-		time_left_->Restart(0);
-	}
+    void RevertPosition() {
+        owner_->set_world_position(last_stable_position_);
+        time_left_->Restart(0);
+    }
 
-	WorldObject* owner() { return owner_; }
+    WorldObject* owner() { return owner_; }
 
 private:
-	void MoveBlock(double dt) {
-		Vector2D newpos = owner_->world_position();
-		newpos += direction_ * dt;
-		owner_->set_world_position(newpos);
-	}
+    void MoveBlock(double dt) {
+        Vector2D newpos = owner_->world_position();
+        newpos += direction_ * dt;
+        owner_->set_world_position(newpos);
+    }
 
-	WorldObject* owner_;
-	Vector2D last_stable_position_, direction_;
-	TimeAccumulator* time_left_;
+    WorldObject* owner_;
+    Vector2D last_stable_position_, direction_;
+    TimeAccumulator* time_left_;
 };
 
 static void PushOnCollision(BlockLogic* logic, void* obj) {
-	Vector2D pushdir = (((WorldObject *)obj)->world_position() - logic->owner()->world_position()).Normalize();
+    Vector2D pushdir = (((WorldObject *)obj)->world_position() - logic->owner()->world_position()).Normalize();
     logic->PushToward(pushdir);
 }
 
 static void InvalidMovementCollision(BlockLogic* data, void* obj) {
-	data->RevertPosition();
+    data->RevertPosition();
 }
 
 WorldObject* Block(const std::vector<std::string>& arguments) {
-	utils::ImageFactory factory;
-	WorldObject* wobj = new WorldObject;
-	
-	Sprite* sprite = new Sprite(factory.WallImage());
-	BlockLogic* logic = new BlockLogic(wobj);
-	wobj->set_logic(logic);
+    utils::ImageFactory factory;
+    WorldObject* wobj = new WorldObject;
+    
+    Sprite* sprite = new Sprite(factory.WallImage());
+    BlockLogic* logic = new BlockLogic(wobj);
+    wobj->set_logic(logic);
 
-	wobj->node()->set_drawable(sprite);
-	wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
+    wobj->node()->set_drawable(sprite);
+    wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
 
-	CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-	col->InitializeCollisionClass("Block");
-	col->AddCollisionLogic("Projectile", new GenericCollisionLogic(bind(PushOnCollision, logic, _1)));
-	col->AddCollisionLogic("Wall", new GenericCollisionLogic(bind(InvalidMovementCollision, logic, _1)));
-	col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
-	wobj->set_collision_object(col);
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+    col->InitializeCollisionClass("Block");
+    col->AddCollisionLogic("Projectile", new GenericCollisionLogic(bind(PushOnCollision, logic, _1)));
+    col->AddCollisionLogic("Wall", new GenericCollisionLogic(bind(InvalidMovementCollision, logic, _1)));
+    col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
+    wobj->set_collision_object(col);
 
-	return wobj;
+    return wobj;
 }
 
 } // namespace DoodadBuilder
