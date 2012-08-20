@@ -50,5 +50,5 @@ matrix = [[
 ###############
 ]]
 objects = {
-    { 7, 32, "!", "switch" },
+    { 7, 32, "!", "dummy_switch" },
 }
