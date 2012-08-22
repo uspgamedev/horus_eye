@@ -48,7 +48,7 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
 
 IsometricAnimationSet::~IsometricAnimationSet() {}
 
-int IsometricAnimationSet::Get(AnimtionType type, const component::Direction dir) {
+int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& dir) {
     /*switch(type) {
     default:*/
         return animation_index_[type][dir.value()];

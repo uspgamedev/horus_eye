@@ -22,7 +22,7 @@ class IsometricAnimationSet {
     IsometricAnimationSet(ugdk::action::AnimationSet* animation_set);
     virtual ~IsometricAnimationSet();
 
-    int Get(AnimtionType type, const component::Direction dir);
+    int Get(AnimtionType type, const component::Direction& dir);
     
     ugdk::action::AnimationSet* animation_set() { return animation_set_; }
 
