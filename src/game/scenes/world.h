@@ -37,7 +37,7 @@ class World : public ugdk::action::Scene {
     World(sprite::WorldObject *hero);
     virtual ~World();
 
-    void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
+    void AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos);
     void AddHero(const ugdk::Vector2D& pos);
 
     int CountRemainingEnemies();
@@ -76,7 +76,7 @@ class World : public ugdk::action::Scene {
     //setters
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
-    void set_level_matrix(utils::GameMap matrix) { level_matrix_ = matrix; }
+    void set_level_matrix(const utils::GameMap& matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
