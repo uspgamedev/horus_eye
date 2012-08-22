@@ -61,12 +61,10 @@ disable_disown(component::Animation* animation)
 %ignore resource::ContainedResource;
 
 %include <game/resources/resource.h>
-
 %template(Resource) resource::Resource<double>;
 %template(IntegerResource) resource::Resource<int>;
 
 %include <game/resources/containedresource.h>
-
 %template(NumericContainedResource) resource::ContainedResource<double>;
 
 %include <game/resources/energy.h>
