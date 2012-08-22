@@ -3,7 +3,7 @@
 
 %include <module/export.swig>
 %include <module/ownership.swig>
-//%include <module/proxy.swig>
+%include <module/proxy.swig>
 %include "std_string.i"
 %include "std_map.i"
 
@@ -18,6 +18,8 @@
 #include <game/components/controller.h>
 #include <game/components/animation.h>
 #include <game/components/direction.h>
+
+#include <module/component/logicproxy.h>
 
 %}
 
@@ -70,7 +72,7 @@ disable_disown(component::Animation* animation)
 %include <game/components/logic.h>
 
 // TODO
-//proxy_class(component::Logic)
+proxy_class(component::Logic)
 
 namespace sprite {
     export_class(WorldObject)
