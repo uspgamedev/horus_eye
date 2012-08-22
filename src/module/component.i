@@ -22,6 +22,7 @@
 %}
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
+%import(module="ugdk_action") <ugdk/action/observer.h>
 
 // context::*
 
