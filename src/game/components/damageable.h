@@ -25,7 +25,7 @@ class Damageable {
     }
 
     resource::Energy& life() { return life_; }
-    void set_life(resource::Energy &life) {
+    void set_life(const resource::Energy &life) {
         life_ = life;
     }
     void set_life(double life) {
