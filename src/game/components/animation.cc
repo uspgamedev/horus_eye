@@ -30,7 +30,8 @@ direction_mapping_[6] = Animation_::DOWN;
 direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT; 
 */
 
-Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag, utils::IsometricAnimationSet* iso_animation_set)
+Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
+                     utils::IsometricAnimationSet* iso_animation_set)
     :   owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
