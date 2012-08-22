@@ -3,7 +3,7 @@
 
 %include <module/export.swig>
 %include <module/ownership.swig>
-%include <module/proxy.swig>
+//%include <module/proxy.swig>
 %include "std_string.i"
 %include "std_map.i"
 
@@ -26,6 +26,8 @@
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="ugdk_action") <ugdk/action/observer.h>
+
+//proxy_class(component::Logic)
 
 // context::*
 
@@ -78,14 +80,11 @@ disable_disown(component::Animation* animation)
 %ignore component::Direction::operator const bool;
 
 %include <game/components/direction.h>
+%include <game/components/logic.h>
 %include <game/components/damageable.h>
 %include <game/components/graphic.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
-%include <game/components/logic.h>
-
-// TODO
-proxy_class(component::Logic)
 
 namespace sprite {
     export_class(WorldObject)
@@ -101,3 +100,4 @@ namespace component {
 }
 
 confirm_exports(component)
+

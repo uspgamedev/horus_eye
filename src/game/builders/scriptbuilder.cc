@@ -136,11 +136,20 @@ WorldObject* Script(const std::vector<std::string>& arguments) {
     }
 
     VirtualObj script_data = script_generator["generate"]();
+    VirtualObj script_builder = script_generator["build"];
     WorldObject* wobj = new WorldObject;
 
     for(int i = 0; i < NUM_FIELDS; ++i) {
         VirtualObj data = script_data[valid_names[i].name];
         if(data) valid_names[i].func(wobj, data);
+    }
+
+    if (script_builder) {
+        VirtualObj::List    args;
+        VirtualObj          v_wobj(script_builder.wrapper());
+        v_wobj.set_value<WorldObject*>(wobj);
+        args.push_back(v_wobj);
+        script_builder(args);
     }
 
     return wobj;

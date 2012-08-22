@@ -51,3 +51,6 @@ function generate ()
 
   return descriptor
 end
+
+function build (wobj)
+end
