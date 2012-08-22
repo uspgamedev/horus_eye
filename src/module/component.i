@@ -11,6 +11,7 @@
 
 #include <game/context.h>
 #include <game/sprites/worldobject.h>
+#include <game/resources/energy.h>
 #include <game/components/logic.h>
 #include <game/components/damageable.h>
 #include <game/components/graphic.h>
@@ -47,12 +48,25 @@ disable_disown(component::Graphic* graphic)
 disable_disown(component::Controller* controller)
 disable_disown(component::Animation* animation)
 
+// resource::Energy and dependencies
+
+%ignore resource::Resource;
+%ignore resource::ContainedResource;
+%include <game/resources/resource.h>
+%template(Resource) resource::Resource<double>;
+%template(IntegerResource) resource::Resource<int>;
+%include <game/resources/containedresource.h>
+%template(NumericContainedResource) resource::ContainedResource<double>;
+%include <game/resources/energy.h>
+
+// component::*
+
 %include <game/components/direction.h>
-%include <game/components/logic.h>
 %include <game/components/damageable.h>
 %include <game/components/graphic.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
+%include <game/components/logic.h>
 
 // TODO
 //proxy_class(component::Logic)
