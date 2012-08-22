@@ -19,6 +19,7 @@
 #include <game/components/animation.h>
 #include <game/components/direction.h>
 
+#include <ugdk/script/baseproxy.h>
 #include <module/component/logicproxy.h>
 
 %}
@@ -54,15 +55,27 @@ disable_disown(component::Animation* animation)
 // resource::Energy and dependencies
 
 %ignore resource::Resource;
+%ignore resource::Resource::operator=;
 %ignore resource::ContainedResource;
+
 %include <game/resources/resource.h>
+
 %template(Resource) resource::Resource<double>;
 %template(IntegerResource) resource::Resource<int>;
+
 %include <game/resources/containedresource.h>
+
 %template(NumericContainedResource) resource::ContainedResource<double>;
+
 %include <game/resources/energy.h>
 
 // component::*
+
+%ignore component::Direction::operator!;
+%ignore component::Direction::operator|=;
+%ignore component::Direction::operator|;
+%ignore component::Direction::operator&;
+%ignore component::Direction::operator const bool;
 
 %include <game/components/direction.h>
 %include <game/components/damageable.h>
