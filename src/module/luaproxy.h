@@ -111,7 +111,7 @@ printf("SWIG_Lua_class_set %p(%s) '%s' %p(%s)\n",
 }
 
 static void ExportMetamethods (lua_State *L) {
-    lua_getfield(L, LUA_GLOBALSINDEX, "UGDK_proxymethods");
+    lua_getfield(L, LUA_GLOBALSINDEX, "HORUS_proxymethods");
     if (lua_istable(L,-1)) // someone already made it
         return;
     lua_createtable(L, 0, 2);
@@ -119,7 +119,7 @@ static void ExportMetamethods (lua_State *L) {
     lua_setfield(L, -2, "getter");
     lua_pushcclosure(L, ClassSet, 0);
     lua_setfield(L, -2, "setter");
-    lua_setfield(L, LUA_GLOBALSINDEX, "UGDK_proxymethods");
+    lua_setfield(L, LUA_GLOBALSINDEX, "HORUS_proxymethods");
 }
 
 } /* namespace lua */

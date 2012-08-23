@@ -21,5 +21,5 @@ enable_disown(sprite::WorldObject* new_obj)
 %include <game/context.h>
 disable_disown(sprite::WorldObject* new_obj)
 
-confirm_exports(component)
+confirm_exports(context)
 

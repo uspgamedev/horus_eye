@@ -42,9 +42,9 @@ Mainly, they need to be named ClassProxy, and their constructor receives a ugdk:
     local hacked = {}
     for k,v in pairs(meta) do
       if k == "__index" then
-        hacked[k] = UGDK_proxymethods.getter
+        hacked[k] = HORUS_proxymethods.getter
       elseif k == "__newindex" then
-        hacked[k] = UGDK_proxymethods.setter
+        hacked[k] = HORUS_proxymethods.setter
       else
         hacked[k] = v
       end
