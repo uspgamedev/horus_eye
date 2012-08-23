@@ -38,8 +38,7 @@ function generate ()
         if not switch.activated then
           switch.activated = true
           switch.sprite:SelectAnimation "SWITCH_START"
-          local spike = context.BuildWorldObject "spike"
-          context.AddWorldObject(spike, Vector2D(4, 23))
+          context.AddWorldObject("spike", Vector2D(4, 23))
         end
       end
     }
