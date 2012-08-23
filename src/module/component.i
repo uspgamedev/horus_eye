@@ -9,7 +9,6 @@
 
 %{
 
-#include <game/context.h>
 #include <game/sprites/worldobject.h>
 #include <game/resources/energy.h>
 #include <game/components/logic.h>
@@ -28,10 +27,6 @@
 %import(module="ugdk_action") <ugdk/action/observer.h>
 
 //proxy_class(component::Logic)
-
-// context::*
-
-%include <game/context.h>
 
 // sprite::WorldObject
 

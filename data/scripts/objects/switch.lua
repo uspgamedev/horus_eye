@@ -3,6 +3,7 @@ require "ugdk.drawable"
 require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
+require "context"
 
 local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
@@ -35,7 +36,7 @@ function generate ()
       Projectile = function(self, obj)
         if not switch.activated then
           for i=1,3 do
-            local door = component.WorldObjectByTag("DOOR_"..i)
+            local door = context.WorldObjectByTag("DOOR_"..i)
             if not door then
               print "door not found"
             else
