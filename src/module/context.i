@@ -15,11 +15,11 @@
 %import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="ugdk_action") <ugdk/action/observer.h>
 
-//proxy_class(component::Logic)
+%newobject context::BuildWorldObject(const std::string& scriptname);
 
-// context::*
-
+enable_disown(sprite::WorldObject* new_obj)
 %include <game/context.h>
+disable_disown(sprite::WorldObject* new_obj)
 
 confirm_exports(component)
 

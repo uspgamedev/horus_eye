@@ -1,11 +1,13 @@
 
+require "ugdk.math"
 require "ugdk.drawable"
 require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
 
-local Sprite = ugdk_drawable.Sprite
-local Rect = pyramidworks_geometry.Rect
+local Vector2D  = ugdk_math.Vector2D
+local Sprite    = ugdk_drawable.Sprite
+local Rect      = pyramidworks_geometry.Rect 
 
 local function make_switch ()
   local switch = proxy "Observer"
@@ -36,6 +38,8 @@ function generate ()
         if not switch.activated then
           switch.activated = true
           switch.sprite:SelectAnimation "SWITCH_START"
+          local spike = context.BuildWorldObject "spike"
+          context.AddWorldObject(spike, Vector2D(4, 23))
         end
       end
     }
