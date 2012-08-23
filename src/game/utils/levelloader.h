@@ -52,6 +52,7 @@ class LevelLoader {
     std::map<char, WorldObjectFactoryMethod> token_function_;
     std::vector<std::vector<component::Wall* > > wall_matrix_;
     ugdk::script::VirtualObj::Vector objects_;
+    ugdk::script::VirtualObj setup_;
 };
 
 }

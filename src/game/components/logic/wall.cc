@@ -105,6 +105,8 @@ void Wall::Update(double delta_t) {
     if(!tile_)
         tile_ = Tile::GetFromWorldPosition(world->level_matrix(), owner_->world_position());
 
+    CheckType();
+
     if(world->hero() != NULL) {
         Vector2D distance = world->hero_world_object()->world_position() - owner_->world_position();
         if(transparency_square_.Contains(distance)) {

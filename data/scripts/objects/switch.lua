@@ -40,7 +40,7 @@ function generate ()
             if not door then
               print "door not found"
             else
-              door:Die()
+              door:damageable():TakeDamage(1)
               switch.activated = true
               switch.sprite:SelectAnimation "SWITCH_START"
             end

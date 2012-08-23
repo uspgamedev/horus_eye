@@ -115,6 +115,7 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
     world_->set_level_width(width);
     world_->set_level_height(height);
     world_->set_level_matrix(gamemap);
+    setup_ = level_data["setup"];
     return true;
 }
 
@@ -264,6 +265,8 @@ void LevelLoader::Load(const std::string& file_name) {
     InitializeWallTypes();
     world_->content_node()->AddChild(floors);
     floors->set_zindex(-FLT_MAX);
+    if (setup_)
+        setup_();
 }
 
 } // namespace utils

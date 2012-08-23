@@ -1,3 +1,7 @@
+
+require "context"
+require "component"
+
 music = "musics/Arabesque.ogg"
 width = 15
 height = 34
@@ -5,13 +9,14 @@ arguments = {
     { 4, 1, "spike2" },
     { 4, 2, "spike" },
     { 4, 3, "spike" },
-    { 3, 11, "switch" }
+    { 3, 11, "switch" },
+    { 11, 11, "switch" }
 }
 tags = {
     { 4, 3, "EXPLO" },
-    { 2, 14, "DOOR_1"},
-    { 3, 14, "DOOR_2"},
-    { 4, 14, "DOOR_3"}
+    { 7, 13, "DOOR_1"},
+    { 8, 13, "DOOR_2"},
+    { 9, 13, "DOOR_3"}
 }
 matrix = [[
 ###########E###
@@ -22,17 +27,17 @@ matrix = [[
 #.UUUUUUUUU...#
 #.UUUUUUUUU...#
 #.............#
-#.....#####...#
-#...K.#   #...#
-#.....#   #...#
-#..!..#####...#
-#.....#.......#
-#.....#.......#
-#######...M...#
-##...##.......#
-##...##.......#
-##............#
-##............#
+#.............#
+#...K.........#
+#.............#
+#..!.......!..#
+#.............#
+###############
+#.........M...#
+#.............#
+#.............#
+#.............#
+#.............#
 #########...###
 #.......#.K.###
 #.......#...###
@@ -52,3 +57,13 @@ matrix = [[
 objects = {
     { 7, 32, "!", "dummy_switch" },
 }
+
+function setup ()
+  print "=========================================="
+  for i = 1,3 do
+    local door = context.WorldObjectByTag("DOOR_"..i)
+    local damageable = component.Damageable(door)
+    damageable:set_life(component.Energy(2))
+    door:set_damageable(damageable)
+  end
+end
