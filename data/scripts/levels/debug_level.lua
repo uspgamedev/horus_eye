@@ -54,8 +54,13 @@ matrix = [[
 #.............#
 ###############
 ]]
+
 objects = {
     { 7, 32, "!", "dummy_switch" },
+}
+
+collision_classes = {
+  { "Switch" }
 }
 
 function setup ()

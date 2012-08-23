@@ -10,6 +10,7 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 #include "levelloader.h"
 
@@ -52,21 +53,21 @@ using namespace std::tr1::placeholders;
 
 bool LevelLoader::LoadMatrix(const std::string& file_name) {
 
-    VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + file_name);
-    if(!level_data) return false;
+    level_data_ = SCRIPT_MANAGER()->LoadModule("levels." + file_name);
+    if(!level_data_) return false;
 
-    if(!level_data["width"] || !level_data["height"] || !level_data["matrix"]) return false;
+    if(!level_data_["width"] || !level_data_["height"] || !level_data_["matrix"]) return false;
 
-    std::string music_name = level_data["music"] ? level_data["music"].value<std::string>() : "";
-    int width = level_data["width"].value<int>();
-    int height = level_data["height"].value<int>();
+    std::string music_name = level_data_["music"] ? level_data_["music"].value<std::string>() : "";
+    int width = level_data_["width"].value<int>();
+    int height = level_data_["height"].value<int>();
     
     {
         std::vector<ArgumentList> line(width);
         arguments_.resize(height, line);
 
-        if(level_data["arguments"]) {
-            VirtualObj::Vector arguments = level_data["arguments"].value<VirtualObj::Vector>();
+        if(level_data_["arguments"]) {
+            VirtualObj::Vector arguments = level_data_["arguments"].value<VirtualObj::Vector>();
             for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
                 VirtualObj::Vector data = it->value<VirtualObj::Vector>();
                 int x = data[0].value<int>();
@@ -79,8 +80,8 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
         std::vector<string> line(width);
         tags_.resize(height, line);
 
-        if(level_data["tags"]) {
-            VirtualObj::Vector tags = level_data["tags"].value<VirtualObj::Vector>();
+        if(level_data_["tags"]) {
+            VirtualObj::Vector tags = level_data_["tags"].value<VirtualObj::Vector>();
             for (VirtualObj::Vector::iterator it = tags.begin(); it != tags.end(); ++it) {
                 VirtualObj::Vector data = it->value<VirtualObj::Vector>();
                 int x = data[0].value<int>();
@@ -89,7 +90,7 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
             }
         }
     }
-    std::string matrix = level_data["matrix"].value<std::string>();
+    std::string matrix = level_data_["matrix"].value<std::string>();
 
     GameMap gamemap(height, TileRow(width));
     {
@@ -107,15 +108,11 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
         }
     }
 
-    if(level_data["objects"])
-        objects_ = level_data["objects"].value<VirtualObj::Vector>();
-
     if(Settings::reference()->background_music() && music_name.length() > 0)
         world_->set_background_music(AUDIO_MANAGER()->LoadMusic(music_name));
     world_->set_level_width(width);
     world_->set_level_height(height);
     world_->set_level_matrix(gamemap);
-    setup_ = level_data["setup"];
     return true;
 }
 
@@ -193,6 +190,19 @@ void LevelLoader::Load(const std::string& file_name) {
     world_->SetupCollisionManager();
     if(!load_success) return;
 
+    VirtualObj::Vector collision_classes;
+    if(level_data_["collision_classes"])
+        collision_classes = level_data_["collision_classes"].value<VirtualObj::Vector>();
+
+    for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
+        VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
+        if (collclass.size() >= 2)
+            world_->collision_manager()->Generate(collclass.front().value<string>(),
+                                                  collclass[1].value<string>());
+        else if (collclass.size() >= 1)
+            world_->collision_manager()->Generate(collclass.front().value<string>());
+    }
+
     GameMap& matrix = world_->level_matrix();
 
     vector<vector<Wall* > > wall_matrix(matrix.size(), vector<Wall *> (matrix[0].size()));
@@ -244,8 +254,13 @@ void LevelLoader::Load(const std::string& file_name) {
             }
         }
     }
+
+    VirtualObj::Vector objects;
+    if(level_data_["objects"])
+        objects = level_data_["objects"].value<VirtualObj::Vector>();
+
     //ofr object in object list add object hzuzzah
-    for (VirtualObj::Vector::iterator it = objects_.begin(); it != objects_.end(); ++it ) {
+    for (VirtualObj::Vector::iterator it = objects.begin(); it != objects.end(); ++it ) {
         VirtualObj::Vector object = it->value<VirtualObj::Vector>();
         if (object.size() < 3){
             printf("dafuq\n");
@@ -265,8 +280,9 @@ void LevelLoader::Load(const std::string& file_name) {
     InitializeWallTypes();
     world_->content_node()->AddChild(floors);
     floors->set_zindex(-FLT_MAX);
-    if (setup_)
-        setup_();
+    VirtualObj setup = level_data_["setup"];
+    if (setup)
+        setup();
 }
 
 } // namespace utils

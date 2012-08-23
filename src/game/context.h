@@ -21,6 +21,10 @@ void AddWorldObject (const std::string& scriptname, const ugdk::Vector2D& pos);
 
 pyramidworks::collision::CollisionObject* MakeCollisionObject (sprite::WorldObject* obj);
 
+void AddCollisionClass (const std::string& classname);
+
+void AddCollisionClass (const std::string& classname, const std::string& supername);
+
 } // namespace context
 
 

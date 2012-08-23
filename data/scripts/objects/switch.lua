@@ -29,7 +29,7 @@ function generate ()
   descriptor.drawable = switch.sprite
 
   descriptor.collision = {
-    class = "Wall",
+    class = "Switch",
     shape = Rect(0.8, 0.8),
     known_collision = {},
     custom_collision = {

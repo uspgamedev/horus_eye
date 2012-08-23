@@ -51,8 +51,7 @@ class LevelLoader {
     std::vector<std::vector<std::string> > tags_;
     std::map<char, WorldObjectFactoryMethod> token_function_;
     std::vector<std::vector<component::Wall* > > wall_matrix_;
-    ugdk::script::VirtualObj::Vector objects_;
-    ugdk::script::VirtualObj setup_;
+    ugdk::script::VirtualObj level_data_;
 };
 
 }

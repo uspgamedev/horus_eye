@@ -43,4 +43,20 @@ CollisionObject* MakeCollisionObject (WorldObject* obj) {
     return new CollisionObject(manager, static_cast<void*>(obj));
 }
 
+void AddCollisionClass (const string& classname) {
+    World *world = WORLD();
+    assert(world);
+    CollisionManager *manager = world->collision_manager();
+    assert(manager);
+    manager->Generate(classname);
+}
+
+void AddCollisionClass (const string& classname, const std::string& supername) {
+    World *world = WORLD();
+    assert(world);
+    CollisionManager *manager = world->collision_manager();
+    assert(manager);
+    manager->Generate(classname, supername);
+}
+
 } // namespace context
