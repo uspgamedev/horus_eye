@@ -128,6 +128,7 @@ struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
 
 /** arguments[0] is the script name. */
 WorldObject* Script(const std::vector<std::string>& arguments) {
+    if (arguments.empty()) return NULL;
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("objects." + arguments[0]);
     if(!script_generator) return NULL;
     if(!script_generator["generate"]) {

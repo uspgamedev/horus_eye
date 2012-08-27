@@ -60,7 +60,7 @@ objects = {
 }
 
 collision_classes = {
-  { "Switch" }
+  { "Switch", "Wall" }
 }
 
 function setup ()

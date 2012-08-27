@@ -1,4 +1,5 @@
-7
+8
+beta_level
 level_1
 level_lightningtest
 level_2
