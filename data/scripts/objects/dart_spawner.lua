@@ -1,0 +1,22 @@
+
+require "ugdk.math"
+require "builder"
+require "context"
+
+local Vector2D = ugdk_math.Vector2D
+
+function generate (...)
+  local descriptor = {}
+  local delay, dx ,dy = ...
+
+  descriptor.timed_life = tonumber(delay)
+
+  descriptor.on_die_callback = function (obj)
+    local dart =
+      builder.ProjectileBuilder():MummyProjectile(Vector2D(dx,dy), 200)
+    context.AddWorldObject(dart, obj:world_position())
+  end
+
+  return descriptor
+end
+

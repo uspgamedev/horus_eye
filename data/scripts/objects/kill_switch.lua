@@ -5,8 +5,8 @@ require "pyramidworks.geometry"
 require "component"
 require "context"
 
-local Sprite = ugdk_drawable.Sprite
-local Rect = pyramidworks_geometry.Rect
+local Sprite    = ugdk_drawable.Sprite
+local Rect      = pyramidworks_geometry.Rect
 
 local function make_switch ()
   local switch = proxy "Observer"

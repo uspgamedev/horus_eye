@@ -24,12 +24,15 @@
 
 %ignore builder::DoodadBuilder::Door(const std::vector<std::string>& arguments, scene::World* world);
 
+%template(StringList) std::vector<std::string>;
+
 %include <game/builders/doodadbuilder.h>
 %include <game/builders/entitybuilder.h>
 %include <game/builders/explosionbuilder.h>
 %include <game/builders/itembuilder.h>
 %include <game/builders/mummybuilder.h>
 %include <game/builders/projectilebuilder.h>
+%include <game/builders/scriptbuilder.h>
 
 confirm_exports(builder)
 

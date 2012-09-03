@@ -56,11 +56,12 @@ E.@........!..#.........M.......#..L..L..L.....................#
 ]]
 
 objects = {
-  { 29, 11.5, "!", "dart_trap", "30", "14", "0", "-1" }
+  { 29, 11.5, "!", "dart_trap", "30", "13", "0", "-1" }
 }
 
 collision_classes = {
-  { "Switch", "Wall" }
+  { "Switch", "Wall" },
+  { "EventArea" }
 }
 
 function setup ()
