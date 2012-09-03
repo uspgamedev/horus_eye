@@ -1,4 +1,4 @@
-import ugdk.ugdk_math
+import ugdk_math
 
 file = ["images/lightning_bolt.png"]
-fill = [ 64, 64, ugdk.ugdk_math.Vector2D(32, 32) ]
+fill = [ 64, 64, ugdk_math.Vector2D(32, 32) ]
