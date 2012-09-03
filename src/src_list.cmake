@@ -19,6 +19,8 @@ SET(GAME_SRCS
     ./game/builders/entitybuilder.h 
     ./game/builders/explosionbuilder.cc 
     ./game/builders/explosionbuilder.h 
+    ./game/builders/functions/carrier.cc 
+    ./game/builders/functions/carrier.h 
     ./game/builders/goodmenubuilder.cc 
     ./game/builders/goodmenubuilder.h 
     ./game/builders/herobuilder.cc 
@@ -33,6 +35,7 @@ SET(GAME_SRCS
     ./game/builders/scriptbuilder.h 
     ./game/builders/taskbuilder.cc 
     ./game/builders/taskbuilder.h 
+    ./game/components.h 
     ./game/components/animation.cc 
     ./game/components/animation.h 
     ./game/components/controller.h 
@@ -41,12 +44,11 @@ SET(GAME_SRCS
     ./game/components/direction.h 
     ./game/components/graphic.cc 
     ./game/components/graphic.h 
-    ./game/components.h 
+    ./game/components/logic.h 
     ./game/components/logic/creature.cc 
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
-    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
     ./game/components/logic/mummy.cc 
@@ -76,8 +78,8 @@ SET(GAME_SRCS
     ./game/resources/countableresource.h 
     ./game/resources/energy.h 
     ./game/resources/resource.h 
-    ./game/scenes/gamelayer.h 
     ./game/scenes.h 
+    ./game/scenes/gamelayer.h 
     ./game/scenes/imagescene.cc 
     ./game/scenes/imagescene.h 
     ./game/scenes/loading.cc 
@@ -117,8 +119,8 @@ SET(GAME_SRCS
     ./game/skills/sandstorm.h 
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
-    ./game/sprites/condition.h 
     ./game/sprites.h 
+    ./game/sprites/condition.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
@@ -143,11 +145,17 @@ SET(GAME_SRCS
     ./game/utils/settings.cc 
     ./game/utils/settings.h 
     ./game/utils/tile.cc 
-    ./game/utils/tilefwd.h 
     ./game/utils/tile.h 
+    ./game/utils/tilefwd.h 
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
+    ./module/builderLUA_wrap.cc 
+    ./module/builderPYTHON_wrap.cc 
+    ./module/component/logicproxy.h 
     ./module/componentLUA_wrap.cc 
     ./module/componentPYTHON_wrap.cc 
+    ./module/contextLUA_wrap.cc 
+    ./module/contextPYTHON_wrap.cc 
+    ./module/luaproxy.h 
 )
