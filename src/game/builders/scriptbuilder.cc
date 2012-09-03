@@ -19,6 +19,8 @@ namespace ScriptBuilder {
 using ugdk::script::VirtualObj;
 using sprite::WorldObject;
 using std::tr1::bind;
+using std::string;
+using std::vector;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::GenericCollisionLogic;
@@ -127,7 +129,7 @@ struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
 
 
 /** arguments[0] is the script name. */
-WorldObject* Script(const std::vector<std::string>& arguments) {
+WorldObject* Script(const vector<string>& arguments) {
     if (arguments.empty()) return NULL;
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("objects." + arguments[0]);
     if(!script_generator) return NULL;
@@ -136,7 +138,14 @@ WorldObject* Script(const std::vector<std::string>& arguments) {
         return NULL;
     }
 
-    VirtualObj script_data = script_generator["generate"]();
+    VirtualObj::List args;
+    for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
+        VirtualObj obj(script_generator.wrapper());
+        printf("ARG: %s\n", it->c_str());
+        obj.set_value<string>(*it);
+        args.push_back(obj);
+    }
+    VirtualObj script_data = script_generator["generate"](args);
     VirtualObj script_builder = script_generator["build"];
     WorldObject* wobj = new WorldObject;
 

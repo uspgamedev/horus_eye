@@ -22,9 +22,10 @@ local function make_switch ()
   return switch
 end
 
-function generate ()
+function generate (...)
   local descriptor = {}
   local switch = make_switch()
+  local to_kill = { ... }
   
   descriptor.drawable = switch.sprite
 
@@ -35,8 +36,8 @@ function generate ()
     custom_collision = {
       Projectile = function(self, obj)
         if not switch.activated then
-          for i=1,3 do
-            local door = context.WorldObjectByTag("DOOR-1-"..i)
+          for _,tag in pairs(to_kill) do
+            local door = context.WorldObjectByTag(tag)
             if not door then
               print "door not found"
             else

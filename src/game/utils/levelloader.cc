@@ -72,7 +72,8 @@ bool LevelLoader::LoadMatrix(const std::string& file_name) {
                 VirtualObj::Vector data = it->value<VirtualObj::Vector>();
                 int x = data[0].value<int>();
                 int y = data[1].value<int>();
-                arguments_[y][x].push_back(data[2].value<std::string>());
+                for (VirtualObj::Vector::iterator arg_it = data.begin()+2; arg_it != data.end(); ++arg_it)
+                    arguments_[y][x].push_back(arg_it->value<string>());
             }
         }
     }
