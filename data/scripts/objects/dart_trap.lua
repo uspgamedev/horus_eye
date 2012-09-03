@@ -10,9 +10,6 @@ require "builder"
 local Vector2D  = ugdk_math.Vector2D
 local Sprite    = ugdk_drawable.Sprite
 local Rect      = pyramidworks_geometry.Rect
-
-table.foreach(builder, print)
-
 local function make_trap ()
   local trap = {}
   trap.activated = false

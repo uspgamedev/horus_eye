@@ -141,7 +141,6 @@ WorldObject* Script(const vector<string>& arguments) {
     VirtualObj::List args;
     for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
         VirtualObj obj(script_generator.wrapper());
-        printf("ARG: %s\n", it->c_str());
         obj.set_value<string>(*it);
         args.push_back(obj);
     }
