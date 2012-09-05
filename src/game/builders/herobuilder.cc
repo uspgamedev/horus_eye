@@ -58,14 +58,14 @@ sprite::WorldObject* HeroBuilder::Kha() {
 
     hero->mana_blocks().Fill();
     hero->mana().Fill();
-    hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
+    /*hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
     hero->AddWeapon(1, new skills::HeroExplosionWeapon(hero));
     hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));
     hero->AddWeapon(3, new skills::HeroLightWeapon(hero));
     hero->AddWeapon(4, new skills::HeroMeteorWeapon(hero));
 //#ifdef DEBUG
     hero->AddWeapon(5, new skills::Sandstorm(hero));
-//#endif
+//#endif*/
     // Add here the other initial weapons of the hero.
 
     return hero_wobj;
