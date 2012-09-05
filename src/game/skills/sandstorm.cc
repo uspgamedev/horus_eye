@@ -20,7 +20,7 @@ using entities::SandstormEmitter;
 using usearguments::Aim;
 
 Sandstorm::Sandstorm(component::Creature* owner) 
-  : CombatArt<Aim>(NULL, Constants::SANDSTORM_COST, owner->mana(), owner->aim()),
+  : CombatArt<Aim>(NULL, Constants::SANDSTORM_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()),
     emitter_(NULL),
     maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST) {
   utils::HudImageFactory factory;

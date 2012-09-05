@@ -41,7 +41,7 @@ void HeroLightWeapon::Use(){
 }
 
 HeroLightWeapon::HeroLightWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->mana(), owner->aim()) { // TODO: change cost
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightIconImage(); // TODO: change icon
 }

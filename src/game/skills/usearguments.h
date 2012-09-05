@@ -2,7 +2,6 @@
 #define HORUSEYE_GAME_SKILLS_USEARGUMENTS_H_
 
 #include <ugdk/math/vector2D.h>
-#include <ugdk/util/uncopyable.h>
 
 namespace skills {
 namespace usearguments {
@@ -20,13 +19,16 @@ typedef ugdk::Vector2D Position;
  *  destination == where the projectile is aimed at. Usually it's the cursor's position
  *      for player skills, or the Hero's current location + rand for AI skills.
  */
-class Aim : public ugdk::util::Uncopyable {
+class Aim {
   public:
     Aim(const Position& origin, const Position& destination)
         : origin_(origin), destination_(destination) {}
 
     const Position& origin_;
     const Position& destination_;
+
+  private:
+    void operator=(Aim&); // can't copy with =
 };
 
 } // namespace usearguments

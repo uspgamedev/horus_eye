@@ -19,7 +19,7 @@ namespace component {
 #define PHARAOH_TIME_TO_THINK 0.05
 
 Pharaoh::Pharaoh(sprite::WorldObject* owner, int mana) : Mummy(owner) {
-    mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
+    //mana_ = Energy(mana, Constants::PHARAOH_MANA_REGEN);
 
     time_to_think_ = PHARAOH_TIME_TO_THINK;
     standing_ = true;

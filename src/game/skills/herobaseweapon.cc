@@ -17,7 +17,7 @@ using namespace ugdk;
 using utils::Constants;
 
 HeroBaseWeapon::HeroBaseWeapon(component::Creature* owner) 
-    : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()) {}
+    : CombatArt<usearguments::Aim>(NULL, 0.0, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {}
 
 void HeroBaseWeapon::Use(){
     super::Use();

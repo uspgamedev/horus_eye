@@ -6,6 +6,7 @@
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
+#include "game/components/caster.h"
 #include "game/components/playercontroller.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/constants.h"
@@ -29,6 +30,7 @@ using sprite::WorldObject;
 using resource::Energy;
 using resource::CapacityBlocks;
 using component::Hero;
+using component::Caster;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
@@ -52,12 +54,20 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
 
-    Hero *hero = new Hero(hero_wobj, mana, 
-                                  Constants::HERO_MAX_MANA_BLOCKS, 
-                                  Constants::HERO_MANA_PER_BLOCK);
+    skills::usearguments::Aim aim(hero_wobj->world_position(), hero_wobj->world_position());
+
+    Caster* caster = new Caster(hero_wobj, aim);
+    caster->mana() = mana;
+
+    hero_wobj->set_caster(caster);
+
+    Hero *hero = new Hero(hero_wobj, Constants::HERO_MAX_MANA_BLOCKS,
+									 Constants::HERO_MANA_PER_BLOCK);
 
     hero->mana_blocks().Fill();
-    hero->mana().Fill();
+    hero_wobj->caster()->mana().Fill();
+
+    caster->set_skill(component::Controller::PRIMARY, new skills::HeroBaseWeapon(hero));
     /*hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
     hero->AddWeapon(1, new skills::HeroExplosionWeapon(hero));
     hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));

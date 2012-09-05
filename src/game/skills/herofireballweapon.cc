@@ -40,7 +40,7 @@ void HeroFireballWeapon::Use() {
 
 
 HeroFireballWeapon::HeroFireballWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::FIREBALL_COST, owner->mana(), owner->aim()) {
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::FIREBALL_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {
 
     HudImageFactory factory;
     icon_ = factory.FireballIconImage();

@@ -40,8 +40,7 @@ Creature::Creature(WorldObject* owner, Controller* controller)
     :   owner_(owner),
         last_standing_direction_(Direction::Down()),
         last_dt_(0.0),
-        sight_count_(0),
-        aim_(owner->world_position(), controller->aim_destination()) {
+        sight_count_(0) {
             owner_->set_logic(this);
             if(!owner_->controller())
                 owner_->set_controller(controller);
@@ -49,11 +48,7 @@ Creature::Creature(WorldObject* owner, Controller* controller)
                 owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
 }
 
-Creature::~Creature() {
-    std::map<Controller::SkillSlot, skills::Skill*>::iterator it;
-    for(it = active_skills_.begin(); it != active_skills_.end(); ++it)
-        delete it->second;
-}
+Creature::~Creature() {}
 
 void Creature::AddKnownCollisions() {
     // Teach this creature how to collides with Walls.
@@ -83,7 +78,6 @@ void Creature::UpdateCondition(double dt) {
 
 void Creature::Update(double dt) {
     UpdateCondition(dt);
-    mana_.Update(dt);
 }
 
 void Creature::Move(Vector2D direction, double delta_t) {
