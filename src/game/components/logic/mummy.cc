@@ -60,6 +60,7 @@ Mummy::Mummy(sprite::WorldObject* owner)
     :   Creature(owner, new MummyController(owner)) {
 
     // Animations
+	owner->set_caster(new Caster(owner));
     owner->animation()->set_animation(utils::STANDING);
     owner->animation()->set_direction(last_standing_direction_);
     time_to_think_ = TIME_TO_THINK;

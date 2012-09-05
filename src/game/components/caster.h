@@ -16,6 +16,8 @@ namespace component {
 class Caster {
   public:
     Caster(sprite::WorldObject* owner, const skills::usearguments::Aim& aim);
+    /// Default aim: from owner position, to owner's controller aim_destination
+    Caster(sprite::WorldObject* owner);
     ~Caster();
 
     void Update(double dt);

@@ -11,7 +11,10 @@ using skills::Skill;
 namespace component {
 
 Caster::Caster(WorldObject* owner, const skills::usearguments::Aim& aim)
-    :   owner_(owner), aim_(aim) {}
+    : owner_(owner), aim_(aim) {}
+
+Caster::Caster(sprite::WorldObject* owner)
+	: owner_(owner), aim_(owner->world_position(), owner->controller()->aim_destination()) {}
 
 Caster::~Caster() {
     std::map<Controller::SkillSlot, skills::Skill*>::iterator it;
