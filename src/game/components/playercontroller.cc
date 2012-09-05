@@ -52,6 +52,7 @@ bool PlayerController::IsUsingSkillSlot(SkillSlot slot) const {
     switch(slot) {
     case PRIMARY:   return input_->MouseDown(ugdk::input::M_BUTTON_LEFT);
     case SECONDARY: return input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);
+    case SPECIAL1: return input_->KeyDown(ugdk::input::K_r);
     default: return false;
     }
 }
