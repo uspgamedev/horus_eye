@@ -48,7 +48,7 @@ void Pharaoh::Think(double dt) {
             path_ = strategy.Calculate(owner_->world_position());
             UpdateDirection(path_.front());
 
-            aim_destination_ = path_.front();
+            //aim_destination_ = path_.front();
             if(weapon_->Available() && weapon_->IsValidUse()){
                 weapon_->Use();
                 this->StartAttack(NULL);

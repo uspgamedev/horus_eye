@@ -146,7 +146,7 @@ void Mummy::Think(double dt) {
             if(!path_.empty()) UpdateDirection(path_.front());
             
             if(weapon_->Available()) {
-                if(!path_.empty()) aim_destination_ = path_.front();
+                //if(!path_.empty()) aim_destination_ = path_.front();
                 if(weapon_->IsValidUse()){
                     weapon_->Use();
                     this->StartAttack(NULL);

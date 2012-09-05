@@ -89,9 +89,6 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
     // The conditions currently affecting this creature.
     std::list<sprite::Condition*> conditions_;
 
-    /// Where this creature is aiming.
-    skills::usearguments::Position aim_destination_;
-
 };  // class Creature
 
 }  // namespace sprite
