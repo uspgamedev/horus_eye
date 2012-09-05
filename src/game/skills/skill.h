@@ -25,7 +25,7 @@ class Skill : public ugdk::util::Uncopyable {
     /// Verifies if the skill's arguments are valid for an use right now.
     virtual bool IsValidUse() const = 0;
 
-    /// Verifies if the skill has the necessary resourses to use right now.
+    /// Verifies if the skill has the necessary resources to use right now.
     virtual bool Available() const = 0;
 
   protected:

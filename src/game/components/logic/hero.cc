@@ -17,6 +17,7 @@
 #include "game/components/logic/hero.h"
 #include "game/components/controller.h"
 #include "game/components/animation.h"
+#include "game/components/caster.h"
 
 #include "game/utils/imagefactory.h"
 #include "game/components/logic/mummy.h"
@@ -55,13 +56,10 @@ static void HeroDeathEvent(sprite::WorldObject* wobj) {
 }
 
 Hero::Hero(sprite::WorldObject* owner,
-           resource::Energy &mana, 
            int num_blocks, 
            double mana_per_block)
     : Creature(owner, owner->controller()),
-      mana_blocks_(mana_, num_blocks, mana_per_block)  {
-
-    this->set_mana(mana);
+      mana_blocks_(owner->caster()->mana(), num_blocks, mana_per_block)  {
 
 	owner->set_identifier("Hero");
     owner_->animation()->set_animation(utils::STANDING);
@@ -69,8 +67,6 @@ Hero::Hero(sprite::WorldObject* owner,
     original_speed_ = speed_ = Constants::HERO_SPEED;
 
     slot_selected_ = -1;
-    active_skills_[Controller::PRIMARY] = new skills::HeroBaseWeapon(this);
-
     owner_->set_die_callback(HeroDeathEvent);
 }
 
@@ -82,14 +78,14 @@ double Hero::FullMana() {
 
 void Hero::AddWeapon(int slot, skills::Skill* skill) {
     if (!skills_.count(slot)) skills_[slot] = skill;
-    if (!active_skills_[Controller::SECONDARY]) ChangeSecondaryWeapon(slot);
+    if (!owner()->caster()->SkillAt(Controller::SECONDARY)) ChangeSecondaryWeapon(slot);
 }
 
 bool Hero::ChangeSecondaryWeapon(int slot) {
     if(skills_.find(slot) == skills_.end()) return false;
     if(slot != slot_selected_) {
         slot_selected_ = slot;
-        active_skills_[Controller::SECONDARY] = skills_[slot];
+        owner()->caster()->set_skill(Controller::SECONDARY, skills_[slot]);
     }
     return true;
 }
@@ -117,13 +113,14 @@ void Hero::Update(double delta_t) {
         component::Controller* controller = owner_->controller();
 
         if(!owner_->animation()->is_uninterrutible()) {
-            std::map<Controller::SkillSlot, skills::Skill*>::iterator itsk;
-            for(itsk = active_skills_.begin(); itsk != active_skills_.end(); ++itsk) {
-                if(!itsk->second) continue;
-                if(controller->IsUsingSkillSlot(itsk->first) && itsk->second->Available()) {
-                    if(itsk->second->IsValidUse()) {
+        	Caster* caster = owner()->caster();
+            for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
+            	skills::Skill* skill = caster->SkillAt(slot);
+                if(!skill) continue;
+                if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
+                    if(skill->IsValidUse()) {
                         StartAttackAnimation();
-                        itsk->second->Use();
+                        skill->Use();
                     }
                     break;
                 }
@@ -160,6 +157,10 @@ void Hero::SetupCollision() {
 void Hero::AddKnownCollisions() {
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummySlowCollision(this));
+}
+
+skills::Skill* Hero::secondary_combat_art() {
+	return owner_->caster()->SkillAt(Controller::SECONDARY);
 }
 
 }

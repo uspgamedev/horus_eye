@@ -11,7 +11,8 @@ namespace skills {
 class PaperMummyWeapon : public CombatArt<usearguments::Aim> {
   public:
     PaperMummyWeapon(component::Creature* owner, int damage = 1)
-        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()),
+        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->owner()->caster()->mana(),
+				 owner->owner()->caster()->aim()),
           damage_(damage),
           owner_(owner) {}
 

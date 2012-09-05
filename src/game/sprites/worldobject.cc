@@ -10,6 +10,7 @@
 #include "game/components/graphic.h"
 #include "game/components/controller.h"
 #include "game/components/animation.h"
+#include "game/components/caster.h"
 #include "game/scenes/world.h"
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
@@ -33,7 +34,8 @@ WorldObject::WorldObject(double duration)
         graphic_(NULL),
         logic_(NULL),
         controller_(NULL),
-        animation_(NULL) {
+        animation_(NULL),
+        caster_(NULL) {
     if(duration > 0.0)
         this->set_timed_life(duration);
     graphic_ = new component::Graphic(this);
@@ -70,6 +72,7 @@ void WorldObject::Update(double dt) {
 
     if(controller_) controller_->Update(dt);
     if(damageable_) damageable_->Update(dt);
+    if(caster_) caster_->Update(dt);
     if(logic_) logic_->Update(dt);
     if(animation_) animation_->Update(dt);
     graphic_->Update(dt);

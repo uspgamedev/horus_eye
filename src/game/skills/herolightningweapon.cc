@@ -41,7 +41,7 @@ void HeroLightningWeapon::Use() {
 
 
 HeroLightningWeapon::HeroLightningWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, owner->mana(), owner->aim()) {
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {
 
     HudImageFactory factory;
     icon_ = factory.LightningIconImage();

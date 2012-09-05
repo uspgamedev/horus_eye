@@ -17,8 +17,7 @@ namespace component {
 class Hero : public Creature {
   
   public:
-    Hero(sprite::WorldObject* owner, 
-         resource::Energy &mana, 
+    Hero(sprite::WorldObject* owner,
          int num_blocks, 
          double mana_per_block);
     ~Hero();
@@ -32,7 +31,7 @@ class Hero : public Creature {
 
     size_t num_skills() const { return skills_.size(); }
     bool ChangeSecondaryWeapon(int slot);
-    skills::Skill* secondary_combat_art() { return active_skills_[Controller::SECONDARY]; }
+    skills::Skill* secondary_combat_art();
 
     void SetupCollision();
     

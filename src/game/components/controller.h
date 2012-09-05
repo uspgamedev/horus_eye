@@ -10,7 +10,7 @@ namespace component {
 class Controller { 
   public:
     enum SkillSlot {
-        PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3
+        PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
 
     Controller(sprite::WorldObject* owner) : owner_(owner) {}

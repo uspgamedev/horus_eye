@@ -35,20 +35,22 @@ SET(GAME_SRCS
     ./game/builders/scriptbuilder.h 
     ./game/builders/taskbuilder.cc 
     ./game/builders/taskbuilder.h 
-    ./game/components.h 
     ./game/components/animation.cc 
     ./game/components/animation.h 
+    ./game/components/caster.cc 
+    ./game/components/caster.h 
     ./game/components/controller.h 
     ./game/components/damageable.cc 
     ./game/components/damageable.h 
     ./game/components/direction.h 
     ./game/components/graphic.cc 
     ./game/components/graphic.h 
-    ./game/components/logic.h 
+    ./game/components.h 
     ./game/components/logic/creature.cc 
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
+    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
     ./game/components/logic/mummy.cc 
@@ -78,8 +80,8 @@ SET(GAME_SRCS
     ./game/resources/countableresource.h 
     ./game/resources/energy.h 
     ./game/resources/resource.h 
-    ./game/scenes.h 
     ./game/scenes/gamelayer.h 
+    ./game/scenes.h 
     ./game/scenes/imagescene.cc 
     ./game/scenes/imagescene.h 
     ./game/scenes/loading.cc 
@@ -119,8 +121,8 @@ SET(GAME_SRCS
     ./game/skills/sandstorm.h 
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
-    ./game/sprites.h 
     ./game/sprites/condition.h 
+    ./game/sprites.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
@@ -145,8 +147,8 @@ SET(GAME_SRCS
     ./game/utils/settings.cc 
     ./game/utils/settings.h 
     ./game/utils/tile.cc 
-    ./game/utils/tile.h 
     ./game/utils/tilefwd.h 
+    ./game/utils/tile.h 
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 

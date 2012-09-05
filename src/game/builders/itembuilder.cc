@@ -14,6 +14,7 @@
 #include "game/components/logic/mummy.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
+#include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/itemevent.h"
@@ -35,6 +36,7 @@ namespace ItemBuilder {
 using namespace utils;
 using sprite::WorldObject;
 using component::Creature;
+using component::Caster;
 using component::Hero;
 //using sprite::Follower;
 using sprite::Condition;
@@ -118,9 +120,9 @@ class RecoverManaEvent : public sprite::ItemEvent {
 };
 
 bool RecoverManaEvent::Use (sprite::WorldObject* wobj) {
-    Creature* hero = static_cast<Creature*>(wobj->logic());
-    if (hero->mana() < hero->max_mana()) {
-        hero->set_mana(hero->mana() + recover_);
+    Caster* caster = wobj->caster();
+    if (caster && caster->mana() < caster->max_mana()) {
+        caster->set_mana(caster->mana() + recover_);
         return true;
     }
     return false;

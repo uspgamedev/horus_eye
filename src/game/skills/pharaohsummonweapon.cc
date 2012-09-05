@@ -22,7 +22,8 @@ bool isObstacle(utils::Tile* tile) {
 }
 
 PharaohSummonWeapon::PharaohSummonWeapon(component::Creature* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST, owner->mana(), owner->aim()) {}
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST,
+    		owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {}
 
 void PharaohSummonWeapon::Use() {
     super::Use();

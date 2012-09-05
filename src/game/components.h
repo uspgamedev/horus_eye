@@ -5,6 +5,7 @@ namespace component {
 
 class Animation;
 class Damageable;
+class Caster;
 class Graphic;
 class Logic;
 class Creature;

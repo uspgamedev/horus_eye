@@ -11,7 +11,8 @@ namespace skills {
 class PharaohRangedWeapon : public CombatArt<usearguments::Aim> {
   public:
     PharaohRangedWeapon(component::Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE)
-        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()),
+        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->owner()->caster()->mana(),
+				 owner->owner()->caster()->aim()),
           damage_(damage) {}
 
     virtual void Use();

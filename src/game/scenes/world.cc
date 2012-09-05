@@ -65,7 +65,7 @@ bool VerifyCheats(double delta_t) {
             if(input->KeyDown(ugdk::input::K_LSHIFT))
                 hero_logic->mana_blocks().Fill();
             hero->damageable()->life().Fill();
-            hero_logic->mana().Fill();
+            hero->caster()->mana().Fill();
         }
         if(input->KeyPressed(ugdk::input::K_t))
             hero->set_world_position(World::FromScreenCoordinates(input->GetMousePosition()));
