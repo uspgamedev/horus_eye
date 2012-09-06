@@ -62,9 +62,12 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->caster()->mana_blocks().Fill();
     hero_wobj->caster()->mana().Fill();
 
-    hero_wobj->caster()->set_skill(component::Controller::PRIMARY, new skills::HeroBaseWeapon(hero));
-#ifdef DEBUG
-    hero_wobj->caster()->set_skill(component::Controller::SPECIAL1, new skills::Sandstorm(hero));
+    hero_wobj->caster()->AddSkill(0, new skills::HeroBaseWeapon(hero));
+    hero_wobj->caster()->EquipSkill(0, component::Controller::PRIMARY);
+
+#ifdef DEBUG]
+    hero_wobj->caster()->AddSkill(1, new skills::Sandstorm(hero));
+    hero_wobj->caster()->EquipSkill(1, component::Controller::SPECIAL1);
 #endif
     /*
     hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));

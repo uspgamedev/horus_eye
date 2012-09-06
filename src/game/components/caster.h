@@ -27,14 +27,23 @@ class Caster {
 
     ~Caster();
 
+    // METHODS
+
     void Update(double dt);
     bool CastSkill(Controller::SkillSlot slot);
     skills::Skill* SkillAt(Controller::SkillSlot slot) {
 		return active_skills_[slot];
 	}
 
+    void AddSkill(int id, skills::Skill* skill);
+
+    /// Invalid id means unequip given slot.
+    void EquipSkill(int id, Controller::SkillSlot);
+
     /// Returns your maximum mana when with all mana blocks.
     double FullMana() { return mana_blocks_.TotalCapcity(); }
+
+    // GETTERS
 
     sprite::WorldObject* owner() const { return owner_; }
 
@@ -45,18 +54,21 @@ class Caster {
 
     resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
 
+    size_t num_skills() const { return skills_.size(); }
+
     /// Returns the current maximum mana.
     double max_mana() const { return mana_.max_value(); }
 
+    // SETTERS
+
     void set_mana(resource::Energy &mana) { mana_ = mana; }
     void set_mana(double mana) { mana_.Set(mana); }
-    void set_skill(Controller::SkillSlot slot, skills::Skill *skill) {
-		active_skills_[slot] = skill;
-	}
 
   protected:
     /// The owner.
     sprite::WorldObject* owner_;
+
+    std::map<int, skills::Skill*> skills_;
 
     /// The active weapons this creature has.
     std::map<Controller::SkillSlot, skills::Skill*> active_skills_;

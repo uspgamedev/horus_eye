@@ -4,6 +4,7 @@
 #include "playercontroller.h"
 
 #include "game/components/logic/hero.h"
+#include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
@@ -28,18 +29,24 @@ void PlayerController::Update(double dt) {
     if(input_->KeyDown(ugdk::input::K_d) && d.NumDirections() < 2) d |= Direction::Right();
     dir_ = d;
 
-    Hero* hero = static_cast<Hero*>(owner_->logic());
-    if(hero->num_skills() > 0) {
+    Caster* caster = owner_->caster();
+    if(caster->num_skills() > 0) {
         if (input_->KeyPressed(ugdk::input::K_e)) {
             int next_slot = skill_selected_;
-            do next_slot = (next_slot+1) % Constants::HERO_MAX_WEAPONS;
-            while (!hero->ChangeSecondaryWeapon(next_slot));
+            do {
+            	next_slot = (next_slot+1) % Constants::HERO_MAX_WEAPONS;
+            	caster->EquipSkill(next_slot, Controller::SECONDARY);
+            }
+            while (caster->SkillAt(Controller::SECONDARY) == NULL);
             skill_selected_ = next_slot;
         }
         if (input_->KeyPressed(ugdk::input::K_q)) {
             int next_slot = skill_selected_;
-            do next_slot = ((next_slot-1) < 0) ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
-            while (!hero->ChangeSecondaryWeapon(next_slot));
+            do {
+            	next_slot = ((next_slot-1) < 0) ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
+            	caster->EquipSkill(next_slot, Controller::SECONDARY);
+            }
+            while (caster->SkillAt(Controller::SECONDARY) == NULL);
             skill_selected_ = next_slot;
         }
     }

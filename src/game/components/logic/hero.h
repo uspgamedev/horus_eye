@@ -20,18 +20,13 @@ class Hero : public Creature {
     Hero(sprite::WorldObject* owner);
     ~Hero();
 
-    void AddWeapon(int slot, skills::Skill* combat_art);
     void StartAttackAnimation();
 
-    size_t num_skills() const { return skills_.size(); }
-    bool ChangeSecondaryWeapon(int slot);
     skills::Skill* secondary_combat_art();
 
     void SetupCollision();
     
   private:
-    std::map<int, skills::Skill*> skills_;
-    int slot_selected_;
 
     virtual void Update(double delta_t);
    

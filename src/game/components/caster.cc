@@ -30,6 +30,14 @@ void Caster::Update(double dt) {
     mana_.Update(dt);
 }
 
+void Caster::AddSkill(int slot, skills::Skill* skill) {
+    if (!skills_.count(slot)) skills_[slot] = skill;
+}
+
+void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
+	active_skills_[skill_slot] = skills_[id];
+}
+
 bool Caster::CastSkill(Controller::SkillSlot slot) {
 	Skill* skill = active_skills_[slot];
 	if(skill && skill->Available()) {
