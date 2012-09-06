@@ -196,9 +196,9 @@ void Hud::Update(double delta_t) {
         life_modifier_->set_offset(Vector2D(0.0, -(((double) hero->damageable()->life()) / hero->damageable()->life().max_value()) * LIFE_BAR_HEIGHT) );
         
         // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana()) / hero_logic->FullMana()) * MANA_BAR_HEIGHT) );
+        mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana()) / hero->caster()->FullMana()) * MANA_BAR_HEIGHT) );
 
-        block_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->mana_blocks().Get()) / hero_logic->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+        block_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana_blocks().Get()) / hero->caster()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
     }
 }
 

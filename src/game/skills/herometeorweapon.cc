@@ -69,7 +69,7 @@ void HeroMeteorWeapon::Use(){
 
 HeroMeteorWeapon::HeroMeteorWeapon(component::Hero* owner)
     : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST,
-    		utils::Constants::METEOR_BLOCK_COST, owner->owner()->caster()->mana(), owner->mana_blocks(), owner->owner()->caster()->aim()) { // TODO: change cost
+    		utils::Constants::METEOR_BLOCK_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->mana_blocks(), owner->owner()->caster()->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.MeteorIconImage(); // TODO: change icon
 }

@@ -171,7 +171,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
         builder::HeroBuilder builder(factory);
         hero_ = builder.Kha();
     }
-    static_cast<component::Hero*>(hero_->logic())->mana_blocks().Fill();
+    hero_->caster()->mana_blocks().Fill();
 
     current_level_ = new World(hero_);
     {

@@ -8,6 +8,7 @@
 #include "game/components/logic.h"
 #include "game/components/controller.h"
 #include "game/resources/energy.h"
+#include "game/resources/capacityblocks.h"
 #include "game/skills/usearguments.h"
 #include "game/skills.h"
 
@@ -15,9 +16,11 @@ namespace component {
 
 class Caster {
   public:
-    Caster(sprite::WorldObject* owner, const skills::usearguments::Aim& aim);
+    Caster(sprite::WorldObject* owner, const resource::Energy& mana, const skills::usearguments::Aim& aim);
+
     /// Default aim: from owner position, to owner's controller aim_destination
-    Caster(sprite::WorldObject* owner);
+    Caster(sprite::WorldObject* owner, const resource::Energy& mana);
+
     ~Caster();
 
     void Update(double dt);
@@ -26,10 +29,19 @@ class Caster {
 		return active_skills_[slot];
 	}
 
+    /// Returns your maximum mana when with all mana blocks.
+    double FullMana() { return mana_blocks_.TotalCapcity(); }
+
     sprite::WorldObject* owner() const { return owner_; }
+
     const skills::usearguments::Aim& aim() const { return aim_; }
-    resource::Energy& mana() { return mana_; }
+
+          resource::Energy& mana()       { return mana_; }
     const resource::Energy& mana() const { return mana_; }
+
+    resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
+
+    /// Returns the current maximum mana.
     double max_mana() const { return mana_.max_value(); }
 
     void set_mana(resource::Energy &mana) { mana_ = mana; }
@@ -47,6 +59,9 @@ class Caster {
 
     /// The mana of this creature. An energy manages reneration.
     resource::Energy mana_;
+
+    /// TODO
+    resource::CapacityBlocks mana_blocks_;
 
     /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
     skills::usearguments::Aim aim_;

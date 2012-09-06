@@ -15,6 +15,7 @@
 #include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/components/logic/hero.h"
+
 #include "game/components/controller.h"
 #include "game/components/animation.h"
 #include "game/components/caster.h"
@@ -55,11 +56,8 @@ static void HeroDeathEvent(sprite::WorldObject* wobj) {
     WORLD()->FinishLevel(LevelManager::FINISH_DIE);
 }
 
-Hero::Hero(sprite::WorldObject* owner,
-           int num_blocks, 
-           double mana_per_block)
-    : Creature(owner, owner->controller()),
-      mana_blocks_(owner->caster()->mana(), num_blocks, mana_per_block)  {
+Hero::Hero(sprite::WorldObject* owner)
+    : Creature(owner, owner->controller()) {
 
 	owner->set_identifier("Hero");
     owner_->animation()->set_animation(utils::STANDING);
@@ -71,10 +69,6 @@ Hero::Hero(sprite::WorldObject* owner,
 }
 
 Hero::~Hero() {}
-
-double Hero::FullMana() {
-    return mana_blocks_.max_value() * Constants::HERO_MANA_PER_BLOCK;
-}
 
 void Hero::AddWeapon(int slot, skills::Skill* skill) {
     if (!skills_.count(slot)) skills_[slot] = skill;

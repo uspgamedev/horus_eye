@@ -61,9 +61,8 @@ bool VerifyCheats(double delta_t) {
     }
     if(hero) {
         if(input->KeyPressed(ugdk::input::K_h)) {
-            component::Hero* hero_logic = static_cast<component::Hero*>(hero->logic());
             if(input->KeyDown(ugdk::input::K_LSHIFT))
-                hero_logic->mana_blocks().Fill();
+            	hero->caster()->mana_blocks().Fill();
             hero->damageable()->life().Fill();
             hero->caster()->mana().Fill();
         }

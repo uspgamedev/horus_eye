@@ -53,27 +53,24 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->damageable()->life().Fill();
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
-    hero_wobj->set_caster(new Caster(hero_wobj));
-    hero_wobj->caster()->mana() = mana;
+    hero_wobj->set_caster(new Caster(hero_wobj, mana));
 
-    Hero *hero = new Hero(hero_wobj, Constants::HERO_MAX_MANA_BLOCKS,
-									 Constants::HERO_MANA_PER_BLOCK);
+    Hero *hero = new Hero(hero_wobj);
 
-    hero->mana_blocks().Fill();
+    hero_wobj->caster()->mana_blocks().Fill();
     hero_wobj->caster()->mana().Fill();
 
     hero_wobj->caster()->set_skill(component::Controller::PRIMARY, new skills::HeroBaseWeapon(hero));
 #ifdef DEBUG
     hero_wobj->caster()->set_skill(component::Controller::SPECIAL1, new skills::Sandstorm(hero));
-#endif*/
-    /*hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
+#endif
+    /*
+    hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
     hero->AddWeapon(1, new skills::HeroExplosionWeapon(hero));
     hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));
     hero->AddWeapon(3, new skills::HeroLightWeapon(hero));
     hero->AddWeapon(4, new skills::HeroMeteorWeapon(hero));
-//#ifdef DEBUG
-    hero->AddWeapon(5, new skills::Sandstorm(hero));
-//#endif*/
+    */
     // Add here the other initial weapons of the hero.
 
     return hero_wobj;
