@@ -16,9 +16,13 @@ namespace component {
 
 class Caster {
   public:
-    Caster(sprite::WorldObject* owner, const resource::Energy& mana, const skills::usearguments::Aim& aim);
+    Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim);
 
-    /// Default aim: from owner position, to owner's controller aim_destination
+    /// Easy constructor. Default block_count and aim.
+    /**
+     * Default block_count: 1
+     * Default aim: from owner position, to owner's controller aim_destination
+     */
     Caster(sprite::WorldObject* owner, const resource::Energy& mana);
 
     ~Caster();

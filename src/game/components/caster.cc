@@ -10,8 +10,8 @@ using skills::Skill;
 
 namespace component {
 
-Caster::Caster(WorldObject* owner, const resource::Energy& mana, const skills::usearguments::Aim& aim)
-    : owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
+Caster::Caster(WorldObject* owner, const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim)
+    : owner_(owner), mana_(mana), mana_blocks_(mana_, block_count),
       aim_(aim) {}
 
 Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)

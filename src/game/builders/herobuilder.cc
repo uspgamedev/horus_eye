@@ -31,6 +31,7 @@ using resource::Energy;
 using resource::CapacityBlocks;
 using component::Hero;
 using component::Caster;
+using skills::usearguments::Aim;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
@@ -53,7 +54,8 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->damageable()->life().Fill();
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
-    hero_wobj->set_caster(new Caster(hero_wobj, mana));
+    hero_wobj->set_caster(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
+    		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
 
     Hero *hero = new Hero(hero_wobj);
 
