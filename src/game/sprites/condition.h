@@ -1,9 +1,7 @@
 #ifndef HORUSEYE_GAME_CONDITION_CONDITION_H_
 #define HORUSEYE_GAME_CONDITION_CONDITION_H_
 
-#include <cstdlib>
-#include "game/utils/constants.h"
-#include "game/components.h"
+#include "game/sprites.h"
 
 namespace sprite {
 
@@ -16,12 +14,13 @@ class Condition {
     virtual void Update(double delta_t) = 0;
     virtual Phase phase() { return phase_; }
 
-    virtual void StartCondition(component::Creature *creature) { phase_ = PHASE_ACTIVE; }
-  	virtual void EndCondition(component::Creature *creature) { phase_ = PHASE_FINISHED; }
+    virtual void StartCondition(WorldObject *creature) { phase_ = PHASE_ACTIVE; }
+  	virtual void EndCondition(WorldObject *creature) { phase_ = PHASE_FINISHED; }
     
   protected:
-    component::Creature* owner_;
-  	Condition(component::Creature* owner) : owner_(owner), phase_(PHASE_IDLE) {}
+  	Condition(WorldObject* owner) : owner_(owner), phase_(PHASE_IDLE) {}
+
+  	WorldObject* owner_;
     Phase phase_;
 };
 

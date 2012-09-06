@@ -37,12 +37,6 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     sprite::WorldObject* owner() { return owner_; }
 
-    int sight_count() { return sight_count_; }
-    void set_sight_count(int sight_count) { sight_count_ += sight_count; }
-
-    virtual bool AddCondition(sprite::Condition* new_condition);
-    virtual void UpdateCondition(double dt);
-
   protected:
     friend class RectCollision;
 
@@ -74,9 +68,6 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     double last_dt_;
 
-    /// How many sight buffs this creature has.
-    int sight_count_;
-
     /// How fast this creature moves per second.
     double speed_;
 
@@ -85,9 +76,6 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     /// The direction this creature is moving to.
     ugdk::Vector2D walking_direction_;
-
-    // The conditions currently affecting this creature.
-    std::list<sprite::Condition*> conditions_;
 
 };  // class Creature
 

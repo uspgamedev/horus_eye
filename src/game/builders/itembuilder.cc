@@ -139,8 +139,7 @@ class IncreaseSightEvent : public sprite::ItemEvent {
     ConditionBuilder condition_builder_;
 };
 
-bool IncreaseSightEvent::Use (sprite::WorldObject* wobj) {
-    Creature* hero = static_cast<Creature*>(wobj->logic());
+bool IncreaseSightEvent::Use (sprite::WorldObject* hero) {
     if ( hero->sight_count() < Constants::SIGHT_POTION_MAX_STACK ) {
         Condition* condition = condition_builder_.increase_sight_condition(hero);
         if (hero->AddCondition(condition)) return true;
