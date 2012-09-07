@@ -3,6 +3,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/circle.h>
 
 #include "game/builders/itembuilder.h"
 #include "game/components/logic/mummy.h"
@@ -45,7 +46,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
     }
 }
 
-static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
+static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius) {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
@@ -54,13 +55,14 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
     wobj->set_damageable(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
-    wobj->set_controller(new MummyController(wobj));
+    wobj->set_controller(new MummyController(wobj, 0.1));
 
     resource::Energy mana;
     wobj->set_caster(new Caster(wobj, mana));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Mummy");
+    col->set_shape(new pyramidworks::geometry::Circle(radius));
     wobj->set_collision_object(col);
 
     wobj->set_identifier("Mummy");
@@ -69,12 +71,11 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
 }
 
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE);
+    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE, Constants::MUMMY_RADIUS);
 
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_bound(Constants::MUMMY_RADIUS);
     wobj->set_logic(mummy);
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE)),
@@ -85,16 +86,15 @@ sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
 
 sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingMummy(arguments);
-    static_cast<Mummy*>(obj->logic())->set_standing(false);
+    static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_ranged", Constants::RANGED_MUMMY_LIFE);
+    WorldObject* wobj = build_mummy_wobj("mummy_ranged", Constants::RANGED_MUMMY_LIFE, Constants::MUMMY_RADIUS);
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_bound(Constants::MUMMY_RADIUS);
     wobj->set_logic(mummy);
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE)),
@@ -105,18 +105,17 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
 
 sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingRangedMummy(arguments);
-    static_cast<Mummy*>(obj->logic())->set_standing(false);
+    static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_big", Constants::BIG_MUMMY_LIFE);
+    WorldObject* wobj = build_mummy_wobj("mummy_big", Constants::BIG_MUMMY_LIFE, Constants::BIG_MUMMY_RADIUS);
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->set_super_armor(true);
 
     Mummy *mummy = new Mummy(wobj);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
-    mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
     wobj->set_logic(mummy);
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE)),
@@ -127,19 +126,18 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingBigMummy(arguments);
-    static_cast<Mummy*>(obj->logic())->set_standing(false);
+    static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::PAPER_MUMMY_LIFE);
+    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::PAPER_MUMMY_LIFE, Constants::MUMMY_RADIUS);
     ugdk::Color color = wobj->graphic()->node()->modifier()->color();
     color.set_a(0.5);
     wobj->graphic()->node()->modifier()->set_color(color);
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_bound(Constants::MUMMY_RADIUS);
     wobj->set_logic(mummy);
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE)),
@@ -150,21 +148,20 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
 
 sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPaperMummy(arguments);
-    static_cast<Mummy*>(obj->logic())->set_standing(false);
+    static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("pharaoh", Constants::PHARAOH_LIFE);
+    WorldObject* wobj = build_mummy_wobj("pharaoh", Constants::PHARAOH_LIFE, Constants::PHARAOH_RADIUS);
     wobj->damageable()->set_super_armor(true);
 
     delete wobj->caster();
     resource::Energy mana(Constants::PHARAOH_MANA, Constants::PHARAOH_MANA_REGEN); 
     wobj->set_caster(new Caster(wobj, mana));
 
-    Mummy* pharaoh = new Mummy(wobj, 0.05);
+    Mummy* pharaoh = new Mummy(wobj);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
-    pharaoh->set_bound(Constants::PHARAOH_RADIUS);
     wobj->set_logic(pharaoh);
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE)),
@@ -183,7 +180,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingPharaoh(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPharaoh(arguments);
-    static_cast<Mummy*>(obj->logic())->set_standing(false);
+    static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 

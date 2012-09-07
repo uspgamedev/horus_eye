@@ -31,35 +31,19 @@ using namespace ugdk;
 using scene::World;
 using namespace utils;
 
-#define EXP_PARAM (1.0)
-
-// Devolve um tempo ~exp(EXP_PARAM)
-static int WaitingTime () {
-    return (int)(1000*-log(1.0*rand()/RAND_MAX)/EXP_PARAM);
-}
-
 COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     sprite::WorldObject *obj = (sprite::WorldObject *) voiddata; 
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(sprite::WorldObject* owner, double time_to_think) 
+Mummy::Mummy(sprite::WorldObject* owner) 
     :   Creature(owner) {
-
-    if(time_to_think < 0)
-        starting_time_to_think_ = 0.1;
-    else
-        starting_time_to_think_ = time_to_think;
-    time_to_think_ = starting_time_to_think_;
-    standing_ = true;
-    interval_ = new ugdk::time::TimeAccumulator(0);
 
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
 }
 
 Mummy::~Mummy() {
-    if (interval_) delete interval_;
     WORLD()->DecreaseEnemyCount();
 }
 
@@ -68,69 +52,12 @@ void Mummy::MummyAntiStack(sprite::WorldObject *obj) {
     walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
 }
 
-void Mummy::set_bound(double radius) {
-    owner_->collision_object()->set_shape(new pyramidworks::geometry::Circle(radius));
-}
-
 void Mummy::OnWorldAdd(scene::World* world) {
     world->IncreaseNumberOfEnemies();
 }
 
-void Mummy::RandomMovement(){
-    double PI = acos(-1.0);
-
-    if (interval_->Expired()) {
-
-        int dir = rand() % 8;
-
-        Direction d;
-        if (dir < 3) d |= Direction::Up();
-        if (dir >= 2 && dir < 5) d |= Direction::Left();
-        if (dir >= 4 && dir < 7) d |= Direction::Down();
-        if (dir >= 6 || dir == 0) d |= Direction::Right();
-        animation_direction_ = d;
-
-        interval_->Restart(WaitingTime());
-        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
-    }
-}
-
-void Mummy::UpdateDirection(Vector2D destination){
-    Vector2D dir_animation = World::FromWorldCoordinates(destination) - owner_->node()->modifier()->offset(); 
-    Direction d = Direction::FromScreenVector(dir_animation);
-    animation_direction_ = d;
-
-    Vector2D dir_ = path_.front() - owner_->world_position();
-    last_direction_ = walking_direction_ = Vector2D::Normalized(dir_);
-    last_standing_direction_ = animation_direction_;
-}
-
-void Mummy::Think(double dt) {
-    time_to_think_ -= dt;
-    if(time_to_think_ <= 0){
-        time_to_think_ = starting_time_to_think_;
-        speed_ = original_speed_;
-        VisionStrategy strategy;
-        if(strategy.IsVisible(owner_->world_position())){
-            standing_ = false;
-            
-            path_ = strategy.Calculate(owner_->world_position());
-            if(!path_.empty()) UpdateDirection(path_.front());
-            
-            UseSkills();
-
-        }
-        else if(!standing_){
-            RandomMovement();
-            last_standing_direction_ = animation_direction_;
-        }
-    }
-}
-
 void Mummy::Update(double delta_t) {
     Creature::Update(delta_t);
-    Vector2D dir(0,0);
-
     World *world = WORLD();
     if (world) {
         GameMap& map = world->level_matrix();
@@ -144,18 +71,26 @@ void Mummy::Update(double delta_t) {
                 owner_->node()->modifier()->set_visible(false);
         }
     }
-
-    if (!owner_->animation()->is_uninterrutible() && owner_->is_active()) {
-        Think(delta_t);
-
+    if(owner_->is_active()) {
+        component::Controller* controller = owner_->controller();
         if(!owner_->animation()->is_uninterrutible()) {
+            UseSkills();
+        }
+        if(!owner_->animation()->is_uninterrutible()) {
+            walking_direction_ = controller->direction_vector();
+            const Direction& direction = controller->direction();
+            if(direction) {
+                last_standing_direction_ = direction;
+                owner_->animation()->set_animation(utils::WALKING);
+                owner_->animation()->set_direction(direction);
+            } else {
+                owner_->animation()->set_animation(utils::STANDING);
+                owner_->animation()->set_direction(last_standing_direction_);
+            }
             Creature::Move(this->GetWalkingDirection(), delta_t);
-            walking_direction_ = last_direction_;
-            owner_->animation()->set_animation(utils::WALKING);
-            owner_->animation()->set_direction(animation_direction_);
         }
     }
-
+    speed_ = original_speed_;
 }
 
 }

@@ -10,20 +10,24 @@ namespace component {
 class MummyController : public Controller { 
   typedef Controller super;
   public:
-    MummyController(sprite::WorldObject* owner);
-    virtual ~MummyController();
+    MummyController(sprite::WorldObject* owner, double start_time_to_think);
+    ~MummyController();
 
-    virtual void Update(double dt);
+    void Update(double dt);
 
-    virtual bool IsUsingSkillSlot(SkillSlot) const;
+    bool IsUsingSkillSlot(SkillSlot) const;
 
-    virtual const ugdk::Vector2D& direction_vector() const { return current_direction_; }
+    const ugdk::Vector2D& direction_vector() const { return current_direction_; }
+
+    void set_standing(bool standing) { standing_ = standing; }
 
   protected:
     virtual void Think(double dt);
-    void RandomMovement();
+    void randomMovement();
+    void updateDirection(const ugdk::Vector2D&);
 
-    double time_to_think_;
+    bool standing_;
+    double time_to_think_, start_time_to_think_;
     std::queue<ugdk::Vector2D> path_;
     ugdk::time::TimeAccumulator *interval_;
 
