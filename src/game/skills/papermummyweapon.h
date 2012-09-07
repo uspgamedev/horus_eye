@@ -4,17 +4,16 @@
 
 #include "game/skills/combatart.h"
 #include "game/skills/usearguments.h"
-#include "game/components/logic/creature.h"
+#include "game/components/caster.h"
 
 namespace skills {
 
 class PaperMummyWeapon : public CombatArt<usearguments::Aim> {
   public:
-    PaperMummyWeapon(component::Creature* owner, int damage = 1)
-        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->owner()->caster()->mana(),
-				 owner->owner()->caster()->aim()),
+    PaperMummyWeapon(component::Caster* caster, int damage = 1)
+        : CombatArt<usearguments::Aim>(NULL, 0.0, caster->mana(), caster->aim()),
           damage_(damage),
-          owner_(owner) {}
+          owner_(caster) {}
 
     virtual void Use();
     virtual bool IsValidUse() const;
@@ -24,7 +23,7 @@ class PaperMummyWeapon : public CombatArt<usearguments::Aim> {
 
     int damage_;
     const static double range_;
-    component::Creature* owner_;
+    component::Caster* owner_;
 };
 
 } // skills

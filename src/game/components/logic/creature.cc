@@ -1,33 +1,28 @@
+#include "creature.h"
+
 #include <cmath>
-#include <iostream>
 
 #include <ugdk/action/animation.h>
-#include <ugdk/action/animationset.h>
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
-#include "creature.h"
-
-#include "game/sprites/condition.h"
+#include "game/components/animation.h"
+#include "game/components/controller.h"
+#include "game/components/caster.h"
+#include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
+#include "game/utils/geometryprimitives.h"
+#include "game/utils/tile.h"
 
 using namespace ugdk;
 using namespace ugdk::action;
 using namespace utils;
 
-using pyramidworks::geometry::Circle;
-using sprite::Condition;
 using sprite::WorldObject;
-
-#define PI 3.1415926535897932384626433832795
 
 namespace component {
 
@@ -36,27 +31,80 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
     data_->CollideWithRect(wobj->collision_object());
 }
 
-Creature::Creature(WorldObject* owner, Controller* controller)
+pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Creature* obj) {
+    return new RectCollision(obj);
+}
+
+Creature::Creature(WorldObject* owner, double speed)
     :   owner_(owner),
         last_standing_direction_(Direction::Down()),
-        last_dt_(0.0) {
-            owner_->set_logic(this);
-            if(!owner_->controller())
-                owner_->set_controller(controller);
-            if(!owner_->collision_object() && WORLD())
-                owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
-}
+        last_dt_(0.0),
+        speed_(speed),
+        original_speed_(speed) {}
 
 Creature::~Creature() {}
-
-void Creature::AddKnownCollisions() {
-    // Teach this creature how to collides with Walls.
-    owner_->collision_object()->AddCollisionLogic("Wall", new RectCollision(this));
-}
 
 // ============= other stuff
 
 void Creature::Update(double dt) {
+    scene::World *world = WORLD();
+    if (world) {
+        GameMap& map = world->level_matrix();
+        TilePos mummy_pos = Tile::ToTilePos(owner_->world_position());
+        mummy_pos.i =  map.size() - mummy_pos.i - 1;
+        Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
+        if (mummy_tile) {
+            if(mummy_tile->visible())
+                owner_->node()->modifier()->set_visible(true);
+            else
+                owner_->node()->modifier()->set_visible(false);
+        }
+    }
+    if(owner_->is_active()) {
+        component::Controller* controller = owner_->controller();
+        if(!owner_->animation()->is_uninterrutible()) {
+            UseSkills();
+        }
+        if(!owner_->animation()->is_uninterrutible()) {
+            walking_direction_ = controller->direction_vector();
+            const Direction& direction = controller->direction();
+            if(direction) {
+                last_standing_direction_ = direction;
+                owner_->animation()->set_animation(utils::WALKING);
+                owner_->animation()->set_direction(direction);
+            } else {
+                owner_->animation()->set_animation(utils::STANDING);
+                owner_->animation()->set_direction(last_standing_direction_);
+            }
+            Creature::Move(walking_direction(), dt);
+        }
+    }
+    speed_ = original_speed_;
+}
+
+void Creature::UseSkills() {
+    Caster* caster = owner()->caster();
+    Controller* controller = owner_->controller();
+    for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
+        skills::Skill* skill = caster->SkillAt(slot);
+        if(!skill) continue;
+        if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
+            if(skill->IsValidUse()) {
+                skill->Use();
+                StartAttackAnimation();
+                break;
+            }
+        }
+    }
+}
+
+void Creature::StartAttackAnimation() {
+    const skills::usearguments::Aim& aim = owner_->caster()->aim();
+    Direction d = Direction::FromWorldVector(aim.destination_ - aim.origin_);
+    last_standing_direction_ = d;
+    owner_->animation()->set_direction(d);
+    owner_->animation()->set_animation(utils::ATTACKING);
+    owner_->animation()->flag_uninterrutible();
 }
 
 void Creature::Move(Vector2D direction, double delta_t) {
@@ -112,22 +160,6 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
     // normalize the walking_direction_ and move correctly this time.
     walking_direction_ = walking_direction_.Normalize();
     Move(walking_direction_, last_dt_);
-}
-
-int Creature::GetAttackingAnimationIndex(double angle) {
-    int degreeAngle = (int)((angle / PI) * 360);
-    degreeAngle += 45;
-    int animationIndex = degreeAngle / 90;
-    return animationIndex % 8;
-}
-
-double Creature::GetAttackingAngle(Vector2D targetDirection) {
-    Vector2D versor = Vector2D::Normalized(targetDirection);
-    double radianAngle = acos(versor.x);
-    if (versor.y > 0) {
-        radianAngle = 2*PI - radianAngle;
-    }
-    return radianAngle;
 }
 
 }  // namespace sprite

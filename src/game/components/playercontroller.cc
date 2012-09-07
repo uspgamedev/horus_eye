@@ -6,7 +6,6 @@
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/input/keys.h>
 
-#include "game/components/logic/hero.h"
 #include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"

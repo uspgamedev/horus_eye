@@ -3,14 +3,13 @@
 #include "conditionbuilder.h"
 
 #include "game/utils/constants.h"
-#include "game/components/logic/creature.h"
+#include "game/sprites/worldobject.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
 
 using namespace utils;
-using component::Creature;
 using sprite::Condition;
 using sprite::WorldObject;
 

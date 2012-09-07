@@ -1,7 +1,5 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/audio/audiomanager.h>
-#include <ugdk/action/animation.h>
-#include <ugdk/graphic.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
@@ -11,10 +9,8 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/components/logic/hero.h"
 #include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
@@ -40,8 +36,8 @@ void HeroLightWeapon::Use(){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-HeroLightWeapon::HeroLightWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) { // TODO: change cost
+HeroLightWeapon::HeroLightWeapon(component::Caster* caster)
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, caster->mana(), caster->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightIconImage(); // TODO: change icon
 }

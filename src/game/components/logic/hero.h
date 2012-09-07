@@ -15,24 +15,13 @@ class Skill;
 namespace component {
 
 class Hero : public Creature {
-  
   public:
-    Hero(sprite::WorldObject* owner);
-    ~Hero();
-
-    void StartAttackAnimation();
-
-    skills::Skill* secondary_combat_art();
+    Hero(sprite::WorldObject* owner, double speed) : Creature(owner, speed) {}
+    ~Hero() {}
 
     void SetupCollision();
     
   private:
-
-    virtual void Update(double delta_t);
-   
-    void CollisionSlow();
-    void AddKnownCollisions();
-
     friend class MummySlowCollision;
 };
 

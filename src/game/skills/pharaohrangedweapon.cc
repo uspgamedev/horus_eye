@@ -21,11 +21,9 @@ void PharaohRangedWeapon::Use() {
     super::Use();
 
     scene::World *world = WORLD();
-    sprite::WorldObject* hero = world->hero_world_object();
-
     //TODO:FIX 
     Vector2D pos = use_argument_.origin_;
-    Vector2D distance = hero->world_position() - pos;
+    Vector2D distance = use_argument_.destination_ - pos;
     
     double angle = atan2(1.5, distance.length()); 
     

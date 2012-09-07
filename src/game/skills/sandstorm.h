@@ -14,7 +14,7 @@ namespace skills {
 
 class Sandstorm : public CombatArt<usearguments::Aim> {
   public:
-    Sandstorm(component::Creature* owner);
+    Sandstorm(component::Caster* caster);
     ~Sandstorm();
 
     // inherited virtuals

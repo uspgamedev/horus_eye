@@ -10,13 +10,12 @@
 
 #include "game/builders/explosionbuilder.h"
 #include "game/scenes/world.h"
-#include "game/components/logic/hero.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
+#include "game/builders/functions/carrier.h"
 
 namespace skills {
 
@@ -25,22 +24,6 @@ using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 using sprite::WorldObject;
-
-class MeteorCarrier {
-  protected:
-    std::list<WorldObject*> drop_list_;
-  public:
-    MeteorCarrier(std::list<WorldObject*> &list) : drop_list_(list) {}
-    MeteorCarrier(WorldObject *drop) { drop_list_.push_back(drop); }
-
-    void operator()(WorldObject *wobj) {
-        std::list<WorldObject*>::iterator it;
-        scene::World* world = WORLD();
-        for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
-            world->AddWorldObject(*it, wobj->world_position());
-        drop_list_.clear();
-    }
-};
 
 void HeroMeteorWeapon::Use(){
     super::Use();
@@ -59,7 +42,7 @@ void HeroMeteorWeapon::Use(){
     list.push_back(permanent_light);
 
     WorldObject* warning_effect = new WorldObject(3.0);
-    warning_effect->set_start_to_die_callback(MeteorCarrier(list));
+    warning_effect->set_start_to_die_callback(builder::function::Carrier(list));
 
     world->AddWorldObject(warning_effect, use_argument_.destination_);
 
@@ -67,9 +50,9 @@ void HeroMeteorWeapon::Use(){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-HeroMeteorWeapon::HeroMeteorWeapon(component::Hero* owner)
+HeroMeteorWeapon::HeroMeteorWeapon(component::Caster* caster)
     : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST,
-    		utils::Constants::METEOR_BLOCK_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->mana_blocks(), owner->owner()->caster()->aim()) { // TODO: change cost
+    		utils::Constants::METEOR_BLOCK_COST, caster->mana(), caster->mana_blocks(), caster->aim()) {
     HudImageFactory imfac;
     icon_ = imfac.MeteorIconImage(); // TODO: change icon
 }

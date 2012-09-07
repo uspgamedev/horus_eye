@@ -3,14 +3,14 @@
 
 #include "game/skills/combatart.h"
 #include "game/utils/constants.h"
-#include "game/components/logic/creature.h"
+#include "game/components/caster.h"
 #include "game/skills/usearguments.h"
 
 namespace skills {
 
 class PharaohSummonWeapon : public CombatArt<usearguments::Aim> {
   public:
-    PharaohSummonWeapon(component::Creature* owner);
+    PharaohSummonWeapon(component::Caster* owner);
     virtual void Use();
   private:
     typedef CombatArt<usearguments::Aim> super;

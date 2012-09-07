@@ -7,9 +7,7 @@
 
 #include "game/builders/explosionbuilder.h"
 #include "game/scenes/world.h"
-#include "game/components/logic/hero.h"
 #include "game/utils/visionstrategy.h"
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
@@ -21,10 +19,10 @@ using utils::Constants;
 
 const double HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
 
-HeroExplosionWeapon::HeroExplosionWeapon(component::Hero* owner)
+HeroExplosionWeapon::HeroExplosionWeapon(component::Caster* caster)
     : DivineGift<usearguments::Aim>(
         NULL, utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST,
-				owner->owner()->caster()->mana(), owner->owner()->caster()->mana_blocks(), owner->owner()->caster()->aim()) {
+                caster->mana(), caster->mana_blocks(), caster->aim()) {
 
     utils::HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();

@@ -7,13 +7,11 @@
 
 #include "herolightningweapon.h"
 
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
-#include "game/components/logic/hero.h"
 
 namespace skills {
 
@@ -40,8 +38,8 @@ void HeroLightningWeapon::Use() {
 }
 
 
-HeroLightningWeapon::HeroLightningWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {
+HeroLightningWeapon::HeroLightningWeapon(component::Caster* caster)
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, caster->mana(), caster->aim()) {
 
     HudImageFactory factory;
     icon_ = factory.LightningIconImage();

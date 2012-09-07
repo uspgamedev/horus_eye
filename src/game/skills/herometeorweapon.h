@@ -9,7 +9,7 @@ namespace skills {
 
 class HeroMeteorWeapon : public DivineGift<usearguments::Aim> {
   public:
-    HeroMeteorWeapon(component::Hero* owner);
+    HeroMeteorWeapon(component::Caster* owner);
     virtual void Use();
     virtual bool IsValidUse() const;
   private:

@@ -1,9 +1,11 @@
+#include "mummycontroller.h"
+
 #include <cmath>
 #include <ugdk/base/engine.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/input/keys.h>
 #include <ugdk/time/timeaccumulator.h>
-#include "mummycontroller.h"
+
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
 #include "game/scenes/world.h"
@@ -12,7 +14,6 @@ using namespace ugdk;
 
 using sprite::WorldObject;
 
-#define TIME_TO_THINK 0.1
 #define EXP_PARAM (1.0)
 
 // Devolve um tempo ~exp(EXP_PARAM)
@@ -24,9 +25,9 @@ namespace component {
 
 // TODO: ignores standing
 
-MummyController::MummyController(sprite::WorldObject* owner) 
-    : super(owner),
-    interval_(new ugdk::time::TimeAccumulator(0)) {}
+MummyController::MummyController(sprite::WorldObject* owner, double start_time_to_think) 
+  : super(owner), standing_(true), start_time_to_think_(start_time_to_think), 
+    time_to_think_(start_time_to_think), interval_(new ugdk::time::TimeAccumulator(0)) {}
 
 MummyController::~MummyController() {
     delete interval_;
@@ -35,22 +36,24 @@ MummyController::~MummyController() {
 void MummyController::Think(double dt) {
     time_to_think_ -= dt;
     if(time_to_think_ <= 0){
-        time_to_think_ = TIME_TO_THINK;
+        time_to_think_ = start_time_to_think_;
 
         if(WORLD()->hero_world_object())
             aim_destination_ = WORLD()->hero_world_object()->world_position();
 
         utils::VisionStrategy strategy;
-        if(strategy.IsVisible(owner_->world_position()))
+        if(strategy.IsVisible(owner_->world_position(), aim_destination_)) {
+            standing_ = false;
             path_ = strategy.Calculate(owner_->world_position());
-        else 
-            RandomMovement();
+            if(!path_.empty()) updateDirection(path_.front());
+        } else if(!standing_) {
+            randomMovement();
+        }
     }
 }
 
-void MummyController::RandomMovement(){
+void MummyController::randomMovement(){
     if (interval_->Expired()) {
-
         int dir = rand() % 8;
 
         Direction d;
@@ -62,7 +65,14 @@ void MummyController::RandomMovement(){
 
         interval_->Restart(WaitingTime());
         current_direction_ = d.ToVector2D();
+        aim_destination_ = owner_->world_position() + 5*current_direction_;
     }
+}
+
+void MummyController::updateDirection(const Vector2D& destination){
+    aim_destination_ = destination;
+    current_direction_ = (destination - owner_->world_position()).Normalize();
+    dir_ = Direction::FromWorldVector(current_direction_);
 }
 
 void MummyController::Update(double dt) {
@@ -70,6 +80,6 @@ void MummyController::Update(double dt) {
     Think(dt);
 }
 
-bool MummyController::IsUsingSkillSlot(SkillSlot slot) const { return true; }
+bool MummyController::IsUsingSkillSlot(SkillSlot slot) const { return !standing_; }
 
 }  // namespace sprite

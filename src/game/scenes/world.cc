@@ -19,7 +19,7 @@
 #include "game/scenes/menu.h"
 
 #include "game/sprites/worldobject.h"
-#include "game/components/logic/hero.h"
+#include "game/components/caster.h"
 #include "game/components/damageable.h"
 #include "game/utils/tile.h"
 #include "game/utils/hud.h"
@@ -105,9 +105,9 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
-World::World(sprite::WorldObject *hero) 
+World::World() 
     :   Scene(),
-        hero_(hero),
+        hero_(NULL),
         level_width_(10),
         level_height_(10),
         remaining_enemies_(0),
@@ -132,7 +132,7 @@ World::World(sprite::WorldObject *hero)
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
-    QueuedAddEntity(hero_);
+    //QueuedAddEntity(hero_);
 
     this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
 //#ifdef DEBUG
@@ -180,8 +180,9 @@ void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D
     QueuedAddEntity(new_object);
 }
 
-void World::AddHero(const ugdk::Vector2D& pos) {
-    hero_->set_world_position(pos);
+void World::set_hero(sprite::WorldObject *hero) {
+    hero_ = hero;
+    AddWorldObject(hero, hero_initial_position_);
 }
 
 int World::CountRemainingEnemies() {

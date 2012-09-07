@@ -7,13 +7,11 @@
 
 #include "herofireballweapon.h"
 
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
-#include "game/components/logic/hero.h"
 
 namespace skills {
 
@@ -39,8 +37,8 @@ void HeroFireballWeapon::Use() {
 }
 
 
-HeroFireballWeapon::HeroFireballWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::FIREBALL_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {
+HeroFireballWeapon::HeroFireballWeapon(component::Caster* caster)
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::FIREBALL_COST, caster->mana(), caster->aim()) {
 
     HudImageFactory factory;
     icon_ = factory.FireballIconImage();

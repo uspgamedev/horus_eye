@@ -11,6 +11,7 @@
 #include <pyramidworks/collision.h>
 #include <pyramidworks/geometry.h>
 #include "game/scenes/gamelayer.h"
+#include "game/scenes.h"
 #include "game/components.h"
 #include "game/sprites.h"
 
@@ -63,6 +64,10 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
     void OnSceneAdd(ugdk::action::Scene* scene);
+    
+    void set_world_add_callback(std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback) {
+        on_world_add_callback_ = on_world_add_callback;
+    }
 
     void set_start_to_die_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
         on_start_to_die_callback_ = on_death_start_callback;
@@ -109,6 +114,7 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life_;
 
     // TODO: make this somethintg
+    std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback_;
     std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
     std::tr1::function<void (WorldObject*)> on_die_callback_;
 
