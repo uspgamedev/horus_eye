@@ -42,6 +42,10 @@ COLLISION_DIRECT(WorldObject*, AntiStackCollision, voiddata) {
     creature->set_walking_direction((creature->walking_direction() + deviation*0.9).Normalize());
 }
 
+static void MummyWorldAdd(sprite::WorldObject* wobj, scene::World* world) {
+    world->IncreaseNumberOfEnemies();
+}
+
 static void MummyDeath(sprite::WorldObject* wobj) {
     int potion = rand() % 100;
     if (potion <=20){
@@ -78,6 +82,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
 
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);
+    wobj->set_world_add_callback(MummyWorldAdd);
     return wobj;
 }
 

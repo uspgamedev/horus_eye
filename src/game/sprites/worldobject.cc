@@ -125,12 +125,14 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
-    World* world = static_cast<World*>(scene);
+    World* world = dynamic_cast<World*>(scene);
     world->layer_node(layer_)->AddChild(node());
     if(collision_object() != NULL)
         collision_object()->StartColliding();
     if(logic_)
         logic_->OnWorldAdd(world);
+    if(on_world_add_callback_)
+        on_world_add_callback_(this, world);
 }
 
 bool deletecondition(Condition *condition) {

@@ -7,9 +7,8 @@ namespace component {
 
 class Mummy : public Creature {
   public:
-    Mummy(sprite::WorldObject* owner, double speed);
-    ~Mummy();
-    void OnWorldAdd(scene::World* world);
+    Mummy(sprite::WorldObject* owner, double speed) : Creature(owner, speed) {}
+    ~Mummy() {}
 };
 
 }
