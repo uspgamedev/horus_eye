@@ -4,15 +4,17 @@
 #include <cstdlib>
 
 #include <ugdk/graphic.h>
-#include <ugdk/util/uncopyable.h>
+#include "game/components.h"
 
 namespace skills {
+
+typedef void (*SkillUseFunction)(component::Caster*);
 
 /// An usable skill.
 /** Abstract class. Contains an icon.
 * @see CombatArt, DivineGift
 */
-class Skill : public ugdk::util::Uncopyable {
+class Skill {
   public:
     virtual ~Skill() {}
 
@@ -20,53 +22,24 @@ class Skill : public ugdk::util::Uncopyable {
     ugdk::graphic::Drawable* icon() const { return icon_; }
 
     /// Uses the skill.
-    virtual void Use() = 0;
+    virtual void Use(component::Caster*) = 0;
 
     /// Verifies if the skill's arguments are valid for an use right now.
-    virtual bool IsValidUse() const = 0;
+    virtual bool IsValidUse(const component::Caster*) const = 0;
 
     /// Verifies if the skill has the necessary resources to use right now.
-    virtual bool Available() const = 0;
+    virtual bool Available(const component::Caster*) const = 0;
 
   protected:
     /**
       @param icon The icon that is displayed on the user interface.
       */
     Skill(ugdk::graphic::Drawable* icon) : icon_(icon) {}
+
+  private:
     ugdk::graphic::Drawable* icon_;
 };
 
-/// A skill with an UseArgument.
-/**
- *  Template Class for all typed (argument-wise) skills.
- *  Few things reference this, to use skills you should reference the "Skill" interface above.
- *  @see Skill
- */
-template<class UseArgument_T>
-class ArgSkill : public Skill {
-  public:
-    typedef UseArgument_T UseArgument;
-
-    virtual ~ArgSkill() {}
-
-    // Inherited Virtuals
-    /// Uses the skill.
-    virtual void Use() = 0;
-    /// Verifies if the skill's UseArgument is valid for use right now.
-    virtual bool IsValidUse() const = 0;
-    /// Verifies if the skill has the necessary resourses to use right now.
-    virtual bool Available() const = 0;
-
-  protected:
-    ArgSkill(ugdk::graphic::Drawable* icon, const UseArgument& use_argument)
-        : Skill(icon), use_argument_(use_argument) {}
-    
-    const UseArgument& use_argument_;
-
-  private:
-    typedef Skill super;
-};
-
-} // skills
+} // namespace skills
 
 #endif /* HORUSEYE_GAME_SKILLS_SKILL_H_ */

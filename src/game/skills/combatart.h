@@ -1,54 +1,38 @@
 #ifndef HORUSEYE_GAME_SKILLS_COMBATART_H_
 #define HORUSEYE_GAME_SKILLS_COMBATART_H_
 
-#include <game/resources/energy.h>
 #include "game/skills/skill.h"
-#include "game/components/caster.h"
-#include "game/sprites/worldobject.h"
 
 namespace skills {
 
-/// A skill that has an argument and a mana cost.
-template<class UseArgument_T>
-class CombatArt : public ArgSkill<UseArgument_T> {
+/// A skill that has a mana cost.
+class CombatArt : public Skill {
   public:
-    typedef UseArgument_T UseArgument;
-
-    /// Uses the skill, decrementing the caster's mana.
-    /** This Use decrements the caster's mana by the mana cost when called. 
-        Remember to call super::Use() when reimplementing. */
-    virtual void Use() { caster_mana_ -= mana_cost_; }
-
-    /// Verifies if the caster has enough mana.
-    /** @return true if mana is greater than the cost */
-    virtual bool Available() const { return caster_mana_.Has(mana_cost_); }
-
-    /// A generic CombatArt has no use restrictions.
-    /** @return true */
-    virtual bool IsValidUse() const { return true; }
-
-  protected:
     /**
       @param icon The icon that is displayed on the user interface.
       @param mana_cost The mana cost.
-      @param caster_mana The Energy from where the mana cost is removed.
-      @param use_argument The skill's argument.
       */
-    CombatArt(ugdk::graphic::Drawable* icon,
-              double mana_cost,
-              resource::Energy& caster_mana,
-              const UseArgument& use_argument)
-      : ArgSkill<UseArgument>(icon, use_argument),
-        mana_cost_(mana_cost),
-        caster_mana_(caster_mana) {}
+    CombatArt(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost)
+      : Skill(icon), use_(use), mana_cost_(mana_cost) {}
 
-    resource::Energy& caster_mana() const { return caster_mana_; }
+    /// Uses the skill, decrementing the caster's mana.
+    /** This Use decrements the caster's mana by the mana cost when called. */
+    virtual void Use(component::Caster*);
 
-    const double mana_cost_;
-    resource::Energy& caster_mana_;
+    /// Verifies if the caster has enough mana.
+    /** @return true if mana is greater than the cost */
+    virtual bool IsValidUse(const component::Caster*) const;
+
+    /// A generic CombatArt has no use restrictions.
+    /** @return true */
+    virtual bool Available(const component::Caster*) const;
+
+    /// @return The mana cost for this skill.
+    double mana_cost() const { return mana_cost_; }
 
   private:
-    typedef ArgSkill<UseArgument_T> super;
+    SkillUseFunction use_;
+    double mana_cost_;
 };
 
 } // skills
