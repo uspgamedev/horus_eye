@@ -3,6 +3,7 @@
 
 #include <map>
 #include <vector>
+#include <cstdlib>
 
 #include <ugdk/util/idgenerator.h>
 
