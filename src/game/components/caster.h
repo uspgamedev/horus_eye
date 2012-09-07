@@ -92,9 +92,6 @@ class Caster {
 
     /// TODO
     ugdk::util::IDGenerator skill_id_generator_;
-
-    const static int MAX_ID = 16;
-
 };  // class Caster
 
 }  // namespace component

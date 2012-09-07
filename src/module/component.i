@@ -18,6 +18,7 @@
 #include <game/components/controller.h>
 #include <game/components/animation.h>
 #include <game/components/direction.h>
+#include <game/components/caster.h>
 
 #include <ugdk/script/baseproxy.h>
 #include <module/component/logicproxy.h>
@@ -41,6 +42,7 @@ enable_disown(component::Damageable* damageable)
 enable_disown(component::Graphic* graphic)
 enable_disown(component::Controller* controller)
 enable_disown(component::Animation* animation)
+enable_disown(component::Caster* caster)
 
 %include <game/sprites/condition.h>
 %include <game/sprites/worldobject.h>
@@ -51,6 +53,7 @@ disable_disown(component::Damageable* damageable)
 disable_disown(component::Graphic* graphic)
 disable_disown(component::Controller* controller)
 disable_disown(component::Animation* animation)
+disable_disown(component::Caster* caster)
 
 // resource::Energy and dependencies
 
@@ -81,6 +84,7 @@ disable_disown(component::Animation* animation)
 %include <game/components/graphic.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
+%include <game/components/caster.h>
 
 namespace sprite {
     export_class(WorldObject)
@@ -94,6 +98,7 @@ namespace component {
     export_class(Graphic)
     export_class(Controller)
     export_class(Animation)
+    export_class(Caster)
 }
 
 confirm_exports(component)
