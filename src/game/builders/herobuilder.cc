@@ -51,7 +51,6 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->set_controller(new component::PlayerController(hero_wobj));
     hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
-    hero_wobj->damageable()->life().Fill();
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
     hero_wobj->set_caster(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
@@ -59,15 +58,17 @@ sprite::WorldObject* HeroBuilder::Kha() {
 
     Hero *hero = new Hero(hero_wobj);
 
-    hero_wobj->caster()->mana_blocks().Fill();
-    hero_wobj->caster()->mana().Fill();
+    component::Caster* caster = hero_wobj->caster();
 
-    hero_wobj->caster()->AddSkill(0, new skills::HeroBaseWeapon(hero));
-    hero_wobj->caster()->EquipSkill(0, component::Controller::PRIMARY);
+    caster->mana_blocks().Fill();
+    caster->mana().Fill();
 
-#ifdef DEBUG]
-    hero_wobj->caster()->AddSkill(1, new skills::Sandstorm(hero));
-    hero_wobj->caster()->EquipSkill(1, component::Controller::SPECIAL1);
+    caster->LearnSkill(0, new skills::HeroBaseWeapon(hero));
+    caster->EquipSkill(0, component::Controller::PRIMARY);
+
+#ifdef DEBUG
+    caster->LearnSkill(1, new skills::Sandstorm(hero));
+    caster->EquipSkill(1, component::Controller::SPECIAL1);
 #endif
     /*
     hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));

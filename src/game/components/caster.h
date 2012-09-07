@@ -31,12 +31,14 @@ class Caster {
     // METHODS
 
     void Update(double dt);
-    bool CastSkill(Controller::SkillSlot slot);
-    skills::Skill* SkillAt(Controller::SkillSlot slot) {
-        return active_skills_[slot];
-    }
 
-    void AddSkill(int id, skills::Skill* skill);
+    bool CastSkill(Controller::SkillSlot slot);
+
+    skills::Skill* SkillAt(Controller::SkillSlot slot);
+
+    int LearnSkill(int id, skills::Skill* skill);
+
+    void UnlearnSkill(int id);
 
     /// Invalid id means unequip given slot.
     void EquipSkill(int id, Controller::SkillSlot);
@@ -45,7 +47,6 @@ class Caster {
     double FullMana() { return mana_blocks_.TotalCapcity(); }
 
     // GETTERS
-
     sprite::WorldObject* owner() const { return owner_; }
 
     const skills::usearguments::Aim& aim() const { return aim_; }
@@ -61,26 +62,28 @@ class Caster {
     double max_mana() const { return mana_.max_value(); }
 
     // SETTERS
-
     void set_mana(resource::Energy &mana) { mana_ = mana; }
     void set_mana(double mana) { mana_.Set(mana); }
 
   protected:
+    void unequipSkill(skills::Skill* skill);
+
+  private:
     /// The owner.
     sprite::WorldObject* owner_;
 
     std::map<int, skills::Skill*> skills_;
 
-    /// The active weapons this creature has.
+    /// The active skills this caster has.
     std::map<Controller::SkillSlot, skills::Skill*> active_skills_;
 
-    /// The mana of this creature. An energy manages reneration.
+    /// The mana of this caster. An energy manages reneration.
     resource::Energy mana_;
 
     /// TODO
     resource::CapacityBlocks mana_blocks_;
 
-    /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
+    /// An aim resource.
     skills::usearguments::Aim aim_;
 
 };  // class Caster

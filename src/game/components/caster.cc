@@ -19,8 +19,8 @@ Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)
       aim_(owner->world_position(), owner->controller()->aim_destination()) {}
 
 Caster::~Caster() {
-    std::map<Controller::SkillSlot, skills::Skill*>::iterator it;
-    for(it = active_skills_.begin(); it != active_skills_.end(); ++it)
+    std::map<int, skills::Skill*>::iterator it;
+    for(it = skills_.begin(); it != skills_.end(); ++it)
         delete it->second;
 }
 
@@ -30,14 +30,6 @@ void Caster::Update(double dt) {
     mana_.Update(dt);
 }
 
-void Caster::AddSkill(int slot, skills::Skill* skill) {
-    if (!skills_.count(slot)) skills_[slot] = skill;
-}
-
-void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
-    active_skills_[skill_slot] = skills_[id];
-}
-
 bool Caster::CastSkill(Controller::SkillSlot slot) {
     Skill* skill = active_skills_[slot];
     if(skill && skill->Available()) {
@@ -45,6 +37,37 @@ bool Caster::CastSkill(Controller::SkillSlot slot) {
         return true;
     }
     return false;
+}
+
+skills::Skill* Caster::SkillAt(Controller::SkillSlot slot) {
+    return active_skills_[slot];
+}
+
+int Caster::LearnSkill(int id, skills::Skill* skill) {
+    UnlearnSkill(id);
+    skills_[id] = skill;
+    return id;
+}
+
+void Caster::UnlearnSkill(int id) {
+    std::map<int, skills::Skill*>::iterator it = skills_.find(id);
+    if(it != skills_.end()) {
+        unequipSkill(it->second);
+        delete it->second;
+        it->second = NULL;
+    }
+}
+
+void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
+    active_skills_[skill_slot] = skills_[id];
+}
+    
+void Caster::unequipSkill(skills::Skill* skill) {
+    std::map<Controller::SkillSlot, skills::Skill*>::iterator sk;
+    for(sk = active_skills_.begin(); sk != active_skills_.end(); ++sk) {
+        if(sk->second == skill)
+            sk->second = NULL;
+    }
 }
 
 }  // namespace sprite
