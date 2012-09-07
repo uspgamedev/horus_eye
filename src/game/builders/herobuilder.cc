@@ -40,6 +40,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
 
+    component::PlayerController* player_controller;
     Energy life = Energy(Constants::HERO_MAX_LIFE);
     Energy mana = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
                          Constants::HERO_MANA_REGEN_BASE,
@@ -48,7 +49,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
     WorldObject* hero_wobj = new WorldObject;
     hero_wobj->set_animation(new component::Animation(hero_wobj, "hero", ANIMATIONS));
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
-    hero_wobj->set_controller(new component::PlayerController(hero_wobj));
+    hero_wobj->set_controller(player_controller = new component::PlayerController(hero_wobj));
     hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
@@ -68,14 +69,17 @@ sprite::WorldObject* HeroBuilder::Kha() {
 #ifdef DEBUG
     caster->EquipSkill(caster->LearnSkill(new skills::Sandstorm(hero)), component::Controller::SPECIAL1);
 #endif
+
     /*
-    hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
-    hero->AddWeapon(1, new skills::HeroExplosionWeapon(hero));
-    hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));
-    hero->AddWeapon(3, new skills::HeroLightWeapon(hero));
-    hero->AddWeapon(4, new skills::HeroMeteorWeapon(hero));
-    */
+    int id;
+    player_controller->AddSkill(id = caster->LearnSkill(new skills::HeroFireballWeapon(hero)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroExplosionWeapon(hero)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightningWeapon(hero)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightWeapon(hero)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroMeteorWeapon(hero)));
+    caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
+    */
 
     return hero_wobj;
 }
