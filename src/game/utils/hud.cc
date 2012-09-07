@@ -13,9 +13,11 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/skills/skill.h"
+#include "game/sprites/worldobject.h"
 #include "game/components/logic/hero.h"
 #include "game/components/damageable.h"
 #include "game/components/controller.h"
+#include "game/components/caster.h"
 
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
 #define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT

@@ -60,30 +60,6 @@ void Hero::CollisionSlow() {
    speed_ /= 1.19;
 }
 
-void Hero::Update(double delta_t) {
-    Creature::Update(delta_t);
-    if(owner_->is_active()) {
-        component::Controller* controller = owner_->controller();
-        if(!owner_->animation()->is_uninterrutible()) {
-            UseSkills();
-        }
-        if(!owner_->animation()->is_uninterrutible()) {
-            walking_direction_ = controller->direction_vector();
-            const Direction& direction = controller->direction();
-            if(direction) {
-                last_standing_direction_ = direction;
-                owner_->animation()->set_animation(utils::WALKING);
-                owner_->animation()->set_direction(direction);
-            } else {
-                owner_->animation()->set_animation(utils::STANDING);
-                owner_->animation()->set_direction(last_standing_direction_);
-            }
-            Creature::Move(this->GetWalkingDirection(), delta_t);
-        }
-    }
-    speed_ = original_speed_;
-}
-
 void Hero::SetupCollision() {
     if(owner_->collision_object()) {
         delete owner_->collision_object();

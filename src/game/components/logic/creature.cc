@@ -16,10 +16,14 @@
 #include "creature.h"
 
 #include "game/components/animation.h"
+#include "game/components/controller.h"
+#include "game/components/caster.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
+#include "game/utils/geometryprimitives.h"
+#include "game/utils/tile.h"
 
 using namespace ugdk;
 using namespace ugdk::action;
@@ -55,6 +59,39 @@ void Creature::AddKnownCollisions() {
 // ============= other stuff
 
 void Creature::Update(double dt) {
+    scene::World *world = WORLD();
+    if (world) {
+        GameMap& map = world->level_matrix();
+        TilePos mummy_pos = Tile::ToTilePos(owner_->world_position());
+        mummy_pos.i =  map.size() - mummy_pos.i - 1;
+        Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
+        if (mummy_tile) {
+            if(mummy_tile->visible())
+                owner_->node()->modifier()->set_visible(true);
+            else
+                owner_->node()->modifier()->set_visible(false);
+        }
+    }
+    if(owner_->is_active()) {
+        component::Controller* controller = owner_->controller();
+        if(!owner_->animation()->is_uninterrutible()) {
+            UseSkills();
+        }
+        if(!owner_->animation()->is_uninterrutible()) {
+            walking_direction_ = controller->direction_vector();
+            const Direction& direction = controller->direction();
+            if(direction) {
+                last_standing_direction_ = direction;
+                owner_->animation()->set_animation(utils::WALKING);
+                owner_->animation()->set_direction(direction);
+            } else {
+                owner_->animation()->set_animation(utils::STANDING);
+                owner_->animation()->set_direction(last_standing_direction_);
+            }
+            Creature::Move(this->GetWalkingDirection(), dt);
+        }
+    }
+    speed_ = original_speed_;
 }
 
 void Creature::UseSkills() {
@@ -135,22 +172,6 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
     // normalize the walking_direction_ and move correctly this time.
     walking_direction_ = walking_direction_.Normalize();
     Move(walking_direction_, last_dt_);
-}
-
-int Creature::GetAttackingAnimationIndex(double angle) {
-    int degreeAngle = (int)((angle / PI) * 360);
-    degreeAngle += 45;
-    int animationIndex = degreeAngle / 90;
-    return animationIndex % 8;
-}
-
-double Creature::GetAttackingAngle(Vector2D targetDirection) {
-    Vector2D versor = Vector2D::Normalized(targetDirection);
-    double radianAngle = acos(versor.x);
-    if (versor.y > 0) {
-        radianAngle = 2*PI - radianAngle;
-    }
-    return radianAngle;
 }
 
 }  // namespace sprite

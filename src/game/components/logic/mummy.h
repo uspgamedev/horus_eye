@@ -13,8 +13,6 @@ class Mummy : public Creature {
     void OnWorldAdd(scene::World* world);
 
   protected:
-    virtual void Update(double delta_t);
-
     void MummyAntiStack(sprite::WorldObject *);
     friend class MummyAntiStackCollision;
 };

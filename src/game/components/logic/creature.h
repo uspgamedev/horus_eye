@@ -13,20 +13,16 @@
 #include <ugdk/base/types.h>
 #include <ugdk/util/uncopyable.h>
 #include <pyramidworks/geometry.h>
+#include <pyramidworks/collision.h>
+
+#include "game/components.h"
+#include "game/sprites.h"
+#include "game/skills.h"
+
 #include "game/components/logic.h"
-#include "game/components/controller.h"
-#include "game/components/caster.h"
-#include "game/sprites/worldobject.h"
-#include <game/resources/energy.h>
+#include "game/components/direction.h"
+#include "game/resources/energy.h"
 #include "game/skills/usearguments.h"
-
-namespace skills {
-    class Skill;
-}
-
-namespace sprite {
-    class Condition;
-}
 
 namespace component {
     
@@ -48,11 +44,8 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
     void StartAttackAnimation();
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
-    double GetAttackingAngle(ugdk::Vector2D targetDirection);
-    int GetAttackingAnimationIndex(double angle);
-    virtual ugdk::Vector2D GetWalkingDirection() {
-        return walking_direction_;
-    }
+    
+    ugdk::Vector2D GetWalkingDirection() { return walking_direction_; }
     void CollideWithRect(const pyramidworks::collision::CollisionObject*);
 
 

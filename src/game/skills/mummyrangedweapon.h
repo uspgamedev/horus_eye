@@ -12,7 +12,7 @@ class MummyRangedWeapon : public CombatArt<usearguments::Aim> {
   public:
     MummyRangedWeapon(component::Creature* owner, int damage = 1) :
         CombatArt<usearguments::Aim>(NULL, 0.0, owner->owner()->caster()->mana(),
-									 owner->owner()->caster()->aim()),
+                                     owner->owner()->caster()->aim()),
         damage_(damage) {}
 
     virtual void Use();

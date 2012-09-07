@@ -3,6 +3,8 @@
 
 #include <game/resources/energy.h>
 #include "game/skills/skill.h"
+#include "game/components/caster.h"
+#include "game/sprites/worldobject.h"
 
 namespace skills {
 

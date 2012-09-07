@@ -11,6 +11,7 @@
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
+#include "game/components/caster.h"
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/utils/constants.h"

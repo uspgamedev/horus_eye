@@ -22,8 +22,6 @@ class Hero : public Creature {
     void SetupCollision();
     
   private:
-    virtual void Update(double delta_t);
-   
     void CollisionSlow();
     void AddKnownCollisions();
 
