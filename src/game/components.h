@@ -10,7 +10,6 @@ class Graphic;
 class Logic;
 class Creature;
 class Hero;
-class Mummy;
 
 class Controller;
 class PlayerController;

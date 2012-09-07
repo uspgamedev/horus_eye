@@ -6,7 +6,6 @@
 #include "game/scenes/world.h"
 #include "game/utils/settings.h"
 #include "game/entities/sandstormemitter.h"
-#include "game/components/logic/mummy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 

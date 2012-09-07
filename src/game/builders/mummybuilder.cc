@@ -7,7 +7,7 @@
 #include <pyramidworks/geometry/circle.h>
 
 #include "game/builders/itembuilder.h"
-#include "game/components/logic/mummy.h"
+#include "game/components/logic/creature.h"
 #include "game/components/mummycontroller.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
@@ -82,7 +82,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     col->AddCollisionLogic("Mummy", new AntiStackCollision(wobj));
     wobj->set_collision_object(col);
 
-    Mummy* mummy = new Mummy(wobj, speed);
+    Creature* mummy = new Creature(wobj, speed);
     wobj->set_logic(mummy);
     col->AddCollisionLogic("Wall", CreateCreatureRectCollision(mummy));
 
