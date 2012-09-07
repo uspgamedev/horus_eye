@@ -47,6 +47,12 @@ class Caster {
     /// Invalid id means unequip given slot.
     void EquipSkill(int id, Controller::SkillSlot);
 
+    int LearnAndEquipSkill(skills::Skill* skill, Controller::SkillSlot slot) {
+        int id = LearnSkill(skill);
+        EquipSkill(id, slot);
+        return id;
+    }
+
     /// Returns your maximum mana when with all mana blocks.
     double FullMana() { return mana_blocks_.TotalCapcity(); }
 
