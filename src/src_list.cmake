@@ -54,7 +54,6 @@ SET(GAME_SRCS
     ./game/components/logic/follower.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
-    ./game/components/logic/mummy.cc 
     ./game/components/logic/mummy.h 
     ./game/components/logic/wall.cc 
     ./game/components/logic/wall.h 
