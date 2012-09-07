@@ -66,16 +66,6 @@ void Mummy::MummyAntiStack(sprite::WorldObject *obj) {
     walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
 }
 
-void Mummy::StartAttack(sprite::WorldObject* obj) {
-    if(obj == NULL) obj = WORLD()->hero_world_object();
-    if(obj == NULL) return;
-    Direction d = Direction::FromScreenVector(obj->node()->modifier()->offset() - owner_->node()->modifier()->offset());
-    last_standing_direction_ = d;
-    owner_->animation()->set_direction(d);
-    owner_->animation()->set_animation(utils::ATTACKING);
-    owner_->animation()->flag_uninterrutible();
-}
-
 void Mummy::set_bound(double radius) {
     owner_->collision_object()->set_shape(new pyramidworks::geometry::Circle(radius));
 }
@@ -124,20 +114,9 @@ void Mummy::Think(double dt) {
             
             path_ = strategy.Calculate(owner_->world_position());
             if(!path_.empty()) UpdateDirection(path_.front());
+            
+            UseSkills();
 
-            Caster* caster = owner()->caster();
-            Controller* controller = owner_->controller();
-            for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
-                skills::Skill* skill = caster->SkillAt(slot);
-                if(!skill) continue;
-                if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
-                    if(skill->IsValidUse()) {
-                        skill->Use();
-                        StartAttack(NULL);
-                    }
-                    break;
-                }
-            }
         }
         else if(!standing_){
             RandomMovement();

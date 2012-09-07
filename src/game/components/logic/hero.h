@@ -15,17 +15,13 @@ class Skill;
 namespace component {
 
 class Hero : public Creature {
-  
   public:
     Hero(sprite::WorldObject* owner, double speed);
     ~Hero();
 
-    void StartAttackAnimation();
-
     void SetupCollision();
     
   private:
-
     virtual void Update(double delta_t);
    
     void CollisionSlow();

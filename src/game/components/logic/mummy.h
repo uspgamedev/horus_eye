@@ -20,8 +20,6 @@ class Mummy : public Creature {
     void set_bound(double radius);
     void OnWorldAdd(scene::World* world);
 
-    void StartAttack(sprite::WorldObject* obj);
-    
   protected:
     ugdk::time::TimeAccumulator *interval_;
     double time_to_think_;

@@ -44,6 +44,8 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     virtual void Update(double dt);
 
+    void UseSkills();
+    void StartAttackAnimation();
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     double GetAttackingAngle(ugdk::Vector2D targetDirection);

@@ -60,37 +60,12 @@ void Hero::CollisionSlow() {
    speed_ /= 1.19;
 }
 
-void Hero::StartAttackAnimation() {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
-
-    Vector2D projectile_height(0, Constants::PROJECTILE_SPRITE_HEIGHT+Constants::PROJECTILE_HEIGHT);
-    Vector2D screen_center = Engine::reference()->window_size() * 0.5;
-
-    Direction d = Direction::FromScreenVector(input_->GetMousePosition() - screen_center);
-    last_standing_direction_ = d;
-    owner_->animation()->set_direction(d);
-    owner_->animation()->set_animation(utils::ATTACKING);
-    owner_->animation()->flag_uninterrutible();
-}
-
 void Hero::Update(double delta_t) {
     Creature::Update(delta_t);
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
-
         if(!owner_->animation()->is_uninterrutible()) {
-            Caster* caster = owner()->caster();
-            for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
-                skills::Skill* skill = caster->SkillAt(slot);
-                if(!skill) continue;
-                if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
-                    if(skill->IsValidUse()) {
-                        StartAttackAnimation();
-                        skill->Use();
-                    }
-                    break;
-                }
-            }
+            UseSkills();
         }
         if(!owner_->animation()->is_uninterrutible()) {
             walking_direction_ = controller->direction_vector();

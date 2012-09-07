@@ -15,7 +15,9 @@
 
 #include "creature.h"
 
+#include "game/components/animation.h"
 #include "game/sprites/condition.h"
+#include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
 
@@ -53,6 +55,30 @@ void Creature::AddKnownCollisions() {
 // ============= other stuff
 
 void Creature::Update(double dt) {
+}
+
+void Creature::UseSkills() {
+    Caster* caster = owner()->caster();
+    Controller* controller = owner_->controller();
+    for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
+        skills::Skill* skill = caster->SkillAt(slot);
+        if(!skill) continue;
+        if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
+            if(skill->IsValidUse()) {
+                skill->Use();
+                StartAttackAnimation();
+            }
+        }
+    }
+}
+
+void Creature::StartAttackAnimation() {
+    const skills::usearguments::Aim& aim = owner_->caster()->aim();
+    Direction d = Direction::FromWorldVector(aim.destination_ - aim.origin_);
+    last_standing_direction_ = d;
+    owner_->animation()->set_direction(d);
+    owner_->animation()->set_animation(utils::ATTACKING);
+    owner_->animation()->flag_uninterrutible();
 }
 
 void Creature::Move(Vector2D direction, double delta_t) {

@@ -37,19 +37,8 @@ void Pharaoh::Think(double dt) {
             path_ = strategy.Calculate(owner_->world_position());
             UpdateDirection(path_.front());
 
-            Caster* caster = owner()->caster();
-            Controller* controller = owner_->controller();
-            for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
-                skills::Skill* skill = caster->SkillAt(slot);
-                if(!skill) continue;
-                if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
-                    if(skill->IsValidUse()) {
-                        skill->Use();
-                        StartAttack(NULL);
-                    }
-                    break;
-                }
-            }
+            UseSkills();
+
         } else if(!standing_) {
             RandomMovement();
             last_standing_direction_ = animation_direction_;
