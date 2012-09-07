@@ -67,6 +67,7 @@ void Creature::UseSkills() {
             if(skill->IsValidUse()) {
                 skill->Use();
                 StartAttackAnimation();
+                break;
             }
         }
     }

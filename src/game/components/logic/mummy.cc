@@ -31,7 +31,6 @@ using namespace ugdk;
 using scene::World;
 using namespace utils;
 
-#define TIME_TO_THINK 0.1
 #define EXP_PARAM (1.0)
 
 // Devolve um tempo ~exp(EXP_PARAM)
@@ -44,11 +43,14 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(sprite::WorldObject* owner) 
+Mummy::Mummy(sprite::WorldObject* owner, double time_to_think) 
     :   Creature(owner) {
 
-    // Animations
-    time_to_think_ = TIME_TO_THINK;
+    if(time_to_think < 0)
+        starting_time_to_think_ = 0.1;
+    else
+        starting_time_to_think_ = time_to_think;
+    time_to_think_ = starting_time_to_think_;
     standing_ = true;
     interval_ = new ugdk::time::TimeAccumulator(0);
 
@@ -106,7 +108,7 @@ void Mummy::UpdateDirection(Vector2D destination){
 void Mummy::Think(double dt) {
     time_to_think_ -= dt;
     if(time_to_think_ <= 0){
-        time_to_think_ = TIME_TO_THINK;
+        time_to_think_ = starting_time_to_think_;
         speed_ = original_speed_;
         VisionStrategy strategy;
         if(strategy.IsVisible(owner_->world_position())){

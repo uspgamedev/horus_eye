@@ -6,7 +6,6 @@
 
 #include "game/builders/itembuilder.h"
 #include "game/components/logic/mummy.h"
-#include "game/components/logic/pharaoh.h"
 #include "game/components/mummycontroller.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
@@ -163,7 +162,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
     resource::Energy mana(Constants::PHARAOH_MANA, Constants::PHARAOH_MANA_REGEN); 
     wobj->set_caster(new Caster(wobj, mana));
 
-    Pharaoh *pharaoh = new Pharaoh(wobj);
+    Mummy* pharaoh = new Mummy(wobj, 0.05);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
     wobj->set_logic(pharaoh);

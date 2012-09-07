@@ -12,7 +12,7 @@ namespace component {
 class Mummy : public Creature {
   
   public:
-    Mummy(sprite::WorldObject* owner);
+    Mummy(sprite::WorldObject* owner, double time_to_think = -1);
     ~Mummy();
     
     void set_standing(bool standing) { standing_ = standing; }	
@@ -22,7 +22,7 @@ class Mummy : public Creature {
 
   protected:
     ugdk::time::TimeAccumulator *interval_;
-    double time_to_think_;
+    double time_to_think_, starting_time_to_think_;
     bool standing_;
     ugdk::Vector2D last_direction_;
     std::queue<ugdk::Vector2D> path_;

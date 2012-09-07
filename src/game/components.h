@@ -11,7 +11,6 @@ class Logic;
 class Creature;
 class Hero;
 class Mummy;
-class Pharaoh;
 
 class Controller;
 class PlayerController;
