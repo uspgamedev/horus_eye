@@ -222,7 +222,7 @@ void LevelLoader::Load(const std::string& file_name) {
     token_function_[MUMMY] = builder::MummyBuilder::WalkingMummy;
     token_function_[BIG_MUMMY] = builder::MummyBuilder::WalkingBigMummy;
     token_function_[RANGED_MUMMY] = builder::MummyBuilder::WalkingRangedMummy;
-    token_function_[PHARAOH] = builder::MummyBuilder::WalkingPharaoh;
+    token_function_[PHARAOH] = builder::MummyBuilder::StandingPharaoh;
     token_function_[POTIONL] = builder::ItemBuilder::LifePotion;
     token_function_[POTIONM] = builder::ItemBuilder::ManaPotion;
     token_function_[POTIONS] = builder::ItemBuilder::SightPotion;

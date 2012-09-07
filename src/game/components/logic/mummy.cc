@@ -36,8 +36,8 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(sprite::WorldObject* owner) 
-    :   Creature(owner) {
+Mummy::Mummy(sprite::WorldObject* owner, double speed) 
+    :   Creature(owner, speed) {
 
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
