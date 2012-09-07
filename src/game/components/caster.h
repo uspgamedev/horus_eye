@@ -2,6 +2,9 @@
 #define HORUSEYE_COMPONENT_CASTER_H_
 
 #include <map>
+#include <vector>
+
+#include <ugdk/util/idgenerator.h>
 
 #include "game/sprites.h"
 
@@ -36,7 +39,7 @@ class Caster {
 
     skills::Skill* SkillAt(Controller::SkillSlot slot);
 
-    int LearnSkill(int id, skills::Skill* skill);
+    int LearnSkill(skills::Skill* skill);
 
     void UnlearnSkill(int id);
 
@@ -72,7 +75,7 @@ class Caster {
     /// The owner.
     sprite::WorldObject* owner_;
 
-    std::map<int, skills::Skill*> skills_;
+    std::vector<skills::Skill*> skills_;
 
     /// The active skills this caster has.
     std::map<Controller::SkillSlot, skills::Skill*> active_skills_;
@@ -85,6 +88,11 @@ class Caster {
 
     /// An aim resource.
     skills::usearguments::Aim aim_;
+
+    /// TODO
+    ugdk::util::IDGenerator skill_id_generator_;
+
+    const static int MAX_ID = 16;
 
 };  // class Caster
 

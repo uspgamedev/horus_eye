@@ -62,13 +62,11 @@ sprite::WorldObject* HeroBuilder::Kha() {
 
     caster->mana_blocks().Fill();
     caster->mana().Fill();
-
-    caster->LearnSkill(0, new skills::HeroBaseWeapon(hero));
-    caster->EquipSkill(0, component::Controller::PRIMARY);
+ 
+    caster->EquipSkill(caster->LearnSkill(new skills::HeroBaseWeapon(hero)), component::Controller::PRIMARY);
 
 #ifdef DEBUG
-    caster->LearnSkill(1, new skills::Sandstorm(hero));
-    caster->EquipSkill(1, component::Controller::SPECIAL1);
+    caster->EquipSkill(caster->LearnSkill(new skills::Sandstorm(hero)), component::Controller::SPECIAL1);
 #endif
     /*
     hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));

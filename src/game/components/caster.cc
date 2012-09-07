@@ -8,20 +8,23 @@ using skills::Skill;
 
 #define PI 3.1415926535897932384626433832795
 
+#define ID_GENERATOR_INVALID_ID -1
+
 namespace component {
 
 Caster::Caster(WorldObject* owner, const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim)
     : owner_(owner), mana_(mana), mana_blocks_(mana_, block_count),
-      aim_(aim) {}
+      aim_(aim), skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID) {}
 
 Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)
     : owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
-      aim_(owner->world_position(), owner->controller()->aim_destination()) {}
+      aim_(owner->world_position(), owner->controller()->aim_destination()), 
+      skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID) {}
 
 Caster::~Caster() {
-    std::map<int, skills::Skill*>::iterator it;
+    std::vector<skills::Skill*>::iterator it;
     for(it = skills_.begin(); it != skills_.end(); ++it)
-        delete it->second;
+        delete *it;
 }
 
 // ============= other stuff
@@ -43,23 +46,28 @@ skills::Skill* Caster::SkillAt(Controller::SkillSlot slot) {
     return active_skills_[slot];
 }
 
-int Caster::LearnSkill(int id, skills::Skill* skill) {
-    UnlearnSkill(id);
-    skills_[id] = skill;
+int Caster::LearnSkill(skills::Skill* skill) {
+    int id = skill_id_generator_.GenerateID();
+    if(id != ID_GENERATOR_INVALID_ID) {
+        if(static_cast<size_t>(id) + 1 >= skills_.size())
+            skills_.resize(static_cast<size_t>(id) + 1);
+        skills_[id] = skill;
+    }
     return id;
 }
 
 void Caster::UnlearnSkill(int id) {
-    std::map<int, skills::Skill*>::iterator it = skills_.find(id);
-    if(it != skills_.end()) {
-        unequipSkill(it->second);
-        delete it->second;
-        it->second = NULL;
+    int err = skill_id_generator_.ReleaseID(id);
+    if(err != ID_GENERATOR_INVALID_ID) {
+        unequipSkill(skills_[id]);
+        delete skills_[id];
+        skills_[id] = NULL;
     }
 }
 
 void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
-    active_skills_[skill_slot] = skills_[id];
+    if(id >= 0 && static_cast<size_t>(id) < skills_.size())
+        active_skills_[skill_slot] = skills_[id];
 }
     
 void Caster::unequipSkill(skills::Skill* skill) {
