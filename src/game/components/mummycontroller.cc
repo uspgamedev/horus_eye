@@ -71,7 +71,7 @@ void MummyController::randomMovement(){
 
 void MummyController::updateDirection(const Vector2D& destination){
     aim_destination_ = destination;
-    current_direction_ = ugdk::Vector2D::Normalized(destination - owner_->world_position());
+    current_direction_ = (destination - owner_->world_position()).Normalize();
     dir_ = Direction::FromWorldVector(current_direction_);
 }
 
