@@ -31,6 +31,7 @@ using namespace ugdk;
 using scene::World;
 using namespace utils;
 
+#define TIME_TO_THINK 0.1
 #define EXP_PARAM (1.0)
 
 // Devolve um tempo ~exp(EXP_PARAM)
@@ -123,12 +124,12 @@ void Mummy::Think(double dt) {
             
             path_ = strategy.Calculate(owner_->world_position());
             if(!path_.empty()) UpdateDirection(path_.front());
-            
-            if(weapon_->Available()) {
-                //if(!path_.empty()) aim_destination_ = path_.front();
-                if(weapon_->IsValidUse()){
-                    weapon_->Use();
-                    this->StartAttack(NULL);
+
+            skills::Skill* skill = owner_->caster()->SkillAt(Controller::PRIMARY);
+            if(skill->Available()) {
+                if(skill->IsValidUse()){
+                    skill->Use();
+                    StartAttack(NULL);
                     speed_ = 0;
                 }
             }

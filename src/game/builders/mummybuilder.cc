@@ -1,7 +1,6 @@
 #include "mummybuilder.h"
 
 #include <ugdk/base/resourcemanager.h>
-#include <ugdk/base/types.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
 
@@ -73,11 +72,15 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE);
 
+
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
     mummy->set_bound(Constants::MUMMY_RADIUS);
     wobj->set_logic(mummy);
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE)),
+        Controller::PRIMARY
+    );
     return wobj;
 }
 
@@ -92,9 +95,12 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
     mummy->set_bound(Constants::MUMMY_RADIUS);
     wobj->set_logic(mummy);
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE)),
+        Controller::PRIMARY
+    );
     return wobj;
 }
 
@@ -111,9 +117,12 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
 
     Mummy *mummy = new Mummy(wobj);
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
-    mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
     wobj->set_logic(mummy);
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE)),
+        Controller::PRIMARY
+    );
     return wobj;
 }
 
@@ -131,9 +140,12 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
-    mummy->set_weapon(new skills::PaperMummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE));
     mummy->set_bound(Constants::MUMMY_RADIUS);
     wobj->set_logic(mummy);
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE)),
+        Controller::PRIMARY
+    );
     return wobj;
 }
 
@@ -146,13 +158,27 @@ sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments
 sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("pharaoh", Constants::PHARAOH_LIFE);
     wobj->damageable()->set_super_armor(true);
-    Pharaoh *pharaoh = new Pharaoh(wobj, Constants::PHARAOH_MANA);
+
+    delete wobj->caster();
+    resource::Energy mana(Constants::PHARAOH_MANA, Constants::PHARAOH_MANA_REGEN); 
+    wobj->set_caster(new Caster(wobj, mana));
+
+    Pharaoh *pharaoh = new Pharaoh(wobj);
     pharaoh->set_speed(Constants::PHARAOH_SPEED);
-    pharaoh->set_weapon(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE));
-    pharaoh->set_ranged_weapon(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
-    pharaoh->set_summon_weapon(new skills::PharaohSummonWeapon(pharaoh));
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
     wobj->set_logic(pharaoh);
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE)),
+        Controller::PRIMARY
+    );
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE)),
+        Controller::SECONDARY
+    );
+    wobj->caster()->EquipSkill(
+        wobj->caster()->LearnSkill(new skills::PharaohSummonWeapon(pharaoh)),
+        Controller::SPECIAL1
+    );
     return wobj;
 }
 
