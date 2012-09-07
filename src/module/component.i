@@ -9,6 +9,7 @@
 
 %{
 
+#include <game/sprites/condition.h>
 #include <game/sprites/worldobject.h>
 #include <game/resources/energy.h>
 #include <game/components/logic.h>
@@ -25,6 +26,7 @@
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="ugdk_action") <ugdk/action/observer.h>
+%import(module="component") <game/sprites.h>
 
 proxy_class(component::Logic)
 
@@ -40,6 +42,7 @@ enable_disown(component::Graphic* graphic)
 enable_disown(component::Controller* controller)
 enable_disown(component::Animation* animation)
 
+%include <game/sprites/condition.h>
 %include <game/sprites/worldobject.h>
 
 disable_disown(pyramidworks::collision::CollisionObject* col)
@@ -81,6 +84,7 @@ disable_disown(component::Animation* animation)
 
 namespace sprite {
     export_class(WorldObject)
+    export_class(Condition)
 }
 
 namespace component {
