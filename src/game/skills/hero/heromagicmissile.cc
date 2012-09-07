@@ -28,7 +28,7 @@ static void HeroMagicMissileUse(component::Caster* caster) {
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-CombatArt* HeroMagicMissile() {
+Skill* HeroMagicMissile() {
     return new CombatArt(NULL, HeroMagicMissileUse, 0);
 }
 

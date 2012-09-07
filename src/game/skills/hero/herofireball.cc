@@ -36,7 +36,7 @@ static void HeroFireballUse(component::Caster* caster) {
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-CombatArt* HeroFireball() {
+Skill* HeroFireball() {
     HudImageFactory factory;
     return new CombatArt(factory.FireballIconImage(), HeroFireballUse, utils::Constants::FIREBALL_COST);
 }

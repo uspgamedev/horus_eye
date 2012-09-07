@@ -5,10 +5,11 @@
 
 namespace skills {
 
-CombatArt* HeroMagicMissile();
-CombatArt* HeroFireball();
-CombatArt* HeroLightning();
-CombatArt* HeroLight();
+Skill* HeroMagicMissile();
+Skill* HeroFireball();
+Skill* HeroLightning();
+Skill* HeroLight();
+Skill* HeroQuake();
 
 } // skills
 
