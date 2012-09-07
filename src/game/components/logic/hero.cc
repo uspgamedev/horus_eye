@@ -51,21 +51,8 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
     data_->CollisionSlow();
 }
 
-static void HeroDeathEvent(sprite::WorldObject* wobj) {
-    WORLD()->set_hero(NULL);
-    WORLD()->FinishLevel(LevelManager::FINISH_DIE);
-}
-
-Hero::Hero(sprite::WorldObject* owner)
-    : Creature(owner, owner->controller()) {
-
-	owner->set_identifier("Hero");
-    owner_->animation()->set_animation(utils::STANDING);
-    owner_->animation()->set_direction(last_standing_direction_);
-    original_speed_ = speed_ = Constants::HERO_SPEED;
-
-    owner_->set_die_callback(HeroDeathEvent);
-}
+Hero::Hero(sprite::WorldObject* owner, double speed)
+    : Creature(owner, owner->controller(), speed) {}
 
 Hero::~Hero() {}
 
@@ -92,9 +79,9 @@ void Hero::Update(double delta_t) {
         component::Controller* controller = owner_->controller();
 
         if(!owner_->animation()->is_uninterrutible()) {
-        	Caster* caster = owner()->caster();
+            Caster* caster = owner()->caster();
             for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
-            	skills::Skill* skill = caster->SkillAt(slot);
+                skills::Skill* skill = caster->SkillAt(slot);
                 if(!skill) continue;
                 if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
                     if(skill->IsValidUse()) {
@@ -136,10 +123,6 @@ void Hero::SetupCollision() {
 void Hero::AddKnownCollisions() {
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummySlowCollision(this));
-}
-
-skills::Skill* Hero::secondary_combat_art() {
-	return owner_->caster()->SkillAt(Controller::SECONDARY);
 }
 
 }

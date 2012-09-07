@@ -36,10 +36,12 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
     data_->CollideWithRect(wobj->collision_object());
 }
 
-Creature::Creature(WorldObject* owner, Controller* controller)
+Creature::Creature(WorldObject* owner, Controller* controller, double speed)
     :   owner_(owner),
         last_standing_direction_(Direction::Down()),
-        last_dt_(0.0) {
+        last_dt_(0.0),
+        speed_(speed),
+        original_speed_(speed) {
             owner_->set_logic(this);
             if(!owner_->controller())
                 owner_->set_controller(controller);

@@ -17,12 +17,10 @@ namespace component {
 class Hero : public Creature {
   
   public:
-    Hero(sprite::WorldObject* owner);
+    Hero(sprite::WorldObject* owner, double speed);
     ~Hero();
 
     void StartAttackAnimation();
-
-    skills::Skill* secondary_combat_art();
 
     void SetupCollision();
     

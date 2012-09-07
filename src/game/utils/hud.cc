@@ -15,6 +15,7 @@
 #include "game/skills/skill.h"
 #include "game/components/logic/hero.h"
 #include "game/components/damageable.h"
+#include "game/components/controller.h"
 
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
 #define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT
@@ -27,6 +28,7 @@
 using namespace ugdk;
 using namespace ugdk::graphic;
 using scene::World;
+using component::Controller;
 
 namespace utils {
 
@@ -179,12 +181,10 @@ void Hud::Update(double delta_t) {
 #endif
 
     sprite::WorldObject* hero = world->hero();
-    component::Hero* hero_logic;
-    if(hero && (hero_logic = static_cast<component::Hero*>(hero->logic()))) {
-
+    if(hero && hero->damageable() && hero->caster()) {
         // Update the Selected weapon icon
-        if(displayed_skill_ != hero_logic->secondary_combat_art()) {
-            displayed_skill_ = hero_logic->secondary_combat_art();
+        if(displayed_skill_ != hero->caster()->SkillAt(Controller::SECONDARY)) {
+            displayed_skill_ = hero->caster()->SkillAt(Controller::SECONDARY);
             
             weapon_icon_->set_drawable(displayed_skill_->icon());
             if(displayed_skill_->icon() != NULL)

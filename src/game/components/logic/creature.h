@@ -32,7 +32,7 @@ namespace component {
     
 class Creature : public Logic, public ugdk::util::Uncopyable { 
   public:
-    Creature(sprite::WorldObject* owner, Controller* controller);
+    Creature(sprite::WorldObject* owner, Controller* controller, double speed = 0.0);
     virtual ~Creature();
 
     sprite::WorldObject* owner() { return owner_; }

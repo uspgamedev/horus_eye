@@ -8,12 +8,14 @@
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/components/playercontroller.h"
-#include "game/sprites/worldobject.h"
-#include "game/utils/constants.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
-#include "game/utils/imagefactory.h"
+#include "game/sprites/worldobject.h"
+#include "game/utils/constants.h"
 #include "game/utils/isometricanimationset.h"
+
+#include "game/utils/levelmanager.h"
+#include "game/scenes/world.h"
 
 #include "game/skills/herobaseweapon.h"
 #include "game/skills/herofireballweapon.h"
@@ -35,6 +37,11 @@ using skills::usearguments::Aim;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
+static void HeroDeathEvent(sprite::WorldObject* wobj) {
+    WORLD()->set_hero(NULL);
+    WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
+}
+
 sprite::WorldObject* HeroBuilder::Kha() {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
@@ -47,6 +54,8 @@ sprite::WorldObject* HeroBuilder::Kha() {
                          Constants::HERO_BASE_MANA_REGEN_RATIO);
 
     WorldObject* hero_wobj = new WorldObject;
+    hero_wobj->set_die_callback(HeroDeathEvent);
+    hero_wobj->set_identifier("Hero");
     hero_wobj->set_animation(new component::Animation(hero_wobj, "hero", ANIMATIONS));
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
     hero_wobj->set_controller(player_controller = new component::PlayerController(hero_wobj));
@@ -56,8 +65,9 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
     hero_wobj->set_caster(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
-
-    Hero *hero = new Hero(hero_wobj);
+    
+    Hero *hero = new Hero(hero_wobj, Constants::HERO_SPEED);
+    hero_wobj->set_logic(hero);
 
     component::Caster* caster = hero_wobj->caster();
 
@@ -80,7 +90,6 @@ sprite::WorldObject* HeroBuilder::Kha() {
     caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
     */
-
     return hero_wobj;
 }
 
