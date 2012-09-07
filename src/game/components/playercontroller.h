@@ -1,6 +1,7 @@
 #ifndef HORUSEYE_COMPONENT_PLAYERCONTROLLER_H_
 #define HORUSEYE_COMPONENT_PLAYERCONTROLLER_H_
 
+#include <list>
 #include "game/components/controller.h"
 
 namespace component {
@@ -8,17 +9,21 @@ namespace component {
 class PlayerController : public Controller { 
   typedef Controller super;
   public:
-    PlayerController(sprite::WorldObject* owner) : super(owner), skill_selected_(0) {}
-    virtual ~PlayerController() {}
+    PlayerController(sprite::WorldObject* owner); 
+    ~PlayerController() {}
 
-    virtual void Update(double dt);
+    void Update(double dt);
 
-    virtual bool IsUsingSkillSlot(SkillSlot) const;
-    virtual const ugdk::Vector2D& direction_vector() const { return current_direction_; }
+    void AddSkill(int id);
+    void RemoveSkill(int id);
+
+    bool IsUsingSkillSlot(SkillSlot) const;
+    const ugdk::Vector2D& direction_vector() const { return current_direction_; }
 
   protected:
     ugdk::Vector2D current_direction_;
-    int skill_selected_;
+    std::list<int> known_skills_;
+    std::list<int>::const_iterator selected_skill_;
 
 };  // class PlayerController
 

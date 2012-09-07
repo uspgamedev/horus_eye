@@ -24,7 +24,7 @@ const double HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RAN
 HeroExplosionWeapon::HeroExplosionWeapon(component::Hero* owner)
     : DivineGift<usearguments::Aim>(
         NULL, utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST,
-				owner->owner()->caster()->mana(), owner->mana_blocks(), owner->owner()->caster()->aim()) {
+				owner->owner()->caster()->mana(), owner->owner()->caster()->mana_blocks(), owner->owner()->caster()->aim()) {
 
     utils::HudImageFactory imfac;
     icon_ = imfac.EarthquakeIconImage();

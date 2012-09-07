@@ -12,8 +12,8 @@ class Energy : public ContainedResource<double> {
 
     typedef Resource<int> rate_t;
 
-    explicit Energy(double value = 0.0, double variation_base = 0.0, int variation_rate = 1)
-        : ContainedResource<double>(value, 0.0, value),
+    explicit Energy(double max_value = 0.0, double variation_base = 0.0, int variation_rate = 1)
+        : ContainedResource<double>(max_value, 0.0, max_value),
           variation_base_(variation_base),
           variation_rate_(variation_rate) {}
 

@@ -39,8 +39,7 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
 Creature::Creature(WorldObject* owner, Controller* controller)
     :   owner_(owner),
         last_standing_direction_(Direction::Down()),
-        last_dt_(0.0),
-        sight_count_(0) {
+        last_dt_(0.0) {
             owner_->set_logic(this);
             if(!owner_->controller())
                 owner_->set_controller(controller);
@@ -55,29 +54,9 @@ void Creature::AddKnownCollisions() {
     owner_->collision_object()->AddCollisionLogic("Wall", new RectCollision(this));
 }
 
-bool deletecondition(Condition *condition) {
-    bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
-    if (is_finished) delete condition;
-    return is_finished;
-}
-
-bool Creature::AddCondition(Condition* new_condition) {
-    conditions_.push_front(new_condition);
-    new_condition->StartCondition(this);
-    return true;
-}
-
-void Creature::UpdateCondition(double dt) {
-     std::list<Condition*>::iterator i;
-     for (i = conditions_.begin(); i != conditions_.end(); ++i) 
-         (*i)->Update(dt);
-     conditions_.remove_if(deletecondition);
-}
-
 // ============= other stuff
 
 void Creature::Update(double dt) {
-    UpdateCondition(dt);
 }
 
 void Creature::Move(Vector2D direction, double delta_t) {

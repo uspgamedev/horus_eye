@@ -12,6 +12,7 @@
 #include <pyramidworks/geometry.h>
 #include "game/scenes/gamelayer.h"
 #include "game/components.h"
+#include "game/sprites.h"
 
 namespace sprite {
 
@@ -87,10 +88,16 @@ class WorldObject : public ugdk::action::Entity {
     component::Animation* animation() { return animation_; }
 
     void set_caster(component::Caster* caster) { caster_ = caster; }
-	component::Caster* caster() { return caster_; }
+    component::Caster* caster() { return caster_; }
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
+
+    virtual bool AddCondition(Condition* new_condition);
+    virtual void UpdateCondition(double dt);
+
+    int sight_count() { return sight_count_; }
+    void set_sight_count(int sight_count) { sight_count_ += sight_count; }
 
   protected:
     std::string identifier_;
@@ -127,6 +134,12 @@ class WorldObject : public ugdk::action::Entity {
     component::Animation* animation_;
 
     component::Caster* caster_;
+
+    // The conditions currently affecting this creature.
+    std::list<Condition*> conditions_;
+
+    /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
+    int sight_count_;
 
 };  // class WorldObject
 
