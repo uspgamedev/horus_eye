@@ -10,6 +10,7 @@
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
 #include "game/components/graphic.h"
+#include "game/components/logic.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"

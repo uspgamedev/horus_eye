@@ -9,7 +9,6 @@
 
 #include "game/sprites.h"
 
-#include "game/components/logic.h"
 #include "game/components/controller.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"

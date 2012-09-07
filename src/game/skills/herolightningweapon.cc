@@ -7,13 +7,11 @@
 
 #include "herolightningweapon.h"
 
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
-#include "game/components/logic/hero.h"
 
 namespace skills {
 

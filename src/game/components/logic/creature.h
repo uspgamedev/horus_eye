@@ -1,16 +1,7 @@
 #ifndef HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
 #define HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
 
-#include <list>
-#include <map>
-
-#include <ugdk/action.h>
-#include <ugdk/time.h>
-#include <ugdk/graphic.h>
-
-#include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/base/types.h>
 #include <ugdk/util/uncopyable.h>
 #include <pyramidworks/geometry.h>
 #include <pyramidworks/collision.h>
@@ -21,8 +12,7 @@
 
 #include "game/components/logic.h"
 #include "game/components/direction.h"
-#include "game/resources/energy.h"
-#include "game/skills/usearguments.h"
+
 
 namespace component {
     

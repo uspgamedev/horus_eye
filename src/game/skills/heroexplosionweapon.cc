@@ -7,9 +7,7 @@
 
 #include "game/builders/explosionbuilder.h"
 #include "game/scenes/world.h"
-#include "game/components/logic/hero.h"
 #include "game/utils/visionstrategy.h"
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/utils/settings.h"
