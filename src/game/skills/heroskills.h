@@ -7,6 +7,8 @@ namespace skills {
 
 CombatArt* HeroMagicMissile();
 CombatArt* HeroFireball();
+CombatArt* HeroLightning();
+CombatArt* HeroLight();
 
 } // skills
 

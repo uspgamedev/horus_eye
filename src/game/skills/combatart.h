@@ -21,11 +21,11 @@ class CombatArt : public Skill {
 
     /// Verifies if the caster has enough mana.
     /** @return true if mana is greater than the cost */
-    virtual bool IsValidUse(const component::Caster*) const;
+    virtual bool Available(const component::Caster*) const;
 
     /// A generic CombatArt has no use restrictions.
     /** @return true */
-    virtual bool Available(const component::Caster*) const;
+    virtual bool IsValidUse(const component::Caster*) const;
 
     /// @return The mana cost for this skill.
     double mana_cost() const { return mana_cost_; }
