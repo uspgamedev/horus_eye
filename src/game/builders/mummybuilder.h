@@ -1,6 +1,8 @@
 #ifndef HORUS_EYE_GAME_BUILDERS_MUMMY_BUILDER_H_
 #define HORUS_EYE_GAME_BUILDERS_MUMMY_BUILDER_H_
 
+#include <vector>
+#include <string>
 #include <ugdk/graphic.h>
 #include "game/sprites.h"
 

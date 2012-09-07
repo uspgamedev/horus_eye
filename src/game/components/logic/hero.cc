@@ -52,7 +52,7 @@ COLLISION_DIRECT(Hero*, MummySlowCollision, mummy) {
 }
 
 Hero::Hero(sprite::WorldObject* owner, double speed)
-    : Creature(owner, owner->controller(), speed) {}
+    : Creature(owner, speed) {}
 
 Hero::~Hero() {}
 

@@ -36,18 +36,12 @@ COLLISION_DIRECT(Creature*, RectCollision, obj) {
     data_->CollideWithRect(wobj->collision_object());
 }
 
-Creature::Creature(WorldObject* owner, Controller* controller, double speed)
+Creature::Creature(WorldObject* owner, double speed)
     :   owner_(owner),
         last_standing_direction_(Direction::Down()),
         last_dt_(0.0),
         speed_(speed),
-        original_speed_(speed) {
-            owner_->set_logic(this);
-            if(!owner_->controller())
-                owner_->set_controller(controller);
-            if(!owner_->collision_object() && WORLD())
-                owner_->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), owner_));
-}
+        original_speed_(speed) {}
 
 Creature::~Creature() {}
 

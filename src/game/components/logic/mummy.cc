@@ -43,38 +43,16 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-static void MummyDeath(sprite::WorldObject* wobj) {
-    int potion = rand() % 100;
-    if (potion <=20){
-        std::vector<std::string> blank;
-        if(potion > 10)
-            WORLD()->AddWorldObject(builder::ItemBuilder::LifePotion(blank), wobj->world_position());
-        else if(potion> 5)
-            WORLD()->AddWorldObject(builder::ItemBuilder::ManaPotion(blank), wobj->world_position());
-        else
-            WORLD()->AddWorldObject(builder::ItemBuilder::SightPotion(blank), wobj->world_position());
-    }
-}
-
 Mummy::Mummy(sprite::WorldObject* owner) 
-    :   Creature(owner, new MummyController(owner)) {
+    :   Creature(owner) {
 
     // Animations
-    resource::Energy mana;
-    owner->set_caster(new Caster(owner, mana));
-    owner->animation()->set_animation(utils::STANDING);
-    owner->animation()->set_direction(last_standing_direction_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
     interval_ = new ugdk::time::TimeAccumulator(0);
-    //TODO
-    //invulnerability_time_ = 300;
-    //identifier_ = std::string("Mummy");
-    owner_->collision_object()->InitializeCollisionClass("Mummy");
+
     Creature::AddKnownCollisions();
     owner_->collision_object()->AddCollisionLogic("Mummy", new MummyAntiStackCollision(this));
-
-    owner_->set_start_to_die_callback(MummyDeath);
 }
 
 Mummy::~Mummy() {

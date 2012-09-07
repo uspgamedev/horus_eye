@@ -1,23 +1,26 @@
+#include "mummybuilder.h"
+
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/base/types.h>
 #include <ugdk/graphic/node.h>
+#include <pyramidworks/collision/collisionobject.h>
 
-#include "mummybuilder.h"
-
+#include "game/builders/itembuilder.h"
 #include "game/components/logic/mummy.h"
 #include "game/components/logic/pharaoh.h"
+#include "game/components/mummycontroller.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
-#include "game/utils/imagefactory.h"
+#include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/utils/constants.h"
+#include "game/resources/energy.h"
 #include "game/skills/mummyweapon.h"
 #include "game/skills/mummyrangedweapon.h"
 #include "game/skills/papermummyweapon.h"
 #include "game/skills/pharaohrangedweapon.h"
 #include "game/skills/pharaohsummonweapon.h"
-#include <game/resources/energy.h>
 
 namespace builder {
 namespace MummyBuilder {
@@ -27,8 +30,22 @@ using namespace component;
 using utils::Constants;
 using resource::Energy;
 using ugdk::Vector2D;
+using pyramidworks::collision::CollisionObject;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
+
+static void MummyDeath(sprite::WorldObject* wobj) {
+    int potion = rand() % 100;
+    if (potion <=20){
+        std::vector<std::string> blank;
+        if(potion > 10)
+            WORLD()->AddWorldObject(builder::ItemBuilder::LifePotion(blank), wobj->world_position());
+        else if(potion> 5)
+            WORLD()->AddWorldObject(builder::ItemBuilder::ManaPotion(blank), wobj->world_position());
+        else
+            WORLD()->AddWorldObject(builder::ItemBuilder::SightPotion(blank), wobj->world_position());
+    }
+}
 
 static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
     if(ANIMATIONS == NULL) {
@@ -39,35 +56,45 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life) {
     wobj->set_damageable(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
+    wobj->set_controller(new MummyController(wobj));
+
+    resource::Energy mana;
+    wobj->set_caster(new Caster(wobj, mana));
+
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
+    col->InitializeCollisionClass("Mummy");
+    wobj->set_collision_object(col);
+
+    wobj->set_identifier("Mummy");
+    wobj->set_start_to_die_callback(MummyDeath);
     return wobj;
 }
 
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE);
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
     mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE));
     mummy->set_bound(Constants::MUMMY_RADIUS);
+    wobj->set_logic(mummy);
     return wobj;
 }
 
 sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     sprite::WorldObject* obj = StandingMummy(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj("mummy_ranged", Constants::RANGED_MUMMY_LIFE);
 
     Mummy* mummy = new Mummy(wobj);
     mummy->set_speed(Constants::MUMMY_SPEED);
     mummy->set_weapon(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE));
     mummy->set_bound(Constants::MUMMY_RADIUS);
+    wobj->set_logic(mummy);
     return wobj;
 }
 
@@ -78,7 +105,6 @@ sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& argument
 }
 
 sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj("mummy_big", Constants::BIG_MUMMY_LIFE);
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->set_super_armor(true);
@@ -87,6 +113,7 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
     mummy->set_speed(Constants::BIG_MUMMY_SPEED);
     mummy->set_weapon(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE));
     mummy->set_bound(Constants::BIG_MUMMY_RADIUS);
+    wobj->set_logic(mummy);
     return wobj;
 }
 
@@ -97,7 +124,6 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 }
 
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::PAPER_MUMMY_LIFE);
     ugdk::Color color = wobj->graphic()->node()->modifier()->color();
     color.set_a(0.5);
@@ -107,18 +133,17 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
     mummy->set_speed(Constants::MUMMY_SPEED);
     mummy->set_weapon(new skills::PaperMummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE));
     mummy->set_bound(Constants::MUMMY_RADIUS);
+    wobj->set_logic(mummy);
     return wobj;
 }
 
 sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     sprite::WorldObject* obj = StandingPaperMummy(arguments);
     static_cast<Mummy*>(obj->logic())->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     WorldObject* wobj = build_mummy_wobj("pharaoh", Constants::PHARAOH_LIFE);
     wobj->damageable()->set_super_armor(true);
     Pharaoh *pharaoh = new Pharaoh(wobj, Constants::PHARAOH_MANA);
@@ -127,6 +152,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
     pharaoh->set_ranged_weapon(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE));
     pharaoh->set_summon_weapon(new skills::PharaohSummonWeapon(pharaoh));
     pharaoh->set_bound(Constants::PHARAOH_RADIUS);
+    wobj->set_logic(pharaoh);
     return wobj;
 }
 
