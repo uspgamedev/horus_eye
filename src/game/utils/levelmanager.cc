@@ -17,9 +17,11 @@
 #include "game/scenes/scrollingimagescene.h"
 #include "game/scenes/loading.h"
 #include "game/components/logic/hero.h"
+#include "game/components/caster.h"
 #include "game/builders/goodmenubuilder.h"
 #include "game/builders/herobuilder.h"
 #include "game/builders/taskbuilder.h"
+#include "game/sprites/worldobject.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
@@ -167,13 +169,16 @@ void LevelManager::DeleteHero() {
 
 void LevelManager::loadSpecificLevel(const std::string& level_name) {
     utils::ImageFactory *factory = new utils::ImageFactory();
+    current_level_ = new World();
+
     if (hero_ == NULL) {
         builder::HeroBuilder builder(factory);
         hero_ = builder.Kha();
     }
     hero_->caster()->mana_blocks().Fill();
+    current_level_->set_hero(hero_);
+    current_level_->QueuedAddEntity(hero_);
 
-    current_level_ = new World(hero_);
     {
         LevelLoader loader(current_level_);
         loader.Load(level_name);

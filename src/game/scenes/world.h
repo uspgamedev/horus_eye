@@ -34,7 +34,7 @@ namespace scene {
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
-    World(sprite::WorldObject *hero);
+    World();
     virtual ~World();
 
     void AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos);
