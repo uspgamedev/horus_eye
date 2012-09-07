@@ -88,7 +88,7 @@ class WorldObject : public ugdk::action::Entity {
     component::Animation* animation() { return animation_; }
 
     void set_caster(component::Caster* caster) { caster_ = caster; }
-	component::Caster* caster() { return caster_; }
+    component::Caster* caster() { return caster_; }
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }

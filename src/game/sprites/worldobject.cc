@@ -52,6 +52,7 @@ WorldObject::~WorldObject() {
     if(logic_) delete logic_;
     if(controller_) delete controller_;
     if(animation_) delete animation_;
+    if(caster_) delete caster_;
 }
 
 void WorldObject::Die() {

@@ -15,8 +15,8 @@ Caster::Caster(WorldObject* owner, const resource::Energy& mana, int block_count
       aim_(aim) {}
 
 Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)
-	: owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
-	  aim_(owner->world_position(), owner->controller()->aim_destination()) {}
+    : owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
+      aim_(owner->world_position(), owner->controller()->aim_destination()) {}
 
 Caster::~Caster() {
     std::map<Controller::SkillSlot, skills::Skill*>::iterator it;
@@ -35,16 +35,16 @@ void Caster::AddSkill(int slot, skills::Skill* skill) {
 }
 
 void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
-	active_skills_[skill_slot] = skills_[id];
+    active_skills_[skill_slot] = skills_[id];
 }
 
 bool Caster::CastSkill(Controller::SkillSlot slot) {
-	Skill* skill = active_skills_[slot];
-	if(skill && skill->Available()) {
-		skill->Use();
-		return true;
-	}
-	return false;
+    Skill* skill = active_skills_[slot];
+    if(skill && skill->Available()) {
+        skill->Use();
+        return true;
+    }
+    return false;
 }
 
 }  // namespace sprite

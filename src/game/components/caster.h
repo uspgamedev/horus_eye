@@ -16,7 +16,8 @@ namespace component {
 
 class Caster {
   public:
-    Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim);
+    Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count,
+        const skills::usearguments::Aim& aim);
 
     /// Easy constructor. Default block_count and aim.
     /**
@@ -32,8 +33,8 @@ class Caster {
     void Update(double dt);
     bool CastSkill(Controller::SkillSlot slot);
     skills::Skill* SkillAt(Controller::SkillSlot slot) {
-		return active_skills_[slot];
-	}
+        return active_skills_[slot];
+    }
 
     void AddSkill(int id, skills::Skill* skill);
 
