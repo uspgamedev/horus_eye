@@ -9,7 +9,7 @@ namespace skills {
 
 class HeroFireballWeapon : public CombatArt<usearguments::Aim> {
   public:
-    HeroFireballWeapon(component::Hero* owner);
+    HeroFireballWeapon(component::Caster* owner);
     virtual void Use();
   private:
     typedef CombatArt<usearguments::Aim> super;

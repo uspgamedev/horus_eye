@@ -67,9 +67,9 @@ void HeroMeteorWeapon::Use(){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-HeroMeteorWeapon::HeroMeteorWeapon(component::Hero* owner)
+HeroMeteorWeapon::HeroMeteorWeapon(component::Caster* caster)
     : DivineGift<usearguments::Aim>(NULL, utils::Constants::METEOR_COST,
-    		utils::Constants::METEOR_BLOCK_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->mana_blocks(), owner->owner()->caster()->aim()) { // TODO: change cost
+    		utils::Constants::METEOR_BLOCK_COST, caster->mana(), caster->mana_blocks(), caster->aim()) {
     HudImageFactory imfac;
     icon_ = imfac.MeteorIconImage(); // TODO: change icon
 }

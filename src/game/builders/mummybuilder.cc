@@ -94,7 +94,7 @@ sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
     wobj->set_logic(mummy);
     mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE)),
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(wobj->caster(), Constants::MUMMY_DAMAGE)),
         Controller::PRIMARY
     );
     return wobj;
@@ -113,7 +113,7 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
     wobj->set_logic(mummy);
     mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE)),
+        wobj->caster()->LearnSkill(new skills::MummyRangedWeapon(wobj->caster(), Constants::RANGED_MUMMY_DAMAGE)),
         Controller::PRIMARY
     );
     return wobj;
@@ -134,7 +134,7 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
     wobj->set_logic(mummy);
     mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE)),
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(wobj->caster(), Constants::BIG_MUMMY_DAMAGE)),
         Controller::PRIMARY
     );
     return wobj;
@@ -156,7 +156,7 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
     wobj->set_logic(mummy);
     mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE)),
+        wobj->caster()->LearnSkill(new skills::PaperMummyWeapon(wobj->caster(), Constants::PAPER_MUMMY_DAMAGE)),
         Controller::PRIMARY
     );
     return wobj;
@@ -180,15 +180,15 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
     wobj->set_logic(pharaoh);
     pharaoh->AddKnownCollisions();
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE)),
+        wobj->caster()->LearnSkill(new skills::MummyWeapon(wobj->caster(), Constants::PHARAOH_DAMAGE)),
         Controller::PRIMARY
     );
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::PharaohRangedWeapon(pharaoh, Constants::PHARAOH_RANGED_DAMAGE)),
+        wobj->caster()->LearnSkill(new skills::PharaohRangedWeapon(wobj->caster(), Constants::PHARAOH_RANGED_DAMAGE)),
         Controller::SECONDARY
     );
     wobj->caster()->EquipSkill(
-        wobj->caster()->LearnSkill(new skills::PharaohSummonWeapon(pharaoh)),
+        wobj->caster()->LearnSkill(new skills::PharaohSummonWeapon(wobj->caster())),
         Controller::SPECIAL1
     );
     return wobj;

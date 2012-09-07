@@ -4,15 +4,14 @@
 #include "game/skills/combatart.h"
 #include "game/utils/constants.h"
 #include "game/skills/usearguments.h"
-#include "game/components/logic/creature.h"
+#include "game/components/caster.h"
 
 namespace skills {
 
 class PharaohRangedWeapon : public CombatArt<usearguments::Aim> {
   public:
-    PharaohRangedWeapon(component::Creature* owner, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE)
-        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->owner()->caster()->mana(),
-				 owner->owner()->caster()->aim()),
+    PharaohRangedWeapon(component::Caster* caster, int damage = utils::Constants::PHARAOH_RANGED_DAMAGE)
+        : CombatArt<usearguments::Aim>(NULL, 0.0, caster->mana(), caster->aim()),
           damage_(damage) {}
 
     virtual void Use();

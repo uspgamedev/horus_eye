@@ -74,18 +74,18 @@ sprite::WorldObject* HeroBuilder::Kha() {
     caster->mana_blocks().Fill();
     caster->mana().Fill();
  
-    caster->EquipSkill(caster->LearnSkill(new skills::HeroBaseWeapon(hero)), component::Controller::PRIMARY);
+    caster->EquipSkill(caster->LearnSkill(new skills::HeroBaseWeapon(caster)), component::Controller::PRIMARY);
 
 #ifdef DEBUG
-    caster->EquipSkill(caster->LearnSkill(new skills::Sandstorm(hero)), component::Controller::SPECIAL1);
+    caster->EquipSkill(caster->LearnSkill(new skills::Sandstorm(caster)), component::Controller::SPECIAL1);
 #endif
 /*
     int id;
-    player_controller->AddSkill(id = caster->LearnSkill(new skills::HeroFireballWeapon(hero)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroExplosionWeapon(hero)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightningWeapon(hero)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightWeapon(hero)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroMeteorWeapon(hero)));
+    player_controller->AddSkill(id = caster->LearnSkill(new skills::HeroFireballWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroExplosionWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightningWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroMeteorWeapon(caster)));
     caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
 */

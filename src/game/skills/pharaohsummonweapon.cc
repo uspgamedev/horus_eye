@@ -21,9 +21,9 @@ bool isObstacle(utils::Tile* tile) {
     return (tile->object() == WALL || tile->object() == DOOR || tile->object() == ENTRY);
 }
 
-PharaohSummonWeapon::PharaohSummonWeapon(component::Creature* owner)
+PharaohSummonWeapon::PharaohSummonWeapon(component::Caster* caster)
     : CombatArt<usearguments::Aim>(NULL, utils::Constants::PHARAOH_SUMMON_MANA_COST,
-    		owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) {}
+    		caster->mana(), caster->aim()) {}
 
 void PharaohSummonWeapon::Use() {
     super::Use();

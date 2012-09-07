@@ -40,8 +40,8 @@ void HeroLightWeapon::Use(){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-HeroLightWeapon::HeroLightWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, owner->owner()->caster()->mana(), owner->owner()->caster()->aim()) { // TODO: change cost
+HeroLightWeapon::HeroLightWeapon(component::Caster* caster)
+    : CombatArt<usearguments::Aim>(NULL, utils::Constants::QUAKE_COST, caster->mana(), caster->aim()) { // TODO: change cost
     HudImageFactory imfac;
     icon_ = imfac.LightIconImage(); // TODO: change icon
 }

@@ -9,7 +9,7 @@ namespace skills {
 
 class HeroLightningWeapon : public CombatArt<usearguments::Aim> {
   public:
-    HeroLightningWeapon(component::Hero* owner);
+    HeroLightningWeapon(component::Caster* owner);
     virtual void Use();
   private:
     typedef CombatArt<usearguments::Aim> super;
