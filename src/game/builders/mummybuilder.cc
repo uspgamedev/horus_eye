@@ -84,7 +84,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
 
     Mummy* mummy = new Mummy(wobj, speed);
     wobj->set_logic(mummy);
-    mummy->AddKnownCollisions();
+    col->AddCollisionLogic("Wall", CreateCreatureRectCollision(mummy));
 
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);

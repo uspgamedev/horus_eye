@@ -16,15 +16,12 @@ namespace component {
 
 class Hero : public Creature {
   public:
-    Hero(sprite::WorldObject* owner, double speed);
-    ~Hero();
+    Hero(sprite::WorldObject* owner, double speed) : Creature(owner, speed) {}
+    ~Hero() {}
 
     void SetupCollision();
     
   private:
-    void CollisionSlow();
-    void AddKnownCollisions();
-
     friend class MummySlowCollision;
 };
 
