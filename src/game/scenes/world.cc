@@ -180,8 +180,9 @@ void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D
     QueuedAddEntity(new_object);
 }
 
-void World::AddHero(const ugdk::Vector2D& pos) {
-    hero_->set_world_position(pos);
+void World::set_hero(sprite::WorldObject *hero) {
+    hero_ = hero;
+    AddWorldObject(hero, hero_initial_position_);
 }
 
 int World::CountRemainingEnemies() {

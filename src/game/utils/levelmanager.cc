@@ -170,26 +170,26 @@ void LevelManager::DeleteHero() {
 void LevelManager::loadSpecificLevel(const std::string& level_name) {
     utils::ImageFactory *factory = new utils::ImageFactory();
     current_level_ = new World();
-
+    {
+        LevelLoader loader(current_level_);
+        loader.Load(level_name);
+    }
     if (hero_ == NULL) {
         builder::HeroBuilder builder(factory);
         hero_ = builder.Kha();
     }
     hero_->caster()->mana_blocks().Fill();
     current_level_->set_hero(hero_);
-    current_level_->QueuedAddEntity(hero_);
-
     {
-        LevelLoader loader(current_level_);
-        loader.Load(level_name);
-
         builder::TaskBuilder task_builder;
         current_level_->AddTask(task_builder.PauseMenuTask());
         current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
     }
 
     Engine::reference()->PushScene(current_level_);
-    static_cast<component::Hero*>(hero_->logic())->SetupCollision();
+
+    component::Hero* hero_comp = dynamic_cast<component::Hero*>(hero_->logic());
+    if(hero_comp) hero_comp->SetupCollision();
 }
 
 }

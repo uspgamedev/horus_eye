@@ -168,7 +168,7 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& p
             break;
         }
         case HERO: {
-            world_->AddHero(position);
+            world_->set_hero_initial_position(position);
             break;
         }
         case DOOR: {

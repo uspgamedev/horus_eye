@@ -38,7 +38,7 @@ class World : public ugdk::action::Scene {
     virtual ~World();
 
     void AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos);
-    void AddHero(const ugdk::Vector2D& pos);
+    void set_hero_initial_position(const ugdk::Vector2D& pos) { hero_initial_position_ = pos; }
 
     int CountRemainingEnemies();
     void IncreaseNumberOfEnemies();
@@ -77,7 +77,7 @@ class World : public ugdk::action::Scene {
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
     void set_level_matrix(const utils::GameMap& matrix) { level_matrix_ = matrix; }
-    void set_hero(sprite::WorldObject *hero) { hero_ = hero; }
+    void set_hero(sprite::WorldObject *hero);
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
     void RemoveTag(const std::string& tag);
@@ -103,6 +103,7 @@ class World : public ugdk::action::Scene {
     pyramidworks::collision::CollisionManager* collision_manager_;
     ugdk::graphic::Node *layers_[2];
     TagTable tagged_;
+    ugdk::Vector2D hero_initial_position_;
 
 };  // class World
 
