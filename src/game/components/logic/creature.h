@@ -30,13 +30,15 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
   public:
     Creature(sprite::WorldObject* owner, double speed = 0.0);
     virtual ~Creature();
+    virtual void AddKnownCollisions();
 
     sprite::WorldObject* owner() { return owner_; }
+    const ugdk::Vector2D& walking_direction() const { return walking_direction_; }
+    void set_walking_direction(const ugdk::Vector2D& direction) { walking_direction_ = direction; }
 
   protected:
     friend class RectCollision;
 
-    virtual void AddKnownCollisions();
 
     virtual void Update(double dt);
 
@@ -45,7 +47,6 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
     void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     
-    ugdk::Vector2D GetWalkingDirection() { return walking_direction_; }
     void CollideWithRect(const pyramidworks::collision::CollisionObject*);
 
 

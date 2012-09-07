@@ -88,7 +88,7 @@ void Creature::Update(double dt) {
                 owner_->animation()->set_animation(utils::STANDING);
                 owner_->animation()->set_direction(last_standing_direction_);
             }
-            Creature::Move(this->GetWalkingDirection(), dt);
+            Creature::Move(walking_direction(), dt);
         }
     }
     speed_ = original_speed_;

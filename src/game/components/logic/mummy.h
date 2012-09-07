@@ -9,12 +9,7 @@ class Mummy : public Creature {
   public:
     Mummy(sprite::WorldObject* owner, double speed);
     ~Mummy();
-    
     void OnWorldAdd(scene::World* world);
-
-  protected:
-    void MummyAntiStack(sprite::WorldObject *);
-    friend class MummyAntiStackCollision;
 };
 
 }

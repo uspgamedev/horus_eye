@@ -3,6 +3,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 
 #include "game/builders/itembuilder.h"
@@ -34,6 +35,13 @@ using pyramidworks::collision::CollisionObject;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
+COLLISION_DIRECT(WorldObject*, AntiStackCollision, voiddata) {
+    sprite::WorldObject *obj = (sprite::WorldObject *) voiddata;
+    Creature* creature = dynamic_cast<Creature*>(data_->logic());
+    Vector2D deviation = (data_->world_position() - obj->world_position()).Normalize();
+    creature->set_walking_direction((creature->walking_direction() + deviation*0.9).Normalize());
+}
+
 static void MummyDeath(sprite::WorldObject* wobj) {
     int potion = rand() % 100;
     if (potion <=20){
@@ -45,6 +53,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
         else
             WORLD()->AddWorldObject(builder::ItemBuilder::SightPotion(blank), wobj->world_position());
     }
+    WORLD()->DecreaseEnemyCount();
 }
 
 static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius) {
@@ -64,6 +73,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Mummy");
     col->set_shape(new pyramidworks::geometry::Circle(radius));
+    col->AddCollisionLogic("Mummy", new AntiStackCollision(wobj));
     wobj->set_collision_object(col);
 
     wobj->set_identifier("Mummy");
@@ -77,6 +87,7 @@ sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
 
     Mummy* mummy = new Mummy(wobj, Constants::MUMMY_SPEED);
     wobj->set_logic(mummy);
+    mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::MUMMY_DAMAGE)),
         Controller::PRIMARY
@@ -95,6 +106,7 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
 
     Mummy* mummy = new Mummy(wobj, Constants::MUMMY_SPEED);
     wobj->set_logic(mummy);
+    mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyRangedWeapon(mummy, Constants::RANGED_MUMMY_DAMAGE)),
         Controller::PRIMARY
@@ -115,6 +127,7 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
 
     Mummy *mummy = new Mummy(wobj, Constants::BIG_MUMMY_SPEED);
     wobj->set_logic(mummy);
+    mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::BIG_MUMMY_DAMAGE)),
         Controller::PRIMARY
@@ -136,6 +149,7 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
 
     Mummy* mummy = new Mummy(wobj, Constants::MUMMY_SPEED);
     wobj->set_logic(mummy);
+    mummy->AddKnownCollisions();
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(mummy, Constants::PAPER_MUMMY_DAMAGE)),
         Controller::PRIMARY
@@ -159,6 +173,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
 
     Mummy* pharaoh = new Mummy(wobj, Constants::PHARAOH_SPEED);
     wobj->set_logic(pharaoh);
+    pharaoh->AddKnownCollisions();
     wobj->caster()->EquipSkill(
         wobj->caster()->LearnSkill(new skills::MummyWeapon(pharaoh, Constants::PHARAOH_DAMAGE)),
         Controller::PRIMARY
