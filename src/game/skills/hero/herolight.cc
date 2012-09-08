@@ -23,16 +23,10 @@ using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 
-class Light : public CombatArt {
-public:
-    Light(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost)
-      : CombatArt(icon, use, mana_cost) {}
-
-    virtual bool IsValidUse(const component::Caster* caster) const {
-        VisionStrategy vs;
-        return vs.IsVisible(caster->aim().destination_, caster->aim().origin_);
-    }
-};
+static bool VisibilityCheck(const component::Caster* caster) {
+    VisionStrategy vs;
+    return vs.IsVisible(caster->aim().destination_, caster->aim().origin_);
+}
 
 static void HeroLightUse(component::Caster* caster){
     World *world = WORLD();   
@@ -48,7 +42,8 @@ static void HeroLightUse(component::Caster* caster){
 
 Skill* HeroLightning() {
     HudImageFactory imfac;
-    return new Light(imfac.LightIconImage(), HeroLightUse, utils::Constants::QUAKE_COST);
+    return new CombatArt(imfac.LightIconImage(), HeroLightUse, 
+        utils::Constants::QUAKE_COST, VisibilityCheck);
 }
 
 } // namespace skills

@@ -7,15 +7,17 @@ namespace skills {
 
 void CombatArt::Use(component::Caster* caster) {
     caster->mana() -= mana_cost_;
-    if(use_) use_(caster);
+    super::Use(caster);
 }
 
 bool CombatArt::Available(const component::Caster* caster) const { 
     return caster->mana().Has(mana_cost_);
 }
 
-bool CombatArt::IsValidUse(const component::Caster* caster) const { 
-    return true;
+bool CombatArt::IsValidUse(const component::Caster* caster) const {
+    return (range_ > 0.0) &&
+        ((caster->aim().destination_ - caster->aim().origin_).Length() < range_) &&
+        super::IsValidUse(caster);
 }
 
 } // namespace skills

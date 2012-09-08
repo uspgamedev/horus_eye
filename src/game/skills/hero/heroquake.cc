@@ -1,6 +1,5 @@
 #include "game/skills/heroskills.h"
 
-#include <ugdk/math/vector2D.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
@@ -19,19 +18,10 @@ namespace skills {
 using scene::World;
 using utils::Constants;
 
-class Quake : public DivineGift {
-public:
-    Quake(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost, int block_cost)
-      : DivineGift(icon, use, mana_cost, block_cost) {}
-
-    virtual bool IsValidUse(const component::Caster* caster) const {
-        utils::VisionStrategy vs;
-        const usearguments::Aim& aim = caster->aim();
-        double distance = (aim.destination_ - aim.origin_).length();
-        return distance <= utils::Constants::QUAKE_EXPLOSION_RANGE 
-            && vs.IsVisible(aim.destination_, aim.origin_);
-    }
-};
+static bool VisibilityCheck(const component::Caster* caster) {
+    utils::VisionStrategy vs;
+    return vs.IsVisible(caster->aim().destination_, caster->aim().origin_);
+}
 
 static void HeroQuakeUse(component::Caster* caster) {
     World *world = WORLD();
@@ -44,8 +34,10 @@ static void HeroQuakeUse(component::Caster* caster) {
 
 Skill* HeroQuake() {
     utils::HudImageFactory imfac;
-    return new Quake(imfac.EarthquakeIconImage(), HeroQuakeUse, utils::Constants::QUAKE_COST,
-        utils::Constants::QUAKE_BLOCK_COST);
+    DivineGift* gift = new DivineGift(imfac.EarthquakeIconImage(), HeroQuakeUse, 
+        utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, VisibilityCheck);
+    gift->set_range(utils::Constants::QUAKE_EXPLOSION_RANGE);
+    return gift;
 }
 
 } // namespace skills

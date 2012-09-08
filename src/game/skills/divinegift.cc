@@ -7,8 +7,8 @@
 namespace skills {
 
 void DivineGift::Use(component::Caster* caster) { 
-    super::Use(caster);
     caster->mana_blocks() -= block_cost_;
+    super::Use(caster);
 };
 
 bool DivineGift::Available(const component::Caster* caster) const {
@@ -17,7 +17,7 @@ bool DivineGift::Available(const component::Caster* caster) const {
 }
 
 bool DivineGift::IsValidUse(const component::Caster* caster) const { 
-    return true;
+    return super::IsValidUse(caster);
 }
 
 } // skills

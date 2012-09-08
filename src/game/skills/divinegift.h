@@ -13,8 +13,9 @@ class DivineGift : public CombatArt {
       @param mana_cost The mana cost.
       @param block_cost The block cost.
       */
-    DivineGift(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost, int block_cost)
-      : CombatArt(icon, use, mana_cost),
+    DivineGift(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost, 
+               int block_cost, SkillValidFunction valid = NULL)
+      : CombatArt(icon, use, mana_cost, valid),
         block_cost_(block_cost) {}
 
     /// Uses the skill, decrementing the caster's mana and blocks.
@@ -35,6 +36,7 @@ class DivineGift : public CombatArt {
 
   private:
     int block_cost_;
+
     typedef CombatArt super;
 };
 

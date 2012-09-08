@@ -10,6 +10,7 @@ Skill* HeroFireball();
 Skill* HeroLightning();
 Skill* HeroLight();
 Skill* HeroQuake();
+Skill* HeroMeteor();
 
 } // skills
 
