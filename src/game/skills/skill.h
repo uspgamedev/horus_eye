@@ -2,14 +2,16 @@
 #define HORUSEYE_GAME_SKILLS_SKILL_H_
 
 #include <cstdlib>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 
 #include <ugdk/graphic.h>
 #include "game/components.h"
 
 namespace skills {
 
-typedef void (*SkillUseFunction)(component::Caster*);
-typedef bool (*SkillValidFunction)(const component::Caster*);
+typedef std::tr1::function<void (component::Caster*)>       SkillUseFunction;
+typedef std::tr1::function<bool (const component::Caster*)> SkillValidFunction;
 
 /// An usable skill.
 /** Abstract class. Contains an icon.
@@ -39,7 +41,10 @@ class Skill {
     /**
       @param icon The icon that is displayed on the user interface.
       */
-    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use, SkillValidFunction valid = NULL) 
+    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use) 
+        : icon_(icon), use_(use) {}
+    
+    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use, SkillValidFunction valid) 
         : icon_(icon), use_(use), valid_(valid) {}
 
   private:
