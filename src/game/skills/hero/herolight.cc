@@ -42,8 +42,8 @@ static void HeroLightUse(component::Caster* caster){
 
 Skill* HeroLightning() {
     HudImageFactory imfac;
-    return new CombatArt(imfac.LightIconImage(), HeroLightUse, 
-        utils::Constants::QUAKE_COST, VisibilityCheck);
+    return new CombatArt(imfac.LightIconImage(), HeroLightUse, VisibilityCheck,
+        utils::Constants::QUAKE_COST, -1.0);
 }
 
 } // namespace skills

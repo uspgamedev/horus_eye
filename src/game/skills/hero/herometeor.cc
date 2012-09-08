@@ -53,8 +53,8 @@ static void HeroMeteorUse(component::Caster* caster) {
 
 Skill* HeroMeteor() {
     utils::HudImageFactory imfac;
-    return new DivineGift(imfac.MeteorIconImage(), HeroMeteorUse, 
-        utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, VisibilityCheck);
+    return new DivineGift(imfac.MeteorIconImage(), HeroMeteorUse, VisibilityCheck,
+        utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, -1);
 }
 
 } // namespace skills

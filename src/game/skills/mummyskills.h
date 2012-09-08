@@ -7,6 +7,9 @@ namespace skills {
 
 Skill* MummyMelee(double damage);
 Skill* MummyRanged(double damage);
+Skill* PaperMelee(double damage);
+Skill* PharaohRanged();
+Skill* PharaohSummon();
 
 } // skills
 

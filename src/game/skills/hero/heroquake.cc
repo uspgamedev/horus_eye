@@ -34,10 +34,8 @@ static void HeroQuakeUse(component::Caster* caster) {
 
 Skill* HeroQuake() {
     utils::HudImageFactory imfac;
-    DivineGift* gift = new DivineGift(imfac.EarthquakeIconImage(), HeroQuakeUse, 
-        utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, VisibilityCheck);
-    gift->set_range(utils::Constants::QUAKE_EXPLOSION_RANGE);
-    return gift;
+    return new DivineGift(imfac.EarthquakeIconImage(), HeroQuakeUse, VisibilityCheck,
+        utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, utils::Constants::QUAKE_EXPLOSION_RANGE);
 }
 
 } // namespace skills
