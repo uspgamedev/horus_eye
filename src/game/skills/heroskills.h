@@ -11,6 +11,7 @@ Skill* HeroLightning();
 Skill* HeroLight();
 Skill* HeroQuake();
 Skill* HeroMeteor();
+Skill* HeroSandstorm();
 
 } // skills
 
