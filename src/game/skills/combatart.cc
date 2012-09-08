@@ -15,8 +15,8 @@ bool CombatArt::Available(const component::Caster* caster) const {
 }
 
 bool CombatArt::IsValidUse(const component::Caster* caster) const {
-    return (range_ > 0.0) &&
-        ((caster->aim().destination_ - caster->aim().origin_).Length() < range_) &&
+    return 
+    ((range_ < 0.0) || ((caster->aim().destination_ - caster->aim().origin_).Length() < range_)) &&
         super::IsValidUse(caster);
 }
 

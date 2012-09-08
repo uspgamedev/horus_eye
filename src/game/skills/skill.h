@@ -26,7 +26,7 @@ class Skill {
 
     /// Uses the skill.
     virtual void Use(component::Caster* caster) {
-        use_(caster);
+        if(use_) use_(caster);
     }
 
     /// Verifies if the given caster has the necessary resources to use this skill right now.
