@@ -34,11 +34,11 @@ class ContainedResource : public Resource<resource_t> {
         Normalize();
     }
 
-    bool Empty() {
+    bool Empty() const {
         return super::resource_pool() <= min_value_;
     }
 
-    bool Full() {
+    bool Full() const {
         return max_value_ <= super::resource_pool();
     }
 

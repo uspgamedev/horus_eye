@@ -17,11 +17,7 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/utils/constants.h"
 #include "game/resources/energy.h"
-#include "game/skills/mummyweapon.h"
-#include "game/skills/mummyrangedweapon.h"
-#include "game/skills/papermummyweapon.h"
-#include "game/skills/pharaohrangedweapon.h"
-#include "game/skills/pharaohsummonweapon.h"
+#include "game/skills/mummyskills.h"
 
 namespace builder {
 namespace MummyBuilder {
@@ -96,7 +92,7 @@ sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE, 
         Constants::MUMMY_RADIUS, Constants::MUMMY_SPEED);
 
-    wobj->caster()->LearnAndEquipSkill(new skills::MummyWeapon(wobj->caster(), Constants::MUMMY_DAMAGE),
+    wobj->caster()->LearnAndEquipSkill(skills::MummyMelee(Constants::MUMMY_DAMAGE),
         Controller::PRIMARY);
     return wobj;
 }
@@ -111,7 +107,7 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
     WorldObject* wobj = build_mummy_wobj("mummy_ranged", Constants::RANGED_MUMMY_LIFE,
         Constants::MUMMY_RADIUS, Constants::MUMMY_SPEED);
 
-    wobj->caster()->LearnAndEquipSkill(new skills::MummyRangedWeapon(wobj->caster(), Constants::RANGED_MUMMY_DAMAGE),
+    wobj->caster()->LearnAndEquipSkill(skills::MummyRanged(Constants::RANGED_MUMMY_DAMAGE),
         Controller::PRIMARY);
     return wobj;
 }
@@ -128,7 +124,7 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->set_super_armor(true);
 
-    wobj->caster()->LearnAndEquipSkill(new skills::MummyWeapon(wobj->caster(), Constants::BIG_MUMMY_DAMAGE),
+    wobj->caster()->LearnAndEquipSkill(skills::MummyMelee(Constants::BIG_MUMMY_DAMAGE),
         Controller::PRIMARY);
     return wobj;
 }
@@ -146,7 +142,7 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
     color.set_a(0.5);
     wobj->graphic()->node()->modifier()->set_color(color);
 
-    wobj->caster()->LearnAndEquipSkill(new skills::PaperMummyWeapon(wobj->caster(), Constants::PAPER_MUMMY_DAMAGE),
+    wobj->caster()->LearnAndEquipSkill(skills::PaperMelee(Constants::PAPER_MUMMY_DAMAGE),
         Controller::PRIMARY);
     return wobj;
 }
@@ -166,12 +162,9 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
     resource::Energy mana(Constants::PHARAOH_MANA, Constants::PHARAOH_MANA_REGEN); 
     wobj->set_caster(new Caster(wobj, mana));
 
-    wobj->caster()->LearnAndEquipSkill(new skills::MummyWeapon(wobj->caster(), Constants::PHARAOH_DAMAGE),
-        Controller::PRIMARY);
-    wobj->caster()->LearnAndEquipSkill(new skills::PharaohRangedWeapon(wobj->caster(), Constants::PHARAOH_RANGED_DAMAGE),
-        Controller::SECONDARY);
-    wobj->caster()->LearnAndEquipSkill(new skills::PharaohSummonWeapon(wobj->caster()),
-        Controller::SPECIAL1);
+    wobj->caster()->LearnAndEquipSkill(skills::MummyMelee(Constants::PHARAOH_DAMAGE), Controller::PRIMARY);
+    wobj->caster()->LearnAndEquipSkill(skills::PharaohRanged(), Controller::SECONDARY);
+    wobj->caster()->LearnAndEquipSkill(skills::PharaohSummon(), Controller::SPECIAL1);
     return wobj;
 }
 

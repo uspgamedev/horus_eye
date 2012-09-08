@@ -88,9 +88,8 @@ void Creature::UseSkills() {
     for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
         skills::Skill* skill = caster->SkillAt(slot);
         if(!skill) continue;
-        if(controller->IsUsingSkillSlot(slot) && skill->Available()) {
-            if(skill->IsValidUse()) {
-                skill->Use();
+        if(controller->IsUsingSkillSlot(slot) && skill->IsValidUse(caster)) {
+            if(caster->CastSkill(slot)) {
                 StartAttackAnimation();
                 break;
             }

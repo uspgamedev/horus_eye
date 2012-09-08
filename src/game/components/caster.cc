@@ -36,8 +36,8 @@ void Caster::Update(double dt) {
 
 bool Caster::CastSkill(Controller::SkillSlot slot) {
     Skill* skill = active_skills_[slot];
-    if(skill && skill->Available()) {
-        skill->Use();
+    if(skill && skill->Available(this)) {
+        skill->Use(this);
         return true;
     }
     return false;

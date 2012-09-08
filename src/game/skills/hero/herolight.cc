@@ -40,7 +40,7 @@ static void HeroLightUse(component::Caster* caster){
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* HeroLightning() {
+Skill* HeroLight() {
     HudImageFactory imfac;
     return new CombatArt(imfac.LightIconImage(), HeroLightUse, VisibilityCheck,
         utils::Constants::QUAKE_COST, -1.0);
