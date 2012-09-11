@@ -20,6 +20,7 @@ class Energy : public ContainedResource<double> {
     void Update(double dt) { (*this) += variation_rate_.Get()*variation_base_*dt; }
 
     rate_t& variation_rate() { return variation_rate_; }
+    const rate_t& variation_rate() const { return variation_rate_; }
 
     void ChangeMaxValue(double value) {
         double proportion = Get()/max_value();

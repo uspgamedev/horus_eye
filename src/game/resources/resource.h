@@ -29,19 +29,19 @@ class Resource {
         Set(quantity);
     }
 
-    resource_t Get() {
+    resource_t Get() const {
         return resource_pool_;
     }
 
-    operator resource_t() {
+    operator resource_t() const {
         return Get();
     }
 
-    virtual bool Has(resource_t quantity) {
+    virtual bool Has(resource_t quantity) const {
         return quantity <= resource_pool_;
     }
 
-    bool operator >=(resource_t quantity) {
+    bool operator >=(resource_t quantity) const {
         return Has(quantity);
     }
 
@@ -64,6 +64,7 @@ class Resource {
   protected:
 
     resource_t& resource_pool() { return resource_pool_; }
+    const resource_t& resource_pool() const { return resource_pool_; }
 
     void RawSet(resource_t& quantity) { resource_pool_ = quantity; }
 

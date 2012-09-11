@@ -63,7 +63,8 @@ class Caster {
           resource::Energy& mana()       { return mana_; }
     const resource::Energy& mana() const { return mana_; }
 
-    resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
+          resource::CapacityBlocks& mana_blocks()       { return mana_blocks_; }
+    const resource::CapacityBlocks& mana_blocks() const { return mana_blocks_; }
 
     size_t num_skills() const { return skills_.size(); }
 

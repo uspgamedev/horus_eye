@@ -17,13 +17,7 @@
 #include "game/utils/levelmanager.h"
 #include "game/scenes/world.h"
 
-#include "game/skills/herobaseweapon.h"
-#include "game/skills/herofireballweapon.h"
-#include "game/skills/heroexplosionweapon.h"
-#include "game/skills/herolightningweapon.h"
-#include "game/skills/herolightweapon.h"
-#include "game/skills/herometeorweapon.h"
-#include "game/skills/sandstorm.h"
+#include "game/skills/heroskills.h"
 
 namespace builder {
 
@@ -74,10 +68,10 @@ sprite::WorldObject* HeroBuilder::Kha() {
     caster->mana_blocks().Fill();
     caster->mana().Fill();
  
-    caster->LearnAndEquipSkill(new skills::HeroBaseWeapon(caster), component::Controller::PRIMARY);
+    caster->LearnAndEquipSkill(skills::HeroMagicMissile(), component::Controller::PRIMARY);
 
 #ifdef DEBUG
-    caster->LearnAndEquipSkill(new skills::Sandstorm(caster), component::Controller::SPECIAL1);
+    caster->LearnAndEquipSkill(skills::HeroSandstorm(), component::Controller::SPECIAL1);
 #endif
 /*
     int id;

@@ -131,7 +131,7 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     return wobj;
 }
 
-WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int damage) {
+WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, double damage) {
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));

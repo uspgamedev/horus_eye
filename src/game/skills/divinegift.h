@@ -1,61 +1,56 @@
 #ifndef HORUSEYE_GAME_SKILLS_DIVINEGIFT_H_
 #define HORUSEYE_GAME_SKILLS_DIVINEGIFT_H_
 
-#include "game/resources/energy.h"
-#include "game/resources/capacityblocks.h"
 #include "game/skills/combatart.h"
 
 namespace skills {
 
-/// A skill that has an argument, a mana cost and a block cost.
-template<class UseArgument_T>
-class DivineGift : public CombatArt<UseArgument_T> {
-
+/// A skill that has a mana cost and a block cost.
+class DivineGift : public CombatArt {
   public:
-    typedef UseArgument_T UseArgument;
+    /**
+      @param icon The icon that is displayed on the user interface.
+      @param use A function that is called when the skill is used.
+      @param mana_cost The mana cost.
+      @param block_cost The block cost.
+      */
+    DivineGift(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost, int block_cost)
+      : CombatArt(icon, use, mana_cost),
+        block_cost_(block_cost) {}
+    
+    /**
+      @param icon The icon that is displayed on the user interface.
+      @param use A function that is called when the skill is used.
+      @param valid A function whose return value is considered for IsValidUse
+      @param mana_cost The mana cost.
+      @param block_cost The block cost.
+      @param range The maxium range.
+      */
+    DivineGift(ugdk::graphic::Drawable* icon, SkillUseFunction use, SkillValidFunction valid, 
+        double mana_cost, int block_cost, double range)
+      : CombatArt(icon, use, valid, mana_cost, range),
+        block_cost_(block_cost) {}
 
     /// Uses the skill, decrementing the caster's mana and blocks.
     /** This Use decrements the caster's mana by the mana cost and the caster's
-        blocks by the block cost when called. 
-        Remember to call super::Use() when reimplementing. */
-    virtual void Use() { super::Use(); caster_blocks_ -= block_cost_; };
+        blocks by the block cost when called. */
+    virtual void Use(component::Caster*);
 
     /// Verifies if the caster has enough mana and blocks.
     /** @return mana and blocks are greater than the costs */
-    virtual bool Available() const {
-        double total_mana_cost = super::mana_cost_ + caster_blocks_.ToMana(block_cost_);
-        return super::caster_mana_.Has(total_mana_cost) && caster_blocks_.Has(block_cost_);
-    }
+    virtual bool Available(const component::Caster*) const;
 
     /// A generic DivineGift has no use restrictions.
     /** @return true */
-    virtual bool IsValidUse() const { return true; }
+    virtual bool IsValidUse(const component::Caster*) const;
 
-  protected:
-    /**
-      @param icon The icon that is displayed on the user interface.
-      @param mana_cost The mana cost.
-      @param block_cost The block cost.
-      @param caster_mana The Energy from where the mana cost is removed.
-      @param caster_blocks The CapacityBlocks from where the block cost is removed.
-      @param use_argument The skill's argument.
-      */
-    DivineGift(ugdk::graphic::Drawable* icon,
-               double mana_cost,
-               int block_cost,
-               resource::Energy& caster_mana,
-               resource::CapacityBlocks& caster_blocks,
-               const UseArgument& use_argument
-              )
-      : CombatArt<UseArgument>(icon, mana_cost, caster_mana, use_argument),
-        block_cost_(block_cost),
-        caster_blocks_(caster_blocks) {}
-
-    const int block_cost_;
-    resource::CapacityBlocks& caster_blocks_;
+    /// @return The block cost of this skill.
+    int block_cost() const { return block_cost_; }
 
   private:
-    typedef CombatArt<UseArgument_T> super;
+    int block_cost_;
+
+    typedef CombatArt super;
 };
 
 } // skills

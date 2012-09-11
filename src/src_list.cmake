@@ -91,32 +91,21 @@ SET(GAME_SRCS
     ./game/scenes/world.cc 
     ./game/scenes/world.h 
     ./game/skills.h 
+    ./game/skills/combatart.cc 
     ./game/skills/combatart.h 
+    ./game/skills/divinegift.cc 
     ./game/skills/divinegift.h 
-    ./game/skills/herobaseweapon.cc 
-    ./game/skills/herobaseweapon.h 
-    ./game/skills/heroexplosionweapon.cc 
-    ./game/skills/heroexplosionweapon.h 
-    ./game/skills/herofireballweapon.cc 
-    ./game/skills/herofireballweapon.h 
-    ./game/skills/herolightningweapon.cc 
-    ./game/skills/herolightningweapon.h 
-    ./game/skills/herolightweapon.cc 
-    ./game/skills/herolightweapon.h 
-    ./game/skills/herometeorweapon.cc 
-    ./game/skills/herometeorweapon.h 
-    ./game/skills/mummyrangedweapon.cc 
-    ./game/skills/mummyrangedweapon.h 
-    ./game/skills/mummyweapon.cc 
-    ./game/skills/mummyweapon.h 
-    ./game/skills/papermummyweapon.cc 
-    ./game/skills/papermummyweapon.h 
-    ./game/skills/pharaohrangedweapon.cc 
-    ./game/skills/pharaohrangedweapon.h 
-    ./game/skills/pharaohsummonweapon.cc 
-    ./game/skills/pharaohsummonweapon.h 
-    ./game/skills/sandstorm.cc 
-    ./game/skills/sandstorm.h 
+    ./game/skills/hero/herofireball.cc 
+    ./game/skills/hero/herolight.cc 
+    ./game/skills/hero/herolightning.cc 
+    ./game/skills/hero/heromagicmissile.cc 
+    ./game/skills/hero/herometeor.cc 
+    ./game/skills/hero/heroquake.cc 
+    ./game/skills/hero/herosandstorm.cc 
+    ./game/skills/heroskills.h 
+    ./game/skills/mummy/mummyskills.cc 
+    ./game/skills/mummy/pharaohskills.cc 
+    ./game/skills/mummyskills.h 
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
     ./game/sprites.h 

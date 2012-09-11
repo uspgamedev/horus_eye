@@ -17,7 +17,8 @@ class CapacityBlocks : public CountableResource {
           contents_(contents),
           capacity_per_block_(contents.max_value() / total_blocks) {}
 
-    Energy& contents() { return contents_; }
+          Energy& contents()       { return contents_; }
+    const Energy& contents() const { return contents_; }
 
     void Set(int quantity, int filled) {
         CountableResource::Set(quantity);
@@ -58,7 +59,7 @@ class CapacityBlocks : public CountableResource {
     /**
      * TODO
      */
-    double ToMana(int blocks) {
+    double ToMana(int blocks) const {
         return blocks*capacity_per_block_;
     }
 

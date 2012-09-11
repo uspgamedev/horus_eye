@@ -13,7 +13,7 @@ class CountableResource : public ContainedResource<int> {
     explicit CountableResource(int min_blocks = 0, int max_blocks = 0)
         : ContainedResource<int>(max_blocks, min_blocks, max_blocks) {}
 
-    bool Has(int quantity) {
+    bool Has(int quantity) const {
         return quantity <= Get() - min_value();
     }
 
