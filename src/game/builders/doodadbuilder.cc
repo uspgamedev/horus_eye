@@ -44,18 +44,17 @@ COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
     wobj->damageable()->TakeDamage(data_);
 }
 
-COLLISION_DIRECT(scene::World*, WinCollision, obj) {
-    if (data_->CountRemainingEnemies() == 0 && data_->num_button_not_pressed().Get() <= 0)
-        data_->FinishLevel(utils::LevelManager::FINISH_WIN);
+void WinCollision(void*) {
+    WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world) {
+WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
     wobj->node()->set_drawable(new Sprite("stairs"));
 
-    CollisionObject* col = new CollisionObject(world->collision_manager(), wobj);
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
-    col->AddCollisionLogic("Hero", new WinCollision(world));
+    col->AddCollisionLogic("Hero", new GenericCollisionLogic(WinCollision));
     col->set_shape(new pyramidworks::geometry::Rect(Constants::DOOR_BOUND_WIDTH, Constants::DOOR_BOUND_HEIGHT));
     wobj->set_collision_object(col);
 
