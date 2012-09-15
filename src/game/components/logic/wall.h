@@ -5,7 +5,7 @@
 #include <ugdk/math/vector2D.h>
 #include "game/components/logic.h"
 #include "game/sprites.h"
-#include "game/utils/tilefwd.h"
+#include "game/map.h"
 
 namespace component {
 
@@ -43,7 +43,7 @@ class Wall : public Logic {
     Square transparency_square_;
     ugdk::graphic::Sprite* sprite_;
 
-    utils::Tile *tile_;
+    map::Tile *tile_;
     int     visible_frame_,
             transparent_frame_,
             dark_visible_frame_,

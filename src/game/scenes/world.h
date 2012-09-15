@@ -9,10 +9,10 @@
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision.h>
 
+#include "game/map.h"
 #include "game/components.h"
 #include "game/scenes/gamelayer.h"
 #include "game/utils/levelmanager.h"
-#include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
 
 namespace utils {
@@ -22,7 +22,6 @@ namespace sprite {
 class WorldObject;
 }
 using ugdk::Vector2D;
-using std::vector;
 
 namespace scene {
 
@@ -69,14 +68,14 @@ class World : public ugdk::action::Scene {
     sprite::WorldObject * hero_world_object() const;
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
-    utils::GameMap& level_matrix() { return level_matrix_; }
+    map::GameMap& level_matrix() { return level_matrix_; }
     resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
     
     //setters
     void set_level_width(int width) { level_width_ = width; }
     void set_level_height(int height) {	level_height_ = height; }
-    void set_level_matrix(const utils::GameMap& matrix) { level_matrix_ = matrix; }
+    void set_level_matrix(const map::GameMap& matrix) { level_matrix_ = matrix; }
     void set_hero(sprite::WorldObject *hero);
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
@@ -91,7 +90,7 @@ class World : public ugdk::action::Scene {
 
     utils::Hud *hud_;
     int level_width_, level_height_;
-    utils::GameMap level_matrix_;
+    map::GameMap level_matrix_;
     int	remaining_enemies_, max_enemies_;
 
   private:

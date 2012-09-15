@@ -70,6 +70,11 @@ SET(GAME_SRCS
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 
+    ./game/map.h 
+    ./game/map/room.cc 
+    ./game/map/room.h 
+    ./game/map/tile.cc 
+    ./game/map/tile.h 
     ./game/modules.cc 
     ./game/modules.h 
     ./game/resources/capacityblocks.h 
@@ -133,9 +138,6 @@ SET(GAME_SRCS
     ./game/utils/menuimagefactory.h 
     ./game/utils/settings.cc 
     ./game/utils/settings.h 
-    ./game/utils/tile.cc 
-    ./game/utils/tile.h 
-    ./game/utils/tilefwd.h 
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 

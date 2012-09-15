@@ -25,7 +25,7 @@
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 #include "game/utils/settings.h"
 
 #ifdef WIN32
@@ -34,11 +34,12 @@
 
 using namespace ugdk;
 using namespace ugdk::action;
-using namespace std;
 using namespace scene;
 using namespace sprite;
 using component::Creature;
 
+using std::string;
+using std::ifstream;
 using ugdk::Engine;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;

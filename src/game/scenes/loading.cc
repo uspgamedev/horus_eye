@@ -4,7 +4,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/graphic/drawable/text.h>
 
 

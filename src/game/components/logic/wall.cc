@@ -1,3 +1,5 @@
+#include "wall.h"
+
 #include <iostream>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
@@ -6,12 +8,10 @@
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
 
-#include "wall.h"
-
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 
 
 namespace component {
@@ -19,6 +19,9 @@ namespace component {
 using namespace ugdk;
 using namespace utils;
 using namespace scene;
+
+using map::Tile;
+using map::GameMap;
 
 #define PI          3.1415926535897932384626433832795
 #define TRANSPARENCY_DISTANCE 1.75

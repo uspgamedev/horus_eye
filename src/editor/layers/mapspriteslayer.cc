@@ -2,7 +2,7 @@
 #include "editor/mapobject.h"
 #include "game/scenes/world.h"
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 
 
 using namespace ugdk;
@@ -15,32 +15,32 @@ MapSpritesLayer::MapSpritesLayer(MapEditor* editor) : MapEditor::MapLayer(editor
 MapSpritesLayer::~MapSpritesLayer() {}
 
 void MapSpritesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
-	double visible = true;
-	if(node_ != NULL) {
-		visible = node_->modifier()->visible();
-		delete node_;
-	}
-	node_ = new ugdk::graphic::Node;
-	node_->modifier()->set_visible(visible);
-	matrix_ = matrix;
-	int height = matrix_->size(), width = (*matrix_)[0].size();
+    double visible = true;
+    if(node_ != NULL) {
+        visible = node_->modifier()->visible();
+        delete node_;
+    }
+    node_ = new ugdk::graphic::Node;
+    node_->modifier()->set_visible(visible);
+    matrix_ = matrix;
+    int height = matrix_->size(), width = (*matrix_)[0].size();
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; j++) {
-			node_->AddChild((*matrix_)[i][j]->isometric_node());
+            node_->AddChild((*matrix_)[i][j]->isometric_node());
         }
     }
 }
 
 void MapSpritesLayer::CenterAt(ugdk::Vector2D& center) {
-	if (!editor_->map_loaded()) return;
+    if (!editor_->map_loaded()) return;
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
     Vector2D correct_center = Vector2D(center.x, matrix_->size() - center.y);
-	node()->modifier()->set_offset(screen_size * 0.5 - scene::World::FromWorldCoordinates(correct_center));
+    node()->modifier()->set_offset(screen_size * 0.5 - scene::World::FromWorldCoordinates(correct_center));
 }
 
 MapObject* MapSpritesLayer::Select(ugdk::Vector2D& pos) {
-	if (!editor_->map_loaded()) return NULL;
+    if (!editor_->map_loaded()) return NULL;
 
     Vector2D    global_screen_coords = pos + node()->modifier()->offset(),
                 transformed = scene::World::FromScreenLinearCoordinates(global_screen_coords);

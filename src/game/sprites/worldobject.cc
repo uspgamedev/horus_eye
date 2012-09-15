@@ -12,7 +12,7 @@
 #include "game/components/animation.h"
 #include "game/components/caster.h"
 #include "game/scenes/world.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 #include "game/utils/constants.h"
 #include "game/sprites/condition.h"
 

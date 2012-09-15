@@ -8,7 +8,7 @@
 #include <ugdk/graphic/drawable/solidrectangle.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -44,7 +44,7 @@ using namespace std;
 scene::Menu* EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
 
     // Our main menu.
-	scene::Menu *menu = new scene::Menu(EditorMenuBuilder::EDITOR_SELECT_NUM);
+    scene::Menu *menu = new scene::Menu(EditorMenuBuilder::EDITOR_SELECT_NUM);
 
     // Setting its handler.
     menu->set_handler(new EditorMenuHandler(menu, editor));
@@ -55,14 +55,14 @@ scene::Menu* EditorMenuBuilder::BuildEditorMenu (MapEditor* editor) {
     // Setting the selection sprite.
     //CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::EDITOR_SELECT_NUM);
 
-	// The background color.
+    // The background color.
     ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     menu->AddDrawable(bg, Vector2D());
 
     // The text of each option.
     for (int i = 0; i < EditorMenuBuilder::EDITOR_SELECT_NUM; ++i) {
-		ugdk::graphic::Drawable *options_sprite = NULL;
+        ugdk::graphic::Drawable *options_sprite = NULL;
         switch (i) {
         case EditorMenuBuilder::EDITOR_SELECT_CONTINUE:
             options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Continue");
@@ -93,40 +93,40 @@ void EditorMenuBuilder::EditorMenuHandler::Handle(int selection, int modifier) {
     if (modifier) return;
     switch (selection) {
 
-		// Simply close this menu.
+        // Simply close this menu.
         case EditorMenuBuilder::EDITOR_SELECT_CONTINUE: {
-			menu_->Finish();
+            menu_->Finish();
             break;
         }
 
-		// NOTHING HAHAHAHA. TODO
+        // NOTHING HAHAHAHA. TODO
         case EditorMenuBuilder::EDITOR_SELECT_NEW_MAP: {
-			
+            
             break;
         }
 
-		// Closes this menu and creates a level select menu.
+        // Closes this menu and creates a level select menu.
         case EditorMenuBuilder::EDITOR_SELECT_LOAD_MAP: {
-			EditorMenuBuilder builder;
-			Engine::reference()->PushScene(builder.BuildLoadMapMenu(editor_));
-			menu_->Finish();
+            EditorMenuBuilder builder;
+            Engine::reference()->PushScene(builder.BuildLoadMapMenu(editor_));
+            menu_->Finish();
             break;
         }
         case EditorMenuBuilder::EDITOR_SELECT_SAVE_MAP: {
             if (editor_)
-				editor_->SaveMap();
+                editor_->SaveMap();
             break;
         }
         case EditorMenuBuilder::EDITOR_SELECT_QUIT: {
-			menu_->Finish();
-			editor_->Finish();
+            menu_->Finish();
+            editor_->Finish();
             break;
         }
         case EditorMenuBuilder::EDITOR_SELECT_SAVE_AND_QUIT: {
             if (editor_)
-				editor_->SaveMap();
-			menu_->Finish();
-			editor_->Finish();
+                editor_->SaveMap();
+            menu_->Finish();
+            editor_->Finish();
             break;
         }
         default: {
@@ -142,20 +142,20 @@ void EditorMenuBuilder::EditorMenuHandler::CleanUp() {}
 //   Load Map Menu
 
 EditorMenuBuilder::LoadMapMenuHandler::LoadMapMenuHandler(scene::Menu *menu, MapEditor* editor) : 
-			scene::MenuHandler(menu), editor_(editor) {
-				map_list_ = editor->map_list();
-				selected_level_ = 0;
+            scene::MenuHandler(menu), editor_(editor) {
+                map_list_ = editor->map_list();
+                selected_level_ = 0;
 
-				level_nodes_ = new ugdk::graphic::Node*[map_list_.size()];
-			}
+                level_nodes_ = new ugdk::graphic::Node*[map_list_.size()];
+            }
 
 scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
 
     // Our main menu.
-	scene::Menu *menu = new scene::Menu(EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
+    scene::Menu *menu = new scene::Menu(EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
 
 
-	LoadMapMenuHandler* handler = new LoadMapMenuHandler(menu, editor);
+    LoadMapMenuHandler* handler = new LoadMapMenuHandler(menu, editor);
     menu->set_handler(handler);
 
     // The menu's content box.
@@ -164,7 +164,7 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
     // Setting the selection sprite.
     //CreateSelectionSprites(menu, (MENU_BOTTOM-MENU_TOP)/EditorMenuBuilder::LOAD_MAP_SELECT_NUM);
 
-	ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
+    ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(VIDEO_MANAGER()->video_size());
     bg->set_color(ugdk::Color(0.25, 0.25, 0.25, 0.8));
     menu->AddDrawable(bg, Vector2D());
 
@@ -179,15 +179,15 @@ scene::Menu *EditorMenuBuilder::BuildLoadMapMenu (MapEditor* editor) {
             options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Load");
             break;
         case EditorMenuBuilder::LOAD_MAP_SELECT_BACK:
-			options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Back");
+            options_sprite = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Back");
             break;
         }
 
-		if (options_sprite != NULL) {
-			menu->set_option_sprite(i, options_sprite);
-		}
+        if (options_sprite != NULL) {
+            menu->set_option_sprite(i, options_sprite);
+        }
     }
-	handler->BuildSprites();
+    handler->BuildSprites();
 
 
     return menu;
@@ -197,23 +197,23 @@ void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) 
     if (!modifier) modifier = 1;
     switch (selection) {
         case EditorMenuBuilder::LOAD_MAP_SELECT_CHANGE: {
-			level_nodes_[selected_level_]->modifier()->set_visible(false);
-			selected_level_ += modifier;
-			if (selected_level_ < 0) { selected_level_ = map_list_.size() - 1; }
-			if (selected_level_ >= static_cast<int>(map_list_.size())) {
-			    selected_level_ = 0;
-			}
+            level_nodes_[selected_level_]->modifier()->set_visible(false);
+            selected_level_ += modifier;
+            if (selected_level_ < 0) { selected_level_ = map_list_.size() - 1; }
+            if (selected_level_ >= static_cast<int>(map_list_.size())) {
+                selected_level_ = 0;
+            }
             level_nodes_[selected_level_]->modifier()->set_visible(true);
             break;
         }
         case EditorMenuBuilder::LOAD_MAP_SELECT_LOAD: {
-			string level = map_list_[selected_level_];
-			editor_->LoadMap(level);
-			menu_->Finish();
+            string level = map_list_[selected_level_];
+            editor_->LoadMap(level);
+            menu_->Finish();
             break;
         }
         case EditorMenuBuilder::LOAD_MAP_SELECT_BACK: {
-			menu_->Finish();
+            menu_->Finish();
             break;
         }
         default: {
@@ -224,25 +224,25 @@ void EditorMenuBuilder::LoadMapMenuHandler::Handle(int selection, int modifier) 
 
 void EditorMenuBuilder::LoadMapMenuHandler::BuildSprites() {
     // Creates the level images vector.
-	for (size_t i = 0; i < map_list_.size(); ++i) {
+    for (size_t i = 0; i < map_list_.size(); ++i) {
 
-		// Transform a std::string into a std::wstring (somehow)
+        // Transform a std::string into a std::wstring (somehow)
         std::wstring tmpw(map_list_[i].length(), L' '); // Make room for characters
-		std::copy(map_list_[i].begin(), map_list_[i].end(), tmpw.begin());
+        std::copy(map_list_[i].begin(), map_list_[i].end(), tmpw.begin());
 
 
         ugdk::graphic::Drawable* drawable = TEXT_MANAGER()->GetText(tmpw, "FontB");
-		drawable->set_hotspot(ugdk::graphic::Drawable::CENTER);
-		
-		double x = VIDEO_MANAGER()->video_size().x * 0.5;
-		level_nodes_[i] = new ugdk::graphic::Node(drawable);
-		level_nodes_[i]->modifier()->set_offset(Vector2D(x, MENU_TOP + RECT_HEIGHT + 25.0));
-		menu_->AddNode(level_nodes_[i]);
+        drawable->set_hotspot(ugdk::graphic::Drawable::CENTER);
+        
+        double x = VIDEO_MANAGER()->video_size().x * 0.5;
+        level_nodes_[i] = new ugdk::graphic::Node(drawable);
+        level_nodes_[i]->modifier()->set_offset(Vector2D(x, MENU_TOP + RECT_HEIGHT + 25.0));
+        menu_->AddNode(level_nodes_[i]);
         if ( static_cast<int>(i) != selected_level_ ) level_nodes_[i]->modifier()->set_visible(false);
     }
 }
 void EditorMenuBuilder::LoadMapMenuHandler::CleanUp() {
-	delete[] level_nodes_;
+    delete[] level_nodes_;
 }
 
 }

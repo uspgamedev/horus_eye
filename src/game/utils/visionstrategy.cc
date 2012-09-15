@@ -6,15 +6,17 @@
 
 #include "geometryprimitives.h"
 #include "game/scenes/world.h"
-#include "tile.h"
+#include "game/map/tile.h"
 #include "game/utils/constants.h"
 #include "game/sprites/worldobject.h"
 
-using namespace std;
 using namespace scene;
 using namespace utils;
 using namespace sprite;
 using namespace ugdk;
+
+using std::queue;
+using map::GameMap;
 
 bool solid(char obj){
     if(obj == WALL) return true;

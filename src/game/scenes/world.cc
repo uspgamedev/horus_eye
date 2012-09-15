@@ -1,3 +1,5 @@
+#include "world.h"
+
 #include <cmath>
 #include <iostream>
 #include <ugdk/portable/tr1.h>
@@ -6,7 +8,7 @@
 #include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/time/timemanager.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/util/intervalkdtree.h>
@@ -14,14 +16,12 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
-#include "world.h"
+#include "game/map/tile.h"
 
 #include "game/scenes/menu.h"
-
 #include "game/sprites/worldobject.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
-#include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
@@ -33,7 +33,6 @@ namespace scene {
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
-using namespace std;
 using component::Hero;
 using pyramidworks::collision::CollisionInstance;
 

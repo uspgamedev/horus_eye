@@ -1,7 +1,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/textmanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/graphic/modifier.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/text.h>

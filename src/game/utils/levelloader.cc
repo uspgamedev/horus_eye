@@ -19,7 +19,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/logic/wall.h"
 #include "game/utils/imagefactory.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 #include "game/utils/settings.h"
 
 /* Util functions found at http://stackoverflow.com/q/217605 */
@@ -40,14 +40,19 @@ static inline std::string &trim(std::string &s) {
 
 namespace utils {
 
-using namespace std;
 using namespace scene;
 using namespace sprite;
 using namespace ugdk;
-using component::Wall;
-using ugdk::script::VirtualObj;
-using std::tr1::bind;
 using namespace std::tr1::placeholders;
+
+using std::string;
+using std::vector;
+using std::tr1::bind;
+using ugdk::script::VirtualObj;
+using component::Wall;
+using map::GameMap;
+using map::Tile;
+using map::TileRow;
 
 #define LINE_SIZE 1024
 

@@ -1,6 +1,6 @@
 #include <ugdk/action/task.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/graphic/node.h>
 
