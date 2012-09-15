@@ -7,6 +7,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/builders/builder.h"
+#include "game/sprites/worldobject.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
 
@@ -98,6 +99,14 @@ Room* LoadRoom(const std::string& name) {
     for (int i = 0; i < (int)gamemap.size(); ++i) {
         for (int j = 0; j < (int)gamemap[i].size(); ++j) {
             Vector2D position((double) j, (double) i);
+
+            sprite::WorldObject* obj = builder::WorldObjectFromTypename(string(1, gamemap[i][j]->object()), arguments[i][j]);
+            if(obj) {
+                obj->set_tag(tags[i][j]);
+                room->AddObject(obj, position);
+            }
+
+
             if(gamemap[i][j]->has_floor()) {
                 //ugdk::graphic::Node* floor = BuildFloor();
                 // TODO set position for floor
