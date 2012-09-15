@@ -26,7 +26,7 @@ typedef std::vector<std::string> ArgumentList;
 ugdk::graphic::Node* BuildFloor(const ugdk::Vector2D& position);
 
 static void parseArguments(vector< vector< ArgumentList > >& args_matrix, VirtualObj vobj) {
-    if(vobj) return;
+    if(!vobj) return;
     VirtualObj::Vector arguments = vobj.value<VirtualObj::Vector>();
     for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
         VirtualObj::Vector data = it->value<VirtualObj::Vector>();
@@ -38,7 +38,7 @@ static void parseArguments(vector< vector< ArgumentList > >& args_matrix, Virtua
 }
 
 static void parseTags(vector< vector< std::string > >& tags_matrix, VirtualObj vobj) {
-    if(vobj) return;
+    if(!vobj) return;
     VirtualObj::Vector arguments = vobj.value<VirtualObj::Vector>();
     for (VirtualObj::Vector::iterator it = arguments.begin(); it != arguments.end(); ++it) {
         VirtualObj::Vector data = it->value<VirtualObj::Vector>();
@@ -106,7 +106,6 @@ Room* LoadRoom(const std::string& name) {
                 obj->set_tag(tags[i][j]);
                 room->AddObject(obj, position);
             }
-
 
             if(gamemap[i][j]->has_floor()) {
                 //ugdk::graphic::Node* floor = BuildFloor();
