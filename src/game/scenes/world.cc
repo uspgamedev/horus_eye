@@ -17,6 +17,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/map/tile.h"
+#include "game/map/room.h"
 
 #include "game/scenes/menu.h"
 #include "game/sprites/worldobject.h"
@@ -107,8 +108,8 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
 World::World() 
     :   Scene(),
         hero_(NULL),
-        level_width_(10),
-        level_height_(10),
+        size_(10, 10),
+        room_(NULL),
         remaining_enemies_(0),
         max_enemies_(0),
         level_state_(LevelManager::NOT_FINISHED),
@@ -162,9 +163,6 @@ void World::End() {
     }
 
     this->RemoveAllEntities();
-    for (int i = 0; i < (int)level_matrix_.size(); i++)
-        for (int j = 0; j < (int)level_matrix_[i].size(); j++)
-            delete level_matrix_[i][j];
 }
 
 void World::IncreaseNumberOfEnemies() {
@@ -174,6 +172,10 @@ void World::IncreaseNumberOfEnemies() {
 
 void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
+    AddWorldObject(new_object);
+}
+
+void World::AddWorldObject(sprite::WorldObject* new_object) {
     if(!new_object->tag().empty())
         tagged_[new_object->tag()] = new_object;
     QueuedAddEntity(new_object);
@@ -220,9 +222,8 @@ sprite::WorldObject * World::hero_world_object() const {
 }
 
 void World::SetupCollisionManager() {
-    double min_coords[2] = { -1, -1 };
-    double max_coords[2] = { this->level_width(), this->level_height() };
-    ugdk::ikdtree::Box<2> box(min_coords, max_coords);
+    ugdk::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
+    ugdk::ikdtree::Box<2> box(min_coords.val, max_coords.val);
     collision_manager_ = new pyramidworks::collision::CollisionManager(box);
 
     collision_manager_->Generate("WorldObject");
@@ -252,6 +253,11 @@ WorldObject* World::WorldObjectByTag (const std::string& tag) {
     
 void World::RemoveTag(const std::string& tag) {
     tagged_[tag] = NULL;
+}
+    
+void World::SetRoom(map::Room* room) {
+    room_ = room;
+    room->AddToWorld(this);
 }
 
 } // namespace scene

@@ -184,7 +184,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     {
         builder::TaskBuilder task_builder;
         current_level_->AddTask(task_builder.PauseMenuTask());
-        current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
+        //current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
     }
 
     Engine::reference()->PushScene(current_level_);

@@ -7,6 +7,7 @@
 #include FROM_TR1(unordered_map)
 #include <ugdk/action/scene.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/math/integer2D.h>
 #include <pyramidworks/collision.h>
 
 #include "game/map.h"
@@ -37,6 +38,7 @@ class World : public ugdk::action::Scene {
     virtual ~World();
 
     void AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos);
+    void AddWorldObject(sprite::WorldObject* new_object);
     void set_hero_initial_position(const ugdk::Vector2D& pos) { hero_initial_position_ = pos; }
 
     int CountRemainingEnemies();
@@ -48,6 +50,8 @@ class World : public ugdk::action::Scene {
     }
     void SetupCollisionManager();
     void End();
+
+    void SetRoom(map::Room* room);
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
     static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
@@ -66,16 +70,15 @@ class World : public ugdk::action::Scene {
     //getters
     sprite::WorldObject * hero() const { return hero_; }
     sprite::WorldObject * hero_world_object() const;
-    int level_width() const { return level_width_; }
-    int level_height() const { return level_height_; }
-    map::GameMap& level_matrix() { return level_matrix_; }
+
+    const ugdk::math::Integer2D& size() const { return size_; }
+    const map::Room* room() const { return room_; }
+
     resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
     
     //setters
-    void set_level_width(int width) { level_width_ = width; }
-    void set_level_height(int height) {	level_height_ = height; }
-    void set_level_matrix(const map::GameMap& matrix) { level_matrix_ = matrix; }
+    void set_size(const ugdk::math::Integer2D& _size) { size_ = _size; }
     void set_hero(sprite::WorldObject *hero);
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
@@ -89,8 +92,9 @@ class World : public ugdk::action::Scene {
     sprite::WorldObject *hero_;
 
     utils::Hud *hud_;
-    int level_width_, level_height_;
-    map::GameMap level_matrix_;
+    ugdk::math::Integer2D size_;
+    map::Room* room_;
+
     int	remaining_enemies_, max_enemies_;
 
   private:

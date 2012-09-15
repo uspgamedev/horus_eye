@@ -7,6 +7,7 @@
 #include "geometryprimitives.h"
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
+#include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/sprites/worldobject.h"
 
@@ -32,7 +33,7 @@ bool wall(char obj){
 
 bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
     World *world = WORLD();
-    GameMap& matrix = world->level_matrix();
+    const GameMap& matrix = world->room()->matrix();
 
     if(position2.x < 0.0){
         WorldObject* hero = world->hero_world_object();
@@ -75,7 +76,8 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
 
 bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     World *world = WORLD();
-    GameMap& matrix = world->level_matrix();
+    const GameMap& matrix = world->room()->matrix();
+    return true; // TODO blerg
 
     if(position2.x < 0.0){
         WorldObject* hero = world->hero_world_object();

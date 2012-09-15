@@ -50,7 +50,7 @@ Creature::~Creature() {}
 // ============= other stuff
 
 void Creature::Update(double dt) {
-    scene::World *world = WORLD();
+    /* scene::World *world = WORLD();
     if (world) {
         GameMap& map = world->level_matrix();
         TilePos mummy_pos = Tile::ToTilePos(owner_->world_position());
@@ -62,7 +62,7 @@ void Creature::Update(double dt) {
             else
                 owner_->node()->modifier()->set_visible(false);
         }
-    }
+    }*/
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
         if(!owner_->animation()->is_uninterrutible()) {
