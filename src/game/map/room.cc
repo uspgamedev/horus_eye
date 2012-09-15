@@ -20,7 +20,7 @@ void Room::AddToWorld(scene::World* world) {
         world->AddWorldObject(*it);
     for(list<WorldObject*>::iterator it = objects_.begin(); it != objects_.end(); ++it)
         world->AddWorldObject(*it);
-    world->content_node()->AddChild(floor_);
+    //world->content_node()->AddChild(floor_);
 }
 
 } // namespace map

@@ -78,7 +78,7 @@ bool IsWall(Tile *tile) {
 }
 
 void Wall::CheckType() {
-    GameMap &map = WORLD()->level_matrix();
+    /*GameMap &map = WORLD()->level_matrix();
 
     if(!tile_)
         tile_ = Tile::GetFromWorldPosition(map, owner_->world_position());
@@ -98,11 +98,11 @@ void Wall::CheckType() {
         } else {
             set_type(BOTTOMRIGHT);
         }
-    }
+    }*/
 }
 
 void Wall::Update(double delta_t) {
-    World* world = WORLD();
+    /*World* world = WORLD();
     // Only use this if the walls are supposed to become not visible.
 
     if(!tile_)
@@ -124,7 +124,7 @@ void Wall::Update(double delta_t) {
             else
                 sprite_->SetDefaultFrame(dark_visible_frame_);
         }
-    }
+    }*/
 }
 
 }

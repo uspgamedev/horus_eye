@@ -10,6 +10,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
+#include "game/scenes/world.h"
 
 namespace map {
 
@@ -81,7 +82,7 @@ Room* LoadRoom(const std::string& name) {
         }
     }
 
-    CollisionManager* collision_manager = NULL;
+    CollisionManager* collision_manager = WORLD()->collision_manager();
     
     VirtualObj::Vector collision_classes;
     if(room_data["collision_classes"])
