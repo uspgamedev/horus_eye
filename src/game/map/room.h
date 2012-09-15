@@ -4,7 +4,7 @@
 #include <list>
 #include <vector>
 #include <ugdk/graphic.h>
-#include <ugdk/math/vector2D.h>
+#include <ugdk/math/integer2D.h>
 #include "game/scenes.h"
 #include "game/sprites.h"
 #include "game/map.h"
@@ -13,20 +13,22 @@ namespace map {
 
 class Room {
   public:
-    Room(const GameMap& matrix) : matrix_(matrix) {}
+    Room(const ugdk::math::Integer2D& _size, const GameMap& matrix) 
+        : matrix_(matrix), size_(_size) {}
     ~Room() {}
 
     void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position);
     void AddToWorld(scene::World*);
 
     const GameMap& matrix() const { return matrix_; }
+    const ugdk::math::Integer2D& size() const { return size_; }
     
   private:
     std::vector<sprite::WorldObject*> walls_;
     std::list<sprite::WorldObject*> objects_;
     ugdk::graphic::Node* floor_;
     GameMap matrix_;
-    ugdk::Vector2D offset_;
+    ugdk::math::Integer2D offset_, size_;
 };
 
 } // namespace map

@@ -3,8 +3,10 @@
 #include <vector>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
+#include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
+#include "game/builders/builder.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
 
@@ -13,13 +15,13 @@ namespace map {
 using std::string;
 using std::vector;
 using ugdk::Vector2D;
+using ugdk::math::Integer2D;
 using ugdk::script::VirtualObj;
 using pyramidworks::collision::CollisionManager;
 
 typedef std::vector<std::string> ArgumentList;
 
 ugdk::graphic::Node* BuildFloor(const ugdk::Vector2D& position);
-sprite::WorldObject* WorldObjectFromTypename(const std::string& type, const ArgumentList& arguments);
 
 static void parseArguments(vector< vector< ArgumentList > >& args_matrix, VirtualObj vobj) {
     if(vobj) return;
@@ -92,9 +94,10 @@ Room* LoadRoom(const std::string& name) {
             collision_manager->Generate(collclass.front().value<string>());
     }
 
-    Room* room = new Room(gamemap);
+    Room* room = new Room(Integer2D(width, height), gamemap);
     for (int i = 0; i < (int)gamemap.size(); ++i) {
         for (int j = 0; j < (int)gamemap[i].size(); ++j) {
+            Vector2D position((double) j, (double) i);
             if(gamemap[i][j]->has_floor()) {
                 //ugdk::graphic::Node* floor = BuildFloor();
                 // TODO set position for floor
@@ -119,7 +122,7 @@ Room* LoadRoom(const std::string& name) {
         ArgumentList args;
         for(size_t i = 3; i < object.size(); ++i)
             args.push_back(object[i].value<std::string>());
-        sprite::WorldObject* obj = WorldObjectFromTypename(objecttype, args);
+        sprite::WorldObject* obj = builder::WorldObjectFromTypename(objecttype, args);
         if(obj)
             room->AddObject(obj, Vector2D(x,y));
     }
