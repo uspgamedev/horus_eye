@@ -3,7 +3,7 @@ require "context"
 require "component"
 require "map"
 
-width = 16
+width = 15
 height = 9
 
 arguments = {
