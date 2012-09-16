@@ -1,6 +1,7 @@
 
 require "context"
 require "component"
+require "map"
 
 width = 64
 height = 26
