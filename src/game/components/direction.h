@@ -2,7 +2,6 @@
 #define HORUSEYE_COMPONENT_DIRECTION_H_
 
 #include <ugdk/math/vector2D.h>
-#include "game/sprites.h"
 
 namespace component {
 
@@ -14,15 +13,9 @@ class Direction {
     static const Direction    Up() { return Direction(UP);    }
     static const Direction  Down() { return Direction(DOWN);  }
 
-    static const Direction FromScreenVector(const ugdk::Vector2D& versor) {
-        ugdk::Vector2D versorN = versor.Normalize();
-        Direction d;
-        if(versorN.x >  0.33) d.direction_ |= RIGHT;
-        if(versorN.x < -0.33) d.direction_ |=  LEFT;
-        if(versorN.y >  0.33) d.direction_ |=  DOWN;
-        if(versorN.y < -0.33) d.direction_ |=    UP;
-        return d;
-    }
+    static Direction FromScreenVector(const ugdk::Vector2D& versor);
+    
+    static Direction FromWorldVector(const ugdk::Vector2D& versor);
 
     Direction operator|= (const Direction& rhs) {
         direction_ |= rhs.direction_;

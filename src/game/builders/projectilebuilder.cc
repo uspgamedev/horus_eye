@@ -14,6 +14,7 @@
 #include "projectilebuilder.h"
 
 #include "game/builders/explosionbuilder.h"
+#include "game/builders/functions/carrier.h"
 #include "game/components/animation.h"
 #include "game/components/damageable.h"
 #include "game/components/projectile.h"
@@ -34,23 +35,7 @@ using utils::Constants;
 using utils::IsometricAnimationSet;
 using sprite::WorldObject;
 using pyramidworks::collision::CollisionObject;
-
-class Carrier {
-  protected:
-    std::list<WorldObject*> drop_list_;
-  public:
-    Carrier(std::list<WorldObject*> &list) : drop_list_(list) {}
-    Carrier(WorldObject *drop) { drop_list_.push_back(drop); }
-
-    void operator()(WorldObject *wobj) {
-        std::list<WorldObject*>::iterator it;
-        scene::World* world = WORLD();
-        for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
-            world->AddWorldObject(*it, wobj->world_position());
-        drop_list_.clear();
-        wobj->Die();
-    }
-};
+using function::Carrier;
 
 component::Direction GetFromScreenVector(const Vector2D& dir) {
     return component::Direction::FromScreenVector(scene::World::FromWorldLinearCoordinates(dir));
@@ -146,7 +131,7 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     return wobj;
 }
 
-WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, int damage) {
+WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, double damage) {
     WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));

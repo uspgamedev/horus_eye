@@ -1,9 +1,12 @@
+#include <algorithm>
+
+#include "playercontroller.h"
+
 #include <ugdk/base/engine.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/input/keys.h>
-#include "playercontroller.h"
 
-#include "game/components/logic/hero.h"
+#include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
@@ -14,6 +17,23 @@ using sprite::WorldObject;
 using utils::Constants;
 
 namespace component {
+    
+PlayerController::PlayerController(WorldObject* owner) 
+    : super(owner) {
+    selected_skill_ = known_skills_.begin();
+}
+
+static void cycle_iterator(std::list<int>::const_iterator& it, const std::list<int>& range, int dir) {
+    if(dir > 0) {
+        ++it;
+        if(it == range.end())
+            it = range.begin();
+    } else {
+        if(it == range.begin())
+            it = range.end();
+        --it;
+    }
+}
 
 void PlayerController::Update(double dt) {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
@@ -28,23 +48,32 @@ void PlayerController::Update(double dt) {
     if(input_->KeyDown(ugdk::input::K_d) && d.NumDirections() < 2) d |= Direction::Right();
     dir_ = d;
 
-    Hero* hero = static_cast<Hero*>(owner_->logic());
-    if(hero->num_skills() > 0) {
-        if (input_->KeyPressed(ugdk::input::K_e)) {
-            int next_slot = skill_selected_;
-            do next_slot = (next_slot+1) % Constants::HERO_MAX_WEAPONS;
-            while (!hero->ChangeSecondaryWeapon(next_slot));
-            skill_selected_ = next_slot;
-        }
-        if (input_->KeyPressed(ugdk::input::K_q)) {
-            int next_slot = skill_selected_;
-            do next_slot = ((next_slot-1) < 0) ? Constants::HERO_MAX_WEAPONS-1 : next_slot-1;
-            while (!hero->ChangeSecondaryWeapon(next_slot));
-            skill_selected_ = next_slot;
-        }
+    if(known_skills_.size() > 0) {
+        std::list<int>::const_iterator curr_it = selected_skill_;
+        if (input_->KeyPressed(ugdk::input::K_e))
+            cycle_iterator(selected_skill_, known_skills_, +1);
+        if (input_->KeyPressed(ugdk::input::K_q))
+            cycle_iterator(selected_skill_, known_skills_, -1);
+
+        if(selected_skill_ != curr_it)
+            owner_->caster()->EquipSkill(*selected_skill_, Controller::SECONDARY);
     }
 
     current_direction_ = d.ToVector2D();
+}
+
+void PlayerController::AddSkill(int id) {
+    known_skills_.push_back(id);
+    if(selected_skill_ == known_skills_.end())
+        selected_skill_ = known_skills_.begin();
+}
+
+void PlayerController::RemoveSkill(int id) {
+    while(selected_skill_ != known_skills_.end() && id == *selected_skill_) 
+        ++selected_skill_;
+    known_skills_.remove(id);
+    if(selected_skill_ == known_skills_.end())
+        selected_skill_ = known_skills_.begin();
 }
 
 bool PlayerController::IsUsingSkillSlot(SkillSlot slot) const {
@@ -52,6 +81,7 @@ bool PlayerController::IsUsingSkillSlot(SkillSlot slot) const {
     switch(slot) {
     case PRIMARY:   return input_->MouseDown(ugdk::input::M_BUTTON_LEFT);
     case SECONDARY: return input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);
+    case SPECIAL1: return input_->KeyDown(ugdk::input::K_r);
     default: return false;
     }
 }

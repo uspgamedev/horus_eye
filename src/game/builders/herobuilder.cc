@@ -6,21 +6,18 @@
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
+#include "game/components/caster.h"
 #include "game/components/playercontroller.h"
-#include "game/sprites/worldobject.h"
-#include "game/utils/constants.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
-#include "game/utils/imagefactory.h"
+#include "game/sprites/worldobject.h"
+#include "game/utils/constants.h"
 #include "game/utils/isometricanimationset.h"
 
-#include "game/skills/herobaseweapon.h"
-#include "game/skills/herofireballweapon.h"
-#include "game/skills/heroexplosionweapon.h"
-#include "game/skills/herolightningweapon.h"
-#include "game/skills/herolightweapon.h"
-#include "game/skills/herometeorweapon.h"
-#include "game/skills/sandstorm.h"
+#include "game/utils/levelmanager.h"
+#include "game/scenes/world.h"
+
+#include "game/skills/heroskills.h"
 
 namespace builder {
 
@@ -29,44 +26,63 @@ using sprite::WorldObject;
 using resource::Energy;
 using resource::CapacityBlocks;
 using component::Hero;
+using component::Caster;
+using skills::usearguments::Aim;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
+
+static void HeroDeathEvent(sprite::WorldObject* wobj) {
+    WORLD()->set_hero(NULL);
+    WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
+}
 
 sprite::WorldObject* HeroBuilder::Kha() {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
 
+    component::PlayerController* player_controller;
     Energy life = Energy(Constants::HERO_MAX_LIFE);
     Energy mana = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
                          Constants::HERO_MANA_REGEN_BASE,
                          Constants::HERO_BASE_MANA_REGEN_RATIO);
 
     WorldObject* hero_wobj = new WorldObject;
+    hero_wobj->set_die_callback(HeroDeathEvent);
+    hero_wobj->set_identifier("Hero");
     hero_wobj->set_animation(new component::Animation(hero_wobj, "hero", ANIMATIONS));
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
-    hero_wobj->set_controller(new component::PlayerController(hero_wobj));
+    hero_wobj->set_controller(player_controller = new component::PlayerController(hero_wobj));
     hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
-    hero_wobj->damageable()->life().Fill();
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
+    hero_wobj->set_caster(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
+    		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
+    
+    Hero *hero = new Hero(hero_wobj, Constants::HERO_SPEED);
+    hero_wobj->set_logic(hero);
 
-    Hero *hero = new Hero(hero_wobj, mana, 
-                                  Constants::HERO_MAX_MANA_BLOCKS, 
-                                  Constants::HERO_MANA_PER_BLOCK);
+    component::Caster* caster = hero_wobj->caster();
 
-    hero->mana_blocks().Fill();
-    hero->mana().Fill();
-    hero->AddWeapon(0, new skills::HeroFireballWeapon(hero));
-    hero->AddWeapon(1, new skills::HeroExplosionWeapon(hero));
-    hero->AddWeapon(2, new skills::HeroLightningWeapon(hero));
-    hero->AddWeapon(3, new skills::HeroLightWeapon(hero));
-    hero->AddWeapon(4, new skills::HeroMeteorWeapon(hero));
-//#ifdef DEBUG
-    hero->AddWeapon(5, new skills::Sandstorm(hero));
-//#endif
+    caster->mana_blocks().Fill();
+    caster->mana().Fill();
+ 
+    caster->LearnAndEquipSkill(skills::HeroMagicMissile(), component::Controller::PRIMARY);
+
+#ifdef DEBUG
+    caster->LearnAndEquipSkill(skills::HeroSandstorm(), component::Controller::SPECIAL1);
+#endif
+/*
+    int id;
+    player_controller->AddSkill(id = caster->LearnSkill(new skills::HeroFireballWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroExplosionWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightningWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightWeapon(caster)));
+    player_controller->AddSkill(caster->LearnSkill(new skills::HeroMeteorWeapon(caster)));
+    caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
+*/
 
     return hero_wobj;
 }

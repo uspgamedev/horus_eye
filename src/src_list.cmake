@@ -19,6 +19,8 @@ SET(GAME_SRCS
     ./game/builders/entitybuilder.h 
     ./game/builders/explosionbuilder.cc 
     ./game/builders/explosionbuilder.h 
+    ./game/builders/functions/carrier.cc 
+    ./game/builders/functions/carrier.h 
     ./game/builders/goodmenubuilder.cc 
     ./game/builders/goodmenubuilder.h 
     ./game/builders/herobuilder.cc 
@@ -33,26 +35,25 @@ SET(GAME_SRCS
     ./game/builders/scriptbuilder.h 
     ./game/builders/taskbuilder.cc 
     ./game/builders/taskbuilder.h 
+    ./game/components.h 
     ./game/components/animation.cc 
     ./game/components/animation.h 
+    ./game/components/caster.cc 
+    ./game/components/caster.h 
     ./game/components/controller.h 
     ./game/components/damageable.cc 
     ./game/components/damageable.h 
+    ./game/components/direction.cc 
     ./game/components/direction.h 
     ./game/components/graphic.cc 
     ./game/components/graphic.h 
-    ./game/components.h 
+    ./game/components/logic.h 
     ./game/components/logic/creature.cc 
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
-    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
-    ./game/components/logic/mummy.cc 
-    ./game/components/logic/mummy.h 
-    ./game/components/logic/pharaoh.cc 
-    ./game/components/logic/pharaoh.h 
     ./game/components/logic/wall.cc 
     ./game/components/logic/wall.h 
     ./game/components/mummycontroller.cc 
@@ -76,8 +77,8 @@ SET(GAME_SRCS
     ./game/resources/countableresource.h 
     ./game/resources/energy.h 
     ./game/resources/resource.h 
-    ./game/scenes/gamelayer.h 
     ./game/scenes.h 
+    ./game/scenes/gamelayer.h 
     ./game/scenes/imagescene.cc 
     ./game/scenes/imagescene.h 
     ./game/scenes/loading.cc 
@@ -89,36 +90,26 @@ SET(GAME_SRCS
     ./game/scenes/scrollingimagescene.h 
     ./game/scenes/world.cc 
     ./game/scenes/world.h 
+    ./game/skills.h 
+    ./game/skills/combatart.cc 
     ./game/skills/combatart.h 
+    ./game/skills/divinegift.cc 
     ./game/skills/divinegift.h 
-    ./game/skills/herobaseweapon.cc 
-    ./game/skills/herobaseweapon.h 
-    ./game/skills/heroexplosionweapon.cc 
-    ./game/skills/heroexplosionweapon.h 
-    ./game/skills/herofireballweapon.cc 
-    ./game/skills/herofireballweapon.h 
-    ./game/skills/herolightningweapon.cc 
-    ./game/skills/herolightningweapon.h 
-    ./game/skills/herolightweapon.cc 
-    ./game/skills/herolightweapon.h 
-    ./game/skills/herometeorweapon.cc 
-    ./game/skills/herometeorweapon.h 
-    ./game/skills/mummyrangedweapon.cc 
-    ./game/skills/mummyrangedweapon.h 
-    ./game/skills/mummyweapon.cc 
-    ./game/skills/mummyweapon.h 
-    ./game/skills/papermummyweapon.cc 
-    ./game/skills/papermummyweapon.h 
-    ./game/skills/pharaohrangedweapon.cc 
-    ./game/skills/pharaohrangedweapon.h 
-    ./game/skills/pharaohsummonweapon.cc 
-    ./game/skills/pharaohsummonweapon.h 
-    ./game/skills/sandstorm.cc 
-    ./game/skills/sandstorm.h 
+    ./game/skills/hero/herofireball.cc 
+    ./game/skills/hero/herolight.cc 
+    ./game/skills/hero/herolightning.cc 
+    ./game/skills/hero/heromagicmissile.cc 
+    ./game/skills/hero/herometeor.cc 
+    ./game/skills/hero/heroquake.cc 
+    ./game/skills/hero/herosandstorm.cc 
+    ./game/skills/heroskills.h 
+    ./game/skills/mummy/mummyskills.cc 
+    ./game/skills/mummy/pharaohskills.cc 
+    ./game/skills/mummyskills.h 
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
-    ./game/sprites/condition.h 
     ./game/sprites.h 
+    ./game/sprites/condition.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
@@ -143,11 +134,17 @@ SET(GAME_SRCS
     ./game/utils/settings.cc 
     ./game/utils/settings.h 
     ./game/utils/tile.cc 
-    ./game/utils/tilefwd.h 
     ./game/utils/tile.h 
+    ./game/utils/tilefwd.h 
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
+    ./module/builderLUA_wrap.cc 
+    ./module/builderPYTHON_wrap.cc 
+    ./module/component/logicproxy.h 
     ./module/componentLUA_wrap.cc 
     ./module/componentPYTHON_wrap.cc 
+    ./module/contextLUA_wrap.cc 
+    ./module/contextPYTHON_wrap.cc 
+    ./module/luaproxy.h 
 )

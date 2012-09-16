@@ -2,17 +2,22 @@
 #define HORUSEYE_GAME_SKILLS_SKILL_H_
 
 #include <cstdlib>
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(functional)
 
 #include <ugdk/graphic.h>
-#include <ugdk/util/uncopyable.h>
+#include "game/components.h"
 
 namespace skills {
+
+typedef std::tr1::function<void (component::Caster*)>       SkillUseFunction;
+typedef std::tr1::function<bool (const component::Caster*)> SkillValidFunction;
 
 /// An usable skill.
 /** Abstract class. Contains an icon.
 * @see CombatArt, DivineGift
 */
-class Skill : public ugdk::util::Uncopyable {
+class Skill {
   public:
     virtual ~Skill() {}
 
@@ -20,53 +25,34 @@ class Skill : public ugdk::util::Uncopyable {
     ugdk::graphic::Drawable* icon() const { return icon_; }
 
     /// Uses the skill.
-    virtual void Use() = 0;
+    virtual void Use(component::Caster* caster) {
+        if(use_) use_(caster);
+    }
 
-    /// Verifies if the skill's arguments are valid for an use right now.
-    virtual bool IsValidUse() const = 0;
+    /// Verifies if the given caster has the necessary resources to use this skill right now.
+    virtual bool Available(const component::Caster*) const = 0;
 
-    /// Verifies if the skill has the necessary resourses to use right now.
-    virtual bool Available() const = 0;
+    /// Verifies if the given caster can use this skill right now.
+    virtual bool IsValidUse(const component::Caster* caster) const {
+        return !valid_ || valid_(caster);
+    }
 
   protected:
     /**
       @param icon The icon that is displayed on the user interface.
       */
-    Skill(ugdk::graphic::Drawable* icon) : icon_(icon) {}
-    ugdk::graphic::Drawable* icon_;
-};
-
-/// A skill with an UseArgument.
-/**
- *  Template Class for all typed (argument-wise) skills.
- *  Few things reference this, to use skills you should reference the "Skill" interface above.
- *  @see Skill
- */
-template<class UseArgument_T>
-class ArgSkill : public Skill {
-  public:
-    typedef UseArgument_T UseArgument;
-
-    virtual ~ArgSkill() {}
-
-    // Inherited Virtuals
-    /// Uses the skill.
-    virtual void Use() = 0;
-    /// Verifies if the skill's UseArgument is valid for use right now.
-    virtual bool IsValidUse() const = 0;
-    /// Verifies if the skill has the necessary resourses to use right now.
-    virtual bool Available() const = 0;
-
-  protected:
-    ArgSkill(ugdk::graphic::Drawable* icon, const UseArgument& use_argument)
-        : Skill(icon), use_argument_(use_argument) {}
+    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use) 
+        : icon_(icon), use_(use) {}
     
-    const UseArgument& use_argument_;
+    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use, SkillValidFunction valid) 
+        : icon_(icon), use_(use), valid_(valid) {}
 
   private:
-    typedef Skill super;
+    ugdk::graphic::Drawable* icon_;
+    SkillUseFunction use_;
+    SkillValidFunction valid_;
 };
 
-} // skills
+} // namespace skills
 
 #endif /* HORUSEYE_GAME_SKILLS_SKILL_H_ */

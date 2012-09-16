@@ -13,8 +13,10 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/skills/skill.h"
-#include "game/components/logic/hero.h"
+#include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
+#include "game/components/controller.h"
+#include "game/components/caster.h"
 
 #define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
 #define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT
@@ -27,6 +29,7 @@
 using namespace ugdk;
 using namespace ugdk::graphic;
 using scene::World;
+using component::Controller;
 
 namespace utils {
 
@@ -179,12 +182,10 @@ void Hud::Update(double delta_t) {
 #endif
 
     sprite::WorldObject* hero = world->hero();
-    component::Hero* hero_logic;
-    if(hero && (hero_logic = static_cast<component::Hero*>(hero->logic()))) {
-
+    if(hero && hero->damageable() && hero->caster()) {
         // Update the Selected weapon icon
-        if(displayed_skill_ != hero_logic->secondary_combat_art()) {
-            displayed_skill_ = hero_logic->secondary_combat_art();
+        if(displayed_skill_ != hero->caster()->SkillAt(Controller::SECONDARY)) {
+            displayed_skill_ = hero->caster()->SkillAt(Controller::SECONDARY);
             
             weapon_icon_->set_drawable(displayed_skill_->icon());
             if(displayed_skill_->icon() != NULL)
@@ -196,9 +197,9 @@ void Hud::Update(double delta_t) {
         life_modifier_->set_offset(Vector2D(0.0, -(((double) hero->damageable()->life()) / hero->damageable()->life().max_value()) * LIFE_BAR_HEIGHT) );
         
         // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->mana()) / hero_logic->FullMana()) * MANA_BAR_HEIGHT) );
+        mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana()) / hero->caster()->FullMana()) * MANA_BAR_HEIGHT) );
 
-        block_modifier_->set_offset(Vector2D(0.0, -(((double) hero_logic->mana_blocks().Get()) / hero_logic->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+        block_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana_blocks().Get()) / hero->caster()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
     }
 }
 

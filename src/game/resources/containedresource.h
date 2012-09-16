@@ -14,8 +14,8 @@ class ContainedResource : public Resource<resource_t> {
 
   public:
 
-    explicit ContainedResource(resource_t base_value, resource_t min_value, resource_t max_value)
-        : Resource<resource_t>(base_value), min_value_(min_value), max_value_(max_value) {}
+    explicit ContainedResource(resource_t initial_value, resource_t min_value, resource_t max_value)
+        : Resource<resource_t>(initial_value), min_value_(min_value), max_value_(max_value) {}
 
     virtual ~ContainedResource() {}
 
@@ -34,11 +34,11 @@ class ContainedResource : public Resource<resource_t> {
         Normalize();
     }
 
-    bool Empty() {
+    bool Empty() const {
         return super::resource_pool() <= min_value_;
     }
 
-    bool Full() {
+    bool Full() const {
         return max_value_ <= super::resource_pool();
     }
 

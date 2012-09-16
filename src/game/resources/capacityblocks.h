@@ -12,12 +12,13 @@ class CapacityBlocks : public CountableResource {
 
   public:
 
-    explicit CapacityBlocks(Energy& contents, int total_blocks = 1, double capacity_per_block = 1.0)
+    explicit CapacityBlocks(Energy& contents, int total_blocks = 1)
         : CountableResource(1, total_blocks),
           contents_(contents),
-          capacity_per_block_(capacity_per_block) {}
+          capacity_per_block_(contents.max_value() / total_blocks) {}
 
-    Energy& contents() { return contents_; }
+          Energy& contents()       { return contents_; }
+    const Energy& contents() const { return contents_; }
 
     void Set(int quantity, int filled) {
         CountableResource::Set(quantity);
@@ -58,8 +59,12 @@ class CapacityBlocks : public CountableResource {
     /**
      * TODO
      */
-    double ToMana(int blocks) {
+    double ToMana(int blocks) const {
         return blocks*capacity_per_block_;
+    }
+
+    double TotalCapcity() const {
+    	return max_value() * capacity_per_block_;
     }
 
   private:

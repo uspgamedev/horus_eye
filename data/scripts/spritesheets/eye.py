@@ -1,4 +1,4 @@
-import ugdk.ugdk_math
+import ugdk_math
 
 file = ["images/eye.png"]
-fill = [ 128, 96, ugdk.ugdk_math.Vector2D(0, 0) ]
+fill = [ 128, 96, ugdk_math.Vector2D(0, 0) ]

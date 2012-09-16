@@ -15,38 +15,13 @@ class Skill;
 namespace component {
 
 class Hero : public Creature {
-  
   public:
-    Hero(sprite::WorldObject* owner, 
-         resource::Energy &mana, 
-         int num_blocks, 
-         double mana_per_block);
-    ~Hero();
-
-    double FullMana();
-
-    resource::CapacityBlocks& mana_blocks() { return mana_blocks_; }
-
-    void AddWeapon(int slot, skills::Skill* combat_art);
-    void StartAttackAnimation();
-
-    size_t num_skills() const { return skills_.size(); }
-    bool ChangeSecondaryWeapon(int slot);
-    skills::Skill* secondary_combat_art() { return active_skills_[Controller::SECONDARY]; }
+    Hero(sprite::WorldObject* owner, double speed) : Creature(owner, speed) {}
+    ~Hero() {}
 
     void SetupCollision();
     
   private:
-    std::map<int, skills::Skill*> skills_;
-    int slot_selected_;
-
-    resource::CapacityBlocks mana_blocks_;
-
-    virtual void Update(double delta_t);
-   
-    void CollisionSlow();
-    void AddKnownCollisions();
-
     friend class MummySlowCollision;
 };
 

@@ -1,3 +1,5 @@
+#include "game/skills/heroskills.h"
+
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
@@ -5,15 +7,12 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 
-#include "herolightningweapon.h"
-
-#include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
-#include "game/components/logic/hero.h"
+#include "game/components/caster.h"
 
 namespace skills {
 
@@ -22,29 +21,24 @@ using namespace ugdk;
 using namespace utils;
 using utils::Constants;
 
-void HeroLightningWeapon::Use() {
-    super::Use();
-    //static Vector2D projectile_height = World::FromScreenCoordinates(Vector2D(0,Constants::LIGHTNING_SPRITE_CENTER_Y+Constants::LIGHTNING_HEIGHT));
+static void HeroFireballUse(component::Caster* caster) {
+    //static Vector2D projectile_height = World::FromScreenLinearCoordinates(Vector2D(0,Constants::FIREBALL_SPRITE_CENTER_Y+Constants::FIREBALL_HEIGHT));
 
-    Vector2D versor = (use_argument_.destination_ /*+ projectile_height*/ - use_argument_.origin_).Normalize(),
-             pos = use_argument_.origin_;
+    Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
+        pos = caster->aim().origin_;
 
     World *world = WORLD();
 
     builder::ProjectileBuilder proj;
-    world->AddWorldObject(proj.LightningBolt(versor), pos);
-
+    world->AddWorldObject(proj.Fireball(versor), pos);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-
-HeroLightningWeapon::HeroLightningWeapon(component::Hero* owner)
-    : CombatArt<usearguments::Aim>(NULL, utils::Constants::LIGHTNING_COST, owner->mana(), owner->aim()) {
-
+Skill* HeroFireball() {
     HudImageFactory factory;
-    icon_ = factory.LightningIconImage();
+    return new CombatArt(factory.FireballIconImage(), HeroFireballUse, utils::Constants::FIREBALL_COST);
 }
 
 } // namespace skills

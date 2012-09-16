@@ -29,13 +29,21 @@ include_directories (${PYTHON_INCLUDE_DIRS})
 
 include (module/module_list.cmake)
 include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
+set (GENERATED_PY_FILES)
 horus_add_scriptlang (lua)
 horus_add_scriptlang (python)
 set (GENERATED_SRC ${GENERATED_SRC})
 
 add_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES})
+
 set(GAME_LOCAL_DIR "./data")
+
+foreach(it ${GENERATED_PY_FILES} )
+    get_filename_component(FILE_NAME ${it} NAME)
+    add_custom_command(TARGET horus_eye POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${it} "${GAME_LOCAL_DIR}/scripts/${FILE_NAME}" 
+    WORKING_DIRECTORY "../" COMMENT "Copying generated py scripts")
+endforeach()
 
 CONFIGURE_FILE(
     "game/config.h.in"
