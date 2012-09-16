@@ -7,6 +7,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/builders/builder.h"
+#include "game/builders/doodadbuilder.h"
 #include "game/sprites/worldobject.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
@@ -108,8 +109,8 @@ Room* LoadRoom(const std::string& name) {
             }
 
             if(gamemap[i][j]->has_floor()) {
-                //ugdk::graphic::Node* floor = BuildFloor();
-                // TODO set position for floor
+                ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(position);
+                room->AddFloor(floor);
             }
         }
     }

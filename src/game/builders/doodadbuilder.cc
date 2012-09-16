@@ -31,6 +31,7 @@ using namespace std::tr1::placeholders;
 using ugdk::action::AnimationSet;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
+using ugdk::graphic::Node;
 using ugdk::time::TimeAccumulator;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::GenericCollisionLogic;
@@ -226,6 +227,13 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     wobj->set_collision_object(col);
 
     return wobj;
+}
+
+Node* Floor(const ugdk::Vector2D& position) {
+    utils::ImageFactory imagefactory;
+    Node* floor = new Node(imagefactory.FloorImage());
+    floor->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
+    return floor;
 }
 
 } // namespace DoodadBuilder
