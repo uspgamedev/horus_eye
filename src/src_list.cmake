@@ -11,6 +11,9 @@ SET(GAME_SRCS
     ./editor/scenes/editormenu.h 
     ./externals/inifile.cc 
     ./externals/inifile.h 
+    ./externals/ugdk-videomanager.h 
+    ./game/builders/builder.cc 
+    ./game/builders/builder.h 
     ./game/builders/conditionbuilder.cc 
     ./game/builders/conditionbuilder.h 
     ./game/builders/doodadbuilder.cc 
@@ -71,6 +74,8 @@ SET(GAME_SRCS
     ./game/initializer.h 
     ./game/main.cc 
     ./game/map.h 
+    ./game/map/loader.cc 
+    ./game/map/loader.h 
     ./game/map/room.cc 
     ./game/map/room.h 
     ./game/map/tile.cc 

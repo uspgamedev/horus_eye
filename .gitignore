@@ -70,3 +70,4 @@ settings.ini
 /license/legalcode_arquivos/Thumbs.db
 doc/doxy/
 /resources-v*.tgz
+/data/scripts/map.py

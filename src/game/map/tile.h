@@ -4,6 +4,7 @@
 #include <vector>
 #include <ugdk/graphic.h>
 #include <ugdk/math.h>
+#include <ugdk/math/vector2D.h>
 #include "game/map.h"
 
 #ifndef NULL

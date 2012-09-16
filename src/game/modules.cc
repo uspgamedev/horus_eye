@@ -6,12 +6,13 @@
 #include <ugdk/script/languages/lua/luawrapper.h>
 #include <ugdk/script/languages/python/pythonwrapper.h>
 
-#define HORUS_MODULES_NUM 3
+#define HORUS_MODULES_NUM 4
 
 #define HORUS_MODULES_LIST(ACTION) \
     ACTION(component) \
     ACTION(context) \
-    ACTION(builder)
+    ACTION(builder) \
+    ACTION(map)
 
 /// WHAT WIZARDY IS THIS!?
 

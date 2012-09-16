@@ -5,7 +5,7 @@
 #include "mapobject.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/constants.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 #include "game/scenes/world.h"
 
 

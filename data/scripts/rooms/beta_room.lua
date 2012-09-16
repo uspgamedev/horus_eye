@@ -55,7 +55,7 @@ E.@........!..#.........M.......#..L..L..L.....................#
 ]]
 
 objects = {
-  { 29, 11.5, "!", "dart_trap", "30", "13", "0", "-1" }
+  { 29, 11.5, "!", "dart_trap", "30", "13", "0", "1" }
 }
 
 collision_classes = {
@@ -63,11 +63,11 @@ collision_classes = {
   { "EventArea" }
 }
 
-function setup ()
+function setup (room)
   print "Setting level up..."
   for i = 2,3 do
     for j = 1,3 do
-      local door = context.WorldObjectByTag("DOOR-"..i.."-"..j)
+      local door = room:WorldObjectByTag("DOOR-"..i.."-"..j)
       if door then
         local damageable = component.Damageable(door)
         damageable:set_life(component.Energy(2))
