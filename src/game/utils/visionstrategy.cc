@@ -32,6 +32,8 @@ bool wall(char obj){
 
 
 bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
+    return true;
+    /*
     World *world = WORLD();
     const GameMap& matrix = world->room()->matrix();
 
@@ -69,15 +71,15 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
         }
     }
 
-    return true;
+    return true;*/
 }
 
 #define TO_MATRIX(value) static_cast<int>(value + 0.5)
 
 bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
+    /*
     World *world = WORLD();
     const GameMap& matrix = world->room()->matrix();
-    return true; // TODO blerg
 
     if(position2.x < 0.0){
         WorldObject* hero = world->hero_world_object();
@@ -104,12 +106,6 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
         j = (int)ipos1.x;
 
     // Walks through the path.
-    /*
-    printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
-    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
-    printf("step=[%d][%d]\n", step_i, step_j);
-    printf("dir=(%f, %f])\n", dir.x, dir.y);
-    */
     while (i != (int)ipos2.y || j != (int)ipos2.x) {
         //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
         if (wall(matrix[i][j]->object())) return false;
@@ -127,11 +123,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
         }
         ij_pos = ij_pos + dir*length;
     }
-
-    /*printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
-    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
-    printf("height=%d\nproportion=%d\n", height, proportion);*/
-    //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
+    */
 
     return true;
 }

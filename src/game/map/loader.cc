@@ -45,8 +45,7 @@ static void parseTags(vector< vector< std::string > >& tags_matrix, VirtualObj v
         VirtualObj::Vector data = it->value<VirtualObj::Vector>();
         int x = data[0].value<int>();
         int y = data[1].value<int>();
-        for (VirtualObj::Vector::iterator arg_it = data.begin()+2; arg_it != data.end(); ++arg_it)
-            tags_matrix[y][x] = data[2].value<std::string>();
+        tags_matrix[y][x] = data[2].value<std::string>();
     }
 }
 
@@ -100,6 +99,10 @@ Room* LoadRoom(const std::string& name) {
     Room* room = new Room(Integer2D(width, height), gamemap);
     for (int i = 0; i < (int)gamemap.size(); ++i) {
         for (int j = 0; j < (int)gamemap[i].size(); ++j) {
+            if(gamemap[i][j] == NULL) {
+                gamemap[i][j] = new Tile(i, j);
+            }
+
             Vector2D position((double) j, (double) i);
 
             sprite::WorldObject* obj = builder::WorldObjectFromTypename(string(1, gamemap[i][j]->object()), arguments[i][j]);
