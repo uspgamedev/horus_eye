@@ -53,7 +53,7 @@ Room* LoadRoom(const std::string& name) {
     VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
     if(!room_data) return NULL;
 
-    if(!room_data["width"] || !room_data["height"] || !room_data["matrix"]) return false;
+    if(!room_data["width"] || !room_data["height"] || !room_data["matrix"]) return NULL;
 
     int width = room_data["width"].value<int>();
     int height = room_data["height"].value<int>();
