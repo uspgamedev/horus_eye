@@ -24,8 +24,11 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position) {
 }
 
 void Room::AddToWorld(scene::World* world) {
-    for(list<WorldObject*>::iterator it = objects_.begin(); it != objects_.end(); ++it)
+    for(list<WorldObject*>::iterator it = objects_.begin(); it != objects_.end(); ++it) {
+        (*it)->set_world_position((*it)->world_position() + offset_);
         world->AddWorldObject(*it);
+    }
+    floor_->modifier()->set_offset(scene::World::FromWorldCoordinates(offset_));
     world->content_node()->AddChild(floor_);
 }
 

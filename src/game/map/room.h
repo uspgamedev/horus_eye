@@ -31,6 +31,8 @@ class Room {
 
     const GameMap& matrix() const { return matrix_; }
     const ugdk::math::Integer2D& size() const { return size_; }
+
+    void set_offset(const ugdk::math::Integer2D& offset) { offset_ = offset; }
     
   private:
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
