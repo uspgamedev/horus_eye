@@ -3,7 +3,7 @@
 
 #include <list>
 #include <vector>
-
+#include <string>
 
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(unordered_map)
