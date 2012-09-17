@@ -19,7 +19,7 @@ void LevelLoader::Load(const std::string& name) {
     VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + name);
     if(!level_data) return;
 
-    if(!level_data["width"] || !level_data["height"] || !level_data["rooms"]) return;
+    if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["active_room"]) return;
 
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
@@ -35,8 +35,9 @@ void LevelLoader::Load(const std::string& name) {
         int y = room_data[1].value<int>();
         map::Room* room = map::LoadRoom(room_data[2].value<std::string>());
         room->set_offset(Integer2D(x, y));
-        world_->SetRoom(room);
+        world_->AddRoom(room);
     }
+    world_->ActivateRoom(level_data["active_room"].value<std::string>());
 
     if(level_data["music"] && utils::Settings::reference()->background_music())
         world_->set_background_music(AUDIO_MANAGER()->LoadMusic(level_data["music"].value<std::string>()));

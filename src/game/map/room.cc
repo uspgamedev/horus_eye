@@ -10,8 +10,8 @@ using std::vector;
 using std::list;
 using sprite::WorldObject;
 
-Room::Room(const ugdk::math::Integer2D& _size, const GameMap& matrix)
-    : floor_(new ugdk::graphic::Node), matrix_(matrix), size_(_size) {}
+Room::Room(const std::string& name, const ugdk::math::Integer2D& _size, const GameMap& matrix)
+    : name_(name), floor_(new ugdk::graphic::Node), matrix_(matrix), size_(_size) {}
 
 Room::~Room() {
     delete floor_;

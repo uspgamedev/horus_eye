@@ -96,7 +96,7 @@ Room* LoadRoom(const std::string& name) {
             collision_manager->Generate(collclass.front().value<string>());
     }
 
-    Room* room = new Room(Integer2D(width, height), gamemap);
+    Room* room = new Room(name, Integer2D(width, height), gamemap);
     for (int i = 0; i < (int)gamemap.size(); ++i) {
         for (int j = 0; j < (int)gamemap[i].size(); ++j) {
             if(gamemap[i][j] == NULL) {

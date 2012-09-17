@@ -19,7 +19,7 @@ namespace map {
 
 class Room {
   public:
-    Room(const ugdk::math::Integer2D& _size, const GameMap& matrix);
+    Room(const std::string& name, const ugdk::math::Integer2D& _size, const GameMap& matrix);
     ~Room();
 
     void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position);
@@ -29,6 +29,7 @@ class Room {
     void RemoveTag(const std::string& tag);
     void AddFloor(ugdk::graphic::Node* floor);
 
+    const std::string& name() const { return name_; }
     const GameMap& matrix() const { return matrix_; }
     const ugdk::math::Integer2D& size() const { return size_; }
 
@@ -37,6 +38,7 @@ class Room {
   private:
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
+    std::string name_;
     std::list<sprite::WorldObject*> objects_;
     ugdk::graphic::Node* floor_;
     GameMap matrix_;

@@ -51,7 +51,8 @@ class World : public ugdk::action::Scene {
     void SetupCollisionManager();
     void End();
 
-    void SetRoom(map::Room* room);
+    void AddRoom(map::Room* room);
+    void ActivateRoom(const std::string& name);
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
     static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
@@ -72,7 +73,7 @@ class World : public ugdk::action::Scene {
     sprite::WorldObject * hero_world_object() const;
 
     const ugdk::math::Integer2D& size() const { return size_; }
-    const map::Room* room() const { return room_; }
+    const std::list<map::Room*>& active_rooms() const { return active_rooms_; }
 
     resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
@@ -93,7 +94,8 @@ class World : public ugdk::action::Scene {
 
     utils::Hud *hud_;
     ugdk::math::Integer2D size_;
-    map::Room* room_;
+    std::tr1::unordered_map<std::string, map::Room*> rooms_;
+    std::list<map::Room*> active_rooms_;
 
     int	remaining_enemies_, max_enemies_;
 

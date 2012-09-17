@@ -109,7 +109,6 @@ World::World()
     :   Scene(),
         hero_(NULL),
         size_(10, 10),
-        room_(NULL),
         remaining_enemies_(0),
         max_enemies_(0),
         level_state_(LevelManager::NOT_FINISHED),
@@ -255,9 +254,16 @@ void World::RemoveTag(const std::string& tag) {
     tagged_[tag] = NULL;
 }
     
-void World::SetRoom(map::Room* room) {
-    room_ = room;
-    room->AddToWorld(this);
+void World::AddRoom(map::Room* room) {
+    rooms_[room->name()] = room;
+}
+
+void World::ActivateRoom(const std::string& name) {
+    map::Room* room = rooms_[name];
+    if(room) {
+        active_rooms_.push_back(room);
+        room->AddToWorld(this);
+    }
 }
 
 } // namespace scene
