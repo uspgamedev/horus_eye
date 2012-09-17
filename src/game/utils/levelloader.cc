@@ -33,9 +33,14 @@ void LevelLoader::Load(const std::string& name) {
         if(room_data.size() != 3) continue;
         int x = room_data[0].value<int>();
         int y = room_data[1].value<int>();
-        map::Room* room = map::LoadRoom(room_data[2].value<std::string>());
-        room->set_offset(Integer2D(x, y));
-        world_->AddRoom(room);
+        std::string name = room_data[2].value<std::string>();
+        map::Room* room = map::LoadRoom(name);
+        if(room) {
+            room->set_offset(Integer2D(x, y));
+            world_->AddRoom(room);
+        } else {
+            printf("Room '%s' could not be loaded.\n", name.c_str());
+        }
     }
     world_->ActivateRoom(level_data["active_room"].value<std::string>());
 

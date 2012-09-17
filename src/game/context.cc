@@ -59,4 +59,10 @@ void AddCollisionClass (const string& classname, const std::string& supername) {
     manager->Generate(classname, supername);
 }
 
+void ActivateRoom(const std::string& roomname) {
+    World *world = WORLD();
+    assert(world);
+    world->ActivateRoom(roomname);
+}
+
 } // namespace context
