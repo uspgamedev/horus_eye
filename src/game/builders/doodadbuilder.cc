@@ -88,7 +88,7 @@ static void PIZZAMATAHERO() {
 }
 
 static void WorldPressButton() {
-    WORLD()->num_button_not_pressed() -= 1;
+    //WORLD()->num_button_not_pressed() -= 1;
 }
 
 
@@ -129,7 +129,7 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
     ButtonLogic* logic;
     if(arguments.size() > 0 && arguments[0].compare("pizza") == 0) {
         logic = new ButtonLogic(sprite, PIZZAMATAHERO);
-        WORLD()->num_button_not_pressed() -= 1;
+        //WORLD()->num_button_not_pressed() -= 1;
     } else
         logic = new ButtonLogic(sprite, WorldPressButton);
 

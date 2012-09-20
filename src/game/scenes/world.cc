@@ -34,6 +34,9 @@ namespace scene {
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
+using ugdk::action::GenericTask;
+using std::tr1::bind;
+using namespace std::tr1::placeholders;
 using component::Hero;
 using pyramidworks::collision::CollisionInstance;
 
@@ -109,12 +112,7 @@ World::World()
     :   Scene(),
         hero_(NULL),
         size_(10, 10),
-        remaining_enemies_(0),
-        max_enemies_(0),
         level_state_(LevelManager::NOT_FINISHED),
-        konami_used_(false),
-        lights_on_(true),
-        num_button_not_pressed_(0),
         collision_manager_(NULL) {
 
     content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
@@ -133,11 +131,13 @@ World::World()
 
     //QueuedAddEntity(hero_);
 
-    this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
+    this->AddTask(new GenericTask(bind(&World::UpdateRooms, this, _1)));
+
+    this->AddTask(new GenericTask(bind(FinishLevelTask, _1, &level_state_), 1000));
 //#ifdef DEBUG
-    this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
+    this->AddTask(new GenericTask(VerifyCheats));
 //#endif
-    this->AddTask(new ugdk::action::GenericTask(UpdateOffset));
+    this->AddTask(new GenericTask(UpdateOffset));
 }
 
 // Destrutor
@@ -164,11 +164,6 @@ void World::End() {
     this->RemoveAllEntities();
 }
 
-void World::IncreaseNumberOfEnemies() {
-    remaining_enemies_++;
-    max_enemies_++;
-}	
-
 void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
     new_object->set_world_position(pos);
     AddWorldObject(new_object);
@@ -183,10 +178,6 @@ void World::AddWorldObject(sprite::WorldObject* new_object) {
 void World::set_hero(sprite::WorldObject *hero) {
     hero_ = hero;
     AddWorldObject(hero, hero_initial_position_);
-}
-
-int World::CountRemainingEnemies() {
-    return remaining_enemies_;
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
@@ -216,10 +207,6 @@ const Vector2D World::ConvertLightRadius(double radius) {
     return ellipse_coords;
 }
     
-sprite::WorldObject * World::hero_world_object() const {
-    return hero_;
-}
-
 void World::SetupCollisionManager() {
     ugdk::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
     ugdk::ikdtree::Box<2> box(min_coords.val, max_coords.val);
@@ -262,8 +249,15 @@ void World::ActivateRoom(const std::string& name) {
     map::Room* room = rooms_[name];
     if(room) {
         active_rooms_.push_back(room);
-        room->AddToWorld(this);
+        content_node()->AddChild(room->content_node());
     }
+}
+
+bool World::UpdateRooms(double dt) {
+    // BUG: room's content_node::Update is called twice!
+    for(std::list<map::Room*>::const_iterator it = active_rooms_.begin(); it != active_rooms_.end(); ++it)
+        (*it)->Update(dt);
+    return true;
 }
 
 } // namespace scene

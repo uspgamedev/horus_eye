@@ -4,6 +4,7 @@
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/builders/builder.h"
@@ -49,7 +50,7 @@ static void parseTags(vector< vector< std::string > >& tags_matrix, VirtualObj v
     }
 }
 
-Room* LoadRoom(const std::string& name) {
+Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
     if(!room_data) return NULL;
 
@@ -96,7 +97,7 @@ Room* LoadRoom(const std::string& name) {
             collision_manager->Generate(collclass.front().value<string>());
     }
 
-    Room* room = new Room(name, Integer2D(width, height), gamemap);
+    Room* room = new Room(name, Integer2D(width, height), position, gamemap);
     for (int i = 0; i < (int)gamemap.size(); ++i) {
         for (int j = 0; j < (int)gamemap[i].size(); ++j) {
             if(gamemap[i][j] == NULL) {
@@ -113,7 +114,7 @@ Room* LoadRoom(const std::string& name) {
 
             if(gamemap[i][j]->has_floor()) {
                 ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(position);
-                room->AddFloor(floor);
+                room->layer_node(scene::BACKGROUND_LAYER)->AddChild(floor);
             }
         }
     }

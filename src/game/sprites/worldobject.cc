@@ -13,6 +13,7 @@
 #include "game/components/caster.h"
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
+#include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/sprites/condition.h"
 
@@ -29,6 +30,7 @@ WorldObject::WorldObject(double duration)
         collision_object_(NULL),
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
+        current_room_(NULL),
         light_radius_(0.0),
         layer_(scene::FOREGROUND_LAYER),
         damageable_(NULL), 
@@ -125,14 +127,20 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
-    World* world = dynamic_cast<World*>(scene);
-    world->layer_node(layer_)->AddChild(node());
     if(collision_object() != NULL)
         collision_object()->StartColliding();
-    if(logic_)
+    map::Room* room = dynamic_cast<map::Room*>(scene);
+    scene::World* world = dynamic_cast<scene::World*>(scene);
+    if(room) {
+        current_room_ = room;
+        room->layer_node(layer_)->AddChild(node());
+    } else if(world) {
+        world->layer_node(layer_)->AddChild(node());
+    }
+    /*if(logic_)
         logic_->OnWorldAdd(world);
     if(on_world_add_callback_)
-        on_world_add_callback_(this, world);
+        on_world_add_callback_(this, world);*/
 }
 
 bool deletecondition(Condition *condition) {

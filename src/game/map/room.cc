@@ -9,27 +9,31 @@ namespace map {
 using std::vector;
 using std::list;
 using sprite::WorldObject;
+using scene::BACKGROUND_LAYER;
+using scene::FOREGROUND_LAYER;
+using ugdk::graphic::Node;
 
-Room::Room(const std::string& name, const ugdk::math::Integer2D& _size, const GameMap& matrix)
-    : name_(name), floor_(new ugdk::graphic::Node), matrix_(matrix), size_(_size) {}
+Room::Room(const std::string& name, const ugdk::math::Integer2D& _size, 
+    const ugdk::math::Integer2D& _position, const GameMap& matrix)
+        : name_(name), matrix_(matrix), size_(_size), position_(_position) {
+
+    layers_[BACKGROUND_LAYER] = new Node;
+    layers_[FOREGROUND_LAYER] = new Node;
+    layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
+    layers_[FOREGROUND_LAYER]->set_zindex(FOREGROUND_LAYER);
+    content_node()->AddChild(layers_[BACKGROUND_LAYER]);
+    content_node()->AddChild(layers_[FOREGROUND_LAYER]);
+
+    layers_[BACKGROUND_LAYER]->modifier()->set_offset(scene::World::FromWorldCoordinates(position_));
+}
 
 Room::~Room() {
-    delete floor_;
 }
    
 void Room::AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position) {
-    obj->set_world_position(position);
-    objects_.push_back(obj);
+    obj->set_world_position(position + position_);
     tagged_[obj->tag()] = obj;
-}
-
-void Room::AddToWorld(scene::World* world) {
-    for(list<WorldObject*>::iterator it = objects_.begin(); it != objects_.end(); ++it) {
-        (*it)->set_world_position((*it)->world_position() + offset_);
-        world->AddWorldObject(*it);
-    }
-    floor_->modifier()->set_offset(scene::World::FromWorldCoordinates(offset_));
-    world->content_node()->AddChild(floor_);
+    this->QueuedAddEntity(obj);
 }
 
 WorldObject* Room::WorldObjectByTag (const std::string& tag) {
@@ -42,8 +46,4 @@ void Room::RemoveTag(const std::string& tag) {
     tagged_[tag] = NULL;
 }
     
-void Room::AddFloor(ugdk::graphic::Node* floor) {
-    floor_->AddChild(floor);
-}
-
 } // namespace map

@@ -38,8 +38,8 @@ void MummyController::Think(double dt) {
     if(time_to_think_ <= 0){
         time_to_think_ = start_time_to_think_;
 
-        if(WORLD()->hero_world_object())
-            aim_destination_ = WORLD()->hero_world_object()->world_position();
+        if(WORLD()->hero())
+            aim_destination_ = WORLD()->hero()->world_position();
 
         utils::VisionStrategy strategy;
         if(strategy.IsVisible(owner_->world_position(), aim_destination_)) {

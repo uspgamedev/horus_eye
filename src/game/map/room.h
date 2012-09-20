@@ -8,42 +8,44 @@
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(unordered_map)
 
+#include <ugdk/action/scene.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/integer2D.h>
 
 #include "game/scenes.h"
 #include "game/sprites.h"
 #include "game/map.h"
+#include "game/scenes/gamelayer.h"
 
 namespace map {
 
-class Room {
+class Room : public ugdk::action::Scene {
   public:
-    Room(const std::string& name, const ugdk::math::Integer2D& _size, const GameMap& matrix);
+    Room(const std::string& name, const ugdk::math::Integer2D& size, 
+        const ugdk::math::Integer2D& position, const GameMap& matrix);
     ~Room();
 
     void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position);
-    void AddToWorld(scene::World*);
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag);
     void RemoveTag(const std::string& tag);
-    void AddFloor(ugdk::graphic::Node* floor);
 
     const std::string& name() const { return name_; }
     const GameMap& matrix() const { return matrix_; }
     const ugdk::math::Integer2D& size() const { return size_; }
 
-    void set_offset(const ugdk::math::Integer2D& offset) { offset_ = offset; }
+    ugdk::graphic::Node* layer_node(scene::GameLayer layer) { 
+        return layers_[layer];
+    }
     
   private:
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
     std::string name_;
-    std::list<sprite::WorldObject*> objects_;
-    ugdk::graphic::Node* floor_;
     GameMap matrix_;
-    ugdk::math::Integer2D offset_, size_;
+    ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
+    ugdk::graphic::Node *layers_[2];
 };
 
 } // namespace map

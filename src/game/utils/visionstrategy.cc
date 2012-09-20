@@ -130,7 +130,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
 
 queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
     World *world = WORLD();
-    WorldObject* hero = world->hero_world_object();
+    WorldObject* hero = world->hero();
 
     queue<Vector2D> resp;
 

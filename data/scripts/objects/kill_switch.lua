@@ -4,6 +4,7 @@ require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
 require "context"
+require "map"
 
 local Sprite    = ugdk_drawable.Sprite
 local Rect      = pyramidworks_geometry.Rect
@@ -26,7 +27,7 @@ function generate (...)
   local descriptor = {}
   local switch = make_switch()
   local to_kill = { ... }
-  
+
   descriptor.drawable = switch.sprite
 
   descriptor.collision = {
@@ -37,7 +38,7 @@ function generate (...)
       Projectile = function(self, obj)
         if not switch.activated then
           for _,tag in pairs(to_kill) do
-            local door = context.WorldObjectByTag(tag)
+            local door = self:current_room():WorldObjectByTag(tag)
             if not door then
               print "door not found"
             else

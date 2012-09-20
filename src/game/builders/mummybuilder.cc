@@ -39,7 +39,7 @@ COLLISION_DIRECT(WorldObject*, AntiStackCollision, voiddata) {
 }
 
 static void MummyWorldAdd(sprite::WorldObject* wobj, scene::World* world) {
-    world->IncreaseNumberOfEnemies();
+    //world->IncreaseNumberOfEnemies();
 }
 
 static void MummyDeath(sprite::WorldObject* wobj) {
@@ -55,7 +55,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
             potion_obj = builder::ItemBuilder::SightPotion(blank);
     }
     if(potion_obj) WORLD()->AddWorldObject(potion_obj, wobj->world_position());
-    WORLD()->DecreaseEnemyCount();
+    //WORLD()->DecreaseEnemyCount();
 }
 
 static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius, double speed) {

@@ -28,9 +28,6 @@ namespace scene {
 
 #define WORLD() (utils::LevelManager::reference()->get_current_level() )
 
-// Classe World
-// O World e' uma cena onde o jogo se desencadeara'. O World contem
-// elementos como: heroi, mumias, cenario e hud.
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
@@ -41,14 +38,12 @@ class World : public ugdk::action::Scene {
     void AddWorldObject(sprite::WorldObject* new_object);
     void set_hero_initial_position(const ugdk::Vector2D& pos) { hero_initial_position_ = pos; }
 
-    int CountRemainingEnemies();
-    void IncreaseNumberOfEnemies();
-    int max_enemies() { return max_enemies_; }
-    void DecreaseEnemyCount() { remaining_enemies_--; }
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
     }
+
     void SetupCollisionManager();
+
     void End();
 
     void AddRoom(map::Room* room);
@@ -70,12 +65,10 @@ class World : public ugdk::action::Scene {
 
     //getters
     sprite::WorldObject * hero() const { return hero_; }
-    sprite::WorldObject * hero_world_object() const;
 
     const ugdk::math::Integer2D& size() const { return size_; }
     const std::list<map::Room*>& active_rooms() const { return active_rooms_; }
 
-    resource::Resource<int>& num_button_not_pressed() { return num_button_not_pressed_; }
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
     
     //setters
@@ -90,6 +83,8 @@ class World : public ugdk::action::Scene {
     }
 
   protected:
+    bool UpdateRooms(double dt);
+
     sprite::WorldObject *hero_;
 
     utils::Hud *hud_;
@@ -97,14 +92,10 @@ class World : public ugdk::action::Scene {
     std::tr1::unordered_map<std::string, map::Room*> rooms_;
     std::list<map::Room*> active_rooms_;
 
-    int	remaining_enemies_, max_enemies_;
-
   private:
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
     utils::LevelManager::LevelState level_state_;
-    bool konami_used_, lights_on_;
-    resource::Resource<int> num_button_not_pressed_;
     pyramidworks::collision::CollisionManager* collision_manager_;
     ugdk::graphic::Node *layers_[2];
     TagTable tagged_;

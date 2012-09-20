@@ -144,7 +144,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
         Vector2D(mummy_counter_image->width() * 0.3, 
                 -mummy_counter_image->height() * (1 - 0.77)));
 
-    previous_mummy_counter_value_ = world->CountRemainingEnemies();
+    //previous_mummy_counter_value_ = world->CountRemainingEnemies();
     mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
     
 #ifdef DEBUG
@@ -164,7 +164,7 @@ Hud::~Hud() {
 void Hud::Update(double delta_t) {
     World* world = WORLD();
 
-    int enemy_number = world->CountRemainingEnemies();
+    int enemy_number = 0;//world->CountRemainingEnemies();
     if(previous_mummy_counter_value_ != enemy_number) {
         previous_mummy_counter_value_ = enemy_number;
 
