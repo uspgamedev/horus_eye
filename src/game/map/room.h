@@ -35,6 +35,7 @@ class Room {
 
     const std::string& name() const { return name_; }
     const GameMap& matrix() const { return matrix_; }
+    const ugdk::math::Integer2D& position() const { return position_; }
     const ugdk::math::Integer2D& size() const { return size_; }
 
     ugdk::graphic::Node* layer_node(scene::GameLayer layer) { 
