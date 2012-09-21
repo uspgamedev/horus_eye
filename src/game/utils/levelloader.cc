@@ -14,12 +14,17 @@ namespace utils {
 
 using ugdk::script::VirtualObj;
 using ugdk::math::Integer2D;
+using ugdk::Vector2D;
+
+Vector2D VobjsToVector(VirtualObj x, VirtualObj y) {
+    return Vector2D(x.value<double>(), y.value<double>());
+}
 
 void LevelLoader::Load(const std::string& name) {
     VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + name);
     if(!level_data) return;
 
-    if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["active_room"]) return;
+    if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["start_position"]) return;
 
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
@@ -41,7 +46,9 @@ void LevelLoader::Load(const std::string& name) {
             printf("Room '%s' could not be loaded.\n", name.c_str());
         }
     }
-    world_->ActivateRoom(level_data["active_room"].value<std::string>());
+
+    VirtualObj::Vector start_position = level_data["start_position"].value<VirtualObj::Vector>();
+    world_->set_hero_initial_data(start_position[0].value<std::string>(), VobjsToVector(start_position[1], start_position[2]));
 
     if(level_data["music"] && utils::Settings::reference()->background_music())
         world_->set_background_music(AUDIO_MANAGER()->LoadMusic(level_data["music"].value<std::string>()));

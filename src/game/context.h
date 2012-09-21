@@ -11,8 +11,6 @@
 
 namespace context {
 
-sprite::WorldObject* WorldObjectByTag (const std::string& tag);
-
 sprite::WorldObject* BuildWorldObject (const std::string& scriptname);
 
 void AddWorldObject (sprite::WorldObject* new_obj, const ugdk::Vector2D& pos);

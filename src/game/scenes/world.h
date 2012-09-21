@@ -36,7 +36,11 @@ class World : public ugdk::action::Scene {
 
     void AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos);
     void AddWorldObject(sprite::WorldObject* new_object);
-    void set_hero_initial_position(const ugdk::Vector2D& pos) { hero_initial_position_ = pos; }
+    
+    void set_hero_initial_data(const std::string& room, const ugdk::Vector2D& pos) { 
+        hero_initial_room_ = room; hero_initial_position_ = pos;
+    }
+    void SetHero(sprite::WorldObject *hero);
 
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
@@ -44,6 +48,7 @@ class World : public ugdk::action::Scene {
 
     void SetupCollisionManager();
 
+    void Start();
     void End();
 
     void AddRoom(map::Room* room);
@@ -73,10 +78,6 @@ class World : public ugdk::action::Scene {
     
     //setters
     void set_size(const ugdk::math::Integer2D& _size) { size_ = _size; }
-    void set_hero(sprite::WorldObject *hero);
-
-    sprite::WorldObject* WorldObjectByTag (const std::string& tag);
-    void RemoveTag(const std::string& tag);
 
     ugdk::graphic::Node* layer_node(GameLayer layer) { 
         return layers_[layer];
@@ -93,12 +94,11 @@ class World : public ugdk::action::Scene {
     std::list<map::Room*> active_rooms_;
 
   private:
-    typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
-
     utils::LevelManager::LevelState level_state_;
     pyramidworks::collision::CollisionManager* collision_manager_;
     ugdk::graphic::Node *layers_[2];
-    TagTable tagged_;
+
+    std::string hero_initial_room_;
     ugdk::Vector2D hero_initial_position_;
 
 };  // class World

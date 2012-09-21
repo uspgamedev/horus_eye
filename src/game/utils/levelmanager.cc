@@ -180,7 +180,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
         hero_ = builder.Kha();
     }
     hero_->caster()->mana_blocks().Fill();
-    current_level_->set_hero(hero_);
+    current_level_->SetHero(hero_);
     {
         builder::TaskBuilder task_builder;
         current_level_->AddTask(task_builder.PauseMenuTask());
@@ -188,6 +188,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     }
 
     Engine::reference()->PushScene(current_level_);
+    current_level_->Start();
 
     component::Hero* hero_comp = dynamic_cast<component::Hero*>(hero_->logic());
     if(hero_comp) hero_comp->SetupCollision();

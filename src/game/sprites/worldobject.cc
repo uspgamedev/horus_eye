@@ -59,7 +59,7 @@ WorldObject::~WorldObject() {
 
 void WorldObject::Die() {
     status_ = STATUS_DEAD;
-    if(!tag_.empty()) WORLD()->RemoveTag(tag_);
+    if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
     if(on_die_callback_) on_die_callback_(this);
 }

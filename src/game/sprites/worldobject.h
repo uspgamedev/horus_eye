@@ -106,7 +106,7 @@ class WorldObject : public ugdk::action::Entity {
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
 
-    const map::Room* current_room() const { return current_room_; }
+    map::Room* current_room() const { return current_room_; }
 
   protected:
     std::string identifier_;
@@ -128,7 +128,7 @@ class WorldObject : public ugdk::action::Entity {
 
     std::string tag_;
 
-    const map::Room* current_room_;
+    map::Room* current_room_;
 
     // The current status for the object.
     Status status_;

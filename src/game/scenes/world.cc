@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include <ugdk/action/scene.h>
@@ -145,6 +146,15 @@ World::~World() {
     if(collision_manager_) delete collision_manager_;
 }
 
+void World::Start() {
+    map::Room* room = hero_initial_room_.empty() ? NULL : rooms_[hero_initial_room_];
+    if(room) {
+        ActivateRoom(hero_initial_room_);
+        if(hero_)
+            room->AddObject(hero_, hero_initial_position_);
+    }
+}
+
 void World::End() {
     super::End();
 
@@ -170,14 +180,11 @@ void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D
 }
 
 void World::AddWorldObject(sprite::WorldObject* new_object) {
-    if(!new_object->tag().empty())
-        tagged_[new_object->tag()] = new_object;
     QueuedAddEntity(new_object);
 }
 
-void World::set_hero(sprite::WorldObject *hero) {
+void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
-    AddWorldObject(hero, hero_initial_position_);
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
@@ -230,24 +237,14 @@ void World::SetupCollisionManager() {
     this->AddTask(collision_manager_->GenerateHandleCollisionTask());
 }
 
-
-WorldObject* World::WorldObjectByTag (const std::string& tag) {
-    TagTable::iterator match = tagged_.find(tag);
-    if (match == tagged_.end()) return NULL;
-    return match->second;
-}
-    
-void World::RemoveTag(const std::string& tag) {
-    tagged_[tag] = NULL;
-}
-    
 void World::AddRoom(map::Room* room) {
-    rooms_[room->name()] = room;
+    if(room && !room->name().empty())
+        rooms_[room->name()] = room;
 }
 
 void World::ActivateRoom(const std::string& name) {
     map::Room* room = rooms_[name];
-    if(room) {
+    if(room && std::find(active_rooms_.begin(), active_rooms_.end(), room) == active_rooms_.end()) {
         active_rooms_.push_back(room);
         layer_node(BACKGROUND_LAYER)->AddChild(room->layer_node(BACKGROUND_LAYER));
         layer_node(FOREGROUND_LAYER)->AddChild(room->layer_node(FOREGROUND_LAYER));
@@ -255,7 +252,6 @@ void World::ActivateRoom(const std::string& name) {
 }
 
 bool World::UpdateRooms(double dt) {
-    // BUG: room's content_node::Update is called twice!
     for(std::list<map::Room*>::const_iterator it = active_rooms_.begin(); it != active_rooms_.end(); ++it)
         (*it)->Update(dt);
     return true;
