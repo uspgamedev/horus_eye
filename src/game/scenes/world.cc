@@ -249,7 +249,8 @@ void World::ActivateRoom(const std::string& name) {
     map::Room* room = rooms_[name];
     if(room) {
         active_rooms_.push_back(room);
-        content_node()->AddChild(room->content_node());
+        layer_node(BACKGROUND_LAYER)->AddChild(room->layer_node(BACKGROUND_LAYER));
+        layer_node(FOREGROUND_LAYER)->AddChild(room->layer_node(FOREGROUND_LAYER));
     }
 }
 

@@ -127,20 +127,21 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
+    scene::World* world = dynamic_cast<scene::World*>(scene);
     if(collision_object() != NULL)
         collision_object()->StartColliding();
-    map::Room* room = dynamic_cast<map::Room*>(scene);
-    scene::World* world = dynamic_cast<scene::World*>(scene);
-    if(room) {
-        current_room_ = room;
-        room->layer_node(layer_)->AddChild(node());
-    } else if(world) {
-        world->layer_node(layer_)->AddChild(node());
-    }
-    /*if(logic_)
+    world->layer_node(layer_)->AddChild(node());
+    if(logic_)
         logic_->OnWorldAdd(world);
     if(on_world_add_callback_)
-        on_world_add_callback_(this, world);*/
+        on_world_add_callback_(this, world);
+}
+    
+void WorldObject::OnRoomAdd(map::Room* room) {
+    if(collision_object() != NULL)
+        collision_object()->StartColliding();
+    current_room_ = room;
+    room->layer_node(layer_)->AddChild(node());
 }
 
 bool deletecondition(Condition *condition) {
