@@ -6,7 +6,7 @@
 #include <ugdk/graphic/node.h>
 
 #include "game/builders/explosionbuilder.h"
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/hudimagefactory.h"
@@ -30,8 +30,6 @@ static bool VisibilityCheck(const component::Caster* caster) {
 }
 
 static void HeroMeteorUse(component::Caster* caster) {
-    World *world = WORLD();
-
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
     permanent_light->set_light_radius(4.0);
 
@@ -45,7 +43,7 @@ static void HeroMeteorUse(component::Caster* caster) {
     WorldObject* warning_effect = new WorldObject(3.0);
     warning_effect->set_start_to_die_callback(builder::function::Carrier(list));
 
-    world->AddWorldObject(warning_effect, caster->aim().destination_);
+    caster->owner()->current_room()->AddObject(warning_effect, caster->aim().destination_);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

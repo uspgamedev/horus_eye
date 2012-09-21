@@ -14,6 +14,7 @@
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/utils/constants.h"
 #include "game/resources/energy.h"
@@ -54,7 +55,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
         else
             potion_obj = builder::ItemBuilder::SightPotion(blank);
     }
-    if(potion_obj) WORLD()->AddWorldObject(potion_obj, wobj->world_position());
+    if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position());
     //WORLD()->DecreaseEnemyCount();
 }
 

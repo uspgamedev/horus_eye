@@ -7,10 +7,10 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 
+#include "game/map/room.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
 #include "game/components/caster.h"
-#include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 
@@ -27,10 +27,8 @@ static void HeroLightningUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
              pos = caster->aim().origin_;
 
-    World *world = WORLD();
-
     builder::ProjectileBuilder proj;
-    world->AddWorldObject(proj.LightningBolt(versor), pos);
+    caster->owner()->current_room()->AddObject(proj.LightningBolt(versor), pos);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

@@ -5,8 +5,9 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 
 #include "game/builders/explosionbuilder.h"
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/components/caster.h"
+#include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
@@ -24,9 +25,8 @@ static bool VisibilityCheck(const component::Caster* caster) {
 }
 
 static void HeroQuakeUse(component::Caster* caster) {
-    World *world = WORLD();
     builder::ExplosionBuilder builder;
-    world->AddWorldObject(builder.EarthquakeExplosion(), caster->aim().destination_);
+    caster->owner()->current_room()->AddObject(builder.EarthquakeExplosion(), caster->aim().destination_);
 
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

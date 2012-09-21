@@ -9,7 +9,7 @@
 
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/constants.h"
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
@@ -27,10 +27,8 @@ static void HeroFireballUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
         pos = caster->aim().origin_;
 
-    World *world = WORLD();
-
     builder::ProjectileBuilder proj;
-    world->AddWorldObject(proj.Fireball(versor), pos);
+    caster->owner()->current_room()->AddObject(proj.Fireball(versor), pos);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

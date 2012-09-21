@@ -3,13 +3,15 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
 
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/components/damageable.h"
 #include "game/components/caster.h"
+#include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/skills/combatart.h"
 #include "game/utils/settings.h"
+#include "game/utils/constants.h"
 
 namespace skills {
 
@@ -37,8 +39,7 @@ static void MummyRangedUse(component::Caster* caster, double damage) {
     Vector2D pos = caster->aim().origin_;
 
     builder::ProjectileBuilder proj;
-    scene::World* world = WORLD();
-    world->AddWorldObject(proj.MummyProjectile(versor, damage), pos);
+    caster->owner()->current_room()->AddObject(proj.MummyProjectile(versor, damage), pos);
     
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

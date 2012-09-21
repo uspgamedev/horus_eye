@@ -8,6 +8,7 @@
 #include "itembuilder.h"
 
 #include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/components/graphic.h"
 #include "game/components/logic.h"
@@ -154,7 +155,7 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
     BlueGemShieldEvent() {}
     bool Use(sprite::WorldObject* hero) {
         EntityBuilder builder;
-        WORLD()->AddWorldObject(builder.BlueShieldEntity(hero), hero->world_position());
+        hero->current_room()->AddObject(builder.BlueShieldEntity(hero), hero->world_position());
         return true;
     }
 };

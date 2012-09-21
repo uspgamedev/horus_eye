@@ -174,15 +174,6 @@ void World::End() {
     this->RemoveAllEntities();
 }
 
-void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
-    new_object->set_world_position(pos);
-    AddWorldObject(new_object);
-}
-
-void World::AddWorldObject(sprite::WorldObject* new_object) {
-    QueuedAddEntity(new_object);
-}
-
 void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
 }

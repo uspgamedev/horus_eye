@@ -23,14 +23,6 @@ WorldObject* BuildWorldObject (const string& scriptname) {
     return Script(vector<string>(1,scriptname));
 }
 
-void AddWorldObject (WorldObject* new_obj, const Vector2D& pos) {
-    WORLD()->AddWorldObject(new_obj, pos);
-}
-
-void AddWorldObject (const string& scriptname, const Vector2D& pos) {
-    AddWorldObject(BuildWorldObject(scriptname), pos);
-}
-
 CollisionObject* MakeCollisionObject (WorldObject* obj) {
     World *world = WORLD();
     if (!world) return NULL;

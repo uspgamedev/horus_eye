@@ -34,9 +34,6 @@ class World : public ugdk::action::Scene {
     World();
     virtual ~World();
 
-    void AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos);
-    void AddWorldObject(sprite::WorldObject* new_object);
-    
     void set_hero_initial_data(const std::string& room, const ugdk::Vector2D& pos) { 
         hero_initial_room_ = room; hero_initial_position_ = pos;
     }

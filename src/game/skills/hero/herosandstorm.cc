@@ -3,7 +3,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/utils/settings.h"
 #include "game/entities/sandstormemitter.h"
 #include "game/utils/imagefactory.h"
@@ -36,9 +36,7 @@ class Sandstorm : public CombatArt {
             super::Use(caster);
 
             emitter_ = new SandstormEmitter(caster->aim(), &emitter_);
-
-            World *world = WORLD();
-            world->AddWorldObject(emitter_, caster->aim().origin_);
+            caster->owner()->current_room()->AddObject(emitter_, caster->aim().origin_);
 
         } else {
             caster->mana() -= maintain_mana_cost_;
