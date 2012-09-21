@@ -20,6 +20,8 @@ function generate (x,y, spawner_type, ...)
   local descriptor = {}
   local trap = make_trap()
   local args = { ... }
+  
+  print "ASDFASFASDFZSDFASE"
 
   descriptor.collision = {
     class = "EventArea",
