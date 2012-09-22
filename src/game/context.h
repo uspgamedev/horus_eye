@@ -21,6 +21,8 @@ void AddCollisionClass (const std::string& classname, const std::string& superna
 
 void ActivateRoom(const std::string& roomname);
 
+void DeactivateRoom(const std::string& roomname);
+
 } // namespace context
 
 

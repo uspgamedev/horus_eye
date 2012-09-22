@@ -53,4 +53,10 @@ void ActivateRoom(const std::string& roomname) {
     world->ActivateRoom(roomname);
 }
 
+void DeactivateRoom(const std::string& roomname) {
+    World *world = WORLD();
+    assert(world);
+    world->DeactivateRoom(roomname);
+}
+
 } // namespace context
