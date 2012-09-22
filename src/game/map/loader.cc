@@ -114,7 +114,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
 
             if(gamemap[i][j]->has_floor()) {
                 ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(position);
-                room->layer_node(scene::BACKGROUND_LAYER)->AddChild(floor);
+                room->floor()->AddChild(floor);
             }
         }
     }

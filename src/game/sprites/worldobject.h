@@ -64,7 +64,6 @@ class WorldObject : public ugdk::action::Entity {
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
-    void OnSceneAdd(ugdk::action::Scene* scene);
     void OnRoomAdd(map::Room*);
     
     void set_world_add_callback(std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback) {

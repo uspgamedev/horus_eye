@@ -50,6 +50,9 @@ class World : public ugdk::action::Scene {
 
     void AddRoom(map::Room* room);
     void ActivateRoom(const std::string& name);
+    void DeactivateRoom(const std::string& name);
+    bool IsRoomActive(const std::string& name) const;
+    bool IsRoomActive(const map::Room*) const;
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
     static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
@@ -81,6 +84,7 @@ class World : public ugdk::action::Scene {
     }
 
   protected:
+    map::Room* findRoom(const std::string& name) const;
     bool UpdateRooms(double dt);
 
     sprite::WorldObject *hero_;

@@ -9,7 +9,6 @@
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(unordered_map)
 
-#include <ugdk/action/scene.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/integer2D.h>
 
@@ -26,26 +25,31 @@ class Room {
         const ugdk::math::Integer2D& position, const GameMap& matrix);
     ~Room();
 
-    void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position);
-
     void Update(double dt);
 
-    sprite::WorldObject* WorldObjectByTag (const std::string& tag);
+    void AddObject(sprite::WorldObject*);
+    void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position);
+    void DefineLevel(scene::World*);
+
+    sprite::WorldObject* WorldObjectByTag (const std::string& tag) const;
     void RemoveTag(const std::string& tag);
 
     const std::string& name() const { return name_; }
     const GameMap& matrix() const { return matrix_; }
-    const ugdk::math::Integer2D& position() const { return position_; }
     const ugdk::math::Integer2D& size() const { return size_; }
+    const ugdk::math::Integer2D& position() const { return position_; }
+    ugdk::graphic::Node* floor() const { return floor_; }
 
-    ugdk::graphic::Node* layer_node(scene::GameLayer layer) { 
-        return layers_[layer];
-    }
-    
+    typedef std::list<sprite::WorldObject*>::const_iterator WObjListConstIterator;
+    WObjListConstIterator begin() const { return objects_.begin(); } 
+    WObjListConstIterator end() const { return objects_.end(); }
+
   private:
-    void UpdateObjects(double delta_t);
-    void DeleteToBeRemovedObjects();
-    void FlushObjectQueue();
+    void updateObjects(double delta_t);
+    void deleteToBeRemovedObjects();
+    void flushObjectQueue();
+    void handleNewObject(sprite::WorldObject*);
+
 
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
@@ -53,8 +57,9 @@ class Room {
     GameMap matrix_;
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
-    ugdk::graphic::Node *layers_[2];
+    ugdk::graphic::Node* floor_;
 
+    scene::World* level_;
     std::list<sprite::WorldObject*> objects_;
     std::queue<sprite::WorldObject*> queued_objects_;
 };
