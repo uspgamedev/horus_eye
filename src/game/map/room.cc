@@ -28,7 +28,7 @@ Room::~Room() {
 }
 
 void Room::AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position) {
-    obj->set_world_position(position + position_);
+    obj->set_world_position(position);
     tagged_[obj->tag()] = obj;
     queued_objects_.push(obj);
 }

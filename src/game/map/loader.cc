@@ -109,7 +109,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
             sprite::WorldObject* obj = builder::WorldObjectFromTypename(string(1, gamemap[i][j]->object()), arguments[i][j]);
             if(obj) {
                 obj->set_tag(tags[i][j]);
-                room->AddObject(obj, position);
+                room->AddObject(obj, position + room->position());
             }
 
             if(gamemap[i][j]->has_floor()) {

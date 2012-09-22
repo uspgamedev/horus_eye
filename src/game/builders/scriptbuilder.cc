@@ -164,5 +164,9 @@ WorldObject* Script(const vector<string>& arguments) {
     return wobj;
 }
 
+sprite::WorldObject* Script(const std::string& script_name) {
+    return Script(vector<string>(1, script_name));
+}
+
 } // namespace ScriptBuilder
 } // namespace builder

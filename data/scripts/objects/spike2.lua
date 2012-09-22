@@ -3,6 +3,7 @@ require "ugdk.drawable"
 require "pyramidworks.geometry"
 require "component"
 require "context"
+require "map"
 
 local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
@@ -26,7 +27,7 @@ function generate ()
   args.timed_life = 5.0
 
   args.on_die_callback = function (obj)
-    local target = context.WorldObjectByTag "EXPLO"
+    local target = obj:current_room():WorldObjectByTag "EXPLO"
     target:Die()
   end
 

@@ -33,9 +33,8 @@ function generate (...)
           args:push_back "0.2"
           args:push_back(dx)
           args:push_back(dy)
-          local spawner =
-            builder.Script(args)
-          context.AddWorldObject(spawner, Vector2D(x,y))
+          local spawner = builder.Script(args)
+		  self:current_room():AddObject(spawner, Vector2D(x,y))
           trap.activated = true
         end
       end
