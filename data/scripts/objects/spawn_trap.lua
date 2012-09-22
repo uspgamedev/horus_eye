@@ -16,10 +16,12 @@ local function make_trap ()
   return trap
 end
 
-function generate (...)
+function generate (x,y, spawner_type, ...)
   local descriptor = {}
   local trap = make_trap()
-  local x,y,dx,dy = ...
+  local args = { ... }
+  
+  print "ASDFASFASDFZSDFASE"
 
   descriptor.collision = {
     class = "EventArea",
@@ -28,12 +30,13 @@ function generate (...)
     custom_collision = {
       Hero = function(self, obj)
         if not trap.activated then
-          local args = builder.StringList()
-          args:push_back "dart_spawner"
-          args:push_back "0.2"
-          args:push_back(dx)
-          args:push_back(dy)
-          local spawner = builder.Script(args)
+          local str_args = builder.StringList()
+          str_args:push_back(spawner_type)
+          str_args:push_back "0.2"
+          for _,arg in pairs(args) do
+            str_args:push_back(arg)
+          end
+          local spawner = builder.Script(str_args)
 		  self:current_room():AddObject(spawner, Vector2D(x,y))
           trap.activated = true
         end
