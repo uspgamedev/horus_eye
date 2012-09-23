@@ -10,6 +10,8 @@
 #include "game/sprites/worldobject.h"
 
 namespace context {
+    
+sprite::WorldObject* WorldObjectByTag (const std::string& tag);
 
 sprite::WorldObject* BuildWorldObject (const std::string& scriptname);
 

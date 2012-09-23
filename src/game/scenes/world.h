@@ -54,6 +54,8 @@ class World : public ugdk::action::Scene {
     bool IsRoomActive(const std::string& name) const;
     bool IsRoomActive(const map::Room*) const;
 
+    const map::Room* GetRoom(const std::string& name) const { return findRoom(name); }
+
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
     static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
     

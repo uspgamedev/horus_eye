@@ -7,6 +7,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
+#include "game/map/room.h"
 
 namespace context {
 
@@ -18,6 +19,25 @@ using pyramidworks::collision::CollisionManager;
 using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
+
+
+sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
+    World *world = WORLD();
+    assert(world);
+    size_t slashpos = tag.find_first_of('/');
+    if(slashpos == std::string::npos) {
+        fprintf(stderr, "Tag '%s' is not of the format 'X/Y'\n", tag.c_str());
+        return NULL;
+    }
+    std::string room_name = tag.substr(0, slashpos),
+        obj_tag = tag.substr(slashpos);
+
+    const map::Room* room = world->GetRoom(room_name);
+    if(room)
+        return room->WorldObjectByTag(obj_tag);
+    else
+        return NULL;
+}
 
 WorldObject* BuildWorldObject (const string& scriptname) {
     return Script(vector<string>(1,scriptname));

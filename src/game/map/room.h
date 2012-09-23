@@ -15,9 +15,9 @@
 #include "game/scenes.h"
 #include "game/sprites.h"
 #include "game/map.h"
-#include "game/scenes/gamelayer.h"
 
 namespace map {
+
 static const bool POSITION_ABSOLUTE = true;
 static const bool POSITION_RELATIVE = false;
 
@@ -29,10 +29,21 @@ class Room {
 
     void Update(double dt);
 
+    /** Adds the object to the room. 
+    Objects are added only at the end of a room's Update, unless the room hasn't been added to a World. */
     void AddObject(sprite::WorldObject*);
-    void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position, bool absolute = POSITION_RELATIVE);
+
+    /** Adds the object to the room, in the given position.
+    @param obj The object to be added.
+    @param position The position to place the object in.
+    @param absolute Whether the position is relative to the room's position in the World, or absolute. Defaults to relative.
+    @see AddObject */
+    void AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position, bool absolute = POSITION_RELATIVE);
+
+    /// Sets which level this room belongs to.
     void DefineLevel(scene::World*);
 
+    /// Gets an object based on it's tag.
     sprite::WorldObject* WorldObjectByTag (const std::string& tag) const;
     void RemoveTag(const std::string& tag);
 
@@ -51,7 +62,6 @@ class Room {
     void deleteToBeRemovedObjects();
     void flushObjectQueue();
     void handleNewObject(sprite::WorldObject*);
-
 
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
