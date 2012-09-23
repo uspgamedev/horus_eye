@@ -24,8 +24,7 @@ function generate (x,y, spawner_type, ...)
   descriptor.collision = {
     class = "EventArea",
     shape = Rect(1.0, 2.0),
-    known_collision = {},
-    custom_collision = {
+    known_collision = {
       Hero = function(self, obj)
         if not trap.activated then
           local str_args = builder.StringList()

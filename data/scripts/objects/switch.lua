@@ -31,8 +31,7 @@ function generate ()
   descriptor.collision = {
     class = "Switch",
     shape = Rect(0.8, 0.8),
-    known_collision = {},
-    custom_collision = {
+    known_collision = {
       Projectile = function(self, obj)
         if not switch.activated then
           for i=1,3 do

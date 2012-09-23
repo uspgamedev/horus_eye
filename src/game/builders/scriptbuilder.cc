@@ -43,24 +43,6 @@ class ScriptCollision {
     WorldObject *self_;
 };
 
-// TODO: variable damage
-static void DealDamage(void* data) {
-    static_cast<WorldObject*>(data)->damageable()->TakeDamage(100);
-}
-
-static CollisionLogic* create_cologic_deal_damage(WorldObject* wobj, VirtualObj argument) {
-    return new pyramidworks::collision::GenericCollisionLogic(DealDamage);
-}
-
-typedef CollisionLogic* (*CollisionLogicGenerator)(WorldObject*, VirtualObj);
-std::map<std::string, CollisionLogicGenerator> CollisionLogicGeneratorsPopulator() {
-    std::map<std::string, CollisionLogicGenerator> result;
-    result["deal_damage"] = create_cologic_deal_damage;
-    // TODO: MOAR!
-    return result;
-}
-static std::map<std::string, CollisionLogicGenerator> collision_logic_generators = CollisionLogicGeneratorsPopulator();
-
 static void create_collision(WorldObject* wobj, VirtualObj coldata) {
     if(!coldata["class"] || !coldata["shape"]) return;
 
@@ -71,25 +53,7 @@ static void create_collision(WorldObject* wobj, VirtualObj coldata) {
     colobj->set_shape(coldata["shape"].value<pyramidworks::geometry::GeometricShape*>(true));
 
     if(coldata["known_collision"]) {
-        VirtualObj::Vector known_collisions = coldata["known_collision"].value<VirtualObj::Vector>();
-        for(VirtualObj::Vector::iterator it = known_collisions.begin(); it != known_collisions.end(); ++it) {
-            VirtualObj::Vector logicvect = it->value<VirtualObj::Vector>();
-            if(logicvect.size() < 3) continue;
-            std::string classname = logicvect[0].value<std::string>();
-            std::string logicname = logicvect[1].value<std::string>();
-            VirtualObj argument = logicvect[2];
-            if(collision_logic_generators.find(logicname) == collision_logic_generators.end()) {
-                // TODO: print warning
-                // Unknown logic.
-                continue;
-            }
-            CollisionLogic* logic = collision_logic_generators[logicname](wobj, argument);
-            colobj->AddCollisionLogic(classname, logic);
-        }
-    }
-
-    if(coldata["custom_collision"]) {
-        VirtualObj::Map custom_collisions = coldata["custom_collision"].value<VirtualObj::Map>();
+        VirtualObj::Map custom_collisions = coldata["known_collision"].value<VirtualObj::Map>();
         for(VirtualObj::Map::iterator it = custom_collisions.begin(); it != custom_collisions.end(); ++it) {
             std::string classname = it->first.value<std::string>();
             VirtualObj scriptlogic = it->second;

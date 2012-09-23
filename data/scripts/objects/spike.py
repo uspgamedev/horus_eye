@@ -11,6 +11,8 @@ def generate():
     d['collision'] = {
         "class": "Button",
         "shape": Rect(1.0, 1.0),
-        "known_collision": [ ["Hero", "deal_damage", 100.0 ] ]
+        "known_collision": { 
+            "Hero": lambda self, obj: self.damageable().TakeDamage(100)
+        }
     }
     return d

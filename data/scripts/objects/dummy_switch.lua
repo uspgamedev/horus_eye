@@ -33,8 +33,7 @@ function generate ()
   descriptor.collision = {
     class = "Wall",
     shape = Rect(0.8, 0.8),
-    known_collision = {},
-    custom_collision = {
+    known_collision = {
       Projectile = function(self, obj)
         if not switch.activated then
           switch.activated = true
