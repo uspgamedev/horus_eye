@@ -37,6 +37,7 @@ function generate (x,y, spawner_type, ...)
           local spawner = builder.Script(str_args)
 		  self:current_room():AddObject(spawner, Vector2D(x,y))
           trap.activated = true
+		  print(self:identifier() .. " Activated!")
         end
       end
     }
@@ -45,5 +46,8 @@ function generate (x,y, spawner_type, ...)
   return descriptor
 end
 
+i = 1
 function build (wobj)
+	wobj:set_identifier("Spawn Trap #"..i)
+	i = i + 1
 end
