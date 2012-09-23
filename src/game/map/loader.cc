@@ -106,10 +106,17 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
 
             Vector2D position((double) j, (double) i);
 
-            sprite::WorldObject* obj = builder::WorldObjectFromTypename(string(1, gamemap[i][j]->object()), arguments[i][j]);
+            std::string type_string(1, gamemap[i][j]->object());
+            sprite::WorldObject* obj = builder::WorldObjectFromTypename(type_string, arguments[i][j]);
             if(obj) {
                 obj->set_tag(tags[i][j]);
                 room->AddObject(obj, position);
+            } else if(builder::HasFactoryMethod(type_string)) {
+                fprintf(stderr, "Warning: unable to create object of type '%s' at (%d;%d) with args {", 
+                    type_string.c_str(), j, i);
+                for(ArgumentList::const_iterator it = arguments[i][j].begin(); it != arguments[i][j].end(); ++it)
+                    fprintf(stderr, "'%s', ", it->c_str());
+                fprintf(stderr, "}.\n");
             }
 
             if(gamemap[i][j]->has_floor()) {

@@ -48,21 +48,19 @@ collision_classes = {
 }
 
 function setup (room)
-    print "Setting level up..."
+    local function place_life(tag, hp)
+		local obj = room:WorldObjectByTag(tag)
+		if obj then
+			local damageable = component.Damageable(obj)
+			damageable:set_life(component.Energy(hp))
+			obj:set_damageable(damageable)
+		else
+			print("No object with tag '"..tag.."'!")
+		end
+    end
     i=2
-    local function place_life(obj, hp)
-      local damageable = component.Damageable(obj)
-      damageable:set_life(component.Energy(hp))
-      obj:set_damageable(damageable)
-    end
     for j = 1,3 do
-      local door = room:WorldObjectByTag("DOOR-"..i.."-"..j)
-      if door then
-        place_life(door, 2)
-      end
+		place_life("DOOR-"..i.."-"..j, 2)
     end
-    local loader = room:WorldObjectByTag("ROOM-2-LOADER")
-    if loader then
-      place_life(loader, 2)
-    end
+	place_life("ROOM-"..i.."-LOADER", 2)
 end

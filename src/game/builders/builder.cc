@@ -52,4 +52,8 @@ sprite::WorldObject* WorldObjectFromTypename(const string& type, const ArgumentL
         return NULL;
 }
 
+bool HasFactoryMethod(const std::string& type) {
+    return type_factory_map[type];
+}
+
 } // namespace builder
