@@ -40,6 +40,8 @@ class Room {
     @see AddObject */
     void AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position, bool absolute = POSITION_RELATIVE);
 
+    //void RemoveObject(sprite::WorldObject* obj);
+
     /// Sets which level this room belongs to.
     void DefineLevel(scene::World*);
 

@@ -227,10 +227,6 @@ void World::AddRoom(map::Room* room) {
     if(room && !room->name().empty()) {
         room->DefineLevel(this);
         rooms_[room->name()] = room;
-        layer_node(BACKGROUND_LAYER)->AddChild(room->floor());
-        room->floor()->set_active(false);
-        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            layer_node((*it)->layer())->AddChild((*it)->node());
     }
 }
 
@@ -238,9 +234,9 @@ void World::ActivateRoom(const std::string& name) {
     map::Room* room = rooms_[name];
     if(room && !IsRoomActive(room)) {
         active_rooms_.push_back(room);
+        layer_node(BACKGROUND_LAYER)->AddChild(room->floor());
         for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            (*it)->node()->set_active(true);
-        room->floor()->set_active(true);
+            layer_node((*it)->layer())->AddChild((*it)->node());
     }
 }
 
@@ -248,9 +244,9 @@ void World::DeactivateRoom(const std::string& name) {
     map::Room* room = findRoom(name);
     if(room && IsRoomActive(room)) {
         active_rooms_.remove(room);
+        layer_node(BACKGROUND_LAYER)->RemoveChild(room->floor());
         for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            (*it)->node()->set_active(false);
-        room->floor()->set_active(false);
+            layer_node((*it)->layer())->RemoveChild((*it)->node());
     }
 }
 

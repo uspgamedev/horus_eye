@@ -20,7 +20,6 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
         : name_(name), matrix_(matrix), size_(_size), position_(_position), level_(NULL) {
 
     floor_ = new Node;
-    floor_->set_active(false);
     floor_->set_zindex(-FLT_MAX);
     floor_->modifier()->set_offset(scene::World::FromWorldCoordinates(position_));
 }
@@ -90,11 +89,8 @@ void Room::handleNewObject(sprite::WorldObject* obj) {
     objects_.push_back(obj);
     obj->OnRoomAdd(this);
     tagged_[obj->tag()] = obj;
-    if(level_) {
+    if(level_ && level_->IsRoomActive(this))
         level_->layer_node(obj->layer())->AddChild(obj->node());
-        obj->node()->set_active(level_->IsRoomActive(this));
-    } else
-        obj->node()->set_active(false);
 }
     
 } // namespace map
