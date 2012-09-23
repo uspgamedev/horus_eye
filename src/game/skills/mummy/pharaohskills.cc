@@ -39,9 +39,9 @@ static void PharaohRangedUse(component::Caster* caster) {
 
     map::Room* room = caster->owner()->current_room();
     builder::ProjectileBuilder proj;
-    room->AddObject(proj.MummyProjectile(versor, Constants::PHARAOH_RANGED_DAMAGE), pos);
-    room->AddObject(proj.MummyProjectile(offsetleft, Constants::PHARAOH_RANGED_DAMAGE), pos);
-    room->AddObject(proj.MummyProjectile(offsetright, Constants::PHARAOH_RANGED_DAMAGE), pos);
+    room->AddObject(proj.MummyProjectile(versor, Constants::PHARAOH_RANGED_DAMAGE), pos, map::POSITION_ABSOLUTE);
+    room->AddObject(proj.MummyProjectile(offsetleft, Constants::PHARAOH_RANGED_DAMAGE), pos, map::POSITION_ABSOLUTE);
+    room->AddObject(proj.MummyProjectile(offsetright, Constants::PHARAOH_RANGED_DAMAGE), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
@@ -66,13 +66,13 @@ static void PharaohSummonUse(component::Caster* caster) {
     map::Room* room = caster->owner()->current_room();
     int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
-        room->AddObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos);
+        room->AddObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
     else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-        room->AddObject(WalkingBigMummy(std::vector<std::string>()), mummyPos);
+        room->AddObject(WalkingBigMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
     else {
-        room->AddObject(WalkingMummy(std::vector<std::string>()), mummyPos);
+        room->AddObject(WalkingMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
 }
 

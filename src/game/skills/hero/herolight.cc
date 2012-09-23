@@ -33,7 +33,7 @@ static void HeroLightUse(component::Caster* caster){
     light->node()->set_drawable(new ugdk::graphic::Sprite("light"));
     light->set_light_radius(4.0);
 
-    caster->owner()->current_room()->AddObject(light, caster->aim().destination_);
+    caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

@@ -43,7 +43,7 @@ static void HeroMeteorUse(component::Caster* caster) {
     WorldObject* warning_effect = new WorldObject(3.0);
     warning_effect->set_start_to_die_callback(builder::function::Carrier(list));
 
-    caster->owner()->current_room()->AddObject(warning_effect, caster->aim().destination_);
+    caster->owner()->current_room()->AddObject(warning_effect, caster->aim().destination_, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

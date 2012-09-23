@@ -36,7 +36,7 @@ class Sandstorm : public CombatArt {
             super::Use(caster);
 
             emitter_ = new SandstormEmitter(caster->aim(), &emitter_);
-            caster->owner()->current_room()->AddObject(emitter_, caster->aim().origin_);
+            caster->owner()->current_room()->AddObject(emitter_, caster->aim().origin_, map::POSITION_ABSOLUTE);
 
         } else {
             caster->mana() -= maintain_mana_cost_;

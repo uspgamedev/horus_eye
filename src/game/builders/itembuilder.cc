@@ -155,7 +155,7 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
     BlueGemShieldEvent() {}
     bool Use(sprite::WorldObject* hero) {
         EntityBuilder builder;
-        hero->current_room()->AddObject(builder.BlueShieldEntity(hero), hero->world_position());
+        hero->current_room()->AddObject(builder.BlueShieldEntity(hero), hero->world_position(), map::POSITION_ABSOLUTE);
         return true;
     }
 };

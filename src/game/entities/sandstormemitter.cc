@@ -55,7 +55,7 @@ void SandstormEmitter::Update(double dt) {
         
         ProjectileBuilder proj;
         for(int i=0;i<4;i++) {
-            current_room()->AddObject(proj.MagicBall(versor[i]), aim_.origin_);
+            current_room()->AddObject(proj.MagicBall(versor[i]), aim_.origin_, map::POSITION_ABSOLUTE);
             // TODO:FIREBALL!?
         }
 

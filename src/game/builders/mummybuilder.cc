@@ -55,7 +55,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
         else
             potion_obj = builder::ItemBuilder::SightPotion(blank);
     }
-    if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position());
+    if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position(), map::POSITION_ABSOLUTE);
     //WORLD()->DecreaseEnemyCount();
 }
 

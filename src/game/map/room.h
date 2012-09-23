@@ -18,6 +18,8 @@
 #include "game/scenes/gamelayer.h"
 
 namespace map {
+static const bool POSITION_ABSOLUTE = true;
+static const bool POSITION_RELATIVE = false;
 
 class Room {
   public:
@@ -28,7 +30,7 @@ class Room {
     void Update(double dt);
 
     void AddObject(sprite::WorldObject*);
-    void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position);
+    void AddObject(sprite::WorldObject*, const ugdk::Vector2D& position, bool absolute = POSITION_RELATIVE);
     void DefineLevel(scene::World*);
 
     sprite::WorldObject* WorldObjectByTag (const std::string& tag) const;

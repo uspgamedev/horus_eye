@@ -39,7 +39,7 @@ static void MummyRangedUse(component::Caster* caster, double damage) {
     Vector2D pos = caster->aim().origin_;
 
     builder::ProjectileBuilder proj;
-    caster->owner()->current_room()->AddObject(proj.MummyProjectile(versor, damage), pos);
+    caster->owner()->current_room()->AddObject(proj.MummyProjectile(versor, damage), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

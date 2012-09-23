@@ -26,7 +26,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 
 static void HeroQuakeUse(component::Caster* caster) {
     builder::ExplosionBuilder builder;
-    caster->owner()->current_room()->AddObject(builder.EarthquakeExplosion(), caster->aim().destination_);
+    caster->owner()->current_room()->AddObject(builder.EarthquakeExplosion(), caster->aim().destination_, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

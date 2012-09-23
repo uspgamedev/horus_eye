@@ -151,7 +151,7 @@ void World::Start() {
     if(room) {
         ActivateRoom(hero_initial_room_);
         if(hero_)
-            room->AddObject(hero_, hero_initial_position_);
+            room->AddObject(hero_, hero_initial_position_, map::POSITION_ABSOLUTE);
     }
 }
 

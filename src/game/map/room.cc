@@ -41,8 +41,11 @@ void Room::AddObject(sprite::WorldObject* obj) {
         queued_objects_.push(obj);
 }
 
-void Room::AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position) {
-    obj->set_world_position(position);
+void Room::AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position, bool absolute) {
+    if(absolute == POSITION_ABSOLUTE)
+        obj->set_world_position(position);
+    else
+        obj->set_world_position(position + position_);
     AddObject(obj);
 }
 
