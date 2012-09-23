@@ -66,8 +66,8 @@ class WorldObject : public ugdk::action::Entity {
 
     void OnRoomAdd(map::Room*);
     
-    void set_world_add_callback(std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback) {
-        on_world_add_callback_ = on_world_add_callback;
+    void set_room_add_callback(std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback) {
+        on_room_add_callback_ = on_room_add_callback;
     }
 
     void set_start_to_die_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
@@ -117,7 +117,7 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life_;
 
     // TODO: make this somethintg
-    std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback_;
+    std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
     std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
     std::tr1::function<void (WorldObject*)> on_die_callback_;
 

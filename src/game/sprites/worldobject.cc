@@ -131,10 +131,10 @@ void WorldObject::OnRoomAdd(map::Room* room) {
     if(collision_object() != NULL)
         collision_object()->StartColliding();
     current_room_ = room;
-    /*if(logic_)
-        logic_->OnWorldAdd(world);
-    if(on_world_add_callback_)
-        on_world_add_callback_(this, world);*/
+    if(logic_)
+        logic_->OnRoomAdd(room);
+    if(on_room_add_callback_)
+        on_room_add_callback_(this, room);
 }
 
 bool deletecondition(Condition *condition) {
