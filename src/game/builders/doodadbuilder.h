@@ -2,17 +2,19 @@
 #define HORUSEYE_GAME_BUILDERS_DOODADBUILDER_H_
 
 #include <vector>
-#include "game/scenes.h"
+#include <ugdk/graphic.h>
+#include <ugdk/math.h>
 #include "game/sprites.h"
 
 namespace builder {
 namespace DoodadBuilder {
 
-sprite::WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world);
+sprite::WorldObject* Door(const std::vector<std::string>& arguments);
 sprite::WorldObject* Wall(const std::vector<std::string>& arguments);
 sprite::WorldObject* Entry(const std::vector<std::string>& arguments);
 sprite::WorldObject* Button(const std::vector<std::string>& arguments);
 sprite::WorldObject* Block(const std::vector<std::string>& arguments);
+ugdk::graphic::Node* Floor(const ugdk::Vector2D& position);
 
 } // namespace DoodadBuilder
 } // namespace builder

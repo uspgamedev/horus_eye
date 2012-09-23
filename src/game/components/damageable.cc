@@ -20,7 +20,7 @@ Damageable::Damageable(sprite::WorldObject* owner, int invulnerability_time, boo
     super_armor_(false),
     invulnerability_time_(invulnerability_time),
     hit_duration_(new ugdk::time::TimeAccumulator(invulnerability_time)),
-	blinks_(blinks) {
+    blinks_(blinks) {
         for(int i = 1; i <= 4; ++i) {
             char buffer[255];
             sprintf(buffer, "samples/hit%d.wav", i);

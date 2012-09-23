@@ -12,15 +12,15 @@
 #include "game/scenes/menu.h"
 #include "game/builders/goodmenubuilder.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 #include "game/utils/visionstrategy.h"
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
 using ugdk::Vector2D;
-using utils::Tile;
-using utils::TilePos;
-using utils::GameMap;
+using map::Tile;
+using map::TilePos;
+using map::GameMap;
 
 static bool VerifyPause(double dt) {
     ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();

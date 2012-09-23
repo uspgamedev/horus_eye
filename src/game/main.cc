@@ -3,7 +3,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
 #include <SDL.h>

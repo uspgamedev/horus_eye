@@ -147,6 +147,7 @@ WorldObject* Script(const vector<string>& arguments) {
     VirtualObj script_data = script_generator["generate"](args);
     VirtualObj script_builder = script_generator["build"];
     WorldObject* wobj = new WorldObject;
+    wobj->set_identifier(arguments[0]);
 
     for(int i = 0; i < NUM_FIELDS; ++i) {
         VirtualObj data = script_data[valid_names[i].name];
@@ -162,6 +163,10 @@ WorldObject* Script(const vector<string>& arguments) {
     }
 
     return wobj;
+}
+
+sprite::WorldObject* Script(const std::string& script_name) {
+    return Script(vector<string>(1, script_name));
 }
 
 } // namespace ScriptBuilder

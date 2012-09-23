@@ -4,7 +4,7 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/base/engine.h>
 
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/components/caster.h"
 #include "game/utils/settings.h"
@@ -17,12 +17,11 @@ using namespace ugdk;
 using utils::Constants;
 
 static void HeroMagicMissileUse(component::Caster* caster) {
-    World *world = WORLD();
-
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
              pos = caster->aim().origin_;
+
     builder::ProjectileBuilder proj;
-    world->AddWorldObject(proj.MagicMissile(versor), pos);
+    caster->owner()->current_room()->AddObject(proj.MagicMissile(versor), pos, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

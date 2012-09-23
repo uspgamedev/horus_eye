@@ -1,7 +1,7 @@
 #include "maptileslayer.h"
 #include "editor/mapobject.h"
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 
 using namespace ugdk;
 
@@ -12,26 +12,26 @@ MapTilesLayer::MapTilesLayer(MapEditor* editor) : MapEditor::MapLayer(editor) {}
 MapTilesLayer::~MapTilesLayer() {}
 
 void MapTilesLayer::LoadMapMatrix(MapEditor::MapMatrix *matrix) {
-	if(node_ != NULL) delete node_;
-	node_ = new ugdk::graphic::Node;
-	matrix_ = matrix;
-	int height = matrix_->size(), width = (*matrix_)[0].size();
+    if(node_ != NULL) delete node_;
+    node_ = new ugdk::graphic::Node;
+    matrix_ = matrix;
+    int height = matrix_->size(), width = (*matrix_)[0].size();
     for (int i = 0; i < height; ++i) {
         for (int j = 0; j < width; j++) {
-			node_->AddChild((*matrix_)[i][j]->tile_node());
+            node_->AddChild((*matrix_)[i][j]->tile_node());
         }
     }
 }
 
 void MapTilesLayer::CenterAt(ugdk::Vector2D& center) {
-	if (!editor_->map_loaded()) return;
+    if (!editor_->map_loaded()) return;
 
     Vector2D screen_size = VIDEO_MANAGER()->video_size();
-	node()->modifier()->set_offset(screen_size * 0.5 - center * MapObject::TileSize);
+    node()->modifier()->set_offset(screen_size * 0.5 - center * MapObject::TileSize);
 }
 
 MapObject* MapTilesLayer::Select(ugdk::Vector2D& pos) {
-	if (!editor_->map_loaded()) return NULL;
+    if (!editor_->map_loaded()) return NULL;
 
     Vector2D absolute = pos + node()->modifier()->offset();
     int x = static_cast<int>(absolute.x / (MapObject::TileSize * scale_));

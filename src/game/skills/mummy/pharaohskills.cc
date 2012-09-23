@@ -4,8 +4,9 @@
 
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/math/vector2D.h>
 
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/components/damageable.h"
 #include "game/components/caster.h"
@@ -13,10 +14,12 @@
 #include "game/skills/combatart.h"
 #include "game/utils/settings.h"
 #include "game/builders/mummybuilder.h"
+#include "game/utils/constants.h"
 
 namespace skills {
 
 using utils::Constants;
+using ugdk::Vector2D;
 using namespace builder::MummyBuilder;
 
 static bool RangedIsValid(const component::Caster* caster) {
@@ -34,11 +37,11 @@ static void PharaohRangedUse(component::Caster* caster) {
     Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
     Vector2D offsetright = Vector2D::Rotate(versor,-angle);
 
-    scene::World *world = WORLD();
+    map::Room* room = caster->owner()->current_room();
     builder::ProjectileBuilder proj;
-    world->AddWorldObject(proj.MummyProjectile(versor, Constants::PHARAOH_RANGED_DAMAGE), pos);
-    world->AddWorldObject(proj.MummyProjectile(offsetleft, Constants::PHARAOH_RANGED_DAMAGE), pos);
-    world->AddWorldObject(proj.MummyProjectile(offsetright, Constants::PHARAOH_RANGED_DAMAGE), pos);
+    room->AddObject(proj.MummyProjectile(versor, Constants::PHARAOH_RANGED_DAMAGE), pos, map::POSITION_ABSOLUTE);
+    room->AddObject(proj.MummyProjectile(offsetleft, Constants::PHARAOH_RANGED_DAMAGE), pos, map::POSITION_ABSOLUTE);
+    room->AddObject(proj.MummyProjectile(offsetright, Constants::PHARAOH_RANGED_DAMAGE), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
@@ -60,16 +63,16 @@ static void PharaohSummonUse(component::Caster* caster) {
        0                      30                    50                                           100
        So in this example, we will summon a big mummy.
        */
-    scene::World *world = WORLD();
+    map::Room* room = caster->owner()->current_room();
     int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
-        world->AddWorldObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos);
+        room->AddObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
     else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-        world->AddWorldObject(WalkingBigMummy(std::vector<std::string>()), mummyPos);
+        room->AddObject(WalkingBigMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
     else {
-        world->AddWorldObject(WalkingMummy(std::vector<std::string>()), mummyPos);
+        room->AddObject(WalkingMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
 }
 

@@ -4,6 +4,7 @@ require "ugdk.drawable"
 require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
+require "builder"
 
 local Vector2D  = ugdk_math.Vector2D
 local Sprite    = ugdk_drawable.Sprite
@@ -38,7 +39,7 @@ function generate ()
         if not switch.activated then
           switch.activated = true
           switch.sprite:SelectAnimation "SWITCH_START"
-          context.AddWorldObject("spike", Vector2D(4, 23))
+		  self:current_room():AddObject(builder.Script("spike"), Vector2D(4, 23))
         end
       end
     }

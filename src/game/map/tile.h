@@ -1,20 +1,17 @@
-#ifndef HORUSEYE_GAME_UTILS_TILE_H_
-#define HORUSEYE_GAME_UTILS_TILE_H_
+#ifndef HORUSEYE_GAME_MAP_TILE_H_
+#define HORUSEYE_GAME_MAP_TILE_H_
 
 #include <vector>
 #include <ugdk/graphic.h>
-
-#include "tilefwd.h"
+#include <ugdk/math.h>
+#include <ugdk/math/vector2D.h>
+#include "game/map.h"
 
 #ifndef NULL
 #define NULL 0
 #endif
 
-namespace ugdk {
-class Vector2D;
-}
-
-namespace utils {
+namespace map {
 
 #define EMPTY                    ' '
 #define FLOOR                    '.'
@@ -39,12 +36,10 @@ namespace utils {
 #define BUTTON                   'U'
 #define SCRIPT                   '!'
 
-typedef struct TilePos{
-    
+typedef struct TilePos {
     TilePos(int i_ = 0, int j_ = 0) : i(i_), j(j_) {}
     
     int i, j;
-    
 } TilePos;
 
 class Tile {
@@ -134,6 +129,6 @@ class Tile {
 
 };
 
-}
+} // namespace map
 
-#endif /* TILE_H_ */
+#endif /* HORUSEYE_GAME_MAP_TILE_H_ */

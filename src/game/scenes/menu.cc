@@ -2,7 +2,7 @@
 #include <string>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/input/inputmanager.h>
 
 #include "menu.h"

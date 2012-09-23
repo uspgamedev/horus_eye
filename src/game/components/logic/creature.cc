@@ -16,12 +16,15 @@
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
 #include "game/utils/geometryprimitives.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 
 using namespace ugdk;
 using namespace ugdk::action;
 using namespace utils;
 
+using map::Tile;
+using map::GameMap;
+using map::TilePos;
 using sprite::WorldObject;
 
 namespace component {
@@ -47,7 +50,7 @@ Creature::~Creature() {}
 // ============= other stuff
 
 void Creature::Update(double dt) {
-    scene::World *world = WORLD();
+    /* scene::World *world = WORLD();
     if (world) {
         GameMap& map = world->level_matrix();
         TilePos mummy_pos = Tile::ToTilePos(owner_->world_position());
@@ -59,7 +62,7 @@ void Creature::Update(double dt) {
             else
                 owner_->node()->modifier()->set_visible(false);
         }
-    }
+    }*/
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
         if(!owner_->animation()->is_uninterrutible()) {

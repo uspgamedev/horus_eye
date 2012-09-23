@@ -12,7 +12,8 @@
 #include "game/components/animation.h"
 #include "game/components/caster.h"
 #include "game/scenes/world.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
+#include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/sprites/condition.h"
 
@@ -29,6 +30,7 @@ WorldObject::WorldObject(double duration)
         collision_object_(NULL),
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
+        current_room_(NULL),
         light_radius_(0.0),
         layer_(scene::FOREGROUND_LAYER),
         damageable_(NULL), 
@@ -56,8 +58,9 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Die() {
+    node()->modifier()->set_visible(false);
     status_ = STATUS_DEAD;
-    if(!tag_.empty()) WORLD()->RemoveTag(tag_);
+    if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
     if(on_die_callback_) on_die_callback_(this);
 }
@@ -124,15 +127,14 @@ void WorldObject::set_timed_life(double duration) {
     set_timed_life(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration)));
 }
 
-void WorldObject::OnSceneAdd(ugdk::action::Scene* scene) {
-    World* world = dynamic_cast<World*>(scene);
-    world->layer_node(layer_)->AddChild(node());
+void WorldObject::OnRoomAdd(map::Room* room) {
     if(collision_object() != NULL)
         collision_object()->StartColliding();
+    current_room_ = room;
     if(logic_)
-        logic_->OnWorldAdd(world);
-    if(on_world_add_callback_)
-        on_world_add_callback_(this, world);
+        logic_->OnRoomAdd(room);
+    if(on_room_add_callback_)
+        on_room_add_callback_(this, room);
 }
 
 bool deletecondition(Condition *condition) {

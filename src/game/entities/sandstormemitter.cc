@@ -1,14 +1,14 @@
+#include "game/entities/sandstormemitter.h"
 
-#include <math.h>
+#include <cmath>
 
+#include <ugdk/math/integer2D.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 
-#include "game/entities/sandstormemitter.h"
-
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/utils/settings.h"
 #include "game/skills/usearguments.h"
 #include "game/builders/projectilebuilder.h"
@@ -17,9 +17,9 @@ namespace entities {
 
 using ugdk::Engine;
 using ugdk::time::TimeAccumulator;
+using ugdk::Vector2D;
 
 using builder::ProjectileBuilder;
-using scene::World;
 using utils::Settings;
 using skills::usearguments::Aim;
 using utils::Constants;
@@ -33,7 +33,6 @@ void SandstormEmitter::Update(double dt) {
 
         // emmits the projectiles.
 
-        World *world = WORLD();
         // this is the direction versor and his normal vector,
         // we'll produce two spread vectors and reflect along this one.
         Vector2D aim_versor = (aim_.destination_ - aim_.origin_).Normalize();
@@ -56,7 +55,7 @@ void SandstormEmitter::Update(double dt) {
         
         ProjectileBuilder proj;
         for(int i=0;i<4;i++) {
-            world->AddWorldObject(proj.MagicBall(versor[i]), aim_.origin_);
+            current_room()->AddObject(proj.MagicBall(versor[i]), aim_.origin_, map::POSITION_ABSOLUTE);
             // TODO:FIREBALL!?
         }
 

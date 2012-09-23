@@ -1,15 +1,14 @@
 #include "tile.h"
+
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/modifier.h>
 
-namespace utils {
-
-using namespace ugdk;
+namespace map {
 
 Tile::Tile (int i, int j, char object)
-    : pos_(i,j), object_(object), visible_(false), floor_(new graphic::Node) {
-        floor_->modifier()->ToggleFlag(graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+    : pos_(i,j), object_(object), visible_(false), floor_(new ugdk::graphic::Node) {
+        floor_->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 }
 
 void Tile::CleanVisibility(GameMap& map) {
@@ -25,15 +24,15 @@ void Tile::CleanVisibility(GameMap& map) {
 }
 
 
-TilePos Tile::ToTilePos(Vector2D pos) {
+TilePos Tile::ToTilePos(ugdk::Vector2D pos) {
     return TilePos(
         static_cast<int>(pos.y + 0.5),
         static_cast<int>(pos.x + 0.5)
     );
 }
 
-Vector2D Tile::FromTilePos(TilePos pos) {
-    return Vector2D(pos.j, pos.i);
+ugdk::Vector2D Tile::FromTilePos(TilePos pos) {
+    return ugdk::Vector2D(pos.j, pos.i);
 }
 
 Tile* Tile::GetFromWorldPosition(GameMap &map, ugdk::Vector2D pos) {

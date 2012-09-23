@@ -12,7 +12,7 @@
 #include "scenes/editormenu.h"
 #include "game/scenes/menu.h"
 #include "game/utils/levelmanager.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 
 using std::string;
 using std::vector;
@@ -45,29 +45,29 @@ static inline std::string &trim(std::string &s) {
 namespace editor {
 
 MapEditor::MapEditor() : Scene() {
-	// No map has been loaded yet
-	map_loaded_ = false;
+    // No map has been loaded yet
+    map_loaded_ = false;
 
     main_layer_ = tiles_layer_ = new MapTilesLayer(this);
-	sprites_layer_ = new MapSpritesLayer(this);
-	
-	this->interface_node()->AddChild(tiles_layer_->node());
-	this->interface_node()->AddChild(sprites_layer_->node());
+    sprites_layer_ = new MapSpritesLayer(this);
+    
+    this->interface_node()->AddChild(tiles_layer_->node());
+    this->interface_node()->AddChild(sprites_layer_->node());
 
-	sprites_layer_->node()->modifier()->set_visible(false);
+    sprites_layer_->node()->modifier()->set_visible(false);
 
-	//fps_layer_ = new FPSMeter; // TODO
+    //fps_layer_ = new FPSMeter; // TODO
     selected_object_ = NULL;
 
-	utils::LevelManager::reference()->LoadLevelList("level_list.txt", map_list_);
+    utils::LevelManager::reference()->LoadLevelList("level_list.txt", map_list_);
 }
 
 MapEditor::~MapEditor() {
 }
 
 void MapEditor::End() {
-	this->interface_node()->RemoveChild(tiles_layer_->node());
-	this->interface_node()->RemoveChild(sprites_layer_->node());
+    this->interface_node()->RemoveChild(tiles_layer_->node());
+    this->interface_node()->RemoveChild(sprites_layer_->node());
 
     if (map_loaded_) {
         //Engine::reference()->RemoveInterface(fps_layer_);
@@ -79,13 +79,13 @@ void MapEditor::End() {
 }
 
 void MapEditor::LoadMap(std::string& file_name) {
-	map_filename_ = file_name;
+    map_filename_ = file_name;
     FILE *file = fopen(file_name.c_str(), "r");
 
     if(file != NULL) {
         char buffer[LINE_SIZE];
         fgets(buffer, LINE_SIZE, file);
-		music_ = string(buffer);
+        music_ = string(buffer);
         trim(music_);
 
         fgets(buffer, LINE_SIZE, file);
@@ -101,14 +101,14 @@ void MapEditor::LoadMap(std::string& file_name) {
             }
         }
         fclose(file);
-		map_loaded_ = true;
-		sprites_layer_->LoadMapMatrix(&map_matrix_);
-		tiles_layer_->LoadMapMatrix(&map_matrix_);
-		offset_ = Vector2D(width_ * 0.5, height_ * 0.5);
-		scale_level_ = 0;
+        map_loaded_ = true;
+        sprites_layer_->LoadMapMatrix(&map_matrix_);
+        tiles_layer_->LoadMapMatrix(&map_matrix_);
+        offset_ = Vector2D(width_ * 0.5, height_ * 0.5);
+        scale_level_ = 0;
     } else {
         cout << "CANNOT OPEN FILE: " << file_name << endl;
-		map_loaded_ = false;
+        map_loaded_ = false;
         exit(0);
     }
 }
@@ -117,21 +117,21 @@ void MapEditor::Update(double delta_t) {
     Scene::Update(delta_t);
 
     ugdk::input::InputManager *input = INPUT_MANAGER();
-	// When the user presses ESCAPE (or on start), the EditorMenu is created.
+    // When the user presses ESCAPE (or on start), the EditorMenu is created.
     if(input->KeyPressed(ugdk::input::K_ESCAPE) || map_loaded_ == false) {
-		EditorMenuBuilder builder;
-		scene::Menu* editor_menu = builder.BuildEditorMenu(this);
+        EditorMenuBuilder builder;
+        scene::Menu* editor_menu = builder.BuildEditorMenu(this);
         Engine::reference()->PushScene(editor_menu);
-	}
-	if (!map_loaded_) return;
-	
-	if(input->KeyPressed(ugdk::input::K_MINUS))
+    }
+    if (!map_loaded_) return;
+    
+    if(input->KeyPressed(ugdk::input::K_MINUS))
         scale_level_--;
-	else if(input->KeyPressed(ugdk::input::K_EQUALS))
+    else if(input->KeyPressed(ugdk::input::K_EQUALS))
         scale_level_++;
 
-	double scale = exp(scale_level_ * 0.10);
-	main_layer_->node()->modifier()->set_scale(Vector2D(scale));
+    double scale = exp(scale_level_ * 0.10);
+    main_layer_->node()->modifier()->set_scale(Vector2D(scale));
 
     Vector2D movement;
 
@@ -154,20 +154,20 @@ void MapEditor::Update(double delta_t) {
             movement.y -= 100.0 * delta_t;
         if(input->KeyDown(ugdk::input::K_DOWN))
             movement.y += 100.0 * delta_t;
-		drag_click_ = false;
+        drag_click_ = false;
     }
     offset_ = offset_ - main_layer_->ModifyMovement(movement);
-	if (offset_.x < 0) offset_.x = 0;
-	if (offset_.y < 0) offset_.y = 0;
-	if (offset_.x > width_) offset_.x = width_;
-	if (offset_.y > height_) offset_.y = height_;
+    if (offset_.x < 0) offset_.x = 0;
+    if (offset_.y < 0) offset_.y = 0;
+    if (offset_.x > width_) offset_.x = width_;
+    if (offset_.y > height_) offset_.y = height_;
 
     tiles_layer_->CenterAt(offset_);
     sprites_layer_->CenterAt(offset_);
 
     last_mouse_position_ = input->GetMousePosition();
     if(input->MouseDown(ugdk::input::M_BUTTON_LEFT) && !drag_click_) {
-		MapObject* new_obj = main_layer_->Select(last_mouse_position_);
+        MapObject* new_obj = main_layer_->Select(last_mouse_position_);
         if(selected_object_)
             selected_object_->Select(false);
         selected_object_ = (new_obj == selected_object_ && input->MousePressed(ugdk::input::M_BUTTON_LEFT)) ? NULL : new_obj;
@@ -175,7 +175,7 @@ void MapEditor::Update(double delta_t) {
             selected_object_->Select(true);
     }
 
-	this->processKeyEditCommands();
+    this->processKeyEditCommands();
 
     if(input->KeyPressed(ugdk::input::K_END)) {
         main_layer_->node()->modifier()->set_visible(false);
@@ -186,105 +186,105 @@ void MapEditor::Update(double delta_t) {
         }
         main_layer_->node()->modifier()->set_visible(true);
     }
-	else if (input->KeyPressed(ugdk::input::K_HOME)) {
-		this->SaveMap();
-	}
+    else if (input->KeyPressed(ugdk::input::K_HOME)) {
+        this->SaveMap();
+    }
 
 }
 
 void MapEditor::processKeyEditCommands() {
     ugdk::input::InputManager *input = INPUT_MANAGER();
 
-	char type = '-';
-	bool doFill = false;
+    char type = '-';
+    bool doFill = false;
 
-	/*object modifier keys*/
-	bool isStanding = !(input->KeyDown(ugdk::input::K_LSHIFT) || input->KeyDown(ugdk::input::K_RSHIFT));
+    /*object modifier keys*/
+    bool isStanding = !(input->KeyDown(ugdk::input::K_LSHIFT) || input->KeyDown(ugdk::input::K_RSHIFT));
 
-	/*basic object keys*/
-	if(input->KeyDown(ugdk::input::K_w)) type = WALL;
-	if(input->KeyDown(ugdk::input::K_d)) type = DOOR;
-	if(input->KeyDown(ugdk::input::K_e)) type = ENTRY;
-	if(input->KeyDown(ugdk::input::K_m)) type = (isStanding) ? STANDING_MUMMY : MUMMY;
-	if(input->KeyDown(ugdk::input::K_r)) type = (isStanding) ? STANDING_RANGED_MUMMY : RANGED_MUMMY;
-	if(input->KeyDown(ugdk::input::K_b)) type = (isStanding) ? STANDING_BIG_MUMMY : BIG_MUMMY;
-	if(input->KeyDown(ugdk::input::K_p)) type = (isStanding) ? STANDING_PHARAOH : PHARAOH;
-	if(input->KeyDown(ugdk::input::K_h)) type = HERO;
-	if(input->KeyDown(ugdk::input::K_x)) type = FLOOR;
-	if(input->KeyDown(ugdk::input::K_o)) type = EMPTY;
-	if(input->KeyDown(ugdk::input::K_l)) type = POTIONL;
-	if(input->KeyDown(ugdk::input::K_n)) type = POTIONM;
-	if(input->KeyDown(ugdk::input::K_s)) type = POTIONS;
+    /*basic object keys*/
+    if(input->KeyDown(ugdk::input::K_w)) type = WALL;
+    if(input->KeyDown(ugdk::input::K_d)) type = DOOR;
+    if(input->KeyDown(ugdk::input::K_e)) type = ENTRY;
+    if(input->KeyDown(ugdk::input::K_m)) type = (isStanding) ? STANDING_MUMMY : MUMMY;
+    if(input->KeyDown(ugdk::input::K_r)) type = (isStanding) ? STANDING_RANGED_MUMMY : RANGED_MUMMY;
+    if(input->KeyDown(ugdk::input::K_b)) type = (isStanding) ? STANDING_BIG_MUMMY : BIG_MUMMY;
+    if(input->KeyDown(ugdk::input::K_p)) type = (isStanding) ? STANDING_PHARAOH : PHARAOH;
+    if(input->KeyDown(ugdk::input::K_h)) type = HERO;
+    if(input->KeyDown(ugdk::input::K_x)) type = FLOOR;
+    if(input->KeyDown(ugdk::input::K_o)) type = EMPTY;
+    if(input->KeyDown(ugdk::input::K_l)) type = POTIONL;
+    if(input->KeyDown(ugdk::input::K_n)) type = POTIONM;
+    if(input->KeyDown(ugdk::input::K_s)) type = POTIONS;
     if(input->KeyDown(ugdk::input::K_k)) type = BLOCK;
     if(input->KeyDown(ugdk::input::K_u)) type = BUTTON;
 
-	/*advanced commands keys*/
-	if(input->KeyDown(ugdk::input::K_LCTRL) || input->KeyDown(ugdk::input::K_RCTRL)) doFill = true;
+    /*advanced commands keys*/
+    if(input->KeyDown(ugdk::input::K_LCTRL) || input->KeyDown(ugdk::input::K_RCTRL)) doFill = true;
 
-	if (selected_object_ && selected_object_->type() != type && type != '-') {
-		int i, j, selI, selJ, a, b;
-		selI = selected_object_->y();
-		selJ = selected_object_->x();
-		char c = selected_object_->type();
-		MapObject* aux;
+    if (selected_object_ && selected_object_->type() != type && type != '-') {
+        int i, j, selI, selJ, a, b;
+        selI = selected_object_->y();
+        selJ = selected_object_->x();
+        char c = selected_object_->type();
+        MapObject* aux;
 
-		selected_object_->Select(false);
+        selected_object_->Select(false);
 
-		queue<MapObject*> q;
-		q.push(selected_object_);
+        queue<MapObject*> q;
+        q.push(selected_object_);
 
 
-		while (!q.empty()) {
-			aux = q.front();
-			q.pop();
+        while (!q.empty()) {
+            aux = q.front();
+            q.pop();
 
-			i = aux->y();
-			j = aux->x();
+            i = aux->y();
+            j = aux->x();
 
-			// Removing the MapObject
-			sprites_layer_->node()->RemoveChild(aux->isometric_node());
-			tiles_layer_->node()->RemoveChild(aux->tile_node());
-			delete aux;
+            // Removing the MapObject
+            sprites_layer_->node()->RemoveChild(aux->isometric_node());
+            tiles_layer_->node()->RemoveChild(aux->tile_node());
+            delete aux;
 
-			// Creatings a new
-			map_matrix_[i][j] = new MapObject(i, j, type, width_, height_);
+            // Creatings a new
+            map_matrix_[i][j] = new MapObject(i, j, type, width_, height_);
 
-			// Adding it to the screen
-			sprites_layer_->node()->AddChild(map_matrix_[i][j]->isometric_node());
-			tiles_layer_->node()->AddChild(map_matrix_[i][j]->tile_node());
+            // Adding it to the screen
+            sprites_layer_->node()->AddChild(map_matrix_[i][j]->isometric_node());
+            tiles_layer_->node()->AddChild(map_matrix_[i][j]->tile_node());
 
-			map_matrix_[i][j]->set_is_in_fill(false);
+            map_matrix_[i][j]->set_is_in_fill(false);
 
-			if (doFill) {
-				for (a=-1; a < 2; a++)
-					if (i+a >= 0 && i+a < height_)
-						for (b=-1; b<2; b++)
-							if (j+b >= 0 && j+b < width_ && (i+a == i || j+b == j))
-								if (map_matrix_[i+a][j+b]->type() == c && !map_matrix_[i+a][j+b]->is_in_fill()) {
-									q.push(map_matrix_[i+a][j+b]);
-									map_matrix_[i+a][j+b]->set_is_in_fill(true);
-								}
-			}
-		}
-		
-		selected_object_ = map_matrix_[selI][selJ];
-		selected_object_->Select(true);
-	}
+            if (doFill) {
+                for (a=-1; a < 2; a++)
+                    if (i+a >= 0 && i+a < height_)
+                        for (b=-1; b<2; b++)
+                            if (j+b >= 0 && j+b < width_ && (i+a == i || j+b == j))
+                                if (map_matrix_[i+a][j+b]->type() == c && !map_matrix_[i+a][j+b]->is_in_fill()) {
+                                    q.push(map_matrix_[i+a][j+b]);
+                                    map_matrix_[i+a][j+b]->set_is_in_fill(true);
+                                }
+            }
+        }
+        
+        selected_object_ = map_matrix_[selI][selJ];
+        selected_object_->Select(true);
+    }
 }
 
 void MapEditor::SaveMap() {
-	if (!map_loaded_) return;
+    if (!map_loaded_) return;
 
-	ofstream file (map_filename_.c_str());
+    ofstream file (map_filename_.c_str());
     if(file.is_open()){
-		file << music_ << "\n";
+        file << music_ << "\n";
         file << width_ << " " << height_ << "\n";
         
         for (int i = 0; i < height_; ++i) {
             for (int j = 0; j < width_; j++) {
                 file << map_matrix_[i][j]->type();
             }
-			file << "\n";
+            file << "\n";
         }
         file.close();
     } else {

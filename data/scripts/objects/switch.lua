@@ -36,7 +36,7 @@ function generate ()
       Projectile = function(self, obj)
         if not switch.activated then
           for i=1,3 do
-            local door = context.WorldObjectByTag("DOOR_"..i)
+            local door = self:current_room():WorldObjectByTag("DOOR_"..i)
             if not door then
               print "door not found"
             else

@@ -4,7 +4,7 @@
 #include <ugdk/script/baseproxy.h>
 #include <ugdk/script/virtualobj.h>
 #include <game/components/logic.h>
-#include <game/scenes.h>
+#include <game/map.h>
 
 namespace component {
 
@@ -23,13 +23,13 @@ public:
         ( proxy_ | "Update" )(args);
     }
 
-    virtual void OnWorldAdd(scene::World* scene) {
-        if(proxy_["OnSceneAdd"]) {
+    virtual void OnRoomAdd(map::Room* room) {
+        if(proxy_["OnRoomAdd"]) {
             ugdk::script::VirtualObj::List args;
             ugdk::script::VirtualObj vscene = ugdk::script::VirtualObj(proxy_.wrapper());
-            vscene.set_value<scene::World*>(scene);
+            vscene.set_value<map::Room*>(room);
             args.push_back(vscene);
-            ( proxy_ | "OnSceneAdd" )(args);
+            ( proxy_ | "OnRoomAdd" )(args);
         }
     }
 

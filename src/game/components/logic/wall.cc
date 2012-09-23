@@ -1,3 +1,5 @@
+#include "wall.h"
+
 #include <iostream>
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
@@ -6,12 +8,10 @@
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
 
-#include "wall.h"
-
 #include "game/scenes/world.h"
 #include "game/utils/constants.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/tile.h"
+#include "game/map/tile.h"
 
 
 namespace component {
@@ -19,6 +19,9 @@ namespace component {
 using namespace ugdk;
 using namespace utils;
 using namespace scene;
+
+using map::Tile;
+using map::GameMap;
 
 #define PI          3.1415926535897932384626433832795
 #define TRANSPARENCY_DISTANCE 1.75
@@ -37,7 +40,7 @@ Wall::Wall(sprite::WorldObject* owner, ugdk::graphic::Spritesheet* sheet)
     owner->node()->set_drawable(sprite_);
 }
 Wall::~Wall() {
-    tile_->set_object(' ');
+    //tile_->set_object(' ');
 }
 
 void Wall::set_type(WallType walltype) {
@@ -75,7 +78,7 @@ bool IsWall(Tile *tile) {
 }
 
 void Wall::CheckType() {
-    GameMap &map = WORLD()->level_matrix();
+    /*GameMap &map = WORLD()->level_matrix();
 
     if(!tile_)
         tile_ = Tile::GetFromWorldPosition(map, owner_->world_position());
@@ -95,11 +98,11 @@ void Wall::CheckType() {
         } else {
             set_type(BOTTOMRIGHT);
         }
-    }
+    }*/
 }
 
 void Wall::Update(double delta_t) {
-    World* world = WORLD();
+    /*World* world = WORLD();
     // Only use this if the walls are supposed to become not visible.
 
     if(!tile_)
@@ -121,7 +124,7 @@ void Wall::Update(double delta_t) {
             else
                 sprite_->SetDefaultFrame(dark_visible_frame_);
         }
-    }
+    }*/
 }
 
 }

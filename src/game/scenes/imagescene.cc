@@ -5,7 +5,7 @@
 
 #include <ugdk/base/engine.h>
 #include <ugdk/action/generictask.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/input/inputmanager.h>

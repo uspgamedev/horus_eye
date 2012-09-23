@@ -38,13 +38,13 @@ void MummyController::Think(double dt) {
     if(time_to_think_ <= 0){
         time_to_think_ = start_time_to_think_;
 
-        if(WORLD()->hero_world_object())
-            aim_destination_ = WORLD()->hero_world_object()->world_position();
+        if(WORLD()->hero())
+            aim_destination_ = WORLD()->hero()->world_position();
 
         utils::VisionStrategy strategy;
-        if(strategy.IsVisible(owner_->world_position(), aim_destination_)) {
+        if(strategy.IsVisible(owner_, aim_destination_)) {
             standing_ = false;
-            path_ = strategy.Calculate(owner_->world_position());
+            path_ = strategy.Calculate(owner_);
             if(!path_.empty()) updateDirection(path_.front());
         } else if(!standing_) {
             randomMovement();

@@ -31,6 +31,7 @@ using namespace std::tr1::placeholders;
 using ugdk::action::AnimationSet;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
+using ugdk::graphic::Node;
 using ugdk::time::TimeAccumulator;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::GenericCollisionLogic;
@@ -44,18 +45,17 @@ COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
     wobj->damageable()->TakeDamage(data_);
 }
 
-COLLISION_DIRECT(scene::World*, WinCollision, obj) {
-    if (data_->CountRemainingEnemies() == 0 && data_->num_button_not_pressed().Get() <= 0)
-        data_->FinishLevel(utils::LevelManager::FINISH_WIN);
+void WinCollision(void*) {
+    WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN);
 }
 
-WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world) {
+WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
     wobj->node()->set_drawable(new Sprite("stairs"));
 
-    CollisionObject* col = new CollisionObject(world->collision_manager(), wobj);
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
-    col->AddCollisionLogic("Hero", new WinCollision(world));
+    col->AddCollisionLogic("Hero", new GenericCollisionLogic(WinCollision));
     col->set_shape(new pyramidworks::geometry::Rect(Constants::DOOR_BOUND_WIDTH, Constants::DOOR_BOUND_HEIGHT));
     wobj->set_collision_object(col);
 
@@ -64,6 +64,7 @@ WorldObject* Door(const std::vector<std::string>& arguments, scene::World* world
 
 static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     WorldObject* wobj = new WorldObject;
+    wobj->set_identifier("Wall");
     wobj->set_logic(new component::Wall(wobj, sheet));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
@@ -88,7 +89,7 @@ static void PIZZAMATAHERO() {
 }
 
 static void WorldPressButton() {
-    WORLD()->num_button_not_pressed() -= 1;
+    //WORLD()->num_button_not_pressed() -= 1;
 }
 
 
@@ -129,7 +130,7 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
     ButtonLogic* logic;
     if(arguments.size() > 0 && arguments[0].compare("pizza") == 0) {
         logic = new ButtonLogic(sprite, PIZZAMATAHERO);
-        WORLD()->num_button_not_pressed() -= 1;
+        //WORLD()->num_button_not_pressed() -= 1;
     } else
         logic = new ButtonLogic(sprite, WorldPressButton);
 
@@ -227,6 +228,13 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     wobj->set_collision_object(col);
 
     return wobj;
+}
+
+Node* Floor(const ugdk::Vector2D& position) {
+    utils::ImageFactory imagefactory;
+    Node* floor = new Node(imagefactory.FloorImage());
+    floor->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
+    return floor;
 }
 
 } // namespace DoodadBuilder

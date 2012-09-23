@@ -14,6 +14,7 @@
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/utils/constants.h"
 #include "game/resources/energy.h"
@@ -38,8 +39,8 @@ COLLISION_DIRECT(WorldObject*, AntiStackCollision, voiddata) {
     creature->set_walking_direction((creature->walking_direction() + deviation*0.9).Normalize());
 }
 
-static void MummyWorldAdd(sprite::WorldObject* wobj, scene::World* world) {
-    world->IncreaseNumberOfEnemies();
+static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {
+    //world->IncreaseNumberOfEnemies();
 }
 
 static void MummyDeath(sprite::WorldObject* wobj) {
@@ -54,8 +55,8 @@ static void MummyDeath(sprite::WorldObject* wobj) {
         else
             potion_obj = builder::ItemBuilder::SightPotion(blank);
     }
-    if(potion_obj) WORLD()->AddWorldObject(potion_obj, wobj->world_position());
-    WORLD()->DecreaseEnemyCount();
+    if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position(), map::POSITION_ABSOLUTE);
+    //WORLD()->DecreaseEnemyCount();
 }
 
 static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius, double speed) {
@@ -84,7 +85,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
 
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);
-    wobj->set_world_add_callback(MummyWorldAdd);
+    wobj->set_room_add_callback(MummyRoomAdd);
     return wobj;
 }
 

@@ -3,9 +3,13 @@
 
 #include <vector>
 
-namespace utils {
+namespace map {
+
+class Room;
 class Tile;
 typedef std::vector<Tile*> TileRow;
 typedef std::vector<TileRow> GameMap;
+
 }
+
 #endif

@@ -1,12 +1,13 @@
+#include "game/context.h"
 
 #include <cstdio>
 #include <vector>
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
-#include "game/context.h"
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
+#include "game/map/room.h"
 
 namespace context {
 
@@ -19,20 +20,27 @@ using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
 
-WorldObject* WorldObjectByTag (const string& tag) {
-    return WORLD()->WorldObjectByTag(tag);
+
+sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
+    World *world = WORLD();
+    assert(world);
+    size_t slashpos = tag.find_first_of('/');
+    if(slashpos == std::string::npos) {
+        fprintf(stderr, "Tag '%s' is not of the format 'X/Y'\n", tag.c_str());
+        return NULL;
+    }
+    std::string room_name = tag.substr(0, slashpos),
+        obj_tag = tag.substr(slashpos);
+
+    const map::Room* room = world->GetRoom(room_name);
+    if(room)
+        return room->WorldObjectByTag(obj_tag);
+    else
+        return NULL;
 }
 
 WorldObject* BuildWorldObject (const string& scriptname) {
     return Script(vector<string>(1,scriptname));
-}
-
-void AddWorldObject (WorldObject* new_obj, const Vector2D& pos) {
-    WORLD()->AddWorldObject(new_obj, pos);
-}
-
-void AddWorldObject (const string& scriptname, const Vector2D& pos) {
-    AddWorldObject(BuildWorldObject(scriptname), pos);
 }
 
 CollisionObject* MakeCollisionObject (WorldObject* obj) {
@@ -57,6 +65,18 @@ void AddCollisionClass (const string& classname, const std::string& supername) {
     CollisionManager *manager = world->collision_manager();
     assert(manager);
     manager->Generate(classname, supername);
+}
+
+void ActivateRoom(const std::string& roomname) {
+    World *world = WORLD();
+    assert(world);
+    world->ActivateRoom(roomname);
+}
+
+void DeactivateRoom(const std::string& roomname) {
+    World *world = WORLD();
+    assert(world);
+    world->DeactivateRoom(roomname);
 }
 
 } // namespace context

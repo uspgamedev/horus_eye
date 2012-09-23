@@ -20,8 +20,6 @@ function generate (x,y, spawner_type, ...)
   local descriptor = {}
   local trap = make_trap()
   local args = { ... }
-  
-  print "ASDFASFASDFZSDFASE"
 
   descriptor.collision = {
     class = "EventArea",
@@ -36,10 +34,10 @@ function generate (x,y, spawner_type, ...)
           for _,arg in pairs(args) do
             str_args:push_back(arg)
           end
-          local spawner =
-            builder.Script(str_args)
-          context.AddWorldObject(spawner, Vector2D(x,y))
+          local spawner = builder.Script(str_args)
+		  self:current_room():AddObject(spawner, Vector2D(x,y))
           trap.activated = true
+		  print(self:identifier() .. " Activated!")
         end
       end
     }
@@ -48,5 +46,8 @@ function generate (x,y, spawner_type, ...)
   return descriptor
 end
 
+i = 1
 function build (wobj)
+	wobj:set_identifier("Spawn Trap #"..i)
+	i = i + 1
 end

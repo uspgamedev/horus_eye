@@ -59,7 +59,7 @@ class Damageable {
     /// List of possible sound effects to play when hit.
     std::vector<std::string> hit_sounds_;
 
-	bool blinks_;
+    bool blinks_;
 
 };  // class Creature
 

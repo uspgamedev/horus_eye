@@ -7,7 +7,7 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 
-#include "game/scenes/world.h"
+#include "game/map/room.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
@@ -25,16 +25,15 @@ using utils::Constants;
 
 static bool VisibilityCheck(const component::Caster* caster) {
     VisionStrategy vs;
-    return vs.IsVisible(caster->aim().destination_, caster->aim().origin_);
+    return vs.IsVisible(caster->owner(), caster->aim().destination_);
 }
 
 static void HeroLightUse(component::Caster* caster){
-    World *world = WORLD();   
-
     sprite::WorldObject *light = new sprite::WorldObject(5.0);
     light->node()->set_drawable(new ugdk::graphic::Sprite("light"));
     light->set_light_radius(4.0);
-    world->AddWorldObject(light, caster->aim().destination_);
+
+    caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();

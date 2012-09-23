@@ -14,6 +14,7 @@
 #include "game/scenes.h"
 #include "game/components.h"
 #include "game/sprites.h"
+#include "game/map.h"
 
 namespace sprite {
 
@@ -63,10 +64,10 @@ class WorldObject : public ugdk::action::Entity {
     void set_timed_life(double);
     ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
-    void OnSceneAdd(ugdk::action::Scene* scene);
+    void OnRoomAdd(map::Room*);
     
-    void set_world_add_callback(std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback) {
-        on_world_add_callback_ = on_world_add_callback;
+    void set_room_add_callback(std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback) {
+        on_room_add_callback_ = on_room_add_callback;
     }
 
     void set_start_to_die_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
@@ -104,6 +105,8 @@ class WorldObject : public ugdk::action::Entity {
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
 
+    map::Room* current_room() const { return current_room_; }
+
   protected:
     std::string identifier_;
 
@@ -114,7 +117,7 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::time::TimeAccumulator* timed_life_;
 
     // TODO: make this somethintg
-    std::tr1::function<void (WorldObject*, scene::World*)> on_world_add_callback_;
+    std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
     std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
     std::tr1::function<void (WorldObject*)> on_die_callback_;
 
@@ -123,6 +126,8 @@ class WorldObject : public ugdk::action::Entity {
     ugdk::Vector2D world_position_;
 
     std::string tag_;
+
+    map::Room* current_room_;
 
     // The current status for the object.
     Status status_;

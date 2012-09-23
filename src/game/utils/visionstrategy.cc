@@ -6,15 +6,18 @@
 
 #include "geometryprimitives.h"
 #include "game/scenes/world.h"
-#include "tile.h"
+#include "game/map/tile.h"
+#include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/sprites/worldobject.h"
 
-using namespace std;
 using namespace scene;
 using namespace utils;
 using namespace sprite;
 using namespace ugdk;
+
+using std::queue;
+using map::GameMap;
 
 bool solid(char obj){
     if(obj == WALL) return true;
@@ -26,17 +29,18 @@ bool wall(char obj){
     if(obj == WALL) return true;
     return false;
 }
+    
+bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
+    WorldObject* hero = WORLD()->hero();
+    if(hero)
+        return IsVisible(from, hero->world_position());
+    else
+        return IsVisible(from, from->world_position());
+}
 
-
-bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
-    World *world = WORLD();
-    GameMap& matrix = world->level_matrix();
-
-    if(position2.x < 0.0){
-        WorldObject* hero = world->hero_world_object();
-        position2 = hero ? hero->world_position() : position1;
-    }
-
+bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& position2) {
+    const GameMap& matrix = from->current_room()->matrix();
+    Vector2D position1 = from->world_position();
     Vector2D distance = position2 - position1;
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
@@ -72,8 +76,9 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
 #define TO_MATRIX(value) static_cast<int>(value + 0.5)
 
 bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
+    /*
     World *world = WORLD();
-    GameMap& matrix = world->level_matrix();
+    const GameMap& matrix = world->room()->matrix();
 
     if(position2.x < 0.0){
         WorldObject* hero = world->hero_world_object();
@@ -100,12 +105,6 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
         j = (int)ipos1.x;
 
     // Walks through the path.
-    /*
-    printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
-    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
-    printf("step=[%d][%d]\n", step_i, step_j);
-    printf("dir=(%f, %f])\n", dir.x, dir.y);
-    */
     while (i != (int)ipos2.y || j != (int)ipos2.x) {
         //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
         if (wall(matrix[i][j]->object())) return false;
@@ -123,25 +122,21 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
         }
         ij_pos = ij_pos + dir*length;
     }
-
-    /*printf("pos1=[%d][%d]\n", (int)ipos1.y, (int)ipos1.x);
-    printf("pos2=[%d][%d]\n", (int)ipos2.y, (int)ipos2.x);
-    printf("height=%d\nproportion=%d\n", height, proportion);*/
-    //printf("Checking [%d][%d] --> %c\n", i, j, matrix[i][j]);
+    */
 
     return true;
 }
 
-queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
+queue<Vector2D> VisionStrategy::Calculate(sprite::WorldObject* who) {
     World *world = WORLD();
-    WorldObject* hero = world->hero_world_object();
+    WorldObject* hero = world->hero();
 
     queue<Vector2D> resp;
 
     if(hero == NULL)
         return resp;
 
-    if(IsVisible(position,hero->world_position()))
+    if(IsVisible(who, hero->world_position()))
         resp.push(hero->world_position());
     return resp;
 }

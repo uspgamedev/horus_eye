@@ -1,12 +1,15 @@
+#include "world.h"
+
 #include <cmath>
 #include <iostream>
+#include <algorithm>
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include <ugdk/action/scene.h>
 #include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <externals/ugdk-videomanager.h>
 #include <ugdk/time/timemanager.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/util/intervalkdtree.h>
@@ -14,26 +17,23 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
-#include "world.h"
+#include "game/map/room.h"
 
 #include "game/scenes/menu.h"
-
 #include "game/sprites/worldobject.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
-#include "game/utils/tile.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
-#include "game/utils/imagefactory.h"
-#include "game/utils/settings.h"
-#include "game/utils/visionstrategy.h"
 
 namespace scene {
 
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
-using namespace std;
+using ugdk::action::GenericTask;
+using std::tr1::bind;
+using namespace std::tr1::placeholders;
 using component::Hero;
 using pyramidworks::collision::CollisionInstance;
 
@@ -108,14 +108,8 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
 World::World() 
     :   Scene(),
         hero_(NULL),
-        level_width_(10),
-        level_height_(10),
-        remaining_enemies_(0),
-        max_enemies_(0),
+        size_(10, 10),
         level_state_(LevelManager::NOT_FINISHED),
-        konami_used_(false),
-        lights_on_(true),
-        num_button_not_pressed_(0),
         collision_manager_(NULL) {
 
     content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
@@ -132,18 +126,27 @@ World::World()
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
-    //QueuedAddEntity(hero_);
+    this->AddTask(new GenericTask(bind(&World::updateRooms, this, _1)));
 
-    this->AddTask(new ugdk::action::GenericTask(std::tr1::bind(FinishLevelTask, std::tr1::placeholders::_1, &level_state_), 1000));
+    this->AddTask(new GenericTask(bind(FinishLevelTask, _1, &level_state_), 1000));
 //#ifdef DEBUG
-    this->AddTask(new ugdk::action::GenericTask(VerifyCheats));
+    this->AddTask(new GenericTask(VerifyCheats));
 //#endif
-    this->AddTask(new ugdk::action::GenericTask(UpdateOffset));
+    this->AddTask(new GenericTask(UpdateOffset));
 }
 
 // Destrutor
 World::~World() {
     if(collision_manager_) delete collision_manager_;
+}
+
+void World::Start() {
+    map::Room* room = hero_initial_room_.empty() ? NULL : rooms_[hero_initial_room_];
+    if(room) {
+        ActivateRoom(hero_initial_room_);
+        if(hero_)
+            room->AddObject(hero_, hero_initial_position_, map::POSITION_ABSOLUTE);
+    }
 }
 
 void World::End() {
@@ -162,31 +165,12 @@ void World::End() {
         hero_ = NULL;
     }
 
-    this->RemoveAllEntities();
-    for (int i = 0; i < (int)level_matrix_.size(); i++)
-        for (int j = 0; j < (int)level_matrix_[i].size(); j++)
-            delete level_matrix_[i][j];
+    RemoveAllEntities();
+    removeAllRooms();
 }
 
-void World::IncreaseNumberOfEnemies() {
-    remaining_enemies_++;
-    max_enemies_++;
-}	
-
-void World::AddWorldObject(sprite::WorldObject* new_object, const ugdk::Vector2D& pos) {
-    new_object->set_world_position(pos);
-    if(!new_object->tag().empty())
-        tagged_[new_object->tag()] = new_object;
-    QueuedAddEntity(new_object);
-}
-
-void World::set_hero(sprite::WorldObject *hero) {
+void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
-    AddWorldObject(hero, hero_initial_position_);
-}
-
-int World::CountRemainingEnemies() {
-    return remaining_enemies_;
 }
 
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
@@ -216,14 +200,9 @@ const Vector2D World::ConvertLightRadius(double radius) {
     return ellipse_coords;
 }
     
-sprite::WorldObject * World::hero_world_object() const {
-    return hero_;
-}
-
 void World::SetupCollisionManager() {
-    double min_coords[2] = { -1, -1 };
-    double max_coords[2] = { this->level_width(), this->level_height() };
-    ugdk::ikdtree::Box<2> box(min_coords, max_coords);
+    ugdk::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
+    ugdk::ikdtree::Box<2> box(min_coords.val, max_coords.val);
     collision_manager_ = new pyramidworks::collision::CollisionManager(box);
 
     collision_manager_->Generate("WorldObject");
@@ -244,15 +223,58 @@ void World::SetupCollisionManager() {
     this->AddTask(collision_manager_->GenerateHandleCollisionTask());
 }
 
-
-WorldObject* World::WorldObjectByTag (const std::string& tag) {
-    TagTable::iterator match = tagged_.find(tag);
-    if (match == tagged_.end()) return NULL;
-    return match->second;
+void World::AddRoom(map::Room* room) {
+    if(room && !room->name().empty()) {
+        room->DefineLevel(this);
+        rooms_[room->name()] = room;
+    }
 }
-    
-void World::RemoveTag(const std::string& tag) {
-    tagged_[tag] = NULL;
+
+void World::ActivateRoom(const std::string& name) {
+    map::Room* room = rooms_[name];
+    if(room && !IsRoomActive(room)) {
+        active_rooms_.push_back(room);
+        layer_node(BACKGROUND_LAYER)->AddChild(room->floor());
+        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
+            layer_node((*it)->layer())->AddChild((*it)->node());
+    }
+}
+
+void World::DeactivateRoom(const std::string& name) {
+    map::Room* room = findRoom(name);
+    if(room && IsRoomActive(room)) {
+        active_rooms_.remove(room);
+        layer_node(BACKGROUND_LAYER)->RemoveChild(room->floor());
+        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
+            layer_node((*it)->layer())->RemoveChild((*it)->node());
+    }
+}
+
+bool World::IsRoomActive(const std::string& name) const {
+    return IsRoomActive(findRoom(name));
+}
+
+bool World::IsRoomActive(const map::Room* room) const {
+    return std::find(active_rooms_.begin(), active_rooms_.end(), room) != active_rooms_.end();
+}
+
+map::Room* World::findRoom(const std::string& name) const {
+    std::tr1::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
+    if(it == rooms_.end()) return NULL;
+    return it->second;
+}
+
+bool World::updateRooms(double dt) {
+    for(std::list<map::Room*>::const_iterator it = active_rooms_.begin(); it != active_rooms_.end(); ++it)
+        (*it)->Update(dt);
+    return true;
+}
+
+void World::removeAllRooms() {
+    for(std::tr1::unordered_map<std::string, map::Room*>::iterator it = rooms_.begin(); it != rooms_.end(); ++it)
+        delete it->second;
+    rooms_.clear();
+    active_rooms_.clear();
 }
 
 } // namespace scene

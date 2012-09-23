@@ -32,7 +32,7 @@ using skills::usearguments::Aim;
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
 static void HeroDeathEvent(sprite::WorldObject* wobj) {
-    WORLD()->set_hero(NULL);
+    WORLD()->SetHero(NULL);
     WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
 }
 
