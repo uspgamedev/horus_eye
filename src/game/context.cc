@@ -98,7 +98,7 @@ void AddDamageableComponent(const std::string& tag, double life) {
 void AddDamageableComponent(const map::Room* room, const std::string& tag, double life) {
     sprite::WorldObject* obj = room->WorldObjectByTag(tag);
     if(!obj) {
-        fprintf(stderr, "No object with tag '%s' in room '%s' found.\n", tag.c_str(), room->name());
+        fprintf(stderr, "No object with tag '%s' in room '%s' found.\n", tag.c_str(), room->name().c_str());
         return;
     }
     _internal_AddDamageableComponent(obj, life);
