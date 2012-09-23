@@ -26,7 +26,7 @@ using sprite::WorldObject;
 
 static bool VisibilityCheck(const component::Caster* caster) {
     utils::VisionStrategy vs;
-    return vs.IsVisible(caster->aim().destination_, caster->aim().origin_);
+    return vs.IsVisible(caster->owner(), caster->aim().destination_);
 }
 
 static void HeroMeteorUse(component::Caster* caster) {

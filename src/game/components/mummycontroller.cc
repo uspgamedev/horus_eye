@@ -42,9 +42,9 @@ void MummyController::Think(double dt) {
             aim_destination_ = WORLD()->hero()->world_position();
 
         utils::VisionStrategy strategy;
-        if(strategy.IsVisible(owner_->world_position(), aim_destination_)) {
+        if(strategy.IsVisible(owner_, aim_destination_)) {
             standing_ = false;
-            path_ = strategy.Calculate(owner_->world_position());
+            path_ = strategy.Calculate(owner_);
             if(!path_.empty()) updateDirection(path_.front());
         } else if(!standing_) {
             randomMovement();

@@ -29,19 +29,18 @@ bool wall(char obj){
     if(obj == WALL) return true;
     return false;
 }
+    
+bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
+    WorldObject* hero = WORLD()->hero();
+    if(hero)
+        return IsVisible(from, hero->world_position());
+    else
+        return IsVisible(from, from->world_position());
+}
 
-
-bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
-    return true;
-    /*
-    World *world = WORLD();
-    const GameMap& matrix = world->room()->matrix();
-
-    if(position2.x < 0.0){
-        WorldObject* hero = world->hero_world_object();
-        position2 = hero ? hero->world_position() : position1;
-    }
-
+bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& position2) {
+    const GameMap& matrix = from->current_room()->matrix();
+    Vector2D position1 = from->world_position();
     Vector2D distance = position2 - position1;
     if(distance.length() > Constants::MUMMY_SIGHT_RANGE)
         return false;
@@ -71,7 +70,7 @@ bool VisionStrategy::IsVisible(Vector2D position1, Vector2D position2){
         }
     }
 
-    return true;*/
+    return true;
 }
 
 #define TO_MATRIX(value) static_cast<int>(value + 0.5)
@@ -128,7 +127,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     return true;
 }
 
-queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
+queue<Vector2D> VisionStrategy::Calculate(sprite::WorldObject* who) {
     World *world = WORLD();
     WorldObject* hero = world->hero();
 
@@ -137,7 +136,7 @@ queue<Vector2D> VisionStrategy::Calculate(Vector2D position) {
     if(hero == NULL)
         return resp;
 
-    if(IsVisible(position,hero->world_position()))
+    if(IsVisible(who, hero->world_position()))
         resp.push(hero->world_position());
     return resp;
 }
