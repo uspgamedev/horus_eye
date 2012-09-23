@@ -112,7 +112,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
                 obj->set_tag(tags[i][j]);
                 room->AddObject(obj, position);
             } else if(builder::HasFactoryMethod(type_string)) {
-                fprintf(stderr, "Warning: unable to create object of type '%s' at (%d;%d) with args {", 
+                fprintf(stderr, "Warning: unable to create object of type '%s' from matrix (%d;%d) with args {", 
                     type_string.c_str(), j, i);
                 for(ArgumentList::const_iterator it = arguments[i][j].begin(); it != arguments[i][j].end(); ++it)
                     fprintf(stderr, "'%s', ", it->c_str());
@@ -141,11 +141,23 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
         double y = object[1].value<double>();
         string objecttype = object[2].value<string>();
         ArgumentList args;
-        for(size_t i = 3; i < object.size(); ++i)
-            args.push_back(object[i].value<std::string>());
+        if(object.size() >= 4) {
+            VirtualObj::Vector arguments_vobj = object[3].value<VirtualObj::Vector>();
+            for(VirtualObj::Vector::iterator it = arguments_vobj.begin(); it != arguments_vobj.end(); ++it)
+                args.push_back(it->value<std::string>());
+        }
         sprite::WorldObject* obj = builder::WorldObjectFromTypename(objecttype, args);
-        if(obj)
+        if(obj) {
+            if(object.size() >= 5)
+                obj->set_tag(object[4].value<std::string>());
             room->AddObject(obj, Vector2D(x,y));
+        } else if(builder::HasFactoryMethod(objecttype)) {
+            fprintf(stderr, "Warning: unable to create object of type '%s' at (%f;%f) with args {", 
+                objecttype.c_str(), x, y);
+            for(ArgumentList::const_iterator it = args.begin(); it != args.end(); ++it)
+                fprintf(stderr, "'%s', ", it->c_str());
+            fprintf(stderr, "}.\n");
+        }
     }
     
     VirtualObj setup = room_data["setup"];
