@@ -126,9 +126,7 @@ World::World()
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
-    //QueuedAddEntity(hero_);
-
-    this->AddTask(new GenericTask(bind(&World::UpdateRooms, this, _1)));
+    this->AddTask(new GenericTask(bind(&World::updateRooms, this, _1)));
 
     this->AddTask(new GenericTask(bind(FinishLevelTask, _1, &level_state_), 1000));
 //#ifdef DEBUG
@@ -167,7 +165,8 @@ void World::End() {
         hero_ = NULL;
     }
 
-    this->RemoveAllEntities();
+    RemoveAllEntities();
+    removeAllRooms();
 }
 
 void World::SetHero(sprite::WorldObject *hero) {
@@ -269,10 +268,17 @@ map::Room* World::findRoom(const std::string& name) const {
     return it->second;
 }
 
-bool World::UpdateRooms(double dt) {
+bool World::updateRooms(double dt) {
     for(std::list<map::Room*>::const_iterator it = active_rooms_.begin(); it != active_rooms_.end(); ++it)
         (*it)->Update(dt);
     return true;
+}
+
+void World::removeAllRooms() {
+    for(std::tr1::unordered_map<std::string, map::Room*>::iterator it = rooms_.begin(); it != rooms_.end(); ++it)
+        delete it->second;
+    rooms_.clear();
+    active_rooms_.clear();
 }
 
 } // namespace scene

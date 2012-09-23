@@ -87,7 +87,8 @@ class World : public ugdk::action::Scene {
 
   protected:
     map::Room* findRoom(const std::string& name) const;
-    bool UpdateRooms(double dt);
+    bool updateRooms(double dt);
+    void removeAllRooms();
 
     sprite::WorldObject *hero_;
 
