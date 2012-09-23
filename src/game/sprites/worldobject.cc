@@ -58,6 +58,7 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Die() {
+    node()->modifier()->set_visible(false);
     status_ = STATUS_DEAD;
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;

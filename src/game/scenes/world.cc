@@ -17,7 +17,6 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
-#include "game/map/tile.h"
 #include "game/map/room.h"
 
 #include "game/scenes/menu.h"
@@ -26,9 +25,6 @@
 #include "game/components/damageable.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
-#include "game/utils/imagefactory.h"
-#include "game/utils/settings.h"
-#include "game/utils/visionstrategy.h"
 
 namespace scene {
 

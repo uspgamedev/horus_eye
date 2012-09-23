@@ -64,6 +64,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
 static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     WorldObject* wobj = new WorldObject;
+    wobj->set_identifier("Wall");
     wobj->set_logic(new component::Wall(wobj, sheet));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
