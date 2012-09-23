@@ -39,7 +39,7 @@ matrix = [[
 
 objects = {
   { 16, 11.5, "!", "spawn_trap", "17", "10", "dart_spawner", "0", "1" },
-  {  2,  6.5, "!", "spawn_trap", "15", "7", "mummy_spawner" },
+  {  2,  6.5, "!", "spawn_trap", "11", "7", "mummy_spawner" },
 }
 
 collision_classes = {

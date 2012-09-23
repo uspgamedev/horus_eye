@@ -39,11 +39,12 @@ function generate (...)
           for _,tag in pairs(to_kill) do
             local door = self:current_room():WorldObjectByTag(tag)
             if not door then
-              print "door not found"
+              print("Tag "..tag.." not found")
             else
               door:damageable():TakeDamage(1)
               switch.activated = true
               switch.sprite:SelectAnimation "SWITCH_START"
+              self:set_light_radius(3.0)
             end
           end
         end
