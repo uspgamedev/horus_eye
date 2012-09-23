@@ -41,19 +41,9 @@ collision_classes = {
 }
 
 function setup (room)
-    local function place_life(tag, hp)
-		local obj = room:WorldObjectByTag(tag)
-		if obj then
-			local damageable = component.Damageable(obj)
-			damageable:set_life(component.Energy(hp))
-			obj:set_damageable(damageable)
-		else
-			print("No object with tag '"..tag.."'!")
-		end
-    end
     i=3
     for j = 1,3 do
-		place_life("DOOR-"..i.."-"..j, 2)
+        context.AddDamageableComponent(room, "DOOR-"..i.."-"..j, 2)
     end
-	place_life("ROOM-"..i.."-LOADER", 2)
+    context.AddDamageableComponent(room, "ROOM-"..i.."-LOADER", 2)
 end

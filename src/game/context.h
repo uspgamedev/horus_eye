@@ -7,6 +7,7 @@
 #include <ugdk/math.h>
 #include <pyramidworks/collision.h>
 
+#include "game/map.h"
 #include "game/sprites/worldobject.h"
 
 namespace context {
@@ -24,6 +25,9 @@ void AddCollisionClass (const std::string& classname, const std::string& superna
 void ActivateRoom(const std::string& roomname);
 
 void DeactivateRoom(const std::string& roomname);
+
+void AddDamageableComponent(const std::string& tag, double life);
+void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
 
 } // namespace context
 

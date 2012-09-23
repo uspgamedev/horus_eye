@@ -8,6 +8,7 @@
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
 #include "game/map/room.h"
+#include "game/components/damageable.h"
 
 namespace context {
 
@@ -78,5 +79,30 @@ void DeactivateRoom(const std::string& roomname) {
     assert(world);
     world->DeactivateRoom(roomname);
 }
+
+static void _internal_AddDamageableComponent(sprite::WorldObject* obj, double life) {
+    component::Damageable* damageable = new component::Damageable(obj);
+    damageable->life() = resource::Energy(life);
+    obj->set_damageable(damageable);
+}
+
+void AddDamageableComponent(const std::string& tag, double life) {
+    sprite::WorldObject* obj = WorldObjectByTag(tag);
+    if(!obj) {
+        fprintf(stderr, "No object with tag '%s' found.\n", tag.c_str());
+        return;
+    }
+    _internal_AddDamageableComponent(obj, life);
+}
+
+void AddDamageableComponent(const map::Room* room, const std::string& tag, double life) {
+    sprite::WorldObject* obj = room->WorldObjectByTag(tag);
+    if(!obj) {
+        fprintf(stderr, "No object with tag '%s' in room '%s' found.\n", tag.c_str(), room->name());
+        return;
+    }
+    _internal_AddDamageableComponent(obj, life);
+}
+
 
 } // namespace context
