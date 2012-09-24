@@ -78,8 +78,11 @@ static void On_die_callback(WorldObject* wobj, VirtualObj vobj) {
 static void create_die_callback(WorldObject* wobj, VirtualObj data) {
     wobj->set_die_callback(bind(On_die_callback, _1, data));
 }
+static void create_light_radius(WorldObject* wobj, VirtualObj data) {
+    wobj->set_light_radius(data.value<double>());
+}
 
-#define NUM_FIELDS 4
+#define NUM_FIELDS 5
 typedef void (*ScriptWobj)(WorldObject*, VirtualObj);
 struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
     std::string name;
@@ -88,6 +91,7 @@ struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
     {        "drawable", create_drawable     },
     {      "timed_life", create_timedlife    },
     { "on_die_callback", create_die_callback },
+    {    "light_radius", create_light_radius },
     {       "collision", create_collision    }
 };
 

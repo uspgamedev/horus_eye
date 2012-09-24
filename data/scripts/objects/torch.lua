@@ -9,12 +9,12 @@ local Sprite = ugdk_drawable.Sprite
 
 function generate ()
   local descriptor = {
-    drawable = Sprite("magic_missile")
+    drawable = Sprite("magic_missile"),
+    light_radius = 3.0,
   }
   return descriptor
 end
 
 function build (wobj)
-  wobj:set_light_radius(3.0)
   wobj:node():drawable():set_hotspot(ugdk_math.Vector2D(0, 40))
 end
