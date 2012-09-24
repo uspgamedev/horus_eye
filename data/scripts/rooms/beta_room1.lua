@@ -30,6 +30,8 @@ E.@........!..#
 
 objects = {
     { -1, -1, "!", { "room_loader", "beta_room2" }, "ROOM-1-LOADER" },
+    { 13.5,  2, "!", { "torch" } },
+    { 13.5,  6, "!", { "torch" } },
 }
 
 collision_classes = {
