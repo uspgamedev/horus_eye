@@ -26,6 +26,18 @@ using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::GenericCollisionLogic;
 using namespace std::tr1::placeholders;
 
+bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::string(), const std::string& f2 = std::string(),
+    const std::string& f3 = std::string(), const std::string& f4 = std::string(), const std::string& f5 = std::string()) {
+
+    if(!logic) return false;
+    if(!f1.empty() && !logic[f1]) return false;
+    if(!f2.empty() && !logic[f2]) return false;
+    if(!f3.empty() && !logic[f3]) return false;
+    if(!f4.empty() && !logic[f4]) return false;
+    if(!f5.empty() && !logic[f5]) return false;
+    return true;
+}
+
 class ScriptCollision {
   public:
     ScriptCollision (const VirtualObj& logic, WorldObject* obj) :
@@ -44,13 +56,23 @@ class ScriptCollision {
 };
 
 static void create_collision(WorldObject* wobj, VirtualObj coldata) {
-    if(!coldata["class"] || !coldata["shape"]) return;
+    if(!check_for_fields(coldata, "class", "shape")) {
+        fprintf(stdout, "Warning: collision description without required fields.");
+        return;
+    }
+
+    using pyramidworks::geometry::GeometricShape;
+    GeometricShape* shape = coldata["shape"].value<GeometricShape*>(true);
+    if(!shape) {
+        fprintf(stdout, "Warning: field 'shape' has invalid value.");
+        return;
+    }
 
     CollisionObject* colobj = new CollisionObject(WORLD()->collision_manager(), wobj);
     wobj->set_collision_object(colobj);
 
     colobj->InitializeCollisionClass(coldata["class"].value<std::string>());
-    colobj->set_shape(coldata["shape"].value<pyramidworks::geometry::GeometricShape*>(true));
+    colobj->set_shape(shape);
 
     if(coldata["known_collision"]) {
         VirtualObj::Map custom_collisions = coldata["known_collision"].value<VirtualObj::Map>();
@@ -100,7 +122,10 @@ struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
 WorldObject* Script(const vector<string>& arguments) {
     if (arguments.empty()) return NULL;
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("objects." + arguments[0]);
-    if(!script_generator) return NULL;
+    if(!script_generator) {
+        fprintf(stderr, "Unable to load 'objects.%s'.\n", arguments[0].c_str());
+        return NULL;
+    }
     if(!script_generator["generate"]) {
         fprintf(stderr, "Function 'generate' not found in 'objects.%s'.\n", arguments[0].c_str());
         return NULL;
@@ -113,7 +138,11 @@ WorldObject* Script(const vector<string>& arguments) {
         args.push_back(obj);
     }
     VirtualObj script_data = script_generator["generate"](args);
-    VirtualObj script_builder = script_generator["build"];
+    if(!script_data) {
+        fprintf(stderr, "Function 'generate' didn't return a valid object in 'objects.%s'.\n", arguments[0].c_str());
+        return NULL;
+    }
+
     WorldObject* wobj = new WorldObject;
     wobj->set_identifier(arguments[0]);
 
@@ -122,6 +151,7 @@ WorldObject* Script(const vector<string>& arguments) {
         if(data) valid_names[i].func(wobj, data);
     }
 
+    VirtualObj script_builder = script_generator["build"];
     if (script_builder) {
         VirtualObj::List    args;
         VirtualObj          v_wobj(script_builder.wrapper());
