@@ -1,6 +1,9 @@
-#include "game/skills/heroskills.h"
+#include "game/skills/initskills.h"
+
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+
+#include "game/skills.h"
 
 namespace skills {
 
@@ -11,6 +14,11 @@ Skill* HeroLightBuild();
 Skill* HeroQuakeBuild();
 Skill* HeroMeteorBuild();
 Skill* HeroSandstormBuild();
+Skill* MummyMeleeBuild();
+Skill* MummyRangedBuild();
+Skill* PaperMeleeBuild();
+Skill* PharaohRangedBuild();
+Skill* PharaohSummonBuild();
 
 void InitHeroSkills() {
     ugdk::base::ResourceContainer<Skill*>& container = RESOURCE_MANAGER()->get_container<skills::Skill*>();
@@ -22,28 +30,13 @@ void InitHeroSkills() {
     container.Insert("meteor", HeroMeteorBuild());
     container.Insert("sandstorm", HeroSandstormBuild());
 }
-
-Skill* HeroMagicMissile() { 
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("magic_missile");
+void InitMummySkills() {
+    ugdk::base::ResourceContainer<Skill*>& container = RESOURCE_MANAGER()->get_container<skills::Skill*>();
+    container.Insert("mummy_melee", MummyMeleeBuild());
+    container.Insert("mummy_ranged", MummyRangedBuild());
+    container.Insert("paper_melee", PaperMeleeBuild());
+    container.Insert("pharaoh_ranged", PharaohRangedBuild());
+    container.Insert("pharaoh_summon", PharaohSummonBuild());
 }
-Skill* HeroFireball() {
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("fireball");
-}
-Skill* HeroLightning() {
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("lightning");
-}
-Skill* HeroLight() {
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("light");
-}
-Skill* HeroQuake() {
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("quake");
-}
-Skill* HeroMeteor() {
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("meteor");
-}
-Skill* HeroSandstorm() {
-    return RESOURCE_MANAGER()->get_container<skills::Skill*>().Find("sandstorm");
-}
-
 
 } // skills

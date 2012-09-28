@@ -1,4 +1,4 @@
-#include "game/skills/heroskills.h"
+#include "game/skills/combatart.h"
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>

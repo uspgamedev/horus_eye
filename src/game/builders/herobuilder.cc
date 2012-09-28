@@ -17,8 +17,6 @@
 #include "game/utils/levelmanager.h"
 #include "game/scenes/world.h"
 
-#include "game/skills/heroskills.h"
-
 namespace builder {
 
 using utils::Constants;
@@ -68,22 +66,20 @@ sprite::WorldObject* HeroBuilder::Kha() {
     caster->mana_blocks().Fill();
     caster->mana().Fill();
  
-    caster->LearnAndEquipSkill(skills::HeroMagicMissile(), component::Controller::PRIMARY);
+    caster->LearnAndEquipSkill("magic_missile", component::Controller::PRIMARY);
 
 #ifdef DEBUG
-    caster->LearnAndEquipSkill(skills::HeroSandstorm(), component::Controller::SPECIAL1);
+    caster->LearnAndEquipSkill("sandstorm", component::Controller::SPECIAL1);
 #endif
-/*
-    int id;
-    player_controller->AddSkill(id = caster->LearnSkill(new skills::HeroFireballWeapon(caster)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroExplosionWeapon(caster)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightningWeapon(caster)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroLightWeapon(caster)));
-    player_controller->AddSkill(caster->LearnSkill(new skills::HeroMeteorWeapon(caster)));
+    /*int id;
+    player_controller->AddSkill(id = caster->LearnSkill("fireball"));
+    player_controller->AddSkill(caster->LearnSkill("quake"));
+    player_controller->AddSkill(caster->LearnSkill("lightning"));
+    player_controller->AddSkill(caster->LearnSkill("light"));
+    player_controller->AddSkill(caster->LearnSkill("meteor"));
     caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
-*/
-
+    */
     return hero_wobj;
 }
 

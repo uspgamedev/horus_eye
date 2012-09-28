@@ -13,8 +13,7 @@
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
-#include "game/skills/heroskills.h"
-#include "game/skills/mummyskills.h"
+#include "game/skills/initskills.h"
 
 #include <ugdk/modules.h>
 #include <pyramidworks/modules.h>

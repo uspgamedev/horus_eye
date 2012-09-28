@@ -112,10 +112,10 @@ SET(GAME_SRCS
     ./game/skills/hero/herometeor.cc 
     ./game/skills/hero/heroquake.cc 
     ./game/skills/hero/herosandstorm.cc 
-    ./game/skills/heroskills.h 
+    ./game/skills/initskills.cc 
+    ./game/skills/initskills.h 
     ./game/skills/mummy/mummyskills.cc 
     ./game/skills/mummy/pharaohskills.cc 
-    ./game/skills/mummyskills.h 
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
     ./game/sprites.h 
@@ -154,4 +154,6 @@ SET(GAME_SRCS
     ./module/contextLUA_wrap.cc 
     ./module/contextPYTHON_wrap.cc 
     ./module/luaproxy.h 
+    ./module/mapLUA_wrap.cc 
+    ./module/mapPYTHON_wrap.cc 
 )

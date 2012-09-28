@@ -1,5 +1,8 @@
 #include "game/components/caster.h"
 
+#include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
+
 #include "game/sprites/worldobject.h"
 #include "game/skills/skill.h"
 
@@ -31,7 +34,7 @@ void Caster::Update(double dt) {
 }
 
 bool Caster::CastSkill(Controller::SkillSlot slot) {
-    Skill* skill = active_skills_[slot];
+    const Skill* skill = active_skills_[slot];
     if(skill && skill->Available(this)) {
         skill->Use(this);
         return true;
@@ -39,11 +42,13 @@ bool Caster::CastSkill(Controller::SkillSlot slot) {
     return false;
 }
 
-skills::Skill* Caster::SkillAt(Controller::SkillSlot slot) {
-    return active_skills_[slot];
+const skills::Skill* Caster::SkillAt(Controller::SkillSlot slot) const {
+    std::map<Controller::SkillSlot, const skills::Skill*>::const_iterator it = active_skills_.find(slot);
+    return (it != active_skills_.end()) ? it->second : NULL;
 }
 
-int Caster::LearnSkill(skills::Skill* skill) {
+int Caster::LearnSkill(const skills::Skill* skill) {
+    if(!skill) return ID_GENERATOR_INVALID_ID;
     int id = skill_id_generator_.GenerateID();
     if(id != ID_GENERATOR_INVALID_ID) {
         if(static_cast<size_t>(id) + 1 >= skills_.size())
@@ -51,6 +56,10 @@ int Caster::LearnSkill(skills::Skill* skill) {
         skills_[id] = skill;
     }
     return id;
+}
+
+int Caster::LearnSkill(const std::string& skill_name) {
+    return LearnSkill(RESOURCE_MANAGER()->get_container<skills::Skill*>().Find(skill_name));
 }
 
 void Caster::UnlearnSkill(int id) {
@@ -67,8 +76,8 @@ void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
         active_skills_[skill_slot] = skills_[id];
 }
     
-void Caster::unequipSkill(skills::Skill* skill) {
-    std::map<Controller::SkillSlot, skills::Skill*>::iterator sk;
+void Caster::unequipSkill(const skills::Skill* skill) {
+    std::map<Controller::SkillSlot, const skills::Skill*>::iterator sk;
     for(sk = active_skills_.begin(); sk != active_skills_.end(); ++sk) {
         if(sk->second == skill)
             sk->second = NULL;

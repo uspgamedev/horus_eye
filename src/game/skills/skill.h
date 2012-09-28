@@ -25,7 +25,7 @@ class Skill {
     ugdk::graphic::Drawable* icon() const { return icon_; }
 
     /// Uses the skill.
-    virtual void Use(component::Caster* caster) {
+    virtual void Use(component::Caster* caster) const {
         if(use_) use_(caster);
     }
 

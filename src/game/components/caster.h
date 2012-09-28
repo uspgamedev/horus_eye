@@ -38,17 +38,18 @@ class Caster {
 
     bool CastSkill(Controller::SkillSlot slot);
 
-    skills::Skill* SkillAt(Controller::SkillSlot slot);
+    const skills::Skill* SkillAt(Controller::SkillSlot slot) const;
 
-    int LearnSkill(skills::Skill* skill);
+    int LearnSkill(const skills::Skill* skill);
+    int LearnSkill(const std::string& skill_name);
 
     void UnlearnSkill(int id);
 
     /// Invalid id means unequip given slot.
     void EquipSkill(int id, Controller::SkillSlot);
 
-    int LearnAndEquipSkill(skills::Skill* skill, Controller::SkillSlot slot) {
-        int id = LearnSkill(skill);
+    int LearnAndEquipSkill(const std::string& skill_name, Controller::SkillSlot slot) {
+        int id = LearnSkill(skill_name);
         EquipSkill(id, slot);
         return id;
     }
@@ -80,17 +81,17 @@ class Caster {
     void set_mana(double mana) { mana_.Set(mana); }
 
   protected:
-    void unequipSkill(skills::Skill* skill);
+    void unequipSkill(const skills::Skill* skill);
 
   private:
     /// The owner.
     sprite::WorldObject* owner_;
 
     /// The known skills.
-    std::vector<skills::Skill*> skills_;
+    std::vector<const skills::Skill*> skills_;
 
     /// The active skills this caster has.
-    std::map<Controller::SkillSlot, skills::Skill*> active_skills_;
+    std::map<Controller::SkillSlot, const skills::Skill*> active_skills_;
 
     /// The mana of this caster. An energy manages reneration.
     resource::Energy mana_;

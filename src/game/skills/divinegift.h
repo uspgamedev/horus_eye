@@ -34,7 +34,7 @@ class DivineGift : public CombatArt {
     /// Uses the skill, decrementing the caster's mana and blocks.
     /** This Use decrements the caster's mana by the mana cost and the caster's
         blocks by the block cost when called. */
-    virtual void Use(component::Caster*);
+    virtual void Use(component::Caster*) const;
 
     /// Verifies if the caster has enough mana and blocks.
     /** @return mana and blocks are greater than the costs */

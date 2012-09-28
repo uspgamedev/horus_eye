@@ -89,7 +89,7 @@ void Creature::UseSkills() {
     Caster* caster = owner()->caster();
     Controller* controller = owner_->controller();
     for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
-        skills::Skill* skill = caster->SkillAt(slot);
+        const skills::Skill* skill = caster->SkillAt(slot);
         if(!skill) continue;
         if(controller->IsUsingSkillSlot(slot) && skill->IsValidUse(caster)) {
             if(caster->CastSkill(slot)) {
