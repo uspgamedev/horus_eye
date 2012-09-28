@@ -1,5 +1,3 @@
-#include "game/skills/mummyskills.h"
-
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
 

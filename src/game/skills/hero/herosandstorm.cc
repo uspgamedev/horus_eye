@@ -1,5 +1,3 @@
-#include "game/skills/heroskills.h"
-
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 

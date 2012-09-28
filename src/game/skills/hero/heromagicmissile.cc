@@ -1,5 +1,3 @@
-#include "game/skills/heroskills.h"
-
 #include <ugdk/math/vector2D.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/base/engine.h>
@@ -9,6 +7,7 @@
 #include "game/components/caster.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
+#include "game/skills/combatart.h"
 
 namespace skills {
 

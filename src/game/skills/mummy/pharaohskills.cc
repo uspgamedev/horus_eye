@@ -1,5 +1,3 @@
-#include "game/skills/mummyskills.h"
-
 #include <cmath>
 
 #include <ugdk/base/engine.h>
@@ -15,6 +13,7 @@
 #include "game/utils/settings.h"
 #include "game/builders/mummybuilder.h"
 #include "game/utils/constants.h"
+#include "game/skills/combatart.h"
 
 namespace skills {
 
