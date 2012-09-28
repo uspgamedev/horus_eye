@@ -22,7 +22,7 @@ class Hud: public ugdk::action::Entity {
     ugdk::graphic::Node *node_, *weapon_icon_, *mummy_counter_text_holder_;
     int previous_mummy_counter_value_;
 
-    skills::Skill *displayed_skill_;
+    const skills::Skill *displayed_skill_;
 
     ugdk::graphic::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
 

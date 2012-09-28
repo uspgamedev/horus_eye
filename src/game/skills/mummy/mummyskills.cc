@@ -19,43 +19,43 @@ using std::tr1::bind;
 using namespace std::tr1::placeholders;
 using utils::Constants;
 
-static void MummyMeleeUse(component::Caster* caster, double damage) {
+static void MummyMeleeUse(component::Caster* caster) {
     scene::World *world = WORLD();
     sprite::WorldObject* hero = world->hero();
     if(hero && hero->damageable())
-        hero->damageable()->TakeDamage(damage);
+        hero->damageable()->TakeDamage(caster->power().Get() * 1.0);
 }
 
-static void MummyPaperUse(component::Caster* caster, double damage) {
+static void MummyPaperUse(component::Caster* caster) {
     scene::World *world = WORLD();
     sprite::WorldObject* hero = world->hero();
     if(hero && hero->damageable())
-        hero->damageable()->TakeDamage(damage);
-    caster->owner()->damageable()->TakeDamage(damage);
+        hero->damageable()->TakeDamage(caster->power().Get() * 1.0);
+    caster->owner()->damageable()->TakeDamage(caster->power().Get() * 1.0);
 }
 
-static void MummyRangedUse(component::Caster* caster, double damage) {
+static void MummyRangedUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize();
     Vector2D pos = caster->aim().origin_;
 
     builder::ProjectileBuilder proj;
-    caster->owner()->current_room()->AddObject(proj.MummyProjectile(versor, damage), pos, map::POSITION_ABSOLUTE);
+    caster->owner()->current_room()->AddObject(proj.MummyProjectile(versor, caster->power().Get() * 1.0), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* MummyMelee(double damage) {
-    return new CombatArt(NULL, bind(MummyMeleeUse, _1, damage), SkillValidFunction(), 0.0, 1.0);
+Skill* MummyMeleeBuild() {
+    return new CombatArt(NULL, MummyMeleeUse, SkillValidFunction(), 0.0, 1.0);
 }
 
-Skill* MummyRanged(double damage) {
-    return new CombatArt(NULL, bind(MummyRangedUse, _1, damage), SkillValidFunction(), 0.0, 
+Skill* MummyRangedBuild() {
+    return new CombatArt(NULL, MummyRangedUse, SkillValidFunction(), 0.0, 
         Constants::RANGED_MUMMY_RANGE);
 }
 
-Skill* PaperMelee(double damage) {
-    return new CombatArt(NULL, bind(MummyPaperUse, _1, damage), SkillValidFunction(), 0.0, 1.0);
+Skill* PaperMeleeBuild() {
+    return new CombatArt(NULL, MummyPaperUse, SkillValidFunction(), 0.0, 1.0);
 }
 
 }

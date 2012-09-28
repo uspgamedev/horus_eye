@@ -6,7 +6,7 @@
 
 namespace skills {
 
-void DivineGift::Use(component::Caster* caster) { 
+void DivineGift::Use(component::Caster* caster) const { 
     caster->mana_blocks() -= block_cost_;
     super::Use(caster);
 };

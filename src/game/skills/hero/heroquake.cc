@@ -32,7 +32,7 @@ static void HeroQuakeUse(component::Caster* caster) {
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* HeroQuake() {
+Skill* HeroQuakeBuild() {
     utils::HudImageFactory imfac;
     return new DivineGift(imfac.EarthquakeIconImage(), HeroQuakeUse, VisibilityCheck,
         utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, utils::Constants::QUAKE_EXPLOSION_RANGE);

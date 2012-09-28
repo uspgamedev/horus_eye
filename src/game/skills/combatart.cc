@@ -5,7 +5,7 @@
 
 namespace skills {
 
-void CombatArt::Use(component::Caster* caster) {
+void CombatArt::Use(component::Caster* caster) const {
     caster->mana() -= mana_cost_;
     super::Use(caster);
 }

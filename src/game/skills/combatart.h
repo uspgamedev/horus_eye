@@ -29,7 +29,7 @@ class CombatArt : public Skill {
 
     /// Uses the skill, decrementing the caster's mana.
     /** This Use decrements the caster's mana by the mana cost when called. */
-    virtual void Use(component::Caster*);
+    virtual void Use(component::Caster*) const;
 
     /// Verifies if the caster has enough mana.
     /** @return true if mana is greater than the cost */

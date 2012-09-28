@@ -1,17 +1,19 @@
 #include <string>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/base/genericcontainer.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <externals/ugdk-videomanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
-#include <SDL.h>
+#include "SDL.h"
 #include "initializer.h"
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
+#include "game/skills/initskills.h"
 
 #include <ugdk/modules.h>
 #include <pyramidworks/modules.h>
@@ -103,6 +105,10 @@ int main(int argc, char *argv[]) {
 
     engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
+
+    engine()->resource_manager()->add_container<skills::Skill*>(new ugdk::base::GenericContainer<skills::Skill*>);
+    skills::InitHeroSkills();
+    skills::InitMummySkills();
 
     do {
         // Initializes game data

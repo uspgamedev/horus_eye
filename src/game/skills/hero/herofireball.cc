@@ -1,4 +1,4 @@
-#include "game/skills/heroskills.h"
+#include "game/skills/combatart.h"
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/inputmanager.h>
@@ -34,7 +34,7 @@ static void HeroFireballUse(component::Caster* caster) {
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* HeroFireball() {
+Skill* HeroFireballBuild() {
     HudImageFactory factory;
     return new CombatArt(factory.FireballIconImage(), HeroFireballUse, utils::Constants::FIREBALL_COST);
 }
