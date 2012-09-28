@@ -49,7 +49,7 @@ static void HeroMeteorUse(component::Caster* caster) {
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* HeroMeteor() {
+Skill* HeroMeteorBuild() {
     utils::HudImageFactory imfac;
     return new DivineGift(imfac.MeteorIconImage(), HeroMeteorUse, VisibilityCheck,
         utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, -1);

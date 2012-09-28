@@ -37,6 +37,8 @@ class Skill {
         return !valid_ || valid_(caster);
     }
 
+    static Skill* LoadFromFile(const std::string& filepath) { return NULL; }
+
   protected:
     /**
       @param icon The icon that is displayed on the user interface.

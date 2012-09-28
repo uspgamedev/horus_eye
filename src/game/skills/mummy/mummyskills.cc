@@ -45,16 +45,16 @@ static void MummyRangedUse(component::Caster* caster, double damage) {
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* MummyMelee(double damage) {
+Skill* MummyMeleeBuild(double damage) {
     return new CombatArt(NULL, bind(MummyMeleeUse, _1, damage), SkillValidFunction(), 0.0, 1.0);
 }
 
-Skill* MummyRanged(double damage) {
+Skill* MummyRangedBuild(double damage) {
     return new CombatArt(NULL, bind(MummyRangedUse, _1, damage), SkillValidFunction(), 0.0, 
         Constants::RANGED_MUMMY_RANGE);
 }
 
-Skill* PaperMelee(double damage) {
+Skill* PaperMeleeBuild(double damage) {
     return new CombatArt(NULL, bind(MummyPaperUse, _1, damage), SkillValidFunction(), 0.0, 1.0);
 }
 

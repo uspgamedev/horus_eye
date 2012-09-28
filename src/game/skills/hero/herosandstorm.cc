@@ -59,7 +59,7 @@ class Sandstorm : public CombatArt {
     typedef CombatArt super;
 };
 
-Skill* HeroSandstorm() {
+Skill* HeroSandstormBuild() {
     utils::HudImageFactory factory;
     return new Sandstorm(factory.SandstormIconImage());
 }

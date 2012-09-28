@@ -5,6 +5,8 @@
 
 namespace skills {
 
+void InitHeroSkills();
+
 Skill* HeroMagicMissile();
 Skill* HeroFireball();
 Skill* HeroLightning();

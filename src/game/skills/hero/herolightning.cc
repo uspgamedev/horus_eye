@@ -34,7 +34,7 @@ static void HeroLightningUse(component::Caster* caster) {
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
-Skill* HeroLightning() {
+Skill* HeroLightningBuild() {
     HudImageFactory factory;
     return new CombatArt(factory.LightningIconImage(), HeroLightningUse, utils::Constants::LIGHTNING_COST);
 }

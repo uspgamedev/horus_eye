@@ -5,6 +5,8 @@
 
 namespace skills {
 
+void InitMummySkills();
+
 Skill* MummyMelee(double damage);
 Skill* MummyRanged(double damage);
 Skill* PaperMelee(double damage);

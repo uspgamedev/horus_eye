@@ -22,11 +22,7 @@ Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)
       aim_(owner->world_position(), owner->controller()->aim_destination()), 
       skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID) {}
 
-Caster::~Caster() {
-    std::vector<skills::Skill*>::iterator it;
-    for(it = skills_.begin(); it != skills_.end(); ++it)
-        delete *it;
-}
+Caster::~Caster() {}
 
 // ============= other stuff
 
