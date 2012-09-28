@@ -13,7 +13,8 @@
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
-#include "game/skills/skill.h"
+#include "game/skills/heroskills.h"
+#include "game/skills/mummyskills.h"
 
 #include <ugdk/modules.h>
 #include <pyramidworks/modules.h>
@@ -107,7 +108,8 @@ int main(int argc, char *argv[]) {
     engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 
     engine()->resource_manager()->add_container<skills::Skill*>(new ugdk::base::GenericContainer<skills::Skill*>);
-    InitHeroSkills();
+    skills::InitHeroSkills();
+    skills::InitMummySkills();
 
     do {
         // Initializes game data
