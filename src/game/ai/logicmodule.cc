@@ -1,8 +1,13 @@
-#include "aimodule.h"
-#include "logicmodule.h"
-#include "ailogicblock.h"
+#include "game/ai/aimodule.h"
+#include "game/ai/logicmodule.h"
+#include "game/ai/ailogicblock.h"
 
 namespace ai {
+
+LogicModule::~LogicModule() {
+    delete logic_;
+    delete child_;
+}
 
 void LogicModule::Start() {
 	if (child_)
@@ -11,12 +16,12 @@ void LogicModule::Start() {
 		logic_->Start();
 }
 
-AIModule::Status LogicModule::Update(double dt) {
+AIModule::Status LogicModule::Update(double dt, AIData* data) {
 	if (!logic_) return DONE;
 
-	AIModule::Status stat = logic_->Update(dt);
+	AIModule::Status stat = logic_->Update(dt, data);
 	if (child_ && stat == ACTIVE)
-		stat = child_->Update(dt);
+		stat = child_->Update(dt, data);
 	return stat;
 }
 

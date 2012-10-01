@@ -1,14 +1,11 @@
 #ifndef HORUSEYE_GAME_AI_AIMODULE_H_
 #define HORUSEYE_GAME_AI_AIMODULE_H_
 
-#include <stdlib.h>
+#include "game/ai.h"
 
 namespace ai {
 
-class AI;
-
 class AIModule {
-
   public:
 
 	// Define the status a AIModule can return (mostly in Update, during execution), to manage the AI execution flow. 
@@ -17,7 +14,7 @@ class AIModule {
 	~AIModule() {}
 
 	virtual void Start() {}
-	virtual Status Update(double dt) { return DONE; }
+	virtual Status Update(double dt, AIData* data) { return DONE; }
 	virtual void Finish() {}
 
 	AI* get_root() { return root_; }
@@ -29,7 +26,7 @@ class AIModule {
 	AI* root_;
 	AIModule* parent_;
 
-	AIModule() : root_(NULL), parent_(NULL) {}
+	AIModule() : root_(0), parent_(0) {}
 
 	friend class AI;
 };

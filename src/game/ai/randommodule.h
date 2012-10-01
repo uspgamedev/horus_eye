@@ -2,18 +2,18 @@
 #define HORUSEYE_GAME_AI_RANDOMMODULE_H_
 
 #include <vector>
-#include "aimodule.h"
+#include "game/ai/aimodule.h"
 
 namespace ai {
 
 class RandomModule : public AIModule {
   public:
-	RandomModule() : AIModule() {}
-	~RandomModule() {}
+	RandomModule() {}
+	~RandomModule();
 
-	virtual void Start();
-	virtual AIModule::Status Update(double dt);
-	virtual void Finish();
+	void Start();
+	AIModule::Status Update(double dt, AIData* data);
+	void Finish();
 
 	void AddChildModule(AIModule* child, double chance);
 	void SetUniformDistribution();

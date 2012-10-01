@@ -1,22 +1,20 @@
 #ifndef HORUSEYE_GAME_AI_LOGICMODULE_H_
 #define HORUSEYE_GAME_AI_LOGICMODULE_H_
 
-#include <stdlib.h>
-#include "aimodule.h"
+#include "game/ai.h"
+#include "game/ai/aimodule.h"
 
 namespace ai {
-
-class AILogicBlock;
 
 class LogicModule : public AIModule {
 
 public:
-	LogicModule() : AIModule(), child_(NULL), logic_(NULL) {}
-	~LogicModule() {}
+	LogicModule() : child_(0), logic_(0) {}
+	~LogicModule();
 
-	virtual void Start();
-	virtual AIModule::Status Update(double dt);
-	virtual void Finish();
+	void Start();
+	AIModule::Status Update(double dt, AIData* data);
+	void Finish();
 
 	void SetChildModule(AIModule* child) { child_ = child; child->set_parent(this); }
 	void SetLogicObject(AILogicBlock* logic) { logic_ = logic; }

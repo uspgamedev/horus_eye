@@ -2,18 +2,18 @@
 #define HORUSEYE_GAME_AI_SEQUENCEMODULE_H_
 
 #include <vector>
-#include "aimodule.h"
+#include "game/ai/aimodule.h"
 
 namespace ai {
 
 class SequenceModule : public AIModule {
   public:
-	SequenceModule() : AIModule() {}
-	~SequenceModule() {}
+	SequenceModule() {}
+	~SequenceModule();
 
-	virtual void Start();
-	virtual AIModule::Status Update(double dt);
-	virtual void Finish();
+	void Start();
+	AIModule::Status Update(double dt, AIData* data);
+	void Finish();
 
 	void AddChildModule(AIModule* child) { childs_.push_back(child); child->set_parent(this); }
 

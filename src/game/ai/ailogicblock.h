@@ -11,7 +11,7 @@ class AILogicBlock {
 	~AILogicBlock() {}
 
 	virtual void Start() {}
-	virtual AIModule::Status Update(double dt) { return AIModule::DONE; }
+	virtual AIModule::Status Update(double dt, AIData* data) { return AIModule::DONE; }
 	virtual void Finish() {}
 
 	LogicModule* get_parent() { return parent_; }

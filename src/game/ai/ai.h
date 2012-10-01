@@ -1,7 +1,6 @@
 #ifndef HORUSEYE_GAME_AI_AI_H_
 #define HORUSEYE_GAME_AI_AI_H_
 
-
 #include "game/ai.h"
 #include "game/components/controller.h"
 

@@ -1,10 +1,18 @@
 #include <vector>
-#include "aimodule.h"
-#include "sequencemodule.h"
+#include "game/ai/aimodule.h"
+#include "game/ai/sequencemodule.h"
 
 namespace ai {
 
-using namespace std;
+using std::vector;
+
+SequenceModule::~SequenceModule() {
+    for (vector<AIModule*>::iterator it = childs_.begin(); it != childs_.end(); ++it) {
+        AIModule *child = *it;
+		delete child;
+    }
+    childs_.clear();
+}
 
 void SequenceModule::Start() {
 	for (vector<AIModule*>::iterator it = childs_.begin(); it != childs_.end(); ++it) {
@@ -13,14 +21,14 @@ void SequenceModule::Start() {
     }
 }
 
-AIModule::Status SequenceModule::Update(float dt) {
+AIModule::Status SequenceModule::Update(double dt, AIData* data) {
 	unsigned child_index = 0;
 	AIModule* child;
 	AIModule::Status stat;
 
 	while (child_index < childs_.size() ) {
 		child = childs_[child_index];
-		stat = child->Update(dt);
+		stat = child->Update(dt, data);
 
 		if (stat == AIModule::DORMANT)
 			child_index++;
