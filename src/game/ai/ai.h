@@ -1,35 +1,38 @@
-#ifndef HORUSEYE_GAME_AI_H_
-#define HORUSEYE_GAME_AI_H_
+#ifndef HORUSEYE_GAME_AI_AI_H_
+#define HORUSEYE_GAME_AI_AI_H_
 
-#include "game/ai/aimodule.h"
 
-namespace sprite {
-class Creature;
-}
+#include "game/ai.h"
+#include "game/components/controller.h"
 
 namespace ai {
 
-class AI {
+class AI : public component::Controller {
+  typedef component::Controller super;
   public:
 
 	// States in which an AI can be, generally.
 	enum State { CREATED, RUNNING, FINISHED };
 
-	AI(sprite::Creature *owner);
+	AI(sprite::WorldObject *owner);
 	~AI();
 
 	void Start();
-	void Update(float dt);
+	void Update(double dt);
 	void Finish();
 
 	void SetRootModule(AIModule* root);
 
-	sprite::Creature* get_owner() { return owner_; }
 	State get_state() { return state_; }
 
+
+    bool IsUsingSkillSlot(SkillSlot slot);
+
+    const ugdk::Vector2D& direction_vector() const { return data_->direction(); }
+
   protected:
-	sprite::Creature *owner_;
-	AIModule *root_;
+	AIModule* root_;
+    AIData* data_;
 	State state_;
 };
 

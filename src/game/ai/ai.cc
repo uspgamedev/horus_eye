@@ -1,13 +1,16 @@
-#include "ai.h"
-#include "aimodule.h"
-#include "game/sprites/creatures/creature.h"
+#include "game/ai/ai.h"
+#include "game/ai/aimodule.h"
+#include "game/ai/aidata.h"
 
 namespace ai {
 
-AI::AI(sprite::Creature *owner) : owner_(owner), root_(NULL), state_(CREATED) {
+AI::AI(sprite::Creature *owner) : super(owner), root_(NULL), state_(CREATED) {
+    data_ = new AIData();
 }
 
 AI::~AI() {
+    delete data_;
+    delete root_;
 }
 
 void AI::Start() {
@@ -19,9 +22,10 @@ void AI::Start() {
 	}
 }
 
-void AI::Update(float dt) {
+void AI::Update(double dt) {
 	if (state_ != RUNNING) return;
 
+    data_->Clear();
 	AIModule::Status stat;
 	if (root_) {
 		stat = root_->Update(dt);
@@ -29,6 +33,8 @@ void AI::Update(float dt) {
 			Finish();
 		}
 	}
+    aim_destination_ = data_->aim_destination();
+    dir_ = component::Direction::FromWorldVector(data_->direction());
 }
 
 void AI::Finish(){
@@ -45,6 +51,11 @@ void AI::SetRootModule(AIModule* root) {
 
 	root_ = root;
 	root_->root_ = this;
+}
+
+bool AI::IsUsingSkillSlot(SkillSlot slot) {
+	if (state_ != RUNNING) return false;
+    return data_->IsUsingSkillSlot(slot);
 }
 
 }

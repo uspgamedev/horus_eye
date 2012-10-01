@@ -11,7 +11,7 @@ void LogicModule::Start() {
 		logic_->Start();
 }
 
-AIModule::Status LogicModule::Update(float dt) {
+AIModule::Status LogicModule::Update(double dt) {
 	if (!logic_) return DONE;
 
 	AIModule::Status stat = logic_->Update(dt);

@@ -12,15 +12,15 @@ class RandomModule : public AIModule {
 	~RandomModule() {}
 
 	virtual void Start();
-	virtual AIModule::Status Update(float dt);
+	virtual AIModule::Status Update(double dt);
 	virtual void Finish();
 
-	void AddChildModule(AIModule* child, float chance);
+	void AddChildModule(AIModule* child, double chance);
 	void SetUniformDistribution();
 
   protected:
 	std::vector<AIModule*> childs_;
-	std::vector<float> probability_distribution_;
+	std::vector<double> probability_distribution_;
 };
 
 }

@@ -12,9 +12,9 @@ void RandomModule::Start() {
     }
 }
 
-AIModule::Status RandomModule::Update(float dt) {
-	float choice = 100.0f * rand() / RAND_MAX;
-	float accumulated_count = 0.0f;
+AIModule::Status RandomModule::Update(double dt) {
+	double choice = 100.0 * rand() / RAND_MAX;
+	double accumulated_count = 0.0;
 	for (int i = 0; i < (int)childs_.size(); i++) {
 		accumulated_count += probability_distribution_[i];
 		if (choice < accumulated_count) {
@@ -36,7 +36,7 @@ void RandomModule::Finish(){
     }
 }
 
-void RandomModule::AddChildModule(AIModule* child, float chance) {
+void RandomModule::AddChildModule(AIModule* child, double chance) {
 	childs_.push_back(child);
 	probability_distribution_.push_back(chance);
 	child->set_parent(this);
@@ -44,9 +44,9 @@ void RandomModule::AddChildModule(AIModule* child, float chance) {
 
 void RandomModule::SetUniformDistribution() {
 	probability_distribution_.clear();
-	float uniform_prob = 0.0f;
+	double uniform_prob = 0.0;
 	if (childs_.size() > 0)
-		uniform_prob = 100.0f / childs_.size();
+		uniform_prob = 100.0 / childs_.size();
 	for (int i = 0; i < (int)childs_.size(); i++) {
 		probability_distribution_.push_back(uniform_prob);
     }

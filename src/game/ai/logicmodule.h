@@ -15,7 +15,7 @@ public:
 	~LogicModule() {}
 
 	virtual void Start();
-	virtual AIModule::Status Update(float dt);
+	virtual AIModule::Status Update(double dt);
 	virtual void Finish();
 
 	void SetChildModule(AIModule* child) { child_ = child; child->set_parent(this); }

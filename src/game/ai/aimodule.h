@@ -17,7 +17,7 @@ class AIModule {
 	~AIModule() {}
 
 	virtual void Start() {}
-	virtual Status Update(float dt) { return DONE; }
+	virtual Status Update(double dt) { return DONE; }
 	virtual void Finish() {}
 
 	AI* get_root() { return root_; }

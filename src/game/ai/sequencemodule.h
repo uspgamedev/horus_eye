@@ -12,7 +12,7 @@ class SequenceModule : public AIModule {
 	~SequenceModule() {}
 
 	virtual void Start();
-	virtual AIModule::Status Update(float dt);
+	virtual AIModule::Status Update(double dt);
 	virtual void Finish();
 
 	void AddChildModule(AIModule* child) { childs_.push_back(child); child->set_parent(this); }
