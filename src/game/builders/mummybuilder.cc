@@ -31,11 +31,10 @@ using pyramidworks::collision::CollisionObject;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
-COLLISION_DIRECT(WorldObject*, AntiStackCollision, voiddata) {
-    sprite::WorldObject *obj = (sprite::WorldObject *) voiddata;
-    Creature* creature = dynamic_cast<Creature*>(data_->logic());
-    Vector2D deviation = (data_->world_position() - obj->world_position()).Normalize();
-    creature->set_walking_direction((creature->walking_direction() + deviation*0.9).Normalize());
+COLLISION_DIRECT(MummyController*, AntiStackCollision, voiddata) {
+    sprite::WorldObject *obj = static_cast<sprite::WorldObject *>(voiddata);
+    Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize();
+    data_->set_direction_vector((data_->direction_vector() + deviation*0.9).Normalize());
 }
 
 static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {
@@ -67,7 +66,9 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->set_damageable(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
-    wobj->set_controller(new MummyController(wobj, 0.1));
+    
+    MummyController* mummy_controller = new MummyController(wobj, 0.1);
+    wobj->set_controller(mummy_controller);
 
     resource::Energy mana;
     wobj->set_caster(new Caster(wobj, mana));
@@ -75,7 +76,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Mummy");
     col->set_shape(new pyramidworks::geometry::Circle(radius));
-    col->AddCollisionLogic("Mummy", new AntiStackCollision(wobj));
+    col->AddCollisionLogic("Mummy", new AntiStackCollision(mummy_controller));
     wobj->set_collision_object(col);
 
     Creature* mummy = new Creature(wobj, speed);

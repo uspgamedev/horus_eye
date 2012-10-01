@@ -18,6 +18,7 @@ class MummyController : public Controller {
     bool IsUsingSkillSlot(SkillSlot) const;
 
     const ugdk::Vector2D& direction_vector() const { return current_direction_; }
+    void set_direction_vector(const ugdk::Vector2D& dir) { current_direction_ = dir; }
 
     void set_standing(bool standing) { standing_ = standing; }
 
