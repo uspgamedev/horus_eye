@@ -11,7 +11,7 @@ class AIModule {
 	// Define the status a AIModule can return (mostly in Update, during execution), to manage the AI execution flow. 
 	enum Status { ACTIVE, DORMANT, DONE };
 
-	~AIModule() {}
+	virtual ~AIModule() {}
 
 	virtual void Start() {}
 	virtual Status Update(double dt, AIData* data) { return DONE; }
