@@ -27,7 +27,7 @@ class AI : public component::Controller {
 
     bool IsUsingSkillSlot(SkillSlot slot);
 
-    const ugdk::Vector2D& direction_vector() const { return data_->direction(); }
+    const ugdk::Vector2D& direction_vector() const;
 
   protected:
 	AIModule* root_;

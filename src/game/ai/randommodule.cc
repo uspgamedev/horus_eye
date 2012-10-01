@@ -1,5 +1,6 @@
 #include "game/ai/aimodule.h"
 #include "game/ai/randommodule.h"
+#include <cstdlib>
 
 namespace ai {
 

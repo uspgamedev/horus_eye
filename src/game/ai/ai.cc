@@ -4,7 +4,7 @@
 
 namespace ai {
 
-AI::AI(sprite::Creature *owner) : super(owner), root_(NULL), state_(CREATED) {
+AI::AI(sprite::WorldObject *owner) : super(owner), root_(NULL), state_(CREATED) {
     data_ = new AIData();
 }
 
@@ -28,7 +28,7 @@ void AI::Update(double dt) {
     data_->Clear();
 	AIModule::Status stat;
 	if (root_) {
-		stat = root_->Update(dt);
+		stat = root_->Update(dt, data_);
 		if (stat == AIModule::DONE) {
 			Finish();
 		}
@@ -56,6 +56,10 @@ void AI::SetRootModule(AIModule* root) {
 bool AI::IsUsingSkillSlot(SkillSlot slot) {
 	if (state_ != RUNNING) return false;
     return data_->IsUsingSkillSlot(slot);
+}
+
+const ugdk::Vector2D& AI::direction_vector() const { 
+    return data_->direction(); 
 }
 
 }
