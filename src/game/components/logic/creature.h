@@ -23,8 +23,6 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     sprite::WorldObject* owner() { return owner_; }
 
-    const ugdk::Vector2D& walking_direction() const { return walking_direction_; }
-
   protected:
     friend class RectCollision;
 

@@ -69,7 +69,6 @@ void Creature::Update(double dt) {
             UseSkills();
         }
         if(!owner_->animation()->is_uninterrutible()) {
-            walking_direction_ = controller->direction_vector();
             const Direction& direction = controller->direction();
             if(direction) {
                 last_standing_direction_ = direction;
@@ -79,7 +78,7 @@ void Creature::Update(double dt) {
                 owner_->animation()->set_animation(utils::STANDING);
                 owner_->animation()->set_direction(last_standing_direction_);
             }
-            Creature::Move(walking_direction(), dt);
+            Creature::Move(walking_direction_ = controller->direction_vector(), dt);
         }
     }
     speed_ = original_speed_;
