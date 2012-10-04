@@ -3,6 +3,7 @@
 
 #include "game/ai.h"
 #include "game/ai/logicblock.h"
+#include <ugdk/math/vector2D.h>
 
 namespace ai {
 namespace blocks {
@@ -21,6 +22,7 @@ public:
 protected:
 	double time_to_change_;
 	double time_left_;
+    ugdk::Vector2D direction_;
 
 	// Devolve um tempo ~exp(time_to_change_)
 	double WaitingTime();

@@ -10,11 +10,14 @@ namespace blocks {
 
 void RandomMovement::Start() {
 	time_left_ = WaitingTime();
+    int dir = rand()%8;
+    direction_ = ugdk::Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
 }
 
 AIModule::Status RandomMovement::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->root()->owner();
 	
+    if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
 	if (!owner->is_active() ) return AIModule::DORMANT;
 
 	time_left_ -= dt;
@@ -30,8 +33,9 @@ AIModule::Status RandomMovement::Update(double dt, AIData* data) {
 
         //last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0f),sin(dir*PI/4.0f));
 		//last_standing_animation_ = (standing_animations_[animation_direction_]);
-        data->set_direction( ugdk::Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0)) );
-	}
+        direction_ = ugdk::Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
+    }
+    data->set_direction( direction_ );
 	return AIModule::ACTIVE;
 }
 
