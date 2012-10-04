@@ -3,6 +3,7 @@
 
 %include <module/export.swig>
 %include <module/ownership.swig>
+%include <module/proxy.swig>
 
 %{
 
@@ -16,6 +17,8 @@
 #include <game/ai/randommodule.h>
 #include <game/ai/sequencemodule.h>
 
+#include <ugdk/script/baseproxy.h>
+#include <module/ai/logicblockproxy.h>
 
 %}
 
@@ -23,6 +26,7 @@
 
 %include <game/ai.h>
 
+proxy_class(ai::LogicBlock)
 
 enable_disown(ai::AIModule* root)
 %include <game/ai/ai.h>
