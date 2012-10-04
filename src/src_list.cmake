@@ -15,11 +15,11 @@ SET(GAME_SRCS
     ./game/ai/ai.cc 
     ./game/ai/aidata.h 
     ./game/ai/ai.h 
-    ./game/ai/ailogicblock.h 
     ./game/ai/aimodule.h 
     ./game/ai/conditionmodule.cc 
     ./game/ai/conditionmodule.h 
     ./game/ai.h 
+    ./game/ai/logicblock.h 
     ./game/ai/logicmodule.cc 
     ./game/ai/logicmodule.h 
     ./game/ai/randommodule.cc 

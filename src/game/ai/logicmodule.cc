@@ -4,9 +4,15 @@
 
 namespace ai {
 
+LogicModule::LogicModule(LogicBlock* logic) : child_(0), logic_(logic) {
+    if(logic_) logic_->set_parent(this);
+}
+
 LogicModule::~LogicModule() {
-    delete logic_;
-    delete child_;
+    if (logic_)
+        delete logic_;
+    if (child_)
+        delete child_;
 }
 
 void LogicModule::Start() {
@@ -37,9 +43,5 @@ void LogicModule::set_child(AIModule* child) {
     child->set_parent(this); 
 }
 
-void LogicModule::set_logic(LogicBlock* logic) {
-    logic_ = logic;
-    logic_->set_parent(this);
-}
 
 }

@@ -7,20 +7,17 @@
 namespace ai {
 
 class LogicModule : public AIModule {
-
-public:
-	LogicModule() : child_(0), logic_(0) {}
+  public:
+	LogicModule(LogicBlock* logic);
 	~LogicModule();
 
 	void Start();
 	AIModule::Status Update(double dt, AIData* data);
 	void Finish();
 
-	void set_child(AIModule* child) { child_ = child; child->set_parent(this); }
+	void set_child(AIModule* child);
 
-	void set_logic(LogicBlock* logic);
-
-protected:
+  protected:
 	AIModule* child_;
 	LogicBlock* logic_;
 };

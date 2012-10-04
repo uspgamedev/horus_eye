@@ -10,7 +10,8 @@ AI::AI(sprite::WorldObject *owner) : super(owner), root_(NULL), state_(CREATED) 
 
 AI::~AI() {
     delete data_;
-    delete root_;
+    if (root_)
+        delete root_;
 }
 
 void AI::Start() {
@@ -46,14 +47,14 @@ void AI::Finish(){
 	}
 }
 
-void AI::SetRootModule(AIModule* root) {
+void AI::set_root(AIModule* root) {
 	if (state_ != CREATED) return;
 
 	root_ = root;
-	root_->root_ = this;
+	root_->base_ = this;
 }
 
-bool AI::IsUsingSkillSlot(SkillSlot slot) {
+bool AI::IsUsingSkillSlot(SkillSlot slot) const {
 	if (state_ != RUNNING) return false;
     return data_->IsUsingSkillSlot(slot);
 }

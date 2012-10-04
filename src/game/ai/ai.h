@@ -20,12 +20,12 @@ class AI : public component::Controller {
 	void Update(double dt);
 	void Finish();
 
-	void SetRootModule(AIModule* root);
+	void set_root(AIModule* root);
 
-	State state() { return state_; }
+	State state() const { return state_; }
 
 
-    bool IsUsingSkillSlot(SkillSlot slot);
+    bool IsUsingSkillSlot(SkillSlot slot) const;
 
     const ugdk::Vector2D& direction_vector() const;
 

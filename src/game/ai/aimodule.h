@@ -17,16 +17,21 @@ class AIModule {
 	virtual Status Update(double dt, AIData* data) = 0;
 	virtual void Finish() {}
 
-	AI* root() { return root_; }
+	AI* base() const { return base_; }
 
-	void set_parent(AIModule* parent) { parent_ = parent; root_ = parent->get_root(); }
-	AIModule* parent() { return parent_; }
+	AIModule* parent() const { return parent_; }
+	void set_parent(AIModule* parent) { 
+        parent_ = parent;
+        base_ = parent->base();
+    }
 
-  protected:
-	AI* root_;
+  private:
+	AI* base_;
 	AIModule* parent_;
 
-	AIModule() : root_(0), parent_(0) {}
+  protected:
+	AIModule() : base_(0), parent_(0) {}
+
 
 	friend class AI;
 };
