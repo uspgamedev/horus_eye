@@ -1,28 +1,31 @@
 #ifndef HORUSEYE_GAME_AI_BLOCK_RANDOMMOVEMENT_H_
 #define HORUSEYE_GAME_AI_BLOCK_RANDOMMOVEMENT_H_
 
-#include "game/ai/ailogicblock.h"
+#include "game/ai.h"
+#include "game/ai/logicblock.h"
 
 namespace ai {
+namespace blocks {
 
-class RandomMovement : public AILogicBlock {
+class RandomMovement : public LogicBlock {
 
 public:
-	RandomMovement(LogicModule* parent, float time_to_change_direction) : 
-					AILogicBlock(parent), time_to_change_(time_to_change_direction) {}
+	RandomMovement(double time_to_change_direction) : 
+					time_to_change_(time_to_change_direction) {}
 	~RandomMovement() {}
 
 	virtual void Start();
-	virtual AIModule::Status Update(float dt);
+	virtual AIModule::Status Update(double dt, AIData* data);
 	virtual void Finish();
 
 protected:
-	float time_to_change_;
-	float time_left_;
+	double time_to_change_;
+	double time_left_;
 
 	// Devolve um tempo ~exp(time_to_change_)
-	float WaitingTime();
+	double WaitingTime();
 };
 
+}
 }
 #endif // RANDOMMOVEMENT_H_
