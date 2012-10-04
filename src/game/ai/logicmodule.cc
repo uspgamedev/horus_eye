@@ -1,6 +1,6 @@
 #include "game/ai/aimodule.h"
 #include "game/ai/logicmodule.h"
-#include "game/ai/ailogicblock.h"
+#include "game/ai/logicblock.h"
 
 namespace ai {
 
@@ -30,6 +30,16 @@ void LogicModule::Finish(){
 		child_->Finish();
 	if (logic_)
 		logic_->Finish();
+}
+
+void LogicModule::set_child(AIModule* child) { 
+    child_ = child; 
+    child->set_parent(this); 
+}
+
+void LogicModule::set_logic(LogicBlock* logic) {
+    logic_ = logic;
+    logic_->set_parent(this);
 }
 
 }

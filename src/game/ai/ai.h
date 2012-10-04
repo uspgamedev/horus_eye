@@ -22,7 +22,7 @@ class AI : public component::Controller {
 
 	void SetRootModule(AIModule* root);
 
-	State get_state() { return state_; }
+	State state() { return state_; }
 
 
     bool IsUsingSkillSlot(SkillSlot slot);

@@ -14,13 +14,13 @@ class AIModule {
 	virtual ~AIModule() {}
 
 	virtual void Start() {}
-	virtual Status Update(double dt, AIData* data) { return DONE; }
+	virtual Status Update(double dt, AIData* data) = 0;
 	virtual void Finish() {}
 
-	AI* get_root() { return root_; }
+	AI* root() { return root_; }
 
 	void set_parent(AIModule* parent) { parent_ = parent; root_ = parent->get_root(); }
-	AIModule* get_parent() { return parent_; }
+	AIModule* parent() { return parent_; }
 
   protected:
 	AI* root_;

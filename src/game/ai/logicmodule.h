@@ -16,12 +16,13 @@ public:
 	AIModule::Status Update(double dt, AIData* data);
 	void Finish();
 
-	void SetChildModule(AIModule* child) { child_ = child; child->set_parent(this); }
-	void SetLogicObject(AILogicBlock* logic) { logic_ = logic; }
+	void set_child(AIModule* child) { child_ = child; child->set_parent(this); }
+
+	void set_logic(LogicBlock* logic);
 
 protected:
 	AIModule* child_;
-	AILogicBlock* logic_;
+	LogicBlock* logic_;
 };
 
 }

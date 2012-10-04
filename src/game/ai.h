@@ -13,7 +13,7 @@ class RandomModule;
 class LogicModule;
 class ConditionModule;
 
-class AILogicBlock;
+class LogicBlock;
 
 }  // namespace ai
 
