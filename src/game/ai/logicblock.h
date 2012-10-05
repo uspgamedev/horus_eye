@@ -7,9 +7,8 @@
 namespace ai {
 
 class LogicBlock {
-
   public:
-	~LogicBlock() {}
+    virtual ~LogicBlock() {}
 
 	virtual void Start() {}
 	virtual AIModule::Status Update(double dt, AIData* data) = 0;
