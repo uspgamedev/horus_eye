@@ -1,27 +1,28 @@
 #ifndef HORUSEYE_GAME_AI_BLOCK_USEWEAPON_H_
 #define HORUSEYE_GAME_AI_BLOCK_USEWEAPON_H_
 
-#include "game/ai/ailogicblock.h"
+#include "game/ai.h"
+#include "game/ai/logicblock.h"
+#include "game/components/controller.h"
 
-namespace skills {
-class Skill;
-}
 
 namespace ai {
+namespace blocks {
 
-class UseWeapon : public AILogicBlock {
+class UseWeapon : public LogicBlock {
 
 public:
-	UseWeapon(LogicModule* parent, skills::Skill* weapon) : AILogicBlock(parent), weapon_(weapon) {}
+	UseWeapon(component::Controller::SkillSlot slot) : slot_(slot) {}
 	~UseWeapon() {}
 
 	virtual void Start();
-	virtual AIModule::Status Update(float dt);
+	virtual AIModule::Status Update(double dt, AIData* data);
 	virtual void Finish();
 
 protected:
-	skills::Skill* weapon_;
+	component::Controller::SkillSlot slot_;
 };
 
+}
 }
 #endif // USEWEAPON_H_

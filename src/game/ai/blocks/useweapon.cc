@@ -1,24 +1,26 @@
-#include "useweapon.h"
-#include "game/sprites/creatures/mummy.h"
+#include "game/ai/blocks/useweapon.h"
+#include "game/ai/aidata.h"
+#include "game/sprites/worldobject.h"
 #include "game/skills/skill.h"
 
-using namespace ugdk;
 
 namespace ai {
+namespace blocks {
 
 void UseWeapon::Start() {
 }
 
-AIModule::Status UseWeapon::Update(float dt) {
-	sprite::Creature* owner = parent_->get_root()->get_owner();
+AIModule::Status UseWeapon::Update(double dt, AIData* data) {
+	sprite::WorldObject* owner = parent_->root()->owner();
 	
-	if (owner->waiting_animation() ) return AIModule::DORMANT;
+    if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
+    if (owner->is_active() ) return AIModule::DORMANT;
 
-	sprite::Mummy* mummy = static_cast<sprite::Mummy*>(owner);
-	
-	if(weapon_->Available() && weapon_->IsValidUse()) {
-		weapon_->Use();
-        mummy->StartAttack(NULL);
+    skills::Skill* skill = owner->caster()->SkillAt(slot_);
+    if (!skill) return AIModule::DORMANT;
+
+	if(skill->Available() && skill->IsValidUse()) {
+		data->AddUsingSkillSlot(slot_);
 		return AIModule::ACTIVE;
     }
 	return AIModule::DORMANT;
@@ -27,4 +29,5 @@ AIModule::Status UseWeapon::Update(float dt) {
 void UseWeapon::Finish() {
 }
 
+}
 }
