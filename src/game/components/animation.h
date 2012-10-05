@@ -4,18 +4,20 @@
 #include <map>
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
+
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 
+#include "game/components/base.h"
 #include "game/components/direction.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/isometricanimationset.h"
 
 namespace component {
 
-class Animation : public ugdk::action::Observer {
+class Animation : public Base, public ugdk::action::Observer {
   public:
     typedef std::tr1::function<void (sprite::WorldObject*)> AnimationCallback;
 

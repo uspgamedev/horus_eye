@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_CASTER_H_
 #define HORUSEYE_COMPONENT_CASTER_H_
 
+#include "game/components/base.h"
+
 #include <map>
 #include <vector>
 #include <cstdlib>
@@ -18,7 +20,7 @@
 
 namespace component {
 
-class Caster {
+class Caster : public Base {
   public:
     Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count,
         const skills::usearguments::Aim& aim);

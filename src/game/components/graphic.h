@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_GRAPHIC_H_
 #define HORUSEYE_COMPONENT_GRAPHIC_H_
 
+#include "game/components/base.h"
+
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
 
@@ -8,7 +10,7 @@
 
 namespace component {
 
-class Graphic {
+class Graphic : public Base {
   public:
     Graphic(sprite::WorldObject* owner);
     virtual ~Graphic();

@@ -1,11 +1,13 @@
 #ifndef HORUSEYE_COMPONENT_LOGIC_H_
 #define HORUSEYE_COMPONENT_LOGIC_H_
 
+#include "game/components/base.h"
+
 #include "game/map.h"
 
 namespace component {
 
-class Logic {
+class Logic : public Base {
   public:
     virtual ~Logic() {}
 
