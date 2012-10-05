@@ -1,3 +1,5 @@
+#include <cstdlib>
+
 #include "game/ai/ai.h"
 #include "game/ai/aimodule.h"
 #include "game/ai/aidata.h"
