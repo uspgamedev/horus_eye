@@ -16,6 +16,14 @@ SET(GAME_SRCS
     ./game/ai/aidata.h 
     ./game/ai/ai.h 
     ./game/ai/aimodule.h 
+    ./game/ai/blocks/checktargetvisible.cc 
+    ./game/ai/blocks/checktargetvisible.h 
+    ./game/ai/blocks/randommovement.cc 
+    ./game/ai/blocks/randommovement.h 
+    ./game/ai/blocks/searchforhero.cc 
+    ./game/ai/blocks/searchforhero.h 
+    ./game/ai/blocks/useweapon.cc 
+    ./game/ai/blocks/useweapon.h 
     ./game/ai/conditionmodule.cc 
     ./game/ai/conditionmodule.h 
     ./game/ai.h 
@@ -160,6 +168,9 @@ SET(GAME_SRCS
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
+    ./module/ai/logicblockproxy.h 
+    ./module/aiLUA_wrap.cc 
+    ./module/aiPYTHON_wrap.cc 
     ./module/builderLUA_wrap.cc 
     ./module/builderPYTHON_wrap.cc 
     ./module/component/logicproxy.h 

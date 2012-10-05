@@ -1,11 +1,12 @@
 #ifndef HORUSEYE_GAME_AI_BLOCK_CHECKTARGETVISIBLE_H_
 #define HORUSEYE_GAME_AI_BLOCK_CHECKTARGETVISIBLE_H_
 
+#include <string>
 #include "game/sprites.h"
 #include "game/ai.h"
 #include "game/ai/logicblock.h"
 #include "game/utils/visionstrategy.h"
-#include <string>
+
 
 namespace ai {
 namespace blocks {
@@ -22,7 +23,7 @@ public:
 
     sprite::WorldObject* target() const { return target_; }
     void set_target(sprite::WorldObject* target) { target_ = target; }
-    std::string& target_tag() const { return target_tag_; }
+    const std::string& target_tag() const { return target_tag_; }
     void set_target_tag(std::string& tag) { target_tag_ = tag; }
 
 protected:

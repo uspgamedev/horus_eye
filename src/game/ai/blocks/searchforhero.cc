@@ -1,5 +1,7 @@
 #include "game/ai/blocks/searchforhero.h"
 #include "game/ai/aidata.h"
+#include "game/ai/ai.h"
+#include "game/components/animation.h"
 #include <ugdk/math/vector2D.h>
 
 namespace ai {
@@ -9,7 +11,7 @@ void SearchForHero::Start() {
 }
 
 AIModule::Status SearchForHero::Update(double dt, AIData* data) {
-	sprite::Creature* owner = parent_->get_root()->get_owner();
+	sprite::WorldObject* owner = parent_->base()->owner();
 	
     if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
     if (owner->is_active() ) return AIModule::DORMANT;

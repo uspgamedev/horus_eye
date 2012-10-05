@@ -1,7 +1,11 @@
 #include <cmath>
+#include <cstdlib>
 #include <ugdk/math/vector2D.h>
 #include "game/ai/blocks/randommovement.h"
+#include "game/ai/ai.h"
+#include "game/ai/aidata.h"
 #include "game/sprites/worldobject.h"
+#include "game/components/animation.h"
 
 #define PI 3.1415926535897931
 
@@ -15,7 +19,7 @@ void RandomMovement::Start() {
 }
 
 AIModule::Status RandomMovement::Update(double dt, AIData* data) {
-	sprite::WorldObject* owner = parent_->root()->owner();
+	sprite::WorldObject* owner = parent_->base()->owner();
 	
     if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
 	if (!owner->is_active() ) return AIModule::DORMANT;

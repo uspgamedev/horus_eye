@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_AI_AILOGICBLOCK_H_
 
 #include "game/ai.h"
+#include "game/ai/logicmodule.h"
 
 namespace ai {
 

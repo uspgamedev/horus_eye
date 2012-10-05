@@ -1,7 +1,9 @@
 #include "game/ai/blocks/checktargetvisible.h"
 #include "game/ai/aidata.h"
+#include "game/ai/ai.h"
 #include "game/sprites/worldobject.h"
 #include "game/context.h"
+#include "game/components/animation.h"
 #include <string>
 
 namespace ai {
@@ -11,7 +13,7 @@ void CheckTargetVisible::Start() {
 }
 
 AIModule::Status CheckTargetVisible::Update(double dt, AIData* data) {
-	sprite::WorldObject* owner = parent_->root()->owner();
+	sprite::WorldObject* owner = parent_->base()->owner();
 	
 	if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
     if (owner->is_active() ) return AIModule::DORMANT;

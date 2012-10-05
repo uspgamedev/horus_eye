@@ -14,10 +14,10 @@ class AIData {
 	~AIData() {}
 
     const ugdk::Vector2D& direction() const { return direction_; }
-    void set_direction(ugdk::Vector2D& dir) { direction_ = dir; }
+    void set_direction(const ugdk::Vector2D& dir) { direction_ = dir; }
 
     const ugdk::Vector2D& aim_destination() const { return aim_destination_; }
-    void set_aim_destination(ugdk::Vector2D& aim) { aim_destination_ = aim; }
+    void set_aim_destination(const ugdk::Vector2D& aim) { aim_destination_ = aim; }
 
     void AddUsingSkillSlot(component::Controller::SkillSlot slot) { using_skills_.insert(slot); }
     void RemoveUsingSkillSlot(component::Controller::SkillSlot slot) { using_skills_.erase(slot); }
