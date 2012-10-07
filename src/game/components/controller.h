@@ -15,7 +15,7 @@ class Controller : public Base {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
 
-    Controller(sprite::WorldObject* owner) : owner_(owner) {}
+    Controller(sprite::WorldObject* owner) : Base("controller"), owner_(owner) {}
     virtual ~Controller() {}
 
           sprite::WorldObject* owner()       { return owner_; }

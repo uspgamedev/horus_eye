@@ -29,7 +29,7 @@ class Animation : public Base, public ugdk::action::Observer {
     void Tick();
 
     void set_direction(const Direction& dir);
-    void set_animation(utils::AnimtionType type);
+    void AddComponent(utils::AnimtionType type);
     void queue_animation(utils::AnimtionType type);
 
     bool has_queued_animation() const { return has_queued_animation_; }

@@ -72,10 +72,10 @@ void Creature::Update(double dt) {
             const Direction& direction = controller->direction();
             if(direction) {
                 last_standing_direction_ = direction;
-                owner_->animation()->set_animation(utils::WALKING);
+                owner_->animation()->AddComponent(utils::WALKING);
                 owner_->animation()->set_direction(direction);
             } else {
-                owner_->animation()->set_animation(utils::STANDING);
+                owner_->animation()->AddComponent(utils::STANDING);
                 owner_->animation()->set_direction(last_standing_direction_);
             }
             walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
@@ -108,7 +108,7 @@ void Creature::StartAttackAnimation() {
     Direction d = Direction::FromWorldVector(aim.destination_ - aim.origin_);
     last_standing_direction_ = d;
     owner_->animation()->set_direction(d);
-    owner_->animation()->set_animation(utils::ATTACKING);
+    owner_->animation()->AddComponent(utils::ATTACKING);
     owner_->animation()->flag_uninterrutible();
 }
 

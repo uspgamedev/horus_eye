@@ -51,7 +51,7 @@ WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
     
     WorldObject* wobj = new WorldObject(30.0);
     wobj->node()->set_drawable(sprite);
-    wobj->set_logic(new Follower(wobj, target));
+    wobj->AddComponent(new Follower(wobj, target));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Projectile");

@@ -65,6 +65,7 @@ SET(GAME_SRCS
     ./game/builders/taskbuilder.h 
     ./game/components/animation.cc 
     ./game/components/animation.h 
+    ./game/components/base.h 
     ./game/components/caster.cc 
     ./game/components/caster.h 
     ./game/components/controller.h 

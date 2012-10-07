@@ -22,7 +22,7 @@
 
 namespace sprite {
 
-class WorldObject : public ugdk::action::Entity {
+class WorldObject : public ::ugdk::action::Entity {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
     WorldObject(double duration = -1.0);
@@ -82,23 +82,12 @@ class WorldObject : public ugdk::action::Entity {
         on_die_callback_ = on_death_end_callback;
     }
 
-    void set_logic(component::Logic* logic) { logic_ = logic; }
-    component::Logic* logic() { return logic_; }
-
-    void set_damageable(component::Damageable* damageable) { damageable_ = damageable; }
-    component::Damageable* damageable() { return damageable_; }
-
-    void set_graphic(component::Graphic* graphic) { graphic_ = graphic; }
-    component::Graphic* graphic() { return graphic_; }
-
-    void set_controller(component::Controller* controller) { controller_ = controller; }
-    component::Controller* controller() { return controller_; }
-
-    void set_animation(component::Animation* animation) { animation_ = animation; }
-    component::Animation* animation() { return animation_; }
-
-    void set_caster(component::Caster* caster) { caster_ = caster; }
-    component::Caster* caster() { return caster_; }
+    component::Logic* logic();
+    component::Damageable* damageable();
+    component::Graphic* graphic();
+    component::Controller* controller();
+    component::Animation* animation();
+    component::Caster* caster();
 
     template<class T>
     T* component(const std::string& name) {
@@ -153,18 +142,6 @@ class WorldObject : public ugdk::action::Entity {
     Status status_;
     double light_radius_;
     scene::GameLayer layer_;
-
-    component::Damageable* damageable_;
-
-    component::Graphic* graphic_;
-
-    component::Logic* logic_;
-
-    component::Controller* controller_;
-
-    component::Animation* animation_;
-
-    component::Caster* caster_;
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;

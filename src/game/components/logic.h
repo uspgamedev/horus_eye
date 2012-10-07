@@ -15,7 +15,7 @@ class Logic : public Base {
     virtual void OnRoomAdd(map::Room* world) {}
 
   protected:
-    Logic() {}
+    Logic() : Base("logic") {}
 };
 
 }

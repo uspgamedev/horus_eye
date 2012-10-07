@@ -6,7 +6,8 @@
 namespace component {
 
 Graphic::Graphic(sprite::WorldObject* owner)
-  : node_(new ugdk::graphic::Node),
+  : Base("caster"),
+    node_(new ugdk::graphic::Node),
     owner_(owner),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),

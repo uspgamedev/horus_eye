@@ -79,7 +79,7 @@ class ItemLogic : public component::Logic {
 
 WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
     WorldObject* wobj = new WorldObject;
-    wobj->set_logic(new ItemLogic(wobj->graphic(), image));
+    wobj->AddComponent(new ItemLogic(wobj->graphic(), image));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Item");

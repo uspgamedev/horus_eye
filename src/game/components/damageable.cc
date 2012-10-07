@@ -16,7 +16,8 @@ using sprite::WorldObject;
 namespace component {
 
 Damageable::Damageable(sprite::WorldObject* owner, int invulnerability_time, bool blinks)
-  : owner_(owner),
+  : Base("caster"),
+    owner_(owner),
     super_armor_(false),
     invulnerability_time_(invulnerability_time),
     hit_duration_(new ugdk::time::TimeAccumulator(invulnerability_time)),
@@ -42,7 +43,7 @@ void Damageable::TakeDamage(double life_points) {
     if(life_.Empty()) {
         if (owner_->is_active()) {
             if (owner_->animation()) {
-                owner_->animation()->set_animation(utils::DYING);
+                owner_->animation()->AddComponent(utils::DYING);
                 owner_->animation()->flag_uninterrutible();
             }
             owner_->StartToDie();
@@ -51,7 +52,7 @@ void Damageable::TakeDamage(double life_points) {
 #endif
         }
     } else if(!super_armor_ && owner_->animation()) {
-        owner_->animation()->set_animation(utils::TAKING_HIT);
+        owner_->animation()->AddComponent(utils::TAKING_HIT);
         owner_->animation()->flag_uninterrutible();
     }
     hit_duration_->Restart();

@@ -85,7 +85,7 @@ void DeactivateRoom(const std::string& roomname) {
 static void _internal_AddDamageableComponent(sprite::WorldObject* obj, double life) {
     component::Damageable* damageable = new component::Damageable(obj);
     damageable->life() = resource::Energy(life);
-    obj->set_damageable(damageable);
+    obj->AddComponent(damageable);
 }
 
 void AddDamageableComponent(const std::string& tag, double life) {

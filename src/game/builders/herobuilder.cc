@@ -49,18 +49,18 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->set_die_callback(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
-    hero_wobj->set_animation(new component::Animation(hero_wobj, "hero", ANIMATIONS));
+    hero_wobj->AddComponent(new component::Animation(hero_wobj, "hero", ANIMATIONS));
     hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
-    hero_wobj->set_controller(player_controller = new component::PlayerController(hero_wobj));
-    hero_wobj->set_damageable(new component::Damageable(hero_wobj, 1000, true));
+    hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
+    hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
-    hero_wobj->set_caster(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
+    hero_wobj->AddComponent(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     
     Hero *hero = new Hero(hero_wobj, Constants::HERO_SPEED);
-    hero_wobj->set_logic(hero);
+    hero_wobj->AddComponent(hero);
 
     component::Caster* caster = hero_wobj->caster();
 

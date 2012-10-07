@@ -65,7 +65,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     WorldObject* wobj = new WorldObject;
     wobj->set_identifier("Wall");
-    wobj->set_logic(new component::Wall(wobj, sheet));
+    wobj->AddComponent(new component::Wall(wobj, sheet));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
@@ -135,7 +135,7 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
         logic = new ButtonLogic(sprite, WorldPressButton);
 
     wobj->node()->set_drawable(sprite);
-    wobj->set_logic(logic);
+    wobj->AddComponent(logic);
     wobj->set_layer(scene::BACKGROUND_LAYER);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
@@ -215,7 +215,7 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     
     Sprite* sprite = new Sprite(factory.WallImage());
     BlockLogic* logic = new BlockLogic(wobj);
-    wobj->set_logic(logic);
+    wobj->AddComponent(logic);
 
     wobj->node()->set_drawable(sprite);
     wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));

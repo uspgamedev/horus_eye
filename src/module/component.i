@@ -12,6 +12,7 @@
 #include <game/sprites/condition.h>
 #include <game/sprites/worldobject.h>
 #include <game/resources/energy.h>
+#include <game/components/base.h>
 #include <game/components/logic.h>
 #include <game/components/damageable.h>
 #include <game/components/graphic.h>
@@ -79,6 +80,7 @@ disable_disown(component::Caster* caster)
 %ignore component::Direction::operator const bool;
 
 %include <game/components/direction.h>
+%include <game/components/base.h>
 %include <game/components/logic.h>
 %include <game/components/damageable.h>
 %include <game/components/graphic.h>
@@ -92,6 +94,7 @@ namespace sprite {
 }
 
 namespace component {
+    export_class(Base)
     export_class(Direction)
     export_class(Logic)
     export_class(Damageable)

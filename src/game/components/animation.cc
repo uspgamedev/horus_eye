@@ -32,7 +32,8 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
 Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
                      utils::IsometricAnimationSet* iso_animation_set)
-    :   owner_(wobj),
+    :   Base("animation"),
+        owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
         current_animation_(utils::STANDING),
@@ -55,7 +56,7 @@ void Animation::Tick() {
     uninterrutible_ = false;
     if(has_queued_animation_) {
         has_queued_animation_ = false;
-        set_animation(queued_animation_);
+        AddComponent(queued_animation_);
     }
 }
 
@@ -64,7 +65,7 @@ void Animation::set_direction(const Direction& dir) {
     if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
 }
 
-void Animation::set_animation(utils::AnimtionType type) { 
+void Animation::AddComponent(utils::AnimtionType type) { 
     if(current_animation_ != type && animation_callbacks_[current_animation_])
         animation_callbacks_[current_animation_](owner_);
 
