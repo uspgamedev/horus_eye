@@ -113,6 +113,8 @@ class WorldObject : public ugdk::action::Entity {
     }
     
     void AddComponent(component::Base* component);
+    void RemoveComponent(component::Base* component);
+    void RemoveComponent(const std::string& name);
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
@@ -170,8 +172,11 @@ class WorldObject : public ugdk::action::Entity {
     /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
     int sight_count_;
 
-    std::tr1::unordered_map<std::string, component::Base*> components_;
-    std::list<component::Base*> components_order_;
+    typedef std::tr1::unordered_map<std::string, component::Base*> ComponentsByName;
+    typedef std::list<component::Base*> ComponentsByOrder;
+
+    ComponentsByName components_;
+    ComponentsByOrder components_order_;
 
 };  // class WorldObject
 

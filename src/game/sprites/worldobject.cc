@@ -26,6 +26,8 @@ namespace sprite {
 using namespace ugdk;
 using namespace scene;
 using namespace utils;
+using std::string;
+using std::list;
 
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
@@ -85,6 +87,9 @@ void WorldObject::Update(double dt) {
     UpdateCondition(dt);
     if(animation_) animation_->Update(dt);
     graphic_->Update(dt);
+
+    for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
+        (*it)->Update(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
@@ -139,7 +144,7 @@ void WorldObject::OnRoomAdd(map::Room* room) {
         on_room_add_callback_(this, room);
 }
 
-bool deletecondition(Condition *condition) {
+static bool deletecondition(Condition *condition) {
     bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
     if (is_finished) delete condition;
     return is_finished;
@@ -163,6 +168,21 @@ void WorldObject::AddComponent(component::Base* component) {
     assert(components_.find(component->name()) == components_.end());
     components_[component->name()] = component;
     components_order_.push_back(component);
+}
+
+void WorldObject::RemoveComponent(component::Base* component) {
+    if(!component) return;
+    ComponentsByName::const_iterator it = components_.find(component->name());
+    if(it == components_.end()) return;
+    components_.erase(it);
+    components_order_.remove(component);
+}
+
+void WorldObject::RemoveComponent(const std::string& name) {
+    ComponentsByName::const_iterator it = components_.find(name);
+    if(it == components_.end()) return;
+    components_order_.remove(it->second);
+    components_.erase(it);
 }
 
 }  // namespace sprite
