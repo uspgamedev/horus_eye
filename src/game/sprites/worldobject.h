@@ -4,17 +4,21 @@
 #include <string>
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
+#include FROM_TR1(unordered_map)
+
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
 #include <pyramidworks/collision.h>
 #include <pyramidworks/geometry.h>
-#include "game/scenes/gamelayer.h"
+
 #include "game/scenes.h"
 #include "game/components.h"
 #include "game/sprites.h"
 #include "game/map.h"
+
+#include "game/scenes/gamelayer.h"
 
 namespace sprite {
 
@@ -96,6 +100,20 @@ class WorldObject : public ugdk::action::Entity {
     void set_caster(component::Caster* caster) { caster_ = caster; }
     component::Caster* caster() { return caster_; }
 
+    template<class T>
+    T* component(const std::string& name) {
+        std::tr1::unordered_map<std::string, component::Base*>::const_iterator it = components_.find(name);
+        return (it != components_.end()) ? dynamic_cast<T*>(it->second) : NULL;
+    }
+    
+    template<class T>
+    const T* component(const std::string& name) const {
+        std::tr1::unordered_map<std::string, component::Base*>::const_iterator it = components_.find(name);
+        return (it != components_.end()) ? dynamic_cast<const T*>(it->second) : NULL;
+    }
+    
+    void AddComponent(component::Base* component);
+
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
 
@@ -151,6 +169,9 @@ class WorldObject : public ugdk::action::Entity {
 
     /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
     int sight_count_;
+
+    std::tr1::unordered_map<std::string, component::Base*> components_;
+    std::list<component::Base*> components_order_;
 
 };  // class WorldObject
 

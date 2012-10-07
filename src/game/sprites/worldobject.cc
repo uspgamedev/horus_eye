@@ -1,10 +1,12 @@
 #include "worldobject.h"
 
+#include <cassert>
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 
+#include "game/components/base.h"
 #include "game/components/logic.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
@@ -154,6 +156,13 @@ void WorldObject::UpdateCondition(double dt) {
      for (i = conditions_.begin(); i != conditions_.end(); ++i)
          (*i)->Update(dt);
      conditions_.remove_if(deletecondition);
+}
+
+void WorldObject::AddComponent(component::Base* component) {
+    assert(component != NULL);
+    assert(components_.find(component->name()) == components_.end());
+    components_[component->name()] = component;
+    components_order_.push_back(component);
 }
 
 }  // namespace sprite
