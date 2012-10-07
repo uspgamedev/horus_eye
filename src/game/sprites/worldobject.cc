@@ -36,6 +36,7 @@ WorldObject::WorldObject(double duration)
         sight_count_(0) {
     if(duration > 0.0)
         this->set_timed_life(duration);
+    AddComponent(new component::Graphic(this));
 }
 
 WorldObject::~WorldObject() {
@@ -59,6 +60,7 @@ void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
     if(collision_object_) collision_object_->StopColliding();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
+    if(!animation()) Die();
 }
 
 void WorldObject::Update(double dt) {
@@ -76,20 +78,24 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
 
    Vector2D position = World::FromWorldCoordinates(world_position_);
    graphic()->node()->modifier()->set_offset(position);
+   graphic()->node()->set_zindex(position.y);
 }
 
 void WorldObject::set_light_radius(double radius) {
     light_radius_ = radius;
+    ugdk::graphic::Node* node = graphic()->node();
     
     if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
-        if(graphic()->node()->light() == NULL) graphic()->node()->set_light(new ugdk::graphic::Light);
+        if(node->light() == NULL) 
+            node->set_light(new ugdk::graphic::Light);
+
         Vector2D dimension = World::ConvertLightRadius(light_radius_);
-        graphic()->node()->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+        node->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
     } else {
-        if(graphic()->node()->light()) {
-            delete graphic()->node()->light();
-            graphic()->node()->set_light(NULL);
+        if(node->light()) {
+            delete node->light();
+            node->set_light(NULL);
         }
     }
 }
@@ -145,11 +151,17 @@ void WorldObject::UpdateCondition(double dt) {
      conditions_.remove_if(deletecondition);
 }
 
+static bool OrderComp(const component::Base* first, const component::Base* second) {
+    return first->order() < second->order();
+}
+
 void WorldObject::AddComponent(component::Base* component) {
     assert(component != NULL);
     assert(components_.find(component->name()) == components_.end());
     components_[component->name()] = component;
-    components_order_.push_back(component);
+
+    ComponentsByOrder newlist(1, component);
+    components_order_.merge(newlist, OrderComp);
 }
 
 void WorldObject::RemoveComponent(component::Base* component) {

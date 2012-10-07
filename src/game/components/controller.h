@@ -6,6 +6,7 @@
 #include <ugdk/math/vector2D.h>
 #include "game/components/direction.h"
 #include "game/sprites.h"
+#include "game/components/orders.h"
 
 namespace component {
 
@@ -15,7 +16,7 @@ class Controller : public Base {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
 
-    Controller(sprite::WorldObject* owner) : Base("controller"), owner_(owner) {}
+    Controller(sprite::WorldObject* owner) : Base("controller", orders::INPUT), owner_(owner) {}
     virtual ~Controller() {}
 
           sprite::WorldObject* owner()       { return owner_; }

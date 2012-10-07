@@ -1,12 +1,15 @@
+#include "game/components/graphic.h"
+
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
-#include "game/components/graphic.h"
+
+#include "game/components/orders.h"
 
 namespace component {
 
 Graphic::Graphic(sprite::WorldObject* owner)
-  : Base("caster"),
+  : Base("graphic", orders::GRAPHIC),
     node_(new ugdk::graphic::Node),
     owner_(owner),
     is_blinking_(false),

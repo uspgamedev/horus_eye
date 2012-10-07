@@ -9,17 +9,19 @@ class Base {
   public:
     virtual ~Base() {}
 
-    virtual const std::string& name() const { return name_; }
     virtual void Update(double dt) = 0;
 
-  protected:
-    Base() {}
-    Base(const std::string& name) : name_(name) {}
+    const std::string& name() const { return name_; }
+    int order() const { return order_; }
 
-    void set_name(const std::string& name) { name_ = name; }
+  protected:
+    Base(const std::string& name, int order = 0) : name_(name), order_(order) {}
+
+    void set_order(int order) { order_ = order; }
 
   private:
     std::string name_;
+    int order_;
 };
 
 }
