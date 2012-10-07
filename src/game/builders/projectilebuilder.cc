@@ -29,6 +29,7 @@ namespace builder {
 
 using namespace sprite;
 using component::Projectile;
+using component::Animation;
 using ugdk::base::ResourceManager;
 using ugdk::Vector2D;
 using utils::Constants;
@@ -57,7 +58,7 @@ COLLISION_DIRECT(WorldObject*, DieCollision, data) {
 }
 
 COLLISION_DIRECT(WorldObject*, BounceCollision, data) {
-    component::Projectile* projectile_logic = dynamic_cast<component::Projectile*>(data_->logic());
+    component::Projectile* projectile_logic = data_->component<component::Projectile>();
     WorldObject* wall = static_cast<WorldObject*>(data);
     ugdk::Vector2D projectile_position = data_->world_position();
     ugdk::Vector2D wall_position = wall->world_position();
@@ -147,8 +148,8 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, doubl
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
     WorldObject* wobj = buildObject(Constants::LIGHTNING_DURATION, 0.25);
     wobj->AddComponent(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
-    wobj->animation()->set_direction(GetFromScreenVector(dir));
-    wobj->animation()->AddComponent(utils::ATTACKING);
+    wobj->component<Animation>()->set_direction(GetFromScreenVector(dir));
+    wobj->component<Animation>()->set_animation(utils::ATTACKING);
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::LIGHTNING_SPRITE_HEIGHT));
     wobj->set_light_radius(1.0);
     wobj->AddComponent(new Projectile(wobj, Constants::LIGHTNING_SPEED, dir));
@@ -162,8 +163,8 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
 
     WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
     wobj->AddComponent(new component::Animation(wobj, "fireball", fireball_animation_));
-    wobj->animation()->set_direction(GetFromScreenVector(dir));
-    wobj->animation()->AddComponent(utils::ATTACKING);
+    wobj->component<Animation>()->set_direction(GetFromScreenVector(dir));
+    wobj->component<Animation>()->set_animation(utils::ATTACKING);
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::FIREBALL_SPRITE_HEIGHT));
     wobj->set_light_radius(1.0);
     // Give the light an orange color

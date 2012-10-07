@@ -12,6 +12,8 @@ namespace component {
 
 class Graphic : public Base {
   public:
+    static const char* DEFAULT_NAME() { return "graphic"; }
+
     Graphic(sprite::WorldObject* owner);
     virtual ~Graphic();
 

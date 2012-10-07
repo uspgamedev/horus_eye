@@ -27,7 +27,7 @@ using map::GameMap;
 #define TRANSPARENCY_DISTANCE 1.75
 
 Wall::Wall(sprite::WorldObject* owner, ugdk::graphic::Spritesheet* sheet) 
-    : owner_(owner), tile_(NULL) {
+    : Base(DEFAULT_NAME()), owner_(owner), tile_(NULL) {
 
     visible_frame_ = 0;
     transparent_frame_ = 1;

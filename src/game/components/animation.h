@@ -3,6 +3,7 @@
 
 #include <map>
 #include <ugdk/portable/tr1.h>
+#include <map>
 #include FROM_TR1(functional)
 
 #include <ugdk/action.h>
@@ -20,6 +21,7 @@ namespace component {
 class Animation : public Base, public ugdk::action::Observer {
   public:
     typedef std::tr1::function<void (sprite::WorldObject*)> AnimationCallback;
+    static const char* DEFAULT_NAME() { return "animation"; }
 
     Animation(sprite::WorldObject*, const std::string& spritesheet_tag,
               utils::IsometricAnimationSet* animation_set);
@@ -29,7 +31,7 @@ class Animation : public Base, public ugdk::action::Observer {
     void Tick();
 
     void set_direction(const Direction& dir);
-    void AddComponent(utils::AnimtionType type);
+    void set_animation(utils::AnimtionType type);
     void queue_animation(utils::AnimtionType type);
 
     bool has_queued_animation() const { return has_queued_animation_; }

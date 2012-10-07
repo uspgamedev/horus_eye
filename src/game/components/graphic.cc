@@ -9,7 +9,7 @@
 namespace component {
 
 Graphic::Graphic(sprite::WorldObject* owner)
-  : Base("graphic", orders::GRAPHIC),
+  : Base(DEFAULT_NAME(), orders::GRAPHIC),
     node_(new ugdk::graphic::Node),
     owner_(owner),
     is_blinking_(false),

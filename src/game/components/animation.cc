@@ -1,9 +1,12 @@
+#include "game/components/animation.h"
+
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/time/timeaccumulator.h>
-#include "game/components/animation.h"
+
 #include "game/components/graphic.h"
+#include "game/components/orders.h"
 
 using ugdk::Vector2D;
 
@@ -32,7 +35,7 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
 Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
                      utils::IsometricAnimationSet* iso_animation_set)
-    :   Base("animation"),
+    :   Base(DEFAULT_NAME(), orders::GRAPHIC + 1),
         owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
@@ -56,7 +59,7 @@ void Animation::Tick() {
     uninterrutible_ = false;
     if(has_queued_animation_) {
         has_queued_animation_ = false;
-        AddComponent(queued_animation_);
+        set_animation(queued_animation_);
     }
 }
 
@@ -65,7 +68,7 @@ void Animation::set_direction(const Direction& dir) {
     if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
 }
 
-void Animation::AddComponent(utils::AnimtionType type) { 
+void Animation::set_animation(utils::AnimtionType type) { 
     if(current_animation_ != type && animation_callbacks_[current_animation_])
         animation_callbacks_[current_animation_](owner_);
 

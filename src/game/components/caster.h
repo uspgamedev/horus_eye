@@ -22,6 +22,8 @@ namespace component {
 
 class Caster : public Base {
   public:
+    static const char* DEFAULT_NAME() { return "caster"; }
+
     Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count,
         const skills::usearguments::Aim& aim);
 

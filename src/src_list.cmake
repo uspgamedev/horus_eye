@@ -80,13 +80,13 @@ SET(GAME_SRCS
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
-    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
     ./game/components/logic/wall.cc 
     ./game/components/logic/wall.h 
     ./game/components/mummycontroller.cc 
     ./game/components/mummycontroller.h 
+    ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
     ./game/components/projectile.h 

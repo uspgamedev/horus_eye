@@ -39,7 +39,8 @@ pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Creature* o
 }
 
 Creature::Creature(WorldObject* owner, double speed)
-    :   owner_(owner),
+    :   Base(DEFAULT_NAME()),
+        owner_(owner),
         last_standing_direction_(Direction::Down()),
         last_dt_(0.0),
         speed_(speed),
@@ -65,18 +66,19 @@ void Creature::Update(double dt) {
     }*/
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
-        if(!owner_->animation()->is_uninterrutible()) {
+        component::Animation* animation = owner_->component<Animation>();
+        if(!animation->is_uninterrutible()) {
             UseSkills();
         }
-        if(!owner_->animation()->is_uninterrutible()) {
+        if(!animation->is_uninterrutible()) {
             const Direction& direction = controller->direction();
             if(direction) {
                 last_standing_direction_ = direction;
-                owner_->animation()->AddComponent(utils::WALKING);
-                owner_->animation()->set_direction(direction);
+                animation->set_animation(utils::WALKING);
+                animation->set_direction(direction);
             } else {
-                owner_->animation()->AddComponent(utils::STANDING);
-                owner_->animation()->set_direction(last_standing_direction_);
+                animation->set_animation(utils::STANDING);
+                animation->set_direction(last_standing_direction_);
             }
             walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
             Creature::Move(walking_direction_, dt);
@@ -107,9 +109,10 @@ void Creature::StartAttackAnimation() {
     const skills::usearguments::Aim& aim = owner_->caster()->aim();
     Direction d = Direction::FromWorldVector(aim.destination_ - aim.origin_);
     last_standing_direction_ = d;
-    owner_->animation()->set_direction(d);
-    owner_->animation()->AddComponent(utils::ATTACKING);
-    owner_->animation()->flag_uninterrutible();
+    component::Animation* animation = owner_->component<Animation>();
+    animation->set_direction(d);
+    animation->set_animation(utils::ATTACKING);
+    animation->flag_uninterrutible();
 }
 
 void Creature::Move(Vector2D direction, double delta_t) {

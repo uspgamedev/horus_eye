@@ -1,17 +1,19 @@
 #ifndef HORUSEYE_COMPONENT_LOGIC_WALL_H_
 #define HORUSEYE_COMPONENT_LOGIC_WALL_H_
 
+#include "game/components/base.h"
+
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
-#include "game/components/logic.h"
 #include "game/sprites.h"
 #include "game/map.h"
 
 namespace component {
 
-class Wall : public Logic {
+class Wall : public Base {
   public:
     enum WallType { MIDDLE, RIGHT, BOTTOM, BOTTOMRIGHT };
+    static const char* DEFAULT_NAME() { return "wall"; }
 
     Wall(sprite::WorldObject* owner, ugdk::graphic::Spritesheet* sheet);
     ~Wall();

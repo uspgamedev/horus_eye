@@ -13,7 +13,6 @@
 #include "game/utils/constants.h"
 #include "game/sprites/condition.h"
 #include "game/components/graphic.h"
-#include "game/components/logic.h"
 
 #define LIGHT_COEFFICIENT 0.75
 
@@ -60,7 +59,7 @@ void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
     if(collision_object_) collision_object_->StopColliding();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
-    if(!animation()) Die();
+    if(!HasComponent("animation")) Die();
 }
 
 void WorldObject::Update(double dt) {
@@ -126,8 +125,6 @@ void WorldObject::OnRoomAdd(map::Room* room) {
     if(collision_object() != NULL)
         collision_object()->StartColliding();
     current_room_ = room;
-    if(logic())
-        logic()->OnRoomAdd(room);
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);
 }
@@ -184,16 +181,13 @@ void WorldObject::RemoveComponent(const std::string& name) {
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/controller.h"
-#include "game/components/animation.h"
 #include "game/components/caster.h"
 
 namespace sprite {
 
-component::Logic* WorldObject::logic() { return component<component::Logic>("logic"); }
-component::Damageable* WorldObject::damageable() { return component<component::Damageable>("damageable"); }
-component::Graphic* WorldObject::graphic() { return component<component::Graphic>("graphic"); }
-component::Controller* WorldObject::controller() { return component<component::Controller>("controller"); }
-component::Animation* WorldObject::animation() { return component<component::Animation>("animation"); }
-component::Caster* WorldObject::caster() { return component<component::Caster>("caster"); }
+component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
+component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
+component::Controller* WorldObject::controller() { return component<component::Controller>(); }
+component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 
 }  // namespace sprite

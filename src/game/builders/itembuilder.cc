@@ -11,7 +11,6 @@
 #include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/components/graphic.h"
-#include "game/components/logic.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
@@ -61,9 +60,9 @@ UseCollision* CreateItemUse(WorldObject* wobj, sprite::ItemEvent* ev) {
     return new UseCollision(ItemUseData(wobj, ev));
 }
 
-class ItemLogic : public component::Logic {
+class ItemLogic : public component::Base {
   public:
-    ItemLogic(component::Graphic* g, ugdk::graphic::Drawable* image) : total_time_(0) {
+    ItemLogic(component::Graphic* g, ugdk::graphic::Drawable* image) : Base("item"), total_time_(0) {
         g->node()->AddChild(node_ = new ugdk::graphic::Node(image));
         node_->drawable()->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
     }

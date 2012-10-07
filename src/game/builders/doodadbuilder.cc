@@ -16,6 +16,7 @@
 #include "doodadbuilder.h"
 
 #include "game/components/damageable.h"
+#include "game/components/base.h"
 #include "game/components/logic/follower.h"
 #include "game/components/logic/wall.h"
 #include "game/scenes/world.h"
@@ -93,10 +94,11 @@ static void WorldPressButton() {
 }
 
 
-class ButtonLogic : public component::Logic {
+class ButtonLogic : public component::Base {
 public:
     ButtonLogic(Sprite* sprite, std::tr1::function<void (void)> callback)
-        :	pressed_(false),
+        :	Base("button"),
+            pressed_(false),
             sprite_(sprite),
             callback_(callback) {
         sprite_->SetDefaultFrame(2); 
@@ -148,9 +150,9 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
     return wobj;
 }
 
-class BlockLogic : public component::Logic {
+class BlockLogic : public component::Base {
 public:
-    BlockLogic(WorldObject* owner) : owner_(owner), 
+    BlockLogic(WorldObject* owner) : Base("block"), owner_(owner), 
         time_left_(new TimeAccumulator(0)) {}
 
     void Update(double dt) {

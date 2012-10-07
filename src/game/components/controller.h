@@ -15,8 +15,9 @@ class Controller : public Base {
     enum SkillSlot {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
+    static const char* DEFAULT_NAME() { return "controller"; }
 
-    Controller(sprite::WorldObject* owner) : Base("controller", orders::INPUT), owner_(owner) {}
+    Controller(sprite::WorldObject* owner) : Base(DEFAULT_NAME(), orders::INPUT), owner_(owner) {}
     virtual ~Controller() {}
 
           sprite::WorldObject* owner()       { return owner_; }

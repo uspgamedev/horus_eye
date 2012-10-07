@@ -26,6 +26,7 @@ namespace MummyBuilder {
 
 using namespace sprite;
 using namespace component;
+using component::Animation;
 using utils::Constants;
 using resource::Energy;
 using ugdk::Vector2D;
@@ -67,7 +68,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->AddComponent(new component::Animation(wobj, tag, ANIMATIONS));
     wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
-    wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
+    wobj->component<Animation>()->AddCallback(utils::DYING, &WorldObject::Die);
 
     wobj->AddComponent( AIBuilder::AIScript(wobj, "basicmummy") );
 

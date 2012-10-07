@@ -82,23 +82,31 @@ class WorldObject : public ::ugdk::action::Entity {
         on_die_callback_ = on_death_end_callback;
     }
 
-    component::Logic* logic();
     component::Damageable* damageable();
     component::Graphic* graphic();
     component::Controller* controller();
-    component::Animation* animation();
     component::Caster* caster();
 
     template<class T>
     T* component(const std::string& name) {
-        std::tr1::unordered_map<std::string, component::Base*>::const_iterator it = components_.find(name);
+        ComponentsByName::const_iterator it = components_.find(name);
         return (it != components_.end()) ? dynamic_cast<T*>(it->second) : NULL;
     }
     
     template<class T>
     const T* component(const std::string& name) const {
-        std::tr1::unordered_map<std::string, component::Base*>::const_iterator it = components_.find(name);
+        ComponentsByName::const_iterator it = components_.find(name);
         return (it != components_.end()) ? dynamic_cast<const T*>(it->second) : NULL;
+    }
+
+    template<class T>
+    T* component() { return component<T>(T::DEFAULT_NAME()); }
+    
+    template<class T>
+    const T* component() const { return component<T>(T::DEFAULT_NAME()); }
+
+    bool HasComponent(const std::string& name) const {
+        return components_.find(name) != components_.end();
     }
     
     void AddComponent(component::Base* component);
