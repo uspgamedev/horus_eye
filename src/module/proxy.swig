@@ -160,6 +160,9 @@ Mainly, they need to be named ClassProxy, and their constructor receives a ugdk:
 
 %typemap(out) void* {
     $result = static_cast<PyObject*>( $1 );
+    if ($result == NULL) {
+        $result = Py_None;
+    }
     //printf("starting void out (void*=%d) [PyRefCount=%d]\n", (int)$1, (int)$result->ob_refcnt);
     Py_INCREF($result);
 }

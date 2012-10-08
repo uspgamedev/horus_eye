@@ -32,6 +32,7 @@ enable_disown(ai::AIModule* root)
 %include <game/ai/ai.h>
 disable_disown(ai::AIModule* root)
 
+void_class()
 %include <game/ai/aidata.h>
 %include <game/ai/aimodule.h>
 
