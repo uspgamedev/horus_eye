@@ -13,15 +13,14 @@ SET(GAME_SRCS
     ./externals/inifile.h 
     ./externals/ugdk-videomanager.h 
     ./game/ai/ai.cc 
+    ./game/ai/aidata.cc 
     ./game/ai/aidata.h 
     ./game/ai/ai.h 
     ./game/ai/aimodule.h 
-    ./game/ai/blocks/checktargetvisible.cc 
-    ./game/ai/blocks/checktargetvisible.h 
+    ./game/ai/blocks/followtarget.cc 
+    ./game/ai/blocks/followtarget.h 
     ./game/ai/blocks/randommovement.cc 
     ./game/ai/blocks/randommovement.h 
-    ./game/ai/blocks/searchforhero.cc 
-    ./game/ai/blocks/searchforhero.h 
     ./game/ai/blocks/useweapon.cc 
     ./game/ai/blocks/useweapon.h 
     ./game/ai/conditionmodule.cc 

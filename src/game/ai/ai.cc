@@ -1,13 +1,14 @@
 #include <cstdlib>
-
+#include <ugdk/script.h>
+#include <ugdk/script/scriptmanager.h>
 #include "game/ai/ai.h"
 #include "game/ai/aimodule.h"
 #include "game/ai/aidata.h"
 
 namespace ai {
 
-AI::AI(sprite::WorldObject *owner) : super(owner), root_(NULL), state_(CREATED) {
-    data_ = new AIData();
+AI::AI(sprite::WorldObject *owner, const char* script_language_name) : super(owner), root_(NULL), state_(CREATED) {
+    data_ = new AIData(SCRIPT_MANAGER()->GetWrapper(script_language_name));
 }
 
 AI::~AI() {

@@ -4,6 +4,8 @@
 %include <module/export.swig>
 %include <module/ownership.swig>
 %include <module/proxy.swig>
+%include <module/virtualobj.swig>
+%include "std_string.i"
 
 %{
 
@@ -26,13 +28,16 @@
 
 %include <game/ai.h>
 
+%ignore ai::AIData::AIData(ugdk::script::LangWrapper* script_wrapper);
+%ignore ai::AIData::script_wrapper() const;
+
 proxy_class(ai::LogicBlock)
 
 enable_disown(ai::AIModule* root)
 %include <game/ai/ai.h>
 disable_disown(ai::AIModule* root)
 
-void_class()
+virtual_class()
 %include <game/ai/aidata.h>
 %include <game/ai/aimodule.h>
 

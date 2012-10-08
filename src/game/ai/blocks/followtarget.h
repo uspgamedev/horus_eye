@@ -11,11 +11,11 @@
 namespace ai {
 namespace blocks {
 
-class CheckTargetVisible : public LogicBlock {
+class FollowTarget : public LogicBlock {
 
 public:
-	CheckTargetVisible() : target_(0), target_tag_("") {}
-	~CheckTargetVisible() {}
+	FollowTarget() : target_(0), target_tag_(""), search_target_(false) {}
+	~FollowTarget() {}
 
 	virtual void Start();
 	virtual AIModule::Status Update(double dt, AIData* data);
@@ -31,6 +31,8 @@ protected:
     
     sprite::WorldObject* target_;
     std::string target_tag_;
+    bool search_target_;
+    ugdk::Vector2D last_known_target_pos_;
 };
 
 }

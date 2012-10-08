@@ -13,7 +13,7 @@ class AI : public component::Controller {
 	// States in which an AI can be, generally.
 	enum State { CREATED, RUNNING, FINISHED };
 
-	AI(sprite::WorldObject *owner);
+	AI(sprite::WorldObject *owner, const char* script_language_name);
 	~AI();
 
 	void Start();
@@ -23,7 +23,6 @@ class AI : public component::Controller {
 	void set_root(AIModule* root);
 
 	State state() const { return state_; }
-
 
     bool IsUsingSkillSlot(SkillSlot slot) const;
 

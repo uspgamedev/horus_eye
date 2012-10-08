@@ -4,7 +4,8 @@
 #include <set>
 #include <map>
 #include <string>
-
+#include <ugdk/script.h>
+#include <ugdk/script/virtualobj.h>
 #include "game/ai.h"
 #include "game/components/controller.h"
 
@@ -13,7 +14,7 @@ namespace ai {
 class AIData {
   public:
 
-	AIData() {}
+	AIData(ugdk::script::LangWrapper* script_wrapper) : script_wrapper_(script_wrapper) {}
 	~AIData();
 
     const ugdk::Vector2D& direction() const { return direction_; }
@@ -26,8 +27,11 @@ class AIData {
     void RemoveUsingSkillSlot(component::Controller::SkillSlot slot) { using_skills_.erase(slot); }
     bool IsUsingSkillSlot(component::Controller::SkillSlot slot) { return using_skills_.count(slot); }
 
-    void SetSharedData(const std::string& key, void* value);
-    void* GetSharedData(const std::string& key);
+    void SetSharedData(const std::string& key, ugdk::script::VirtualObj& value);
+    ugdk::script::VirtualObj GetSharedData(const std::string& key);
+    void ClearSharedData(const std::string& key);
+
+    ugdk::script::LangWrapper* script_wrapper() const { return script_wrapper_; }
     
     void Clear();
 
@@ -37,7 +41,9 @@ class AIData {
     typedef std::set< component::Controller::SkillSlot > SkillSlotSet;
     SkillSlotSet using_skills_;
 
-    typedef std::map<std::string, void*> GenericDataMap;
+    ugdk::script::LangWrapper* script_wrapper_;
+
+    typedef std::map<std::string, ugdk::script::VirtualObj> GenericDataMap;
     GenericDataMap shared_data_;
 };
 

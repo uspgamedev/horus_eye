@@ -6,13 +6,17 @@ namespace ai {
 AIData::~AIData() {
 }
 
-void AIData::SetSharedData(const std::string& key, void* value) {
+void AIData::SetSharedData(const std::string& key, ugdk::script::VirtualObj& value) {
     shared_data_[key] = value;
 }
 
-void* AIData::GetSharedData(const std::string& key) {
+ugdk::script::VirtualObj AIData::GetSharedData(const std::string& key) {
     if (shared_data_.count(key))    return shared_data_[key];
-    return NULL;
+    return ugdk::script::VirtualObj();
+}
+
+void AIData::ClearSharedData(const std::string& key) {
+    if (shared_data_.count(key))    shared_data_.erase(key);
 }
 
 void AIData::Clear() {
