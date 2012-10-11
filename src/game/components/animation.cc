@@ -6,7 +6,6 @@
 #include <ugdk/time/timeaccumulator.h>
 
 #include "game/components/graphic.h"
-#include "game/components/orders.h"
 
 using ugdk::Vector2D;
 
@@ -35,8 +34,7 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
 Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
                      utils::IsometricAnimationSet* iso_animation_set)
-    :   Base(DEFAULT_NAME(), orders::GRAPHIC + 1),
-        owner_(wobj),
+    :   owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
         current_animation_(utils::STANDING),

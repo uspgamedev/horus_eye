@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
 #include <string>
+#include <list>
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include FROM_TR1(unordered_map)
@@ -90,13 +91,13 @@ class WorldObject : public ::ugdk::action::Entity {
     template<class T>
     T* component(const std::string& name) {
         ComponentsByName::const_iterator it = components_.find(name);
-        return (it != components_.end()) ? dynamic_cast<T*>(it->second) : NULL;
+        return (it != components_.end()) ? dynamic_cast<T*>(it->second->component) : NULL;
     }
     
     template<class T>
     const T* component(const std::string& name) const {
         ComponentsByName::const_iterator it = components_.find(name);
-        return (it != components_.end()) ? dynamic_cast<const T*>(it->second) : NULL;
+        return (it != components_.end()) ? dynamic_cast<const T*>(it->second->component) : NULL;
     }
 
     template<class T>
@@ -109,8 +110,18 @@ class WorldObject : public ::ugdk::action::Entity {
         return components_.find(name) != components_.end();
     }
     
-    void AddComponent(component::Base* component);
-    void RemoveComponent(component::Base* component);
+    void AddComponent(component::Base*, const std::string& name, int order);
+
+    template<class T>
+    void AddComponent(T* component) { 
+        AddComponent(component, T::DEFAULT_NAME(), T::DEFAULT_ORDER());
+    }
+    
+    template<class T>
+    void AddComponent(T* component, const std::string& name) { 
+        AddComponent(component, name, T::DEFAULT_ORDER());
+    }
+
     void RemoveComponent(const std::string& name);
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
@@ -157,8 +168,14 @@ class WorldObject : public ::ugdk::action::Entity {
     /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
     int sight_count_;
 
-    typedef std::tr1::unordered_map<std::string, component::Base*> ComponentsByName;
-    typedef std::list<component::Base*> ComponentsByOrder;
+    struct OrderedComponent {
+        component::Base* component;
+        int order;
+
+        OrderedComponent(component::Base*, int);
+    };
+    typedef std::list<OrderedComponent> ComponentsByOrder;
+    typedef std::tr1::unordered_map<std::string, ComponentsByOrder::iterator> ComponentsByName;
 
     ComponentsByName components_;
     ComponentsByOrder components_order_;

@@ -16,8 +16,7 @@ using sprite::WorldObject;
 namespace component {
 
 Damageable::Damageable(sprite::WorldObject* owner, int invulnerability_time, bool blinks)
-  : Base(DEFAULT_NAME()),
-    owner_(owner),
+  : owner_(owner),
     super_armor_(false),
     invulnerability_time_(invulnerability_time),
     hit_duration_(new ugdk::time::TimeAccumulator(invulnerability_time)),

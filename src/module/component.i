@@ -13,7 +13,6 @@
 #include <game/sprites/worldobject.h>
 #include <game/resources/energy.h>
 #include <game/components/base.h>
-#include <game/components/logic.h>
 #include <game/components/damageable.h>
 #include <game/components/graphic.h>
 #include <game/components/controller.h>
@@ -22,7 +21,7 @@
 #include <game/components/caster.h>
 
 #include <ugdk/script/baseproxy.h>
-#include <module/component/logicproxy.h>
+#include <module/component/baseproxy.h>
 
 %}
 
@@ -30,7 +29,7 @@
 %import(module="ugdk_action") <ugdk/action/observer.h>
 %import(module="component") <game/sprites.h>
 
-proxy_class(component::Logic)
+proxy_class(component::Base)
 
 // sprite::WorldObject
 
@@ -38,23 +37,13 @@ proxy_class(component::Logic)
 %ignore sprite::WorldObject::set_die_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback);
 
 enable_disown(pyramidworks::collision::CollisionObject* col)
-enable_disown(component::Logic* logic)
-enable_disown(component::Damageable* damageable)
-enable_disown(component::Graphic* graphic)
-enable_disown(component::Controller* controller)
-enable_disown(component::Animation* animation)
-enable_disown(component::Caster* caster)
+enable_disown(component::Base* component)
 
 %include <game/sprites/condition.h>
 %include <game/sprites/worldobject.h>
 
 disable_disown(pyramidworks::collision::CollisionObject* col)
-disable_disown(component::Logic* logic)
-disable_disown(component::Damageable* damageable)
-disable_disown(component::Graphic* graphic)
-disable_disown(component::Controller* controller)
-disable_disown(component::Animation* animation)
-disable_disown(component::Caster* caster)
+disable_disown(component::Base* component)
 
 // resource::Energy and dependencies
 
@@ -81,7 +70,6 @@ disable_disown(component::Caster* caster)
 
 %include <game/components/direction.h>
 %include <game/components/base.h>
-%include <game/components/logic.h>
 %include <game/components/damageable.h>
 %include <game/components/graphic.h>
 %include <game/components/controller.h>
@@ -96,7 +84,6 @@ namespace sprite {
 namespace component {
     export_class(Base)
     export_class(Direction)
-    export_class(Logic)
     export_class(Damageable)
     export_class(Graphic)
     export_class(Controller)

@@ -8,7 +8,6 @@
 #include "scriptbuilder.h"
 
 #include "game/components/graphic.h"
-#include "game/components/logic.h"
 #include "game/components/damageable.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"

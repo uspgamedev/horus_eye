@@ -7,12 +7,14 @@
 #include <ugdk/time.h>
 
 #include "game/sprites.h"
+#include "game/components/orders.h"
 
 namespace component {
 
 class Graphic : public Base {
   public:
     static const char* DEFAULT_NAME() { return "graphic"; }
+    static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
     Graphic(sprite::WorldObject* owner);
     virtual ~Graphic();

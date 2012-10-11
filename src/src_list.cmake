@@ -177,7 +177,7 @@ SET(GAME_SRCS
     ./module/aiPYTHON_wrap.cc 
     ./module/builderLUA_wrap.cc 
     ./module/builderPYTHON_wrap.cc 
-    ./module/component/logicproxy.h 
+    ./module/component/baseproxy.h 
     ./module/componentLUA_wrap.cc 
     ./module/componentPYTHON_wrap.cc 
     ./module/contextLUA_wrap.cc 

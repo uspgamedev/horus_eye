@@ -13,6 +13,7 @@
 #include "game/skills.h"
 
 #include "game/components/direction.h"
+#include "game/components/orders.h"
 
 
 namespace component {
@@ -20,6 +21,7 @@ namespace component {
 class Creature : public Base, public ugdk::util::Uncopyable { 
   public:
     static const char* DEFAULT_NAME() { return "creature"; }
+    static int DEFAULT_ORDER() { return orders::LOGIC; }
 
     Creature(sprite::WorldObject* owner, double speed = 0.0);
     virtual ~Creature();

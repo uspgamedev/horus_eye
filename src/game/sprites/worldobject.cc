@@ -14,6 +14,10 @@
 #include "game/sprites/condition.h"
 #include "game/components/graphic.h"
 
+#include "game/components/damageable.h"
+#include "game/components/controller.h"
+#include "game/components/caster.h"
+
 #define LIGHT_COEFFICIENT 0.75
 
 namespace sprite {
@@ -23,6 +27,9 @@ using namespace scene;
 using namespace utils;
 using std::string;
 using std::list;
+
+
+WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
 
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
@@ -35,6 +42,7 @@ WorldObject::WorldObject(double duration)
         sight_count_(0) {
     if(duration > 0.0)
         this->set_timed_life(duration);
+
     AddComponent(new component::Graphic(this));
 }
 
@@ -44,7 +52,7 @@ WorldObject::~WorldObject() {
     if(timed_life_) delete timed_life_;
 
     for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
-        delete *it;
+        delete it->component;
 }
 
 void WorldObject::Die() {
@@ -68,7 +76,7 @@ void WorldObject::Update(double dt) {
 
     UpdateCondition(dt);
     for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
-        (*it)->Update(dt);
+        it->component->Update(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
@@ -148,42 +156,22 @@ void WorldObject::UpdateCondition(double dt) {
      conditions_.remove_if(deletecondition);
 }
 
-static bool OrderComp(const component::Base* first, const component::Base* second) {
-    return first->order() < second->order();
-}
-
-void WorldObject::AddComponent(component::Base* component) {
+void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {
     assert(component != NULL);
-    assert(components_.find(component->name()) == components_.end());
-    components_[component->name()] = component;
+    assert(components_.find(name) == components_.end());
 
-    ComponentsByOrder newlist(1, component);
-    components_order_.merge(newlist, OrderComp);
-}
-
-void WorldObject::RemoveComponent(component::Base* component) {
-    if(!component) return;
-    ComponentsByName::const_iterator it = components_.find(component->name());
-    if(it == components_.end()) return;
-    components_.erase(it);
-    components_order_.remove(component);
+    OrderedComponent newcomp(component, order);
+    ComponentsByOrder::iterator it;
+    for(it = components_order_.begin(); it != components_order_.end() && it->order <= newcomp.order; ++it) continue;
+    components_[name] = components_order_.insert(it, newcomp);
 }
 
 void WorldObject::RemoveComponent(const std::string& name) {
     ComponentsByName::const_iterator it = components_.find(name);
     if(it == components_.end()) return;
-    components_order_.remove(it->second);
+    components_order_.erase(it->second);
     components_.erase(it);
 }
-
-}
-// OLD
-#include "game/components/damageable.h"
-#include "game/components/graphic.h"
-#include "game/components/controller.h"
-#include "game/components/caster.h"
-
-namespace sprite {
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
 component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }

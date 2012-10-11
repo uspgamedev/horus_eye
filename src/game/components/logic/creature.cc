@@ -39,8 +39,7 @@ pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Creature* o
 }
 
 Creature::Creature(WorldObject* owner, double speed)
-    :   Base(DEFAULT_NAME()),
-        owner_(owner),
+    :   owner_(owner),
         last_standing_direction_(Direction::Down()),
         last_dt_(0.0),
         speed_(speed),

@@ -2,6 +2,8 @@
 #include <cerrno>
 #include "initializer.h"
 
+#include <forward_list>
+
 bool VerifyFolderExists(const std::string& path) {
     struct stat st;
     int s;

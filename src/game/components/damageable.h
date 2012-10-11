@@ -15,6 +15,7 @@ namespace component {
 class Damageable : public Base { 
   public:
     static const char* DEFAULT_NAME() { return "damageable"; }
+    static int DEFAULT_ORDER() { return 0; }
 
     Damageable(sprite::WorldObject* owner, int invulnerability_time = 0, bool blinks = false);
     virtual ~Damageable();

@@ -10,9 +10,10 @@ namespace component {
 class Follower : public Base {
   public:
     static const char* DEFAULT_NAME() { return "follower"; }
+    static int DEFAULT_ORDER() { return 0; }
 
     Follower(sprite::WorldObject* owner, sprite::WorldObject* target)
-        : Base(DEFAULT_NAME()), owner_(owner), target_(target) {}
+        : owner_(owner), target_(target) {}
     ~Follower() {}
 
     void Update(double dt);

@@ -17,11 +17,11 @@ using skills::Skill;
 namespace component {
 
 Caster::Caster(WorldObject* owner, const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim)
-    : Base(DEFAULT_NAME()), owner_(owner), mana_(mana), mana_blocks_(mana_, block_count),
+    : owner_(owner), mana_(mana), mana_blocks_(mana_, block_count),
       aim_(aim), skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID), power_(100) {}
 
 Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)
-    : Base(DEFAULT_NAME()), owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
+    : owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
       aim_(owner->world_position(), owner->controller()->aim_destination()), 
       skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID), power_(100) {}
 

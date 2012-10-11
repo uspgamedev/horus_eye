@@ -6,15 +6,17 @@
 #include <ugdk/math/vector2D.h>
 #include "game/sprites/worldobject.h"
 
+#include "game/components/orders.h"
+
 namespace component {
 
 class Projectile : public Base {
   public:
     static const char* DEFAULT_NAME() { return "projectile"; }
+    static int DEFAULT_ORDER() { return orders::LOGIC; }
 
     Projectile(sprite::WorldObject* owner, double speed, const ugdk::Vector2D &dir)
-    :   Base(DEFAULT_NAME()),
-        owner_(owner),
+    :   owner_(owner),
         speed_(speed),
         direction_(dir.Normalize()) {}
 

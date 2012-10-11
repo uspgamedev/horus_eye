@@ -16,8 +16,9 @@ class Controller : public Base {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
     static const char* DEFAULT_NAME() { return "controller"; }
+    static int DEFAULT_ORDER() { return orders::INPUT; }
 
-    Controller(sprite::WorldObject* owner) : Base(DEFAULT_NAME(), orders::INPUT), owner_(owner) {}
+    Controller(sprite::WorldObject* owner) : owner_(owner) {}
     virtual ~Controller() {}
 
           sprite::WorldObject* owner()       { return owner_; }
