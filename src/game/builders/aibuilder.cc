@@ -1,94 +1,55 @@
-#include "aibuilder.h"
-#include "game/sprites/creatures/mummy.h"
-#include "game/sprites/creatures/pharaoh.h"
-#include "game/ai/ai.h"
-#include "game/ai/sequencemodule.h"
-#include "game/ai/logicmodule.h"
-#include "game/ai/blocks/randommovement.h"
-#include "game/ai/blocks/checkherovisible.h"
-#include "game/ai/blocks/searchforhero.h"
-#include "game/ai/blocks/useweapon.h"
-#include "game/ai/blocks/move.h"
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 
-#define EXP_PARAM (1.0f)
+#include "game/builders/aibuilder.h"
+
+#include "game/ai/ai.h"
+
 
 namespace builder {
+namespace AIBuilder {
 
-using namespace ai;
+using ai::AI;
+using std::vector;
+using std::string;
+using ugdk::script::VirtualObj;
+
 /*Always remember: we should create the AIs (and their AIModule trees) in a top-down method...
 				like in the following order:
 	AI -> root AIModule -> AI.SetRootModule -> [ other module -> set module as child from parent ]* -> return AI */
 
-AI* AIBuilder::BasicMummyAI(sprite::Mummy* owner) {
-	AI* ai_ = new AI( (sprite::Creature*)owner );
+/** arguments[0] is the script name. */
+AI* Script(sprite::WorldObject* owner, const vector<string>& arguments) {
+    if (arguments.empty()) return NULL;
+    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("ai." + arguments[0]);
+    if(!script_generator) return NULL;
+    if(!script_generator["generate"]) {
+        fprintf(stderr, "Function 'generate' not found in 'ai.%s'.\n", arguments[0].c_str());
+        return NULL;
+    }
 
-	SequenceModule* mainList = new SequenceModule();
-	ai_->SetRootModule(mainList);
+    AI* aiobj = new AI(owner, script_generator.wrapper(), arguments[0]);
 
-	LogicModule* checkForHero = new LogicModule();
-	new CheckHeroVisible(checkForHero);
-	mainList->AddChildModule(checkForHero);
+    VirtualObj::List args;
+    {
+        VirtualObj obj(script_generator.wrapper());
+        obj.set_value<AI*>(aiobj);
+        args.push_back(obj);
+    }
 
-	LogicModule* searchForHero = new LogicModule();
-	new SearchForHero(searchForHero);
-	mainList->AddChildModule(searchForHero);
+    for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
+        VirtualObj obj(script_generator.wrapper());
+        obj.set_value<string>(*it);
+        args.push_back(obj);
+    }
+    VirtualObj script_data = script_generator["generate"](args);
 
-	LogicModule* randomMove = new LogicModule();
-	new RandomMovement(randomMove, EXP_PARAM);
-	mainList->AddChildModule(randomMove);
-
-	SequenceModule* actionList = new SequenceModule();
-	checkForHero->SetChildModule(actionList);
-
-	LogicModule* doAttack = new LogicModule();
-	new UseWeapon(doAttack, owner->weapon());
-	actionList->AddChildModule(doAttack);
-
-	LogicModule* doMove = new LogicModule();
-	new Move(doMove);
-	actionList->AddChildModule(doMove);
-
-	return ai_;
+    return aiobj;
 }
 
-AI* AIBuilder::BasicPharaohAI(sprite::Pharaoh* owner) {
-	AI* ai_ = new AI( (sprite::Creature*)owner );
-
-	SequenceModule* mainList = new SequenceModule();
-	ai_->SetRootModule(mainList);
-
-	LogicModule* checkForHero = new LogicModule();
-	new CheckHeroVisible(checkForHero);
-	mainList->AddChildModule(checkForHero);
-
-	LogicModule* searchForHero = new LogicModule();
-	new SearchForHero(searchForHero);
-	mainList->AddChildModule(searchForHero);
-
-	LogicModule* randomMove = new LogicModule();
-	new RandomMovement(randomMove, EXP_PARAM);
-	mainList->AddChildModule(randomMove);
-
-	SequenceModule* actionList = new SequenceModule();
-	checkForHero->SetChildModule(actionList);
-
-	LogicModule* doAttack = new LogicModule();
-	new UseWeapon(doAttack, owner->weapon());
-	actionList->AddChildModule(doAttack);
-
-	LogicModule* doRangedAttack = new LogicModule();
-	new UseWeapon(doRangedAttack, owner->ranged_weapon());
-	actionList->AddChildModule(doRangedAttack);
-
-	LogicModule* doSummonAttack = new LogicModule();
-	new UseWeapon(doSummonAttack, owner->summon_weapon());
-	actionList->AddChildModule(doSummonAttack);
-
-	LogicModule* doMove = new LogicModule();
-	new Move(doMove);
-	actionList->AddChildModule(doMove);
-
-	return ai_;
+AI* Script(sprite::WorldObject* owner, const std::string& script_name) {
+    return Script(owner, vector<string>(1, script_name));
 }
 
+}
 }

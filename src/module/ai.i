@@ -28,6 +28,7 @@
 
 %include <game/ai.h>
 
+%ignore ai::AI::AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name);
 %ignore ai::AIData::AIData(ugdk::script::LangWrapper* script_wrapper);
 %ignore ai::AIData::script_wrapper() const;
 

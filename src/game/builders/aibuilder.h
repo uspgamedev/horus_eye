@@ -1,24 +1,17 @@
 #ifndef HORUS_EYE_GAME_BUILDERS_AI_BUILDER_H_
 #define HORUS_EYE_GAME_BUILDERS_AI_BUILDER_H_
 
-namespace ai {
-class AI;
-}
-namespace sprite {
-class Mummy;
-class Pharaoh;
-}
+#include <vector>
+#include <string>
+#include "game/ai.h"
+#include "game/sprites.h"
 
 namespace builder {
+namespace AIBuilder {
 
-class AIBuilder
-{
-public:
-	AIBuilder() {}
+ai::AI* Script(sprite::WorldObject* owner, const std::string& script_name);
+ai::AI* Script(sprite::WorldObject* owner, const std::vector<std::string>& arguments);
 
-	ai::AI* BasicMummyAI(sprite::Mummy* owner);
-	ai::AI* BasicPharaohAI(sprite::Pharaoh* owner);
-};
-
+}
 }
 #endif /* HORUS_EYE_GAME_BUILDERS_AI_BUILDER_H_ */

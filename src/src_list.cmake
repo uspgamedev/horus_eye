@@ -33,6 +33,8 @@ SET(GAME_SRCS
     ./game/ai/randommodule.h 
     ./game/ai/sequencemodule.cc 
     ./game/ai/sequencemodule.h 
+    ./game/builders/aibuilder.cc 
+    ./game/builders/aibuilder.h 
     ./game/builders/builder.cc 
     ./game/builders/builder.h 
     ./game/builders/conditionbuilder.cc 
