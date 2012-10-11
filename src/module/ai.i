@@ -19,6 +19,10 @@
 #include <game/ai/randommodule.h>
 #include <game/ai/sequencemodule.h>
 
+#include <game/ai/blocks/followtarget.h>
+#include <game/ai/blocks/randommovement.h>
+#include <game/ai/blocks/useweapon.h>
+
 #include <ugdk/script/baseproxy.h>
 #include <module/ai/logicblockproxy.h>
 
@@ -53,6 +57,10 @@ disable_disown(ai::AIModule* child)
 
 %include <game/ai/logicblock.h>
 
+%include <game/ai/blocks/followtarget.h>
+%include <game/ai/blocks/randommovement.h>
+%include <game/ai/blocks/useweapon.h>
+
 namespace ai {
     export_class(AI)
     export_class(AIData)
@@ -62,6 +70,12 @@ namespace ai {
     export_class(LogicModule)
     export_class(RandomModule)
     export_class(SequenceModule)
+
+namespace blocks {
+    export_class(FollowTarget)
+    export_class(RandomMovement)
+    export_class(UseWeapon)
+}
 }
 
 confirm_exports(ai)

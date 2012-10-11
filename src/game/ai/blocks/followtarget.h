@@ -24,7 +24,7 @@ public:
     sprite::WorldObject* target() const { return target_; }
     void set_target(sprite::WorldObject* target) { target_ = target; }
     const std::string& target_tag() const { return target_tag_; }
-    void set_target_tag(std::string& tag) { target_tag_ = tag; }
+    void set_target_tag(const std::string& tag) { target_tag_ = tag; }
 
 protected:
 	utils::VisionStrategy vision_strategy_;

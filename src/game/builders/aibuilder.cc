@@ -14,17 +14,13 @@ using std::vector;
 using std::string;
 using ugdk::script::VirtualObj;
 
-/*Always remember: we should create the AIs (and their AIModule trees) in a top-down method...
-				like in the following order:
-	AI -> root AIModule -> AI.SetRootModule -> [ other module -> set module as child from parent ]* -> return AI */
-
 /** arguments[0] is the script name. */
 AI* Script(sprite::WorldObject* owner, const vector<string>& arguments) {
     if (arguments.empty()) return NULL;
-    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("ai." + arguments[0]);
+    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("ais." + arguments[0]);
     if(!script_generator) return NULL;
     if(!script_generator["generate"]) {
-        fprintf(stderr, "Function 'generate' not found in 'ai.%s'.\n", arguments[0].c_str());
+        fprintf(stderr, "Function 'generate' not found in 'ais.%s'.\n", arguments[0].c_str());
         return NULL;
     }
 
