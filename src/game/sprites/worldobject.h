@@ -88,40 +88,73 @@ class WorldObject : public ::ugdk::action::Entity {
     component::Controller* controller();
     component::Caster* caster();
 
+    /// Gets a component with the requested type with the given name.
+    /**
+    @param T The type of the requested component.
+    @param name The name of the requested component.
+    @return A pointer to the component of requested type, NULL if not found.
+    */
     template<class T>
     T* component(const std::string& name) {
         ComponentsByName::const_iterator it = components_.find(name);
         return (it != components_.end()) ? dynamic_cast<T*>(it->second->component) : NULL;
     }
     
+    /// Const version of the component getter.
+    /** @see component */
     template<class T>
     const T* component(const std::string& name) const {
         ComponentsByName::const_iterator it = components_.find(name);
         return (it != components_.end()) ? dynamic_cast<const T*>(it->second->component) : NULL;
     }
 
+    /** Convinent version where the component name comes from the default value of the given type. 
+    @see component */
     template<class T>
     T* component() { return component<T>(T::DEFAULT_NAME()); }
     
+    /** Convinent version where the component name comes from the default value of the given type. 
+    @see component */
     template<class T>
     const T* component() const { return component<T>(T::DEFAULT_NAME()); }
 
+    /// Checks if the object has a component of the given name.
+    /** @return True if a component is found, false otherwise. */
     bool HasComponent(const std::string& name) const {
         return components_.find(name) != components_.end();
     }
     
-    void AddComponent(component::Base*, const std::string& name, int order);
+    /// Adds a component with the given name an order.
+    /** 
+    @param component The component to add.
+    @param name The name to store it with.
+    @param order The order where to place it with.
+    */
+    void AddComponent(component::Base* component, const std::string& name, int order);
 
+    /** Convinent version of AddComponent that auto-completes the name and order from the default values of the component's type. 
+    @param T The type from where to extract the default name and order.
+    @param component The component to add.
+    */
     template<class T>
     void AddComponent(T* component) { 
         AddComponent(component, T::DEFAULT_NAME(), T::DEFAULT_ORDER());
     }
     
+    /** Convinent version of AddComponent that auto-completes just the order from the default values of the component's type.
+    @param T The type from where to extract the default order.
+    @param component The component to add.
+    @param name The name to store it with.
+    */
     template<class T>
     void AddComponent(T* component, const std::string& name) { 
         AddComponent(component, name, T::DEFAULT_ORDER());
     }
 
+    /// Removes the component with the given name.
+    /** Does not delete the component. Does nothing if there's no component with such name.
+    @param name The name of the component to remove.
+    */
     void RemoveComponent(const std::string& name);
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
@@ -173,6 +206,7 @@ class WorldObject : public ::ugdk::action::Entity {
         int order;
 
         OrderedComponent(component::Base*, int);
+        bool operator == (const component::Base*) const;
     };
     typedef std::list<OrderedComponent> ComponentsByOrder;
     typedef std::tr1::unordered_map<std::string, ComponentsByOrder::iterator> ComponentsByName;

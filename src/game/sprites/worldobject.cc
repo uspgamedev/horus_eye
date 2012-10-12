@@ -28,6 +28,9 @@ using namespace utils;
 using std::string;
 using std::list;
 
+bool WorldObject::OrderedComponent::operator == (const component::Base* base) const {
+    return component == base;
+}
 
 WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
 
@@ -159,6 +162,7 @@ void WorldObject::UpdateCondition(double dt) {
 void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {
     assert(component != NULL);
     assert(components_.find(name) == components_.end());
+    assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
 
     OrderedComponent newcomp(component, order);
     ComponentsByOrder::iterator it;
