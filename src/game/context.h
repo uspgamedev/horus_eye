@@ -3,9 +3,11 @@
 #define HORUSEYE_CONTEXT_H_
 
 #include <string>
+#include <list>
 
 #include <ugdk/math.h>
 #include <pyramidworks/collision.h>
+#include <pyramidworks/geometry.h>
 
 #include "game/map.h"
 #include "game/sprites/worldobject.h"
@@ -28,6 +30,10 @@ void DeactivateRoom(const std::string& roomname);
 
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
+
+/// Appends to the objects_colliding list all WorldObjects from the given collision class (classname) that are colliding with
+/// the given GeometricShape.
+void GetCollidingObjects(const std::string& classname, pyramidworks::geometry::GeometricShape* shape, std::list<sprite::WorldObject*> &objects_colliding);
 
 } // namespace context
 

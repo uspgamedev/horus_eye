@@ -25,6 +25,7 @@ class AI : public component::Controller {
 
 	void set_root(AIModule* root);
 
+	const std::string& name() const { return name_; }
 	State state() const { return state_; }
 
     bool IsUsingSkillSlot(SkillSlot slot) const;

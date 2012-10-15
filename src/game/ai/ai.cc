@@ -26,6 +26,7 @@ void AI::Start() {
 }
 
 void AI::Update(double dt) {
+	Start(); /*Due to the state_, this should execute only once.*/
 	if (state_ != RUNNING) return;
 
     data_->Clear();

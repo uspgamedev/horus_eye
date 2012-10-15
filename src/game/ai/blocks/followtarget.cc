@@ -17,7 +17,7 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->base()->owner();
 	
 	if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
-    if (owner->is_active() ) return AIModule::DORMANT;
+    if (!owner->is_active() ) return AIModule::DORMANT;
 
     if (target_ == NULL && target_tag_.size() > 0) {
         target_ = context::WorldObjectByTag(target_tag_);

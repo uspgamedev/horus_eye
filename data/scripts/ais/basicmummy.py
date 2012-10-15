@@ -8,6 +8,8 @@ from ai import SequenceModule, LogicModule, FollowTarget, RandomMovement, UseWea
 
 
 def generate(oAI, *args):
+    print "Generating Basic Mummy AI tree"
+    print "for AI %s, owner = %s|%s" % (oAI.name(), oAI.owner().identifier(), oAI.owner().tag())
     ####
     mainList = SequenceModule()
     oAI.set_root(mainList)

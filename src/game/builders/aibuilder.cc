@@ -29,7 +29,7 @@ AI* Script(sprite::WorldObject* owner, const vector<string>& arguments) {
     VirtualObj::List args;
     {
         VirtualObj obj(script_generator.wrapper());
-        obj.set_value<AI*>(aiobj);
+        obj.set_value<AI*>(aiobj); /*TODO: do this without passing ownership of the ptr to the script.*/
         args.push_back(obj);
     }
 
@@ -40,7 +40,11 @@ AI* Script(sprite::WorldObject* owner, const vector<string>& arguments) {
     }
     VirtualObj script_data = script_generator["generate"](args);
 
-    return aiobj;
+	printf("Executed AIBuilder - AI =  %d/%s\n", (int)aiobj, aiobj->name().c_str());
+
+	/*TODO: We need to return the AI* we created here. However, since we passed it to the script (SEE ABOVE), the script has the ownership.
+			So we must remove the ownership of the AI* from the script otherwise it will be deleted.*/
+	return args.front().value<AI*>(true); /*basically the same as returning 'aiobj', but making sure the ownership is right.*/
 }
 
 AI* Script(sprite::WorldObject* owner, const std::string& script_name) {

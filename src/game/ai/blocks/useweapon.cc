@@ -16,7 +16,7 @@ AIModule::Status UseWeapon::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->base()->owner();
 	
     if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
-    if (owner->is_active() ) return AIModule::DORMANT;
+    if (!owner->is_active() ) return AIModule::DORMANT;
 
     component::Caster* caster = owner->caster();
     skills::Skill* skill = caster->SkillAt(slot_);
