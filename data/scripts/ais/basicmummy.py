@@ -1,6 +1,7 @@
-
+import ugdk_action #POG
+from pyramidworks_geometry import Circle
 from component import WorldObject, Controller
-from ai import SequenceModule, LogicModule, FollowTarget, RandomMovement, UseWeapon
+from ai import SequenceModule, LogicModule, FollowTarget, RandomMovement, TargetDetector, UseWeapon
 
 #Always remember: we should create the AIs (and their AIModule trees) in a top-down method...
 #                 like in the following order:
@@ -14,14 +15,21 @@ def generate(oAI, *args):
     mainList = SequenceModule()
     oAI.set_root(mainList)
     ####
-    followHeroLogic = FollowTarget()
-    followHeroLogic.set_target_tag("hero")
-    followHero = LogicModule( followHeroLogic )
-    mainList.AddChildModule(followHero)
+    detectHeroLogic = TargetDetector()
+    detectHeroLogic.set_target_classname("Hero")
+    detectHeroLogic.set_area( Circle(10.0) )
+    detectHeroLogic.set_identifier("hero")
+    detectHero = LogicModule( detectHeroLogic )
+    mainList.AddChildModule(detectHero)
     ####
     randomMoveLogic = RandomMovement(1.0)
     randomMove = LogicModule( randomMoveLogic )
     mainList.AddChildModule(randomMove)
+    ####
+    followHeroLogic = FollowTarget()
+    followHeroLogic.set_detector_identifier("hero")
+    followHero = LogicModule( followHeroLogic )
+    detectHero.set_child(followHero)
     ####
     attackLogic = UseWeapon(Controller.PRIMARY)
     attack = LogicModule( attackLogic )

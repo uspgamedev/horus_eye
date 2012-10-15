@@ -6,6 +6,7 @@
 %include <module/proxy.swig>
 %include <module/virtualobj.swig>
 %include "std_string.i"
+%include "std_vector.i"
 
 %{
 
@@ -21,6 +22,7 @@
 
 #include <game/ai/blocks/followtarget.h>
 #include <game/ai/blocks/randommovement.h>
+#include <game/ai/blocks/targetdetector.h>
 #include <game/ai/blocks/useweapon.h>
 
 #include <ugdk/script/baseproxy.h>
@@ -59,6 +61,9 @@ disable_disown(ai::AIModule* child)
 
 %include <game/ai/blocks/followtarget.h>
 %include <game/ai/blocks/randommovement.h>
+enable_disown(pyramidworks::geometry::GeometricShape* area)
+%include <game/ai/blocks/targetdetector.h>
+disable_disown(pyramidworks::geometry::GeometricShape* area)
 %include <game/ai/blocks/useweapon.h>
 
 namespace ai {
@@ -74,6 +79,7 @@ namespace ai {
 namespace blocks {
     export_class(FollowTarget)
     export_class(RandomMovement)
+    export_class(TargetDetector)
     export_class(UseWeapon)
 }
 }

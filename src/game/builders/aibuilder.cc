@@ -15,7 +15,7 @@ using std::string;
 using ugdk::script::VirtualObj;
 
 /** arguments[0] is the script name. */
-AI* Script(sprite::WorldObject* owner, const vector<string>& arguments) {
+AI* AIScript(sprite::WorldObject* owner, const vector<string>& arguments) {
     if (arguments.empty()) return NULL;
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("ais." + arguments[0]);
     if(!script_generator) return NULL;
@@ -40,15 +40,13 @@ AI* Script(sprite::WorldObject* owner, const vector<string>& arguments) {
     }
     VirtualObj script_data = script_generator["generate"](args);
 
-	printf("Executed AIBuilder - AI =  %d/%s\n", (int)aiobj, aiobj->name().c_str());
-
 	/*TODO: We need to return the AI* we created here. However, since we passed it to the script (SEE ABOVE), the script has the ownership.
 			So we must remove the ownership of the AI* from the script otherwise it will be deleted.*/
 	return args.front().value<AI*>(true); /*basically the same as returning 'aiobj', but making sure the ownership is right.*/
 }
 
-AI* Script(sprite::WorldObject* owner, const std::string& script_name) {
-    return Script(owner, vector<string>(1, script_name));
+AI* AIScript(sprite::WorldObject* owner, const std::string& script_name) {
+    return AIScript(owner, vector<string>(1, script_name));
 }
 
 }

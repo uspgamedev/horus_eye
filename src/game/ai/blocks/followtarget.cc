@@ -2,10 +2,10 @@
 #include "game/ai/aidata.h"
 #include "game/ai/ai.h"
 #include "game/sprites/worldobject.h"
-#include "game/context.h"
 #include "game/components/animation.h"
 #include <ugdk/script/virtualobj.h>
 #include <string>
+#include <cstdio>
 
 namespace ai {
 namespace blocks {
@@ -19,19 +19,26 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
 	if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
     if (!owner->is_active() ) return AIModule::DORMANT;
 
-    if (target_ == NULL && target_tag_.size() > 0) {
-        target_ = context::WorldObjectByTag(target_tag_);
+    if (detector_identifier_.size() <= 0) {
+        return AIModule::DORMANT;
     }
 
-	if (target_ != NULL && vision_strategy_.IsVisible(owner, target_->world_position())) {
+    sprite::WorldObject* target = NULL;
+    ugdk::script::VirtualObj vtarget = data->GetSharedData(detector_identifier_+"_target");
+    if (vtarget) {
+        target = vtarget.value<sprite::WorldObject*>(true);
+    }
+
+	if (target != NULL) {// && vision_strategy_.IsVisible(owner, target->world_position())) {
         ugdk::script::VirtualObj vfalse (data->script_wrapper());
         vfalse.set_value(false);
         data->SetSharedData("standing", vfalse);        
 
 		search_target_ = true;
-		last_known_target_pos_ = target_->world_position();
+		last_known_target_pos_ = target->world_position();
 
-		data->set_direction(target_->world_position() );
+		data->set_direction( (target->world_position() - owner->world_position()).Normalize() );
+        data->set_aim_destination( data->direction() );
 		return AIModule::ACTIVE;
 	}
     else if (search_target_) {

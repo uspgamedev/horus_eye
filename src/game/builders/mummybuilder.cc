@@ -70,8 +70,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
 
-    wobj->set_controller( AIBuilder::Script(wobj, "basicmummy") );
-
+    wobj->set_controller( AIBuilder::AIScript(wobj, "basicmummy") );
 
     resource::Energy mana;
     wobj->set_caster(new Caster(wobj, mana));

@@ -9,8 +9,8 @@
 namespace builder {
 namespace AIBuilder {
 
-ai::AI* Script(sprite::WorldObject* owner, const std::string& script_name);
-ai::AI* Script(sprite::WorldObject* owner, const std::vector<std::string>& arguments);
+ai::AI* AIScript(sprite::WorldObject* owner, const std::string& script_name);
+ai::AI* AIScript(sprite::WorldObject* owner, const std::vector<std::string>& arguments);
 
 }
 }

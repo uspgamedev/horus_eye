@@ -2,7 +2,6 @@
 
 #include <cstdio>
 #include <vector>
-#include <list>
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
@@ -15,7 +14,6 @@ namespace context {
 
 using std::string;
 using std::vector;
-using std::list;
 using ugdk::Vector2D;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionManager;
@@ -108,7 +106,7 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
     _internal_AddDamageableComponent(obj, life);
 }
 
-void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, list<WorldObject*> &objects_colliding) {
+void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
     World *world = WORLD();
     if (!world) return;
     CollisionManager *manager = world->collision_manager();

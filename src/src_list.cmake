@@ -21,6 +21,8 @@ SET(GAME_SRCS
     ./game/ai/blocks/followtarget.h 
     ./game/ai/blocks/randommovement.cc 
     ./game/ai/blocks/randommovement.h 
+    ./game/ai/blocks/targetdetector.cc 
+    ./game/ai/blocks/targetdetector.h 
     ./game/ai/blocks/useweapon.cc 
     ./game/ai/blocks/useweapon.h 
     ./game/ai/conditionmodule.cc 

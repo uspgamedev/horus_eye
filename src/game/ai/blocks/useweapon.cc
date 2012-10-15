@@ -5,6 +5,7 @@
 #include "game/skills/skill.h"
 #include "game/components/animation.h"
 #include "game/components/caster.h"
+#include <cstdio>
 
 namespace ai {
 namespace blocks {
@@ -14,7 +15,7 @@ void UseWeapon::Start() {
 
 AIModule::Status UseWeapon::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->base()->owner();
-	
+
     if (owner->animation()->is_uninterrutible() ) return AIModule::DORMANT;
     if (!owner->is_active() ) return AIModule::DORMANT;
 
@@ -24,9 +25,8 @@ AIModule::Status UseWeapon::Update(double dt, AIData* data) {
 
 	if(skill->Available(caster) && skill->IsValidUse(caster)) {
 		data->AddUsingSkillSlot(slot_);
-		return AIModule::ACTIVE;
     }
-	return AIModule::DORMANT;
+	return AIModule::ACTIVE;
 }
 
 void UseWeapon::Finish() {
