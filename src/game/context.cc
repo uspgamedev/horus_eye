@@ -108,7 +108,7 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
     _internal_AddDamageableComponent(obj, life);
 }
 
-void GetCollidingObjects(const string& classname, GeometricShape* shape, list<WorldObject*> &objects_colliding) {
+void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, list<WorldObject*> &objects_colliding) {
     World *world = WORLD();
     if (!world) return;
     CollisionManager *manager = world->collision_manager();
@@ -116,6 +116,7 @@ void GetCollidingObjects(const string& classname, GeometricShape* shape, list<Wo
     CollisionObject* obj = new CollisionObject(manager, NULL);
 	obj->set_shape(shape);
 	obj->AddCollisionLogic(classname, NULL);
+    obj->MoveTo(pos);
 	
 	vector<CollisionInstance> col_instances;
 	obj->SearchCollisions(col_instances);
