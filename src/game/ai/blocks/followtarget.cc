@@ -38,14 +38,15 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
 		last_known_target_pos_ = target->world_position();
 
 		data->set_direction( (target->world_position() - owner->world_position()).Normalize() );
-        data->set_aim_destination( data->direction() );
+        data->set_aim_destination( target->world_position() );
 		return AIModule::ACTIVE;
 	}
     else if (search_target_) {
 	    ugdk::Vector2D dist = last_known_target_pos_ - owner->world_position();
 
+        /*Check if we arrived at the last_known_target_pos_ (or really close to it) */
 	    if (dist.LengthSquared() > 0.5) {
-    		data->set_direction( last_known_target_pos_ );
+    		data->set_direction( dist.Normalize() );
 		    return AIModule::ACTIVE;
 	    }
 	    search_target_ = false;
