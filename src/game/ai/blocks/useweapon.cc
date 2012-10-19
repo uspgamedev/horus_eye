@@ -20,7 +20,7 @@ AIModule::Status UseWeapon::Update(double dt, AIData* data) {
     if (!owner->is_active() ) return AIModule::DORMANT;
 
     component::Caster* caster = owner->caster();
-    skills::Skill* skill = caster->SkillAt(slot_);
+    const skills::Skill* skill = caster->SkillAt(slot_);
     if (!skill) return AIModule::DORMANT;
 
 	if(skill->Available(caster) && skill->IsValidUse(caster)) {
