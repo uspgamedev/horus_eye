@@ -1,9 +1,7 @@
-#include "creature.h"
+#include "walker.h"
 
 #include <cmath>
 
-#include <ugdk/action/animation.h>
-#include <ugdk/graphic/node.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
@@ -29,45 +27,29 @@ using sprite::WorldObject;
 
 namespace component {
 
-COLLISION_DIRECT(Creature*, RectCollision, obj) {
+COLLISION_DIRECT(Walker*, RectCollision, obj) {
     WorldObject *wobj = (WorldObject *) obj;
-    data_->CollideWithRect(wobj->collision_object());
+    data_->collideWithRect(wobj->collision_object());
 }
 
-pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Creature* obj) {
+pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Walker* obj) {
     return new RectCollision(obj);
 }
 
-Creature::Creature(WorldObject* owner, double speed)
+Walker::Walker(WorldObject* owner, double original_speed)
     :   owner_(owner),
-        last_standing_direction_(Direction::Down()),
         last_dt_(0.0),
-        speed_(speed),
-        original_speed_(speed) {}
+        current_speed_(original_speed),
+        original_speed_(original_speed) {}
 
-Creature::~Creature() {}
+Walker::~Walker() {}
 
 // ============= other stuff
 
-void Creature::Update(double dt) {
-    /* scene::World *world = WORLD();
-    if (world) {
-        GameMap& map = world->level_matrix();
-        TilePos mummy_pos = Tile::ToTilePos(owner_->world_position());
-        mummy_pos.i =  map.size() - mummy_pos.i - 1;
-        Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
-        if (mummy_tile) {
-            if(mummy_tile->visible())
-                owner_->node()->modifier()->set_visible(true);
-            else
-                owner_->node()->modifier()->set_visible(false);
-        }
-    }*/
+void Walker::Update(double dt) {
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
         component::Animation* animation = owner_->component<Animation>();
-        if(animation->CanInterrupt(utils::ATTACK))
-            UseSkills();
 
         const Direction& direction = controller->direction();
         if(direction && animation->CanInterrupt(utils::MOVEMENT)) {
@@ -81,50 +63,26 @@ void Creature::Update(double dt) {
                 animation->ChangeDirection(direction);
 
                 walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
-                Creature::Move(walking_direction_, dt);
+                move(walking_direction_, dt);
                 
                 offset_direction_.x = 0.0;
                 offset_direction_.y = 0.0;
             }
         }
     }
-    speed_ = original_speed_;
+    current_speed_ = original_speed_;
 }
 
-void Creature::UseSkills() {
-    Caster* caster = owner()->caster();
-    Controller* controller = owner_->controller();
-    for(Controller::SkillSlot slot = Controller::PRIMARY; slot < Controller::INVALID_SLOT; slot = Controller::SkillSlot(slot + 1)) {
-        const skills::Skill* skill = caster->SkillAt(slot);
-        if(!skill) continue;
-        if(controller->IsUsingSkillSlot(slot) && skill->IsValidUse(caster)) {
-            if(caster->CastSkill(slot)) {
-                StartAttackAnimation();
-                break;
-            }
-        }
-    }
-}
-
-void Creature::StartAttackAnimation() {
-    const skills::usearguments::Aim& aim = owner_->caster()->aim();
-    Direction d = Direction::FromWorldVector(aim.destination_ - aim.origin_);
-    last_standing_direction_ = d;
-    component::Animation* animation = owner_->component<Animation>();
-    animation->ChangeAnimation(utils::ATTACK, d);
-}
-
-void Creature::Move(Vector2D direction, double delta_t) {
+void Walker::move(Vector2D direction, double delta_t) {
     // If you called Move() you should be in a stable position.
-    Vector2D position(owner_->world_position().x, owner_->world_position().y);
-    last_stable_position_ = position;
-    // Now update the position.
+
+    last_stable_position_ = owner_->world_position();
     last_dt_ = delta_t;
-    position = position + direction * (this->speed_ * delta_t);
-    owner_->set_world_position(position);
+
+    owner_->set_world_position(last_stable_position_ + direction * (current_speed_ * delta_t));
 }
 
-void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* coll_obj) {
+void Walker::collideWithRect(const pyramidworks::collision::CollisionObject* coll_obj) {
     // rollback to the last stable position.
     owner_->set_world_position(last_stable_position_);
 
@@ -166,7 +124,7 @@ void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* c
 
     // normalize the walking_direction_ and move correctly this time.
     walking_direction_ = walking_direction_.Normalize();
-    Move(walking_direction_, last_dt_);
+    move(walking_direction_, last_dt_);
 }
 
 }  // namespace sprite

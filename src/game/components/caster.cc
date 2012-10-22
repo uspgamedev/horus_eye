@@ -5,11 +5,10 @@
 
 #include "game/sprites/worldobject.h"
 #include "game/skills/skill.h"
+#include "game/components/animation.h"
 
 using sprite::WorldObject;
 using skills::Skill;
-
-#define PI 3.1415926535897932384626433832795
 
 #define ID_GENERATOR_INVALID_ID -1
 #define MAX_ID 16
@@ -31,6 +30,18 @@ Caster::~Caster() {}
 
 void Caster::Update(double dt) {
     mana_.Update(dt);
+    if(!owner_->component<Animation>()->CanInterrupt(utils::ATTACK)) return;
+    
+    Controller* controller = owner_->controller();
+    for(std::map<Controller::SkillSlot, const skills::Skill*>::iterator it = active_skills_.begin(); it != active_skills_.end(); ++it) {
+        if(it->second && controller->IsUsingSkillSlot(it->first) && it->second->IsValidUse(this)) {
+            if(CastSkill(it->first)) {
+                owner_->component<Animation>()->ChangeAnimation(utils::ATTACK, 
+                    Direction::FromWorldVector(aim_.destination_ - aim_.origin_));
+                break;
+            }
+        }
+    }
 }
 
 bool Caster::CastSkill(Controller::SkillSlot slot) {
