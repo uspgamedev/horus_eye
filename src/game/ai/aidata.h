@@ -25,7 +25,7 @@ class AIData {
 
     void AddUsingSkillSlot(component::Controller::SkillSlot slot) { using_skills_.insert(slot); }
     void RemoveUsingSkillSlot(component::Controller::SkillSlot slot) { using_skills_.erase(slot); }
-    bool IsUsingSkillSlot(component::Controller::SkillSlot slot) { return using_skills_.count(slot); }
+    bool IsUsingSkillSlot(component::Controller::SkillSlot slot) { return using_skills_.count(slot) != 0; }
 
     void SetSharedData(const std::string& key, ugdk::script::VirtualObj& value);
     ugdk::script::VirtualObj GetSharedData(const std::string& key);

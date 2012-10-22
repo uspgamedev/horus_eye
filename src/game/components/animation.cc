@@ -32,14 +32,14 @@ direction_mapping_[6] = Animation_::DOWN;
 direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT; 
 */
 
+utils::AnimtionType Animation::default_animation_ = utils::IDLE;
+
 Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
                      utils::IsometricAnimationSet* iso_animation_set)
     :   owner_(wobj),
         sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
-        current_animation_(utils::STANDING),
-        has_queued_animation_(false),
-        uninterrutible_(false) {
+        current_animation_(utils::IDLE) {
         
     wobj->graphic()->node()->set_drawable(sprite_);
     sprite_->AddObserverToAnimation(this);
@@ -47,36 +47,47 @@ Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_t
 
 Animation::~Animation() {}
 
-void Animation::Update(double dt) {
-
-}
+void Animation::Update(double dt) {}
 
 void Animation::Tick() {
+    // If the animation we're interrupting has a callback on it's end, call it.
     if(animation_callbacks_[current_animation_])
         animation_callbacks_[current_animation_](owner_);
-    uninterrutible_ = false;
-    if(has_queued_animation_) {
-        has_queued_animation_ = false;
-        set_animation(queued_animation_);
-    }
+    set_current_animation(default_animation_);
 }
 
-void Animation::set_direction(const Direction& dir) { 
+void Animation::ChangeDirection(const Direction& dir) { 
     current_direction_ = dir;
-    if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+    sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
 }
 
-void Animation::set_animation(utils::AnimtionType type) { 
-    if(current_animation_ != type && animation_callbacks_[current_animation_])
-        animation_callbacks_[current_animation_](owner_);
+bool Animation::ChangeAnimation(utils::AnimtionType type) {
+    if(!CanInterrupt(type)) return false;
+    Tick();
+    set_current_animation(type);
+    return true;
+}
 
+bool Animation::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
+    current_direction_ = dir;
+    return ChangeAnimation(type);
+}
+    
+void Animation::FinishAnimation() {
+    Tick();
+}
+
+bool Animation::CanInterrupt(utils::AnimtionType type) const {
+    return current_animation_ < type;
+}
+    
+bool Animation::IsAnimation(utils::AnimtionType type) const {
+    return current_animation_ == type;
+}
+    
+void Animation::set_current_animation(utils::AnimtionType type) {
+    sprite_->SelectAnimation(isometric_animation_set_->Get(type, current_direction_));
     current_animation_ = type;
-    if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
-}
-
-void Animation::queue_animation(utils::AnimtionType type) {
-    queued_animation_ = type;
-    has_queued_animation_ = true;
 }
 
 }  // namespace component
