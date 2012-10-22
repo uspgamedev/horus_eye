@@ -35,9 +35,8 @@ static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
 COLLISION_DIRECT(Creature*, AntiStackCollision, voiddata) {
     sprite::WorldObject *obj = static_cast<sprite::WorldObject *>(voiddata);
-    // TODO: FIX STACKING DECENTLY NOW
-    //Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize();
-    //data_->set_direction_vector((data_->direction_vector() + deviation*0.9).Normalize());
+    Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize() * 0.9;
+    data_->set_offset_direction(deviation);
 }
 
 static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {

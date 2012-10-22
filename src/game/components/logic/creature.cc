@@ -78,7 +78,11 @@ void Creature::Update(double dt) {
                 owner_->animation()->set_animation(utils::STANDING);
                 owner_->animation()->set_direction(last_standing_direction_);
             }
-            Creature::Move(walking_direction_ = controller->direction_vector(), dt);
+            walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
+            Creature::Move(walking_direction_, dt);
+            
+            offset_direction_.x = 0.0;
+            offset_direction_.y = 0.0;
         }
     }
     speed_ = original_speed_;

@@ -23,6 +23,9 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     sprite::WorldObject* owner() { return owner_; }
 
+    const ugdk::Vector2D& offset_direction() const { return offset_direction_; }
+    void set_offset_direction(const ugdk::Vector2D& offset_dir) { offset_direction_ = offset_dir; }
+
   protected:
     friend class RectCollision;
 
@@ -57,6 +60,9 @@ class Creature : public Logic, public ugdk::util::Uncopyable {
 
     /// The direction this creature is moving to.
     ugdk::Vector2D walking_direction_;
+
+    /// 
+    ugdk::Vector2D offset_direction_;
 
 };  // class Creature
 
