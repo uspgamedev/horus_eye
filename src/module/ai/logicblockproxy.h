@@ -25,6 +25,7 @@ public:
 
         ugdk::script::VirtualObj vdata = ugdk::script::VirtualObj(proxy_.wrapper());
         vdata.set_value<AIData*>(data);
+        vdata.value<AIData*>(true); /*POG: set_value is giving ownership to the script... IT MUST NOT. */
         args.push_back(vdata);
 
         ugdk::script::VirtualObj stat = ( proxy_ | "Update" )(args);

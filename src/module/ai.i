@@ -25,7 +25,6 @@
 #include <game/ai/blocks/targetdetector.h>
 #include <game/ai/blocks/useweapon.h>
 
-#include <ugdk/script/baseproxy.h>
 #include <module/ai/logicblockproxy.h>
 
 %}
@@ -48,16 +47,16 @@ virtual_class()
 %include <game/ai/aidata.h>
 %include <game/ai/aimodule.h>
 
+%include <game/ai/logicblock.h>
+
 enable_disown(ai::AIModule* child)
 %include <game/ai/conditionmodule.h>
 %include <game/ai/randommodule.h>
 %include <game/ai/sequencemodule.h>
-enable_disown(ai::LogicBlock* logic)
+//enable_disown(ai::LogicBlock* logic)
 %include <game/ai/logicmodule.h>
-disable_disown(ai::LogicBlock* logic)
+//disable_disown(ai::LogicBlock* logic)
 disable_disown(ai::AIModule* child)
-
-%include <game/ai/logicblock.h>
 
 %include <game/ai/blocks/followtarget.h>
 %include <game/ai/blocks/randommovement.h>
