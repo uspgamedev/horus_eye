@@ -1,22 +1,32 @@
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(unordered_map)
 #include "constants.h"
 #include "game/config.h"
 
-#define PI 3.1415926535897932384626433832795
-
 namespace utils {
 
-void RegisterInt(const std::string& key, int value) {
+using std::string;
+using std::unordered_map;
+
+static unordered_map<string, int> int_db_;
+static unordered_map<string, double> double_db_;
+static unordered_map<string, string> str_db_;
+
+void RegisterInt(const string& key, int value) {
+    int_db_[key] = value;
 }
-void RegisterDouble(const std::string& key, double value) {
+void RegisterDouble(const string& key, double value) {
+    double_db_[key] = value;
 }
-void RegisterString(const std::string& key, const std::string& value) {
+void RegisterString(const string& key, const std::string& value) {
+    str_db_[key] = value;
 }
 
-int GetInt(const std::string& key) {
+int GetInt(const string& key) {
 }
-double GetDouble(const std::string& key) {
+double GetDouble(const string& key) {
 }
-std::string GetStr(const std::string& key) {
+string GetStr(const string& key) {
 }
 
 /*const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
