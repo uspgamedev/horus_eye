@@ -17,6 +17,8 @@ using std::vector;
 using ugdk::Vector2D;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionManager;
+using pyramidworks::collision::CollisionInstance;
+using pyramidworks::geometry::GeometricShape;
 using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
@@ -104,5 +106,24 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
     _internal_AddDamageableComponent(obj, life);
 }
 
+void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
+    World *world = WORLD();
+    if (!world) return;
+    CollisionManager *manager = world->collision_manager();
+    if (!manager) return;
+    CollisionObject* obj = new CollisionObject(manager, NULL);
+	obj->set_shape(shape);
+	obj->AddCollisionLogic(classname, NULL);
+    obj->MoveTo(pos);
+	
+	vector<CollisionInstance> col_instances;
+	obj->SearchCollisions(col_instances);
+	vector<CollisionInstance>::iterator it;
+    for(it = col_instances.begin(); it != col_instances.end(); ++it) {
+		//it->first->Handle(it->second);
+		WorldObject* wobj = static_cast<WorldObject*>(it->second);
+		if (wobj != NULL)	objects_colliding.push_back(wobj);
+    }
+}
 
 } // namespace context

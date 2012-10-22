@@ -12,6 +12,31 @@ SET(GAME_SRCS
     ./externals/inifile.cc 
     ./externals/inifile.h 
     ./externals/ugdk-videomanager.h 
+    ./game/ai/ai.cc 
+    ./game/ai/aidata.cc 
+    ./game/ai/aidata.h 
+    ./game/ai/ai.h 
+    ./game/ai/aimodule.h 
+    ./game/ai/blocks/followtarget.cc 
+    ./game/ai/blocks/followtarget.h 
+    ./game/ai/blocks/randommovement.cc 
+    ./game/ai/blocks/randommovement.h 
+    ./game/ai/blocks/targetdetector.cc 
+    ./game/ai/blocks/targetdetector.h 
+    ./game/ai/blocks/useweapon.cc 
+    ./game/ai/blocks/useweapon.h 
+    ./game/ai/conditionmodule.cc 
+    ./game/ai/conditionmodule.h 
+    ./game/ai.h 
+    ./game/ai/logicblock.h 
+    ./game/ai/logicmodule.cc 
+    ./game/ai/logicmodule.h 
+    ./game/ai/randommodule.cc 
+    ./game/ai/randommodule.h 
+    ./game/ai/sequencemodule.cc 
+    ./game/ai/sequencemodule.h 
+    ./game/builders/aibuilder.cc 
+    ./game/builders/aibuilder.h 
     ./game/builders/builder.cc 
     ./game/builders/builder.h 
     ./game/builders/conditionbuilder.cc 
@@ -38,7 +63,6 @@ SET(GAME_SRCS
     ./game/builders/scriptbuilder.h 
     ./game/builders/taskbuilder.cc 
     ./game/builders/taskbuilder.h 
-    ./game/components.h 
     ./game/components/animation.cc 
     ./game/components/animation.h 
     ./game/components/caster.cc 
@@ -50,11 +74,12 @@ SET(GAME_SRCS
     ./game/components/direction.h 
     ./game/components/graphic.cc 
     ./game/components/graphic.h 
-    ./game/components/logic.h 
+    ./game/components.h 
     ./game/components/logic/creature.cc 
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
+    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
     ./game/components/logic/wall.cc 
@@ -87,8 +112,8 @@ SET(GAME_SRCS
     ./game/resources/countableresource.h 
     ./game/resources/energy.h 
     ./game/resources/resource.h 
-    ./game/scenes.h 
     ./game/scenes/gamelayer.h 
+    ./game/scenes.h 
     ./game/scenes/imagescene.cc 
     ./game/scenes/imagescene.h 
     ./game/scenes/loading.cc 
@@ -100,11 +125,11 @@ SET(GAME_SRCS
     ./game/scenes/scrollingimagescene.h 
     ./game/scenes/world.cc 
     ./game/scenes/world.h 
-    ./game/skills.h 
     ./game/skills/combatart.cc 
     ./game/skills/combatart.h 
     ./game/skills/divinegift.cc 
     ./game/skills/divinegift.h 
+    ./game/skills.h 
     ./game/skills/hero/herofireball.cc 
     ./game/skills/hero/herolight.cc 
     ./game/skills/hero/herolightning.cc 
@@ -118,8 +143,8 @@ SET(GAME_SRCS
     ./game/skills/mummy/pharaohskills.cc 
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
-    ./game/sprites.h 
     ./game/sprites/condition.h 
+    ./game/sprites.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
@@ -146,6 +171,9 @@ SET(GAME_SRCS
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
+    ./module/ai/logicblockproxy.h 
+    ./module/aiLUA_wrap.cc 
+    ./module/aiPYTHON_wrap.cc 
     ./module/builderLUA_wrap.cc 
     ./module/builderPYTHON_wrap.cc 
     ./module/component/logicproxy.h 

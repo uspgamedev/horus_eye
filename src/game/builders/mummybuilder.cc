@@ -7,6 +7,8 @@
 #include <pyramidworks/geometry/circle.h>
 
 #include "game/builders/itembuilder.h"
+#include "game/builders/aibuilder.h"
+#include "game/ai/ai.h"
 #include "game/components/logic/creature.h"
 #include "game/components/mummycontroller.h"
 #include "game/components/damageable.h"
@@ -31,10 +33,10 @@ using pyramidworks::collision::CollisionObject;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
-COLLISION_DIRECT(MummyController*, AntiStackCollision, voiddata) {
+COLLISION_DIRECT(Creature*, AntiStackCollision, voiddata) {
     sprite::WorldObject *obj = static_cast<sprite::WorldObject *>(voiddata);
-    Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize();
-    data_->set_direction_vector((data_->direction_vector() + deviation*0.9).Normalize());
+    Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize() * 0.9;
+    data_->set_offset_direction(deviation);
 }
 
 static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {
@@ -66,9 +68,8 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->set_damageable(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
-    
-    MummyController* mummy_controller = new MummyController(wobj, 0.1);
-    wobj->set_controller(mummy_controller);
+
+    wobj->set_controller( AIBuilder::AIScript(wobj, "basicmummy") );
 
     resource::Energy mana;
     wobj->set_caster(new Caster(wobj, mana));
@@ -76,11 +77,11 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Mummy");
     col->set_shape(new pyramidworks::geometry::Circle(radius));
-    col->AddCollisionLogic("Mummy", new AntiStackCollision(mummy_controller));
     wobj->set_collision_object(col);
 
     Creature* mummy = new Creature(wobj, speed);
     wobj->set_logic(mummy);
+    col->AddCollisionLogic("Mummy", new AntiStackCollision(mummy));
     col->AddCollisionLogic("Wall", CreateCreatureRectCollision(mummy));
 
     wobj->set_identifier("Mummy");
@@ -99,7 +100,7 @@ sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
 
 sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingMummy(arguments);
-    static_cast<MummyController*>(obj->controller())->set_standing(false);
+    //static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
@@ -113,7 +114,7 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
 
 sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingRangedMummy(arguments);
-    static_cast<MummyController*>(obj->controller())->set_standing(false);
+    //static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
@@ -130,7 +131,7 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingBigMummy(arguments);
-    static_cast<MummyController*>(obj->controller())->set_standing(false);
+    //static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
@@ -147,7 +148,7 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
 
 sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPaperMummy(arguments);
-    static_cast<MummyController*>(obj->controller())->set_standing(false);
+    //static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 
@@ -169,7 +170,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingPharaoh(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPharaoh(arguments);
-    static_cast<MummyController*>(obj->controller())->set_standing(false);
+    //static_cast<MummyController*>(obj->controller())->set_standing(false);
     return obj;
 }
 

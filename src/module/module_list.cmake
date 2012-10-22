@@ -4,5 +4,6 @@ set (MODULE_SRC
   module/context.i
   module/builder.i
   module/map.i
+  module/ai.i
 )
 

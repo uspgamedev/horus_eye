@@ -9,6 +9,7 @@
 %{
 
 #include <game/sprites.h>
+#include <game/builders/aibuilder.h>
 #include <game/builders/doodadbuilder.h>
 #include <game/builders/entitybuilder.h>
 #include <game/builders/explosionbuilder.h>
@@ -21,11 +22,13 @@
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="component") <game/sprites/worldobject.h>
+%import(module="ai") <game/ai/ai.h>
 
 %ignore builder::DoodadBuilder::Door(const std::vector<std::string>& arguments, scene::World* world);
 
 %template(StringList) std::vector<std::string>;
 
+%include <game/builders/aibuilder.h>
 %include <game/builders/doodadbuilder.h>
 %include <game/builders/entitybuilder.h>
 %include <game/builders/explosionbuilder.h>
