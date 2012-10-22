@@ -33,27 +33,24 @@ Damageable::~Damageable() {
 
 void Damageable::TakeDamage(double life_points) {
     if(!hit_duration_->Expired()) return;
-#ifdef DEBUG
-    fprintf(stderr, "Damage to %s [%p]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), this,
-        life_points, (double) life_, (double) life_ - life_points);
-#endif
+    #ifdef DEBUG
+        fprintf(stderr, "Damage to %s [%p]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), this,
+            life_points, (double) life_, (double) life_ - life_points);
+    #endif
     PlayHitSound();
     life_ -= life_points;
     component::Animation* animation = owner_->component<component::Animation>();
     if(life_.Empty()) {
         if (owner_->is_active()) {
-            if (animation) {
-                animation->set_animation(utils::DEATH);
-                animation->flag_uninterrutible();
-            }
+            if (animation)
+                animation->ChangeAnimation(utils::DEATH);
             owner_->StartToDie();
-#ifdef DEBUG
-            fprintf(stderr, "\tTriggering death animation.\n");
-#endif
+            #ifdef DEBUG
+                fprintf(stderr, "\tTriggering death animation.\n");
+            #endif
         }
     } else if(!super_armor_ && animation) {
-        animation->set_animation(utils::TAKING_HIT);
-        animation->flag_uninterrutible();
+        animation->ChangeAnimation(utils::TAKING_HIT);
     }
     hit_duration_->Restart();
     if(invulnerability_time_ > 0 && blinks_)

@@ -66,19 +66,17 @@ void Creature::Update(double dt) {
     if(owner_->is_active()) {
         component::Controller* controller = owner_->controller();
         component::Animation* animation = owner_->component<Animation>();
-        if(!animation->is_uninterrutible()) {
+        if(animation->CanInterrupt(utils::ATTACK))
             UseSkills();
+
+        const Direction& direction = controller->direction();
+        if(direction && animation->CanInterrupt(utils::MOVEMENT)) {
+            animation->ChangeAnimation(utils::MOVEMENT, direction);
         }
-        if(!animation->is_uninterrutible()) {
-            const Direction& direction = controller->direction();
-            if(direction) {
-                last_standing_direction_ = direction;
-                animation->set_animation(utils::MOVEMENT);
-                animation->set_direction(direction);
-            } else {
-                animation->set_animation(utils::IDLE);
-                animation->set_direction(last_standing_direction_);
-            }
+
+        if(animation->IsAnimation(utils::MOVEMENT)) {
+            animation->ChangeDirection(direction);
+
             walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
             Creature::Move(walking_direction_, dt);
             
@@ -109,9 +107,7 @@ void Creature::StartAttackAnimation() {
     Direction d = Direction::FromWorldVector(aim.destination_ - aim.origin_);
     last_standing_direction_ = d;
     component::Animation* animation = owner_->component<Animation>();
-    animation->set_direction(d);
-    animation->set_animation(utils::ATTACK);
-    animation->flag_uninterrutible();
+    animation->ChangeAnimation(utils::ATTACK, d);
 }
 
 void Creature::Move(Vector2D direction, double delta_t) {

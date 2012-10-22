@@ -32,15 +32,13 @@ class Animation : public Base, public ugdk::action::Observer {
     void Update(double dt);
     void Tick();
 
-    void set_direction(const Direction& dir);
-    void set_animation(utils::AnimtionType type);
-    //void queue_animation(utils::AnimtionType type);
+    void ChangeDirection(const Direction& dir);
+    bool ChangeAnimation(utils::AnimtionType type);
+    bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
 
     bool CanInterrupt(utils::AnimtionType type) const;
+    bool IsAnimation(utils::AnimtionType type) const;
 
-    //bool has_queued_animation() const { return has_queued_animation_; }
-    void flag_uninterrutible() { uninterrutible_ = true; }
-    bool is_uninterrutible() const { return uninterrutible_; }
     void AddCallback(utils::AnimtionType type, const AnimationCallback& callback) {
         animation_callbacks_[type] = callback;
     }
@@ -56,11 +54,7 @@ class Animation : public Base, public ugdk::action::Observer {
 
     Direction current_direction_;
 
-    utils::AnimtionType current_animation_;//, queued_animation_;
-
-    //bool has_queued_animation_;
-
-    bool uninterrutible_;
+    utils::AnimtionType current_animation_;
 
     std::map<utils::AnimtionType, AnimationCallback> animation_callbacks_;
 
