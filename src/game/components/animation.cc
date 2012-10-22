@@ -32,6 +32,8 @@ direction_mapping_[6] = Animation_::DOWN;
 direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT; 
 */
 
+utils::AnimtionType Animation::default_animation_ = utils::IDLE;
+
 Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
                      utils::IsometricAnimationSet* iso_animation_set)
     :   owner_(wobj),
@@ -48,8 +50,10 @@ Animation::~Animation() {}
 void Animation::Update(double dt) {}
 
 void Animation::Tick() {
+    // If the animation we're interrupting has a callback on it's end, call it.
     if(animation_callbacks_[current_animation_])
         animation_callbacks_[current_animation_](owner_);
+    set_current_animation(default_animation_);
 }
 
 void Animation::ChangeDirection(const Direction& dir) { 
@@ -59,19 +63,18 @@ void Animation::ChangeDirection(const Direction& dir) {
 
 bool Animation::ChangeAnimation(utils::AnimtionType type) {
     if(!CanInterrupt(type)) return false;
-
-    // If the animation we're interrupting has a callback on it's end, call it.
-    if(animation_callbacks_[current_animation_])
-        animation_callbacks_[current_animation_](owner_);
-
-    current_animation_ = type;
-    sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+    Tick();
+    set_current_animation(type);
     return true;
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
     current_direction_ = dir;
     return ChangeAnimation(type);
+}
+    
+void Animation::FinishAnimation() {
+    Tick();
 }
 
 bool Animation::CanInterrupt(utils::AnimtionType type) const {
@@ -80,6 +83,11 @@ bool Animation::CanInterrupt(utils::AnimtionType type) const {
     
 bool Animation::IsAnimation(utils::AnimtionType type) const {
     return current_animation_ == type;
+}
+    
+void Animation::set_current_animation(utils::AnimtionType type) {
+    sprite_->SelectAnimation(isometric_animation_set_->Get(type, current_direction_));
+    current_animation_ = type;
 }
 
 }  // namespace component

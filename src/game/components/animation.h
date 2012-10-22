@@ -19,7 +19,7 @@
 
 namespace component {
 
-class Animation : public Base, public ugdk::action::Observer {
+class Animation : public Base, private ugdk::action::Observer {
   public:
     typedef std::tr1::function<void (sprite::WorldObject*)> AnimationCallback;
     static const char* DEFAULT_NAME() { return "animation"; }
@@ -30,11 +30,12 @@ class Animation : public Base, public ugdk::action::Observer {
     virtual ~Animation();
 
     void Update(double dt);
-    void Tick();
 
     void ChangeDirection(const Direction& dir);
     bool ChangeAnimation(utils::AnimtionType type);
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
+
+    void FinishAnimation();
 
     bool CanInterrupt(utils::AnimtionType type) const;
     bool IsAnimation(utils::AnimtionType type) const;
@@ -44,7 +45,9 @@ class Animation : public Base, public ugdk::action::Observer {
     }
 
   private:
-    static int direction_mapping_[8];
+    void Tick();
+    void set_current_animation(utils::AnimtionType type);
+    static utils::AnimtionType default_animation_;
 
     sprite::WorldObject* owner_;
 

@@ -75,13 +75,17 @@ void Creature::Update(double dt) {
         }
 
         if(animation->IsAnimation(utils::MOVEMENT)) {
-            animation->ChangeDirection(direction);
+            if(!direction) {
+                animation->FinishAnimation();
+            } else {
+                animation->ChangeDirection(direction);
 
-            walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
-            Creature::Move(walking_direction_, dt);
-            
-            offset_direction_.x = 0.0;
-            offset_direction_.y = 0.0;
+                walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
+                Creature::Move(walking_direction_, dt);
+                
+                offset_direction_.x = 0.0;
+                offset_direction_.y = 0.0;
+            }
         }
     }
     speed_ = original_speed_;
