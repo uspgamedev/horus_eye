@@ -22,7 +22,7 @@ void RandomMovement::Start() {
 AIModule::Status RandomMovement::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->base()->owner();
 	
-    if (owner->component<component::Animation>()->is_uninterrutible() ) return AIModule::DORMANT;
+    if (!owner->component<component::Animation>()->CanInterrupt(utils::MOVEMENT) ) return AIModule::DORMANT;
 	if (!owner->is_active() ) return AIModule::DORMANT;
 
     ugdk::script::VirtualObj vstanding = data->GetSharedData("standing");

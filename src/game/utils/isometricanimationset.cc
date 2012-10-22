@@ -25,7 +25,7 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
     :   animation_set_(animation_set) {
         
     for(int i = 0; i < 16; i++)
-        animation_index_[STANDING][i] = animation_index_[WALKING][i] = animation_index_[ATTACKING][i] = -1;
+        animation_index_[IDLE][i] = animation_index_[MOVEMENT][i] = animation_index_[ATTACK][i] = -1;
 
     for(int i = 0; i < 8; ++i) {
         const DirectionValue& it = DIRECTION_VALUES[i];
@@ -33,15 +33,15 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
         standing << "STANDING_" << it.second;
         walking << "WALKING_" <<  it.second;
         attacking << "ATTACKING_" << it.second;
-        animation_index_[STANDING][it.first] = animation_set->MakeIndex(standing.str());
-        animation_index_[WALKING][it.first] = animation_set->MakeIndex(walking.str());
-        animation_index_[ATTACKING][it.first] = animation_set->MakeIndex(attacking.str());
+        animation_index_[IDLE][it.first] = animation_set->MakeIndex(standing.str());
+        animation_index_[MOVEMENT][it.first] = animation_set->MakeIndex(walking.str());
+        animation_index_[ATTACK][it.first] = animation_set->MakeIndex(attacking.str());
     }
 
     int dying = animation_set->MakeIndex("DYING");
     int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");
     for(int i = 0; i < 16; i++) {
-        animation_index_[DYING][i] = dying;
+        animation_index_[DEATH][i] = dying;
         animation_index_[TAKING_HIT][i] = taking_damage;
     }
 }
