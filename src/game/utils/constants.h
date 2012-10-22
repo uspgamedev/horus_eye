@@ -11,7 +11,17 @@ void RegisterString(const std::string& key, const std::string& value);
 
 int GetInt(const std::string& key);
 double GetDouble(const std::string& key);
-std::string GetStr(const std::string& key)
+std::string GetStr(const std::string& key);
+
+
+const static std::string
+    DATA_LOCATION,
+    BINARY_CONFIGURATION_FILENAME,
+    INI_CONFIGURATION_FILENAME,
+    BACKGROUND_MUSIC;
+
+const static std::wstring
+    VERSION;
 
 /*class Constants {
   public:

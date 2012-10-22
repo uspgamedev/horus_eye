@@ -35,6 +35,13 @@ string GetStr(const string& key) {
     return "";
 }
 
+
+const std::string DATA_LOCATION = INSTALL_PATH "/";
+const std::string BINARY_CONFIGURATION_FILENAME = "settings.bin";
+const std::string INI_CONFIGURATION_FILENAME = "settings.ini";
+const std::string BACKGROUND_MUSIC = "musics/bgmusic.wav";
+const std::wstring VERSION = L"v" GAME_VERSION;
+
 /*const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
 const double Constants::DOOR_HOTSPOT_HEIGHT = 109.0-(91.0/2.0);
 const double Constants::DOOR_BOUND_WIDTH = 2.0;
@@ -118,11 +125,6 @@ const double Constants::PHARAOH_MANA_REGEN = 5.0;
 
 const double Constants::POTION_SPRITE_CENTER_X = 15.0;
 const double Constants::POTION_SPRITE_CENTER_Y = 15.0;
-const double Constants::POTION_HEIGHT = 16.0;
+const double Constants::POTION_HEIGHT = 16.0;*/
 
-const std::string Constants::DATA_LOCATION = INSTALL_PATH "/";
-const std::string Constants::BINARY_CONFIGURATION_FILENAME = "settings.bin";
-const std::string Constants::INI_CONFIGURATION_FILENAME = "settings.ini";
-const std::string Constants::BACKGROUND_MUSIC = "musics/bgmusic.wav";
-const std::wstring Constants::VERSION = L"v" GAME_VERSION;*/
 }
