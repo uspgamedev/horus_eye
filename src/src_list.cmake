@@ -1,14 +1,4 @@
 SET(GAME_SRCS 
-    ./editor/layers/mapspriteslayer.cc 
-    ./editor/layers/mapspriteslayer.h 
-    ./editor/layers/maptileslayer.cc 
-    ./editor/layers/maptileslayer.h 
-    ./editor/mapeditor.cc 
-    ./editor/mapeditor.h 
-    ./editor/mapobject.cc 
-    ./editor/mapobject.h 
-    ./editor/scenes/editormenu.cc 
-    ./editor/scenes/editormenu.h 
     ./externals/inifile.cc 
     ./externals/inifile.h 
     ./externals/ugdk-videomanager.h 

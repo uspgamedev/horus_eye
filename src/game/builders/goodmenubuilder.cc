@@ -26,8 +26,6 @@
 #include "game/utils/menuimagefactory.h"
 #include "game/utils/settings.h"
 
-#include "editor/mapeditor.h"
-
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
 using ugdk::action::Scene;
@@ -66,10 +64,6 @@ void PauseExitCallback(Scene* menu, const Button * source) {
 
 void MainMenuPlay(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowIntro();
-}
-
-void MainMenuEditor(Scene* menu, const Button * source) {
-    ugdk::Engine::reference()->PushScene(new editor::MapEditor());
 }
 
 void MainMenuSettings(Scene* menu, const Button * source) {
@@ -159,18 +153,13 @@ Scene* MenuBuilder::MainMenu() const {
     menu->SetOptionDrawable(mif.HorusEye(), 1);
 
     Text* play_text     = ResourceManager::CreateTextFromLanguageTag("Play");
-    Text* editor_text   = ResourceManager::CreateTextFromLanguageTag("Editor");
     Text* settings_text = ResourceManager::CreateTextFromLanguageTag("Settings");
     Text* credits_text  = ResourceManager::CreateTextFromLanguageTag("Credits");
     Text* exit_text     = ResourceManager::CreateTextFromLanguageTag("Exit");
 
     ugdk::Vector2D play_position;
     play_position.x = target.x * 0.5;
-    play_position.y = target.y * 0.5 - editor_text->size().y - play_text->size().y + 20.0;
-
-    ugdk::Vector2D editor_position;
-    editor_position.x = target.x * 0.5;
-    editor_position.y = target.y * 0.5 - editor_text->size().y + 40.0;
+    play_position.y = target.y * 0.5 - play_text->size().y + 20.0;
 
     ugdk::Vector2D settings_position;
     settings_position.x = target.x * 0.5;
@@ -185,7 +174,6 @@ Scene* MenuBuilder::MainMenu() const {
     exit_position.y = target.y * 0.5 + settings_text->size().y + credits_text->size().y + 100.0;
 
     menu->AddObject(new Button(play_position,     play_text,     bind(MainMenuPlay, main_menu, _1)));
-    menu->AddObject(new Button(editor_position,   editor_text,   bind(MainMenuEditor, main_menu, _1)));
     menu->AddObject(new Button(settings_position, settings_text, bind(MainMenuSettings, main_menu, _1)));
     menu->AddObject(new Button(credits_position,  credits_text,  bind(MainMenuCredits, main_menu, _1)));
     menu->AddObject(new Button(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
