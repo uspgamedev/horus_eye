@@ -23,10 +23,16 @@ void RegisterString(const string& key, const std::string& value) {
 }
 
 int GetInt(const string& key) {
+    if (int_db_.count(key)) return int_db_[key];
+    return 0;
 }
 double GetDouble(const string& key) {
+    if (double_db_.count(key)) return double_db_[key];
+    return 0.0;
 }
 string GetStr(const string& key) {
+    if (str_db_.count(key)) return str_db_[key];
+    return "";
 }
 
 /*const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
