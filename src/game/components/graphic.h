@@ -1,15 +1,21 @@
 #ifndef HORUSEYE_COMPONENT_GRAPHIC_H_
 #define HORUSEYE_COMPONENT_GRAPHIC_H_
 
+#include "game/components/base.h"
+
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
 
 #include "game/sprites.h"
+#include "game/components/orders.h"
 
 namespace component {
 
-class Graphic {
+class Graphic : public Base {
   public:
+    static const char* DEFAULT_NAME() { return "graphic"; }
+    static int DEFAULT_ORDER() { return orders::GRAPHIC; }
+
     Graphic(sprite::WorldObject* owner);
     virtual ~Graphic();
 

@@ -3,21 +3,27 @@
 
 #include <map>
 #include <ugdk/portable/tr1.h>
+#include <map>
 #include FROM_TR1(functional)
+
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
 
+#include "game/components/base.h"
 #include "game/components/direction.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/isometricanimationset.h"
+#include "game/components/orders.h"
 
 namespace component {
 
-class Animation : public ugdk::action::Observer {
+class Animation : public Base, public ugdk::action::Observer {
   public:
     typedef std::tr1::function<void (sprite::WorldObject*)> AnimationCallback;
+    static const char* DEFAULT_NAME() { return "animation"; }
+    static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 
     Animation(sprite::WorldObject*, const std::string& spritesheet_tag,
               utils::IsometricAnimationSet* animation_set);

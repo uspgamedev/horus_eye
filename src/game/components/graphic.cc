@@ -1,7 +1,10 @@
+#include "game/components/graphic.h"
+
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
-#include "game/components/graphic.h"
+
+#include "game/components/orders.h"
 
 namespace component {
 

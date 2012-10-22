@@ -65,6 +65,7 @@ SET(GAME_SRCS
     ./game/builders/taskbuilder.h 
     ./game/components/animation.cc 
     ./game/components/animation.h 
+    ./game/components/base.h 
     ./game/components/caster.cc 
     ./game/components/caster.h 
     ./game/components/controller.h 
@@ -79,13 +80,13 @@ SET(GAME_SRCS
     ./game/components/logic/creature.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
-    ./game/components/logic.h 
     ./game/components/logic/hero.cc 
     ./game/components/logic/hero.h 
     ./game/components/logic/wall.cc 
     ./game/components/logic/wall.h 
     ./game/components/mummycontroller.cc 
     ./game/components/mummycontroller.h 
+    ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
     ./game/components/projectile.h 
@@ -176,7 +177,7 @@ SET(GAME_SRCS
     ./module/aiPYTHON_wrap.cc 
     ./module/builderLUA_wrap.cc 
     ./module/builderPYTHON_wrap.cc 
-    ./module/component/logicproxy.h 
+    ./module/component/baseproxy.h 
     ./module/componentLUA_wrap.cc 
     ./module/componentPYTHON_wrap.cc 
     ./module/contextLUA_wrap.cc 

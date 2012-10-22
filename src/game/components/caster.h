@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_CASTER_H_
 #define HORUSEYE_COMPONENT_CASTER_H_
 
+#include "game/components/base.h"
+
 #include <map>
 #include <vector>
 #include <cstdlib>
@@ -8,18 +10,22 @@
 #include <ugdk/util/idgenerator.h>
 
 #include "game/sprites.h"
+#include "game/skills.h"
 
 #include "game/components/controller.h"
+#include "game/components/orders.h"
 #include "game/resources/resource.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
 #include "game/skills/usearguments.h"
-#include "game/skills.h"
 
 namespace component {
 
-class Caster {
+class Caster : public Base {
   public:
+    static const char* DEFAULT_NAME() { return "caster"; }
+    static int DEFAULT_ORDER() { return orders::LOGIC; }
+
     Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count,
         const skills::usearguments::Aim& aim);
 

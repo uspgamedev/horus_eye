@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_DAMAGEABLE_H_
 #define HORUSEYE_COMPONENT_DAMAGEABLE_H_
 
+#include "game/components/base.h"
+
 #include <vector>
 #include <string>
 #include <ugdk/time.h>
@@ -10,8 +12,11 @@
 
 namespace component {
 
-class Damageable { 
+class Damageable : public Base { 
   public:
+    static const char* DEFAULT_NAME() { return "damageable"; }
+    static int DEFAULT_ORDER() { return 0; }
+
     Damageable(sprite::WorldObject* owner, int invulnerability_time = 0, bool blinks = false);
     virtual ~Damageable();
 

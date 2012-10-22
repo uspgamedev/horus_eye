@@ -1,8 +1,10 @@
+#include "game/components/animation.h"
+
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <ugdk/time/timeaccumulator.h>
-#include "game/components/animation.h"
+
 #include "game/components/graphic.h"
 
 using ugdk::Vector2D;

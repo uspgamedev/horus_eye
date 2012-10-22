@@ -1,17 +1,22 @@
 #ifndef HORUSEYE_COMPONENT_CONTROLLER_H_
 #define HORUSEYE_COMPONENT_CONTROLLER_H_
 
+#include "game/components/base.h"
+
 #include <ugdk/math/vector2D.h>
 #include "game/components/direction.h"
 #include "game/sprites.h"
+#include "game/components/orders.h"
 
 namespace component {
 
-class Controller { 
+class Controller : public Base { 
   public:
     enum SkillSlot {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
+    static const char* DEFAULT_NAME() { return "controller"; }
+    static int DEFAULT_ORDER() { return orders::INPUT; }
 
     Controller(sprite::WorldObject* owner) : owner_(owner) {}
     virtual ~Controller() {}

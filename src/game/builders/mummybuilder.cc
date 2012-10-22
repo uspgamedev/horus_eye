@@ -26,6 +26,7 @@ namespace MummyBuilder {
 
 using namespace sprite;
 using namespace component;
+using component::Animation;
 using utils::Constants;
 using resource::Energy;
 using ugdk::Vector2D;
@@ -64,15 +65,15 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
     WorldObject* wobj = new WorldObject;
-    wobj->set_animation(new component::Animation(wobj, tag, ANIMATIONS));
-    wobj->set_damageable(new component::Damageable(wobj, 300));
+    wobj->AddComponent(new component::Animation(wobj, tag, ANIMATIONS));
+    wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
-    wobj->animation()->AddCallback(utils::DYING, &WorldObject::Die);
+    wobj->component<Animation>()->AddCallback(utils::DYING, &WorldObject::Die);
 
-    wobj->set_controller( AIBuilder::AIScript(wobj, "basicmummy") );
+    wobj->AddComponent( AIBuilder::AIScript(wobj, "basicmummy") );
 
     resource::Energy mana;
-    wobj->set_caster(new Caster(wobj, mana));
+    wobj->AddComponent(new Caster(wobj, mana));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Mummy");
@@ -80,7 +81,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->set_collision_object(col);
 
     Creature* mummy = new Creature(wobj, speed);
-    wobj->set_logic(mummy);
+    wobj->AddComponent(mummy);
     col->AddCollisionLogic("Mummy", new AntiStackCollision(mummy));
     col->AddCollisionLogic("Wall", CreateCreatureRectCollision(mummy));
 
@@ -159,7 +160,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
 
     delete wobj->caster();
     resource::Energy mana(Constants::PHARAOH_MANA, Constants::PHARAOH_MANA_REGEN); 
-    wobj->set_caster(new Caster(wobj, mana));
+    wobj->AddComponent(new Caster(wobj, mana));
 
     wobj->caster()->power().Set(300);
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);

@@ -1,21 +1,22 @@
 #include "worldobject.h"
 
+#include <cassert>
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 
-#include "game/components/logic.h"
-#include "game/components/damageable.h"
-#include "game/components/graphic.h"
-#include "game/components/controller.h"
-#include "game/components/animation.h"
-#include "game/components/caster.h"
+#include "game/components/base.h"
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/sprites/condition.h"
+#include "game/components/graphic.h"
+
+#include "game/components/damageable.h"
+#include "game/components/controller.h"
+#include "game/components/caster.h"
 
 #define LIGHT_COEFFICIENT 0.75
 
@@ -24,6 +25,14 @@ namespace sprite {
 using namespace ugdk;
 using namespace scene;
 using namespace utils;
+using std::string;
+using std::list;
+
+bool WorldObject::OrderedComponent::operator == (const component::Base* base) const {
+    return component == base;
+}
+
+WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
 
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
@@ -33,28 +42,20 @@ WorldObject::WorldObject(double duration)
         current_room_(NULL),
         light_radius_(0.0),
         layer_(scene::FOREGROUND_LAYER),
-        damageable_(NULL), 
-        graphic_(NULL),
-        logic_(NULL),
-        controller_(NULL),
-        animation_(NULL),
-        caster_(NULL),
         sight_count_(0) {
     if(duration > 0.0)
         this->set_timed_life(duration);
-    graphic_ = new component::Graphic(this);
+
+    AddComponent(new component::Graphic(this));
 }
 
 WorldObject::~WorldObject() {
     if(collision_object_ != NULL)
         delete collision_object_;
     if(timed_life_) delete timed_life_;
-    if(damageable_) delete damageable_;
-    delete graphic_;
-    if(logic_) delete logic_;
-    if(controller_) delete controller_;
-    if(animation_) delete animation_;
-    if(caster_) delete caster_;
+
+    for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
+        delete it->component;
 }
 
 void WorldObject::Die() {
@@ -69,20 +70,16 @@ void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
     if(collision_object_) collision_object_->StopColliding();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
-    if(!animation_) Die();
+    if(!HasComponent("animation")) Die();
 }
 
 void WorldObject::Update(double dt) {
     if(timed_life_ && timed_life_->Expired())
         StartToDie();
 
-    if(controller_) controller_->Update(dt);
-    if(damageable_) damageable_->Update(dt);
-    if(caster_) caster_->Update(dt);
-    if(logic_) logic_->Update(dt);
     UpdateCondition(dt);
-    if(animation_) animation_->Update(dt);
-    graphic_->Update(dt);
+    for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
+        it->component->Update(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
@@ -90,22 +87,25 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    if(collision_object_) collision_object_->MoveTo(pos);
 
    Vector2D position = World::FromWorldCoordinates(world_position_);
-   graphic_->node()->modifier()->set_offset(position);
-   graphic_->node()->set_zindex(position.y);
+   graphic()->node()->modifier()->set_offset(position);
+   graphic()->node()->set_zindex(position.y);
 }
 
 void WorldObject::set_light_radius(double radius) {
     light_radius_ = radius;
+    ugdk::graphic::Node* node = graphic()->node();
     
     if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
-        if(graphic_->node()->light() == NULL) graphic_->node()->set_light(new ugdk::graphic::Light);
+        if(node->light() == NULL) 
+            node->set_light(new ugdk::graphic::Light);
+
         Vector2D dimension = World::ConvertLightRadius(light_radius_);
-        graphic_->node()->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+        node->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
     } else {
-        if(graphic_->node()->light()) {
-            delete graphic_->node()->light();
-            graphic_->node()->set_light(NULL);
+        if(node->light()) {
+            delete node->light();
+            node->set_light(NULL);
         }
     }
 }
@@ -114,8 +114,13 @@ void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
     collision_object_->set_shape(shape);
 }
 
-ugdk::graphic::Node* WorldObject::node() { return graphic_->node(); }
-const ugdk::graphic::Node* WorldObject::node() const { return graphic_->node(); }
+ugdk::graphic::Node* WorldObject::node() { 
+    return graphic()->node();
+}
+
+const ugdk::graphic::Node* WorldObject::node() const {
+    return component<component::Graphic>("graphic")->node();
+}
 
 void WorldObject::set_timed_life(ugdk::time::TimeAccumulator* timer) {
     if(timed_life_) delete timed_life_;
@@ -131,13 +136,11 @@ void WorldObject::OnRoomAdd(map::Room* room) {
     if(collision_object() != NULL)
         collision_object()->StartColliding();
     current_room_ = room;
-    if(logic_)
-        logic_->OnRoomAdd(room);
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);
 }
 
-bool deletecondition(Condition *condition) {
+static bool deletecondition(Condition *condition) {
     bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
     if (is_finished) delete condition;
     return is_finished;
@@ -155,5 +158,28 @@ void WorldObject::UpdateCondition(double dt) {
          (*i)->Update(dt);
      conditions_.remove_if(deletecondition);
 }
+
+void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {
+    assert(component != NULL);
+    assert(components_.find(name) == components_.end());
+    assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
+
+    OrderedComponent newcomp(component, order);
+    ComponentsByOrder::iterator it;
+    for(it = components_order_.begin(); it != components_order_.end() && it->order <= newcomp.order; ++it) continue;
+    components_[name] = components_order_.insert(it, newcomp);
+}
+
+void WorldObject::RemoveComponent(const std::string& name) {
+    ComponentsByName::const_iterator it = components_.find(name);
+    if(it == components_.end()) return;
+    components_order_.erase(it->second);
+    components_.erase(it);
+}
+
+component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
+component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
+component::Controller* WorldObject::controller() { return component<component::Controller>(); }
+component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 
 }  // namespace sprite

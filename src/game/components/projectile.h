@@ -1,14 +1,20 @@
 #ifndef HORUSEYE_COMPONENT_PROJECTILE_H_
 #define HORUSEYE_COMPONENT_PROJECTILE_H_
 
+#include "game/components/base.h"
+
 #include <ugdk/math/vector2D.h>
-#include "game/components/logic.h"
 #include "game/sprites/worldobject.h"
+
+#include "game/components/orders.h"
 
 namespace component {
 
-class Projectile : public Logic {
+class Projectile : public Base {
   public:
+    static const char* DEFAULT_NAME() { return "projectile"; }
+    static int DEFAULT_ORDER() { return orders::LOGIC; }
+
     Projectile(sprite::WorldObject* owner, double speed, const ugdk::Vector2D &dir)
     :   owner_(owner),
         speed_(speed),

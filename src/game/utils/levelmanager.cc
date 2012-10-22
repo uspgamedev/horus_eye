@@ -190,7 +190,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     Engine::reference()->PushScene(current_level_);
     current_level_->Start();
 
-    component::Hero* hero_comp = dynamic_cast<component::Hero*>(hero_->logic());
+    component::Hero* hero_comp = hero_->component<component::Hero>("creature");
     if(hero_comp) hero_comp->SetupCollision();
 }
 

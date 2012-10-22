@@ -39,20 +39,21 @@ void Damageable::TakeDamage(double life_points) {
 #endif
     PlayHitSound();
     life_ -= life_points;
+    component::Animation* animation = owner_->component<component::Animation>();
     if(life_.Empty()) {
         if (owner_->is_active()) {
-            if (owner_->animation()) {
-                owner_->animation()->set_animation(utils::DYING);
-                owner_->animation()->flag_uninterrutible();
+            if (animation) {
+                animation->set_animation(utils::DYING);
+                animation->flag_uninterrutible();
             }
             owner_->StartToDie();
 #ifdef DEBUG
             fprintf(stderr, "\tTriggering death animation.\n");
 #endif
         }
-    } else if(!super_armor_ && owner_->animation()) {
-        owner_->animation()->set_animation(utils::TAKING_HIT);
-        owner_->animation()->flag_uninterrutible();
+    } else if(!super_armor_ && animation) {
+        animation->set_animation(utils::TAKING_HIT);
+        animation->flag_uninterrutible();
     }
     hit_duration_->Restart();
     if(invulnerability_time_ > 0 && blinks_)

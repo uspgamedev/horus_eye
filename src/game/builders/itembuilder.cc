@@ -11,7 +11,6 @@
 #include "game/map/room.h"
 #include "game/utils/constants.h"
 #include "game/components/graphic.h"
-#include "game/components/logic.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
@@ -61,7 +60,7 @@ UseCollision* CreateItemUse(WorldObject* wobj, sprite::ItemEvent* ev) {
     return new UseCollision(ItemUseData(wobj, ev));
 }
 
-class ItemLogic : public component::Logic {
+class ItemLogic : public component::Base {
   public:
     ItemLogic(component::Graphic* g, ugdk::graphic::Drawable* image) : total_time_(0) {
         g->node()->AddChild(node_ = new ugdk::graphic::Node(image));
@@ -79,7 +78,7 @@ class ItemLogic : public component::Logic {
 
 WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
     WorldObject* wobj = new WorldObject;
-    wobj->set_logic(new ItemLogic(wobj->graphic(), image));
+    wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Item");

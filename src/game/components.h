@@ -3,6 +3,8 @@
 
 namespace component {
 
+class Base;
+
 class Animation;
 class Damageable;
 class Caster;

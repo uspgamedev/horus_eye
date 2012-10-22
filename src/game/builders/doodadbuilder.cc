@@ -16,12 +16,14 @@
 #include "doodadbuilder.h"
 
 #include "game/components/damageable.h"
+#include "game/components/base.h"
 #include "game/components/logic/follower.h"
 #include "game/components/logic/wall.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/constants.h"
+#include "game/components/orders.h"
 
 namespace builder {
 namespace DoodadBuilder {
@@ -65,7 +67,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     WorldObject* wobj = new WorldObject;
     wobj->set_identifier("Wall");
-    wobj->set_logic(new component::Wall(wobj, sheet));
+    wobj->AddComponent(new component::Wall(wobj, sheet), "wall", component::orders::LOGIC);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
@@ -93,7 +95,7 @@ static void WorldPressButton() {
 }
 
 
-class ButtonLogic : public component::Logic {
+class ButtonLogic : public component::Base {
 public:
     ButtonLogic(Sprite* sprite, std::tr1::function<void (void)> callback)
         :	pressed_(false),
@@ -135,7 +137,7 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
         logic = new ButtonLogic(sprite, WorldPressButton);
 
     wobj->node()->set_drawable(sprite);
-    wobj->set_logic(logic);
+    wobj->AddComponent(logic, "button", component::orders::LOGIC);
     wobj->set_layer(scene::BACKGROUND_LAYER);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
@@ -148,7 +150,7 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
     return wobj;
 }
 
-class BlockLogic : public component::Logic {
+class BlockLogic : public component::Base {
 public:
     BlockLogic(WorldObject* owner) : owner_(owner), 
         time_left_(new TimeAccumulator(0)) {}
@@ -215,7 +217,7 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     
     Sprite* sprite = new Sprite(factory.WallImage());
     BlockLogic* logic = new BlockLogic(wobj);
-    wobj->set_logic(logic);
+    wobj->AddComponent(logic, "block", component::orders::LOGIC);
 
     wobj->node()->set_drawable(sprite);
     wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));

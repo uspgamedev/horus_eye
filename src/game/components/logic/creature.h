@@ -1,6 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
 #define HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
 
+#include "game/components/base.h"
+
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/uncopyable.h>
 #include <pyramidworks/geometry.h>
@@ -10,14 +12,17 @@
 #include "game/sprites.h"
 #include "game/skills.h"
 
-#include "game/components/logic.h"
 #include "game/components/direction.h"
+#include "game/components/orders.h"
 
 
 namespace component {
     
-class Creature : public Logic, public ugdk::util::Uncopyable { 
+class Creature : public Base, public ugdk::util::Uncopyable { 
   public:
+    static const char* DEFAULT_NAME() { return "creature"; }
+    static int DEFAULT_ORDER() { return orders::LOGIC; }
+
     Creature(sprite::WorldObject* owner, double speed = 0.0);
     virtual ~Creature();
 
