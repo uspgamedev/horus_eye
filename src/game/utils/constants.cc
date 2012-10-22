@@ -5,7 +5,21 @@
 
 namespace utils {
 
-const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
+void RegisterInt(const std::string& key, int value) {
+}
+void RegisterDouble(const std::string& key, double value) {
+}
+void RegisterString(const std::string& key, const std::string& value) {
+}
+
+int GetInt(const std::string& key) {
+}
+double GetDouble(const std::string& key) {
+}
+std::string GetStr(const std::string& key) {
+}
+
+/*const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
 const double Constants::DOOR_HOTSPOT_HEIGHT = 109.0-(91.0/2.0);
 const double Constants::DOOR_BOUND_WIDTH = 2.0;
 const double Constants::DOOR_BOUND_HEIGHT = 1.0;
@@ -94,5 +108,5 @@ const std::string Constants::DATA_LOCATION = INSTALL_PATH "/";
 const std::string Constants::BINARY_CONFIGURATION_FILENAME = "settings.bin";
 const std::string Constants::INI_CONFIGURATION_FILENAME = "settings.ini";
 const std::string Constants::BACKGROUND_MUSIC = "musics/bgmusic.wav";
-const std::wstring Constants::VERSION = L"v" GAME_VERSION;
+const std::wstring Constants::VERSION = L"v" GAME_VERSION;*/
 }

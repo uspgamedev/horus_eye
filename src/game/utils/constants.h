@@ -5,7 +5,15 @@
 
 namespace utils {
 
-class Constants {
+void RegisterInt(const std::string& key, int value);
+void RegisterDouble(const std::string& key, double value);
+void RegisterString(const std::string& key, const std::string& value);
+
+int GetInt(const std::string& key);
+double GetDouble(const std::string& key);
+std::string GetStr(const std::string& key)
+
+/*class Constants {
   public:
     const static int
         PROJECTILE_SPRITE_WIDTH = 32,
@@ -172,7 +180,7 @@ class Constants {
 
   private:
     Constants() {}
-};
+};*/
 
 }
 
