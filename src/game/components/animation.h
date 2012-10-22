@@ -34,9 +34,11 @@ class Animation : public Base, public ugdk::action::Observer {
 
     void set_direction(const Direction& dir);
     void set_animation(utils::AnimtionType type);
-    void queue_animation(utils::AnimtionType type);
+    //void queue_animation(utils::AnimtionType type);
 
-    bool has_queued_animation() const { return has_queued_animation_; }
+    bool CanInterrupt(utils::AnimtionType type) const;
+
+    //bool has_queued_animation() const { return has_queued_animation_; }
     void flag_uninterrutible() { uninterrutible_ = true; }
     bool is_uninterrutible() const { return uninterrutible_; }
     void AddCallback(utils::AnimtionType type, const AnimationCallback& callback) {
@@ -53,8 +55,11 @@ class Animation : public Base, public ugdk::action::Observer {
     utils::IsometricAnimationSet* isometric_animation_set_;
 
     Direction current_direction_;
-    utils::AnimtionType current_animation_, queued_animation_;
-    bool has_queued_animation_;
+
+    utils::AnimtionType current_animation_;//, queued_animation_;
+
+    //bool has_queued_animation_;
+
     bool uninterrutible_;
 
     std::map<utils::AnimtionType, AnimationCallback> animation_callbacks_;

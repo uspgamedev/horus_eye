@@ -38,7 +38,7 @@ Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_t
         sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
         isometric_animation_set_(iso_animation_set),
         current_animation_(utils::IDLE),
-        has_queued_animation_(false),
+        //has_queued_animation_(false),
         uninterrutible_(false) {
         
     wobj->graphic()->node()->set_drawable(sprite_);
@@ -55,10 +55,10 @@ void Animation::Tick() {
     if(animation_callbacks_[current_animation_])
         animation_callbacks_[current_animation_](owner_);
     uninterrutible_ = false;
-    if(has_queued_animation_) {
+/*   if(has_queued_animation_) {
         has_queued_animation_ = false;
         set_animation(queued_animation_);
-    }
+    }*/
 }
 
 void Animation::set_direction(const Direction& dir) { 
@@ -74,9 +74,13 @@ void Animation::set_animation(utils::AnimtionType type) {
     if(!uninterrutible_) sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
 }
 
-void Animation::queue_animation(utils::AnimtionType type) {
+/*void Animation::queue_animation(utils::AnimtionType type) {
     queued_animation_ = type;
     has_queued_animation_ = true;
+}*/
+    
+bool Animation::CanInterrupt(utils::AnimtionType type) const {
+    return current_animation_ < type;
 }
 
 }  // namespace component
