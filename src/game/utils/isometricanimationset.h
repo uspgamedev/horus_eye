@@ -10,11 +10,14 @@
 namespace utils {
 
 enum AnimtionType {
-    STANDING  = 0,
-    WALKING   = 1,
-    ATTACKING = 2,
-    DYING     = 3,
-    TAKING_HIT = 4
+    // Note: order is relevant
+    IDLE,
+    MOVEMENT,
+    ATTACK,
+    TAKING_HIT,
+    DEATH,
+
+    NUM_ANIMATION_TYPES // Conveniently calculated by the compiler
 };
 
 class IsometricAnimationSet {
@@ -28,7 +31,7 @@ class IsometricAnimationSet {
 
   private:
     ugdk::action::AnimationSet* animation_set_;
-    ugdk::uint32 animation_index_[5][16];
+    ugdk::uint32 animation_index_[NUM_ANIMATION_TYPES][16];
 
 };  // class IsometricAnimationSet
 

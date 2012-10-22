@@ -43,7 +43,7 @@ void Damageable::TakeDamage(double life_points) {
     if(life_.Empty()) {
         if (owner_->is_active()) {
             if (animation) {
-                animation->set_animation(utils::DYING);
+                animation->set_animation(utils::DEATH);
                 animation->flag_uninterrutible();
             }
             owner_->StartToDie();
