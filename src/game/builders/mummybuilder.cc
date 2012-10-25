@@ -9,7 +9,6 @@
 #include "game/builders/itembuilder.h"
 #include "game/builders/aibuilder.h"
 #include "game/ai/ai.h"
-#include "game/components/mummycontroller.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
