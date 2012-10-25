@@ -13,7 +13,7 @@ class HeroBuilder {
     HeroBuilder(utils::ImageFactory *factory) : factory_(factory) {}
     sprite::WorldObject *Kha();
 
-    void SetupCollision(sprite::WorldObject* obj);
+    static void SetupCollision(sprite::WorldObject* obj);
 
   private:
     utils::ImageFactory *factory_;

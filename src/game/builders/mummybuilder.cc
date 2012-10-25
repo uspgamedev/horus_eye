@@ -9,12 +9,12 @@
 #include "game/builders/itembuilder.h"
 #include "game/builders/aibuilder.h"
 #include "game/ai/ai.h"
-#include "game/components/logic/creature.h"
 #include "game/components/mummycontroller.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
+#include "game/components/walker.h"
 #include "game/scenes/world.h"
 #include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
@@ -27,6 +27,7 @@ namespace MummyBuilder {
 using namespace sprite;
 using namespace component;
 using component::Animation;
+using component::Walker;
 using utils::Constants;
 using resource::Energy;
 using ugdk::Vector2D;
@@ -34,7 +35,7 @@ using pyramidworks::collision::CollisionObject;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
-COLLISION_DIRECT(Creature*, AntiStackCollision, voiddata) {
+COLLISION_DIRECT(Walker*, AntiStackCollision, voiddata) {
     sprite::WorldObject *obj = static_cast<sprite::WorldObject *>(voiddata);
     Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize() * 0.9;
     data_->set_offset_direction(deviation);
@@ -80,10 +81,10 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     col->set_shape(new pyramidworks::geometry::Circle(radius));
     wobj->set_collision_object(col);
 
-    Creature* mummy = new Creature(wobj, speed);
-    wobj->AddComponent(mummy);
-    col->AddCollisionLogic("Mummy", new AntiStackCollision(mummy));
-    col->AddCollisionLogic("Wall", CreateCreatureRectCollision(mummy));
+    Walker* walker = new Walker(wobj, speed);
+    wobj->AddComponent(walker);
+    col->AddCollisionLogic("Mummy", new AntiStackCollision(walker));
+    col->AddCollisionLogic("Wall", CreateWalkerRectCollision(walker));
 
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);

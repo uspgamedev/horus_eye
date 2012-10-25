@@ -32,7 +32,7 @@ COLLISION_DIRECT(Walker*, RectCollision, obj) {
     data_->collideWithRect(wobj->collision_object());
 }
 
-pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Walker* obj) {
+pyramidworks::collision::CollisionLogic* CreateWalkerRectCollision(Walker* obj) {
     return new RectCollision(obj);
 }
 

@@ -16,7 +16,6 @@
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
 #include "game/scenes/loading.h"
-#include "game/components/logic/hero.h"
 #include "game/components/caster.h"
 #include "game/builders/goodmenubuilder.h"
 #include "game/builders/herobuilder.h"
@@ -190,8 +189,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     Engine::reference()->PushScene(current_level_);
     current_level_->Start();
 
-    component::Hero* hero_comp = hero_->component<component::Hero>("creature");
-    if(hero_comp) hero_comp->SetupCollision();
+    builder::HeroBuilder::SetupCollision(hero_);
 }
 
 }
