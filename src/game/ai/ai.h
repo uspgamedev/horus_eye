@@ -25,6 +25,8 @@ class AI : public component::Controller {
 
 	void set_root(AIModule* root);
 
+          sprite::WorldObject* owner()       { return owner_; }
+    const sprite::WorldObject* owner() const { return owner_; }
 	const std::string& name() const { return name_; }
 	State state() const { return state_; }
 
@@ -37,6 +39,9 @@ class AI : public component::Controller {
 	AIModule* root_;
     AIData* data_;
 	State state_;
+
+    /// The owner.
+    sprite::WorldObject* owner_;
 };
 
 }

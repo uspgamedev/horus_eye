@@ -26,7 +26,7 @@ namespace component {
 // TODO: ignores standing
 
 MummyController::MummyController(sprite::WorldObject* owner, double start_time_to_think) 
-  : super(owner), standing_(true), start_time_to_think_(start_time_to_think), 
+  : owner_(owner), standing_(true), start_time_to_think_(start_time_to_think), 
     time_to_think_(start_time_to_think), interval_(new ugdk::time::TimeAccumulator(0)) {}
 
 MummyController::~MummyController() {

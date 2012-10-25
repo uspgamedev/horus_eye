@@ -26,6 +26,9 @@ class MummyController : public Controller {
     virtual void Think(double dt);
     void randomMovement();
     void updateDirection(const ugdk::Vector2D&);
+    
+    /// The owner.
+    sprite::WorldObject* owner_;
 
     bool standing_;
     double time_to_think_, start_time_to_think_;
