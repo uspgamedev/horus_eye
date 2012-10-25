@@ -18,11 +18,8 @@ class Controller : public Base {
     static const char* DEFAULT_NAME() { return "controller"; }
     static int DEFAULT_ORDER() { return orders::INPUT; }
 
-    Controller(sprite::WorldObject* owner) : owner_(owner) {}
+    Controller() {}
     virtual ~Controller() {}
-
-          sprite::WorldObject* owner()       { return owner_; }
-    const sprite::WorldObject* owner() const { return owner_; }
 
     virtual void Update(double dt) = 0;
 
@@ -37,9 +34,6 @@ class Controller : public Base {
     Direction dir_;
 
     ugdk::Vector2D aim_destination_;
-
-    /// The owner.
-    sprite::WorldObject* owner_;
 
 };  // class Controller
 

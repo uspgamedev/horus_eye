@@ -1,16 +1,13 @@
-#ifndef HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
-#define HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
+#ifndef HORUSEYE_COMPONENT_WALKER_H_
+#define HORUSEYE_COMPONENT_WALKER_H_
 
 #include "game/components/base.h"
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/uncopyable.h>
-#include <pyramidworks/geometry.h>
 #include <pyramidworks/collision.h>
 
-#include "game/components.h"
 #include "game/sprites.h"
-#include "game/skills.h"
 
 #include "game/components/direction.h"
 #include "game/components/orders.h"
@@ -18,47 +15,38 @@
 
 namespace component {
     
-class Creature : public Base, public ugdk::util::Uncopyable { 
+class Walker : public Base, public ugdk::util::Uncopyable { 
   public:
-    static const char* DEFAULT_NAME() { return "creature"; }
+    static const char* DEFAULT_NAME() { return "walker"; }
     static int DEFAULT_ORDER() { return orders::LOGIC; }
 
-    Creature(sprite::WorldObject* owner, double speed = 0.0);
-    virtual ~Creature();
+    Walker(sprite::WorldObject* owner, double original_speed);
+    ~Walker();
+    
+    void Update(double dt);
 
     sprite::WorldObject* owner() { return owner_; }
+    double original_speed() const { return original_speed_; }
+    double current_speed() const { return current_speed_; }
+    void set_current_speed(double speed) { current_speed_ = speed; }
 
     const ugdk::Vector2D& offset_direction() const { return offset_direction_; }
     void set_offset_direction(const ugdk::Vector2D& offset_dir) { offset_direction_ = offset_dir; }
 
   protected:
-    friend class RectCollision;
-
-    virtual void Update(double dt);
-
-    void UseSkills();
-    void StartAttackAnimation();
-    void Move(ugdk::Vector2D direction, double delta_t);
-    void Move(ugdk::Vector2D distance);
-    
-    void CollideWithRect(const pyramidworks::collision::CollisionObject*);
+    void move(ugdk::Vector2D direction, double delta_t);
+    void collideWithRect(const pyramidworks::collision::CollisionObject*);
 
     /// The owner.
     sprite::WorldObject* owner_;
     
-    ///
-    Direction animation_direction_;
-
-    /// 
-    Direction last_standing_direction_;
-
     /// The last position this creature was that is guaranteed to not colide with any walls.
     ugdk::Vector2D last_stable_position_;
 
     double last_dt_;
 
     /// How fast this creature moves per second.
-    double speed_;
+    double current_speed_;
 
     /// Stores the original speed, so one can alter the speed temporarily.
     double original_speed_;
@@ -68,11 +56,13 @@ class Creature : public Base, public ugdk::util::Uncopyable {
 
     /// 
     ugdk::Vector2D offset_direction_;
+    
+    friend class RectCollision;
 
-};  // class Creature
+};  // class Walker
 
-pyramidworks::collision::CollisionLogic* CreateCreatureRectCollision(Creature* obj);
+pyramidworks::collision::CollisionLogic* CreateWalkerRectCollision(Walker*);
 
-}  // namespace component
+} // namespace component
 
-#endif  // HORUSEYE_COMPONENT_LOGIC_CREATURE_H_
+#endif  // HORUSEYE_COMPONENT_WALKER_H_

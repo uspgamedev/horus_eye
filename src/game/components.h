@@ -15,7 +15,7 @@ class Hero;
 
 class Controller;
 class PlayerController;
-class MummyController;
+class StateController;
 
 }  // namespace component
 

@@ -19,7 +19,7 @@ using utils::Constants;
 namespace component {
     
 PlayerController::PlayerController(WorldObject* owner) 
-    : super(owner) {
+    : owner_(owner) {
     selected_skill_ = known_skills_.begin();
 }
 

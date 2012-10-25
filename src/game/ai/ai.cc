@@ -6,7 +6,8 @@
 
 namespace ai {
 
-AI::AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name) : super(owner), name_(name), root_(NULL), state_(CREATED) {
+AI::AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name) 
+    : owner_(owner), name_(name), root_(NULL), state_(CREATED) {
     data_ = new AIData(script_wrapper);
 }
 

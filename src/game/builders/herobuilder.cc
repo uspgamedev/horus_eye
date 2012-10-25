@@ -1,13 +1,16 @@
-#include <ugdk/base/resourcemanager.h>
-
 #include "herobuilder.h"
 
-#include "game/components/logic/hero.h"
+#include <ugdk/base/resourcemanager.h>
+#include <pyramidworks/collision/collisionlogic.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/circle.h>
+
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/components/playercontroller.h"
+#include "game/components/walker.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
 #include "game/sprites/worldobject.h"
@@ -25,7 +28,7 @@ using resource::Energy;
 using resource::CapacityBlocks;
 using component::Animation;
 using component::Caster;
-using component::Hero;
+using component::Walker;
 using skills::usearguments::Aim;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
@@ -60,8 +63,8 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->AddComponent(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     
-    Hero *hero = new Hero(hero_wobj, Constants::HERO_SPEED);
-    hero_wobj->AddComponent(hero);
+    Walker* walker = new Walker(hero_wobj, Constants::HERO_SPEED);
+    hero_wobj->AddComponent(walker);
 
     component::Caster* caster = hero_wobj->caster();
 
@@ -83,6 +86,22 @@ sprite::WorldObject* HeroBuilder::Kha() {
     // Add here the other initial weapons of the hero.
     */
     return hero_wobj;
+}
+
+COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
+    data_->set_current_speed(data_->current_speed() / 1.19);
+}
+
+void HeroBuilder::SetupCollision(sprite::WorldObject* obj) {
+    if(obj->collision_object()) {
+        delete obj->collision_object();
+        obj->set_collision_object(NULL);
+    }
+    obj->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), obj));
+    obj->collision_object()->InitializeCollisionClass("Hero");
+    obj->collision_object()->set_shape(new pyramidworks::geometry::Circle(0.3));
+    obj->collision_object()->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
+    obj->collision_object()->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
 }
 
 } // namespace builder
