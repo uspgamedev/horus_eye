@@ -52,15 +52,15 @@ void Walker::Update(double dt) {
         component::Animation* animation = owner_->component<Animation>();
 
         const Direction& direction = controller->direction();
-        if(direction && animation->CanInterrupt(utils::MOVEMENT)) {
+        if(direction && animation && animation->CanInterrupt(utils::MOVEMENT)) {
             animation->ChangeAnimation(utils::MOVEMENT, direction);
         }
 
-        if(animation->IsAnimation(utils::MOVEMENT)) {
+        if(!animation || animation->IsAnimation(utils::MOVEMENT)) {
             if(!direction) {
-                animation->FinishAnimation();
+                if(animation) animation->FinishAnimation();
             } else {
-                animation->ChangeDirection(direction);
+                if(animation) animation->ChangeDirection(direction);
 
                 walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
                 move(walking_direction_, dt);
