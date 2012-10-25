@@ -160,8 +160,8 @@ class WorldObject : public ::ugdk::action::Entity {
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
 
-    virtual bool AddCondition(Condition* new_condition);
-    virtual void UpdateCondition(double dt);
+    bool AddCondition(Condition* new_condition);
+    void UpdateCondition(double dt);
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }

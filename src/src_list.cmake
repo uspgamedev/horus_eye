@@ -80,12 +80,10 @@ SET(GAME_SRCS
     ./game/components/logic/follower.h 
     ./game/components/logic/wall.cc 
     ./game/components/logic/wall.h 
-    ./game/components/mummycontroller.cc 
-    ./game/components/mummycontroller.h 
     ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
-    ./game/components/projectile.h 
+    ./game/components/statecontroller.h 
     ./game/components/walker.cc 
     ./game/components/walker.h 
     ./game/config.h 
