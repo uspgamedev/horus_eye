@@ -6,7 +6,7 @@
 #include <ugdk/script/languages/lua/luawrapper.h>
 #include <ugdk/script/languages/python/pythonwrapper.h>
 
-#define HORUS_MODULES_NUM 5
+#define HORUS_MODULES_NUM 6
 
 #define HORUS_MODULES_LIST(ACTION) \
     ACTION(component) \

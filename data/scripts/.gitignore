@@ -2,3 +2,5 @@
 /builder.py
 /context.py
 /ai.py
+/map.py
+/constants.py
