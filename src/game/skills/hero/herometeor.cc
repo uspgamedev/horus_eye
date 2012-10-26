@@ -8,18 +8,17 @@
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/constants.h"
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
 #include "game/builders/functions/carrier.h"
 #include "game/skills/divinegift.h"
+#include "game/constants.h"
 
 namespace skills {
 
 using namespace scene;
 using namespace ugdk;
 using namespace utils;
-using utils::Constants;
 using sprite::WorldObject;
 
 static bool VisibilityCheck(const component::Caster* caster) {
@@ -50,7 +49,7 @@ static void HeroMeteorUse(component::Caster* caster) {
 Skill* HeroMeteorBuild() {
     utils::HudImageFactory imfac;
     return new DivineGift(imfac.MeteorIconImage(), HeroMeteorUse, VisibilityCheck,
-        utils::Constants::METEOR_COST, utils::Constants::METEOR_BLOCK_COST, -1);
+        constants::GetInt("METEOR_COST"), constants::GetInt("METEOR_BLOCK_COST"), -1);
 }
 
 } // namespace skills

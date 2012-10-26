@@ -19,10 +19,10 @@
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
 #include "game/components/statecontroller.h"
-#include "game/utils/constants.h"
 #include "game/utils/imagefactory.h"
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
+#include "game/constants.h"
 
 #define PI 3.1415926535897932384626433832795
 
@@ -34,7 +34,6 @@ using component::StateController;
 using component::Animation;
 using ugdk::base::ResourceManager;
 using ugdk::Vector2D;
-using utils::Constants;
 using utils::IsometricAnimationSet;
 using sprite::WorldObject;
 using pyramidworks::collision::CollisionObject;
@@ -110,38 +109,38 @@ void ProjectileBuilder::InitializeAnimations() {
 }
 
 WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
-    WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
+    WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
     wobj->set_light_radius(1.0);
-    wobj->AddComponent(new Walker(wobj, Constants::PROJECTILE_SPEED));
+    wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
-    struct ObjectAndDamage data(wobj, Constants::PROJECTILE_DAMAGE);
+    struct ObjectAndDamage data(wobj, constants::GetInt("PROJECTILE_DAMAGE"));
     wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
     return wobj;
 }
 
 WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
-    WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
+    WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
     wobj->set_light_radius(1.0);
-    wobj->AddComponent(new Walker(wobj, Constants::PROJECTILE_SPEED));
+    wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
-    struct ObjectAndDamage data(wobj, Constants::PROJECTILE_DAMAGE);
+    struct ObjectAndDamage data(wobj, constants::GetInt("PROJECTILE_DAMAGE"));
     wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
     wobj->collision_object()->AddCollisionLogic("Wall", new BounceCollision(wobj));
     return wobj;
 }
-
+/***/
 WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, double damage) {
-    WorldObject* wobj = buildObject(Constants::PROJECTILE_DURATION, 0.15);
+    WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::PROJECTILE_SPRITE_HEIGHT + Constants::PROJECTILE_HEIGHT));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
     wobj->set_light_radius(0.75);
-    wobj->AddComponent(new Walker(wobj, Constants::PROJECTILE_SPEED));
+    wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
     struct ObjectAndDamage data(wobj, damage);
@@ -151,15 +150,16 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, doubl
 }
 
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
-    WorldObject* wobj = buildObject(Constants::LIGHTNING_DURATION, 0.25);
+    WorldObject* wobj = buildObject(constants::GetInt("LIGHTNING_DURATION"), 0.25);
     wobj->AddComponent(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->component<Animation>()->ChangeAnimation(utils::ATTACK);
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::LIGHTNING_SPRITE_HEIGHT));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("LIGHTNING_SPRITE_HEIGHT")));
     wobj->set_light_radius(1.0);
-    wobj->AddComponent(new Walker(wobj, Constants::LIGHTNING_SPEED));
+    wobj->AddComponent(new Walker(wobj, constants::GetDouble("LIGHTNING_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
-    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageCollision(Constants::LIGHTNING_DAMAGE));
+    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetInt("LIGHTNING_DAMAGE")));
+
     return wobj;
 }
 
@@ -167,17 +167,18 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     builder::ExplosionBuilder builder;
     WorldObject *explosion = builder.FireballExplosion();
 
-    WorldObject* wobj = buildObject(Constants::FIREBALL_DURATION, 0.25);
+    WorldObject* wobj = buildObject(constants::GetInt("FIREBALL_DURATION"), 0.25);
     wobj->AddComponent(new component::Animation(wobj, "fireball", fireball_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->component<Animation>()->ChangeAnimation(utils::ATTACK);
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, Constants::FIREBALL_SPRITE_HEIGHT));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("FIREBALL_SPRITE_HEIGHT")));
     wobj->set_light_radius(1.0);
     // Give the light an orange color
     wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
     wobj->set_start_to_die_callback(Carrier(explosion));
-    wobj->AddComponent(new Walker(wobj, Constants::FIREBALL_SPEED));
+    wobj->AddComponent(new Walker(wobj, constants::GetDouble("FIREBALL_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
+
     wobj->collision_object()->AddCollisionLogic("Mummy", new DieCollision(wobj));
     return wobj;
 }

@@ -10,7 +10,7 @@
 #include "SDL.h"
 #include "initializer.h"
 
-#include "utils/constants.h"
+#include "constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
 #include "game/skills/initskills.h"
@@ -18,6 +18,7 @@
 #include <ugdk/modules.h>
 #include <pyramidworks/modules.h>
 #include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 #include <ugdk/script/languages/lua/luawrapper.h>
 #include <ugdk/script/languages/python/pythonwrapper.h>
 
@@ -80,7 +81,7 @@ int main(int argc, char *argv[]) {
     engine_config.window_size  = settings->resolution_vector();
     engine_config.fullscreen   = settings->fullscreen();
 
-    engine_config.base_path = Constants::DATA_LOCATION;
+    engine_config.base_path = constants::data_location();
     if(!VerifyFolderExists(engine_config.base_path)) {
 #ifdef WIN32
         MessageBox(HWND_DESKTOP, "Horus Eye could not find the Data folder.", "Fatal Error", MB_OK | MB_ICONERROR);
@@ -88,7 +89,7 @@ int main(int argc, char *argv[]) {
 #else
         engine_config.base_path = "./";
 #ifdef DEBUG
-        fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", Constants::DATA_LOCATION.c_str());
+        fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", constants::data_location().c_str());
 #endif
 #endif
     }
@@ -102,7 +103,11 @@ int main(int argc, char *argv[]) {
 
     InitScripts();
     engine()->Initialize(engine_config);
-
+    
+    {
+        SCRIPT_MANAGER()->LoadModule("init_constants");
+    }
+    
     engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 

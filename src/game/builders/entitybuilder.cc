@@ -20,7 +20,6 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
-#include "game/utils/constants.h"
 
 namespace builder {
 
@@ -34,7 +33,6 @@ using pyramidworks::collision::GenericCollisionLogic;
 using component::Creature;
 using component::Follower;
 using sprite::WorldObject;
-using utils::Constants;
 
 static void DamageCollisionFunc(double damage, void* obj) {
     sprite::WorldObject *wobj = static_cast<sprite::WorldObject*>(obj);

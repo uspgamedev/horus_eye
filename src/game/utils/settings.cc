@@ -12,7 +12,7 @@
 
 #include "settings.h"
 
-#include "game/utils/constants.h"
+#include "game/constants.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -110,7 +110,7 @@ class DataSource {
 class IniFileSource : public DataSource {
   public:
     IniFileSource(const std::string& filepath)
-        : DataSource(filepath + Constants::INI_CONFIGURATION_FILENAME) {}
+        : DataSource(filepath + constants::ini_configuration_filename()) {}
 
     virtual bool Read(SettingsData &data) const {
         externals::CIniFile source;
@@ -172,7 +172,7 @@ class IniFileSource : public DataSource {
 class BinaryFileSource : public DataSource {
   public:
     BinaryFileSource(const std::string& filepath)
-        : DataSource(filepath + Constants::BINARY_CONFIGURATION_FILENAME) {}
+        : DataSource(filepath + constants::binary_configuration_filename()) {}
 
     virtual bool Read(SettingsData &data) const {
         FILE *source = fopen(filename().c_str(),"rb");

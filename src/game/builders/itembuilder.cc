@@ -7,9 +7,9 @@
 
 #include "itembuilder.h"
 
+#include "game/constants.h"
 #include "game/scenes/world.h"
 #include "game/map/room.h"
-#include "game/utils/constants.h"
 #include "game/components/graphic.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
@@ -139,7 +139,7 @@ class IncreaseSightEvent : public sprite::ItemEvent {
 };
 
 bool IncreaseSightEvent::Use (sprite::WorldObject* hero) {
-    if ( hero->sight_count() < Constants::SIGHT_POTION_MAX_STACK ) {
+    if ( hero->sight_count() < constants::GetInt("SIGHT_POTION_MAX_STACK") ) {
         Condition* condition = condition_builder_.increase_sight_condition(hero);
         if (hero->AddCondition(condition)) return true;
         else return false;
@@ -164,21 +164,21 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
 WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.LifePotionImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverLifeEvent(Constants::LIFEPOTION_RECOVER_LIFE)));
+    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE"))));
     return wobj;
 }
 
 WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverManaEvent(Constants::MANAPOTION_RECOVER_MANA)));
+    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA"))));
     return wobj;
 }
 
 WorldObject* SightPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.SightPotionImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent(Constants::SIGHT_POTION_INCREASE)));
+    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent(constants::GetDouble("SIGHT_POTION_INCREASE"))));
     return wobj;
 }
 

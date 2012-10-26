@@ -9,7 +9,6 @@
 #include <pyramidworks/collision/collisionobject.h>
 
 #include "game/scenes/world.h"
-#include "game/utils/constants.h"
 #include "game/sprites/worldobject.h"
 #include "game/map/tile.h"
 

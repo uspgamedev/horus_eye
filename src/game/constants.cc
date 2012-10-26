@@ -1,11 +1,68 @@
+#include <ugdk/portable/tr1.h>
+#include FROM_TR1(unordered_map)
 #include "constants.h"
 #include "game/config.h"
 
-#define PI 3.1415926535897932384626433832795
+#include <cstdio>
 
-namespace utils {
+namespace constants {
 
-const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
+using std::string;
+using std::tr1::unordered_map;
+
+static unordered_map<string, int> int_db_;
+static unordered_map<string, double> double_db_;
+static unordered_map<string, string> str_db_;
+
+void RegisterInt(const string& key, int value) {
+    int_db_[key] = value;
+}
+void RegisterDouble(const string& key, double value) {
+    double_db_[key] = value;
+}
+void RegisterString(const string& key, const std::string& value) {
+    str_db_[key] = value;
+}
+
+int GetInt(const string& key) {
+    if (int_db_.count(key)) return int_db_[key];
+    fprintf(stderr, "ERROR: Constants GetInt \"%s\" not found.\n", key.c_str());
+    return 0;
+}
+double GetDouble(const string& key) {
+    if (double_db_.count(key)) return double_db_[key];
+    fprintf(stderr, "ERROR: Constants GetDouble \"%s\" not found.\n", key.c_str());
+    return 0.0;
+}
+string GetStr(const string& key) {
+    if (str_db_.count(key)) return str_db_[key];
+    fprintf(stderr, "ERROR: Constants GetStr \"%s\" not found.\n", key.c_str());
+    return "";
+}
+
+const static std::string DATA_LOCATION = INSTALL_PATH "/";
+const static std::string BINARY_CONFIGURATION_FILENAME = "settings.bin";
+const static std::string INI_CONFIGURATION_FILENAME = "settings.ini";
+const static std::string BACKGROUND_MUSIC = "musics/bgmusic.wav";
+const static std::wstring VERSION = L"v" GAME_VERSION;
+
+std::string data_location () {
+    return DATA_LOCATION;
+}
+std::string binary_configuration_filename () {
+    return BINARY_CONFIGURATION_FILENAME;
+}
+std::string ini_configuration_filename () {
+    return INI_CONFIGURATION_FILENAME;
+}
+std::string background_music () {
+    return BACKGROUND_MUSIC;
+}
+std::wstring version () {
+    return VERSION;
+}
+
+/*const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
 const double Constants::DOOR_HOTSPOT_HEIGHT = 109.0-(91.0/2.0);
 const double Constants::DOOR_BOUND_WIDTH = 2.0;
 const double Constants::DOOR_BOUND_HEIGHT = 1.0;
@@ -88,11 +145,6 @@ const double Constants::PHARAOH_MANA_REGEN = 5.0;
 
 const double Constants::POTION_SPRITE_CENTER_X = 15.0;
 const double Constants::POTION_SPRITE_CENTER_Y = 15.0;
-const double Constants::POTION_HEIGHT = 16.0;
+const double Constants::POTION_HEIGHT = 16.0;*/
 
-const std::string Constants::DATA_LOCATION = INSTALL_PATH "/";
-const std::string Constants::BINARY_CONFIGURATION_FILENAME = "settings.bin";
-const std::string Constants::INI_CONFIGURATION_FILENAME = "settings.ini";
-const std::string Constants::BACKGROUND_MUSIC = "musics/bgmusic.wav";
-const std::wstring Constants::VERSION = L"v" GAME_VERSION;
 }

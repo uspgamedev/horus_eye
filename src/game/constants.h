@@ -1,11 +1,27 @@
-#ifndef HORUSEYE_GAME_UTILS_CONSTANTS_H_
-#define HORUSEYE_GAME_UTILS_CONSTANTS_H_
+#ifndef HORUSEYE_GAME_CONSTANTS_H_
+#define HORUSEYE_GAME_CONSTANTS_H_
 
 #include <string>
 
-namespace utils {
+namespace constants {
 
-class Constants {
+void RegisterInt(const std::string& key, int value);
+void RegisterDouble(const std::string& key, double value);
+void RegisterString(const std::string& key, const std::string& value);
+
+int GetInt(const std::string& key);
+double GetDouble(const std::string& key);
+std::string GetStr(const std::string& key);
+
+
+std::string data_location ();
+std::string binary_configuration_filename ();
+std::string ini_configuration_filename ();
+std::string background_music ();
+std::wstring version ();
+
+
+/*class Constants {
   public:
     const static int
         PROJECTILE_SPRITE_WIDTH = 32,
@@ -172,8 +188,8 @@ class Constants {
 
   private:
     Constants() {}
-};
+};*/
 
 }
 
-#endif /* HORUSEYE_GAME_UTILS_CONSTANTS_H_ */
+#endif /* HORUSEYE_GAME_CONSTANTS_H_ */

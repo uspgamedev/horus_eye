@@ -14,15 +14,14 @@
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/constants.h"
 #include "game/utils/isometricanimationset.h"
+#include "game/constants.h"
 
 #include "game/utils/levelmanager.h"
 #include "game/scenes/world.h"
 
 namespace builder {
 
-using utils::Constants;
 using sprite::WorldObject;
 using resource::Energy;
 using resource::CapacityBlocks;
@@ -44,26 +43,26 @@ sprite::WorldObject* HeroBuilder::Kha() {
     }
 
     component::PlayerController* player_controller;
-    Energy life = Energy(Constants::HERO_MAX_LIFE);
-    Energy mana = Energy(Constants::HERO_MAX_MANA_BLOCKS*Constants::HERO_MANA_PER_BLOCK,
-                         Constants::HERO_MANA_REGEN_BASE,
-                         Constants::HERO_BASE_MANA_REGEN_RATIO);
+    Energy life = Energy(constants::GetDouble("HERO_MAX_LIFE"));
+    Energy mana = Energy(constants::GetInt("HERO_MAX_MANA_BLOCKS") * constants::GetDouble("HERO_MANA_PER_BLOCK"),
+                         constants::GetDouble("HERO_MANA_REGEN_BASE"),
+                         constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
     WorldObject* hero_wobj = new WorldObject;
     hero_wobj->set_die_callback(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(new component::Animation(hero_wobj, "hero", ANIMATIONS));
-    hero_wobj->set_light_radius(Constants::LIGHT_RADIUS_INITIAL);
+    hero_wobj->set_light_radius(constants::GetDouble("LIGHT_RADIUS_INITIAL"));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
     hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
     hero_wobj->component<Animation>()->AddCallback(utils::DEATH, &WorldObject::Die);
-    hero_wobj->AddComponent(new Caster(hero_wobj, mana, Constants::HERO_MAX_MANA_BLOCKS,
+    hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     
-    Walker* walker = new Walker(hero_wobj, Constants::HERO_SPEED);
+    Walker* walker = new Walker(hero_wobj, constants::GetDouble("HERO_SPEED"));
     hero_wobj->AddComponent(walker);
 
     component::Caster* caster = hero_wobj->caster();

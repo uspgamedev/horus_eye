@@ -3,7 +3,7 @@
 
 #include <ugdk/time/timeaccumulator.h>
 #include "game/entities/emitterentity.h"
-#include "game/utils/constants.h"
+#include "game/constants.h"
 
 #define FLT_SECS_TO_INT_MILLISECS(value) ((int)((value)*1000))
 
@@ -19,11 +19,11 @@ namespace entities {
 class SandstormEmitter : public EmitterEntity {
   public:
     SandstormEmitter(const skills::usearguments::Aim& owners_aim, SandstormEmitter** back_reference)
-      : EmitterEntity(utils::Constants::SANDSTORM_FADEOUT_TIME),
+      : EmitterEntity(constants::GetDouble("SANDSTORM_FADEOUT_TIME")),
         aim_(owners_aim),
         back_reference_(back_reference) {
         projectile_interval_ = new ugdk::time::TimeAccumulator(
-            FLT_SECS_TO_INT_MILLISECS(utils::Constants::SANDSTORM_PROJECTILE_INTERVAL)
+            FLT_SECS_TO_INT_MILLISECS(constants::GetDouble("SANDSTORM_PROJECTILE_INTERVAL"))
         );
     }
 

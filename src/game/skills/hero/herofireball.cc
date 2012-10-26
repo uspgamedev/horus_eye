@@ -7,8 +7,8 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 
+#include "game/constants.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/constants.h"
 #include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
@@ -19,10 +19,9 @@ namespace skills {
 using namespace scene;
 using namespace ugdk;
 using namespace utils;
-using utils::Constants;
 
 static void HeroFireballUse(component::Caster* caster) {
-    //static Vector2D projectile_height = World::FromScreenLinearCoordinates(Vector2D(0,Constants::FIREBALL_SPRITE_CENTER_Y+Constants::FIREBALL_HEIGHT));
+    //static Vector2D projectile_height = World::FromScreenLinearCoordinates(Vector2D(0,constants::GetDouble("FIREBALL_SPRITE_CENTER_Y")+constants::GetDouble("FIREBALL_HEIGHT")));
 
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
         pos = caster->aim().origin_;
@@ -36,7 +35,7 @@ static void HeroFireballUse(component::Caster* caster) {
 
 Skill* HeroFireballBuild() {
     HudImageFactory factory;
-    return new CombatArt(factory.FireballIconImage(), HeroFireballUse, utils::Constants::FIREBALL_COST);
+    return new CombatArt(factory.FireballIconImage(), HeroFireballUse, constants::GetInt("FIREBALL_COST"));
 }
 
 } // namespace skills

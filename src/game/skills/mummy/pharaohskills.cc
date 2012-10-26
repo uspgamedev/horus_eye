@@ -12,18 +12,17 @@
 #include "game/skills/combatart.h"
 #include "game/utils/settings.h"
 #include "game/builders/mummybuilder.h"
-#include "game/utils/constants.h"
 #include "game/skills/combatart.h"
+#include "game/constants.h"
 
 namespace skills {
 
-using utils::Constants;
 using ugdk::Vector2D;
 using namespace builder::MummyBuilder;
 
 static bool RangedIsValid(const component::Caster* caster) {
     double distance = (caster->aim().destination_ - caster->aim().origin_).length();
-    return (distance >= Constants::RANGED_MUMMY_RANGE / 2.0) && (distance <= Constants::RANGED_MUMMY_RANGE);
+    return (distance >= constants::GetDouble("RANGED_MUMMY_RANGE") / 2.0) && (distance <= constants::GetDouble("RANGED_MUMMY_RANGE"));
 }
 
 static void PharaohRangedUse(component::Caster* caster) {
@@ -81,7 +80,7 @@ Skill* PharaohRangedBuild() {
 }
 
 Skill* PharaohSummonBuild() {
-    return new CombatArt(NULL, PharaohSummonUse, Constants::PHARAOH_SUMMON_MANA_COST);
+    return new CombatArt(NULL, PharaohSummonUse, constants::GetInt("PHARAOH_SUMMON_MANA_COST"));
 }
 
 }

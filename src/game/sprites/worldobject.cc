@@ -6,11 +6,11 @@
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 
+#include "game/constants.h"
 #include "game/components/base.h"
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
-#include "game/utils/constants.h"
 #include "game/sprites/condition.h"
 #include "game/components/graphic.h"
 
@@ -95,7 +95,7 @@ void WorldObject::set_light_radius(double radius) {
     light_radius_ = radius;
     ugdk::graphic::Node* node = graphic()->node();
     
-    if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
+    if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
         if(node->light() == NULL) 
             node->set_light(new ugdk::graphic::Light);
 

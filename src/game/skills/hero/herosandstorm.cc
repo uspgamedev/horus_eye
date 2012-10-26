@@ -13,16 +13,15 @@ namespace skills {
 
 using ugdk::Engine;
 using scene::World;
-using utils::Constants;
 using entities::SandstormEmitter;
 using usearguments::Aim;
 
 class Sandstorm : public CombatArt {
   public:
     Sandstorm(ugdk::graphic::Drawable* icon) : 
-        CombatArt(icon, NULL, Constants::SANDSTORM_COST),
+        CombatArt(icon, NULL, constants::GetDouble("SANDSTORM_COST")),
         emitter_(NULL),
-        maintain_mana_cost_(Constants::SANDSTORM_MAINTAIN_COST) {}
+        maintain_mana_cost_(constants::GetDouble("SANDSTORM_MAINTAIN_COST")) {}
 
     ~Sandstorm() {
         if(emitter_) emitter_->Die();
@@ -44,8 +43,8 @@ class Sandstorm : public CombatArt {
 
     virtual bool Available(const component::Caster* caster) const {
         return emitter_
-            ? caster->mana().Has(utils::Constants::SANDSTORM_MAINTAIN_COST)
-            : caster->mana().Has(utils::Constants::SANDSTORM_COST)
+            ? caster->mana().Has(constants::GetDouble("SANDSTORM_MAINTAIN_COST"))
+            : caster->mana().Has(constants::GetDouble("SANDSTORM_COST"))
         ;
     }
     

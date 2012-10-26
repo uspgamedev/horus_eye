@@ -22,7 +22,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
-#include "game/utils/constants.h"
+#include "game/constants.h"
 #include "game/components/orders.h"
 
 namespace builder {
@@ -40,7 +40,6 @@ using pyramidworks::collision::GenericCollisionLogic;
 using component::Creature;
 using component::Follower;
 using sprite::WorldObject;
-using utils::Constants;
 
 COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
     sprite::WorldObject *wobj = static_cast<sprite::WorldObject*>(obj);
@@ -58,7 +57,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
     col->AddCollisionLogic("Hero", new GenericCollisionLogic(WinCollision));
-    col->set_shape(new pyramidworks::geometry::Rect(Constants::DOOR_BOUND_WIDTH, Constants::DOOR_BOUND_HEIGHT));
+    col->set_shape(new pyramidworks::geometry::Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     wobj->set_collision_object(col);
 
     return wobj;
