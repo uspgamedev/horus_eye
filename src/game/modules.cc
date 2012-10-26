@@ -10,6 +10,7 @@
 
 #define HORUS_MODULES_LIST(ACTION) \
     ACTION(component) \
+    ACTION(constants) \
     ACTION(context) \
     ACTION(builder) \
     ACTION(map) \
