@@ -26,17 +26,17 @@ void RegisterString(const string& key, const std::string& value) {
 
 int GetInt(const string& key) {
     if (int_db_.count(key)) return int_db_[key];
-    printf("ERROR: Constants GetInt \"%s\"\n", key.c_str());
+    fprintf(stderr, "ERROR: Constants GetInt \"%s\" not found.\n", key.c_str());
     return 0;
 }
 double GetDouble(const string& key) {
     if (double_db_.count(key)) return double_db_[key];
-    printf("ERROR: Constants GetDouble \"%s\"\n", key.c_str());
+    fprintf(stderr, "ERROR: Constants GetDouble \"%s\" not found.\n", key.c_str());
     return 0.0;
 }
 string GetStr(const string& key) {
     if (str_db_.count(key)) return str_db_[key];
-    printf("ERROR: Constants GetStr \"%s\"\n", key.c_str());
+    fprintf(stderr, "ERROR: Constants GetStr \"%s\" not found.\n", key.c_str());
     return "";
 }
 
