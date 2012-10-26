@@ -11,17 +11,17 @@
 
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/constants.h"
 #include "game/skills/skill.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
+#include "game/constants.h"
 
-#define LIFE_BAR_HEIGHT Constants::LIFE_BAR_HEIGHT
-#define MANA_BAR_HEIGHT Constants::MANA_BAR_HEIGHT
+#define LIFE_BAR_HEIGHT constants::GetDouble("LIFE_BAR_HEIGHT")
+#define MANA_BAR_HEIGHT constants::GetDouble("MANA_BAR_HEIGHT")
 
-#define TOTEM_WIDTH Constants::TOTEM_WIDTH
+#define TOTEM_WIDTH constants::GetDouble("TOTEM_WIDTH")
 
 #define VIDEO_Y VIDEO_MANAGER()->video_size().y 
 #define VIDEO_X VIDEO_MANAGER()->video_size().x 

@@ -7,20 +7,18 @@
 
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/constants.h"
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
 #include "game/skills/combatart.h"
+#include "game/constants.h"
 
 namespace skills {
 
 using namespace scene;
 using namespace ugdk;
 using namespace utils;
-using utils::Constants;
 
 static bool VisibilityCheck(const component::Caster* caster) {
     VisionStrategy vs;
@@ -41,7 +39,7 @@ static void HeroLightUse(component::Caster* caster){
 Skill* HeroLightBuild() {
     HudImageFactory imfac;
     return new CombatArt(imfac.LightIconImage(), HeroLightUse, VisibilityCheck,
-        utils::Constants::QUAKE_COST, -1.0);
+        constants::GetInt("QUAKE_COST"), -1.0);
 }
 
 } // namespace skills

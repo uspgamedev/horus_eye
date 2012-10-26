@@ -6,14 +6,12 @@
 #include "game/builders/projectilebuilder.h"
 #include "game/components/caster.h"
 #include "game/utils/settings.h"
-#include "game/utils/constants.h"
 #include "game/skills/combatart.h"
 
 namespace skills {
 
 using namespace scene;
 using namespace ugdk;
-using utils::Constants;
 
 static void HeroMagicMissileUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),

@@ -8,14 +8,13 @@
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/constants.h"
 #include "game/utils/settings.h"
 #include "game/skills/divinegift.h"
+#include "game/constants.h"
 
 namespace skills {
 
 using scene::World;
-using utils::Constants;
 
 static bool VisibilityCheck(const component::Caster* caster) {
     utils::VisionStrategy vs;
@@ -33,7 +32,7 @@ static void HeroQuakeUse(component::Caster* caster) {
 Skill* HeroQuakeBuild() {
     utils::HudImageFactory imfac;
     return new DivineGift(imfac.EarthquakeIconImage(), HeroQuakeUse, VisibilityCheck,
-        utils::Constants::QUAKE_COST, utils::Constants::QUAKE_BLOCK_COST, utils::Constants::QUAKE_EXPLOSION_RANGE);
+        constants::GetInt("QUAKE_COST"), constants::GetInt("QUAKE_BLOCK_COST"), constants::GetDouble("QUAKE_EXPLOSION_RANGE"));
 }
 
 } // namespace skills

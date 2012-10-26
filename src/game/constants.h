@@ -1,9 +1,9 @@
-#ifndef HORUSEYE_GAME_UTILS_CONSTANTS_H_
-#define HORUSEYE_GAME_UTILS_CONSTANTS_H_
+#ifndef HORUSEYE_GAME_CONSTANTS_H_
+#define HORUSEYE_GAME_CONSTANTS_H_
 
 #include <string>
 
-namespace utils {
+namespace constants {
 
 void RegisterInt(const std::string& key, int value);
 void RegisterDouble(const std::string& key, double value);
@@ -14,14 +14,12 @@ double GetDouble(const std::string& key);
 std::string GetStr(const std::string& key);
 
 
-const static std::string
-    DATA_LOCATION,
-    BINARY_CONFIGURATION_FILENAME,
-    INI_CONFIGURATION_FILENAME,
-    BACKGROUND_MUSIC;
+std::string data_location ();
+std::string binary_configuration_filename ();
+std::string ini_configuration_filename ();
+std::string background_music ();
+std::wstring version ();
 
-const static std::wstring
-    VERSION;
 
 /*class Constants {
   public:
@@ -194,4 +192,4 @@ const static std::wstring
 
 }
 
-#endif /* HORUSEYE_GAME_UTILS_CONSTANTS_H_ */
+#endif /* HORUSEYE_GAME_CONSTANTS_H_ */

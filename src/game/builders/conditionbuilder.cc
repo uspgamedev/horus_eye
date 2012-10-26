@@ -2,14 +2,13 @@
 
 #include "conditionbuilder.h"
 
-#include "game/utils/constants.h"
+#include "game/constants.h"
 #include "game/sprites/worldobject.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
 
-using namespace utils;
 using sprite::Condition;
 using sprite::WorldObject;
 
@@ -34,18 +33,18 @@ void IncreaseSightCondition::Update(double dt) {
 
 void IncreaseSightCondition::StartCondition(WorldObject* obj) {
     Condition::StartCondition(obj);
-    obj->set_light_radius(obj->light_radius() + Constants::SIGHT_POTION_INCREASE);
+    obj->set_light_radius(obj->light_radius() + constants::GetDouble("SIGHT_POTION_INCREASE"));
     obj->set_sight_count(1);
 }
 
 void IncreaseSightCondition::EndCondition(WorldObject* obj) {
     Condition::EndCondition(obj);
-    obj->set_light_radius(obj->light_radius() - Constants::SIGHT_POTION_INCREASE);
+    obj->set_light_radius(obj->light_radius() - constants::GetDouble("SIGHT_POTION_INCREASE"));
     obj->set_sight_count(-1);
 }
 
 Condition* ConditionBuilder::increase_sight_condition(WorldObject *owner) {
-    return new IncreaseSightCondition(owner, Constants::CONDITION_DURATION);
+    return new IncreaseSightCondition(owner, constants::GetDouble("CONDITION_DURATION"));
 }
 
 }

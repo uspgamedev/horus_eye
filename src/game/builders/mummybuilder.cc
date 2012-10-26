@@ -17,7 +17,7 @@
 #include "game/scenes/world.h"
 #include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
-#include "game/utils/constants.h"
+#include "game/constants.h"
 #include "game/resources/energy.h"
 
 namespace builder {
@@ -27,7 +27,6 @@ using namespace sprite;
 using namespace component;
 using component::Animation;
 using component::Walker;
-using utils::Constants;
 using resource::Energy;
 using ugdk::Vector2D;
 using pyramidworks::collision::CollisionObject;
@@ -92,8 +91,8 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
 }
 
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::MUMMY_LIFE, 
-        Constants::MUMMY_RADIUS, Constants::MUMMY_SPEED);
+    WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("MUMMY_LIFE"), 
+        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"));
 
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
     return wobj;
@@ -106,8 +105,8 @@ sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
 }
 
 sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_ranged", Constants::RANGED_MUMMY_LIFE,
-        Constants::MUMMY_RADIUS, Constants::MUMMY_SPEED);
+    WorldObject* wobj = build_mummy_wobj("mummy_ranged", constants::GetInt("RANGED_MUMMY_LIFE"), 
+        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"));
 
     wobj->caster()->LearnAndEquipSkill("mummy_ranged", Controller::PRIMARY);
     return wobj;
@@ -120,8 +119,8 @@ sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& argument
 }
 
 sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_big", Constants::BIG_MUMMY_LIFE,
-        Constants::BIG_MUMMY_RADIUS, Constants::BIG_MUMMY_SPEED);
+    WorldObject* wobj = build_mummy_wobj("mummy_big", constants::GetInt("BIG_MUMMY_LIFE"), 
+        constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"));
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->set_super_armor(true);
 
@@ -137,8 +136,8 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 }
 
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_basic", Constants::PAPER_MUMMY_LIFE,
-        Constants::MUMMY_RADIUS, Constants::MUMMY_SPEED);
+    WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
+        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"));
     ugdk::Color color = wobj->graphic()->node()->modifier()->color();
     color.set_a(0.5);
     wobj->graphic()->node()->modifier()->set_color(color);
@@ -154,12 +153,12 @@ sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments
 }
 
 sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("pharaoh", Constants::PHARAOH_LIFE,
-        Constants::PHARAOH_RADIUS, Constants::PHARAOH_SPEED);
+    WorldObject* wobj = build_mummy_wobj("pharaoh", constants::GetInt("PHARAOH_LIFE"), 
+        constants::GetDouble("PHARAOH_RADIUS"), constants::GetDouble("PHARAOH_SPEED"));
     wobj->damageable()->set_super_armor(true);
 
     delete wobj->caster();
-    resource::Energy mana(Constants::PHARAOH_MANA, Constants::PHARAOH_MANA_REGEN); 
+    resource::Energy mana(constants::GetInt("PHARAOH_MANA"), constants::GetDouble("PHARAOH_MANA_REGEN")); 
     wobj->AddComponent(new Caster(wobj, mana));
 
     wobj->caster()->power().Set(300);

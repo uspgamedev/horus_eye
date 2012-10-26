@@ -9,13 +9,12 @@
 #include "game/sprites/worldobject.h"
 #include "game/skills/combatart.h"
 #include "game/utils/settings.h"
-#include "game/utils/constants.h"
+#include "game/constants.h"
 
 namespace skills {
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
-using utils::Constants;
 
 static void MummyMeleeUse(component::Caster* caster) {
     scene::World *world = WORLD();
@@ -49,7 +48,7 @@ Skill* MummyMeleeBuild() {
 
 Skill* MummyRangedBuild() {
     return new CombatArt(NULL, MummyRangedUse, SkillValidFunction(), 0.0, 
-        Constants::RANGED_MUMMY_RANGE);
+        constants::GetDouble("RANGED_MUMMY_RANGE"));
 }
 
 Skill* PaperMeleeBuild() {

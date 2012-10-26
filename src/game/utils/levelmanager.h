@@ -4,7 +4,6 @@
 #include <vector>
 #include <string>
 #include "game/sprites.h"
-#include "constants.h"
 
 namespace scene {
 class World;

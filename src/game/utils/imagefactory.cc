@@ -4,7 +4,7 @@
 #include <ugdk/graphic/spritesheet.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include "constants.h"
+#include "game/constants.h"
 
 using namespace ugdk;
 using ugdk::base::ResourceManager;
@@ -102,7 +102,7 @@ Drawable* ImageFactory::SightPotionImage() {
 
 Drawable* ImageFactory::FloorImage() {
     Drawable* draw = new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
-    draw->set_hotspot(Vector2D(Constants::FLOOR_HOTSPOT_X, Constants::FLOOR_HOTSPOT_Y));
+    draw->set_hotspot(Vector2D(constants::GetDouble("FLOOR_HOTSPOT_X"), constants::GetDouble("FLOOR_HOTSPOT_Y")));
     return draw;
 }
 

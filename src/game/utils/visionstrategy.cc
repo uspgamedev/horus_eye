@@ -8,7 +8,7 @@
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
-#include "game/utils/constants.h"
+#include "game/constants.h"
 #include "game/sprites/worldobject.h"
 
 using namespace scene;
@@ -42,17 +42,17 @@ bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& 
     const GameMap& matrix = from->current_room()->matrix();
     Vector2D position1 = from->world_position();
     Vector2D distance = position2 - position1;
-    if(distance.Length() > Constants::MUMMY_SIGHT_RANGE)
+    if(distance.Length() > constants::GetDouble("MUMMY_SIGHT_RANGE"))
         return false;
 
     int i_min = std::max(0.,
-                         matrix.size() - position1.y - 1 - Constants::MUMMY_SIGHT_RANGE);
+                         matrix.size() - position1.y - 1 - constants::GetDouble("MUMMY_SIGHT_RANGE"));
     int i_max = std::min(static_cast<double>(matrix.size()),
-                         matrix.size() - position1.y - 1 + Constants::MUMMY_SIGHT_RANGE);
-    int j_min = std::max(0., position1.x - Constants::MUMMY_SIGHT_RANGE);
+                         matrix.size() - position1.y - 1 + constants::GetDouble("MUMMY_SIGHT_RANGE"));
+    int j_min = std::max(0., position1.x - constants::GetDouble("MUMMY_SIGHT_RANGE"));
     for (int i = i_min; i < i_max; i++) {
         int j_max = std::min(static_cast<double>(matrix[i].size()),
-                             position1.x + Constants::MUMMY_SIGHT_RANGE);
+                             position1.x + constants::GetDouble("MUMMY_SIGHT_RANGE"));
         for (int j = j_min; j < j_max; j++) {
             if(solid(matrix[i][j]->object())){
                 double x = static_cast<double>(j);

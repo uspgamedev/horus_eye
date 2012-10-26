@@ -21,6 +21,7 @@
 
 #include "goodmenubuilder.h"
 
+#include "game/constants.h"
 #include "game/scenes/world.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/menuimagefactory.h"
@@ -134,7 +135,7 @@ Scene* MenuBuilder::MainMenu() const {
     Node* logo_node = new Node(logo);
     logo_node->modifier()->set_offset(Vector2D(target.x * 0.5, 0.0));
 
-    ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(utils::Constants::VERSION, "FontD");
+    ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(constants::version(), "FontD");
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     Node* version_node = new Node(version);
     version_node->modifier()->set_offset(Vector2D(10.0, target.y - 10.0));

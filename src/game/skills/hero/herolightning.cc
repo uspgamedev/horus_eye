@@ -7,18 +7,17 @@
 
 #include "game/map/room.h"
 #include "game/utils/hudimagefactory.h"
-#include "game/utils/constants.h"
 #include "game/components/caster.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
 #include "game/skills/combatart.h"
+#include "game/constants.h"
 
 namespace skills {
 
 using namespace scene;
 using namespace ugdk;
 using namespace utils;
-using utils::Constants;
 
 static void HeroLightningUse(component::Caster* caster) {
     //static Vector2D projectile_height = World::FromScreenCoordinates(Vector2D(0,Constants::LIGHTNING_SPRITE_CENTER_Y+Constants::LIGHTNING_HEIGHT));
@@ -35,7 +34,7 @@ static void HeroLightningUse(component::Caster* caster) {
 
 Skill* HeroLightningBuild() {
     HudImageFactory factory;
-    return new CombatArt(factory.LightningIconImage(), HeroLightningUse, utils::Constants::LIGHTNING_COST);
+    return new CombatArt(factory.LightningIconImage(), HeroLightningUse, constants::GetInt("LIGHTNING_COST"));
 }
 
 } // namespace skills

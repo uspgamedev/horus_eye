@@ -3,10 +3,12 @@
 #include "constants.h"
 #include "game/config.h"
 
-namespace utils {
+#include <cstdio>
+
+namespace constants {
 
 using std::string;
-using std::unordered_map;
+using std::tr1::unordered_map;
 
 static unordered_map<string, int> int_db_;
 static unordered_map<string, double> double_db_;
@@ -24,23 +26,41 @@ void RegisterString(const string& key, const std::string& value) {
 
 int GetInt(const string& key) {
     if (int_db_.count(key)) return int_db_[key];
+    printf("ERROR: Constants GetInt \"%s\"\n", key.c_str());
     return 0;
 }
 double GetDouble(const string& key) {
     if (double_db_.count(key)) return double_db_[key];
+    printf("ERROR: Constants GetDouble \"%s\"\n", key.c_str());
     return 0.0;
 }
 string GetStr(const string& key) {
     if (str_db_.count(key)) return str_db_[key];
+    printf("ERROR: Constants GetStr \"%s\"\n", key.c_str());
     return "";
 }
 
+const static std::string DATA_LOCATION = INSTALL_PATH "/";
+const static std::string BINARY_CONFIGURATION_FILENAME = "settings.bin";
+const static std::string INI_CONFIGURATION_FILENAME = "settings.ini";
+const static std::string BACKGROUND_MUSIC = "musics/bgmusic.wav";
+const static std::wstring VERSION = L"v" GAME_VERSION;
 
-const std::string DATA_LOCATION = INSTALL_PATH "/";
-const std::string BINARY_CONFIGURATION_FILENAME = "settings.bin";
-const std::string INI_CONFIGURATION_FILENAME = "settings.ini";
-const std::string BACKGROUND_MUSIC = "musics/bgmusic.wav";
-const std::wstring VERSION = L"v" GAME_VERSION;
+std::string data_location () {
+    return DATA_LOCATION;
+}
+std::string binary_configuration_filename () {
+    return BINARY_CONFIGURATION_FILENAME;
+}
+std::string ini_configuration_filename () {
+    return INI_CONFIGURATION_FILENAME;
+}
+std::string background_music () {
+    return BACKGROUND_MUSIC;
+}
+std::wstring version () {
+    return VERSION;
+}
 
 /*const double Constants::DOOR_HOTSPOT_WIDTH = 153.0/2.0;
 const double Constants::DOOR_HOTSPOT_HEIGHT = 109.0-(91.0/2.0);

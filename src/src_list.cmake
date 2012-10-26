@@ -77,6 +77,8 @@ SET(GAME_SRCS
     ./game/components/walker.cc 
     ./game/components/walker.h 
     ./game/config.h 
+    ./game/constants.cc 
+    ./game/constants.h 
     ./game/context.cc 
     ./game/context.h 
     ./game/entities/emitterentity.h 
@@ -135,8 +137,6 @@ SET(GAME_SRCS
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
-    ./game/utils/constants.cc 
-    ./game/utils/constants.h 
     ./game/utils/geometryprimitives.cc 
     ./game/utils/geometryprimitives.h 
     ./game/utils/hud.cc 
@@ -159,16 +159,6 @@ SET(GAME_SRCS
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
     ./module/ai/logicblockproxy.h 
-    ./module/aiLUA_wrap.cc 
-    ./module/aiPYTHON_wrap.cc 
-    ./module/builderLUA_wrap.cc 
-    ./module/builderPYTHON_wrap.cc 
     ./module/component/baseproxy.h 
-    ./module/componentLUA_wrap.cc 
-    ./module/componentPYTHON_wrap.cc 
-    ./module/contextLUA_wrap.cc 
-    ./module/contextPYTHON_wrap.cc 
     ./module/luaproxy.h 
-    ./module/mapLUA_wrap.cc 
-    ./module/mapPYTHON_wrap.cc 
 )

@@ -10,7 +10,7 @@
 #include "SDL.h"
 #include "initializer.h"
 
-#include "utils/constants.h"
+#include "constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
 #include "game/skills/initskills.h"
@@ -80,7 +80,7 @@ int main(int argc, char *argv[]) {
     engine_config.window_size  = settings->resolution_vector();
     engine_config.fullscreen   = settings->fullscreen();
 
-    engine_config.base_path = Constants::DATA_LOCATION;
+    engine_config.base_path = constants::data_location();
     if(!VerifyFolderExists(engine_config.base_path)) {
 #ifdef WIN32
         MessageBox(HWND_DESKTOP, "Horus Eye could not find the Data folder.", "Fatal Error", MB_OK | MB_ICONERROR);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[]) {
 #else
         engine_config.base_path = "./";
 #ifdef DEBUG
-        fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", Constants::DATA_LOCATION.c_str());
+        fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", constants::data_location().c_str());
 #endif
 #endif
     }
