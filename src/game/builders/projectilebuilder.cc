@@ -111,7 +111,7 @@ void ProjectileBuilder::InitializeAnimations() {
 WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
     WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
     wobj->set_light_radius(1.0);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
@@ -124,7 +124,7 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
 WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
     wobj->set_light_radius(1.0);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
@@ -138,7 +138,7 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
 WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, double damage) {
     WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
-    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
+    wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
     wobj->set_light_radius(0.75);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));

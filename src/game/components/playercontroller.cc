@@ -37,7 +37,7 @@ static void cycle_iterator(std::list<int>::const_iterator& it, const std::list<i
 void PlayerController::Update(double dt) {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
 
-    Vector2D projectile_height(0, constants::GetDouble("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT"));
+    Vector2D projectile_height(0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT"));
     aim_destination_ = scene::World::FromScreenCoordinates(input_->GetMousePosition() + projectile_height);
 
     Direction d;

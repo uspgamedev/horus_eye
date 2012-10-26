@@ -18,6 +18,7 @@
 #include <ugdk/modules.h>
 #include <pyramidworks/modules.h>
 #include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 #include <ugdk/script/languages/lua/luawrapper.h>
 #include <ugdk/script/languages/python/pythonwrapper.h>
 
@@ -102,7 +103,11 @@ int main(int argc, char *argv[]) {
 
     InitScripts();
     engine()->Initialize(engine_config);
-
+    
+    {
+        SCRIPT_MANAGER()->LoadModule("init_constants");
+    }
+    
     engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 
