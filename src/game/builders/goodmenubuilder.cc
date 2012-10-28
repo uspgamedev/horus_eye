@@ -28,6 +28,7 @@
 #include "game/utils/settings.h"
 
 using std::tr1::bind;
+using std::tr1::mem_fn;
 using namespace std::tr1::placeholders;
 using ugdk::action::Scene;
 using ugdk::base::ResourceManager;
@@ -202,7 +203,7 @@ struct SettingsFunction {
 };
 static void fillSettingsFunction(SettingsFunction* sf) {
     sf[0].name = "Resolution";
-    sf[0].function = &Settings::set_resolution;
+    sf[0].function = mem_fn(&Settings::set_resolution);
     const Vector2D *resolutions = Settings::reference()->ResolutionList();
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         std::ostringstream stm;
@@ -211,22 +212,22 @@ static void fillSettingsFunction(SettingsFunction* sf) {
     }
 
     sf[1].name = "Fullscreen";
-    sf[1].function = &Settings::set_fullscreen;
+    sf[1].function = mem_fn(&Settings::set_fullscreen);
     sf[1].values.push_back("Off");
     sf[1].values.push_back("On");
 
     sf[2].name = "Music";
-    sf[2].function = &Settings::set_background_music;
+    sf[2].function = mem_fn(&Settings::set_background_music);
     sf[2].values.push_back("Off");
     sf[2].values.push_back("On");
 
     sf[3].name = "Sound Effects";
-    sf[3].function = &Settings::set_sound_effects;
+    sf[3].function = mem_fn(&Settings::set_sound_effects);
     sf[3].values.push_back("Off");
     sf[3].values.push_back("On");
 
     sf[4].name = "Language";
-    sf[4].function = &Settings::set_language;
+    sf[4].function = mem_fn(&Settings::set_language);
     const std::string *language_name = Settings::reference()->LanguageNameList();
     sf[4].values.push_back(language_name[0]);
     sf[4].values.push_back(language_name[1]);

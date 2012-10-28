@@ -19,7 +19,7 @@ using usearguments::Aim;
 class Sandstorm : public CombatArt {
   public:
     Sandstorm(ugdk::graphic::Drawable* icon) : 
-        CombatArt(icon, NULL, constants::GetDouble("SANDSTORM_COST")),
+        CombatArt(icon, SkillUseFunction(), constants::GetDouble("SANDSTORM_COST")),
         emitter_(NULL),
         maintain_mana_cost_(constants::GetDouble("SANDSTORM_MAINTAIN_COST")) {}
 

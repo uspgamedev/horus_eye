@@ -58,7 +58,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
-    hero_wobj->component<Animation>()->AddCallback(utils::DEATH, &WorldObject::Die);
+    hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::tr1::mem_fn(&WorldObject::Die));
     hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     
