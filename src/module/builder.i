@@ -21,6 +21,8 @@
 %}
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
+%import(module="component") <game/components/base.h>
+%import(module="component") <game/components/controller.h>
 %import(module="component") <game/sprites/worldobject.h>
 %import(module="ai") <game/ai/ai.h>
 

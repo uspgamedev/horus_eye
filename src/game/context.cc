@@ -126,4 +126,10 @@ void GetCollidingObjects(const string& classname, GeometricShape* shape, const V
     }
 }
 
+sprite::WorldObject* hero() {
+    World *world = WORLD();
+    if (!world) return NULL;
+    return world->hero();
+}
+
 } // namespace context

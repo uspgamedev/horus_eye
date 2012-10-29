@@ -35,6 +35,8 @@ void AddDamageableComponent(const map::Room*, const std::string& tag, double lif
 /// the given GeometricShape.
 void GetCollidingObjects(const std::string& classname, pyramidworks::geometry::GeometricShape* shape, const ugdk::Vector2D& pos, std::vector<sprite::WorldObject*> &objects_colliding);
 
+sprite::WorldObject* hero();
+
 } // namespace context
 
 

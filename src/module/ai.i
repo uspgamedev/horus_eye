@@ -29,6 +29,7 @@
 
 %}
 
+%import(module="component") <game/components/base.h>
 %import(module="component") <game/components/controller.h>
 
 %include <game/ai.h>
