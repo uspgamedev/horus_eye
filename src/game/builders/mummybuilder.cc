@@ -59,7 +59,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
     //WORLD()->DecreaseEnemyCount();
 }
 
-static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius, double speed) {
+static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius, double speed, bool standing) {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
@@ -69,7 +69,9 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->damageable()->life() = Energy(life);
     wobj->component<Animation>()->AddCallback(utils::DEATH, std::tr1::mem_fn(&WorldObject::Die));
 
-    wobj->AddComponent( AIBuilder::AIScript(wobj, "basicmummy") );
+    ai::AI* mummyAI = AIBuilder::AIScript(wobj, "basicmummy");
+    mummyAI->set_standing(standing);
+    wobj->AddComponent( mummyAI );
 
     resource::Energy mana;
     wobj->AddComponent(new Caster(wobj, mana));
@@ -92,7 +94,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
 
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"));
+        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
 
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
     return wobj;
@@ -100,13 +102,13 @@ sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
 
 sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingMummy(arguments);
-    //static_cast<MummyController*>(obj->controller())->set_standing(false);
+    obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_ranged", constants::GetInt("RANGED_MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"));
+        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
 
     wobj->caster()->LearnAndEquipSkill("mummy_ranged", Controller::PRIMARY);
     return wobj;
@@ -114,13 +116,13 @@ sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& argumen
 
 sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingRangedMummy(arguments);
-    //static_cast<MummyController*>(obj->controller())->set_standing(false);
+    obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_big", constants::GetInt("BIG_MUMMY_LIFE"), 
-        constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"));
+        constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"), true);
     wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
     wobj->damageable()->set_super_armor(true);
 
@@ -131,13 +133,13 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingBigMummy(arguments);
-    //static_cast<MummyController*>(obj->controller())->set_standing(false);
+    obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"));
+        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
     ugdk::Color color = wobj->graphic()->node()->modifier()->color();
     color.set_a(0.5);
     wobj->graphic()->node()->modifier()->set_color(color);
@@ -148,13 +150,13 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
 
 sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPaperMummy(arguments);
-    //static_cast<MummyController*>(obj->controller())->set_standing(false);
+    obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
 sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("pharaoh", constants::GetInt("PHARAOH_LIFE"), 
-        constants::GetDouble("PHARAOH_RADIUS"), constants::GetDouble("PHARAOH_SPEED"));
+        constants::GetDouble("PHARAOH_RADIUS"), constants::GetDouble("PHARAOH_SPEED"), true);
     wobj->damageable()->set_super_armor(true);
 
     delete wobj->caster();
@@ -170,7 +172,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
 
 sprite::WorldObject * WalkingPharaoh(const std::vector<std::string>& arguments) {
     sprite::WorldObject* obj = StandingPharaoh(arguments);
-    //static_cast<MummyController*>(obj->controller())->set_standing(false);
+    obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
