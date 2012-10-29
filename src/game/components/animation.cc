@@ -58,7 +58,8 @@ void Animation::Tick() {
 
 void Animation::ChangeDirection(const Direction& dir) { 
     current_direction_ = dir;
-    sprite_->SelectAnimation(isometric_animation_set_->Get(current_animation_, current_direction_));
+    int index = isometric_animation_set_->Get(current_animation_, current_direction_);
+    if(index > -1) sprite_->SelectAnimation(index);
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type) {
@@ -86,7 +87,8 @@ bool Animation::IsAnimation(utils::AnimtionType type) const {
 }
     
 void Animation::set_current_animation(utils::AnimtionType type) {
-    sprite_->SelectAnimation(isometric_animation_set_->Get(type, current_direction_));
+    int index = isometric_animation_set_->Get(type, current_direction_);
+    if(index > -1) sprite_->SelectAnimation(index);
     current_animation_ = type;
 }
 
