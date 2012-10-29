@@ -30,9 +30,7 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
     }
 
 	if (target != NULL) {// && vision_strategy_.IsVisible(owner, target->world_position())) {
-        ugdk::script::VirtualObj vfalse (data->script_wrapper());
-        vfalse.set_value(false);
-        data->SetSharedData("standing", vfalse);        
+        parent_->base()->set_standing(false);  
 
 		search_target_ = true;
 		last_known_target_pos_ = target->world_position();

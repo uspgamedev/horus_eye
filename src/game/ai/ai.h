@@ -29,19 +29,22 @@ class AI : public component::Controller {
     const sprite::WorldObject* owner() const { return owner_; }
 	const std::string& name() const { return name_; }
 	State state() const { return state_; }
+	
+	void set_standing(bool standing);
+	bool standing();
 
     bool IsUsingSkillSlot(SkillSlot slot) const;
 
     const ugdk::Vector2D& direction_vector() const;
 
   protected:
+    /// The owner.
+    sprite::WorldObject* owner_;
+    
     std::string name_;
 	AIModule* root_;
     AIData* data_;
 	State state_;
-
-    /// The owner.
-    sprite::WorldObject* owner_;
 };
 
 }

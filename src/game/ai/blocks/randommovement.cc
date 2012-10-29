@@ -1,7 +1,6 @@
 #include <cmath>
 #include <cstdlib>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/script/virtualobj.h>
 #include "game/ai/blocks/randommovement.h"
 #include "game/ai/ai.h"
 #include "game/ai/aidata.h"
@@ -25,11 +24,7 @@ AIModule::Status RandomMovement::Update(double dt, AIData* data) {
     if (!owner->component<component::Animation>()->CanInterrupt(utils::MOVEMENT) ) return AIModule::DORMANT;
 	if (!owner->is_active() ) return AIModule::DORMANT;
 
-    ugdk::script::VirtualObj vstanding = data->GetSharedData("standing");
-    if (vstanding) {
-        bool standing = vstanding.value<bool>();
-        if (standing)   return AIModule::DORMANT;
-    }
+    if (parent_->base()->standing())   return AIModule::DORMANT;
 
 	time_left_ -= dt;
 	if (time_left_ < 0) {

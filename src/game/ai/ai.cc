@@ -1,5 +1,6 @@
 #include <cstdlib>
 #include <ugdk/script.h>
+#include <ugdk/script/virtualobj.h>
 #include "game/ai/ai.h"
 #include "game/ai/aimodule.h"
 #include "game/ai/aidata.h"
@@ -56,6 +57,19 @@ void AI::set_root(AIModule* root) {
 
 	root_ = root;
 	root_->base_ = this;
+}
+
+void AI::set_standing(bool standing) {
+    ugdk::script::VirtualObj vbool (data_->script_wrapper());
+    vbool.set_value(standing);
+    data_->SetSharedData("standing", vbool);
+}
+
+bool AI::standing() {
+    ugdk::script::VirtualObj vstanding = data_->GetSharedData("standing");
+    if (vstanding)
+        return vstanding.value<bool>();
+    return false;
 }
 
 bool AI::IsUsingSkillSlot(SkillSlot slot) const {
