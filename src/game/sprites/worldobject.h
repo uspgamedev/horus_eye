@@ -58,7 +58,12 @@ class WorldObject : public ::ugdk::action::Entity {
     void set_light_radius(double radius);
 
     void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
-    pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
+          pyramidworks::collision::CollisionObject* collision_object()       { return collision_object_; }
+    const pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
+    
+    void set_visibility_object(pyramidworks::collision::CollisionObject* col) { visibility_object_ = col; }
+          pyramidworks::collision::CollisionObject* visibility_object()       { return visibility_object_; }
+    const pyramidworks::collision::CollisionObject* visibility_object() const { return visibility_object_; }
 
     void set_shape(pyramidworks::geometry::GeometricShape* shape);
 
@@ -173,6 +178,8 @@ class WorldObject : public ::ugdk::action::Entity {
 
     // Collision component
     pyramidworks::collision::CollisionObject *collision_object_;
+    
+    pyramidworks::collision::CollisionObject *visibility_object_;
 
     // 
     ugdk::time::TimeAccumulator* timed_life_;

@@ -37,6 +37,7 @@ WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _orde
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
         collision_object_(NULL),
+        visibility_object_(NULL),
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
         current_room_(NULL),
@@ -50,10 +51,9 @@ WorldObject::WorldObject(double duration)
 }
 
 WorldObject::~WorldObject() {
-    if(collision_object_ != NULL)
-        delete collision_object_;
-    if(timed_life_) delete timed_life_;
-
+    delete collision_object_;
+    delete visibility_object_;
+    delete timed_life_;
     for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
         delete it->component;
 }
@@ -64,6 +64,7 @@ void WorldObject::Die() {
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
     if(on_die_callback_) on_die_callback_(this);
+    if(visibility_object_) visibility_object_->StopColliding();
 }
 
 void WorldObject::StartToDie() {
@@ -85,6 +86,7 @@ void WorldObject::Update(double dt) {
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
    if(collision_object_) collision_object_->MoveTo(pos);
+   if(visibility_object_) visibility_object_->MoveTo(pos);
 
    Vector2D position = World::FromWorldCoordinates(world_position_);
    graphic()->node()->modifier()->set_offset(position);
@@ -133,8 +135,10 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnRoomAdd(map::Room* room) {
-    if(collision_object() != NULL)
+    if(collision_object())
         collision_object()->StartColliding();
+    if(visibility_object_)
+        visibility_object_->StartColliding();
     current_room_ = room;
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);
