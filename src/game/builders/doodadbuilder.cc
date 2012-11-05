@@ -74,7 +74,7 @@ static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     wobj->set_collision_object(col);
     
     CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
-    vis->InitializeCollisionClass("Obstacle");
+    vis->InitializeCollisionClass("Opaque");
     vis->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
     wobj->set_visibility_object(vis);
     return wobj;

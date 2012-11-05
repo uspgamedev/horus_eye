@@ -224,7 +224,7 @@ void World::SetupCollisionManager() {
     this->AddTask(collision_manager_->GenerateHandleCollisionTask());
     
     visibility_manager_ = new pyramidworks::collision::CollisionManager(box);
-    visibility_manager_->Generate("Obstacle");
+    visibility_manager_->Generate("Opaque");
 }
 
 void World::AddRoom(map::Room* room) {
