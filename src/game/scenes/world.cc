@@ -110,7 +110,8 @@ World::World()
         hero_(NULL),
         size_(10, 10),
         level_state_(LevelManager::NOT_FINISHED),
-        collision_manager_(NULL) {
+        collision_manager_(NULL),
+        visibility_manager_(NULL) {
 
     content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
@@ -221,6 +222,9 @@ void World::SetupCollisionManager() {
     collision_manager_->Generate("Explosion", "WorldObject");
 
     this->AddTask(collision_manager_->GenerateHandleCollisionTask());
+    
+    visibility_manager_ = new pyramidworks::collision::CollisionManager(box);
+    visibility_manager_->Generate("Obstacle");
 }
 
 void World::AddRoom(map::Room* room) {

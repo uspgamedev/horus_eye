@@ -77,6 +77,7 @@ class World : public ugdk::action::Scene {
     const std::list<map::Room*>& active_rooms() const { return active_rooms_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
+    pyramidworks::collision::CollisionManager* visibility_manager() { return visibility_manager_; }
     
     //setters
     void set_size(const ugdk::math::Integer2D& _size) { size_ = _size; }
@@ -100,6 +101,7 @@ class World : public ugdk::action::Scene {
   private:
     utils::LevelManager::LevelState level_state_;
     pyramidworks::collision::CollisionManager* collision_manager_;
+    pyramidworks::collision::CollisionManager* visibility_manager_;
     ugdk::graphic::Node *layers_[2];
 
     std::string hero_initial_room_;
