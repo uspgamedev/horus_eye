@@ -10,6 +10,7 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
+#include "game/components/graphic.h"
 #include "game/builders/functions/carrier.h"
 #include "game/skills/divinegift.h"
 #include "game/constants.h"
@@ -28,7 +29,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 
 static void HeroMeteorUse(component::Caster* caster) {
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
-    permanent_light->set_light_radius(4.0);
+    permanent_light->graphic()->ChangeLightRadius(4.0);
 
     builder::ExplosionBuilder builder;
     sprite::WorldObject *explosion = builder.MeteorExplosion();

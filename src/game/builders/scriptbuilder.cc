@@ -100,7 +100,7 @@ static void create_die_callback(WorldObject* wobj, VirtualObj data) {
     wobj->set_die_callback(bind(On_die_callback, _1, data));
 }
 static void create_light_radius(WorldObject* wobj, VirtualObj data) {
-    wobj->set_light_radius(data.value<double>());
+    wobj->graphic()->ChangeLightRadius(data.value<double>());
 }
 
 #define NUM_FIELDS 5

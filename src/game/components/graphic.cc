@@ -1,12 +1,17 @@
 #include "game/components/graphic.h"
 
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/light.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include "game/components/orders.h"
+#include "game/constants.h"
+#include "game/scenes/world.h"
 
 namespace component {
+
+using ugdk::Vector2D;
 
 Graphic::Graphic(sprite::WorldObject* owner)
   : node_(new ugdk::graphic::Node),
@@ -19,6 +24,27 @@ Graphic::Graphic(sprite::WorldObject* owner)
 Graphic::~Graphic() {
     delete node_;
     delete blink_time_;
+}
+
+void Graphic::ChangeLightRadius(double radius) {
+    #define LIGHT_COEFFICIENT 0.75
+
+    light_radius_ = radius;
+    ugdk::graphic::Node* node = node_;
+    
+    if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
+        if(node->light() == NULL) 
+            node->set_light(new ugdk::graphic::Light);
+
+        Vector2D dimension = scene::World::ConvertLightRadius(light_radius_);
+        node->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+
+    } else {
+        if(node->light()) {
+            delete node->light();
+            node->set_light(NULL);
+        }
+    }
 }
 
 void Graphic::StartBlinking(int duration) {

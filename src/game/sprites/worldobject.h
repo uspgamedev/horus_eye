@@ -53,9 +53,6 @@ class WorldObject : public ::ugdk::action::Entity {
     Status status() const { return status_; }
     bool is_active() const { return status_ == STATUS_ACTIVE; }
 
-    // The Light radius. TODO explain better
-    double light_radius() const { return light_radius_; }
-    void set_light_radius(double radius);
 
     void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
           pyramidworks::collision::CollisionObject* collision_object()       { return collision_object_; }
@@ -70,9 +67,7 @@ class WorldObject : public ::ugdk::action::Entity {
           ugdk::graphic::Node* node();
     const ugdk::graphic::Node* node() const;
 
-    void set_timed_life(ugdk::time::TimeAccumulator*);
     void set_timed_life(double);
-    ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
     void OnRoomAdd(map::Room*);
     
@@ -199,7 +194,7 @@ class WorldObject : public ::ugdk::action::Entity {
 
     // The current status for the object.
     Status status_;
-    double light_radius_;
+
     scene::GameLayer layer_;
 
     // The conditions currently affecting this creature.

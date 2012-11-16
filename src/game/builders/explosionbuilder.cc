@@ -15,6 +15,7 @@
 
 #include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
+#include "game/components/graphic.h"
 #include "game/components/logic/follower.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
@@ -59,8 +60,8 @@ WorldObject* ExplosionBuilder::FireballExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
     
-    wobj->set_light_radius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
-    wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
+    wobj->graphic()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
+    wobj->graphic()->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
 
     CollisionObject* col = wobj->collision_object();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
@@ -73,7 +74,7 @@ WorldObject* ExplosionBuilder::EarthquakeExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.QuakeImage(), "HERO_EXPLOSION_WEAPON");
 
-    wobj->set_light_radius(1.3* constants::GetDouble("QUAKE_EXPLOSION_RADIUS"));
+    wobj->graphic()->ChangeLightRadius(1.3* constants::GetDouble("QUAKE_EXPLOSION_RADIUS"));
 
     CollisionObject* col = wobj->collision_object();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("QUAKE_EXPLOSION_DAMAGE")));

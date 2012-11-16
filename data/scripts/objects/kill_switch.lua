@@ -44,7 +44,7 @@ function generate (...)
               door:Die()
               switch.activated = true
               switch.sprite:SelectAnimation "SWITCH_START"
-              self:set_light_radius(3.0)
+              self:graphic():ChangeLightRadius(3.0)
             end
           end
         end

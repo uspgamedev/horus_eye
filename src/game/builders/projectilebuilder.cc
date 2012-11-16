@@ -16,6 +16,7 @@
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
 #include "game/components/animation.h"
+#include "game/components/graphic.h"
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
 #include "game/components/statecontroller.h"
@@ -112,7 +113,7 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
     WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
-    wobj->set_light_radius(1.0);
+    wobj->graphic()->ChangeLightRadius(1.0);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
@@ -125,7 +126,7 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
-    wobj->set_light_radius(1.0);
+    wobj->graphic()->ChangeLightRadius(1.0);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
@@ -139,7 +140,7 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, doubl
     WorldObject* wobj = buildObject(constants::GetInt("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetInt("PROJECTILE_SPRITE_HEIGHT") + constants::GetDouble("PROJECTILE_HEIGHT")));
-    wobj->set_light_radius(0.75);
+    wobj->graphic()->ChangeLightRadius(0.75);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
@@ -155,7 +156,7 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->component<Animation>()->ChangeAnimation(utils::ATTACK);
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("LIGHTNING_SPRITE_HEIGHT")));
-    wobj->set_light_radius(1.0);
+    wobj->graphic()->ChangeLightRadius(1.0);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("LIGHTNING_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
     wobj->collision_object()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetInt("LIGHTNING_DAMAGE")));
@@ -172,7 +173,7 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->component<Animation>()->ChangeAnimation(utils::ATTACK);
     wobj->node()->drawable()->set_hotspot(Vector2D(0.0, constants::GetDouble("FIREBALL_SPRITE_HEIGHT")));
-    wobj->set_light_radius(1.0);
+    wobj->graphic()->ChangeLightRadius(1.0);
     // Give the light an orange color
     wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
     wobj->set_start_to_die_callback(Carrier(explosion));

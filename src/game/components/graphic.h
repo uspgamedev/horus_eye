@@ -21,6 +21,9 @@ class Graphic : public Base {
 
           ugdk::graphic::Node* node()       { return node_; }
     const ugdk::graphic::Node* node() const { return node_; }
+    
+    double light_radius() const { return light_radius_; }
+    void ChangeLightRadius(double radius);
 
     void Update(double dt) { AdjustBlink(); }
 
@@ -46,6 +49,9 @@ class Graphic : public Base {
 
     /// When true, this component is on the invisible part of the blinking effect.
     bool blink_;
+
+    /// How much light this component emits.
+    double light_radius_;
 
 };  // class Graphic
 

@@ -4,6 +4,7 @@
 
 #include "game/constants.h"
 #include "game/sprites/worldobject.h"
+#include "game/components/graphic.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
@@ -33,13 +34,13 @@ void IncreaseSightCondition::Update(double dt) {
 
 void IncreaseSightCondition::StartCondition(WorldObject* obj) {
     Condition::StartCondition(obj);
-    obj->set_light_radius(obj->light_radius() + constants::GetDouble("SIGHT_POTION_INCREASE"));
+    obj->graphic()->ChangeLightRadius(obj->graphic()->light_radius() + constants::GetDouble("SIGHT_POTION_INCREASE"));
     obj->set_sight_count(1);
 }
 
 void IncreaseSightCondition::EndCondition(WorldObject* obj) {
     Condition::EndCondition(obj);
-    obj->set_light_radius(obj->light_radius() - constants::GetDouble("SIGHT_POTION_INCREASE"));
+    obj->graphic()->ChangeLightRadius(obj->graphic()->light_radius() - constants::GetDouble("SIGHT_POTION_INCREASE"));
     obj->set_sight_count(-1);
 }
 

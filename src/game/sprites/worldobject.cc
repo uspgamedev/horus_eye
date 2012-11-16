@@ -1,7 +1,6 @@
 #include "worldobject.h"
 
 #include <cassert>
-#include <ugdk/graphic/light.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
@@ -18,7 +17,6 @@
 #include "game/components/controller.h"
 #include "game/components/caster.h"
 
-#define LIGHT_COEFFICIENT 0.75
 
 namespace sprite {
 
@@ -41,7 +39,6 @@ WorldObject::WorldObject(double duration)
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
         current_room_(NULL),
-        light_radius_(0.0),
         layer_(scene::FOREGROUND_LAYER),
         sight_count_(0) {
     if(duration > 0.0)
@@ -93,25 +90,6 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    graphic()->node()->set_zindex(position.y);
 }
 
-void WorldObject::set_light_radius(double radius) {
-    light_radius_ = radius;
-    ugdk::graphic::Node* node = graphic()->node();
-    
-    if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
-        if(node->light() == NULL) 
-            node->set_light(new ugdk::graphic::Light);
-
-        Vector2D dimension = World::ConvertLightRadius(light_radius_);
-        node->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
-
-    } else {
-        if(node->light()) {
-            delete node->light();
-            node->set_light(NULL);
-        }
-    }
-}
-
 void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
     collision_object_->set_shape(shape);
 }
@@ -124,14 +102,10 @@ const ugdk::graphic::Node* WorldObject::node() const {
     return component<component::Graphic>("graphic")->node();
 }
 
-void WorldObject::set_timed_life(ugdk::time::TimeAccumulator* timer) {
-    if(timed_life_) delete timed_life_;
-    timed_life_ = timer;
-}
-
 void WorldObject::set_timed_life(double duration) {
     #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
-    set_timed_life(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration)));
+    delete timed_life_;
+    timed_life_ = (new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration)));
 }
 
 void WorldObject::OnRoomAdd(map::Room* room) {
