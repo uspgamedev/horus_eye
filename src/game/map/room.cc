@@ -16,8 +16,8 @@ using scene::FOREGROUND_LAYER;
 using ugdk::graphic::Node;
 
 Room::Room(const std::string& name, const ugdk::math::Integer2D& _size, 
-    const ugdk::math::Integer2D& _position, const GameMap& matrix)
-        : name_(name), matrix_(matrix), size_(_size), position_(_position), level_(NULL) {
+    const ugdk::math::Integer2D& _position)
+        : name_(name), size_(_size), position_(_position), level_(NULL) {
 
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);

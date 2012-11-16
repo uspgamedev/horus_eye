@@ -23,8 +23,7 @@ static const bool POSITION_RELATIVE = false;
 
 class Room {
   public:
-    Room(const std::string& name, const ugdk::math::Integer2D& size, 
-        const ugdk::math::Integer2D& position, const GameMap& matrix);
+    Room(const std::string& name, const ugdk::math::Integer2D& size, const ugdk::math::Integer2D& position);
     ~Room();
 
     void Update(double dt);
@@ -50,7 +49,6 @@ class Room {
     void RemoveTag(const std::string& tag);
 
     const std::string& name() const { return name_; }
-    const GameMap& matrix() const { return matrix_; }
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::math::Integer2D& position() const { return position_; }
     ugdk::graphic::Node* floor() const { return floor_; }
@@ -68,7 +66,6 @@ class Room {
     typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
     std::string name_;
-    GameMap matrix_;
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
     ugdk::graphic::Node* floor_;
