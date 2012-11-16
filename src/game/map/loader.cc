@@ -80,23 +80,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     vector< vector< std::string > > tags(height, vector<string>(width));
     parseTags(tags, room_data["tags"]);
 
-    std::string matrix = room_data["matrix"].value<std::string>();
 
-    GameMap gamemap(height, TileRow(width));
-    {
-        int y = 0, x = 0;
-        for(std::string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
-            if(*it == '\n') {
-                //TODO if(x != width) { } (tratar erro?)
-                x = 0;
-                ++y;
-                if(y == height) break;
-                continue;
-            }
-            gamemap[y][x] = new Tile(y, x, *it);
-            ++x;
-        }
-    }
 
     CollisionManager* collision_manager = WORLD()->collision_manager();
     
@@ -113,31 +97,28 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     }
 
     Room* room = new Room(name, Integer2D(width, height), position);
-    for (int i = 0; i < (int)gamemap.size(); ++i) {
-        for (int j = 0; j < (int)gamemap[i].size(); ++j) {
-            if(gamemap[i][j] == NULL) {
-                gamemap[i][j] = new Tile(i, j);
+    {
+        string matrix = room_data["matrix"].value<std::string>();
+        int y = 0, x = 0;
+        for(string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
+            if(*it == '\n') {
+                //TODO if(x != width) { } (tratar erro?)
+                x = 0;
+                ++y;
+                if(y == height) break;
+                continue;
+            }
+            {
+                Tile t(y, x, *it);
+                ObjectDescriptor descriptor(string(1, t.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
+                objects.push_back(descriptor);
+                if(t.has_floor()) {
+                    ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(descriptor.position);
+                    room->floor()->AddChild(floor);
+                }
             }
 
-            Vector2D position((double) j, (double) i);
-
-            std::string type_string(1, gamemap[i][j]->object());
-            sprite::WorldObject* obj = builder::WorldObjectFromTypename(type_string, arguments[i][j]);
-            if(obj) {
-                obj->set_tag(tags[i][j]);
-                room->AddObject(obj, position);
-            } else if(builder::HasFactoryMethod(type_string)) {
-                fprintf(stderr, "Warning: unable to create object of type '%s' from matrix (%d;%d) with args {", 
-                    type_string.c_str(), j, i);
-                for(ArgumentList::const_iterator it = arguments[i][j].begin(); it != arguments[i][j].end(); ++it)
-                    fprintf(stderr, "'%s', ", it->c_str());
-                fprintf(stderr, "}.\n");
-            }
-
-            if(gamemap[i][j]->has_floor()) {
-                ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(position);
-                room->floor()->AddChild(floor);
-            }
+            ++x;
         }
     }
 
