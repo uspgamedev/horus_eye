@@ -1,6 +1,7 @@
 #include "game/map/loader.h"
 
 #include <vector>
+#include <list>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/math/vector2D.h>
@@ -18,6 +19,7 @@ namespace map {
 
 using std::string;
 using std::vector;
+using std::list;
 using ugdk::Vector2D;
 using ugdk::math::Integer2D;
 using ugdk::script::VirtualObj;
@@ -50,6 +52,18 @@ static void parseTags(vector< vector< std::string > >& tags_matrix, VirtualObj v
     }
 }
 
+struct ObjectDescriptor {
+    ObjectDescriptor() {}
+    ObjectDescriptor(const string& _type, const ArgumentList& _arguments,
+                     const Vector2D& _position, const string& _tag)
+                     : type(_type), arguments(_arguments), position(_position), tag(_tag) {}
+
+    string type;
+    ArgumentList arguments;
+    Vector2D position;
+    string tag;
+};
+
 Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
     if(!room_data) return NULL;
@@ -58,6 +72,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
 
     int width = room_data["width"].value<int>();
     int height = room_data["height"].value<int>();
+    std::list<ObjectDescriptor> objects;
     
     vector< vector< ArgumentList > > arguments(height, vector<ArgumentList>(width));
     parseArguments(arguments, room_data["arguments"]);
@@ -126,36 +141,41 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
         }
     }
 
-    VirtualObj::Vector objects;
-    if(room_data["objects"])
-        objects = room_data["objects"].value<VirtualObj::Vector>();
+    if(room_data["objects"]) {
+        VirtualObj::Vector vobj_objects = room_data["objects"].value<VirtualObj::Vector>();
 
-    //ofr object in object list add object hzuzzah
-    for (VirtualObj::Vector::iterator it = objects.begin(); it != objects.end(); ++it ) {
-        VirtualObj::Vector object = it->value<VirtualObj::Vector>();
-        if (object.size() < 3){
-            printf("Warning: not enough arguments in an object in room '%s'\n", name.c_str());
-            continue;
-        }
-        double x = object[0].value<double>();
-        double y = object[1].value<double>();
-        string objecttype = object[2].value<string>();
-        ArgumentList args;
-        if(object.size() >= 4) {
-            VirtualObj::Vector arguments_vobj = object[3].value<VirtualObj::Vector>();
-            for(VirtualObj::Vector::iterator it = arguments_vobj.begin(); it != arguments_vobj.end(); ++it)
-                args.push_back(it->value<std::string>());
-        }
-        sprite::WorldObject* obj = builder::WorldObjectFromTypename(objecttype, args);
-        if(obj) {
+        //ofr object in object list add object hzuzzah
+        for (VirtualObj::Vector::iterator it = vobj_objects.begin(); it != vobj_objects.end(); ++it ) {
+            VirtualObj::Vector object = it->value<VirtualObj::Vector>();
+            if(object.size() < 3 ) {
+                printf("Warning: not enough arguments in an object in room '%s'\n", name.c_str());
+                continue;
+            }
+            ObjectDescriptor descriptor;
+            descriptor.position = Vector2D(object[0].value<double>(), object[1].value<double>());
+            descriptor.type = object[2].value<string>();
+            if(object.size() >= 4) {
+                VirtualObj::Vector arguments_vobj = object[3].value<VirtualObj::Vector>();
+                for(VirtualObj::Vector::iterator it = arguments_vobj.begin(); it != arguments_vobj.end(); ++it)
+                    descriptor.arguments.push_back(it->value<std::string>());
+            }
             if(object.size() >= 5)
-                obj->set_tag(object[4].value<std::string>());
-            room->AddObject(obj, Vector2D(x,y));
-        } else if(builder::HasFactoryMethod(objecttype)) {
+                descriptor.tag = object[4].value<string>();
+            objects.push_back(descriptor);
+        }
+    }
+
+    for(list<ObjectDescriptor>::const_iterator it = objects.begin(); it != objects.end(); ++it) {
+        sprite::WorldObject* obj = builder::WorldObjectFromTypename(it->type, it->arguments);
+        if(obj) {
+            if(!it->tag.empty())
+                obj->set_tag(it->tag);
+            room->AddObject(obj, it->position);
+        } else if(builder::HasFactoryMethod(it->type)) {
             fprintf(stderr, "Warning: unable to create object of type '%s' at (%f;%f) with args {", 
-                objecttype.c_str(), x, y);
-            for(ArgumentList::const_iterator it = args.begin(); it != args.end(); ++it)
-                fprintf(stderr, "'%s', ", it->c_str());
+                it->type.c_str(), it->position.x, it->position.y);
+            for(ArgumentList::const_iterator arg = it->arguments.begin();arg != it->arguments.end(); ++arg)
+                fprintf(stderr, "'%s', ", arg->c_str());
             fprintf(stderr, "}.\n");
         }
     }
