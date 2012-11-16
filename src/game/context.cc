@@ -106,10 +106,7 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
     _internal_AddDamageableComponent(obj, life);
 }
 
-void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
-    World *world = WORLD();
-    if (!world) return;
-    CollisionManager *manager = world->collision_manager();
+static void GetCollidingObjectsRaw(CollisionManager *manager, const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
     if (!manager) return;
     CollisionObject* obj = new CollisionObject(manager, NULL);
 	obj->set_shape(shape);
@@ -124,6 +121,20 @@ void GetCollidingObjects(const string& classname, GeometricShape* shape, const V
 		WorldObject* wobj = static_cast<WorldObject*>(it->second);
 		if (wobj != NULL)	objects_colliding.push_back(wobj);
     }
+}
+
+void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
+    World *world = WORLD();
+    if (!world) return;
+    CollisionManager *manager = world->collision_manager();
+    GetCollidingObjectsRaw(manager, classname, shape, pos, objects_colliding);
+}
+
+void GetCollidingVisibilityObjects(const std::string& classname, pyramidworks::geometry::GeometricShape* shape, const ugdk::Vector2D& pos, std::vector<sprite::WorldObject*> &objects_colliding) {
+    World *world = WORLD();
+    if (!world) return;
+    CollisionManager *manager = world->visibility_manager();
+    GetCollidingObjectsRaw(manager, classname, shape, pos, objects_colliding);
 }
 
 sprite::WorldObject* hero() {

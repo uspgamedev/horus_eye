@@ -13,6 +13,7 @@ class VisionStrategy {
   public:
     std::queue<Vector2D> Calculate(sprite::WorldObject* who);
 
+    bool IsVisible(const ugdk::Vector2D& from, const ugdk::Vector2D& target);
     bool IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& target);
     bool IsVisible(sprite::WorldObject* from);
 

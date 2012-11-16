@@ -3,6 +3,8 @@
 #include <cmath>
 #include <algorithm>
 #include <iostream>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/geometry/convexpolygon.h>
 
 #include "geometryprimitives.h"
 #include "game/scenes/world.h"
@@ -10,6 +12,7 @@
 #include "game/map/room.h"
 #include "game/constants.h"
 #include "game/sprites/worldobject.h"
+#include "game/context.h"
 
 using namespace scene;
 using namespace utils;
@@ -30,6 +33,20 @@ bool wall(char obj){
     return false;
 }
     
+bool VisionStrategy::IsVisible(const ugdk::Vector2D& from, const ugdk::Vector2D& target) {
+    using pyramidworks::collision::CollisionManager;
+    using pyramidworks::geometry::ConvexPolygon;
+    CollisionManager* visman = WORLD()->visibility_manager();
+    std::vector<Vector2D> points(2);
+    points[1] = Vector2D(target - from);
+    ConvexPolygon ray(points);
+
+    // TODO: add support to UGDK to a simple "CHECK IF EXISTS"
+    std::vector<WorldObject*> objects;
+    context::GetCollidingVisibilityObjects("Opaque", &ray, from, objects);
+    return objects.empty();
+}
+    
 bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
     WorldObject* hero = WORLD()->hero();
     if(hero)
@@ -39,38 +56,7 @@ bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
 }
 
 bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& position2) {
-    const GameMap& matrix = from->current_room()->matrix();
-    Vector2D position1 = from->world_position();
-    Vector2D distance = position2 - position1;
-    if(distance.Length() > constants::GetDouble("MUMMY_SIGHT_RANGE"))
-        return false;
-
-    int i_min = std::max(0.,
-                         matrix.size() - position1.y - 1 - constants::GetDouble("MUMMY_SIGHT_RANGE"));
-    int i_max = std::min(static_cast<double>(matrix.size()),
-                         matrix.size() - position1.y - 1 + constants::GetDouble("MUMMY_SIGHT_RANGE"));
-    int j_min = std::max(0., position1.x - constants::GetDouble("MUMMY_SIGHT_RANGE"));
-    for (int i = i_min; i < i_max; i++) {
-        int j_max = std::min(static_cast<double>(matrix[i].size()),
-                             position1.x + constants::GetDouble("MUMMY_SIGHT_RANGE"));
-        for (int j = j_min; j < j_max; j++) {
-            if(solid(matrix[i][j]->object())){
-                double x = static_cast<double>(j);
-                double y = static_cast<double>(matrix.size() - i - 1);
-                
-                Vector2D a = Vector2D(x - 0.5, y - 0.5);
-                Vector2D b = Vector2D(x - 0.5, y + 0.5);
-                Vector2D c = Vector2D(x + 0.5, y + 0.5);
-                Vector2D d = Vector2D(x + 0.5, y - 0.5);
-                if (GPintersect(a, b, position1, position2)) return false;
-                if (GPintersect(b, c, position1, position2)) return false;
-                if (GPintersect(c, d, position1, position2)) return false;
-                if (GPintersect(d, a, position1, position2)) return false;
-            }
-        }
-    }
-
-    return true;
+    return IsVisible(from->world_position(), position2);
 }
 
 #define TO_MATRIX(value) static_cast<int>(value + 0.5)

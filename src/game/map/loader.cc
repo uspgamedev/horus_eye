@@ -1,6 +1,7 @@
 #include "game/map/loader.h"
 
 #include <vector>
+#include <list>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/math/vector2D.h>
@@ -18,14 +19,13 @@ namespace map {
 
 using std::string;
 using std::vector;
+using std::list;
 using ugdk::Vector2D;
 using ugdk::math::Integer2D;
 using ugdk::script::VirtualObj;
 using pyramidworks::collision::CollisionManager;
 
 typedef std::vector<std::string> ArgumentList;
-
-ugdk::graphic::Node* BuildFloor(const ugdk::Vector2D& position);
 
 static void parseArguments(vector< vector< ArgumentList > >& args_matrix, VirtualObj vobj) {
     if(!vobj) return;
@@ -50,27 +50,53 @@ static void parseTags(vector< vector< std::string > >& tags_matrix, VirtualObj v
     }
 }
 
+struct ObjectDescriptor {
+    ObjectDescriptor() {}
+    ObjectDescriptor(const string& _type, const ArgumentList& _arguments,
+                     const Vector2D& _position, const string& _tag)
+                     : type(_type), arguments(_arguments), position(_position), tag(_tag) {}
+
+    string type;
+    ArgumentList arguments;
+    Vector2D position;
+    string tag;
+};
+
 Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
     if(!room_data) return NULL;
 
-    if(!room_data["width"] || !room_data["height"] || !room_data["matrix"]) return NULL;
+    if(!room_data["width"] || !room_data["height"]) return NULL;
 
     int width = room_data["width"].value<int>();
     int height = room_data["height"].value<int>();
+    std::list<ObjectDescriptor> objects;
     
-    vector< vector< ArgumentList > > arguments(height, vector<ArgumentList>(width));
-    parseArguments(arguments, room_data["arguments"]);
+    CollisionManager* collision_manager = WORLD()->collision_manager();
+    
+    if(room_data["collision_classes"]) {
+        VirtualObj::Vector collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
 
-    vector< vector< std::string > > tags(height, vector<string>(width));
-    parseTags(tags, room_data["tags"]);
+        for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
+            VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
+            if (collclass.size() >= 2)
+                collision_manager->Generate(collclass.front().value<string>(), collclass[1].value<string>());
+            else if (collclass.size() >= 1)
+                collision_manager->Generate(collclass.front().value<string>());
+        }
+    }
 
-    std::string matrix = room_data["matrix"].value<std::string>();
+    Room* room = new Room(name, Integer2D(width, height), position);
+    if(room_data["matrix"]) {
+        vector< vector< ArgumentList > > arguments(height, vector<ArgumentList>(width));
+        parseArguments(arguments, room_data["arguments"]);
 
-    GameMap gamemap(height, TileRow(width));
-    {
+        vector< vector< std::string > > tags(height, vector<string>(width));
+        parseTags(tags, room_data["tags"]);
+
+        string matrix = room_data["matrix"].value<std::string>();
         int y = 0, x = 0;
-        for(std::string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
+        for(string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
             if(*it == '\n') {
                 //TODO if(x != width) { } (tratar erro?)
                 x = 0;
@@ -78,84 +104,56 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
                 if(y == height) break;
                 continue;
             }
-            gamemap[y][x] = new Tile(y, x, *it);
+            {
+                Tile tile(y, x, *it);
+                ObjectDescriptor descriptor(string(1, tile.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
+                objects.push_back(descriptor);
+
+                if(tile.has_floor()) {
+                    ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(descriptor.position);
+                    room->floor()->AddChild(floor);
+                }
+            }
+
             ++x;
         }
     }
 
-    CollisionManager* collision_manager = WORLD()->collision_manager();
-    
-    VirtualObj::Vector collision_classes;
-    if(room_data["collision_classes"])
-        collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
+    if(room_data["objects"]) {
+        VirtualObj::Vector vobj_objects = room_data["objects"].value<VirtualObj::Vector>();
 
-    for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
-        VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
-        if (collclass.size() >= 2)
-            collision_manager->Generate(collclass.front().value<string>(), collclass[1].value<string>());
-        else if (collclass.size() >= 1)
-            collision_manager->Generate(collclass.front().value<string>());
-    }
-
-    Room* room = new Room(name, Integer2D(width, height), position, gamemap);
-    for (int i = 0; i < (int)gamemap.size(); ++i) {
-        for (int j = 0; j < (int)gamemap[i].size(); ++j) {
-            if(gamemap[i][j] == NULL) {
-                gamemap[i][j] = new Tile(i, j);
+        //ofr object in object list add object hzuzzah
+        for (VirtualObj::Vector::iterator it = vobj_objects.begin(); it != vobj_objects.end(); ++it ) {
+            VirtualObj::Vector object = it->value<VirtualObj::Vector>();
+            if(object.size() < 3 ) {
+                printf("Warning: not enough arguments in an object in room '%s'\n", name.c_str());
+                continue;
             }
-
-            Vector2D position((double) j, (double) i);
-
-            std::string type_string(1, gamemap[i][j]->object());
-            sprite::WorldObject* obj = builder::WorldObjectFromTypename(type_string, arguments[i][j]);
-            if(obj) {
-                obj->set_tag(tags[i][j]);
-                room->AddObject(obj, position);
-            } else if(builder::HasFactoryMethod(type_string)) {
-                fprintf(stderr, "Warning: unable to create object of type '%s' from matrix (%d;%d) with args {", 
-                    type_string.c_str(), j, i);
-                for(ArgumentList::const_iterator it = arguments[i][j].begin(); it != arguments[i][j].end(); ++it)
-                    fprintf(stderr, "'%s', ", it->c_str());
-                fprintf(stderr, "}.\n");
+            ObjectDescriptor descriptor;
+            descriptor.position = Vector2D(object[0].value<double>(), object[1].value<double>());
+            descriptor.type = object[2].value<string>();
+            if(object.size() >= 4) {
+                VirtualObj::Vector arguments_vobj = object[3].value<VirtualObj::Vector>();
+                for(VirtualObj::Vector::iterator it = arguments_vobj.begin(); it != arguments_vobj.end(); ++it)
+                    descriptor.arguments.push_back(it->value<std::string>());
             }
-
-            if(gamemap[i][j]->has_floor()) {
-                ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(position);
-                room->floor()->AddChild(floor);
-            }
-        }
-    }
-
-    VirtualObj::Vector objects;
-    if(room_data["objects"])
-        objects = room_data["objects"].value<VirtualObj::Vector>();
-
-    //ofr object in object list add object hzuzzah
-    for (VirtualObj::Vector::iterator it = objects.begin(); it != objects.end(); ++it ) {
-        VirtualObj::Vector object = it->value<VirtualObj::Vector>();
-        if (object.size() < 3){
-            printf("Warning: not enough arguments in an object in room '%s'\n", name.c_str());
-            continue;
-        }
-        double x = object[0].value<double>();
-        double y = object[1].value<double>();
-        string objecttype = object[2].value<string>();
-        ArgumentList args;
-        if(object.size() >= 4) {
-            VirtualObj::Vector arguments_vobj = object[3].value<VirtualObj::Vector>();
-            for(VirtualObj::Vector::iterator it = arguments_vobj.begin(); it != arguments_vobj.end(); ++it)
-                args.push_back(it->value<std::string>());
-        }
-        sprite::WorldObject* obj = builder::WorldObjectFromTypename(objecttype, args);
-        if(obj) {
             if(object.size() >= 5)
-                obj->set_tag(object[4].value<std::string>());
-            room->AddObject(obj, Vector2D(x,y));
-        } else if(builder::HasFactoryMethod(objecttype)) {
+                descriptor.tag = object[4].value<string>();
+            objects.push_back(descriptor);
+        }
+    }
+
+    for(list<ObjectDescriptor>::const_iterator it = objects.begin(); it != objects.end(); ++it) {
+        sprite::WorldObject* obj = builder::WorldObjectFromTypename(it->type, it->arguments);
+        if(obj) {
+            if(!it->tag.empty())
+                obj->set_tag(it->tag);
+            room->AddObject(obj, it->position);
+        } else if(builder::HasFactoryMethod(it->type)) {
             fprintf(stderr, "Warning: unable to create object of type '%s' at (%f;%f) with args {", 
-                objecttype.c_str(), x, y);
-            for(ArgumentList::const_iterator it = args.begin(); it != args.end(); ++it)
-                fprintf(stderr, "'%s', ", it->c_str());
+                it->type.c_str(), it->position.x, it->position.y);
+            for(ArgumentList::const_iterator arg = it->arguments.begin();arg != it->arguments.end(); ++arg)
+                fprintf(stderr, "'%s', ", arg->c_str());
             fprintf(stderr, "}.\n");
         }
     }

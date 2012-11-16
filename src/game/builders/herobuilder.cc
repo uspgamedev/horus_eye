@@ -75,7 +75,7 @@ sprite::WorldObject* HeroBuilder::Kha() {
 #ifdef DEBUG
     caster->LearnAndEquipSkill("sandstorm", component::Controller::SPECIAL1);
 #endif
-    /*int id;
+    int id;
     player_controller->AddSkill(id = caster->LearnSkill("fireball"));
     player_controller->AddSkill(caster->LearnSkill("quake"));
     player_controller->AddSkill(caster->LearnSkill("lightning"));
@@ -83,7 +83,6 @@ sprite::WorldObject* HeroBuilder::Kha() {
     player_controller->AddSkill(caster->LearnSkill("meteor"));
     caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
-    */
     return hero_wobj;
 }
 
