@@ -27,8 +27,6 @@ using pyramidworks::collision::CollisionManager;
 
 typedef std::vector<std::string> ArgumentList;
 
-ugdk::graphic::Node* BuildFloor(const ugdk::Vector2D& position);
-
 static void parseArguments(vector< vector< ArgumentList > >& args_matrix, VirtualObj vobj) {
     if(!vobj) return;
     VirtualObj::Vector arguments = vobj.value<VirtualObj::Vector>();
@@ -68,36 +66,34 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
     if(!room_data) return NULL;
 
-    if(!room_data["width"] || !room_data["height"] || !room_data["matrix"]) return NULL;
+    if(!room_data["width"] || !room_data["height"]) return NULL;
 
     int width = room_data["width"].value<int>();
     int height = room_data["height"].value<int>();
     std::list<ObjectDescriptor> objects;
     
-    vector< vector< ArgumentList > > arguments(height, vector<ArgumentList>(width));
-    parseArguments(arguments, room_data["arguments"]);
-
-    vector< vector< std::string > > tags(height, vector<string>(width));
-    parseTags(tags, room_data["tags"]);
-
-
-
     CollisionManager* collision_manager = WORLD()->collision_manager();
     
-    VirtualObj::Vector collision_classes;
-    if(room_data["collision_classes"])
-        collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
+    if(room_data["collision_classes"]) {
+        VirtualObj::Vector collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
 
-    for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
-        VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
-        if (collclass.size() >= 2)
-            collision_manager->Generate(collclass.front().value<string>(), collclass[1].value<string>());
-        else if (collclass.size() >= 1)
-            collision_manager->Generate(collclass.front().value<string>());
+        for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
+            VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
+            if (collclass.size() >= 2)
+                collision_manager->Generate(collclass.front().value<string>(), collclass[1].value<string>());
+            else if (collclass.size() >= 1)
+                collision_manager->Generate(collclass.front().value<string>());
+        }
     }
 
     Room* room = new Room(name, Integer2D(width, height), position);
-    {
+    if(room_data["matrix"]) {
+        vector< vector< ArgumentList > > arguments(height, vector<ArgumentList>(width));
+        parseArguments(arguments, room_data["arguments"]);
+
+        vector< vector< std::string > > tags(height, vector<string>(width));
+        parseTags(tags, room_data["tags"]);
+
         string matrix = room_data["matrix"].value<std::string>();
         int y = 0, x = 0;
         for(string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
@@ -109,10 +105,11 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
                 continue;
             }
             {
-                Tile t(y, x, *it);
-                ObjectDescriptor descriptor(string(1, t.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
+                Tile tile(y, x, *it);
+                ObjectDescriptor descriptor(string(1, tile.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
                 objects.push_back(descriptor);
-                if(t.has_floor()) {
+
+                if(tile.has_floor()) {
                     ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(descriptor.position);
                     room->floor()->AddChild(floor);
                 }
