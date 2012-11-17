@@ -73,6 +73,8 @@ SET(GAME_SRCS
     ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
+    ./game/components/shape.cc 
+    ./game/components/shape.h 
     ./game/components/statecontroller.h 
     ./game/components/walker.cc 
     ./game/components/walker.h 

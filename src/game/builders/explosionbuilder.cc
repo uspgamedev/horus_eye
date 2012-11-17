@@ -17,6 +17,7 @@
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/logic/follower.h"
+#include "game/components/shape.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
 #include "game/constants.h"
@@ -30,8 +31,8 @@ using ugdk::action::AnimationSet;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
 using pyramidworks::collision::CollisionObject;
-using component::Creature;
 using component::Follower;
+using component::Shape;
 using sprite::WorldObject;
 
 COLLISION_DIRECT(double, ExplosionCollision, obj) {
@@ -51,7 +52,7 @@ static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Explosion");
-    wobj->set_collision_object(col);
+    wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;
 }
@@ -63,7 +64,7 @@ WorldObject* ExplosionBuilder::FireballExplosion() {
     wobj->graphic()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
     wobj->graphic()->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
 
-    CollisionObject* col = wobj->collision_object();
+    CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
     col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
 
@@ -76,7 +77,7 @@ WorldObject* ExplosionBuilder::EarthquakeExplosion() {
 
     wobj->graphic()->ChangeLightRadius(1.3* constants::GetDouble("QUAKE_EXPLOSION_RADIUS"));
 
-    CollisionObject* col = wobj->collision_object();
+    CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("QUAKE_EXPLOSION_DAMAGE")));
     col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("QUAKE_EXPLOSION_RADIUS")));
 
@@ -91,7 +92,7 @@ WorldObject* ExplosionBuilder::MeteorExplosion() {
     wobj->node()->modifier()->set_scale(Vector2D(explosion_fireball_ratio));
     //explosion->set_hotspot(explosion->hotspot() * explosion_fireball_ratio); Oh noes TODO fix hotspot
 
-    CollisionObject* col = wobj->collision_object();
+    CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("METEOR_EXPLOSION_DAMAGE")));
     col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("METEOR_EXPLOSION_RADIUS")));
 

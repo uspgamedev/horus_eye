@@ -20,6 +20,7 @@
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
 #include "game/components/statecontroller.h"
+#include "game/components/shape.h"
 #include "game/utils/imagefactory.h"
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
@@ -33,6 +34,7 @@ using namespace sprite;
 using component::Walker;
 using component::StateController;
 using component::Animation;
+using component::Shape;
 using ugdk::base::ResourceManager;
 using ugdk::Vector2D;
 using utils::IsometricAnimationSet;
@@ -94,8 +96,8 @@ static CollisionObject* buildCollisionObject(WorldObject* wobj) {
 
 static WorldObject* buildObject(double duration, double radius) {
     WorldObject* wobj = new WorldObject(duration);
-    wobj->set_collision_object(buildCollisionObject(wobj));
-    wobj->set_shape(new pyramidworks::geometry::Circle(radius));
+    wobj->AddComponent(new Shape(buildCollisionObject(wobj), NULL));
+    wobj->shape()->collision()->set_shape(new pyramidworks::geometry::Circle(radius));
     return wobj;
 }
 
@@ -118,7 +120,7 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
     struct ObjectAndDamage data(wobj, constants::GetInt("PROJECTILE_DAMAGE"));
-    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
+    wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
     return wobj;
 }
 
@@ -131,8 +133,8 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
     struct ObjectAndDamage data(wobj, constants::GetInt("PROJECTILE_DAMAGE"));
-    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
-    wobj->collision_object()->AddCollisionLogic("Wall", new BounceCollision(wobj));
+    wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
+    wobj->shape()->collision()->AddCollisionLogic("Wall", new BounceCollision(wobj));
     return wobj;
 }
 /***/
@@ -145,7 +147,7 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, doubl
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
     struct ObjectAndDamage data(wobj, damage);
-    wobj->collision_object()->AddCollisionLogic("Hero", new DamageAndDieCollision(data));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", new DamageAndDieCollision(data));
 
     return wobj;
 }
@@ -159,7 +161,7 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
     wobj->graphic()->ChangeLightRadius(1.0);
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("LIGHTNING_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
-    wobj->collision_object()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetInt("LIGHTNING_DAMAGE")));
+    wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetInt("LIGHTNING_DAMAGE")));
 
     return wobj;
 }
@@ -180,7 +182,7 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     wobj->AddComponent(new Walker(wobj, constants::GetDouble("FIREBALL_SPEED")));
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
 
-    wobj->collision_object()->AddCollisionLogic("Mummy", new DieCollision(wobj));
+    wobj->shape()->collision()->AddCollisionLogic("Mummy", new DieCollision(wobj));
     return wobj;
 }
 

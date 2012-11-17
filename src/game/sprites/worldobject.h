@@ -53,17 +53,6 @@ class WorldObject : public ::ugdk::action::Entity {
     Status status() const { return status_; }
     bool is_active() const { return status_ == STATUS_ACTIVE; }
 
-
-    void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
-          pyramidworks::collision::CollisionObject* collision_object()       { return collision_object_; }
-    const pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
-    
-    void set_visibility_object(pyramidworks::collision::CollisionObject* col) { visibility_object_ = col; }
-          pyramidworks::collision::CollisionObject* visibility_object()       { return visibility_object_; }
-    const pyramidworks::collision::CollisionObject* visibility_object() const { return visibility_object_; }
-
-    void set_shape(pyramidworks::geometry::GeometricShape* shape);
-
           ugdk::graphic::Node* node();
     const ugdk::graphic::Node* node() const;
 
@@ -87,6 +76,7 @@ class WorldObject : public ::ugdk::action::Entity {
     component::Graphic* graphic();
     component::Controller* controller();
     component::Caster* caster();
+    component::Shape* shape();
 
     /// Gets a component with the requested type with the given name.
     /**
@@ -172,9 +162,6 @@ class WorldObject : public ::ugdk::action::Entity {
     std::string identifier_;
 
     // Collision component
-    pyramidworks::collision::CollisionObject *collision_object_;
-    
-    pyramidworks::collision::CollisionObject *visibility_object_;
 
     // 
     ugdk::time::TimeAccumulator* timed_life_;

@@ -9,6 +9,7 @@
 
 #include "game/components/graphic.h"
 #include "game/components/damageable.h"
+#include "game/components/shape.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 
@@ -68,7 +69,7 @@ static void create_collision(WorldObject* wobj, VirtualObj coldata) {
     }
 
     CollisionObject* colobj = new CollisionObject(WORLD()->collision_manager(), wobj);
-    wobj->set_collision_object(colobj);
+    wobj->AddComponent(new component::Shape(colobj, NULL));
 
     colobj->InitializeCollisionClass(coldata["class"].value<std::string>());
     colobj->set_shape(shape);

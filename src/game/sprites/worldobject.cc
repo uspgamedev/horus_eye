@@ -16,6 +16,7 @@
 #include "game/components/damageable.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
+#include "game/components/shape.h"
 
 
 namespace sprite {
@@ -34,8 +35,6 @@ WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _orde
 
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
-        collision_object_(NULL),
-        visibility_object_(NULL),
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
         current_room_(NULL),
@@ -48,8 +47,6 @@ WorldObject::WorldObject(double duration)
 }
 
 WorldObject::~WorldObject() {
-    delete collision_object_;
-    delete visibility_object_;
     delete timed_life_;
     for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
         delete it->component;
@@ -61,12 +58,11 @@ void WorldObject::Die() {
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
     if(on_die_callback_) on_die_callback_(this);
-    if(visibility_object_) visibility_object_->StopColliding();
 }
 
 void WorldObject::StartToDie() {
     status_ = STATUS_DYING;
-    if(collision_object_) collision_object_->StopColliding();
+    if(shape()) shape()->Deactivate();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
     if(!HasComponent("animation")) Die();
 }
@@ -82,16 +78,11 @@ void WorldObject::Update(double dt) {
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
-   if(collision_object_) collision_object_->MoveTo(pos);
-   if(visibility_object_) visibility_object_->MoveTo(pos);
+   if(shape()) shape()->ChangePosition(pos);
 
    Vector2D position = World::FromWorldCoordinates(world_position_);
    graphic()->node()->modifier()->set_offset(position);
    graphic()->node()->set_zindex(position.y);
-}
-
-void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
-    collision_object_->set_shape(shape);
 }
 
 ugdk::graphic::Node* WorldObject::node() { 
@@ -109,10 +100,7 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnRoomAdd(map::Room* room) {
-    if(collision_object())
-        collision_object()->StartColliding();
-    if(visibility_object_)
-        visibility_object_->StartColliding();
+    if(shape()) shape()->Activate();
     current_room_ = room;
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);
@@ -159,5 +147,6 @@ component::Damageable* WorldObject::damageable() { return component<component::D
 component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
+component::Shape* WorldObject::shape() { return component<component::Shape>(); }
 
 }  // namespace sprite

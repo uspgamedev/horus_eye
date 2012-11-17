@@ -14,6 +14,7 @@
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
+#include "game/components/shape.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/itemevent.h"
@@ -34,9 +35,7 @@ namespace ItemBuilder {
 
 using namespace utils;
 using sprite::WorldObject;
-using component::Creature;
 using component::Caster;
-using component::Hero;
 //using sprite::Follower;
 using sprite::Condition;
 using pyramidworks::collision::CollisionObject;
@@ -84,7 +83,7 @@ WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
     col->InitializeCollisionClass("Item");
     col->set_shape(new pyramidworks::geometry::Circle(0.15));
 
-    wobj->set_collision_object(col);
+    wobj->AddComponent(new component::Shape(col, NULL));
     return wobj;
 }
 
@@ -164,28 +163,28 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
 WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.LifePotionImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE"))));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE"))));
     return wobj;
 }
 
 WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA"))));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA"))));
     return wobj;
 }
 
 WorldObject* SightPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.SightPotionImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent(constants::GetDouble("SIGHT_POTION_INCREASE"))));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent(constants::GetDouble("SIGHT_POTION_INCREASE"))));
     return wobj;
 }
 
 WorldObject* BlueGem(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.BlueGemImage());
-    wobj->collision_object()->AddCollisionLogic("Hero", CreateItemUse(wobj, new BlueGemShieldEvent));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new BlueGemShieldEvent));
     return wobj;
 }
 

@@ -23,6 +23,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
+#include "game/components/shape.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 
@@ -34,7 +35,6 @@ using namespace utils;
 using ugdk::action::GenericTask;
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
-using component::Hero;
 using pyramidworks::collision::CollisionInstance;
 
 bool VerifyCheats(double delta_t) {
@@ -160,7 +160,7 @@ void World::End() {
 
     if(hero_ != NULL) {
         //hero_->Invulnerable(0);
-        hero_->collision_object()->StopColliding();
+        hero_->shape()->Deactivate();
         this->RemoveEntity(hero_);
         layer_node(hero_->layer())->RemoveChild(hero_->node());
         hero_ = NULL;

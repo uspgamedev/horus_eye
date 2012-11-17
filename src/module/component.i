@@ -19,6 +19,7 @@
 #include <game/components/animation.h>
 #include <game/components/direction.h>
 #include <game/components/caster.h>
+#include <game/components/shape.h>
 
 #include <ugdk/script/baseproxy.h>
 #include <module/component/baseproxy.h>
@@ -75,6 +76,7 @@ disable_disown(component::Base* component)
 %include <game/components/controller.h>
 %include <game/components/animation.h>
 %include <game/components/caster.h>
+%include <game/components/shape.h>
 
 namespace sprite {
     export_class(WorldObject)
@@ -89,6 +91,7 @@ namespace component {
     export_class(Controller)
     export_class(Animation)
     export_class(Caster)
+    export_class(Shape)
 }
 
 confirm_exports(component)

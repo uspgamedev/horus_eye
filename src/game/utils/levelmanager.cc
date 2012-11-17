@@ -35,7 +35,6 @@ using namespace ugdk;
 using namespace ugdk::action;
 using namespace scene;
 using namespace sprite;
-using component::Creature;
 
 using std::string;
 using std::ifstream;
