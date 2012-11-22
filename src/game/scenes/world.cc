@@ -23,6 +23,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
+#include "game/components/graphic.h"
 #include "game/components/shape.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
@@ -158,14 +159,6 @@ void World::End() {
     delete hud_;
     hud_ = NULL;
 
-    if(hero_ != NULL) {
-        //hero_->Invulnerable(0);
-        hero_->shape()->Deactivate();
-        this->RemoveEntity(hero_);
-        layer_node(hero_->layer())->RemoveChild(hero_->node());
-        hero_ = NULL;
-    }
-
     RemoveAllEntities();
     removeAllRooms();
 }
@@ -240,7 +233,8 @@ void World::ActivateRoom(const std::string& name) {
         active_rooms_.push_back(room);
         layer_node(BACKGROUND_LAYER)->AddChild(room->floor());
         for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            layer_node((*it)->layer())->AddChild((*it)->node());
+            if((*it)->graphic())
+                (*it)->graphic()->InsertIntoLayers(layers());
     }
 }
 
@@ -250,7 +244,8 @@ void World::DeactivateRoom(const std::string& name) {
         active_rooms_.remove(room);
         layer_node(BACKGROUND_LAYER)->RemoveChild(room->floor());
         for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            layer_node((*it)->layer())->RemoveChild((*it)->node());
+            if((*it)->graphic())
+                (*it)->graphic()->RemoveFromLayers(layers());
     }
 }
 

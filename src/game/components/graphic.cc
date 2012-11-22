@@ -15,6 +15,7 @@ using ugdk::Vector2D;
 
 Graphic::Graphic(sprite::WorldObject* owner)
   : node_(new ugdk::graphic::Node),
+    layer_(scene::FOREGROUND_LAYER),
     owner_(owner),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
@@ -63,7 +64,16 @@ void Graphic::StopBlinking() {
     node()->modifier()->set_color(c);
 }
 
-void Graphic::AdjustBlink() {
+void Graphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
+    layers[0]->AddChild(node());
+    //layer_node((*it)->layer())->AddChild((*it)->node());
+}
+
+void Graphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
+    layers[0]->RemoveChild(node());
+}
+
+void Graphic::adjustBlink() {
     if(is_blinking_ && !blink_duration_->IsPaused() && blink_duration_->Expired())
         StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {

@@ -82,6 +82,10 @@ class World : public ugdk::action::Scene {
     //setters
     void set_size(const ugdk::math::Integer2D& _size) { size_ = _size; }
 
+    ugdk::graphic::Node** layers() {
+        return layers_;
+    }
+
     ugdk::graphic::Node* layer_node(GameLayer layer) { 
         return layers_[layer];
     }

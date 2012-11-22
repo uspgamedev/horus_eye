@@ -20,6 +20,7 @@
 #include "game/components/shape.h"
 #include "game/components/logic/follower.h"
 #include "game/components/logic/wall.h"
+#include "game/components/graphic.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
@@ -143,7 +144,7 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
 
     wobj->node()->set_drawable(sprite);
     wobj->AddComponent(logic, "button", component::orders::LOGIC);
-    wobj->set_layer(scene::BACKGROUND_LAYER);
+    wobj->graphic()->set_layer(scene::BACKGROUND_LAYER);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Button");

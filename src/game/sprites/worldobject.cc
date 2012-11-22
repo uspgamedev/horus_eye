@@ -38,7 +38,6 @@ WorldObject::WorldObject(double duration)
         timed_life_(NULL),
         status_(STATUS_ACTIVE),
         current_room_(NULL),
-        layer_(scene::FOREGROUND_LAYER),
         sight_count_(0) {
     if(duration > 0.0)
         this->set_timed_life(duration);

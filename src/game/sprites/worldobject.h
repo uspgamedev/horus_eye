@@ -147,9 +147,6 @@ class WorldObject : public ::ugdk::action::Entity {
     */
     void RemoveComponent(const std::string& name);
 
-    void set_layer(scene::GameLayer layer) { layer_ = layer; }
-    scene::GameLayer layer() const { return layer_; }
-
     bool AddCondition(Condition* new_condition);
     void UpdateCondition(double dt);
 
@@ -181,8 +178,6 @@ class WorldObject : public ::ugdk::action::Entity {
 
     // The current status for the object.
     Status status_;
-
-    scene::GameLayer layer_;
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;
