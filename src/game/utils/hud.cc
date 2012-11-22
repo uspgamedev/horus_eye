@@ -112,11 +112,13 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     life_bar_container->modifier()->set_offset(Vector2D(0.0, VIDEO_Y - back_left_image->height()));
     life_bar_container->set_zindex(-0.5);
     node_->AddChild(life_bar_container);
+    life_bar_ = life_bar_container;
 
     Node* mana_bar_container = new Node;
     mana_bar_container->modifier()->set_offset(Vector2D(VIDEO_X - TOTEM_WIDTH, VIDEO_Y - back_right_image->height()));
     mana_bar_container->set_zindex(-0.5);
     node_->AddChild(mana_bar_container);
+    mana_bar_ = mana_bar_container;
 
     TexturedRectangle *life_bar_image = img_fac.LifeBarImage();
     TexturedRectangle *mana_bar_image = img_fac.ManaBarImage();
@@ -182,24 +184,26 @@ void Hud::Update(double delta_t) {
 #endif
 
     sprite::WorldObject* hero = world->hero();
-    if(hero && hero->damageable() && hero->caster()) {
-        // Update the Selected weapon icon
-        if(displayed_skill_ != hero->caster()->SkillAt(Controller::SECONDARY)) {
-            displayed_skill_ = hero->caster()->SkillAt(Controller::SECONDARY);
-            
-            weapon_icon_->set_drawable(displayed_skill_->icon());
-            if(displayed_skill_->icon() != NULL)
-                displayed_skill_->icon()->set_hotspot(Drawable::CENTER);
-        }
-
-        
+    if(hero) {
         // Life Bar
-        life_modifier_->set_offset(Vector2D(0.0, -(((double) hero->damageable()->life()) / hero->damageable()->life().max_value()) * LIFE_BAR_HEIGHT) );
-        
-        // Mana Bar
-        mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana()) / hero->caster()->FullMana()) * MANA_BAR_HEIGHT) );
+        if(hero->damageable())
+            life_modifier_->set_offset(Vector2D(0.0, -(((double) hero->damageable()->life()) / hero->damageable()->life().max_value()) * LIFE_BAR_HEIGHT) );
+        life_bar_->modifier()->set_visible(hero->damageable() != NULL);
 
-        block_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana_blocks().Get()) / hero->caster()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+        if(hero->caster()) {
+            // Update the Selected weapon icon
+            if(displayed_skill_ != hero->caster()->SkillAt(Controller::SECONDARY)) {
+                displayed_skill_ = hero->caster()->SkillAt(Controller::SECONDARY);
+                
+                weapon_icon_->set_drawable(displayed_skill_->icon());
+                if(displayed_skill_->icon() != NULL)
+                    displayed_skill_->icon()->set_hotspot(Drawable::CENTER);
+            }
+            // Mana Bar
+            mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana()) / hero->caster()->FullMana()) * MANA_BAR_HEIGHT) );
+            block_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana_blocks().Get()) / hero->caster()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+        }
+        mana_bar_->modifier()->set_visible(hero->caster() != NULL);
     }
 }
 
