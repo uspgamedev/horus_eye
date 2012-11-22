@@ -17,7 +17,7 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->base()->owner();
 	
     //if (!owner->component<component::Animation>()->CanInterrupt() ) return AIModule::DORMANT;
-    if (!owner->is_active() ) return AIModule::DORMANT;
+    if (owner->dead()) return AIModule::DORMANT;
 
     if (detector_identifier_.size() <= 0) {
         return AIModule::DORMANT;

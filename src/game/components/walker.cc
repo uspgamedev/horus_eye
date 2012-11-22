@@ -48,7 +48,7 @@ Walker::~Walker() {}
 // ============= other stuff
 
 void Walker::Update(double dt) {
-    if(owner_->is_active()) {
+    if(!owner_->dead()) {
         component::Controller* controller = owner_->controller();
         component::Animation* animation = owner_->component<Animation>();
 

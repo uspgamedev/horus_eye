@@ -29,12 +29,6 @@ class WorldObject : public ::ugdk::action::Entity {
     WorldObject(double duration = -1.0);
     ~WorldObject();
 
-    /** An WorldObject may be one of three states:
-      * STATUS_ACTIVE: this object is operating normally.
-      * STATUS_DYING:  this object is dying and should be ready to die soon.
-      * STATUS_DEAD:   this object is dead and will be deleted at the end of the frame. */
-    enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
-
     // The BIG Awesome update method. TODO explain better
     void Update(double dt);
 
@@ -50,8 +44,7 @@ class WorldObject : public ::ugdk::action::Entity {
     const ugdk::Vector2D& world_position() const { return world_position_; }
     void set_world_position(const ugdk::Vector2D& pos);
 
-    Status status() const { return status_; }
-    bool is_active() const { return status_ == STATUS_ACTIVE; }
+    bool dead() const { return dead_; }
 
           ugdk::graphic::Node* node();
     const ugdk::graphic::Node* node() const;
@@ -155,29 +148,29 @@ class WorldObject : public ::ugdk::action::Entity {
 
     map::Room* current_room() const { return current_room_; }
 
-  protected:
-    std::string identifier_;
-
-    // Collision component
-
-    // 
-    ugdk::time::TimeAccumulator* timed_life_;
-
+  private:
     // TODO: make this somethintg
     std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
     std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
     std::tr1::function<void (WorldObject*)> on_die_callback_;
 
-  private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::Vector2D world_position_;
 
+    /// A tag used for searching for the object.
     std::string tag_;
 
+    /// Internal identifier. Debugging purposes.
+    std::string identifier_;
+
+    /// The room this object is currently in. (In practice, the room it was created in.)
     map::Room* current_room_;
 
-    // The current status for the object.
-    Status status_;
+    // 
+    ugdk::time::TimeAccumulator* timed_life_;
+
+    /// Is this object dead?
+    bool dead_;
 
     // The conditions currently affecting this creature.
     std::list<Condition*> conditions_;

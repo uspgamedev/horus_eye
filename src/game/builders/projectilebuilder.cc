@@ -82,7 +82,7 @@ COLLISION_DIRECT(double, DamageCollision, obj) {
 
 COLLISION_DIRECT(struct ObjectAndDamage, DamageAndDieCollision, obj) {
     WorldObject *wobj = static_cast<WorldObject*>(obj);
-    if (data_.obj->is_active())
+    if (!data_.obj->dead())
         wobj->damageable()->TakeDamage(data_.damage);
     data_.obj->StartToDie();
 }

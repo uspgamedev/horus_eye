@@ -35,9 +35,9 @@ WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _orde
 
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
-        timed_life_(NULL),
-        status_(STATUS_ACTIVE),
         current_room_(NULL),
+        timed_life_(NULL),
+        dead_(false),
         sight_count_(0) {
     if(duration > 0.0)
         this->set_timed_life(duration);
@@ -53,14 +53,14 @@ WorldObject::~WorldObject() {
 
 void WorldObject::Die() {
     node()->modifier()->set_visible(false);
-    status_ = STATUS_DEAD;
+    dead_ = true;
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
     if(on_die_callback_) on_die_callback_(this);
 }
 
 void WorldObject::StartToDie() {
-    status_ = STATUS_DYING;
+    dead_ = true;
     if(shape()) shape()->Deactivate();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
     if(!HasComponent("animation")) Die();
