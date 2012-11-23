@@ -9,9 +9,7 @@ class Animation;
 class Damageable;
 class Caster;
 class Graphic;
-class Logic;
-class Creature;
-class Hero;
+class Shape;
 
 class Controller;
 class PlayerController;

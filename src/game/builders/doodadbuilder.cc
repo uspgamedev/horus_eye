@@ -17,8 +17,10 @@
 
 #include "game/components/damageable.h"
 #include "game/components/base.h"
+#include "game/components/shape.h"
 #include "game/components/logic/follower.h"
 #include "game/components/logic/wall.h"
+#include "game/components/graphic.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
@@ -37,8 +39,8 @@ using ugdk::graphic::Node;
 using ugdk::time::TimeAccumulator;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::GenericCollisionLogic;
-using component::Creature;
 using component::Follower;
+using component::Shape;
 using sprite::WorldObject;
 
 COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
@@ -58,7 +60,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
     col->InitializeCollisionClass("Wall");
     col->AddCollisionLogic("Hero", new GenericCollisionLogic(WinCollision));
     col->set_shape(new pyramidworks::geometry::Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
-    wobj->set_collision_object(col);
+    wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;
 }
@@ -71,12 +73,12 @@ static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
     col->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
-    wobj->set_collision_object(col);
     
     CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
     vis->InitializeCollisionClass("Opaque");
     vis->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
-    wobj->set_visibility_object(vis);
+
+    wobj->AddComponent(new Shape(col, vis));
     return wobj;
 }
 
@@ -142,14 +144,14 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
 
     wobj->node()->set_drawable(sprite);
     wobj->AddComponent(logic, "button", component::orders::LOGIC);
-    wobj->set_layer(scene::BACKGROUND_LAYER);
+    wobj->graphic()->set_layer(scene::BACKGROUND_LAYER);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Button");
     col->AddCollisionLogic("Hero", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
     col->AddCollisionLogic("Block", new GenericCollisionLogic(bind(CollisionButton, logic, _1)));
     col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
-    wobj->set_collision_object(col);
+    wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;
 }
@@ -231,7 +233,7 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     col->AddCollisionLogic("Projectile", new GenericCollisionLogic(bind(PushOnCollision, logic, _1)));
     col->AddCollisionLogic("Wall", new GenericCollisionLogic(bind(InvalidMovementCollision, logic, _1)));
     col->set_shape(new pyramidworks::geometry::Rect(0.75, 0.75));
-    wobj->set_collision_object(col);
+    wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;
 }

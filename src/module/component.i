@@ -9,7 +9,7 @@
 
 %{
 
-#include <game/sprites/condition.h>
+#include <game/sprites/effect.h>
 #include <game/sprites/worldobject.h>
 #include <game/resources/energy.h>
 #include <game/components/base.h>
@@ -19,6 +19,8 @@
 #include <game/components/animation.h>
 #include <game/components/direction.h>
 #include <game/components/caster.h>
+#include <game/components/shape.h>
+#include <game/components/condition.h>
 
 #include <ugdk/script/baseproxy.h>
 #include <module/component/baseproxy.h>
@@ -39,7 +41,7 @@ proxy_class(component::Base)
 enable_disown(pyramidworks::collision::CollisionObject* col)
 enable_disown(component::Base* component)
 
-%include <game/sprites/condition.h>
+%include <game/sprites/effect.h>
 %include <game/sprites/worldobject.h>
 
 disable_disown(pyramidworks::collision::CollisionObject* col)
@@ -75,10 +77,12 @@ disable_disown(component::Base* component)
 %include <game/components/controller.h>
 %include <game/components/animation.h>
 %include <game/components/caster.h>
+%include <game/components/shape.h>
+%include <game/components/condition.h>
 
 namespace sprite {
     export_class(WorldObject)
-    export_class(Condition)
+    export_class(Effect)
 }
 
 namespace component {
@@ -89,6 +93,8 @@ namespace component {
     export_class(Controller)
     export_class(Animation)
     export_class(Caster)
+    export_class(Shape)
+	export_class(Condition)
 }
 
 confirm_exports(component)

@@ -29,12 +29,6 @@ class WorldObject : public ::ugdk::action::Entity {
     WorldObject(double duration = -1.0);
     ~WorldObject();
 
-    /** An WorldObject may be one of three states:
-      * STATUS_ACTIVE: this object is operating normally.
-      * STATUS_DYING:  this object is dying and should be ready to die soon.
-      * STATUS_DEAD:   this object is dead and will be deleted at the end of the frame. */
-    enum Status { STATUS_ACTIVE, STATUS_DYING, STATUS_DEAD };
-
     // The BIG Awesome update method. TODO explain better
     void Update(double dt);
 
@@ -50,29 +44,12 @@ class WorldObject : public ::ugdk::action::Entity {
     const ugdk::Vector2D& world_position() const { return world_position_; }
     void set_world_position(const ugdk::Vector2D& pos);
 
-    Status status() const { return status_; }
-    bool is_active() const { return status_ == STATUS_ACTIVE; }
-
-    // The Light radius. TODO explain better
-    double light_radius() const { return light_radius_; }
-    void set_light_radius(double radius);
-
-    void set_collision_object(pyramidworks::collision::CollisionObject* col) { collision_object_ = col; }
-          pyramidworks::collision::CollisionObject* collision_object()       { return collision_object_; }
-    const pyramidworks::collision::CollisionObject* collision_object() const { return collision_object_; }
-    
-    void set_visibility_object(pyramidworks::collision::CollisionObject* col) { visibility_object_ = col; }
-          pyramidworks::collision::CollisionObject* visibility_object()       { return visibility_object_; }
-    const pyramidworks::collision::CollisionObject* visibility_object() const { return visibility_object_; }
-
-    void set_shape(pyramidworks::geometry::GeometricShape* shape);
+    bool dead() const { return dead_; }
 
           ugdk::graphic::Node* node();
     const ugdk::graphic::Node* node() const;
 
-    void set_timed_life(ugdk::time::TimeAccumulator*);
     void set_timed_life(double);
-    ugdk::time::TimeAccumulator* timed_life() { return timed_life_; }
 
     void OnRoomAdd(map::Room*);
     
@@ -92,6 +69,7 @@ class WorldObject : public ::ugdk::action::Entity {
     component::Graphic* graphic();
     component::Controller* controller();
     component::Caster* caster();
+    component::Shape* shape();
 
     /// Gets a component with the requested type with the given name.
     /**
@@ -162,51 +140,31 @@ class WorldObject : public ::ugdk::action::Entity {
     */
     void RemoveComponent(const std::string& name);
 
-    void set_layer(scene::GameLayer layer) { layer_ = layer; }
-    scene::GameLayer layer() const { return layer_; }
-
-    bool AddCondition(Condition* new_condition);
-    void UpdateCondition(double dt);
-
-    int sight_count() { return sight_count_; }
-    void set_sight_count(int sight_count) { sight_count_ += sight_count; }
-
     map::Room* current_room() const { return current_room_; }
 
-  protected:
-    std::string identifier_;
-
-    // Collision component
-    pyramidworks::collision::CollisionObject *collision_object_;
-    
-    pyramidworks::collision::CollisionObject *visibility_object_;
-
-    // 
-    ugdk::time::TimeAccumulator* timed_life_;
-
+  private:
     // TODO: make this somethintg
     std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
     std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
     std::tr1::function<void (WorldObject*)> on_die_callback_;
 
-  private:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::Vector2D world_position_;
 
+    /// A tag used for searching for the object.
     std::string tag_;
 
+    /// Internal identifier. Debugging purposes.
+    std::string identifier_;
+
+    /// The room this object is currently in. (In practice, the room it was created in.)
     map::Room* current_room_;
 
-    // The current status for the object.
-    Status status_;
-    double light_radius_;
-    scene::GameLayer layer_;
+    // 
+    ugdk::time::TimeAccumulator* timed_life_;
 
-    // The conditions currently affecting this creature.
-    std::list<Condition*> conditions_;
-
-    /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
-    int sight_count_;
+    /// Is this object dead?
+    bool dead_;
 
     struct OrderedComponent {
         component::Base* component;

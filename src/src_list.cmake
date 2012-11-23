@@ -29,10 +29,10 @@ SET(GAME_SRCS
     ./game/builders/aibuilder.h 
     ./game/builders/builder.cc 
     ./game/builders/builder.h 
-    ./game/builders/conditionbuilder.cc 
-    ./game/builders/conditionbuilder.h 
     ./game/builders/doodadbuilder.cc 
     ./game/builders/doodadbuilder.h 
+    ./game/builders/effectbuilder.cc 
+    ./game/builders/effectbuilder.h 
     ./game/builders/entitybuilder.cc 
     ./game/builders/entitybuilder.h 
     ./game/builders/explosionbuilder.cc 
@@ -59,6 +59,8 @@ SET(GAME_SRCS
     ./game/components/base.h 
     ./game/components/caster.cc 
     ./game/components/caster.h 
+    ./game/components/condition.cc 
+    ./game/components/condition.h 
     ./game/components/controller.h 
     ./game/components/damageable.cc 
     ./game/components/damageable.h 
@@ -73,6 +75,8 @@ SET(GAME_SRCS
     ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 
+    ./game/components/shape.cc 
+    ./game/components/shape.h 
     ./game/components/statecontroller.h 
     ./game/components/walker.cc 
     ./game/components/walker.h 
@@ -81,9 +85,6 @@ SET(GAME_SRCS
     ./game/constants.h 
     ./game/context.cc 
     ./game/context.h 
-    ./game/entities/emitterentity.h 
-    ./game/entities/sandstormemitter.cc 
-    ./game/entities/sandstormemitter.h 
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 
@@ -133,7 +134,7 @@ SET(GAME_SRCS
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
     ./game/sprites.h 
-    ./game/sprites/condition.h 
+    ./game/sprites/effect.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
@@ -159,6 +160,18 @@ SET(GAME_SRCS
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
     ./module/ai/logicblockproxy.h 
+    ./module/aiLUA_wrap.cc 
+    ./module/aiPYTHON_wrap.cc 
+    ./module/builderLUA_wrap.cc 
+    ./module/builderPYTHON_wrap.cc 
     ./module/component/baseproxy.h 
+    ./module/componentLUA_wrap.cc 
+    ./module/componentPYTHON_wrap.cc 
+    ./module/constantsLUA_wrap.cc 
+    ./module/constantsPYTHON_wrap.cc 
+    ./module/contextLUA_wrap.cc 
+    ./module/contextPYTHON_wrap.cc 
     ./module/luaproxy.h 
+    ./module/mapLUA_wrap.cc 
+    ./module/mapPYTHON_wrap.cc 
 )

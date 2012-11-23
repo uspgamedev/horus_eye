@@ -5,6 +5,7 @@
 
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
+#include "game/components/graphic.h"
 
 namespace map {
 
@@ -89,8 +90,8 @@ void Room::handleNewObject(sprite::WorldObject* obj) {
     objects_.push_back(obj);
     obj->OnRoomAdd(this);
     tagged_[obj->tag()] = obj;
-    if(level_ && level_->IsRoomActive(this))
-        level_->layer_node(obj->layer())->AddChild(obj->node());
+    if(level_ && level_->IsRoomActive(this) && obj->graphic())
+        obj->graphic()->InsertIntoLayers(level_->layers());
 }
     
 } // namespace map

@@ -3,7 +3,7 @@
 
 namespace sprite {
 
-class Condition;
+class Effect;
 class ItemEvent;
 class WorldObject;
 

@@ -10,6 +10,7 @@
 #include "game/components/animation.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
+#include "game/components/shape.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
@@ -29,7 +30,7 @@ namespace component {
 
 COLLISION_DIRECT(Walker*, RectCollision, obj) {
     WorldObject *wobj = (WorldObject *) obj;
-    data_->collideWithRect(wobj->collision_object());
+    data_->collideWithRect(wobj->shape()->collision());
 }
 
 pyramidworks::collision::CollisionLogic* CreateWalkerRectCollision(Walker* obj) {
@@ -47,7 +48,7 @@ Walker::~Walker() {}
 // ============= other stuff
 
 void Walker::Update(double dt) {
-    if(owner_->is_active()) {
+    if(!owner_->dead()) {
         component::Controller* controller = owner_->controller();
         component::Animation* animation = owner_->component<Animation>();
 
@@ -93,7 +94,7 @@ void Walker::collideWithRect(const pyramidworks::collision::CollisionObject* col
     const pyramidworks::geometry::Rect *rect = 
         (const pyramidworks::geometry::Rect*) coll_obj->shape();
 
-    Vector2D circ_pos = owner_->collision_object()->absolute_position();
+    Vector2D circ_pos = owner_->shape()->collision()->absolute_position();
     Vector2D rect_pos = coll_obj->absolute_position();
 
     double half_r_width  = rect->width() /2.0;
@@ -127,4 +128,4 @@ void Walker::collideWithRect(const pyramidworks::collision::CollisionObject* col
     move(walking_direction_, last_dt_);
 }
 
-}  // namespace sprite
+}  // namespace component

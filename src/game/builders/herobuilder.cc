@@ -11,6 +11,8 @@
 #include "game/components/caster.h"
 #include "game/components/playercontroller.h"
 #include "game/components/walker.h"
+#include "game/components/shape.h"
+#include "game/components/condition.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
 #include "game/sprites/worldobject.h"
@@ -28,6 +30,7 @@ using resource::CapacityBlocks;
 using component::Animation;
 using component::Caster;
 using component::Walker;
+using component::Shape;
 using skills::usearguments::Aim;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
@@ -53,11 +56,12 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(new component::Animation(hero_wobj, "hero", ANIMATIONS));
-    hero_wobj->set_light_radius(constants::GetDouble("LIGHT_RADIUS_INITIAL"));
+    hero_wobj->graphic()->ChangeLightRadius(constants::GetDouble("LIGHT_RADIUS_INITIAL"));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
     hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
+    hero_wobj->AddComponent(new component::Condition(hero_wobj));
     hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::tr1::mem_fn(&WorldObject::Die));
     hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
@@ -91,15 +95,14 @@ COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
 }
 
 void HeroBuilder::SetupCollision(sprite::WorldObject* obj) {
-    if(obj->collision_object()) {
-        delete obj->collision_object();
-        obj->set_collision_object(NULL);
-    }
-    obj->set_collision_object(new pyramidworks::collision::CollisionObject(WORLD()->collision_manager(), obj));
-    obj->collision_object()->InitializeCollisionClass("Hero");
-    obj->collision_object()->set_shape(new pyramidworks::geometry::Circle(0.3));
-    obj->collision_object()->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
-    obj->collision_object()->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
+    using pyramidworks::collision::CollisionObject;
+    obj->RemoveComponent("shape");
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), obj);
+    obj->AddComponent(new Shape(col, NULL));
+    col->InitializeCollisionClass("Hero");
+    col->set_shape(new pyramidworks::geometry::Circle(0.3));
+    col->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
+    col->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
 }
 
 } // namespace builder

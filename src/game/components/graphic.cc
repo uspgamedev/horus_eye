@@ -1,15 +1,21 @@
 #include "game/components/graphic.h"
 
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/light.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include "game/components/orders.h"
+#include "game/constants.h"
+#include "game/scenes/world.h"
 
 namespace component {
 
+using ugdk::Vector2D;
+
 Graphic::Graphic(sprite::WorldObject* owner)
   : node_(new ugdk::graphic::Node),
+    layer_(scene::FOREGROUND_LAYER),
     owner_(owner),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
@@ -19,6 +25,27 @@ Graphic::Graphic(sprite::WorldObject* owner)
 Graphic::~Graphic() {
     delete node_;
     delete blink_time_;
+}
+
+void Graphic::ChangeLightRadius(double radius) {
+    #define LIGHT_COEFFICIENT 0.75
+
+    light_radius_ = radius;
+    ugdk::graphic::Node* node = node_;
+    
+    if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
+        if(node->light() == NULL) 
+            node->set_light(new ugdk::graphic::Light);
+
+        Vector2D dimension = scene::World::ConvertLightRadius(light_radius_);
+        node->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+
+    } else {
+        if(node->light()) {
+            delete node->light();
+            node->set_light(NULL);
+        }
+    }
 }
 
 void Graphic::StartBlinking(int duration) {
@@ -37,7 +64,16 @@ void Graphic::StopBlinking() {
     node()->modifier()->set_color(c);
 }
 
-void Graphic::AdjustBlink() {
+void Graphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
+    layers[0]->AddChild(node());
+    //layer_node((*it)->layer())->AddChild((*it)->node());
+}
+
+void Graphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
+    layers[0]->RemoveChild(node());
+}
+
+void Graphic::adjustBlink() {
     if(is_blinking_ && !blink_duration_->IsPaused() && blink_duration_->Expired())
         StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {

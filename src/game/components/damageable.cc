@@ -41,7 +41,7 @@ void Damageable::TakeDamage(double life_points) {
     life_ -= life_points;
     component::Animation* animation = owner_->component<component::Animation>();
     if(life_.Empty()) {
-        if (owner_->is_active()) {
+        if (!owner_->dead()) {
             if (animation)
                 animation->ChangeAnimation(utils::DEATH);
             owner_->StartToDie();

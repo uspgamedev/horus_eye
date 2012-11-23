@@ -24,6 +24,8 @@ class Hud: public ugdk::action::Entity {
 
     const skills::Skill *displayed_skill_;
 
+    ugdk::graphic::Node *life_bar_;
+    ugdk::graphic::Node *mana_bar_;
     ugdk::graphic::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
 
 #ifdef DEBUG

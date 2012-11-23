@@ -15,6 +15,7 @@
 #include "entitybuilder.h"
 
 #include "game/components/damageable.h"
+#include "game/components/shape.h"
 #include "game/components/logic/follower.h"
 #include "game/components/logic/wall.h"
 #include "game/scenes/world.h"
@@ -30,8 +31,8 @@ using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::GenericCollisionLogic;
-using component::Creature;
 using component::Follower;
+using component::Shape;
 using sprite::WorldObject;
 
 static void DamageCollisionFunc(double damage, void* obj) {
@@ -55,7 +56,8 @@ WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
     col->InitializeCollisionClass("Projectile");
     col->AddCollisionLogic("Mummy", new GenericCollisionLogic(bind(DamageCollisionFunc, 75, _1)));
     col->set_shape(new pyramidworks::geometry::Circle(0.80));
-    wobj->set_collision_object(col);
+    
+    wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;
 }

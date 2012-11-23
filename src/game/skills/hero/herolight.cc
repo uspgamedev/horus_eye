@@ -11,6 +11,7 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
+#include "game/components/graphic.h"
 #include "game/skills/combatart.h"
 #include "game/constants.h"
 
@@ -28,7 +29,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 static void HeroLightUse(component::Caster* caster){
     sprite::WorldObject *light = new sprite::WorldObject(5.0);
     light->node()->set_drawable(new ugdk::graphic::Sprite("light"));
-    light->set_light_radius(4.0);
+    light->graphic()->ChangeLightRadius(4.0);
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 

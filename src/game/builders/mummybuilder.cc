@@ -14,6 +14,7 @@
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/components/walker.h"
+#include "game/components/shape.h"
 #include "game/scenes/world.h"
 #include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
@@ -79,7 +80,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Mummy");
     col->set_shape(new pyramidworks::geometry::Circle(radius));
-    wobj->set_collision_object(col);
+    wobj->AddComponent(new component::Shape(col, NULL));
 
     Walker* walker = new Walker(wobj, speed);
     wobj->AddComponent(walker);
