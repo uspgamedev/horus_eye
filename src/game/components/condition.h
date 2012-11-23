@@ -20,18 +20,17 @@ class Condition : public Base {
     
     void Update(double dt);
 
-    bool AddCondition(sprite::Condition* new_condition);
+    bool AddEffect(sprite::Effect* new_effect);
+    int CountEffectsByName(const std::string&) const;
 
     sprite::WorldObject* owner() { return owner_; }
 
   protected:
-    void updateCondition(double dt);
-
     /// The owner.
     sprite::WorldObject* owner_;
 
     // The conditions currently affecting this creature.
-    std::list<sprite::Condition*> conditions_;
+    std::list<sprite::Effect*> effects_;
 
 };  // class Walker
 

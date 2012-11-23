@@ -10,7 +10,6 @@
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
-#include "game/sprites/condition.h"
 #include "game/components/graphic.h"
 
 #include "game/components/damageable.h"
@@ -37,8 +36,7 @@ WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
         current_room_(NULL),
         timed_life_(NULL),
-        dead_(false),
-        sight_count_(0) {
+        dead_(false) {
     if(duration > 0.0)
         this->set_timed_life(duration);
 

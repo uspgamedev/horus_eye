@@ -17,9 +17,9 @@
 #include "game/components/shape.h"
 #include "game/components/condition.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/condition.h"
+#include "game/sprites/effect.h"
 #include "game/sprites/itemevent.h"
-#include "game/builders/conditionbuilder.h"
+#include "game/builders/effectbuilder.h"
 #include "game/builders/entitybuilder.h"
 #include "game/utils/imagefactory.h"
 
@@ -34,7 +34,7 @@ using namespace utils;
 using sprite::WorldObject;
 using component::Caster;
 //using sprite::Follower;
-using sprite::Condition;
+using sprite::Effect;
 using pyramidworks::collision::CollisionObject;
 
 struct ItemUseData {
@@ -131,17 +131,16 @@ class IncreaseSightEvent : public sprite::ItemEvent {
 
   private:
     double additional_sight_;
-    ConditionBuilder condition_builder_;
 };
 
 bool IncreaseSightEvent::Use (sprite::WorldObject* hero) {
     component::Condition* comp_condition = hero->component<component::Condition>();
-    if( comp_condition && hero->sight_count() < constants::GetInt("SIGHT_POTION_MAX_STACK") ) {
-        Condition* condition = condition_builder_.increase_sight_condition();
-        if (comp_condition->AddCondition(condition)) {
+    if( comp_condition && comp_condition->CountEffectsByName("increase_sight") < constants::GetInt("SIGHT_POTION_MAX_STACK") ) {
+        Effect* effect = EffectBuilder::increase_sight();
+        if (comp_condition->AddEffect(effect)) {
             return true;
         } else {
-            delete condition;
+            delete effect;
             return false;
         }
     }

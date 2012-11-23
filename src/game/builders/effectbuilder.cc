@@ -1,26 +1,34 @@
-#include <ugdk/time/timeaccumulator.h>
+#include "game/builders/effectbuilder.h"
 
-#include "conditionbuilder.h"
+#include <string>
+#include <ugdk/time/timeaccumulator.h>
 
 #include "game/constants.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
+#include "game/sprites/effect.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
+namespace EffectBuilder {
 
 using sprite::WorldObject;
 
-class IncreaseSightCondition : public sprite::Condition {
+class IncreaseSightEffect : public sprite::Effect {
   public:
-    IncreaseSightCondition(double time_condition)
+    IncreaseSightEffect(double time_condition)
         :   condition_duration_(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(time_condition))) {}
-    ~IncreaseSightCondition() { delete condition_duration_; }
+    ~IncreaseSightEffect() { delete condition_duration_; }
+    
+    const std::string& name() const {
+        static std::string sight_name("increase_sight");
+        return sight_name;
+    }
 
     void Update(double dt) {
         if(condition_duration_->Expired())
-            EndCondition();
+            EndEffect();
     }
 
     void onStart() {
@@ -35,8 +43,9 @@ class IncreaseSightCondition : public sprite::Condition {
     ugdk::time::TimeAccumulator *condition_duration_;
 };
 
-sprite::Condition* ConditionBuilder::increase_sight_condition() {
-    return new IncreaseSightCondition(constants::GetDouble("CONDITION_DURATION"));
+sprite::Effect* increase_sight() {
+    return new IncreaseSightEffect(constants::GetDouble("CONDITION_DURATION"));
 }
 
+}
 }

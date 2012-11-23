@@ -1,6 +1,6 @@
 #include "game/components/condition.h"
 
-#include "game/sprites/condition.h"
+#include "game/sprites/effect.h"
 
 namespace component {
 
@@ -11,22 +11,29 @@ Condition::~Condition() {
 
 }
 
-static bool deletecondition(sprite::Condition *condition) {
-    bool is_finished = (condition->phase() == sprite::Condition::PHASE_FINISHED);
-    if (is_finished) delete condition;
+static bool deleteeffect(sprite::Effect *effect) {
+    bool is_finished = (effect->phase() == sprite::Effect::PHASE_FINISHED);
+    if (is_finished) delete effect;
     return is_finished;
 }
 
 void Condition::Update(double dt) {
-    for (std::list<sprite::Condition*>::iterator i = conditions_.begin(); i != conditions_.end(); ++i)
+    for (std::list<sprite::Effect*>::iterator i = effects_.begin(); i != effects_.end(); ++i)
         (*i)->Update(dt);
-    conditions_.remove_if(deletecondition);
+    effects_.remove_if(deleteeffect);
 }
 
-bool Condition::AddCondition(sprite::Condition* new_condition) {
-    conditions_.push_front(new_condition);
-    new_condition->StartCondition(owner_);
+bool Condition::AddEffect(sprite::Effect* new_effect) {
+    effects_.push_front(new_effect);
+    new_effect->StartEffect(owner_);
     return true;
+}
+
+int Condition::CountEffectsByName(const std::string& name) const {
+    int result = 0;
+    for (std::list<sprite::Effect*>::const_iterator i = effects_.begin(); i != effects_.end(); ++i)
+        result += static_cast<int>((*i)->name() == name);
+    return result;
 }
 
 } // namespace component

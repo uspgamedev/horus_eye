@@ -29,10 +29,10 @@ SET(GAME_SRCS
     ./game/builders/aibuilder.h 
     ./game/builders/builder.cc 
     ./game/builders/builder.h 
-    ./game/builders/conditionbuilder.cc 
-    ./game/builders/conditionbuilder.h 
     ./game/builders/doodadbuilder.cc 
     ./game/builders/doodadbuilder.h 
+    ./game/builders/effectbuilder.cc 
+    ./game/builders/effectbuilder.h 
     ./game/builders/entitybuilder.cc 
     ./game/builders/entitybuilder.h 
     ./game/builders/explosionbuilder.cc 
@@ -134,7 +134,7 @@ SET(GAME_SRCS
     ./game/skills/skill.h 
     ./game/skills/usearguments.h 
     ./game/sprites.h 
-    ./game/sprites/condition.h 
+    ./game/sprites/effect.h 
     ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 

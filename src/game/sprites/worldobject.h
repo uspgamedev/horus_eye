@@ -140,10 +140,6 @@ class WorldObject : public ::ugdk::action::Entity {
     */
     void RemoveComponent(const std::string& name);
 
-
-    int sight_count() { return sight_count_; }
-    void set_sight_count(int sight_count) { sight_count_ += sight_count; }
-
     map::Room* current_room() const { return current_room_; }
 
   private:
@@ -169,9 +165,6 @@ class WorldObject : public ::ugdk::action::Entity {
 
     /// Is this object dead?
     bool dead_;
-
-    /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
-    int sight_count_;
 
     struct OrderedComponent {
         component::Base* component;
