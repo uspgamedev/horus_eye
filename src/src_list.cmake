@@ -83,9 +83,6 @@ SET(GAME_SRCS
     ./game/constants.h 
     ./game/context.cc 
     ./game/context.h 
-    ./game/entities/emitterentity.h 
-    ./game/entities/sandstormemitter.cc 
-    ./game/entities/sandstormemitter.h 
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 
@@ -161,6 +158,18 @@ SET(GAME_SRCS
     ./game/utils/visionstrategy.h 
     ./mac/SDLMain.h 
     ./module/ai/logicblockproxy.h 
+    ./module/aiLUA_wrap.cc 
+    ./module/aiPYTHON_wrap.cc 
+    ./module/builderLUA_wrap.cc 
+    ./module/builderPYTHON_wrap.cc 
     ./module/component/baseproxy.h 
+    ./module/componentLUA_wrap.cc 
+    ./module/componentPYTHON_wrap.cc 
+    ./module/constantsLUA_wrap.cc 
+    ./module/constantsPYTHON_wrap.cc 
+    ./module/contextLUA_wrap.cc 
+    ./module/contextPYTHON_wrap.cc 
     ./module/luaproxy.h 
+    ./module/mapLUA_wrap.cc 
+    ./module/mapPYTHON_wrap.cc 
 )
