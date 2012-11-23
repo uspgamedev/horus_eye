@@ -19,6 +19,8 @@ class Effect {
 
     virtual void Update(double delta_t) = 0;
 
+    virtual bool CanAffect(WorldObject* obj) const = 0;
+
     void StartEffect(WorldObject *wobj) {
         owner_ = wobj;
         phase_ = PHASE_ACTIVE;

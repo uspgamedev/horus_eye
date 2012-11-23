@@ -6,6 +6,7 @@
 #include "game/constants.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
+#include "game/components/condition.h"
 #include "game/sprites/effect.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
@@ -29,6 +30,12 @@ class IncreaseSightEffect : public sprite::Effect {
     void Update(double dt) {
         if(condition_duration_->Expired())
             EndEffect();
+    }
+    
+    bool CanAffect(WorldObject* obj) const {
+        component::Condition* condition = obj->component<component::Condition>();
+        if(!condition) return false;
+        return condition->CountEffectsByName(name()) < constants::GetInt("SIGHT_POTION_MAX_STACK");
     }
 
     void onStart() {

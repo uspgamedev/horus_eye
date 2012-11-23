@@ -126,18 +126,14 @@ bool RecoverManaEvent::Use (sprite::WorldObject* wobj) {
 //=======================================
 class IncreaseSightEvent : public sprite::ItemEvent {
   public:
-    IncreaseSightEvent(double additional_sight) : additional_sight_(additional_sight) {}
+    IncreaseSightEvent() {}
 
     bool Use (sprite::WorldObject* hero) {
-        component::Condition* comp_condition = hero->component<component::Condition>();
-        if( comp_condition && 
-            comp_condition->CountEffectsByName("increase_sight") < constants::GetInt("SIGHT_POTION_MAX_STACK") )
-            return (comp_condition->AddEffect(EffectBuilder::increase_sight()));
+        std::tr1::shared_ptr<Effect> effect = EffectBuilder::increase_sight();
+        if(effect->CanAffect(hero))
+            return hero->component<component::Condition>()->AddEffect(effect);
         return false;
     }
-
-  private:
-    double additional_sight_;
 };
 
 //=======================================
@@ -172,7 +168,7 @@ WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
 WorldObject* SightPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.SightPotionImage());
-    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent(constants::GetDouble("SIGHT_POTION_INCREASE"))));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent));
     return wobj;
 }
 
