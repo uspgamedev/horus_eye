@@ -43,8 +43,8 @@ class IncreaseSightEffect : public sprite::Effect {
     ugdk::time::TimeAccumulator *condition_duration_;
 };
 
-sprite::Effect* increase_sight() {
-    return new IncreaseSightEffect(constants::GetDouble("CONDITION_DURATION"));
+std::tr1::shared_ptr<sprite::Effect> increase_sight() {
+    return std::tr1::shared_ptr<sprite::Effect>(new IncreaseSightEffect(constants::GetDouble("CONDITION_DURATION")));
 }
 
 }

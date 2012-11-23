@@ -126,32 +126,26 @@ bool RecoverManaEvent::Use (sprite::WorldObject* wobj) {
 //=======================================
 class IncreaseSightEvent : public sprite::ItemEvent {
   public:
-    IncreaseSightEvent (double additional_sight) : additional_sight_(additional_sight) {}
-    bool Use (sprite::WorldObject*);
+    IncreaseSightEvent(double additional_sight) : additional_sight_(additional_sight) {}
+
+    bool Use (sprite::WorldObject* hero) {
+        component::Condition* comp_condition = hero->component<component::Condition>();
+        if( comp_condition && 
+            comp_condition->CountEffectsByName("increase_sight") < constants::GetInt("SIGHT_POTION_MAX_STACK") )
+            return (comp_condition->AddEffect(EffectBuilder::increase_sight()));
+        return false;
+    }
 
   private:
     double additional_sight_;
 };
-
-bool IncreaseSightEvent::Use (sprite::WorldObject* hero) {
-    component::Condition* comp_condition = hero->component<component::Condition>();
-    if( comp_condition && comp_condition->CountEffectsByName("increase_sight") < constants::GetInt("SIGHT_POTION_MAX_STACK") ) {
-        Effect* effect = EffectBuilder::increase_sight();
-        if (comp_condition->AddEffect(effect)) {
-            return true;
-        } else {
-            delete effect;
-            return false;
-        }
-    }
-    return false;
-}
 
 //=======================================
 
 class BlueGemShieldEvent : public sprite::ItemEvent {
   public:
     BlueGemShieldEvent() {}
+
     bool Use(sprite::WorldObject* hero) {
         EntityBuilder builder;
         hero->current_room()->AddObject(builder.BlueShieldEntity(hero), hero->world_position(), map::POSITION_ABSOLUTE);
