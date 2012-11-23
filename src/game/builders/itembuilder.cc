@@ -15,6 +15,7 @@
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/components/shape.h"
+#include "game/components/condition.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/condition.h"
 #include "game/sprites/itemevent.h"
@@ -25,10 +26,6 @@
 #define INCREASE_SIGHT_TIME 3.00
 #define PI 3.141592654
 #define PERIOD (2.0*PI/3.0)
-
-namespace ugdk {
-class FlexibleSpritesheet;
-}
 
 namespace builder {
 namespace ItemBuilder {
@@ -128,22 +125,27 @@ bool RecoverManaEvent::Use (sprite::WorldObject* wobj) {
 
 //=======================================
 class IncreaseSightEvent : public sprite::ItemEvent {
-    public:
+  public:
     IncreaseSightEvent (double additional_sight) : additional_sight_(additional_sight) {}
     bool Use (sprite::WorldObject*);
 
-    private:
+  private:
     double additional_sight_;
     ConditionBuilder condition_builder_;
 };
 
 bool IncreaseSightEvent::Use (sprite::WorldObject* hero) {
-    if ( hero->sight_count() < constants::GetInt("SIGHT_POTION_MAX_STACK") ) {
-        Condition* condition = condition_builder_.increase_sight_condition(hero);
-        if (hero->AddCondition(condition)) return true;
-        else return false;
+    component::Condition* comp_condition = hero->component<component::Condition>();
+    if( comp_condition && hero->sight_count() < constants::GetInt("SIGHT_POTION_MAX_STACK") ) {
+        Condition* condition = condition_builder_.increase_sight_condition();
+        if (comp_condition->AddCondition(condition)) {
+            return true;
+        } else {
+            delete condition;
+            return false;
+        }
     }
-    else return false;
+    return false;
 }
 
 //=======================================

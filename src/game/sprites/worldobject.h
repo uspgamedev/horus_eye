@@ -140,8 +140,6 @@ class WorldObject : public ::ugdk::action::Entity {
     */
     void RemoveComponent(const std::string& name);
 
-    bool AddCondition(Condition* new_condition);
-    void UpdateCondition(double dt);
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
@@ -171,9 +169,6 @@ class WorldObject : public ::ugdk::action::Entity {
 
     /// Is this object dead?
     bool dead_;
-
-    // The conditions currently affecting this creature.
-    std::list<Condition*> conditions_;
 
     /// How many sight buffs this creature has. TODO: GET THIS SHIT OUT
     int sight_count_;

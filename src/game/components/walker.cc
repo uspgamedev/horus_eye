@@ -128,4 +128,4 @@ void Walker::collideWithRect(const pyramidworks::collision::CollisionObject* col
     move(walking_direction_, last_dt_);
 }
 
-}  // namespace sprite
+}  // namespace component

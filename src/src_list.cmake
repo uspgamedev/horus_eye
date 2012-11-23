@@ -59,6 +59,8 @@ SET(GAME_SRCS
     ./game/components/base.h 
     ./game/components/caster.cc 
     ./game/components/caster.h 
+    ./game/components/condition.cc 
+    ./game/components/condition.h 
     ./game/components/controller.h 
     ./game/components/damageable.cc 
     ./game/components/damageable.h 

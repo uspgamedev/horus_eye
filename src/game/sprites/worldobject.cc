@@ -70,7 +70,6 @@ void WorldObject::Update(double dt) {
     if(timed_life_ && timed_life_->Expired())
         StartToDie();
 
-    UpdateCondition(dt);
     for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
         it->component->Update(dt);
 }
@@ -103,25 +102,6 @@ void WorldObject::OnRoomAdd(map::Room* room) {
     current_room_ = room;
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);
-}
-
-static bool deletecondition(Condition *condition) {
-    bool is_finished = (condition->phase() == Condition::PHASE_FINISHED);
-    if (is_finished) delete condition;
-    return is_finished;
-}
-
-bool WorldObject::AddCondition(Condition* new_condition) {
-    conditions_.push_front(new_condition);
-    new_condition->StartCondition(this);
-    return true;
-}
-
-void WorldObject::UpdateCondition(double dt) {
-     std::list<Condition*>::iterator i;
-     for (i = conditions_.begin(); i != conditions_.end(); ++i)
-         (*i)->Update(dt);
-     conditions_.remove_if(deletecondition);
 }
 
 void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {

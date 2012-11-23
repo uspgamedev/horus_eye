@@ -10,7 +10,7 @@ class ConditionBuilder {
     ConditionBuilder() {}
     ~ConditionBuilder() {}
 
-    sprite::Condition* increase_sight_condition(sprite::WorldObject *owner);
+    sprite::Condition* increase_sight_condition();
 };
 
 }

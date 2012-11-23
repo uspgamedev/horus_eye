@@ -11,15 +11,28 @@ class Condition {
     
     enum Phase { PHASE_IDLE, PHASE_ACTIVE, PHASE_FINISHED };
     
-    virtual void Update(double delta_t) = 0;
-    virtual Phase phase() { return phase_; }
+    WorldObject* owner() { return owner_; }
+    Phase phase() const { return phase_; }
 
-    virtual void StartCondition(WorldObject *creature) { phase_ = PHASE_ACTIVE; }
-  	virtual void EndCondition(WorldObject *creature) { phase_ = PHASE_FINISHED; }
+    virtual void Update(double delta_t) = 0;
+
+    void StartCondition(WorldObject *wobj) {
+        owner_ = wobj;
+        phase_ = PHASE_ACTIVE;
+        onStart();
+    }
     
   protected:
-  	Condition(WorldObject* owner) : owner_(owner), phase_(PHASE_IDLE) {}
+  	Condition() : owner_(0), phase_(PHASE_IDLE) {}
+  	void EndCondition() { 
+        phase_ = PHASE_FINISHED;
+        onEnd();
+    }
 
+    virtual void onStart() {}
+    virtual void onEnd() {}
+
+  private:
   	WorldObject* owner_;
     Phase phase_;
 };
