@@ -1,11 +1,14 @@
+#include "itembuilder.h"
+
+#include <ugdk/portable/tr1.h>
 #include <cmath>
+#include FROM_TR1(functional)
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
-#include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable.h>
 
-#include "itembuilder.h"
 
 #include "game/constants.h"
 #include "game/scenes/world.h"
@@ -18,7 +21,6 @@
 #include "game/components/condition.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/effect.h"
-#include "game/sprites/itemevent.h"
 #include "game/builders/effectbuilder.h"
 #include "game/builders/entitybuilder.h"
 #include "game/utils/imagefactory.h"
@@ -33,27 +35,27 @@ namespace ItemBuilder {
 using namespace utils;
 using sprite::WorldObject;
 using component::Caster;
-//using sprite::Follower;
 using sprite::Effect;
 using pyramidworks::collision::CollisionObject;
 
+typedef std::tr1::function<bool (WorldObject*)> ItemEvent;
+
 struct ItemUseData {
     WorldObject* wobj_;
-    sprite::ItemEvent* event_;
+    ItemEvent event_;
 
-    ItemUseData(WorldObject* wobj, sprite::ItemEvent* ev) : wobj_(wobj), event_(ev) {}
+    ItemUseData(WorldObject* wobj, const ItemEvent& ev) : wobj_(wobj), event_(ev) {}
 };
+
 
 COLLISION_DIRECT(ItemUseData, UseCollision, obj) {
     WorldObject *wobj = (WorldObject*) obj;
-    if (data_.event_->Use(wobj)) {
+    if (data_.event_(wobj))
         data_.wobj_->Die();
-        delete data_.event_;
-    }
 }
 
-UseCollision* CreateItemUse(WorldObject* wobj, sprite::ItemEvent* ev) {
-    return new UseCollision(ItemUseData(wobj, ev));
+void CreateItemUse(WorldObject* wobj, const ItemEvent& ev) {
+    wobj->shape()->collision()->AddCollisionLogic("Hero", new UseCollision(ItemUseData(wobj, ev)));
 }
 
 class ItemLogic : public component::Base {
@@ -85,50 +87,47 @@ WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
 }
 
 //=======================================
-class RecoverLifeEvent : public sprite::ItemEvent {
+class RecoverLifeEvent {
   public:
     RecoverLifeEvent (int recover) : recover_(recover) {}
-    bool Use (sprite::WorldObject *);
+
+    bool operator() (sprite::WorldObject * wobj) {
+        resource::Energy& life = wobj->damageable()->life();
+        if (life < life.max_value()) {
+            life += recover_;
+            return true;
+        }
+        return false;
+    }
 
   private:
     int recover_;
 };
 
-bool RecoverLifeEvent::Use (sprite::WorldObject* hero) {
-    resource::Energy& life = hero->damageable()->life();
-    if (life < life.max_value()) {
-        life += recover_;
-        return true;
-    }
-    return false;
-}
-
 //=======================================
-class RecoverManaEvent : public sprite::ItemEvent {
-    public:
+class RecoverManaEvent {
+  public:
     RecoverManaEvent (int recover) : recover_(recover) {}
-    bool Use (sprite::WorldObject* );
 
-    private:
+    bool operator() (sprite::WorldObject * wobj) {
+        Caster* caster = wobj->caster();
+        if (caster && caster->mana() < caster->max_mana()) {
+            caster->set_mana(caster->mana() + recover_);
+            return true;
+        }
+        return false;
+    }
+
+  private:
     int recover_;
-
 };
 
-bool RecoverManaEvent::Use (sprite::WorldObject* wobj) {
-    Caster* caster = wobj->caster();
-    if (caster && caster->mana() < caster->max_mana()) {
-        caster->set_mana(caster->mana() + recover_);
-        return true;
-    }
-    return false;
-}
-
 //=======================================
-class IncreaseSightEvent : public sprite::ItemEvent {
+class IncreaseSightEvent {
   public:
     IncreaseSightEvent() {}
 
-    bool Use (sprite::WorldObject* hero) {
+    bool operator() (sprite::WorldObject* hero) {
         std::tr1::shared_ptr<Effect> effect = EffectBuilder::increase_sight();
         if(effect->CanAffect(hero))
             return hero->component<component::Condition>()->AddEffect(effect);
@@ -138,11 +137,11 @@ class IncreaseSightEvent : public sprite::ItemEvent {
 
 //=======================================
 
-class BlueGemShieldEvent : public sprite::ItemEvent {
+class BlueGemShieldEvent {
   public:
     BlueGemShieldEvent() {}
 
-    bool Use(sprite::WorldObject* hero) {
+    bool operator() (sprite::WorldObject* hero) {
         EntityBuilder builder;
         hero->current_room()->AddObject(builder.BlueShieldEntity(hero), hero->world_position(), map::POSITION_ABSOLUTE);
         return true;
@@ -154,28 +153,28 @@ class BlueGemShieldEvent : public sprite::ItemEvent {
 WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.LifePotionImage());
-    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE"))));
+    CreateItemUse(wobj, RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
     return wobj;
 }
 
 WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
-    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA"))));
+    CreateItemUse(wobj, RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
     return wobj;
 }
 
 WorldObject* SightPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.SightPotionImage());
-    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new IncreaseSightEvent));
+    CreateItemUse(wobj, IncreaseSightEvent());
     return wobj;
 }
 
 WorldObject* BlueGem(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.BlueGemImage());
-    wobj->shape()->collision()->AddCollisionLogic("Hero", CreateItemUse(wobj, new BlueGemShieldEvent));
+    CreateItemUse(wobj, BlueGemShieldEvent());
     return wobj;
 }
 

@@ -135,7 +135,6 @@ SET(GAME_SRCS
     ./game/skills/usearguments.h 
     ./game/sprites.h 
     ./game/sprites/effect.h 
-    ./game/sprites/itemevent.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
     ./game/utils/geometryprimitives.cc 

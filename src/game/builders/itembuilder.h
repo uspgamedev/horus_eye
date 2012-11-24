@@ -1,14 +1,12 @@
 #ifndef HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_
 #define HORUSEYE_GAME_BUILDERS_ITEMBUILDER_H_
 
+#include <vector>
+#include <string>
 #include <ugdk/graphic.h>
-
-namespace sprite {
-class WorldObject;
-}
+#include "game/sprites.h"
 
 namespace builder {
-
 namespace ItemBuilder {
 
 sprite::WorldObject* LifePotion(const std::vector<std::string>& arguments);
