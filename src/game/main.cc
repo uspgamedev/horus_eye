@@ -14,6 +14,7 @@
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
 #include "game/skills/initskills.h"
+#include "game/utils/isometricanimationset.h"
 
 #include <ugdk/modules.h>
 #include <pyramidworks/modules.h>
@@ -112,6 +113,7 @@ int main(int argc, char *argv[]) {
     engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 
     engine()->resource_manager()->add_container<skills::Skill*>(new ugdk::base::GenericContainer<skills::Skill*>);
+    engine()->resource_manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::base::GenericContainer<utils::IsometricAnimationSet*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
 

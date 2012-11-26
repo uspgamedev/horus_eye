@@ -1,22 +1,15 @@
 require "constants"
 
-constants.RegisterInt("PROJECTILE_SPRITE_WIDTH", 32)
 constants.RegisterInt("PROJECTILE_SPRITE_HEIGHT", 32)
-constants.RegisterInt("PROJECTILE_DURATION", 4)
 
-constants.RegisterInt("EXPLOSION_SPRITE_WIDTH", 128)
-constants.RegisterInt("EXPLOSION_SPRITE_HEIGHT", 256)
-constants.RegisterInt("EXPLOSION_DURATION", 3000)
+constants.RegisterDouble("MAGICMISSILE_DURATION", 4.0)
+constants.RegisterDouble("MAGICBALL_DURATION",    4.0)
+constants.RegisterDouble("FIREBALL_DURATION",     3.0)
+constants.RegisterDouble("LIGHTNING_DURATION",    3.5)
 
-constants.RegisterInt("LIGHTNING_SPRITE_WIDTH", 64)
-constants.RegisterInt("LIGHTNING_SPRITE_HEIGHT", 64)
-constants.RegisterInt("LIGHTNING_DURATION", 3500)
+constants.RegisterDouble("MUMMYPROJECTILE_DURATION",   3.5)
 
-constants.RegisterInt("FIREBALL_SPRITE_WIDTH", 64)
-constants.RegisterInt("FIREBALL_SPRITE_HEIGHT", 64)
-constants.RegisterInt("FIREBALL_DURATION", 3500)
-
-constants.RegisterInt("PROJECTILE_DAMAGE", 200)
+constants.RegisterDouble("PROJECTILE_DAMAGE", 200)
 
 constants.RegisterInt("LIFEPOTION_RECOVER_LIFE", 200)
 constants.RegisterInt("MANAPOTION_RECOVER_MANA", 200)

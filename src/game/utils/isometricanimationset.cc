@@ -1,6 +1,8 @@
 #include <sstream>
 
 #include <ugdk/action/animationset.h>
+#include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
 #include "game/utils/isometricanimationset.h"
 
 using ugdk::Vector2D;
@@ -53,6 +55,17 @@ int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& di
     default:*/
         return animation_index_[type][dir.value()];
     //}
+}
+
+IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& name) {
+    ugdk::action::AnimationSet* set = ugdk::base::ResourceManager::GetAnimationSetFromFile(name);
+    if(set)
+        return new IsometricAnimationSet(set);
+    return NULL;
+}
+
+IsometricAnimationSet* IsometricAnimationSet::LoadFromResourceManager(const std::string& name) {
+    return RESOURCE_MANAGER()->get_container<IsometricAnimationSet*>().Load(name, name);
 }
 
 }  // namespace component
