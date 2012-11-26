@@ -94,9 +94,10 @@ static CollisionObject* buildCollisionObject(WorldObject* wobj) {
     return col;
 }
 
-static WorldObject* buildObject(const ugdk::Vector2D &dir, double duration, double radius) {
+static WorldObject* buildObject(const ugdk::Vector2D &dir, double speed, double duration, double radius) {
     WorldObject* wobj = new WorldObject(duration);
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
+    wobj->AddComponent(new Walker(wobj, speed));
     wobj->AddComponent(new Shape(buildCollisionObject(wobj), NULL));
     wobj->shape()->collision()->set_shape(new pyramidworks::geometry::Circle(radius));
     return wobj;
@@ -108,10 +109,9 @@ void ProjectileBuilder::InitializeAnimations() {
 }
 
 WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
-    WorldObject* wobj = buildObject(dir, constants::GetDouble("PROJECTILE_DURATION"), 0.15);
+    WorldObject* wobj = buildObject(dir, constants::GetDouble("PROJECTILE_SPEED"), constants::GetDouble("PROJECTILE_DURATION"), 0.15);
     wobj->node()->set_drawable(new ugdk::graphic::Sprite("magic_missile"));
     wobj->graphic()->ChangeLightRadius(1.0);
-    wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
 
     struct ObjectAndDamage data(wobj, constants::GetDouble("PROJECTILE_DAMAGE"));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
@@ -119,10 +119,9 @@ WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
 }
 
 WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
-    WorldObject* wobj = buildObject(dir, constants::GetDouble("PROJECTILE_DURATION"), 0.15);
-    wobj->node()->set_drawable(new ugdk::graphic::Sprite( "magic_missile" ));
+    WorldObject* wobj = buildObject(dir, constants::GetDouble("PROJECTILE_SPEED"), constants::GetDouble("PROJECTILE_DURATION"), 0.15);
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite("magic_missile"));
     wobj->graphic()->ChangeLightRadius(1.0);
-    wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
 
     struct ObjectAndDamage data(wobj, constants::GetDouble("PROJECTILE_DAMAGE"));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(data));
@@ -131,10 +130,9 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
 }
 /***/
 WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, double damage) {
-    WorldObject* wobj = buildObject(dir, constants::GetDouble("PROJECTILE_DURATION"), 0.15);
-    wobj->node()->set_drawable(new ugdk::graphic::Sprite( "mummy_projectile" ));
+    WorldObject* wobj = buildObject(dir, constants::GetDouble("PROJECTILE_SPEED"), constants::GetDouble("PROJECTILE_DURATION"), 0.15);
+    wobj->node()->set_drawable(new ugdk::graphic::Sprite("mummy_projectile"));
     wobj->graphic()->ChangeLightRadius(0.75);
-    wobj->AddComponent(new Walker(wobj, constants::GetDouble("PROJECTILE_SPEED")));
 
     struct ObjectAndDamage data(wobj, damage);
     wobj->shape()->collision()->AddCollisionLogic("Hero", new DamageAndDieCollision(data));
@@ -143,11 +141,10 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, doubl
 }
 
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
-    WorldObject* wobj = buildObject(dir, constants::GetDouble("LIGHTNING_DURATION"), 0.25);
+    WorldObject* wobj = buildObject(dir, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"), 0.25);
     wobj->AddComponent(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->graphic()->ChangeLightRadius(1.0);
-    wobj->AddComponent(new Walker(wobj, constants::GetDouble("LIGHTNING_SPEED")));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetInt("LIGHTNING_DAMAGE")));
 
     return wobj;
@@ -157,14 +154,13 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     builder::ExplosionBuilder builder;
     WorldObject *explosion = builder.FireballExplosion();
 
-    WorldObject* wobj = buildObject(dir, constants::GetDouble("FIREBALL_DURATION"), 0.25);
+    WorldObject* wobj = buildObject(dir, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"), 0.25);
     wobj->AddComponent(new component::Animation(wobj, "fireball", fireball_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->graphic()->ChangeLightRadius(1.0);
     // Give the light an orange color
     wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
     wobj->set_start_to_die_callback(Carrier(explosion));
-    wobj->AddComponent(new Walker(wobj, constants::GetDouble("FIREBALL_SPEED")));
 
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DieCollision(wobj));
     return wobj;

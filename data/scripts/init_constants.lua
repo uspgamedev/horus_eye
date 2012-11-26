@@ -90,23 +90,15 @@ constants.RegisterDouble("HERO_MANA_PER_BLOCK", 200.0)
 constants.RegisterDouble("HERO_MANA_REGEN_BASE", 20.0)
 
 constants.RegisterDouble("PROJECTILE_SPEED", 8.0)
-constants.RegisterDouble("PROJECTILE_SPRITE_CENTER_X", 16.0)
-constants.RegisterDouble("PROJECTILE_SPRITE_CENTER_Y", 16.0)
 constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
 constants.RegisterDouble("LIGHTNING_SPEED", 24.0)
-constants.RegisterDouble("LIGHTNING_SPRITE_CENTER_X", 32.0)
-constants.RegisterDouble("LIGHTNING_SPRITE_CENTER_Y", 32.0)
 constants.RegisterDouble("LIGHTNING_HEIGHT", 12.0)
 
 constants.RegisterDouble("FIREBALL_SPEED", 10.0)
-constants.RegisterDouble("FIREBALL_SPRITE_CENTER_X", 32.0)
-constants.RegisterDouble("FIREBALL_SPRITE_CENTER_Y", 32.0)
 constants.RegisterDouble("FIREBALL_HEIGHT", 12.0)
 
 constants.RegisterDouble("EXPLOSION_SPEED", 8.0)
-constants.RegisterDouble("EXPLOSION_SPRITE_CENTER_X", 128.0)
-constants.RegisterDouble("EXPLOSION_SPRITE_CENTER_Y", 64.0)
 constants.RegisterDouble("EXPLOSION_WIDTH", 256.0)
 constants.RegisterDouble("EXPLOSION_HEIGHT", 128.0)
 
