@@ -17,7 +17,7 @@ class Graphic : public Base {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
-    Graphic(sprite::WorldObject* owner);
+    Graphic();
     virtual ~Graphic();
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
@@ -44,9 +44,6 @@ class Graphic : public Base {
 
   private:
     void adjustBlink();
-
-    /// The owner.
-    sprite::WorldObject* owner_;
 
     bool is_blinking_;
 

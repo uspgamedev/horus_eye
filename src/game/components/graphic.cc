@@ -13,10 +13,9 @@ namespace component {
 
 using ugdk::Vector2D;
 
-Graphic::Graphic(sprite::WorldObject* owner)
+Graphic::Graphic()
   : node_(new ugdk::graphic::Node),
     layer_(scene::FOREGROUND_LAYER),
-    owner_(owner),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),

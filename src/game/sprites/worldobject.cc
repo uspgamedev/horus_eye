@@ -39,8 +39,6 @@ WorldObject::WorldObject(double duration)
         dead_(false) {
     if(duration > 0.0)
         this->set_timed_life(duration);
-
-    AddComponent(new component::Graphic(this));
 }
 
 WorldObject::~WorldObject() {

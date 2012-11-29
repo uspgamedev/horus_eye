@@ -54,6 +54,7 @@ void WinCollision(void*) {
 
 WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::Graphic);
     wobj->node()->set_drawable(new Sprite("stairs"));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
@@ -67,6 +68,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
 static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::Graphic);
     wobj->set_identifier("Wall");
     wobj->AddComponent(new component::Wall(wobj, sheet), "wall", component::orders::LOGIC);
 
@@ -133,6 +135,7 @@ static void CollisionButton(ButtonLogic* button_logic, void*) {
 WorldObject* Button(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::Graphic);
 
     Sprite* sprite = new Sprite(factory.TileSwitchImage());
     ButtonLogic* logic;
@@ -220,6 +223,7 @@ static void InvalidMovementCollision(BlockLogic* data, void* obj) {
 WorldObject* Block(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::Graphic);
     
     Sprite* sprite = new Sprite(factory.WallImage());
     BlockLogic* logic = new BlockLogic(wobj);

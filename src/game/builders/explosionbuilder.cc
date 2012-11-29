@@ -44,6 +44,7 @@ static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::
     AnimationSet* set = ResourceManager::GetAnimationSetFromFile("animations/explosion.gdd");
     
     WorldObject *wobj = new WorldObject;
+    wobj->AddComponent(new component::Graphic);
 
     Sprite* sprite = new Sprite(sheet, set);
     sprite->SelectAnimation(anim);

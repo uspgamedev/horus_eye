@@ -96,6 +96,7 @@ static CollisionObject* buildCollisionObject(WorldObject* wobj) {
 
 static WorldObject* buildProjectile(const ugdk::Vector2D &dir, double speed, double duration, double radius) {
     WorldObject* wobj = new WorldObject(duration);
+    wobj->AddComponent(new component::Graphic);
     wobj->AddComponent(new StateController(component::Direction::FromWorldVector(dir), dir));
     wobj->AddComponent(new Walker(wobj, speed));
     wobj->AddComponent(new Shape(buildCollisionObject(wobj), NULL));
