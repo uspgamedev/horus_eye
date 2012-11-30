@@ -18,6 +18,8 @@ class Graphic : public Base {
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
     Graphic();
+    Graphic(ugdk::graphic::Drawable* drawable);
+    Graphic(ugdk::graphic::Drawable* drawable, double light_radius);
     virtual ~Graphic();
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }

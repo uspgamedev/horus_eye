@@ -28,6 +28,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 
 static void HeroLightUse(component::Caster* caster){
     sprite::WorldObject *light = new sprite::WorldObject(5.0);
+    light->AddComponent(new component::Graphic);
     light->node()->set_drawable(new ugdk::graphic::Sprite("light"));
     light->graphic()->ChangeLightRadius(4.0);
 

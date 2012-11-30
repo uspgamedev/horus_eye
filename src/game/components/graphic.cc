@@ -9,17 +9,42 @@
 #include "game/constants.h"
 #include "game/scenes/world.h"
 
+#define LIGHT_COEFFICIENT 0.75
+
 namespace component {
 
 using ugdk::Vector2D;
+using ugdk::graphic::Node;
+using ugdk::graphic::Drawable;
 
 Graphic::Graphic()
-  : node_(new ugdk::graphic::Node),
+  : node_(new Node),
     layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
-    blink_(false) {}
+    blink_(false),
+    light_radius_(0.0) {}
+
+Graphic::Graphic(ugdk::graphic::Drawable* drawable)
+  : node_(new Node(drawable)),
+    layer_(scene::FOREGROUND_LAYER),
+    is_blinking_(false),
+    blink_time_(new ugdk::time::TimeAccumulator(75)),
+    blink_duration_(new ugdk::time::TimeAccumulator(0)),
+    blink_(false),
+    light_radius_(0.0) {}
+
+Graphic::Graphic(ugdk::graphic::Drawable* drawable, double light_radius)
+  : node_(new Node(drawable)),
+    layer_(scene::FOREGROUND_LAYER),
+    is_blinking_(false),
+    blink_time_(new ugdk::time::TimeAccumulator(75)),
+    blink_duration_(new ugdk::time::TimeAccumulator(0)),
+    blink_(false),
+    light_radius_(light_radius) {
+        ChangeLightRadius(light_radius_);
+}
 
 Graphic::~Graphic() {
     delete node_;
@@ -27,22 +52,19 @@ Graphic::~Graphic() {
 }
 
 void Graphic::ChangeLightRadius(double radius) {
-    #define LIGHT_COEFFICIENT 0.75
-
     light_radius_ = radius;
-    ugdk::graphic::Node* node = node_;
     
     if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
-        if(node->light() == NULL) 
-            node->set_light(new ugdk::graphic::Light);
+        if(node_->light() == NULL) 
+            node_->set_light(new ugdk::graphic::Light);
 
         Vector2D dimension = scene::World::ConvertLightRadius(light_radius_);
-        node->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+        node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
     } else {
-        if(node->light()) {
-            delete node->light();
-            node->set_light(NULL);
+        if(node_->light()) {
+            delete node_->light();
+            node_->set_light(NULL);
         }
     }
 }
