@@ -65,7 +65,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic);
+    wobj->AddComponent(new component::Graphic(tag, ANIMATIONS));
     wobj->AddComponent(new component::Animation(wobj, tag, ANIMATIONS));
     wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);

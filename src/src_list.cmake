@@ -57,6 +57,8 @@ SET(GAME_SRCS
     ./game/components/animation.cc 
     ./game/components/animation.h 
     ./game/components/base.h 
+    ./game/components/basegraphic.cc 
+    ./game/components/basegraphic.h 
     ./game/components/caster.cc 
     ./game/components/caster.h 
     ./game/components/condition.cc 

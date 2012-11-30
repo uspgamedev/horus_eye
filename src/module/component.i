@@ -14,6 +14,7 @@
 #include <game/resources/energy.h>
 #include <game/components/base.h>
 #include <game/components/damageable.h>
+#include <game/components/basegraphic.h>
 #include <game/components/graphic.h>
 #include <game/components/controller.h>
 #include <game/components/animation.h>
@@ -73,6 +74,7 @@ disable_disown(component::Base* component)
 %include <game/components/direction.h>
 %include <game/components/base.h>
 %include <game/components/damageable.h>
+%include <game/components/basegraphic.h>
 %include <game/components/graphic.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
@@ -89,6 +91,7 @@ namespace component {
     export_class(Base)
     export_class(Direction)
     export_class(Damageable)
+	export_class(BaseGraphic)
     export_class(Graphic)
     export_class(Controller)
     export_class(Animation)

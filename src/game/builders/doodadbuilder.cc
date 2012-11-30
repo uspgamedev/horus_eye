@@ -20,7 +20,7 @@
 #include "game/components/shape.h"
 #include "game/components/logic/follower.h"
 #include "game/components/logic/wall.h"
-#include "game/components/graphic.h"
+#include "game/components/basegraphic.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
@@ -54,8 +54,7 @@ void WinCollision(void*) {
 
 WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic);
-    wobj->node()->set_drawable(new Sprite("stairs"));
+    wobj->AddComponent(new component::BaseGraphic(new Sprite("stairs")));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
@@ -68,9 +67,8 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
 static WorldObject* buildWall(ugdk::graphic::Spritesheet* sheet) {
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic);
+    wobj->AddComponent(new component::BaseGraphic(new Sprite(sheet)));
     wobj->set_identifier("Wall");
-    wobj->AddComponent(new component::Wall(wobj, sheet), "wall", component::orders::LOGIC);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
@@ -134,10 +132,10 @@ static void CollisionButton(ButtonLogic* button_logic, void*) {
 
 WorldObject* Button(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic);
-
     Sprite* sprite = new Sprite(factory.TileSwitchImage());
+    WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::BaseGraphic(sprite));
+
     ButtonLogic* logic;
     if(arguments.size() > 0 && arguments[0].compare("pizza") == 0) {
         logic = new ButtonLogic(sprite, PIZZAMATAHERO);
@@ -145,9 +143,8 @@ WorldObject* Button(const std::vector<std::string>& arguments) {
     } else
         logic = new ButtonLogic(sprite, WorldPressButton);
 
-    wobj->node()->set_drawable(sprite);
     wobj->AddComponent(logic, "button", component::orders::LOGIC);
-    wobj->graphic()->set_layer(scene::BACKGROUND_LAYER);
+    wobj->component<component::BaseGraphic>()->set_layer(scene::BACKGROUND_LAYER);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Button");
@@ -222,10 +219,10 @@ static void InvalidMovementCollision(BlockLogic* data, void* obj) {
 
 WorldObject* Block(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic);
-    
     Sprite* sprite = new Sprite(factory.WallImage());
+    WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::BaseGraphic(sprite));
+    
     BlockLogic* logic = new BlockLogic(wobj);
     wobj->AddComponent(logic, "block", component::orders::LOGIC);
 

@@ -144,7 +144,7 @@ WorldObject* Script(const vector<string>& arguments) {
     }
 
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic);
+    wobj->AddComponent(new component::BaseGraphic);
     wobj->set_identifier(arguments[0]);
 
     for(int i = 0; i < NUM_FIELDS; ++i) {

@@ -1,3 +1,6 @@
+#include "projectilebuilder.h"
+
+
 #include <cmath>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
@@ -10,8 +13,6 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionlogic.h>
-
-#include "projectilebuilder.h"
 
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
@@ -121,14 +122,14 @@ void ProjectileBuilder::InitializeAnimations() {
 
 WorldObject* ProjectileBuilder::MagicMissile(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("PROJECTILE_SPEED"), constants::GetDouble("PROJECTILE_DURATION"), 0.15);
-    wobj->AddComponent(new component::Graphic(new Sprite("magic_missile"), 1.0));
+    wobj->AddComponent(new component::BaseGraphic(new Sprite("magic_missile"), 1.0));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(wobj, "PROJECTILE_DAMAGE"));
     return wobj;
 }
 
 WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("PROJECTILE_SPEED"), constants::GetDouble("PROJECTILE_DURATION"), 0.15);
-    wobj->AddComponent(new component::Graphic(new Sprite("magic_missile"), 1.0));
+    wobj->AddComponent(new component::BaseGraphic(new Sprite("magic_missile"), 1.0));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(wobj, "PROJECTILE_DAMAGE"));
     wobj->shape()->collision()->AddCollisionLogic("Wall", new BounceCollision(wobj));
     return wobj;
@@ -136,14 +137,14 @@ WorldObject* ProjectileBuilder::MagicBall(const Vector2D &dir) {
 /***/
 WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, double damage) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("PROJECTILE_SPEED"), constants::GetDouble("PROJECTILE_DURATION"), 0.15);
-    wobj->AddComponent(new component::Graphic(new Sprite("mummy_projectile"), 0.75));
+    wobj->AddComponent(new component::BaseGraphic(new Sprite("mummy_projectile"), 0.75));
     wobj->shape()->collision()->AddCollisionLogic("Hero", new DamageAndDieCollision(wobj, damage));
     return wobj;
 }
 
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"), 0.25);
-    wobj->AddComponent(new component::Graphic(NULL, 1.0));
+    wobj->AddComponent(new component::Graphic("lightning_bolt", lightning_animation_, 1.0));
     wobj->AddComponent(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetDouble("LIGHTNING_DAMAGE")));
@@ -152,8 +153,8 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
 
 WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"), 0.25);
-    wobj->AddComponent(new component::Graphic(NULL, 1.0));
-    wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
+    wobj->AddComponent(new component::Graphic("fireball", fireball_animation_, 1.0));
+    wobj->graphic()->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(wobj, "fireball", fireball_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->set_start_to_die_callback(Carrier(builder::ExplosionBuilder::FireballExplosion()));
