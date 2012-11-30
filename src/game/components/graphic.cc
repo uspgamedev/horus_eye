@@ -24,5 +24,10 @@ bool Graphic::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
     if(index > -1) sprite_->SelectAnimation(index);
     return true;
 }
+
+void Graphic::AddObserver(ugdk::action::Observer* observer) {
+    sprite_->AddObserverToAnimation(observer);
+
+}
     
 }  // namespace component

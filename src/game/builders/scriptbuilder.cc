@@ -86,7 +86,7 @@ static void create_collision(WorldObject* wobj, VirtualObj coldata) {
 }
 
 static void create_drawable(WorldObject* wobj, VirtualObj data) {
-    wobj->graphic()->node()->set_drawable(data.value<ugdk::graphic::Drawable*>(true));
+    wobj->component<component::BaseGraphic>()->node()->set_drawable(data.value<ugdk::graphic::Drawable*>(true));
 }
 static void create_timedlife(WorldObject* wobj, VirtualObj data) {
     wobj->set_timed_life(data.value<double>());

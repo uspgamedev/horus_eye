@@ -3,7 +3,6 @@
 
 #include <map>
 #include <ugdk/portable/tr1.h>
-#include <map>
 #include FROM_TR1(functional)
 
 #include <ugdk/action.h>
@@ -25,8 +24,7 @@ class Animation : public Base, private ugdk::action::Observer {
     static const char* DEFAULT_NAME() { return "animation"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 
-    Animation(sprite::WorldObject*, const std::string& spritesheet_tag,
-              utils::IsometricAnimationSet* animation_set);
+    Animation(sprite::WorldObject*);
     virtual ~Animation();
 
     void Update(double dt);
@@ -50,10 +48,6 @@ class Animation : public Base, private ugdk::action::Observer {
     static utils::AnimtionType default_animation_;
 
     sprite::WorldObject* owner_;
-
-    ugdk::graphic::Sprite* sprite_;
-
-    utils::IsometricAnimationSet* isometric_animation_set_;
 
     Direction current_direction_;
 

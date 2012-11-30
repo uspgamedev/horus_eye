@@ -145,7 +145,7 @@ WorldObject* ProjectileBuilder::MummyProjectile(const ugdk::Vector2D &dir, doubl
 WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"), 0.25);
     wobj->AddComponent(new component::Graphic("lightning_bolt", lightning_animation_, 1.0));
-    wobj->AddComponent(new component::Animation(wobj, "lightning_bolt", lightning_animation_));
+    wobj->AddComponent(new component::Animation(wobj));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageCollision(constants::GetDouble("LIGHTNING_DAMAGE")));
     return wobj;
@@ -155,7 +155,7 @@ WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"), 0.25);
     wobj->AddComponent(new component::Graphic("fireball", fireball_animation_, 1.0));
     wobj->graphic()->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
-    wobj->AddComponent(new component::Animation(wobj, "fireball", fireball_animation_));
+    wobj->AddComponent(new component::Animation(wobj));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
     wobj->set_start_to_die_callback(Carrier(builder::ExplosionBuilder::FireballExplosion()));
 

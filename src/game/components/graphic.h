@@ -4,6 +4,7 @@
 #include "game/components/basegraphic.h"
 
 #include <ugdk/graphic.h>
+#include <ugdk/action/observer.h>
 
 #include "game/components/orders.h"
 #include "game/components/direction.h"
@@ -20,6 +21,7 @@ class Graphic : public BaseGraphic {
     virtual ~Graphic();
 
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
+    void AddObserver(ugdk::action::Observer* observer);
 
   private:
     ugdk::graphic::Sprite* sprite_;

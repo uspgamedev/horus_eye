@@ -34,15 +34,11 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
 utils::AnimtionType Animation::default_animation_ = utils::IDLE;
 
-Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
-                     utils::IsometricAnimationSet* iso_animation_set)
+Animation::Animation(sprite::WorldObject* wobj)
     :   owner_(wobj),
-        sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
-        isometric_animation_set_(iso_animation_set),
         current_animation_(utils::IDLE) {
-        
-    wobj->graphic()->node()->set_drawable(sprite_);
-    sprite_->AddObserverToAnimation(this);
+
+    wobj->component<component::Graphic>()->AddObserver(this);
 }
 
 Animation::~Animation() {}
@@ -58,20 +54,21 @@ void Animation::Tick() {
 
 void Animation::ChangeDirection(const Direction& dir) { 
     current_direction_ = dir;
-    int index = isometric_animation_set_->Get(current_animation_, current_direction_);
-    if(index > -1) sprite_->SelectAnimation(index);
+    owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type) {
     if(!CanInterrupt(type)) return false;
     Tick();
+    current_animation_ = type;
     set_current_animation(type);
     return true;
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
     current_direction_ = dir;
-    return ChangeAnimation(type);
+    current_animation_ = type;
+    return owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
 }
     
 void Animation::FinishAnimation() {
@@ -87,9 +84,8 @@ bool Animation::IsAnimation(utils::AnimtionType type) const {
 }
     
 void Animation::set_current_animation(utils::AnimtionType type) {
-    int index = isometric_animation_set_->Get(type, current_direction_);
-    if(index > -1) sprite_->SelectAnimation(index);
     current_animation_ = type;
+    owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
 }
 
 }  // namespace component
