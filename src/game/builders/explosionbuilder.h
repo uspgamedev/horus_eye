@@ -4,17 +4,13 @@
 #include "game/sprites.h"
 
 namespace builder {
+namespace ExplosionBuilder {
 
-class ExplosionBuilder {
-  public:
-    ExplosionBuilder() {}
-    ~ExplosionBuilder() {}
+sprite::WorldObject* FireballExplosion();
+sprite::WorldObject* EarthquakeExplosion();
+sprite::WorldObject* MeteorExplosion();
 
-    sprite::WorldObject* FireballExplosion();
-    sprite::WorldObject* EarthquakeExplosion();
-    sprite::WorldObject* MeteorExplosion();
-};
-
+}
 }
 
 #endif /* HORUSEYE_GAME_BUILDERS_EXPLOSIONBUILDER_H_ */

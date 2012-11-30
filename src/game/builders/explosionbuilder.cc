@@ -1,3 +1,5 @@
+#include "explosionbuilder.h"
+
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include <ugdk/base/engine.h>
@@ -11,7 +13,6 @@
 #include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 
-#include "explosionbuilder.h"
 
 #include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
@@ -25,6 +26,7 @@
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
+namespace ExplosionBuilder {
 
 using std::tr1::bind;
 using ugdk::action::AnimationSet;
@@ -58,7 +60,7 @@ static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::
     return wobj;
 }
 
-WorldObject* ExplosionBuilder::FireballExplosion() {
+WorldObject* FireballExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
     
@@ -72,7 +74,7 @@ WorldObject* ExplosionBuilder::FireballExplosion() {
     return wobj;
 }
 
-WorldObject* ExplosionBuilder::EarthquakeExplosion() {
+WorldObject* EarthquakeExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.QuakeImage(), "HERO_EXPLOSION_WEAPON");
 
@@ -85,7 +87,7 @@ WorldObject* ExplosionBuilder::EarthquakeExplosion() {
     return wobj;
 }
 
-WorldObject* ExplosionBuilder::MeteorExplosion() {
+WorldObject* MeteorExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
 
@@ -100,4 +102,5 @@ WorldObject* ExplosionBuilder::MeteorExplosion() {
     return wobj;
 }
 
-}
+} // namespace ExplosionBuilder
+} // namespace builder

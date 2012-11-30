@@ -151,14 +151,12 @@ WorldObject* ProjectileBuilder::LightningBolt(const Vector2D &dir) {
 }
 
 WorldObject* ProjectileBuilder::Fireball(const Vector2D &dir) {
-    builder::ExplosionBuilder builder;
-
     WorldObject* wobj = buildProjectile(dir, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"), 0.25);
     wobj->AddComponent(new component::Graphic(NULL, 1.0));
     wobj->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(wobj, "fireball", fireball_animation_));
     wobj->component<Animation>()->ChangeDirection(GetFromScreenVector(dir));
-    wobj->set_start_to_die_callback(Carrier(builder.FireballExplosion()));
+    wobj->set_start_to_die_callback(Carrier(builder::ExplosionBuilder::FireballExplosion()));
 
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DieCollision(wobj));
     return wobj;
