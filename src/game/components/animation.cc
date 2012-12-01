@@ -41,6 +41,14 @@ Animation::Animation(sprite::WorldObject* wobj)
     wobj->component<component::Graphic>()->AddObserver(this);
 }
 
+Animation::Animation(sprite::WorldObject* owner, utils::AnimtionType type, const Direction& dir)
+    :   owner_(owner), 
+        current_direction_(dir),
+        current_animation_(type) {
+    owner->component<component::Graphic>()->AddObserver(this);
+    updateGraphic();
+}
+
 Animation::~Animation() {}
 
 void Animation::Update(double dt) {}

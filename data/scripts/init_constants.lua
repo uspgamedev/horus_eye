@@ -1,15 +1,23 @@
 require "constants"
 
 constants.RegisterInt("PROJECTILE_SPRITE_HEIGHT", 32)
+constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
-constants.RegisterDouble("MAGICMISSILE_DURATION", 4.0)
-constants.RegisterDouble("MAGICBALL_DURATION",    4.0)
+constants.RegisterDouble("MAGICMISSILE_DURATION",   4.0)
+constants.RegisterDouble("MAGICMISSILE_DAMAGE",   200.0)
+constants.RegisterDouble("MAGICMISSILE_SPEED",      8.0)
+
+constants.RegisterDouble("MAGICBALL_DURATION",   4.0)
+constants.RegisterDouble("MAGICBALL_DAMAGE",   200.0)
+constants.RegisterDouble("MAGICBALL_SPEED",      8.0)
+
+constants.RegisterDouble("MUMMYPROJECTILE_DURATION",   3.5)
+constants.RegisterDouble("MUMMYPROJECTILE_SPEED", 8.0)
+
+
 constants.RegisterDouble("FIREBALL_DURATION",     3.0)
 constants.RegisterDouble("LIGHTNING_DURATION",    3.5)
 
-constants.RegisterDouble("MUMMYPROJECTILE_DURATION",   3.5)
-
-constants.RegisterDouble("PROJECTILE_DAMAGE", 200)
 
 constants.RegisterInt("LIFEPOTION_RECOVER_LIFE", 200)
 constants.RegisterInt("MANAPOTION_RECOVER_MANA", 200)
@@ -88,9 +96,6 @@ constants.RegisterDouble("HERO_SPEED", 4.0)
 constants.RegisterDouble("HERO_MAX_LIFE", 1000.0)
 constants.RegisterDouble("HERO_MANA_PER_BLOCK", 200.0)
 constants.RegisterDouble("HERO_MANA_REGEN_BASE", 20.0)
-
-constants.RegisterDouble("PROJECTILE_SPEED", 8.0)
-constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
 constants.RegisterDouble("LIGHTNING_SPEED", 24.0)
 constants.RegisterDouble("LIGHTNING_HEIGHT", 12.0)

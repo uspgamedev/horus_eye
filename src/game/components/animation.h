@@ -25,6 +25,7 @@ class Animation : public Base, private ugdk::action::Observer {
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 
     Animation(sprite::WorldObject*);
+    Animation(sprite::WorldObject*, utils::AnimtionType type, const Direction& dir);
     virtual ~Animation();
 
     void Update(double dt);
