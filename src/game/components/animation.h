@@ -29,10 +29,17 @@ class Animation : public Base, private ugdk::action::Observer {
 
     void Update(double dt);
 
+    /// Changes the direction, no callbacks happens.
     void ChangeDirection(const Direction& dir);
+
+    /** Changes the animation type, callbacks happens if there's an actual change.
+        The animation is only changed if the new type can interrupt the current animation. */
     bool ChangeAnimation(utils::AnimtionType type);
+
+    /// First changes the direction, then changes the animation type. A wrapper.
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
 
+    /// Stops the current animation, calls callbacks and goes back to the default animation.
     void FinishAnimation();
 
     bool CanInterrupt(utils::AnimtionType type) const;
@@ -44,7 +51,8 @@ class Animation : public Base, private ugdk::action::Observer {
 
   private:
     void Tick();
-    void set_current_animation(utils::AnimtionType type);
+    void executeCallback();
+    bool updateGraphic();
     static utils::AnimtionType default_animation_;
 
     sprite::WorldObject* owner_;

@@ -46,29 +46,27 @@ Animation::~Animation() {}
 void Animation::Update(double dt) {}
 
 void Animation::Tick() {
-    // If the animation we're interrupting has a callback on it's end, call it.
-    if(animation_callbacks_[current_animation_])
-        animation_callbacks_[current_animation_](owner_);
-    set_current_animation(default_animation_);
+    executeCallback();
+    current_animation_ = default_animation_;
+    updateGraphic();
 }
 
 void Animation::ChangeDirection(const Direction& dir) { 
     current_direction_ = dir;
-    owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
+    updateGraphic();
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type) {
     if(!CanInterrupt(type)) return false;
-    Tick();
+    if(current_animation_ != type)
+        executeCallback();
     current_animation_ = type;
-    set_current_animation(type);
-    return true;
+    return updateGraphic();
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
     current_direction_ = dir;
-    current_animation_ = type;
-    return owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
+    return ChangeAnimation(type);
 }
     
 void Animation::FinishAnimation() {
@@ -82,10 +80,15 @@ bool Animation::CanInterrupt(utils::AnimtionType type) const {
 bool Animation::IsAnimation(utils::AnimtionType type) const {
     return current_animation_ == type;
 }
+
+void Animation::executeCallback() {
+    // If the animation we're interrupting has a callback on it's end, call it.
+    if(animation_callbacks_[current_animation_])
+        animation_callbacks_[current_animation_](owner_);
+}
     
-void Animation::set_current_animation(utils::AnimtionType type) {
-    current_animation_ = type;
-    owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
+bool Animation::updateGraphic() {
+    return owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
 }
 
 }  // namespace component
