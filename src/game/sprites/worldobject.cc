@@ -75,16 +75,17 @@ void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    if(shape()) shape()->ChangePosition(pos);
 
    Vector2D position = World::FromWorldCoordinates(world_position_);
-   graphic()->node()->modifier()->set_offset(position);
-   graphic()->node()->set_zindex(position.y);
+   ugdk::graphic::Node* node = component<component::BaseGraphic>()->node();
+   node->modifier()->set_offset(position);
+   node->set_zindex(position.y);
 }
 
 ugdk::graphic::Node* WorldObject::node() { 
-    return graphic()->node();
+    return component<component::BaseGraphic>()->node();
 }
 
 const ugdk::graphic::Node* WorldObject::node() const {
-    return component<component::Graphic>("graphic")->node();
+    return component<component::BaseGraphic>()->node();
 }
 
 void WorldObject::set_timed_life(double duration) {
@@ -119,7 +120,7 @@ void WorldObject::RemoveComponent(const std::string& name) {
 }
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
-component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
+component::BaseGraphic* WorldObject::graphic() { return component<component::BaseGraphic>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Shape* WorldObject::shape() { return component<component::Shape>(); }

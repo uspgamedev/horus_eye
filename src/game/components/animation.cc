@@ -34,15 +34,11 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
 utils::AnimtionType Animation::default_animation_ = utils::IDLE;
 
-Animation::Animation(sprite::WorldObject* wobj, const std::string& spritesheet_tag,
-                     utils::IsometricAnimationSet* iso_animation_set)
+Animation::Animation(sprite::WorldObject* wobj)
     :   owner_(wobj),
-        sprite_(new ugdk::graphic::Sprite(spritesheet_tag, iso_animation_set->animation_set())),
-        isometric_animation_set_(iso_animation_set),
         current_animation_(utils::IDLE) {
-        
-    wobj->graphic()->node()->set_drawable(sprite_);
-    sprite_->AddObserverToAnimation(this);
+
+    wobj->component<component::Graphic>()->AddObserver(this);
 }
 
 Animation::~Animation() {}
@@ -50,23 +46,22 @@ Animation::~Animation() {}
 void Animation::Update(double dt) {}
 
 void Animation::Tick() {
-    // If the animation we're interrupting has a callback on it's end, call it.
-    if(animation_callbacks_[current_animation_])
-        animation_callbacks_[current_animation_](owner_);
-    set_current_animation(default_animation_);
+    executeCallback();
+    current_animation_ = default_animation_;
+    updateGraphic();
 }
 
 void Animation::ChangeDirection(const Direction& dir) { 
     current_direction_ = dir;
-    int index = isometric_animation_set_->Get(current_animation_, current_direction_);
-    if(index > -1) sprite_->SelectAnimation(index);
+    updateGraphic();
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type) {
     if(!CanInterrupt(type)) return false;
-    Tick();
-    set_current_animation(type);
-    return true;
+    if(current_animation_ != type)
+        executeCallback();
+    current_animation_ = type;
+    return updateGraphic();
 }
 
 bool Animation::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
@@ -85,11 +80,15 @@ bool Animation::CanInterrupt(utils::AnimtionType type) const {
 bool Animation::IsAnimation(utils::AnimtionType type) const {
     return current_animation_ == type;
 }
+
+void Animation::executeCallback() {
+    // If the animation we're interrupting has a callback on it's end, call it.
+    if(animation_callbacks_[current_animation_])
+        animation_callbacks_[current_animation_](owner_);
+}
     
-void Animation::set_current_animation(utils::AnimtionType type) {
-    int index = isometric_animation_set_->Get(type, current_direction_);
-    if(index > -1) sprite_->SelectAnimation(index);
-    current_animation_ = type;
+bool Animation::updateGraphic() {
+    return owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
 }
 
 }  // namespace component

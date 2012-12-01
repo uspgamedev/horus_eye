@@ -55,8 +55,8 @@ sprite::WorldObject* HeroBuilder::Kha() {
     hero_wobj->set_die_callback(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
-    hero_wobj->AddComponent(new component::Graphic);
-    hero_wobj->AddComponent(new component::Animation(hero_wobj, "hero", ANIMATIONS));
+    hero_wobj->AddComponent(new component::Graphic("hero", ANIMATIONS));
+    hero_wobj->AddComponent(new component::Animation(hero_wobj));
     hero_wobj->graphic()->ChangeLightRadius(constants::GetDouble("LIGHT_RADIUS_INITIAL"));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
     hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));

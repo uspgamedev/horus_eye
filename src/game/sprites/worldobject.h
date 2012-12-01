@@ -66,7 +66,7 @@ class WorldObject : public ::ugdk::action::Entity {
     }
 
     component::Damageable* damageable();
-    component::Graphic* graphic();
+    component::BaseGraphic* graphic();
     component::Controller* controller();
     component::Caster* caster();
     component::Shape* shape();
