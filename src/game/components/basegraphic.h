@@ -3,6 +3,7 @@
 
 #include "game/components/base.h"
 
+#include <ugdk/base/types.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
 
@@ -30,6 +31,8 @@ class BaseGraphic : public Base {
     
     double light_radius() const { return light_radius_; }
     void ChangeLightRadius(double radius);
+
+    void ChangeLightColor(const ugdk::Color& color);
 
     virtual void Update(double dt) { adjustBlink(); }
 
@@ -60,6 +63,8 @@ class BaseGraphic : public Base {
 
     /// How much light this component emits.
     double light_radius_;
+
+    ugdk::Color light_color_;
 
 };  // class Graphic
 

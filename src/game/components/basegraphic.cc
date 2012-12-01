@@ -56,8 +56,10 @@ void BaseGraphic::ChangeLightRadius(double radius) {
     light_radius_ = radius;
     
     if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
-        if(node_->light() == NULL) 
+        if(node_->light() == NULL) {
             node_->set_light(new ugdk::graphic::Light);
+            node_->light()->set_color(light_color_);
+        }
 
         Vector2D dimension = scene::World::ConvertLightRadius(light_radius_);
         node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
@@ -68,6 +70,12 @@ void BaseGraphic::ChangeLightRadius(double radius) {
             node_->set_light(NULL);
         }
     }
+}
+
+void BaseGraphic::ChangeLightColor(const ugdk::Color& color) {
+    light_color_ = color;
+    if(node_->light())
+        node_->light()->set_color(light_color_);
 }
 
 void BaseGraphic::StartBlinking(int duration) {
