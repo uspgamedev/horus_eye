@@ -25,8 +25,7 @@ static void HeroLightningUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
              pos = caster->aim().origin_;
 
-    builder::ProjectileBuilder proj;
-    caster->owner()->current_room()->AddObject(proj.LightningBolt(versor), pos, map::POSITION_ABSOLUTE);
+    caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::LightningBolt(versor), pos, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
