@@ -30,7 +30,7 @@ class BaseGraphic : public Base {
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::Vector2D& position);
 
-    void set_render_offset(const ugdk::Vector2D& render_offset) { render_offset_ = render_offset; }
+    void set_render_offset(const ugdk::Vector2D& render_offset);
 
     double light_radius() const { return light_radius_; }
     void ChangeLightRadius(double radius);
@@ -51,6 +51,7 @@ class BaseGraphic : public Base {
     void RemoveFromLayers(ugdk::graphic::Node** layers);
 
   protected:
+    ugdk::graphic::Node* root_node_;
     ugdk::graphic::Node* node_;
 
   private:

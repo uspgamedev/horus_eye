@@ -19,70 +19,79 @@ using ugdk::graphic::Node;
 using ugdk::graphic::Drawable;
 
 BaseGraphic::BaseGraphic()
-  : node_(new Node),
+  : root_node_(new Node),
+    node_(new Node),
     layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
     blink_(false),
-    light_radius_(0.0) {}
+    light_radius_(0.0) { root_node_->AddChild(node_); }
 
 BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable)
-  : node_(new Node(drawable)),
+  : root_node_(new Node),
+    node_(new Node(drawable)),
     layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
     blink_(false),
-    light_radius_(0.0) {}
+    light_radius_(0.0) { root_node_->AddChild(node_); }
 
 BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable, double light_radius)
-  : node_(new Node(drawable)),
+  : root_node_(new Node),
+    node_(new Node(drawable)),
     layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
     blink_(false),
     light_radius_(light_radius) {
+        root_node_->AddChild(node_);
         ChangeLightRadius(light_radius_);
 }
 
 BaseGraphic::~BaseGraphic() {
-    delete node_;
+    delete root_node_;
     delete blink_time_;
     delete blink_duration_;
 }
 
 void BaseGraphic::SetPosition(const ugdk::Vector2D& position) {
     Vector2D screen_position = scene::World::FromWorldCoordinates(position);
-    node_->modifier()->set_offset(screen_position + render_offset_);
-    node_->set_zindex(screen_position.y);
+    root_node_->modifier()->set_offset(screen_position);
+    root_node_->set_zindex(screen_position.y);
+}
+
+void BaseGraphic::set_render_offset(const ugdk::Vector2D& render_offset) {
+    render_offset_ = render_offset;
+    node_->modifier()->set_offset(render_offset_);
 }
 
 void BaseGraphic::ChangeLightRadius(double radius) {
     light_radius_ = radius;
     
     if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
-        if(node_->light() == NULL) {
-            node_->set_light(new ugdk::graphic::Light);
-            node_->light()->set_color(light_color_);
+        if(root_node_->light() == NULL) {
+            root_node_->set_light(new ugdk::graphic::Light);
+            root_node_->light()->set_color(light_color_);
         }
 
         Vector2D dimension = scene::World::ConvertLightRadius(light_radius_);
-        node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
+        root_node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
     } else {
-        if(node_->light()) {
-            delete node_->light();
-            node_->set_light(NULL);
+        if(root_node_->light()) {
+            delete root_node_->light();
+            root_node_->set_light(NULL);
         }
     }
 }
 
 void BaseGraphic::ChangeLightColor(const ugdk::Color& color) {
     light_color_ = color;
-    if(node_->light())
-        node_->light()->set_color(light_color_);
+    if(root_node_->light())
+        root_node_->light()->set_color(light_color_);
 }
 
 double BaseGraphic::alpha() const {
@@ -96,7 +105,7 @@ void BaseGraphic::ChangeAlpha(double alpha) {
 }
 
 void BaseGraphic::set_visible(bool visible) {
-    node_->modifier()->set_visible(visible);
+    root_node_->modifier()->set_visible(visible);
 }
 
 void BaseGraphic::StartBlinking(int duration) {
@@ -110,17 +119,15 @@ void BaseGraphic::StartBlinking(int duration) {
 
 void BaseGraphic::StopBlinking() {
     is_blinking_ = false;
-    ugdk::Color c = node_->modifier()->color();
-    c.a = 1.0;
-    node_->modifier()->set_color(c);
+    node_->modifier()->set_visible(true);
 }
 
 void BaseGraphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
-    layers[layer_]->AddChild(node_);
+    layers[layer_]->AddChild(root_node_);
 }
 
 void BaseGraphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
-    layers[layer_]->RemoveChild(node_);
+    layers[layer_]->RemoveChild(root_node_);
 }
 
 void BaseGraphic::adjustBlink() {
@@ -128,9 +135,7 @@ void BaseGraphic::adjustBlink() {
         StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {
         blink_ = !blink_;
-        ugdk::Color c = node_->modifier()->color();
-        c.a = blink_ ? 1.0 : 0.20;
-        node_->modifier()->set_color(c);
+        node_->modifier()->set_visible(blink_);
         blink_time_->Restart();
     }
 }
