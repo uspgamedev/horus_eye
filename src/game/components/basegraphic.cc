@@ -116,12 +116,11 @@ void BaseGraphic::StopBlinking() {
 }
 
 void BaseGraphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
-    layers[0]->AddChild(node_);
-    //layer_node((*it)->layer())->AddChild((*it)->node());
+    layers[layer_]->AddChild(node_);
 }
 
 void BaseGraphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
-    layers[0]->RemoveChild(node_);
+    layers[layer_]->RemoveChild(node_);
 }
 
 void BaseGraphic::adjustBlink() {
