@@ -18,7 +18,8 @@ using sprite::WorldObject;
 namespace component {
     
 PlayerController::PlayerController(WorldObject* owner) 
-    : owner_(owner) {
+    :   owner_(owner),
+        mouse_aim_offset_(0.0, constants::GetDouble("PLAYER_MOUSE_HEIGHT_OFFSET")) {
     selected_skill_ = known_skills_.begin();
 }
 
@@ -37,7 +38,7 @@ static void cycle_iterator(std::list<int>::const_iterator& it, const std::list<i
 void PlayerController::Update(double dt) {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
 
-    aim_destination_ = scene::World::FromScreenCoordinates(input_->GetMousePosition());
+    aim_destination_ = scene::World::FromScreenCoordinates(input_->GetMousePosition() + mouse_aim_offset_);
 
     Direction d;
     if(input_->KeyDown(ugdk::input::K_w)) d |= Direction::Up();

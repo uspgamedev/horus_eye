@@ -1,5 +1,7 @@
 require "constants"
 
+constants.RegisterDouble("PLAYER_MOUSE_HEIGHT_OFFSET", 64.0)
+
 constants.RegisterInt("PROJECTILE_SPRITE_HEIGHT", 32)
 constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
