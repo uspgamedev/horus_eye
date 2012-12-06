@@ -14,7 +14,7 @@ function generate (...)
 
   descriptor.on_die_callback = function (obj)
     local dart =
-      builder.ProjectileBuilder():MummyProjectile(Vector2D(dx,dy), 200)
+      builder.MummyProjectile(Vector2D(dx,dy), 200)
     obj:current_room():AddObject(dart, obj:world_position(), map.POSITION_ABSOLUTE)
   end
 
