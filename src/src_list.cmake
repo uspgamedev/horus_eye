@@ -72,8 +72,6 @@ SET(GAME_SRCS
     ./game/components/graphic.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
-    ./game/components/logic/wall.cc 
-    ./game/components/logic/wall.h 
     ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 

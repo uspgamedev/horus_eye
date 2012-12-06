@@ -16,5 +16,5 @@ function generate ()
 end
 
 function build (wobj)
-  wobj:node():drawable():set_hotspot(ugdk_math.Vector2D(0, 40))
+  wobj:graphic():set_render_offset(ugdk_math.Vector2D(0, -40))
 end

@@ -65,7 +65,7 @@ WorldObject* FireballExplosion() {
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
     
     wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
-    wobj->component<component::BaseGraphic>()->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
+    wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
 
     CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
@@ -91,9 +91,7 @@ WorldObject* MeteorExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
 
-    static double explosion_fireball_ratio = (constants::GetDouble("METEOR_EXPLOSION_RADIUS") / constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
-    wobj->component<component::BaseGraphic>()->node()->modifier()->set_scale(Vector2D(explosion_fireball_ratio));
-    //explosion->set_hotspot(explosion->hotspot() * explosion_fireball_ratio); Oh noes TODO fix hotspot
+    // TODO: make an animation for the explosion
 
     CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("METEOR_EXPLOSION_DAMAGE")));

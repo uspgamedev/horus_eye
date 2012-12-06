@@ -18,7 +18,6 @@
 #include "game/components/shape.h"
 #include "game/components/basegraphic.h"
 #include "game/components/logic/follower.h"
-#include "game/components/logic/wall.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"

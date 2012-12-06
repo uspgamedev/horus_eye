@@ -55,7 +55,7 @@ BaseGraphic::~BaseGraphic() {
 
 void BaseGraphic::SetPosition(const ugdk::Vector2D& position) {
     Vector2D screen_position = scene::World::FromWorldCoordinates(position);
-    node_->modifier()->set_offset(screen_position);
+    node_->modifier()->set_offset(screen_position + render_offset_);
     node_->set_zindex(screen_position.y);
 }
 
@@ -85,6 +85,20 @@ void BaseGraphic::ChangeLightColor(const ugdk::Color& color) {
         node_->light()->set_color(light_color_);
 }
 
+double BaseGraphic::alpha() const {
+    return node_->modifier()->color().a;
+}
+
+void BaseGraphic::ChangeAlpha(double alpha) {
+    ugdk::Color color = node_->modifier()->color();
+    color.a = alpha;
+    node_->modifier()->set_color(color);
+}
+
+void BaseGraphic::set_visible(bool visible) {
+    node_->modifier()->set_visible(visible);
+}
+
 void BaseGraphic::StartBlinking(int duration) {
     is_blinking_ = true;
     blink_time_->Restart();
@@ -96,18 +110,18 @@ void BaseGraphic::StartBlinking(int duration) {
 
 void BaseGraphic::StopBlinking() {
     is_blinking_ = false;
-    ugdk::Color c = node()->modifier()->color();
+    ugdk::Color c = node_->modifier()->color();
     c.a = 1.0;
-    node()->modifier()->set_color(c);
+    node_->modifier()->set_color(c);
 }
 
 void BaseGraphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
-    layers[0]->AddChild(node());
+    layers[0]->AddChild(node_);
     //layer_node((*it)->layer())->AddChild((*it)->node());
 }
 
 void BaseGraphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
-    layers[0]->RemoveChild(node());
+    layers[0]->RemoveChild(node_);
 }
 
 void BaseGraphic::adjustBlink() {
@@ -115,9 +129,9 @@ void BaseGraphic::adjustBlink() {
         StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {
         blink_ = !blink_;
-        ugdk::Color c = node()->modifier()->color();
+        ugdk::Color c = node_->modifier()->color();
         c.a = blink_ ? 1.0 : 0.20;
-        node()->modifier()->set_color(c);
+        node_->modifier()->set_color(c);
         blink_time_->Restart();
     }
 }

@@ -46,9 +46,6 @@ class WorldObject : public ::ugdk::action::Entity {
 
     bool dead() const { return dead_; }
 
-          ugdk::graphic::Node* node();
-    const ugdk::graphic::Node* node() const;
-
     void set_timed_life(double);
 
     void OnRoomAdd(map::Room*);

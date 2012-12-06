@@ -6,7 +6,7 @@
 #include <ugdk/base/types.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
-#include <ugdk/math.h>
+#include <ugdk/math/vector2D.h>
 
 #include "game/sprites.h"
 #include "game/components/orders.h"
@@ -30,13 +30,17 @@ class BaseGraphic : public Base {
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::Vector2D& position);
 
-          ugdk::graphic::Node* node()       { return node_; }
-    const ugdk::graphic::Node* node() const { return node_; }
-    
+    void set_render_offset(const ugdk::Vector2D& render_offset) { render_offset_ = render_offset; }
+
     double light_radius() const { return light_radius_; }
     void ChangeLightRadius(double radius);
 
     void ChangeLightColor(const ugdk::Color& color);
+
+    double alpha() const;
+    void ChangeAlpha(double alpha);
+
+    void set_visible(bool visible);
 
     virtual void Update(double dt) { adjustBlink(); }
 
@@ -69,6 +73,8 @@ class BaseGraphic : public Base {
     double light_radius_;
 
     ugdk::Color light_color_;
+
+    ugdk::Vector2D render_offset_;
 
 };  // class Graphic
 

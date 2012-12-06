@@ -19,7 +19,6 @@
 #include "game/components/base.h"
 #include "game/components/shape.h"
 #include "game/components/logic/follower.h"
-#include "game/components/logic/wall.h"
 #include "game/components/basegraphic.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
@@ -226,8 +225,8 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     BlockLogic* logic = new BlockLogic(wobj);
     wobj->AddComponent(logic, "block", component::orders::LOGIC);
 
-    wobj->node()->set_drawable(sprite);
-    wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
+    //wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
+    // TODO: different GDD
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Block");

@@ -104,6 +104,7 @@ static WorldObject* buildProjectile(const ugdk::Vector2D &dir, const std::string
 
 WorldObject* MagicMissile(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, "magic_missile", "", 1.0, constants::GetDouble("MAGICMISSILE_SPEED"), constants::GetDouble("MAGICMISSILE_DURATION"), 0.15);
+    wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageAndDieCollision(wobj, "MAGICMISSILE_DAMAGE"));
     return wobj;
 }
