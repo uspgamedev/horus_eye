@@ -46,9 +46,6 @@ class WorldObject : public ::ugdk::action::Entity {
 
     bool dead() const { return dead_; }
 
-          ugdk::graphic::Node* node();
-    const ugdk::graphic::Node* node() const;
-
     void set_timed_life(double);
 
     void OnRoomAdd(map::Room*);
@@ -66,7 +63,7 @@ class WorldObject : public ::ugdk::action::Entity {
     }
 
     component::Damageable* damageable();
-    component::Graphic* graphic();
+    component::BaseGraphic* graphic();
     component::Controller* controller();
     component::Caster* caster();
     component::Shape* shape();

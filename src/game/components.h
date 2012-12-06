@@ -9,6 +9,7 @@ class Animation;
 class Damageable;
 class Caster;
 class Graphic;
+class BaseGraphic;
 class Shape;
 
 class Controller;

@@ -1,3 +1,5 @@
+#include "explosionbuilder.h"
+
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include <ugdk/base/engine.h>
@@ -11,7 +13,6 @@
 #include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 
-#include "explosionbuilder.h"
 
 #include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
@@ -25,6 +26,7 @@
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
 
 namespace builder {
+namespace ExplosionBuilder {
 
 using std::tr1::bind;
 using ugdk::action::AnimationSet;
@@ -48,7 +50,8 @@ static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::
     Sprite* sprite = new Sprite(sheet, set);
     sprite->SelectAnimation(anim);
     sprite->AddTickFunctionToAnimation(bind(&WorldObject::StartToDie, wobj));
-    wobj->node()->set_drawable(sprite);
+
+    wobj->AddComponent(new component::BaseGraphic(sprite));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Explosion");
@@ -57,12 +60,12 @@ static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::
     return wobj;
 }
 
-WorldObject* ExplosionBuilder::FireballExplosion() {
+WorldObject* FireballExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
     
-    wobj->graphic()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
-    wobj->graphic()->node()->light()->set_color(ugdk::Color(1.0, 0.521568, 0.082352));
+    wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
+    wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
 
     CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
@@ -71,11 +74,11 @@ WorldObject* ExplosionBuilder::FireballExplosion() {
     return wobj;
 }
 
-WorldObject* ExplosionBuilder::EarthquakeExplosion() {
+WorldObject* EarthquakeExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.QuakeImage(), "HERO_EXPLOSION_WEAPON");
 
-    wobj->graphic()->ChangeLightRadius(1.3* constants::GetDouble("QUAKE_EXPLOSION_RADIUS"));
+    wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3* constants::GetDouble("QUAKE_EXPLOSION_RADIUS"));
 
     CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("QUAKE_EXPLOSION_DAMAGE")));
@@ -84,13 +87,11 @@ WorldObject* ExplosionBuilder::EarthquakeExplosion() {
     return wobj;
 }
 
-WorldObject* ExplosionBuilder::MeteorExplosion() {
+WorldObject* MeteorExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
 
-    static double explosion_fireball_ratio = (constants::GetDouble("METEOR_EXPLOSION_RADIUS") / constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
-    wobj->node()->modifier()->set_scale(Vector2D(explosion_fireball_ratio));
-    //explosion->set_hotspot(explosion->hotspot() * explosion_fireball_ratio); Oh noes TODO fix hotspot
+    // TODO: make an animation for the explosion
 
     CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("METEOR_EXPLOSION_DAMAGE")));
@@ -99,4 +100,5 @@ WorldObject* ExplosionBuilder::MeteorExplosion() {
     return wobj;
 }
 
-}
+} // namespace ExplosionBuilder
+} // namespace builder

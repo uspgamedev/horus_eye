@@ -29,6 +29,9 @@ class IsometricAnimationSet {
     
     ugdk::action::AnimationSet* animation_set() { return animation_set_; }
 
+    static IsometricAnimationSet* LoadFromFile(const std::string& name);
+    static IsometricAnimationSet* LoadFromResourceManager(const std::string& name);
+
   private:
     ugdk::action::AnimationSet* animation_set_;
     ugdk::uint32 animation_index_[NUM_ANIMATION_TYPES][16];

@@ -57,6 +57,8 @@ SET(GAME_SRCS
     ./game/components/animation.cc 
     ./game/components/animation.h 
     ./game/components/base.h 
+    ./game/components/basegraphic.cc 
+    ./game/components/basegraphic.h 
     ./game/components/caster.cc 
     ./game/components/caster.h 
     ./game/components/condition.cc 
@@ -70,8 +72,6 @@ SET(GAME_SRCS
     ./game/components/graphic.h 
     ./game/components/logic/follower.cc 
     ./game/components/logic/follower.h 
-    ./game/components/logic/wall.cc 
-    ./game/components/logic/wall.h 
     ./game/components/orders.h 
     ./game/components/playercontroller.cc 
     ./game/components/playercontroller.h 

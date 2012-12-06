@@ -93,7 +93,7 @@ bool VerifyCheats(double delta_t) {
 bool UpdateOffset(double dt) {
     World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
-    if(world->hero()) result -= world->hero()->node()->modifier()->offset();
+    if(world->hero()) result -= World::FromWorldCoordinates(world->hero()->world_position());
     world->content_node()->modifier()->set_offset(result);
     return true;
 }

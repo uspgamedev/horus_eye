@@ -58,23 +58,23 @@ UseCollision* CreateItemUse(WorldObject* wobj, sprite::ItemEvent* ev) {
 
 class ItemLogic : public component::Base {
   public:
-    ItemLogic(component::Graphic* g, ugdk::graphic::Drawable* image) : total_time_(0) {
-        g->node()->AddChild(node_ = new ugdk::graphic::Node(image));
-        node_->drawable()->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
+    ItemLogic(component::BaseGraphic* g, ugdk::graphic::Drawable* image) : graphic_(g), total_time_(0) {
     }
     void Update(double delta_t) {
         total_time_ += delta_t;
         if (total_time_ >= PERIOD) total_time_ -= PERIOD;
-        node_->modifier()->set_offset(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
+        graphic_->set_render_offset(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
     }
   private:
-    ugdk::graphic::Node* node_;
+    component::BaseGraphic* graphic_;
     double total_time_;
 };
 
 WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
     WorldObject* wobj = new WorldObject;
+    wobj->AddComponent(new component::BaseGraphic);
     wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
+    image->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Item");

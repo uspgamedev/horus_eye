@@ -65,7 +65,8 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Animation(wobj, tag, ANIMATIONS));
+    wobj->AddComponent(new component::Graphic(tag, ANIMATIONS));
+    wobj->AddComponent(new component::Animation(wobj));
     wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->component<Animation>()->AddCallback(utils::DEATH, std::tr1::mem_fn(&WorldObject::Die));
@@ -124,7 +125,7 @@ sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& argument
 sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_big", constants::GetInt("BIG_MUMMY_LIFE"), 
         constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"), true);
-    wobj->node()->modifier()->set_scale(Vector2D(2.0, 2.0));
+    // TODO: different GDD
     wobj->damageable()->set_super_armor(true);
 
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
@@ -141,10 +142,7 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
         constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
-    ugdk::Color color = wobj->graphic()->node()->modifier()->color();
-    color.set_a(0.5);
-    wobj->graphic()->node()->modifier()->set_color(color);
-
+    wobj->graphic()->ChangeAlpha(0.5);
     wobj->caster()->LearnAndEquipSkill("paper_melee", Controller::PRIMARY);
     return wobj;
 }

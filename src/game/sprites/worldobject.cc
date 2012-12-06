@@ -39,8 +39,6 @@ WorldObject::WorldObject(double duration)
         dead_(false) {
     if(duration > 0.0)
         this->set_timed_life(duration);
-
-    AddComponent(new component::Graphic(this));
 }
 
 WorldObject::~WorldObject() {
@@ -50,7 +48,7 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Die() {
-    node()->modifier()->set_visible(false);
+    if(graphic()) graphic()->set_visible(false);
     dead_ = true;
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
@@ -75,18 +73,7 @@ void WorldObject::Update(double dt) {
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
    if(shape()) shape()->ChangePosition(pos);
-
-   Vector2D position = World::FromWorldCoordinates(world_position_);
-   graphic()->node()->modifier()->set_offset(position);
-   graphic()->node()->set_zindex(position.y);
-}
-
-ugdk::graphic::Node* WorldObject::node() { 
-    return graphic()->node();
-}
-
-const ugdk::graphic::Node* WorldObject::node() const {
-    return component<component::Graphic>("graphic")->node();
+   if(graphic()) graphic()->SetPosition(world_position_);
 }
 
 void WorldObject::set_timed_life(double duration) {
@@ -121,7 +108,7 @@ void WorldObject::RemoveComponent(const std::string& name) {
 }
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
-component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
+component::BaseGraphic* WorldObject::graphic() { return component<component::BaseGraphic>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Shape* WorldObject::shape() { return component<component::Shape>(); }

@@ -25,6 +25,7 @@ class PlayerController : public Controller {
     sprite::WorldObject* owner_;
 
     ugdk::Vector2D current_direction_;
+    ugdk::Vector2D mouse_aim_offset_;
     std::list<int> known_skills_;
     std::list<int>::const_iterator selected_skill_;
 

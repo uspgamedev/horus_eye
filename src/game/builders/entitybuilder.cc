@@ -16,8 +16,8 @@
 
 #include "game/components/damageable.h"
 #include "game/components/shape.h"
+#include "game/components/basegraphic.h"
 #include "game/components/logic/follower.h"
-#include "game/components/logic/wall.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
@@ -49,7 +49,7 @@ WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
     sprite->SelectAnimation("IDLE");
     
     WorldObject* wobj = new WorldObject(30.0);
-    wobj->node()->set_drawable(sprite);
+    wobj->AddComponent(new component::BaseGraphic(sprite));
     wobj->AddComponent(new Follower(wobj, target));
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);

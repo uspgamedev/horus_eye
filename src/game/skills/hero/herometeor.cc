@@ -31,8 +31,7 @@ static void HeroMeteorUse(component::Caster* caster) {
     sprite::WorldObject *permanent_light = new sprite::WorldObject;
     permanent_light->graphic()->ChangeLightRadius(4.0);
 
-    builder::ExplosionBuilder builder;
-    sprite::WorldObject *explosion = builder.MeteorExplosion();
+    sprite::WorldObject *explosion = builder::ExplosionBuilder::MeteorExplosion();
 
     std::list<sprite::WorldObject*> list;
     list.push_back(explosion);

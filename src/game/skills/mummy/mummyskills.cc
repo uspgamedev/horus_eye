@@ -35,8 +35,7 @@ static void MummyRangedUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize();
     Vector2D pos = caster->aim().origin_;
 
-    builder::ProjectileBuilder proj;
-    caster->owner()->current_room()->AddObject(proj.MummyProjectile(versor, caster->power().Get() * 1.0), pos, map::POSITION_ABSOLUTE);
+    caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::MummyProjectile(versor, caster->power().Get() * 1.0), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
         ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
