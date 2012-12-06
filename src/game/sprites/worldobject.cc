@@ -73,11 +73,7 @@ void WorldObject::Update(double dt) {
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
    if(shape()) shape()->ChangePosition(pos);
-
-   Vector2D position = World::FromWorldCoordinates(world_position_);
-   ugdk::graphic::Node* node = component<component::BaseGraphic>()->node();
-   node->modifier()->set_offset(position);
-   node->set_zindex(position.y);
+   if(graphic()) graphic()->SetPosition(world_position_);
 }
 
 ugdk::graphic::Node* WorldObject::node() { 

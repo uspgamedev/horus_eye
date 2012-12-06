@@ -6,6 +6,7 @@
 #include <ugdk/base/types.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
+#include <ugdk/math.h>
 
 #include "game/sprites.h"
 #include "game/components/orders.h"
@@ -25,6 +26,9 @@ class BaseGraphic : public Base {
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
+    
+    /**@arg position The graphic's position, in the game's coordinates.*/
+    void SetPosition(const ugdk::Vector2D& position);
 
           ugdk::graphic::Node* node()       { return node_; }
     const ugdk::graphic::Node* node() const { return node_; }

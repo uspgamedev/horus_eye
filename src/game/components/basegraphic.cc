@@ -4,6 +4,7 @@
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/time/timeaccumulator.h>
+#include <ugdk/math/vector2D.h>
 
 #include "game/components/orders.h"
 #include "game/constants.h"
@@ -50,6 +51,12 @@ BaseGraphic::~BaseGraphic() {
     delete node_;
     delete blink_time_;
     delete blink_duration_;
+}
+
+void BaseGraphic::SetPosition(const ugdk::Vector2D& position) {
+    Vector2D screen_position = scene::World::FromWorldCoordinates(position);
+    node_->modifier()->set_offset(screen_position);
+    node_->set_zindex(screen_position.y);
 }
 
 void BaseGraphic::ChangeLightRadius(double radius) {
