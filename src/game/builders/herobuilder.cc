@@ -23,7 +23,9 @@
 #include "game/scenes/world.h"
 
 namespace builder {
+namespace HeroBuilder {
 
+using pyramidworks::collision::CollisionObject;
 using sprite::WorldObject;
 using resource::Energy;
 using resource::CapacityBlocks;
@@ -40,7 +42,7 @@ static void HeroDeathEvent(sprite::WorldObject* wobj) {
     WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
 }
 
-sprite::WorldObject* HeroBuilder::Kha() {
+sprite::WorldObject* Kha() {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
     }
@@ -95,15 +97,15 @@ COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
     data_->set_current_speed(data_->current_speed() / 1.19);
 }
 
-void HeroBuilder::SetupCollision(sprite::WorldObject* obj) {
-    using pyramidworks::collision::CollisionObject;
-    obj->RemoveComponent("shape");
+void SetupCollision(sprite::WorldObject* obj) {
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), obj);
-    obj->AddComponent(new Shape(col, NULL));
     col->InitializeCollisionClass("Hero");
     col->set_shape(new pyramidworks::geometry::Circle(0.3));
     col->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
     col->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
+
+    obj->AddComponent(new Shape(col, NULL));
 }
 
+} // namespace HeroBuilder
 } // namespace builder

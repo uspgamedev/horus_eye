@@ -3,22 +3,12 @@
 
 #include "game/sprites.h"
 
-namespace utils {
-class ImageFactory;
-}
-
 namespace builder {
-class HeroBuilder {
-  public:
-    HeroBuilder(utils::ImageFactory *factory) : factory_(factory) {}
-    sprite::WorldObject *Kha();
+namespace HeroBuilder {
 
-    static void SetupCollision(sprite::WorldObject* obj);
+sprite::WorldObject* Kha();
 
-  private:
-    utils::ImageFactory *factory_;
-};
-
+} // namespace HeroBuilder
 } // namespace builder
 
 #endif /* HORUS_EYE_GAME_BUILDERS_HERO_BUILDER_H_ */

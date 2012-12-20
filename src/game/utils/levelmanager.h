@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <ugdk/action.h>
 #include "game/sprites.h"
 
 namespace scene {
@@ -58,7 +59,6 @@ class LevelManager {
 
   private:
     LevelManager();
-    void DeleteHero();
     void loadSpecificLevel(const std::string& level_name);
 
     scene::World* current_level_;
@@ -66,7 +66,6 @@ class LevelManager {
     scene::Loading* loading_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
-    sprite::WorldObject *hero_;
     bool restart_game_;
 };
 

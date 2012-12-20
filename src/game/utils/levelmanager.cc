@@ -1,3 +1,5 @@
+#include "game/utils/levelmanager.h"
+
 #include <fstream>
 #include <iostream>
 
@@ -8,8 +10,6 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
-
-#include "game/utils/levelmanager.h"
 
 #include "game/scenes/menu.h"
 #include "game/scenes/world.h"
@@ -52,7 +52,6 @@ void LevelManager::Initialize() {
     LoadLevelList("level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
-    hero_ = NULL;
     builder::MenuBuilder builder;
     menu_ = builder.MainMenu();
     Engine::reference()->PushScene(menu_);
@@ -125,7 +124,6 @@ void LevelManager::FinishLevel(LevelState state) {
 
     switch(state) {
     case FINISH_DIE:
-        hero_ = NULL;
         ShowGameOver();
         // no break on purpose
     case FINISH_QUIT:
@@ -133,7 +131,6 @@ void LevelManager::FinishLevel(LevelState state) {
         loading_ = NULL;
         // no break on purpose
     case NOT_FINISHED:
-        DeleteHero();
         return;
     case FINISH_WIN:
     case FINISH_WARP:
@@ -145,40 +142,25 @@ void LevelManager::FinishLevel(LevelState state) {
 void LevelManager::LoadNextLevel() {
     if(level_list_iterator_ == level_list_.size()) {
         ShowEnding();
-        DeleteHero();
         return;
     }
     loadSpecificLevel(level_list_.at(level_list_iterator_));
 }
 
 void LevelManager::Finish() {
-    DeleteHero();
     if (loading_)
         delete loading_;
 }
 
 LevelManager::~LevelManager() {}
 
-void LevelManager::DeleteHero() {
-    if (hero_ != NULL) {
-        delete hero_;
-        hero_ = NULL;
-    }
-}
-
 void LevelManager::loadSpecificLevel(const std::string& level_name) {
-    utils::ImageFactory *factory = new utils::ImageFactory();
     current_level_ = new World();
     {
         LevelLoader loader(current_level_);
         loader.Load(level_name);
     }
-    if (hero_ == NULL) {
-        builder::HeroBuilder builder(factory);
-        hero_ = builder.Kha();
-    }
-    hero_->caster()->mana_blocks().Fill();
-    current_level_->SetHero(hero_);
+    current_level_->SetHero(builder::HeroBuilder::Kha());
     {
         builder::TaskBuilder task_builder;
         current_level_->AddTask(task_builder.PauseMenuTask());
@@ -187,8 +169,6 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
 
     Engine::reference()->PushScene(current_level_);
     current_level_->Start();
-
-    builder::HeroBuilder::SetupCollision(hero_);
 }
 
 }
