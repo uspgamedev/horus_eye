@@ -40,6 +40,18 @@ static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 static void HeroDeathEvent(sprite::WorldObject* wobj) {
     WORLD()->SetHero(NULL);
     WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
+}COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
+    data_->set_current_speed(data_->current_speed() / 1.19);
+}
+
+void SetupCollision(sprite::WorldObject* obj) {
+    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), obj);
+    col->InitializeCollisionClass("Hero");
+    col->set_shape(new pyramidworks::geometry::Circle(0.3));
+    col->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
+    col->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
+
+    obj->AddComponent(new Shape(col, NULL));
 }
 
 sprite::WorldObject* Kha() {
@@ -90,21 +102,10 @@ sprite::WorldObject* Kha() {
     player_controller->AddSkill(caster->LearnSkill("meteor"));
     caster->EquipSkill(id, component::Controller::SECONDARY);
     // Add here the other initial weapons of the hero.
+
+    SetupCollision(hero_wobj);
+
     return hero_wobj;
-}
-
-COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
-    data_->set_current_speed(data_->current_speed() / 1.19);
-}
-
-void SetupCollision(sprite::WorldObject* obj) {
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), obj);
-    col->InitializeCollisionClass("Hero");
-    col->set_shape(new pyramidworks::geometry::Circle(0.3));
-    col->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
-    col->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
-
-    obj->AddComponent(new Shape(col, NULL));
 }
 
 } // namespace HeroBuilder
