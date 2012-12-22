@@ -186,7 +186,7 @@ Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
 Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
     Vector2D    global_screen_coords = screen_coords - WORLD()->content_node()->modifier()->offset(),
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
-    return (transformed * (1.0/60.373835392));
+    return (transformed / 60.373835392);
 }
 
 const Vector2D World::ConvertLightRadius(double radius) {

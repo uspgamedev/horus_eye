@@ -1,4 +1,4 @@
 import ugdk_math
 
-file = ["images/stoneblock3.png"]
-fill = [ 106, 157, ugdk_math.Vector2D(53, 130) ]
+file = ["images/wall-simple.png"]
+fill = [ 106, 182, ugdk_math.Vector2D(53, 156) ]
