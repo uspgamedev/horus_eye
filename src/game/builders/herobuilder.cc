@@ -40,7 +40,9 @@ static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 static void HeroDeathEvent(sprite::WorldObject* wobj) {
     WORLD()->SetHero(NULL);
     WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
-}COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
+}
+
+COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
     data_->set_current_speed(data_->current_speed() / 1.19);
 }
 

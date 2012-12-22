@@ -18,7 +18,6 @@
 #include "game/scenes/loading.h"
 #include "game/components/caster.h"
 #include "game/builders/goodmenubuilder.h"
-#include "game/builders/herobuilder.h"
 #include "game/builders/taskbuilder.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/imagescene.h"
@@ -160,11 +159,9 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
         LevelLoader loader(current_level_);
         loader.Load(level_name);
     }
-    current_level_->SetHero(builder::HeroBuilder::Kha());
     {
         builder::TaskBuilder task_builder;
         current_level_->AddTask(task_builder.PauseMenuTask());
-        //current_level_->AddTask(task_builder.VisibilityTask(hero_, current_level_->level_matrix()));
     }
 
     Engine::reference()->PushScene(current_level_);

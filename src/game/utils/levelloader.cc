@@ -5,6 +5,7 @@
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 
+#include "game/builders/herobuilder.h"
 #include "game/scenes/world.h"
 #include "game/map/loader.h"
 #include "game/map/room.h"
@@ -49,6 +50,8 @@ void LevelLoader::Load(const std::string& name) {
 
     VirtualObj::Vector start_position = level_data["start_position"].value<VirtualObj::Vector>();
     world_->set_hero_initial_data(start_position[0].value<std::string>(), VobjsToVector(start_position[1], start_position[2]));
+
+    world_->SetHero(builder::HeroBuilder::Kha());
 
     if(level_data["music"] && utils::Settings::reference()->background_music())
         world_->set_background_music(AUDIO_MANAGER()->LoadMusic(level_data["music"].value<std::string>()));
