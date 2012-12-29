@@ -38,7 +38,7 @@ using std::tr1::bind;
 using namespace std::tr1::placeholders;
 using pyramidworks::collision::CollisionInstance;
 
-bool VerifyCheats(double delta_t) {
+bool VerifyCheats(double dt) {
     ugdk::input::InputManager *input = Engine::reference()->input_manager();
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->get_current_level();
@@ -76,6 +76,12 @@ bool VerifyCheats(double delta_t) {
         VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
     }
 
+    ugdk::graphic::Modifier* modifier = world->content_node()->modifier();
+    if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
+        modifier->set_scale(modifier->scale() * 1.4/1.0);
+    if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
+        modifier->set_scale(modifier->scale() * 1.0/1.4);
+
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
     /*if(!konami_used_) {
@@ -93,7 +99,7 @@ bool VerifyCheats(double delta_t) {
 bool UpdateOffset(double dt) {
     World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
-    if(world->hero()) result -= World::FromWorldCoordinates(world->hero()->world_position());
+    if(world->hero()) result -= World::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->modifier()->scale().x;
     world->content_node()->modifier()->set_offset(result);
     return true;
 }
@@ -167,15 +173,22 @@ void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
 }
 
+static Vector2D tile_size(106, 52);
+static double tranformation_length = tile_size.Length() / 2.0;
+
+/** Converts a vector into world linear coordinates, from a screen-coordinates based vector.
+  * For reference, the Vector (TS.x/2.0; -TS.x/2.0) converts into (1.0; 0.0) */
 Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
-    Vector2D tx(sqrt(5.0)/4.0, -sqrt(5.0)/4.0);
-    Vector2D ty(-sqrt(5.0)/2.0, -sqrt(5.0)/2.0);
+    static Vector2D tx = Vector2D( 1.0 / tile_size.x, -1.0 / tile_size.x);
+    static Vector2D ty = Vector2D(-1.0 / tile_size.y, -1.0 / tile_size.y);
     return (tx * screen_coords.x) + (ty * screen_coords.y);
 }
 
+/** Converts a vector into screen linear coordinates, from a world-coordinates based vector.
+  * For reference, the Vector (1.0; 0.0) converts into (TS.x/2.0; -TS.x/2.0) */
 Vector2D World::FromWorldLinearCoordinates(const Vector2D& world_coords) {
-    Vector2D tx(54.0, -27.0);
-    Vector2D ty(-54.0, -27.0);
+    static Vector2D tx = Vector2D( tile_size.x / 2.0, -tile_size.y / 2.0);
+    static Vector2D ty = Vector2D(-tile_size.x / 2.0, -tile_size.y / 2.0);
     return (tx * world_coords.x) + (ty * world_coords.y);
 }
 
@@ -184,13 +197,13 @@ Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
 }
 
 Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
-    Vector2D    global_screen_coords = screen_coords - WORLD()->content_node()->modifier()->offset(),
+    Vector2D    global_screen_coords = (screen_coords - WORLD()->content_node()->modifier()->offset()) / WORLD()->content_node()->modifier()->scale().x,
                 transformed = FromScreenLinearCoordinates(global_screen_coords);
-    return (transformed / 60.373835392);
+    return transformed;
 }
 
 const Vector2D World::ConvertLightRadius(double radius) {
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * 60.373835392;
+    Vector2D ellipse_coords = Vector2D(2, 1) * radius * tranformation_length;
     return ellipse_coords;
 }
     
