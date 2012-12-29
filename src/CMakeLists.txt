@@ -22,9 +22,7 @@ include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 set( CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR} )
 
 # Find Lua and Python
-find_package (Lua51 REQUIRED)
 include_directories (${LUA_INCLUDE_DIR})
-find_package (PythonLibs 2.6 REQUIRED)
 include_directories (${PYTHON_INCLUDE_DIRS})
 
 include (module/module_list.cmake)
