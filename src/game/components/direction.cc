@@ -1,6 +1,6 @@
 #include "game/components/direction.h"
 
-#include "game/scenes/world.h"
+#include "game/core/coordinates.h"
 
 namespace component {
 
@@ -15,7 +15,7 @@ Direction Direction::FromScreenVector(const ugdk::Vector2D& versor) {
 }
 
 Direction Direction::FromWorldVector(const ugdk::Vector2D& versor) {
-    return FromScreenVector(scene::World::FromWorldLinearCoordinates(versor));
+    return FromScreenVector(core::FromWorldLinearCoordinates(versor));
 }
 
 }  // namespace component

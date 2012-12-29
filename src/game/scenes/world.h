@@ -56,20 +56,6 @@ class World : public ugdk::action::Scene {
 
     const map::Room* GetRoom(const std::string& name) const { return findRoom(name); }
 
-    // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
-    static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
-    
-    // Funcao auxiliar que transforma VETORES de coordenadas de mundo para de tela
-    static Vector2D FromWorldLinearCoordinates(const Vector2D& world_coords);
-
-    // Funcao que transforma PONTOS de coordenadas de mundo para de tela
-    static Vector2D FromWorldCoordinates(const Vector2D& screen_coords);
-
-    // Funcao que transforma PONTOS de coordenadas de tela para de mundo
-    static Vector2D FromScreenCoordinates(const Vector2D& screen_coords);
-
-    static const Vector2D ConvertLightRadius(double radius);
-
     //getters
     sprite::WorldObject * hero() const { return hero_; }
 

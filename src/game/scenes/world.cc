@@ -21,6 +21,7 @@
 
 #include "game/scenes/menu.h"
 #include "game/sprites/worldobject.h"
+#include "game/core/coordinates.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
@@ -68,7 +69,7 @@ bool VerifyCheats(double dt) {
             hero->caster()->mana().Fill();
         }
         if(input->KeyPressed(ugdk::input::K_t))
-            hero->set_world_position(World::FromScreenCoordinates(input->GetMousePosition()));
+            hero->set_world_position(core::FromScreenCoordinates(input->GetMousePosition()));
     }
 
     if(input->KeyPressed(ugdk::input::K_l)) {
@@ -99,7 +100,7 @@ bool VerifyCheats(double dt) {
 bool UpdateOffset(double dt) {
     World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
-    if(world->hero()) result -= World::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->modifier()->scale().x;
+    if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->modifier()->scale().x;
     world->content_node()->modifier()->set_offset(result);
     return true;
 }
@@ -173,40 +174,6 @@ void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
 }
 
-static Vector2D tile_size(106, 52);
-static double tranformation_length = tile_size.Length() / 2.0;
-
-/** Converts a vector into world linear coordinates, from a screen-coordinates based vector.
-  * For reference, the Vector (TS.x/2.0; -TS.x/2.0) converts into (1.0; 0.0) */
-Vector2D World::FromScreenLinearCoordinates(const Vector2D& screen_coords) {
-    static Vector2D tx = Vector2D( 1.0 / tile_size.x, -1.0 / tile_size.x);
-    static Vector2D ty = Vector2D(-1.0 / tile_size.y, -1.0 / tile_size.y);
-    return (tx * screen_coords.x) + (ty * screen_coords.y);
-}
-
-/** Converts a vector into screen linear coordinates, from a world-coordinates based vector.
-  * For reference, the Vector (1.0; 0.0) converts into (TS.x/2.0; -TS.x/2.0) */
-Vector2D World::FromWorldLinearCoordinates(const Vector2D& world_coords) {
-    static Vector2D tx = Vector2D( tile_size.x / 2.0, -tile_size.y / 2.0);
-    static Vector2D ty = Vector2D(-tile_size.x / 2.0, -tile_size.y / 2.0);
-    return (tx * world_coords.x) + (ty * world_coords.y);
-}
-
-Vector2D World::FromWorldCoordinates(const Vector2D& world_coords) {
-    return FromWorldLinearCoordinates(world_coords);
-}
-
-Vector2D World::FromScreenCoordinates(const Vector2D& screen_coords) {
-    Vector2D    global_screen_coords = (screen_coords - WORLD()->content_node()->modifier()->offset()) / WORLD()->content_node()->modifier()->scale().x,
-                transformed = FromScreenLinearCoordinates(global_screen_coords);
-    return transformed;
-}
-
-const Vector2D World::ConvertLightRadius(double radius) {
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * tranformation_length;
-    return ellipse_coords;
-}
-    
 void World::SetupCollisionManager() {
     ugdk::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
     ugdk::ikdtree::Box<2> box(min_coords.val, max_coords.val);

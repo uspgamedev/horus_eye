@@ -15,6 +15,7 @@
 
 #include "doodadbuilder.h"
 
+#include "game/core/coordinates.h"
 #include "game/components/damageable.h"
 #include "game/components/base.h"
 #include "game/components/shape.h"
@@ -241,7 +242,7 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
 Node* Floor(const ugdk::Vector2D& position) {
     utils::ImageFactory imagefactory;
     Node* floor = new Node(imagefactory.FloorImage());
-    floor->modifier()->set_offset(scene::World::FromWorldCoordinates(position));
+    floor->modifier()->set_offset(core::FromWorldCoordinates(position));
     return floor;
 }
 

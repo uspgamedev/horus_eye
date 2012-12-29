@@ -8,7 +8,7 @@
 
 #include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
-#include "game/scenes/world.h"
+#include "game/core/coordinates.h"
 #include "game/constants.h"
 
 using namespace ugdk;
@@ -38,7 +38,7 @@ static void cycle_iterator(std::list<int>::const_iterator& it, const std::list<i
 void PlayerController::Update(double dt) {
     ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
 
-    aim_destination_ = scene::World::FromScreenCoordinates(input_->GetMousePosition() + mouse_aim_offset_);
+    aim_destination_ = core::FromScreenCoordinates(input_->GetMousePosition() + mouse_aim_offset_);
 
     Direction d;
     if(input_->KeyDown(ugdk::input::K_w)) d |= Direction::Up();

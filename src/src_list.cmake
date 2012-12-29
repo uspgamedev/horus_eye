@@ -85,6 +85,8 @@ SET(GAME_SRCS
     ./game/constants.h 
     ./game/context.cc 
     ./game/context.h 
+    ./game/core/coordinates.cc 
+    ./game/core/coordinates.h 
     ./game/initializer.cc 
     ./game/initializer.h 
     ./game/main.cc 

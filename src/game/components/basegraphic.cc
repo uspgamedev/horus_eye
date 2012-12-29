@@ -8,7 +8,7 @@
 
 #include "game/components/orders.h"
 #include "game/constants.h"
-#include "game/scenes/world.h"
+#include "game/core/coordinates.h"
 
 #define LIGHT_COEFFICIENT 0.75
 
@@ -58,7 +58,7 @@ BaseGraphic::~BaseGraphic() {
 }
 
 void BaseGraphic::SetPosition(const ugdk::Vector2D& position) {
-    Vector2D screen_position = scene::World::FromWorldCoordinates(position);
+    Vector2D screen_position = core::FromWorldCoordinates(position);
     root_node_->modifier()->set_offset(screen_position);
     root_node_->set_zindex(screen_position.y);
 }
@@ -77,7 +77,7 @@ void BaseGraphic::ChangeLightRadius(double radius) {
             root_node_->light()->set_color(light_color_);
         }
 
-        Vector2D dimension = scene::World::ConvertLightRadius(light_radius_);
+        Vector2D dimension = core::ConvertLightRadius(light_radius_);
         root_node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
     } else {

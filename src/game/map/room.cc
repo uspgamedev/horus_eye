@@ -3,6 +3,7 @@
 #include <cfloat>
 #include <ugdk/graphic/node.h>
 
+#include "game/core/coordinates.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
@@ -22,7 +23,7 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
 
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);
-    floor_->modifier()->set_offset(scene::World::FromWorldCoordinates(position_));
+    floor_->modifier()->set_offset(core::FromWorldCoordinates(position_));
 }
 
 Room::~Room() {

@@ -1,6 +1,7 @@
-/component.py
-/builder.py
-/context.py
 /ai.py
-/map.py
+/builder.py
+/component.py
 /constants.py
+/context.py
+/core.py
+/map.py
