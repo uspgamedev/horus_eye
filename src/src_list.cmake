@@ -5,14 +5,13 @@ SET(GAME_SRCS
     ./src/game/utils/visionstrategy.cc 
     ./src/game/utils/settings.h 
     ./src/game/utils/constants.cc 
+    ./src/game/utils/tilefwd.h 
     ./src/game/utils/levelmanager.cc 
     ./src/game/utils/constants.h 
     ./src/game/utils/geometryprimitives.cc 
-    ./src/game/utils/textloader.h 
     ./src/game/utils/visionstrategy.h 
     ./src/game/utils/tile.h 
     ./src/game/utils/hud.cc 
-    ./src/game/utils/textloader.cc 
     ./src/game/utils/settings.cc 
     ./src/game/utils/imagefactory.h 
     ./src/game/utils/hudimagefactory.h 
@@ -67,23 +66,19 @@ SET(GAME_SRCS
     ./src/game/resources/capacityblocks.h 
     ./src/game/resources/countableresource.h 
     ./src/game/scenes/scrollingimagescene.h 
-    ./src/game/scenes/pagemanager.h 
     ./src/game/scenes/menu.cc 
     ./src/game/scenes/pausescene.h 
     ./src/game/scenes/menuhandler.h 
     ./src/game/scenes/imagescene.cc 
     ./src/game/scenes/menubuilder.h 
-    ./src/game/scenes/page.cc 
     ./src/game/scenes/scrollingimagescene.cc 
     ./src/game/scenes/loading.cc 
     ./src/game/scenes/imagescene.h 
     ./src/game/scenes/menubuilder.cc 
-    ./src/game/scenes/page.h 
     ./src/game/scenes/menu.h 
     ./src/game/scenes/world.cc 
     ./src/game/scenes/loading.h 
     ./src/game/scenes/world.h 
-    ./src/game/scenes/pagemanager.cc 
     ./src/game/scenes/pausescene.cc 
     ./src/game/main.cc 
     ./src/game/sprites/condition.h 
@@ -110,8 +105,7 @@ SET(GAME_SRCS
     ./src/game/sprites/creatures/hero.cc 
     ./src/game/sprites/creatures/pharaoh.cc 
     ./src/game/sprites/creatures/mummy.cc 
-    ./src/game/sprites/timedworldobject.cc 
-    ./src/game/sprites/timedworldobject.h 
+    ./src/game/sprites/creatures.h 
     ./src/game/sprites/projectiles/projectile.cc 
     ./src/game/sprites/projectiles/carrier.h 
     ./src/game/sprites/projectiles/carrier.cc 
@@ -131,6 +125,7 @@ SET(GAME_SRCS
     ./src/pyramidworks/collision/collisionobject.cc 
     ./src/pyramidworks/collision/collisionobject.h 
     ./src/pyramidworks/collision/collisionclass.h 
+    ./src/mac/SDLMain.h 
     ./src/externals/inifile.cc 
     ./src/externals/inifile.h 
     ./src/editor/mapobject.cc 
@@ -138,10 +133,8 @@ SET(GAME_SRCS
     ./src/editor/scenes/editormenu.cc 
     ./src/editor/scenes/editormenu.h 
     ./src/editor/layers/mapspriteslayer.h 
-    ./src/editor/layers/fpsmeter.h 
     ./src/editor/layers/maptileslayer.cc 
     ./src/editor/layers/mapspriteslayer.cc 
-    ./src/editor/layers/fpsmeter.cc 
     ./src/editor/layers/maptileslayer.h 
     ./src/editor/mapeditor.h 
     ./src/editor/mapobject.h 

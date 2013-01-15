@@ -1,6 +1,7 @@
 #include "rect.h"
 #include "circle.h"
 #include <cmath>
+#include <ugdk/util/intervalkdtree.h>
 
 #define SQRT_TWO 1.4142136
 
@@ -10,10 +11,7 @@ namespace geometry {
 
 using namespace ugdk;
 
-bool Rect::Intersects (const Rect *rect) const {
-    Vector2D    otherpos = rect->position(),
-                thispos  = this->position();
-
+bool Rect::Intersects (const ugdk::Vector2D& thispos, const Rect *rect, const ugdk::Vector2D& otherpos) const {
     if( (thispos.x - half_width_  > otherpos.x + rect->half_width_ ) ||
         (thispos.x + half_width_  < otherpos.x - rect->half_width_ ) ||
         (thispos.y - half_height_ > otherpos.y + rect->half_height_) ||
@@ -23,14 +21,12 @@ bool Rect::Intersects (const Rect *rect) const {
         return true;
 }
 
-bool Rect::Intersects (const Circle *circle) const {
+bool Rect::Intersects (const ugdk::Vector2D& rect_pos, const Circle *circle, const ugdk::Vector2D& circ_pos) const {
 
-    Vector2D circ_pos = circle->position(),
-             rect_pos = this->position(),
-             distance = circ_pos - rect_pos,
+    Vector2D distance = circ_pos - rect_pos,
              abs_dist = Vector2D(fabs(distance.x),fabs(distance.y));
     
-    float radius = circle->radius();
+    double radius = circle->radius();
 
     //TODO:TEST this, and test if this helps performance. Probably not.
     /*
@@ -40,7 +36,7 @@ bool Rect::Intersects (const Circle *circle) const {
     */
 
     // These are needed for the non-corner collisions.
-    float rect_left  = rect_pos.x - half_width_,
+    double rect_left  = rect_pos.x - half_width_,
           rect_right = rect_pos.x + half_width_,
           rect_down  = rect_pos.y - half_height_,
           rect_up    = rect_pos.y + half_height_;
@@ -65,7 +61,7 @@ bool Rect::Intersects (const Circle *circle) const {
 
     // Now find the important distance.
     Vector2D circ_to_corner = corner - circ_pos;
-    float le_important_dist_sqr = circ_to_corner.LengthSquared();
+    double le_important_dist_sqr = circ_to_corner.LengthSquared();
 
     // Now, check if the circle is too far away from the corner.
     if( radius*radius < le_important_dist_sqr )
@@ -114,11 +110,17 @@ bool Rect::Intersects (const Circle *circle) const {
 }
 
 
-bool Rect::Intersects (const GeometricShape *coll_obj) const {
-    return coll_obj->Intersects(this);
+bool Rect::Intersects (const ugdk::Vector2D& this_pos, const GeometricShape *obj, const ugdk::Vector2D& that_pos) const {
+    return obj->Intersects(that_pos, this, this_pos);
 }
 
-
+ugdk::ikdtree::Box<2> Rect::GetBoundingBox(const ugdk::Vector2D& thispos) const {
+    Vector2D thisposmin(thispos.x - half_width_,
+                        thispos.y - half_height_);
+    Vector2D thisposmax(thispos.x + half_width_,
+                        thispos.y + half_height_);
+    return ugdk::ikdtree::Box<2>(thisposmin.val, thisposmax.val);
+}
 
 } // namespace geometry
 } // namespace pyramidworks

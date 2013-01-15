@@ -3,12 +3,20 @@
 
 #include <ugdk/action/animation.h>
 #include <ugdk/action/animationset.h>
-#include <ugdk/util/animationparser.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/time/timeaccumulator.h>
+#include <ugdk/util/animationparser.h>
 
 #include "creature.h"
 
+#include "game/sprites/condition.h"
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 using namespace ugdk;
 using namespace utils;
@@ -30,10 +38,8 @@ Vector2D Creature::directions_[4];
 AnimationSet* Creature::ANIMATIONS = NULL;
 
 COLLISION_DIRECT(Creature*, RectCollision, obj) {
-    WorldObject *wobj = (WorldObject *)obj;
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) wobj->collision_object()->shape();
-    data_->CollideWithRect(rect);
+    WorldObject *wobj = (WorldObject *) obj;
+    data_->CollideWithRect(wobj->collision_object());
 }
 
 Creature::Creature()
@@ -42,13 +48,14 @@ Creature::Creature()
         animation_direction_(0),
         weapon_(NULL),
         last_stable_position_(),
-        last_dt_(0.0f),
+        last_dt_(0.0),
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_time_(new TimeAccumulator(75)),
-        hit_duration_(new TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_),
+        blink_time_(new ugdk::time::TimeAccumulator(75)),
+        hit_duration_(new ugdk::time::TimeAccumulator(0)),
+        aim_(world_position(), aim_destination_),
+        sprite_(NULL),
         blink_(false) {
 
     INITIALIZE_COLLISION;
@@ -67,9 +74,10 @@ Creature::Creature(resource::Energy &life, resource::Energy &mana)
         sight_count_(0),
         super_armor_(false),
         invulnerability_time_(0),
-        blink_time_(new TimeAccumulator(75)),
-        hit_duration_(new TimeAccumulator(0)),
-        aim_(world_position_, aim_destination_),
+        blink_time_(new ugdk::time::TimeAccumulator(75)),
+        hit_duration_(new ugdk::time::TimeAccumulator(0)),
+        aim_(world_position(), aim_destination_),
+        sprite_(NULL),
         blink_(false) {
 
     INITIALIZE_COLLISION;
@@ -82,9 +90,9 @@ Creature::~Creature() {
     if (blink_time_) delete blink_time_;
 }
 
-void Creature::Initialize(Drawable *image, AnimationSet *set, bool delete_image) {
-    Sprite::Initialize(image, set, delete_image);
-    AddObserverToAnimation(this);
+void Creature::Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set) {
+    this->node()->set_drawable(sprite_ = new ugdk::graphic::Sprite(image, ANIMATIONS));
+    sprite_->AddObserverToAnimation(this);
 }
 
 
@@ -100,40 +108,44 @@ bool Creature::AddCondition(Condition* new_condition) {
     return true;
 }
 
-void Creature::UpdateCondition(float dt) {
+void Creature::UpdateCondition(double dt) {
 	 std::list<Condition*>::iterator i;
 	 for (i = conditions_.begin(); i != conditions_.end(); ++i) 
 		 (*i)->Update(dt);
 	 conditions_.remove_if(deletecondition);
 }
 
-void Creature::AdjustBlink(float delta_t) {
+void Creature::AdjustBlink(double delta_t) {
     if (!hit_duration_->Expired()) {
         if (blink_time_->Expired()) {
             blink_ = !blink_;
+            node()->modifier()->set_alpha(blink_ ? 1.0 : 0.20);
             blink_time_->Restart();
         }
     } else 
-        blink_ = false;
+        node()->modifier()->set_alpha(1.0);
 }
 
-void Creature::TakeDamage(float life_points) {
+void Creature::TakeDamage(double life_points) {
     if(!hit_duration_->Expired()) return;
 #ifdef DEBUG
-    fprintf(stderr, "Decreasing life of %s from %f to %f (dmg = %f)\n", identifier_.c_str(),
-        (float) life_, (float) life_ - life_points, life_points);
+    int creature_id = static_cast<int>(reinterpret_cast<uintptr_t>(this) & 0xFFFFFF);
+    fprintf(stderr, "Damage to %s [%X]. DMG: %.2f; Life: %.2f -> %.2f\n", identifier_.c_str(), creature_id,
+        life_points, (double) life_, (double) life_ - life_points);
 #endif
     PlayHitSound();
     life_ -= life_points;
     if(life_.Empty()) {
-        if (status_ == WorldObject::STATUS_ACTIVE) {
-            this->SelectAnimation(dying_animation_);
-            this->status_ = WorldObject::STATUS_DYING;
+        if (is_active()) {
+            sprite_->SelectAnimation(dying_animation_);
 	        StartToDie();
+#ifdef DEBUG
+            fprintf(stderr, "\tTriggering death animation.\n");
+#endif
         }
     } else if(!super_armor_) {
         waiting_animation_ = true;
-        this->SelectAnimation(taking_damage_animation_);
+        sprite_->SelectAnimation(taking_damage_animation_);
     }
     hit_duration_->Restart(invulnerability_time_);
     blink_time_->Restart();
@@ -144,7 +156,7 @@ void Creature::TakeDamage(float life_points) {
 void Creature::InitializeAnimations() {
     if (ANIMATIONS != NULL) return;
 
-    ANIMATIONS = Engine::reference()->animation_loader().Load("data/animations/creature.gdd");
+    ANIMATIONS = RESOURCE_MANAGER()->animation_loader().Load("animations/creature.gdd");
     InitializeAttackingAnimations();
     InitializeWalkingAnimations();
     InitializeStandingAnimations();
@@ -206,7 +218,14 @@ void Creature::InitializeStandingAnimations() {
 
 // ============= other stuff
 
-void Creature::Move(Vector2D direction, float delta_t) {
+void Creature::Update(double dt) {
+    WorldObject::Update(dt);
+    UpdateCondition(dt);
+    life_.Update(dt);
+    mana_.Update(dt);
+}
+
+void Creature::Move(Vector2D direction, double delta_t) {
     // If you called Move() you should be in a stable position.
     Vector2D position(this->world_position().x, this->world_position().y);
     last_stable_position_ = position;
@@ -216,24 +235,27 @@ void Creature::Move(Vector2D direction, float delta_t) {
     set_world_position(position);
 }
 
-void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
+void Creature::CollideWithRect(const pyramidworks::collision::CollisionObject* coll_obj) {
     // rollback to the last stable position.
     set_world_position(last_stable_position_);
 
     // Get all values we'll need
-    const pyramidworks::geometry::Circle *circle = 
+    const pyramidworks::geometry::Circle *circle =
         (const pyramidworks::geometry::Circle*) collision_object_->shape();
 
-    Vector2D circ_pos = circle->position();
-    Vector2D rect_pos = rect->position();
+    const pyramidworks::geometry::Rect *rect = 
+        (const pyramidworks::geometry::Rect*) coll_obj->shape();
 
-    float half_r_width  = rect->width() /2.0f;
-    float half_r_height = rect->height()/2.0f;
+    Vector2D circ_pos = collision_object_->absolute_position();
+    Vector2D rect_pos = coll_obj->absolute_position();
 
-    float r_left   = rect_pos.x - half_r_width;
-    float r_right  = rect_pos.x + half_r_width;
-    float r_bottom = rect_pos.y - half_r_height;
-    float r_top    = rect_pos.y + half_r_height;
+    double half_r_width  = rect->width() /2.0;
+    double half_r_height = rect->height()/2.0;
+
+    double r_left   = rect_pos.x - half_r_width;
+    double r_right  = rect_pos.x + half_r_width;
+    double r_bottom = rect_pos.y - half_r_height;
+    double r_top    = rect_pos.y + half_r_height;
 
     // first, if the collision is trivial (in other words, non-corner):
     if(circ_pos.y <= r_top && circ_pos.y >= r_bottom)
@@ -260,30 +282,26 @@ void Creature::CollideWithRect(const pyramidworks::geometry::Rect *rect) {
 
 
 void Creature::Tick() {
-    if (status_ == WorldObject::STATUS_DYING) {
-        status_ = WorldObject::STATUS_DEAD;
+    if (status() == WorldObject::STATUS_DYING) {
+        Die();
     }
 	waiting_animation_ = false;
 }
 
-int Creature::GetAttackingAnimationIndex(float angle) {
+int Creature::GetAttackingAnimationIndex(double angle) {
     int degreeAngle = (int)((angle / PI) * 360);
     degreeAngle += 45;
     int animationIndex = degreeAngle / 90;
     return animationIndex % 8;
 }
 
-float Creature::GetAttackingAngle(Vector2D targetDirection) {
+double Creature::GetAttackingAngle(Vector2D targetDirection) {
     Vector2D versor = Vector2D::Normalized(targetDirection);
-    float radianAngle = acos(versor.x);
+    double radianAngle = acos(versor.x);
     if (versor.y > 0) {
         radianAngle = 2*PI - radianAngle;
     }
 	return radianAngle;
-}
-
-void Creature::Render() {
-    if (!blink_) WorldObject::Render();
 }
 
 }  // namespace sprite

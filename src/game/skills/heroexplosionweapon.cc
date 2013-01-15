@@ -1,11 +1,13 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 
 #include "heroexplosionweapon.h"
 
 #include "game/scenes/world.h"
 #include "game/sprites/explosion.h"
+#include "game/sprites/creatures/hero.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -17,7 +19,7 @@ namespace skills {
 using scene::World;
 using utils::Constants;
 
-const float HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
+const double HeroExplosionWeapon::range_ = utils::Constants::QUAKE_EXPLOSION_RANGE;
 
 HeroExplosionWeapon::HeroExplosionWeapon(sprite::Hero* owner)
     : DivineGift<usearguments::Aim>(
@@ -38,12 +40,12 @@ void HeroExplosionWeapon::Use() {
     world->AddWorldObject(explosion, use_argument_.destination_);
 
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 bool HeroExplosionWeapon::IsValidUse() const {
     utils::VisionStrategy vs;
-    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    double distance = (use_argument_.destination_ - use_argument_.origin_).length();
     return super::IsValidUse()
         && (distance <= range_)
         && vs.IsVisible(use_argument_.destination_, use_argument_.origin_);

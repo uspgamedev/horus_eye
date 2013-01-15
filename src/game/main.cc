@@ -1,17 +1,21 @@
 #include <string>
 #include <sys/stat.h>
+#include <cerrno>
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/util/languagemanager.h>
 #include <pyramidworks/collision/collisionmanager.h>
+
+#include <ugdk/graphic/spritesheet/fixedspritesheet.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 
 
 #include "utils/constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
-#include "utils/textloader.h"
 
 using namespace utils;
 
@@ -19,12 +23,38 @@ utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
 }
 
-utils::TextLoader* text_loader() {
-    return utils::TextLoader::reference();
-}
-
 ugdk::Engine* engine() {
     return ugdk::Engine::reference();
+}
+
+static void CreateFixedSpritesheet(const char* path, int frame_width, int frame_height, const ugdk::Vector2D& hotspot) {
+    ugdk::graphic::FixedSpritesheetData sheet_data(path);
+
+    sheet_data.FillWithFramesize(frame_width, frame_height, hotspot);
+
+    ugdk::graphic::FixedSpritesheet* sheet = new ugdk::graphic::FixedSpritesheet(sheet_data);
+    engine()->resource_manager()->spritesheet_container().Insert(path, sheet);
+}
+
+static void CreateFlexibleSpritesheet(const char* path, double frame_width, double frame_height, const ugdk::Vector2D& hotspot) {
+    ugdk::base::ResourceManager* resources = engine()->resource_manager();
+    
+    ugdk::graphic::Texture* tex = resources->texture_container().Load(path);
+
+    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
+    sheet->set_frame_size(ugdk::Vector2D(frame_width, frame_height));
+    sheet->set_hotspot(hotspot);
+
+    resources->spritesheet_container().Insert(path, sheet);
+}
+
+static void CreateSimpleFlexibleSpritesheet(const char* path) {
+    ugdk::base::ResourceManager* resources = engine()->resource_manager();
+
+    ugdk::graphic::Texture* tex = resources->texture_container().Load(path);
+    
+    ugdk::graphic::FlexibleSpritesheet *sheet = new ugdk::graphic::FlexibleSpritesheet(tex);
+    resources->spritesheet_container().Insert(path, sheet);
 }
 
 void StartGame() {
@@ -35,7 +65,36 @@ void StartGame() {
     if(level_manager()->RestartGameQueued())
         engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
 
-    text_loader()->Initialize(settings->language_file());
+    engine()->video_manager()->SetLightSystem(true);
+
+    CreateFixedSpritesheet(   "images/eye.png"                , 128,  96, ugdk::Vector2D());
+    CreateFixedSpritesheet(   "images/sprite-sheet_MOD3.png"  , 110, 110, ugdk::Vector2D(55.0, 102.0)); // Kha
+    CreateFlexibleSpritesheet("images/mummy_blue_120x140.png" , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Regular Mummy
+    CreateFlexibleSpritesheet("images/mummy_green_120x140.png", 120, 140, ugdk::Vector2D(60.0, 120.0)); // Giant Mummy
+    CreateFlexibleSpritesheet("images/pharaoh_120x140.png"    , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Pharaoh
+    CreateFlexibleSpritesheet("images/mummy_red_120x140.png"  , 120, 140, ugdk::Vector2D(60.0, 120.0)); // Shooting Mummy
+    
+    CreateFlexibleSpritesheet("images/blue_fire_ball.png"     ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Magic Missile
+    CreateFlexibleSpritesheet("images/yellow_fire_ball.png"   ,  32,  32, ugdk::Vector2D(16.0,  16.0)); // Blue Gem
+    CreateFlexibleSpritesheet("images/shield.png"             , 128, 128, ugdk::Vector2D(64.0, 110.0)); // Blue Gem
+    CreateSimpleFlexibleSpritesheet("images/fireball_0.png");
+    CreateSimpleFlexibleSpritesheet("images/green_fire_ball.png");
+    CreateSimpleFlexibleSpritesheet("images/explosion.png");
+    CreateSimpleFlexibleSpritesheet("images/quake.png");
+    CreateSimpleFlexibleSpritesheet("images/life_potion2.png");
+    CreateSimpleFlexibleSpritesheet("images/mana_potion.png");
+    CreateSimpleFlexibleSpritesheet("images/sight_potion.png");
+    CreateSimpleFlexibleSpritesheet("images/stairs3.png");
+    CreateSimpleFlexibleSpritesheet("images/ground2_106x54.png");
+    CreateSimpleFlexibleSpritesheet("images/stoneblock3.png");
+    CreateSimpleFlexibleSpritesheet("images/door.png");
+    CreateSimpleFlexibleSpritesheet("images/lightning_bolt.png");
+    CreateSimpleFlexibleSpritesheet("images/yellow_fire_ball.png");
+    CreateSimpleFlexibleSpritesheet("images/tile_switch.png");
+
+    if(!engine()->language_manager()->Setup(settings->language_name())) {
+        fprintf(stderr, "Language Setup FAILURE!!\n\n");
+    }
     level_manager()->Initialize();
 
     pyramidworks::collision::CollisionManager* colmanager 
@@ -59,12 +118,29 @@ void StartGame() {
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-    std::string rootpath = Constants::INSTALL_LOCATION;
-    struct stat st;
-    if(stat(rootpath.c_str(), &st) != 0)
-        rootpath = "./";
+	ugdk::Engine::Configuration engine_config;
+	engine_config.window_title = "Horus Eye";
+	engine_config.window_size  = settings->resolution_vector();
+	engine_config.fullscreen   = settings->fullscreen();
 
-    engine()->Initialize("Horus Eye", settings->resolution_vector(), settings->fullscreen(), rootpath, "data/images/eye.bmp");
+	engine_config.base_path = Constants::DATA_LOCATION;
+    struct stat st;
+    // Removing the trailing slash.
+    int s = stat(engine_config.base_path.substr(0, engine_config.base_path.size() - 1).c_str(), &st);
+    if(s < 0 && errno == ENOENT)
+        engine_config.base_path = "./";
+
+#ifndef ISMAC
+	engine_config.window_icon = "images/eye.bmp";
+#else
+    // On Mac OS X, the icon should be handled with a *.icns file inside the app
+    engine_config.window_icon = "";
+#endif
+    engine()->Initialize(engine_config);
+
+    engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
+    engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
+
     do {
         // Initializes game data
         StartGame();

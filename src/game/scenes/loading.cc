@@ -1,11 +1,12 @@
-#include "loading.h"
-#include <ugdk/graphic/image.h>
-#include <ugdk/action/sprite.h>
-#include <ugdk/action/layer.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/drawable/text.h>
+
+#include "loading.h"
+
 #include "game/utils/levelmanager.h"
-#include "game/utils/textloader.h"
 #include "game/utils/imagefactory.h"
 
 namespace scene {
@@ -13,21 +14,15 @@ namespace scene {
 using namespace ugdk;
 
 Loading::Loading() {
-    Drawable* loading_image = TEXT_LOADER()->GetImage("Loading");
+    ugdk::graphic::Drawable* loading_image = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Loading");
 
-    Sprite* text_sprite = new Sprite;
-    text_sprite->Initialize(loading_image);
+    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->size() - Vector2D(10.0, 10.0);
 
-    Vector2D position = VIDEO_MANAGER()->video_size() - loading_image->render_size()
-            - Vector2D(10.0f, 10.0f);
-    text_sprite->set_position(position);
+    loading_ = new ugdk::graphic::Node(loading_image);
+    loading_->modifier()->set_offset(position);
 
-    layer_ = new Layer;
-    layer_->AddSprite(text_sprite);
-    layer_->set_visible(false);
-
-    Engine::reference()->PushInterface(layer_);
-    set_visible(false);
+	interface_node()->AddChild(loading_);
+    loading_->modifier()->set_visible(false);
     has_been_drawn_ = false;
 
     this->StopsPreviousMusic(false);
@@ -37,10 +32,8 @@ Loading::~Loading() {
     utils::LevelManager::reference()->InformLoadingDeleted();
 }
 
-void Loading::Update(float delta_t) {
-    set_visible(true);
-    layer_->set_visible(true);
-    Scene::Update(delta_t);
+void Loading::Update(double delta_t) {
+    super::Update(delta_t);
     if(has_been_drawn_) {
         //Finish();
         utils::ImageFactory factory;
@@ -59,9 +52,13 @@ void Loading::Update(float delta_t) {
     has_been_drawn_ = !has_been_drawn_;
 }
 
-void Loading::End() {
-    Engine::reference()->RemoveInterface(layer_);
-    delete layer_;
+void Loading::Focus() {
+    super::Focus();
+    loading_->modifier()->set_visible(true);
 }
 
+void Loading::DeFocus() {
+    super::DeFocus();
+    loading_->modifier()->set_visible(false);
+}
 }

@@ -14,7 +14,7 @@ class Condition {
     
     enum Phase { PHASE_IDLE, PHASE_ACTIVE, PHASE_FINISHED };
     
-    virtual void Update(float delta_t) = 0;
+    virtual void Update(double delta_t) = 0;
     virtual Phase phase() { return phase_; }
 
     virtual void StartCondition(Creature *creature) { phase_ = PHASE_ACTIVE; }

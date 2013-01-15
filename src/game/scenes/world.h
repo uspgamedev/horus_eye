@@ -4,11 +4,9 @@
 #include <list>
 #include <vector>
 #include <ugdk/action/scene.h>
-#include <ugdk/graphic/image.h>
-#include <ugdk/math/vector2D.h>
 
 #include "game/utils/levelmanager.h"
-#include "game/utils/tile.h"
+#include "game/utils/tilefwd.h"
 #include "game/resources/resource.h"
 
 namespace utils {
@@ -20,9 +18,10 @@ class Hero;
 class Mummy;
 class WorldObject;
 }
-
+namespace ugdk {
+    class Vector2D;
+}
 using ugdk::Vector2D;
-using ugdk::Image;
 using std::vector;
 
 namespace scene {
@@ -38,10 +37,10 @@ class World : public ugdk::Scene {
     World(sprite::Hero *hero, utils::ImageFactory *factory);
     virtual ~World();
 
-	void Update(float delta_t);
+	void Update(double delta_t);
 
-    void AddWorldObject(sprite::WorldObject*, ugdk::Vector2D pos);
-    void AddHero(ugdk::Vector2D pos);
+    void AddWorldObject(sprite::WorldObject*, const ugdk::Vector2D& pos);
+    void AddHero(const ugdk::Vector2D& pos);
 
     void AddNewWorldObjects();
 
@@ -55,21 +54,22 @@ class World : public ugdk::Scene {
     void End();
 
     // Funcao auxiliar que transforma VETORES de coordenadas de tela para de mundo
-    static Vector2D FromScreenLinearCoordinates(Vector2D screen_coords);
+    static Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords);
     
     // Funcao auxiliar que transforma VETORES de coordenadas de mundo para de tela
-    static Vector2D FromWorldLinearCoordinates(Vector2D world_coords);
+    static Vector2D FromWorldLinearCoordinates(const Vector2D& world_coords);
 
     // Funcao que transforma PONTOS de coordenadas de mundo para de tela
-    static Vector2D FromWorldCoordinates(Vector2D screen_coords);
+    static Vector2D FromWorldCoordinates(const Vector2D& screen_coords);
 
     // Funcao que transforma PONTOS de coordenadas de tela para de mundo
-    static Vector2D FromScreenCoordinates(Vector2D screen_coords);
+    static Vector2D FromScreenCoordinates(const Vector2D& screen_coords);
 
-	static const Vector2D ConvertLightRadius(float radius);
+	static const Vector2D ConvertLightRadius(double radius);
 
     //getters
     sprite::Hero * hero() const { return hero_; }
+    sprite::WorldObject * hero_world_object() const;
     int level_width() const { return level_width_; }
     int level_height() const { return level_height_; }
     utils::GameMap& level_matrix() { return level_matrix_; }
@@ -87,7 +87,9 @@ class World : public ugdk::Scene {
     std::list<sprite::WorldObject*> world_objects_, 
                                     colliding_world_objects_, 
                                     new_world_objects_;
-    ugdk::Layer *world_layer_;
+
+    ugdk::graphic::Node *world_node_;
+
 	utils::Hud *hud_;
     int level_width_, level_height_;
     utils::GameMap level_matrix_;
@@ -96,7 +98,7 @@ class World : public ugdk::Scene {
 
     Vector2D ActualOffset();
     bool verifyCollision(sprite::WorldObject *obj1, sprite::WorldObject *obj2);
-    void VerifyCheats(float delta_t);
+    void VerifyCheats(double delta_t);
     bool VerifyPause();
     void HandleCollisions();
     void RemoveInactiveObjects();
@@ -105,7 +107,7 @@ class World : public ugdk::Scene {
 
   private:
     utils::LevelManager::LevelState level_state_;
-	bool konami_used_;
+	bool konami_used_, lights_on_;
     resource::Resource<int> num_button_not_pressed_;
 
 };  // class World

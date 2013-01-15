@@ -3,17 +3,17 @@
 
 #include <ugdk/time/timeaccumulator.h>
 
-#include "game/sprites/timedworldobject.h"
+#include "game/sprites/worldobject.h"
 
 namespace entities {
 
-class EmitterEntity : public sprite::TimedWorldObject {
+class EmitterEntity : public sprite::WorldObject {
   public:
-    EmitterEntity(float duration) : TimedWorldObject(duration), suspended_(false) {}
+    EmitterEntity(double duration) : WorldObject(duration), suspended_(false) {}
     ~EmitterEntity() {}
 
     // Inherited virtuals
-    virtual void Update(float dt) { super::Update(dt); };
+    virtual void Update(double dt) { super::Update(dt); };
     virtual void Die() { super::Die(); }
 
     // Interface, will eventualy be moved to the Emitter interface.
@@ -31,7 +31,7 @@ class EmitterEntity : public sprite::TimedWorldObject {
     bool suspended_;
 
   private:
-    typedef sprite::TimedWorldObject super;
+    typedef sprite::WorldObject super;
 };
 
 } // namespace entity

@@ -1,8 +1,12 @@
-#ifndef HORUSEYE_FRAMEWORK_KEYS_H_
-#define HORUSEYE_FRAMEWORK_KEYS_H_
+#ifndef UGDK_INPUT_KEYS_H_
+#define UGDK_INPUT_KEYS_H_
 
-#include <SDL/SDL.h>
+#include <ugdk/config/config.h>
+#include "SDL_keysym.h"
+#include "SDL_mouse.h"
+
 namespace ugdk {
+namespace input {
 
 typedef enum {
     K_UNKNOWN = SDLK_UNKNOWN,
@@ -160,5 +164,7 @@ typedef enum {
   M_BUTTON_WHEELDOWN = SDL_BUTTON_WHEELDOWN
 } MouseButton;
 
-}
+}  // namespace input
+}  // namespace ugdk
+
 #endif

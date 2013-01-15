@@ -11,7 +11,7 @@ namespace skills {
 class MummyWeapon : public CombatArt<usearguments::Aim> {
   public:
     MummyWeapon(sprite::Creature* owner, int damage = 1)
-        : CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()),
+        : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()),
           damage_(damage) {}
 
     virtual void Use();
@@ -21,7 +21,7 @@ class MummyWeapon : public CombatArt<usearguments::Aim> {
     typedef CombatArt<usearguments::Aim> super;
 
     int damage_;
-    const static float range_;
+    const static double range_;
 };
 
 } // skills

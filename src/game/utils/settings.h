@@ -61,7 +61,7 @@ class Settings {
     int language()              const { return language_; }
 
     const ugdk::Vector2D& resolution_vector() const;
-    const std::string& language_file() const;
+    const std::string& language_name() const;
 
 
     const static int NUM_RESOLUTIONS = 12;

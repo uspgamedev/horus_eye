@@ -2,6 +2,7 @@
 #include <functional>
 #include <locale>
 #include <cctype>
+#include <cstdio>
 #include <string>
 #include <cstdlib>
 
@@ -50,22 +51,22 @@ static bool isStringTrue(std::string& str) {
 static bool isStringFalse(std::string& str) {
     return std::string("false").compare(tolower(trim(str))) == 0;
 }
-static inline bool StringToBool(std::string &s, bool unknown = true) {
+static inline bool StringToBool(std::string& s, bool unknown = true) {
     if(unknown)
         return !isStringFalse(s);
     else
         return isStringTrue(s);
 }
-static inline std::string BoolToString(bool value) {
+static inline std::string BoolToString(const bool& value) {
     return value ? "true" : "false";
 }
-static inline std::string IntToString(int x) {
+static inline std::string IntToString(const int& x) {
     std::ostringstream o;
     if (!(o << x))
         return "";
     return o.str();
 }
-static inline int StringToInt(std::string &s) {
+static inline int StringToInt(const std::string& s) {
     std::istringstream i(s);
     int x;
     if (!(i >> x))
@@ -127,7 +128,7 @@ class IniFileSource : public DataSource {
             }
         }
 
-        ugdk::Vector2D resolution((float) StringToInt(resolutionx), (float) StringToInt(resolutiony));
+        ugdk::Vector2D resolution((double) StringToInt(resolutionx), (double) StringToInt(resolutiony));
         const ugdk::Vector2D* resolution_list = Settings::ResolutionList();
         for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
             if(resolution.x == resolution_list[i].x && resolution.y == resolution_list[i].y) {
@@ -188,23 +189,23 @@ Settings* Settings::reference_ = NULL;
 using namespace ugdk;
 
 Vector2D Settings::resolutions_[] = {
-        Vector2D(800.0f,600.0f),
-        Vector2D(1024.0f,768.0f),
-        Vector2D(1280.0f,720.0f),
-        Vector2D(1280.0f,800.0f),
-        Vector2D(1280.0f,960.0f),
-        Vector2D(1280.0f,1024.0f),
-        Vector2D(1366.0f,768.0f),
-        Vector2D(1440.0f,900.0f),
-        Vector2D(1600.0f,900.0f),
-        Vector2D(1600.0f,1080.0f),
-        Vector2D(1920.0f,1080.0f),
-        Vector2D(1920.0f,1200.0f)
+        Vector2D(800.0,600.0),
+        Vector2D(1024.0,768.0),
+        Vector2D(1280.0,720.0),
+        Vector2D(1280.0,800.0),
+        Vector2D(1280.0,960.0),
+        Vector2D(1280.0,1024.0),
+        Vector2D(1366.0,768.0),
+        Vector2D(1440.0,900.0),
+        Vector2D(1600.0,900.0),
+        Vector2D(1600.0,1080.0),
+        Vector2D(1920.0,1080.0),
+        Vector2D(1920.0,1200.0)
 };
 
 std::string Settings::languages_[] = {
-        "data/text/lang_en.txt",
-        "data/text/lang_pt_br.txt"
+        "en_US",
+        "pt_BR"
 };
 
 std::string Settings::languages_names_[] = {
@@ -260,7 +261,7 @@ const Vector2D& Settings::resolution_vector() const {
     return resolutions_[resolution_];
 }
 
-const std::string& Settings::language_file() const {
+const std::string& Settings::language_name() const {
     return languages_[language_];
 }
 

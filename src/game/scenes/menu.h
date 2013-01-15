@@ -2,18 +2,10 @@
 #define HORUSEYE_GAME_SCENES_MENU_H_
 
 #include <ugdk/action/scene.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable.h>
 #include <ugdk/math/frame.h>
 #include "menuhandler.h"
-
-#define ALIGNMENT_LEFT   (-1)
-#define ALIGNMENT_CENTER  0
-#define ALIGNMENT_RIGHT   1
-
-namespace ugdk {
-class Sprite;
-class Image;
-class Layer;
-}
 
 namespace scene {
 
@@ -23,39 +15,54 @@ class Menu: public ugdk::Scene {
     Menu (int selection_num);
     virtual ~Menu ();
 
-    void Update (float delta_t);
+    void Update (double delta_t);
 
     void set_handler(MenuHandler* handler);
     void set_content_box(ugdk::Frame content_box);
 
-    void set_content_box(ugdk::Frame content_box, int alignment);
-    void set_selection_sprite(ugdk::Sprite *sprite);
-    void set_selection_sprite(ugdk::Sprite *sprite[]);
-    void set_option_sprite(int index, ugdk::Sprite *sprite);
-    void AddSprite(ugdk::Sprite *sprite, ugdk::Vector2D pos);
+    const ugdk::Vector2D& get_selection_position(int index) const {
+        return selection_pos_[index];
+    }
 
-    void Hide();
-    void Show();
-    void Toggle();
+    void set_content_box(ugdk::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment);
+    void set_selection_sprite(ugdk::graphic::Drawable *drawable);
+    void set_selection_sprite(ugdk::graphic::Drawable **drawable);
+    void set_option_sprite(int index, ugdk::graphic::Drawable *draw);
+    void AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos);
+    void AddNode(ugdk::graphic::Node *node);
 
-    const static float OPTION_ZINDEX;
+	void Hide()   { set_visibility(    false); }
+    void Show()   { set_visibility(     true); }
+    void Toggle() { set_visibility(!visible_); }
+
+    const static double OPTION_ZINDEX;
 
   protected:
-
-    void DecideWhereOptionsGo(int alignment);
-    void InitialSelection();
+	void set_visibility(const bool visibility);
+    void DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment);
 
     bool CheckMouse (ugdk::Vector2D &mouse_pos);
     void Select ();
 
+	ugdk::graphic::Drawable::HookPoint option_alignment_;
+
+	bool visible_;
+
     bool content_box_defined_;
-    int selection_, selection_num_;
+
+    /// Currently selected option
+    int selection_;
+
+    /// Number of selection options
+    int selection_num_;
+
+
     MenuHandler *handler_;
-    ugdk::Sprite *selection_sprite_[2];
-    ugdk::Sprite **options_sprite_;
+
+    ugdk::graphic::Node *selection_node_[2];
+    ugdk::graphic::Node **options_node_;
     ugdk::Vector2D *selection_pos_;
     ugdk::Frame    content_box_;
-    ugdk::Layer *interface_layer_;
 
 };
 

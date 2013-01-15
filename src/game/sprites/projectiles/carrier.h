@@ -11,12 +11,12 @@ namespace sprite {
 class Carrier : public Projectile {
   private: typedef Projectile super;
   public:
-    Carrier(float speed, int duration, ugdk::Vector2D &dir, std::list<WorldObject*> &list) 
+    Carrier(double speed, int duration, ugdk::Vector2D &dir, std::list<WorldObject*> &list) 
         :   Projectile(speed, duration, dir), 
             drop_list_(list) 
             {}
 
-    Carrier(float speed, int duration, ugdk::Vector2D &dir, WorldObject *drop) 
+    Carrier(double speed, int duration, ugdk::Vector2D &dir, WorldObject *drop) 
         :   Projectile(speed, duration, dir) {
         drop_list_.push_back(drop);
     }

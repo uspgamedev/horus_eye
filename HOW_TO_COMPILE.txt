@@ -23,6 +23,38 @@ GNU/Linux:
 Optionally, you can use CMake to generate files for your favorite IDE. Search
 for cmake -G options.
 
+========
+Mac OS X
+========
+
+1) Install CMake 2.6 or a higher version
+
+2) Install the following libraries: 
+- SDL 1.2
+- SDL_Image 1.2
+- SDL_Mixer 1.2
+- SDL_TTF 2.0
+
+3) Download and compile UGDK with static (or dynamic) link type:
+- a. Download https://github.com/uspgamedev/ugdk/tarball/v0.2.0
+- b. Check the provided HOW_TO_COMPILE for instructions on how to compile UGDK.
+- c. Copy ugdk/lib/libugdk.a (or ugdk/lib/libugdk.dylib, if you compiled 
+     a dynamic library) to horus_eye/lib
+
+4) Open a Terminal in the same folder of this file.
+
+5) Type the following command at the terminal:
+   ./deploy/deploy_macosx.sh
+
+The file "Horus Eye.app" will be created inside the deploy folder.
+
+If you want to compile a deployment version (for distribution), you must follow
+the instructions on how to compile a Universal Binary in UGDK, and follow the
+instructions in the file ./deploy/HOW_TO_DEPLOY.txt
+
+Optionally, you can use CMake to generate files for your favorite IDE. Search
+for cmake -G options. But please note that this feature is not supported by us,
+so you may have some trouble compiling it this way.
 
 =======
 Windows

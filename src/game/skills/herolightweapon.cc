@@ -1,14 +1,18 @@
 #include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/action/animation.h>
+#include <ugdk/graphic.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 
 #include "herolightweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/explosion.h"
-#include "game/sprites/timedworldobject.h"
+#include "game/sprites/worldobject.h"
+#include "game/sprites/creatures/hero.h"
+#include "game/utils/constants.h"
 #include "game/utils/visionstrategy.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/hudimagefactory.h"
@@ -27,14 +31,14 @@ void HeroLightWeapon::Use(){
 
     World *world = WORLD();   
 
-    sprite::WorldObject *light = new sprite::TimedWorldObject(5.0f);
-    light->Initialize(world->image_factory()->LightImage());
-    light->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
-    light->set_light_radius(4.0f);
+    sprite::WorldObject *light = new sprite::WorldObject(5.0);
+    light->node()->set_drawable(new ugdk::graphic::Sprite(world->image_factory()->LightImage()));
+    world->image_factory()->LightImage()->set_hotspot( Vector2D(Constants::PROJECTILE_SPRITE_CENTER_X, Constants::PROJECTILE_SPRITE_CENTER_Y) );
+    light->set_light_radius(4.0);
     world->AddWorldObject(light, use_argument_.destination_);
 
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 HeroLightWeapon::HeroLightWeapon(sprite::Hero* owner)

@@ -6,7 +6,7 @@
 
 #include "game/scenes/world.h"
 #include "game/builders/projectilebuilder.h"
-#include "game/sprites/creatures/hero.h"
+#include "game/sprites/creatures/creature.h"
 #include "game/utils/settings.h"
 #include "game/utils/constants.h"
 
@@ -16,8 +16,8 @@ using namespace scene;
 using namespace ugdk;
 using utils::Constants;
 
-HeroBaseWeapon::HeroBaseWeapon(sprite::Hero* owner) 
-    : CombatArt<usearguments::Aim>(NULL, 0.0f, owner->mana(), owner->aim()) {}
+HeroBaseWeapon::HeroBaseWeapon(sprite::Creature* owner) 
+    : CombatArt<usearguments::Aim>(NULL, 0.0, owner->mana(), owner->aim()) {}
 
 void HeroBaseWeapon::Use(){
     super::Use();
@@ -30,7 +30,7 @@ void HeroBaseWeapon::Use(){
     world->AddWorldObject(proj.MagicMissile(versor), pos);
 
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 }

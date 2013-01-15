@@ -3,9 +3,14 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/action/animation.h>
 #include <ugdk/audio/audiomanager.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/spritesheet/flexiblespritesheet.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "mummy.h"
 
@@ -19,7 +24,6 @@
 #include "game/sprites/item.h"
 #include "game/builders/itembuilder.h"
 #include "game/skills/combatart.h"
-#include "game/sprites/creatures/hero.h"
 
 namespace sprite {
 
@@ -27,7 +31,7 @@ using namespace ugdk;
 using scene::World;
 using namespace utils;
 
-#define EXP_PARAM (1.0f)
+#define EXP_PARAM (1.0)
 
 // Devolve um tempo ~exp(EXP_PARAM)
 static int WaitingTime () {
@@ -39,16 +43,16 @@ COLLISION_DIRECT(Mummy*, MummyAntiStackCollision, voiddata) {
     data_->MummyAntiStack(obj);
 }
 
-Mummy::Mummy(Image* img) {
+Mummy::Mummy(ugdk::graphic::FlexibleSpritesheet* img) {
     Initialize(img, ANIMATIONS);
 
     // Animations
     last_standing_animation_ = standing_animations_[Animation_::DOWN];
 
-    this->SelectAnimation(last_standing_animation_);
+    sprite_->SelectAnimation(last_standing_animation_);
     time_to_think_ = TIME_TO_THINK;
     standing_ = true;
-    interval_ = new TimeAccumulator(0);
+    interval_ = new ugdk::time::TimeAccumulator(0);
     invulnerability_time_ = 300;
 
     identifier_ = std::string("Mummy");
@@ -62,31 +66,31 @@ Mummy::~Mummy() {
 	WORLD()->DecreaseEnemyCount();
 }
 
-void Mummy::TakeDamage(float life_points) {
+void Mummy::TakeDamage(double life_points) {
     Creature::TakeDamage(life_points);
     standing_ = false;
 }
 
 void Mummy::MummyAntiStack(WorldObject *obj) {
     Vector2D deviation = (world_position() - obj->world_position()).Normalize();
-    walking_direction_ = (walking_direction_ + deviation*0.9f).Normalize();
+    walking_direction_ = (walking_direction_ + deviation*0.9).Normalize();
 }
 
-void Mummy::StartAttack(Creature* obj) {
-    if(obj == NULL) obj = WORLD()->hero();
-    float attackAngle = GetAttackingAngle(obj->position() - position());
+void Mummy::StartAttack(WorldObject* obj) {
+    if(obj == NULL) obj = WORLD()->hero_world_object();
+    double attackAngle = GetAttackingAngle(obj->node()->modifier()->offset() - node()->modifier()->offset());
     int attackAnimationIndex = GetAttackingAnimationIndex(attackAngle);
     waiting_animation_ = true;
     last_standing_animation_ = standing_animations_[direction_mapping_[attackAnimationIndex]];
-    this->SelectAnimation(attacking_animations_[attackAnimationIndex]);
+    sprite_->SelectAnimation(attacking_animations_[attackAnimationIndex]);
 }
 
-void Mummy::set_bound(float radius) {
+void Mummy::set_bound(double radius) {
     SET_COLLISIONSHAPE(new pyramidworks::geometry::Circle(radius));
 }
 
 void Mummy::RandomMovement(){
-    float PI = acos(-1.0f);
+    double PI = acos(-1.0);
 
     if (interval_->Expired()) {
 
@@ -99,13 +103,13 @@ void Mummy::RandomMovement(){
         if (dir >= 6 || dir == 0) animation_direction_ += Animation_::RIGHT;
 
         interval_->Restart(WaitingTime());
-        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0f),sin(dir*PI/4.0f));
+        last_direction_ = walking_direction_ = Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
     }
 }
 
 void Mummy::UpdateDirection(Vector2D destination){
-    Vector2D dir_animation = World::FromWorldCoordinates(destination) - position(); 
-    float angle = GetAttackingAngle(dir_animation);
+    Vector2D dir_animation = World::FromWorldCoordinates(destination) - node()->modifier()->offset(); 
+    double angle = GetAttackingAngle(dir_animation);
     int dir = GetAttackingAnimationIndex(angle);
 
     animation_direction_ = direction_mapping_[dir];
@@ -116,7 +120,7 @@ void Mummy::UpdateDirection(Vector2D destination){
 
 }
 
-void Mummy::Think(float dt) {
+void Mummy::Think(double dt) {
     time_to_think_ -= dt;
     if(time_to_think_ <= 0){
         time_to_think_ = TIME_TO_THINK;
@@ -144,8 +148,7 @@ void Mummy::Think(float dt) {
     }
 }
 
-void Mummy::Update(float delta_t) {
-    if (status_ == WorldObject::STATUS_DEAD) return;
+void Mummy::Update(double delta_t) {
     Creature::Update(delta_t);
     Vector2D dir(0,0);
 
@@ -157,13 +160,13 @@ void Mummy::Update(float delta_t) {
         Tile *mummy_tile = Tile::GetFromMapPosition(map, mummy_pos);
         if (mummy_tile) {
             if(mummy_tile->visible())
-                set_visible(true);
+                node_->modifier()->set_visible(true);
             else
-                set_visible(false);
+                node_->modifier()->set_visible(false);
         }
     }
 
-    if (!waiting_animation_ && status_ == WorldObject::STATUS_ACTIVE) {
+    if (!waiting_animation_ && is_active()) {
         Think(delta_t);
 
 		if(!waiting_animation_) {
@@ -178,7 +181,7 @@ void Mummy::Update(float delta_t) {
 
 	        Creature::Move(this->GetWalkingDirection(), delta_t);
 	        walking_direction_ = last_direction_;
-	        this->SelectAnimation(walking_animations_[animation_direction_]);
+	        sprite_->SelectAnimation(walking_animations_[animation_direction_]);
 		}
     }
 
@@ -203,7 +206,7 @@ void Mummy::PlayHitSound() const {
     std::stringstream ss;
     int id = 1 + (rand() % 4);
 
-    ss << "data/samples/hit" << id << ".wav";
+    ss << "samples/hit" << id << ".wav";
     if(utils::Settings::reference()->sound_effects())
         Engine::reference()->audio_manager()->LoadSample(ss.str().c_str())->Play();
 }

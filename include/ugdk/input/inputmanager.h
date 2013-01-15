@@ -1,13 +1,14 @@
-#ifndef HORUSEYE_FRAMEWORK_INPUTMANAGER_H_
-#define HORUSEYE_FRAMEWORK_INPUTMANAGER_H_
+#ifndef UGDK_INPUT_INPUTMANAGER_H_
+#define UGDK_INPUT_INPUTMANAGER_H_
 
-#include <SDL/SDL.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/input/keys.h>
 
 namespace ugdk {
+namespace input {
 
 #define BUFFER_SIZE 32
+#define INPUT_MANAGER() (ugdk::Engine::reference()->input_manager())
 
 class InputManager {
   public:
@@ -16,7 +17,7 @@ class InputManager {
     ~InputManager();
 
     // Member functions e
-    void Update(float);
+    void Update(double);
     Vector2D GetMousePosition(void);
     void ShowCursor(bool toggle);
     bool KeyPressed(Key key);
@@ -42,5 +43,7 @@ class InputManager {
     void UpdateDevices();
 };
 
-}
+}  // namespace input
+}  // namespace ugdk
+
 #endif

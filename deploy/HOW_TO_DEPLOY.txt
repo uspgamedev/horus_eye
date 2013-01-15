@@ -1,0 +1,37 @@
+For Windows:
+
+== Requirements:
+ 1. Inno Setup (http://www.jrsoftware.org/isinfo.php)
+ 2. Visual Studio 2010
+
+== How To:
+
+* Download Visual C++ 2010 Redistributable Package (x86) from
+  http://www.microsoft.com/download/en/details.aspx?id=5555
+  - Save as deploy/vcredist_x86.exe
+
+* Open Horus Eye.sln with Visual Studio 2010
+  - Change active configuration to Release.
+  - Build.
+
+* Open horus_eye.iss with Inno Setup
+  - Click "Compile"
+
+===============================================================================
+
+For Mac OS X:
+
+== How To:
+
+* Follow instructions 1) through 4) in the file HOW_TO_COMPILE.txt,
+  compiling UGDK as a STATIC library, and using the UNIVERSAL parameter
+  (see instructions in the UGDK folder).
+
+* Run this command at the terminal (replace VERSION_NUMBER by the correct
+  version)
+    ./deploy/deploy_macosx.sh -v VERSION_NUMBER
+  - Example (for version 1.2.1 Alpha):
+    ./deploy/deploy_macosx.sh -v "1.2.1 Alpha"
+    
+* The file "Horus Eye.dmg" will be created under the folder "deploy" (in the
+  same folder as this file). This is the file that should be distributed.

@@ -19,8 +19,8 @@ void Tile::CleanVisibility(GameMap& map) {
 
 TilePos Tile::ToTilePos(Vector2D pos) {
     return TilePos(
-        static_cast<int>(pos.y + 0.5f),
-        static_cast<int>(pos.x + 0.5f)
+        static_cast<int>(pos.y + 0.5),
+        static_cast<int>(pos.x + 0.5)
     );
 }
 

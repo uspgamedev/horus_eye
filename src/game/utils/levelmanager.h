@@ -1,6 +1,9 @@
 #ifndef HORUSEYE_GAME_UTILS_LEVELMANAGER_H_
 #define HORUSEYE_GAME_UTILS_LEVELMANAGER_H_
 
+#include <vector>
+#include <string>
+
 namespace scene {
 class World;
 class Loading;

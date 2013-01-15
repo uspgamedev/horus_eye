@@ -1,5 +1,7 @@
 #include <ugdk/graphic/light.h>
-#include <pyramidworks/geometry/circle.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/time/timeaccumulator.h>
+#include <pyramidworks/collision/collisionobject.h>
 
 #include "worldobject.h"
 
@@ -7,22 +9,30 @@
 #include "game/utils/tile.h"
 #include "game/utils/constants.h"
 
+#define LIGHT_COEFFICIENT 0.75
+
 namespace sprite {
 
 using namespace ugdk;
 using namespace scene;
 using namespace utils;
 
-WorldObject::WorldObject()
-    : collision_object_(NULL),
-      status_(STATUS_ACTIVE),
-      identifier_("Generic World Object"),
-      light_radius_(0.0f) {
+WorldObject::WorldObject(double duration)
+    :   identifier_("Generic World Object"),
+        collision_object_(NULL),
+        node_(new ugdk::graphic::Node),
+        timed_life_(NULL),
+        status_(STATUS_ACTIVE),
+        light_radius_(0.0) {
+            if(duration > 0.0) 
+                this->set_timed_life(duration);
 }
 
 WorldObject::~WorldObject() {
-    if(collision_object_ != NULL) 
+    if(collision_object_ != NULL)
         delete collision_object_;
+    delete node_;
+    if(timed_life_) delete timed_life_;
 }
 
 void WorldObject::StartToDie() {
@@ -31,53 +41,51 @@ void WorldObject::StartToDie() {
         collision_object_->StopColliding();
 }
 
-void WorldObject::Update(float dt) {
-    Sprite::Update(dt);
-    set_zindex(World::FromWorldLinearCoordinates(world_position()).y); // Seta zindex
-}
+void WorldObject::Update(double dt) {
+    if(timed_life_ && timed_life_->Expired())
+        StartToDie();
 
-void WorldObject::set_light_radius(float radius) {
-    light_radius_ = radius;
-	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
-		if(!light_) {
-			light_ = new Light;
-		}
-		Vector2D dimension = World::ConvertLightRadius(light_radius_);
-		light_->set_dimension(dimension);
-
-	} else {
-		if(light_) {
-			delete light_;
-			light_ = NULL;
-		}
-	}
+    if(status_ == STATUS_DYING) 
+        Dying(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
    world_position_ = pos;
-   set_position(World::FromWorldCoordinates(world_position_));
+   if(collision_object_) collision_object_->MoveTo(pos);
+
+   Vector2D position = World::FromWorldCoordinates(world_position_);
+   node_->modifier()->set_offset(position);
+   node_->set_zindex(position.y);
 }
 
+void WorldObject::set_light_radius(double radius) {
+    light_radius_ = radius;
+    
+	if(light_radius_ > Constants::LIGHT_RADIUS_THRESHOLD) {
+        if(node_->light() == NULL) node_->set_light(new ugdk::graphic::Light);
+		Vector2D dimension = World::ConvertLightRadius(light_radius_);
+		node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
 
-void WorldObject::Render() {
-    if(false) { // TODO: fixme
-        World *world = WORLD();
-        GameMap& map = world->level_matrix();
-
-        TilePos pos = Tile::ToTilePos(world_position());
-        pos.i = map.size() - pos.i - 1;
-        Tile*   obj_tile = Tile::GetFromMapPosition(world->level_matrix(), pos);
-        if (obj_tile && obj_tile->visible()) {
-
-        }
-    }
-    Sprite::Render();
-
+	} else {
+		if(node_->light()) {
+			delete node_->light();
+			node_->set_light(NULL);
+		}
+	}
 }
 
 void WorldObject::set_shape(pyramidworks::geometry::GeometricShape* shape) {
     collision_object_->set_shape(shape);
-    shape->set_position(&world_position_);
+}
+
+void WorldObject::set_timed_life(ugdk::time::TimeAccumulator* timer) {
+    if(timed_life_) delete timed_life_;
+    timed_life_ = timer;
+}
+
+void WorldObject::set_timed_life(double duration) {
+    #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
+    set_timed_life(new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration)));
 }
 
 }  // namespace sprite

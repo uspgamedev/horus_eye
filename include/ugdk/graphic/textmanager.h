@@ -2,34 +2,37 @@
 #define HORUSEYE_FRAMEWORK_TEXTMANAGER_H_
 
 #include <vector>
-#include <SDL/SDL_ttf.h>
+#include <map>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic.h>
 
 #define TEXT_MANAGER() ugdk::Engine::reference()->text_manager()
 
 namespace ugdk {
+namespace graphic {
 
-using std::wstring;
-class Text;
-class Font;
 class TextManager {
-    public:
-        TextManager() : current_font_(NULL) {}
-        ~TextManager();
+  public:
+    TextManager() : current_font_(NULL) {}
+    ~TextManager();
 
-        bool Initialize();
-        bool Release();
+    bool Initialize();
+    bool Release();
 
-		Text* GetText(wstring text, wstring font = wstring(), int width = -1);
-		Text* GetTextFromFile(wstring path, wstring font, int width = -1);
-		void AddFont(wstring name, wstring path, int size, char ident, bool fancy);
+    Text* GetText(        const std::wstring& text);
+    Text* GetText(        const std::wstring& text, const std::string& font, int width = -1);
+    Text* GetTextFromFile(const std:: string& path);
+	Text* GetTextFromFile(const std:: string& path, const std::string& font, int width = -1);
 
-    private:
-		Font *current_font_;
-		std::map<wstring,Image**> font_images_;
-		std::map<wstring,Font*> fonts_;
+	void AddFont(const std::string& name, const std::string& path, int size, char ident, bool fancy);
+
+  private:
+	Font *current_font_;
+	std::map<std::string, Texture**> font_images_;
+	std::map<std::string, Font*> fonts_;
 };
 
-} // namespace framework
+}  // namespace graphic
+}  // namespace ugdk
 
 #endif

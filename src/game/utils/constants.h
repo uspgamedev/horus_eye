@@ -31,8 +31,6 @@ class Constants {
                        
         HERO_WIDTH = 110,
         HERO_HEIGHT = 110,
-        HERO_HOTSPOT_X = 55,
-        HERO_HOTSPOT_Y = 102,
         HERO_MAX_WEAPONS = 6,
         HERO_MIN_MANA_BLOCKS = 1,
         HERO_MAX_MANA_BLOCKS = 5,
@@ -74,7 +72,7 @@ class Constants {
 		PHARAOH_RANGED_DAMAGE = 200;
 
 
-    const static float
+    const static double
         DOOR_HOTSPOT_WIDTH,
         DOOR_HOTSPOT_HEIGHT,
         DOOR_BOUND_WIDTH,
@@ -160,7 +158,7 @@ class Constants {
 		POTION_HEIGHT;
 
     const static std::string
-		INSTALL_LOCATION,
+		DATA_LOCATION,
         BINARY_CONFIGURATION_FILENAME,
         INI_CONFIGURATION_FILENAME,
         BACKGROUND_MUSIC;

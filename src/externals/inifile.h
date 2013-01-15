@@ -293,6 +293,24 @@ std::istream& operator>>(std::istream& input, CIniMergeA merger);
 #define INI_TOKEN_B_UNICODE L"\b"	    // I.E. Item1,Item1b;Item2,Item2b;Item3,Item3b - '\b' used in place of ','
 #define INI_EMPTY_UNICODE L"*"		// Used to indicate empty value in token string. I.E. *;Item2;*;Item3;
 
+inline int wcscasecmp (const wchar_t* s1, const wchar_t* s2) { 
+    wint_t a1, a2; 
+
+    if (s1 == s2) 
+        return 0; 
+
+    do 
+    { 
+        a1 = towlower(*s1++); 
+        a2 = towlower(*s2++); 
+        if (a1 == L'\0') 
+            break; 
+    } 
+    while (a1 == a2); 
+
+    return a1 - a2; 
+} 
+
 class CIniFileW
 {
 public:

@@ -10,15 +10,15 @@ namespace sprite {
 
 class Item: public sprite::WorldObject {
   public:
-    Item (ugdk::Image* img);
+    Item (ugdk::graphic::FlexibleSpritesheet* img);
     ~Item () { if (event_) delete event_; }
     
-    virtual void Update(float delta_t);
+    virtual void Update(double delta_t);
     virtual void set_event(ItemEvent *event) { event_ = event; }
 
   private:
     ItemEvent *event_;
-    float total_time_;
+    double total_time_;
 
     friend class UseCollision;
 };

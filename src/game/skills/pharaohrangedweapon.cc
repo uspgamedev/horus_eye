@@ -5,7 +5,6 @@
 #include "pharaohrangedweapon.h"
 
 #include "game/scenes/world.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/utils/settings.h"
@@ -13,23 +12,23 @@
 
 namespace skills {
 
-#define PI 3.1415926535897932384626433832795f
+#define PI 3.1415926535897932384626433832795
 
 using ugdk::Vector2D;
 
-const float PharaohRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
+const double PharaohRangedWeapon::range_ = utils::Constants::RANGED_MUMMY_RANGE;
 
 void PharaohRangedWeapon::Use() {
     super::Use();
 
     scene::World *world = WORLD();
-    sprite::Hero* hero = world->hero();
+    sprite::WorldObject* hero = world->hero_world_object();
 
     //TODO:FIX 
     Vector2D pos = use_argument_.origin_;
     Vector2D distance = hero->world_position() - pos;
     
-    float angle = atan2(1.5f, distance.length()); 
+    double angle = atan2(1.5, distance.length()); 
     
     Vector2D versor = Vector2D::Normalized(distance);
     Vector2D offsetleft  = Vector2D::Rotate(versor, angle);
@@ -41,12 +40,12 @@ void PharaohRangedWeapon::Use() {
     world->AddWorldObject(proj.MummyProjectile(offsetright, damage_), pos);
     
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample("data/samples/fire.wav")->Play();
+        ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 bool PharaohRangedWeapon::IsValidUse() const {
-    float distance = (use_argument_.destination_ - use_argument_.origin_).length();
-    return (distance >= range_ / 2.0f) && (distance <= range_);
+    double distance = (use_argument_.destination_ - use_argument_.origin_).length();
+    return (distance >= range_ / 2.0) && (distance <= range_);
 }
 
 }

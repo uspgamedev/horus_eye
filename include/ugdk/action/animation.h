@@ -5,7 +5,7 @@
 #include <string>
 #include <ugdk/graphic/modifier.h>
 
-#define DEFAULT_PERIOD 0.1f
+#define DEFAULT_PERIOD 0.1
 
 namespace ugdk {
 
@@ -40,16 +40,16 @@ class AnimationManager {
        *            should be applied to the rendered sprite.
        */
       public:
-        AnimationFrame(int frame, Modifier *modifier = NULL)
+        AnimationFrame(int frame, graphic::Modifier *modifier = NULL)
             : frame_(frame), modifier_(modifier) {}
 
         int frame() const { return frame_; }
-        Modifier *modifier() const { return modifier_; }
+        graphic::Modifier *modifier() const { return modifier_; }
 
         void set_frame(const int frame) { frame_ = frame; }
       private:
         int frame_;
-        Modifier *modifier_;
+        graphic::Modifier *modifier_;
     };
 
     /*
@@ -63,53 +63,53 @@ class AnimationManager {
         Animation() : std::vector<AnimationFrame*>(), period_(DEFAULT_PERIOD) {}
 
         /* try to use period() instead whenever you can */
-        float fps() const { return 1.0f/period_; }
-        float period() const { return period_; }
+        double fps() const { return 1.0/period_; }
+        double period() const { return period_; }
 
         /* try to use set_period() instead whenever you can */
-        void set_fps(const float fps) { period_ = 1.0f/fps; }
-        void set_period(const float period) { period_ = period; }
+        void set_fps(const double fps) { period_ = 1.0/fps; }
+        void set_period(const double period) { period_ = period; }
 
       private:
-        float period_;
+        double period_;
 
     };
 
 
-    AnimationManager(float fps, AnimationSet *set);/*TODO: remove fps*/
+    AnimationManager(double fps, AnimationSet *set);/*TODO: remove fps*/
     ~AnimationManager();
 
-    void set_slowdown_factor(const float factor) { period_scaling_factor_ = factor; }
+    void set_slowdown_factor(const double factor) { period_scaling_factor_ = factor; }
     //Note: try to use set_slowdown_factor() instead whenever you can.
-    void set_speedup_factor(const float factor) { set_slowdown_factor(1.0f/factor); }
+    void set_speedup_factor(const double factor) { set_slowdown_factor(1.0/factor); }
 
     //Note: try to use period() instead whenever you can.
-    float    fps() const { return 1.0f/(period_scaling_factor_*current_animation_->period()); }
-    float period() const { return period_scaling_factor_*current_animation_->period(); }
+    double    fps() const { return 1.0/(period_scaling_factor_*current_animation_->period()); }
+    double period() const { return period_scaling_factor_*current_animation_->period(); }
     int n_frames() const { return current_animation_->size(); }
 
     int GetFrame();
     void set_default_frame(int default_frame) {
         default_frame_ = default_frame;
     }
-    const Modifier* get_current_modifier() const {
+    const graphic::Modifier* get_current_modifier() const {
         return current_animation_
                 ? current_animation_->at(current_frame_)->modifier()
                 : NULL;
     }
     void Select(std::string name);
     void Select(int index);
-    void Update(float delta_t);
+    void Update(double delta_t);
     void AddObserver(Observer* observer);
 
   private:
-    float period_scaling_factor_;
+    double period_scaling_factor_;
 
     Animation *current_animation_;
     AnimationSet *animation_set_;
     int current_frame_;
     int default_frame_;
-    float elapsed_time_;
+    double elapsed_time_;
 
     std::vector<Observer *> observers;
     void NotifyAllObservers();

@@ -1,7 +1,7 @@
 
 # Inicializando...
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
-PROJECT(horus_eye CXX)
+PROJECT(horus_eye CXX C)
 SET(GAME_UNIXNAME horus_eye)
 SET(GAME_DEBUGNAME horus_eye_debug)
 SET(GAME_NAME "Horus Eye")
@@ -9,8 +9,18 @@ SET(GAME_VERSION "1.1.1 Alpha")
 SET(CMAKE_BUILD_TYPE Release)
 # Arquivos de código fonte vão aqui!
 include (src/src_list.cmake)
+IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    SET(GAME_SRCS ${GAME_SRCS} src/mac/SDLMain.h src/mac/SDLMain.m)
+ENDIF ()
 
 MESSAGE("${GAME_NAME} version ${GAME_VERSION}")
+
+IF (UNIVERSAL)
+  # Necessary for a Mac Universal Binary
+  SET (CMAKE_OSX_ARCHITECTURES ppc;i386;x86_64)
+  SET (CMAKE_OSX_SYSROOT /Developer/SDKs/MacOSX10.5.sdk)
+  SET (MACOSX_DEPLOYMENT_TARGET 10.5)
+ENDIF (UNIVERSAL)
 
 # #define's que voce queira incluir na compilacao
 # separe por espacos
@@ -29,7 +39,15 @@ SET(LDFLAGS "" CACHE STRING "flags enviadas ao linker")
 IF(UNIX)
   # se for o g++ para *nix:
   SET(CFLAGS "${CFLAGS} -g -Wall -ansi -O3 -U_FORTIFY_SOURCE")
-  SET(LDFLAGS "${LDFLAGS}")
+  IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    IF(UNIVERSAL)
+      SET(LDFLAGS "${LDFLAGS} -mmacosx-version-min=10.5")
+    ELSE()
+      SET(LDFLAGS "${LDFLAGS}")
+    ENDIF()
+  ELSE()
+    SET(LDFLAGS "${LDFLAGS}")
+  ENDIF()
 ELSE(UNIX)
   IF(MINGW)
     # se for o g++ para Windows:
@@ -48,25 +66,20 @@ IF(NOT GAME_SRCS)
 ENDIF(NOT GAME_SRCS)
 
 # Encontrando as bibliotecas necessarias:
-FIND_LIBRARY(LSDL NAMES SDL PATH "${CMAKE_LIBRARY_PATH}")
-IF(NOT LSDL)
-  MESSAGE(FATAL_ERROR "Erro fatal: libSDL nao encontrada!")
-ENDIF(NOT LSDL)
+find_package(OpenGL REQUIRED)
+include_directories(${OPENGL_INCLUDE_DIR})
 
-FIND_LIBRARY(LSDLIMAGE NAMES SDL_image PATH "${CMAKE_LIBRARY_PATH}")
-IF(NOT LSDLIMAGE)
-  MESSAGE(FATAL_ERROR "Erro fatal: libSDL_image nao encontrada!")
-ENDIF(NOT LSDLIMAGE)
+find_package(SDL REQUIRED)
+include_directories(${SDL_INCLUDE_DIR})
 
-FIND_LIBRARY(LSDLMIXER NAMES SDL_mixer PATH "${CMAKE_LIBRARY_PATH}")
-IF(NOT LSDLMIXER)
-  MESSAGE(FATAL_ERROR "Erro fatal: libSDL_mixer nao encontrada!")
-ENDIF(NOT LSDLMIXER)
+find_package(SDL_mixer REQUIRED)
+include_directories(${SDLMIXER_INCLUDE_DIR})
 
-FIND_LIBRARY(LSDLTTF NAMES SDL_ttf PATH "${CMAKE_LIBRARY_PATH}")
-IF(NOT LSDLTTF)
-  MESSAGE(FATAL_ERROR "Erro fatal: libSDL_ttf nao encontrada!")
-ENDIF(NOT LSDLTTF)
+find_package(SDL_ttf REQUIRED)
+include_directories(${SDLTTF_INCLUDE_DIR})
+
+find_package(SDL_image REQUIRED)
+include_directories(${SDLIMAGE_INCLUDE_DIR})
 
 find_library (LUGDK ugdk_d lib/)
 if (NOT LUGDK)
@@ -96,12 +109,28 @@ include_directories ("src")
 IF(UNIX)
   ADD_EXECUTABLE(${GAME_UNIXNAME} ${GAME_SRCS})
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES(${GAME_UNIXNAME} m ${LUGDK} SDL SDL_image SDL_mixer SDL_ttf GL GLU)
+  TARGET_LINK_LIBRARIES (${GAME_UNIXNAME}
+                         m
+                         ${LUGDK}
+                         ${SDL_LIBRARY}
+                         ${SDLMIXER_LIBRARY}
+                         ${SDLTTF_LIBRARY}
+                         ${SDLIMAGE_LIBRARY}
+                         ${OPENGL_LIBRARIES}
+                        )
   SET_TARGET_PROPERTIES(${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA}")
   # Debug target.
   ADD_EXECUTABLE(${GAME_DEBUGNAME} EXCLUDE_FROM_ALL ${GAME_SRCS})
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES LINK_FLAGS "${LDFLAGS}")
-  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} m ${LUGDK} SDL SDL_image SDL_mixer SDL_ttf GL GLU)
+  TARGET_LINK_LIBRARIES(${GAME_DEBUGNAME} 
+                         m
+                         ${LUGDK}
+                         ${SDL_LIBRARY}
+                         ${SDLMIXER_LIBRARY}
+                         ${SDLTTF_LIBRARY}
+                         ${SDLIMAGE_LIBRARY}
+                         ${OPENGL_LIBRARIES}
+                        )
   SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES COMPILE_FLAGS "${CFLAGS} ${CFLAGS_EXTRA} -DDEBUG")
 ENDIF(UNIX)
 
@@ -160,18 +189,28 @@ SET_TARGET_PROPERTIES(${GAME_DEBUGNAME} PROPERTIES PROJECT_NAME "${GAME_NAME} (D
 
 # Installing on *nix
 IF(UNIX)
-  SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}")
-  SET(GAME_FINAL_DIR "/usr/bin")
-  
-  INSTALL(CODE "MESSAGE(\"Installing ${GAME_NAME} ${GAME_VERSION}... Make sure you have root privileges.\")")
-  
-  INSTALL(TARGETS ${GAME_UNIXNAME} RUNTIME DESTINATION ${GAME_INSTALL_DIR})
-  #INSTALL(FILES license.txt readme.html DESTINATION ${GAME_INSTALL_DIR})
-  INSTALL(DIRECTORY data DESTINATION ${GAME_INSTALL_DIR})
+  IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    # Mac
+    SET(CHECKMAC "#define ISMAC 1")
+    SET(GAME_INSTALL_DIR ".")
+  ELSE()
+    SET(GAME_INSTALL_DIR "/usr/share/${GAME_UNIXNAME}/data")
+    set (GAME_LOCAL_DIR "./data")
+    SET(GAME_FINAL_DIR "/usr/bin")
+    
+    INSTALL(CODE "MESSAGE(\"Installing ${GAME_NAME} ${GAME_VERSION}... Make sure you have root privileges.\")")
+    install (CODE
+      "set_target_properties (${GAME_UNIXNAME} PROPERTIES COMPILE_FLAGS) \"${CFLAGS} ${CFLAGS_EXTRA} -DINSTALLED\""
+    )
+    
+    INSTALL(TARGETS ${GAME_UNIXNAME} RUNTIME DESTINATION ${GAME_INSTALL_DIR})
+    #INSTALL(FILES license.txt readme.html DESTINATION ${GAME_INSTALL_DIR})
+    INSTALL(DIRECTORY data DESTINATION ${GAME_INSTALL_DIR})
 
-  INSTALL(CODE "MESSAGE(\"Done! Please run ${GAME_UNIXNAME} to start ${GAME_NAME}.\")")
+    INSTALL(CODE "MESSAGE(\"Done! Please run ${GAME_UNIXNAME} to start ${GAME_NAME}.\")")
+  ENDIF()
 ELSE(UNIX)
-  SET(GAME_INSTALL_DIR ".")
+  SET(GAME_INSTALL_DIR "./data")
 ENDIF(UNIX)
 
 CONFIGURE_FILE(

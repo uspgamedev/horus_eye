@@ -8,8 +8,8 @@
 
 #include "levelloader.h"
 
+#include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/sprites/creatures/hero.h"
 #include "game/sprites/creatures/mummy.h"
 #include "game/sprites/creatures/pharaoh.h"
 #include "game/sprites/scenery/floor.h"
@@ -27,12 +27,12 @@
 /* Util functions found at http://stackoverflow.com/q/217605 */
 // trim from start
 static inline std::string &ltrim(std::string &s) {
-    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(std::isspace))));
+    s.erase(s.begin(), std::find_if(s.begin(), s.end(), std::not1(std::ptr_fun<int, int>(isspace))));
     return s;
 }
 // trim from end
 static inline std::string &rtrim(std::string &s) {
-    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(std::isspace))).base(), s.end());
+    s.erase(std::find_if(s.rbegin(), s.rend(), std::not1(std::ptr_fun<int, int>(isspace))).base(), s.end());
     return s;
 }
 // trim from both ends
@@ -118,7 +118,7 @@ void LevelLoader::InitializeWallTypes(vector<vector<Wall *> > wall_matrix) {
 	}
 }
 
-void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position, vector<vector<Wall* > > &wall_matrix) {
+void LevelLoader::TokenToWorldObject(char token, int i, int j, const Vector2D& position, vector<vector<Wall* > > &wall_matrix) {
     builder::MummyBuilder mummy_builder;
     builder::ItemBuilder potion_builder;
     ImageFactory* image_factory = world_->image_factory();
@@ -222,6 +222,11 @@ void LevelLoader::TokenToWorldObject(char token, int i, int j, Vector2D position
 				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
 				break;
 			}
+            case BLUEGEM: {
+                world_->AddWorldObject(potion_builder.BlueGem(image_factory->BlueGemImage()), position);
+				world_->AddWorldObject(new Floor(image_factory->FloorImage()), position);
+                break;
+            }
             case BUTTON: {
                 world_->AddWorldObject(new Button(image_factory->TileSwitchImage(), world_, -1), position);
                 break;
@@ -240,7 +245,7 @@ void LevelLoader::Load(string file_name) {
 	for (int i = 0; i < (int)matrix.size(); ++i) {
 		for (int j = 0; j < (int)matrix[i].size(); ++j) {
 			char token = matrix[i][j]->object();
-			Vector2D position ((float)j, (float)(world_->level_height() - i - 1));
+			Vector2D position ((double)j, (double)(world_->level_height() - i - 1));
 
 			TokenToWorldObject(token, i, j, position, wall_matrix);
 		}

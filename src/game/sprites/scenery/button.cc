@@ -1,12 +1,13 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/base/engine.h>
+#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/action/animationset.h>
 #include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionlogic.h>
 
 #include "button.h"
 
-#include "game/utils/constants.h"
-#include "game/utils/tile.h"
 #include "game/scenes/world.h"
 
 using namespace ugdk;
@@ -21,12 +22,12 @@ COLLISION_DIRECT(Button*, PressCollision, obj) {
     data_->Press();
 }
 
-Button::Button(ugdk::Image* image, scene::World *world, float active_time)
+Button::Button(ugdk::graphic::FlexibleSpritesheet* image, scene::World *world, double active_time)
   : super(image),
     world_(world) {
 
-    if(active_time > 0.0f) {
-        reactive_time_ = new ugdk::TimeAccumulator(SECONDS_TO_MILISECONDS(active_time));
+    if(active_time > 0.0) {
+        reactive_time_ = new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(active_time));
     } else {
         reactive_time_ = NULL;
     }
@@ -37,18 +38,18 @@ Button::Button(ugdk::Image* image, scene::World *world, float active_time)
 
     INITIALIZE_COLLISION;
     SET_COLLISIONCLASS(Button);
-    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.75f, 0.75f));
+    SET_COLLISIONSHAPE(new pyramidworks::geometry::Rect(0.75, 0.75));
 
     ADD_COLLISIONLOGIC(Hero, new PressCollision(this));
     ADD_COLLISIONLOGIC(Block, new PressCollision(this));
 }
 
-void Button::Update(float delta_t) {
+void Button::Update(double delta_t) {
     super::Update(delta_t);
     if(pressed_ && reactive_time_ && reactive_time_->Expired()) {
         DePress();
     }
-    SetDefaultFrame((int)(!pressed_) * 2);
+    sprite_->SetDefaultFrame((int)(!pressed_) * 2); 
 }
 
 void Button::Die() {

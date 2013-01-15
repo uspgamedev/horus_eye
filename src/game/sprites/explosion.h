@@ -4,10 +4,14 @@
 #include "game/sprites/worldobject.h"
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/observer.h>
+#include <ugdk/base/types.h>
 
 namespace ugdk {
-class TimeAccumulator;
-class AnimationSet;
+    class TimeAccumulator;
+    class AnimationSet;
+    namespace graphic {
+        class FlexibleSpritesheet;
+    }
 }
 
 namespace pyramidworks {
@@ -20,17 +24,18 @@ class Circle;
 namespace sprite {
 
 class Explosion : public WorldObject, ugdk::Observer {
-
+  typedef WorldObject super;
   public:
-    Explosion(ugdk::Image *img, ugdk::uint32 animation, float radius, float damage);
+    Explosion(ugdk::graphic::FlexibleSpritesheet *img, ugdk::uint32 animation, double radius, double damage);
     ~Explosion();
 
     static void InitializeAnimations();
     static void ReleaseAnimations();
 
-    void RadiusUpdate(float delta_t);
-    void Update(float delta_t);
+    void RadiusUpdate(double delta_t);
+    void Update(double delta_t);
     virtual void Tick();
+    void set_world_position(const ugdk::Vector2D& pos);
 
     int damage() { return damage_; }
 
@@ -44,8 +49,8 @@ class Explosion : public WorldObject, ugdk::Observer {
 
   private:
 	int damage_;
-    float radius_;
-    float expansion_speed_;
+    double radius_;
+    double expansion_speed_;
     ugdk::Vector2D direction_;
     pyramidworks::geometry::Circle* bound_;
 };

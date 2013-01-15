@@ -19,7 +19,7 @@ namespace sprite {
 class Pharaoh : public Mummy {
 
   public:
-    Pharaoh(ugdk::Image* image, int life, int mana);
+    Pharaoh(ugdk::graphic::FlexibleSpritesheet* image, int life, int mana);
     ~Pharaoh();
 
 	void set_ranged_weapon(skills::Skill *weapon) { ranged_weapon_ = weapon; }
@@ -30,8 +30,8 @@ class Pharaoh : public Mummy {
   protected:
 	skills::Skill *ranged_weapon_, *summon_weapon_;
 
-	void Update(float delta_t);
-    void Think(float dt);
+	void Update(double delta_t);
+    void Think(double dt);
 
 };
 

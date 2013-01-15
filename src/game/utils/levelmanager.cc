@@ -2,11 +2,11 @@
 #include <iostream>
 
 #include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/textmanager.h>
+#include <ugdk/base/resourcemanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
-#include <ugdk/graphic/image.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
 
 #include "game/utils/levelmanager.h"
@@ -24,7 +24,6 @@
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
-#include "game/utils/textloader.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -41,14 +40,13 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
-    LoadLevelList("data/level_list.txt", level_list_);
+    LoadLevelList("level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
 	hero_ = NULL;
 	Creature::InitializeAnimations();
     Explosion::InitializeAnimations();
     MenuBuilder::InitializeAnimations();
-
 	MenuBuilder builder;
     menu_ = builder.BuildMainMenu();
     Engine::reference()->PushScene(menu_);
@@ -88,27 +86,25 @@ void finishAndDeleteCurrentScene() {
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
 	level_list_iterator_ = 0;
-    Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("Intro")), 45);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
+    Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
+    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    Scene *scroll = new ScrollingImageScene(NULL, static_cast<Image*>(TEXT_LOADER()->GetImage("CreditsFile")), 55);
-    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("data/musics/action_game_theme.ogg"));
+    Scene *scroll = new ScrollingImageScene(NULL, ugdk::base::ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
+    scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowEnding() {
 	loading_->Finish();
 	loading_ = NULL;
-    Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImageFile("data/images/you_win.png")));
+    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/you_win.png"))));
 }
 
 void LevelManager::ShowGameOver() {
-    Engine::reference()->PushScene(new ImageScene(NULL,
-            VIDEO_MANAGER()->LoadImageFile("data/images/game_over.png")));
+    Engine::reference()->PushScene(new ImageScene(NULL, new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->texture_container().Load("images/game_over.png"))));
 }
 
 void LevelManager::FinishLevel(LevelState state) {
@@ -175,7 +171,7 @@ void LevelManager::Finish() {
 		delete loading_;
 	Creature::ReleaseAnimations();
     Explosion::ReleaseAnimations();
-    MenuBuilder::ReleaseAnimations();
+    //MenuBuilder::ReleaseAnimations();
 }
 
 LevelManager::~LevelManager() {}

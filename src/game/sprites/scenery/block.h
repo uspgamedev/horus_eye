@@ -13,9 +13,9 @@ namespace sprite {
 class Block : public WorldObject {
   
   public:
-    Block(ugdk::Image* image);
+    Block(ugdk::graphic::FlexibleSpritesheet* image);
     ~Block();
-    virtual void Update(float dt);
+    virtual void Update(double dt);
     
     enum Direction { LEFT, RIGHT, UP, DOWN };
 
@@ -23,13 +23,13 @@ class Block : public WorldObject {
 #ifdef DEBUG
     void GetKeys();
 #endif
-    void MoveBlock(float dt);
+    void MoveBlock(double dt);
     
     void RevertPosition();
     void PushToward(ugdk::Vector2D &pushdir);
 
     bool moving_;
-    float moving_time_left_;
+    double moving_time_left_;
     Direction moving_toward_;
     ugdk::Vector2D last_stable_position_;
 

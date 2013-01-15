@@ -3,29 +3,37 @@
 
 #include <list>
 
-#include <ugdk/action/sprite.h>
-#include <ugdk/math/vector2D.h>
-#include <ugdk/time/timeaccumulator.h>
 #include <ugdk/action/observer.h>
-#include <pyramidworks/geometry/rect.h>
-#include "game/sprites/condition.h"
+#include <ugdk/math/vector2D.h>
+#include <ugdk/base/types.h>
 #include "game/sprites/worldobject.h"
 #include <game/resources/energy.h>
 #include "game/skills/usearguments.h"
-
-namespace ugdk {
-class TimeAccumulator;
-class Animation;
-class AnimationSet;
-}
 
 namespace skills {
 class Skill;
 }
 
+namespace pyramidworks {
+namespace geometry {
+class Rect;
+}
+}
+
+namespace ugdk {
+    class AnimationSet;
+    namespace time {
+        class TimeAccumulator;
+    }
+    namespace graphic {
+        class Sprite;
+        class Spritesheet;
+    }
+}
+
 namespace sprite {
 
-using ugdk::Vector2D;
+class Condition;
 
 class Creature : public WorldObject , public ugdk::Observer {
   
@@ -33,15 +41,11 @@ class Creature : public WorldObject , public ugdk::Observer {
     Creature();
     virtual ~Creature();
 
-    void Initialize(ugdk::Drawable *image,
-                    ugdk::AnimationSet *set = NULL,
-                    bool delete_image = false);
-
     resource::Energy& life() { return life_; }
 	void set_life(resource::Energy &life) {
 		life_ = life;
 	}
-	void set_life(float life) {
+	void set_life(double life) {
 	    life_.Set(life);
 	}
 
@@ -49,10 +53,10 @@ class Creature : public WorldObject , public ugdk::Observer {
     void set_mana(resource::Energy &mana) {
         mana_ = mana;;
     }
-	void set_mana(float mana) {
+	void set_mana(double mana) {
 		mana_.Set(mana);
 	}
-    float max_mana() { return mana_.max_value(); }
+    double max_mana() { return mana_.max_value(); }
 
     int sight_count() { return sight_count_; }
     void set_sight_count(int sight_count) { sight_count_ += sight_count; }
@@ -62,8 +66,8 @@ class Creature : public WorldObject , public ugdk::Observer {
     skills::usearguments::Aim& aim() { return aim_; }
 
     virtual bool AddCondition(Condition* new_condition);
-    virtual void UpdateCondition(float dt);
-    virtual void TakeDamage(float life_points);
+    virtual void UpdateCondition(double dt);
+    virtual void TakeDamage(double life_points);
     void set_weapon(skills::Skill *weapon) { weapon_ = weapon; }
 
     // Colisoes
@@ -99,27 +103,23 @@ class Creature : public WorldObject , public ugdk::Observer {
     };
 
     Creature(resource::Energy &life, resource::Energy &mana);
+    void Initialize(ugdk::graphic::Spritesheet *image, ugdk::AnimationSet *set = NULL);
 
-    virtual void Update(float dt) {
-        WorldObject::Update(dt);
-        UpdateCondition(dt);
-        life_.Update(dt);
-        mana_.Update(dt);
-    }
-	virtual void Render();
+    virtual void Dying(double dt) {}
+    virtual void Update(double dt);
     virtual void PlayHitSound() const {}
 
     // funcoes
-    void AdjustBlink(float delta_t);
-    void Move(ugdk::Vector2D direction, float delta_t);
+    void AdjustBlink(double delta_t);
+    void Move(ugdk::Vector2D direction, double delta_t);
     void Move(ugdk::Vector2D distance);
     void Tick();
-    float GetAttackingAngle(Vector2D targetDirection);
-    int GetAttackingAnimationIndex(float angle);
+    double GetAttackingAngle(ugdk::Vector2D targetDirection);
+    int GetAttackingAnimationIndex(double angle);
     virtual ugdk::Vector2D GetWalkingDirection() {
         return walking_direction_;
     }
-    void CollideWithRect(const pyramidworks::geometry::Rect*);
+    void CollideWithRect(const pyramidworks::collision::CollisionObject*);
     static void InitializeStandingAnimations();
     static void InitializeWalkingAnimations();
     static void InitializeAttackingAnimations();
@@ -137,9 +137,9 @@ class Creature : public WorldObject , public ugdk::Observer {
     skills::Skill* weapon_;
 
     /// The last position this creature was that is guaranteed to not colide with any walls.
-    Vector2D last_stable_position_;
+    ugdk::Vector2D last_stable_position_;
 
-    float last_dt_;
+    double last_dt_;
 
     /// The life and mana of this creature. An energy manages reneration.
     resource::Energy life_, mana_;
@@ -154,16 +154,16 @@ class Creature : public WorldObject , public ugdk::Observer {
     int invulnerability_time_;
 
     /// Controls when to toggle the blink_ flag.
-    ugdk::TimeAccumulator *blink_time_;
+    ugdk::time::TimeAccumulator *blink_time_;
 
     /// Controls the invulnerability after being hit.
-    ugdk::TimeAccumulator *hit_duration_;
+    ugdk::time::TimeAccumulator *hit_duration_;
 
     /// How fast this creature moves per second.
-    float speed_;
+    double speed_;
 
     /// Stores the original speed, so one can alter the speed temporarily.
-    float original_speed_;
+    double original_speed_;
 
     /// The direction this creature is moving to.
     ugdk::Vector2D walking_direction_;
@@ -176,6 +176,9 @@ class Creature : public WorldObject , public ugdk::Observer {
 
     /// An aim resource. It's origin points to the creature's position and the destination to the creature's aim.
     skills::usearguments::Aim aim_;
+
+    /// Well, kinda hacky or not. TODO better comment
+    ugdk::graphic::Sprite* sprite_;
 
   private:
     /// When true, this Creature is on the invisible part of the blinking effect.
