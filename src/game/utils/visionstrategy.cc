@@ -6,7 +6,6 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/geometry/convexpolygon.h>
 
-#include "geometryprimitives.h"
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
