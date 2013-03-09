@@ -18,14 +18,14 @@ class PlayerController : public Controller {
     void RemoveSkill(int id);
 
     bool IsUsingSkillSlot(SkillSlot) const;
-    const ugdk::Vector2D& direction_vector() const { return current_direction_; }
+    const ugdk::math::Vector2D& direction_vector() const { return current_direction_; }
 
   protected:
     /// The owner.
     sprite::WorldObject* owner_;
 
-    ugdk::Vector2D current_direction_;
-    ugdk::Vector2D mouse_aim_offset_;
+    ugdk::math::Vector2D current_direction_;
+    ugdk::math::Vector2D mouse_aim_offset_;
     std::list<int> known_skills_;
     std::list<int>::const_iterator selected_skill_;
 

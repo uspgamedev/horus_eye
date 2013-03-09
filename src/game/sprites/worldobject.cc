@@ -70,7 +70,7 @@ void WorldObject::Update(double dt) {
         it->component->Update(dt);
 }
 
-void WorldObject::set_world_position(const ugdk::Vector2D& pos) {
+void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
    world_position_ = pos;
    if(shape()) shape()->ChangePosition(pos);
    if(graphic()) graphic()->SetPosition(world_position_);

@@ -22,7 +22,7 @@ public:
 protected:
 	double time_to_change_;
 	double time_left_;
-    ugdk::Vector2D direction_;
+    ugdk::math::Vector2D direction_;
 
 	// Devolve um tempo ~exp(time_to_change_)
 	double WaitingTime();

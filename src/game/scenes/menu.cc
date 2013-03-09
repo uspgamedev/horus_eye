@@ -2,7 +2,7 @@
 #include <string>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/drawable/sprite.h>
-#include <externals/ugdk-videomanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/input/inputmanager.h>
 
 #include "menu.h"
@@ -13,7 +13,7 @@
 
 namespace scene {
 
-using namespace ugdk;
+using ugdk::math::Vector2D;
 using namespace utils;
 
 #define RECT_WIDTH          266
@@ -57,7 +57,7 @@ Menu::~Menu () {
 
 void Menu::Update(double delta_t) {
     Scene::Update(delta_t);
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();
     Vector2D mouse_pos = input->GetMousePosition();
 
     if (input->KeyPressed(ugdk::input::K_ESCAPE)) {
@@ -96,11 +96,11 @@ void Menu::set_handler(MenuHandler* handler) {
     handler_ = handler;
 }
 
-void Menu::set_content_box(ugdk::Frame content_box) {
+void Menu::set_content_box(ugdk::math::Frame content_box) {
     set_content_box(content_box, ugdk::graphic::Drawable::CENTER);
 }
 
-void Menu::set_content_box(ugdk::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment) {
+void Menu::set_content_box(ugdk::math::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment) {
     content_box_ = content_box;
     content_box_defined_ = true;
     DecideWhereOptionsGo(alignment);
@@ -124,15 +124,15 @@ void Menu::set_selection_sprite(ugdk::graphic::Drawable **drawable) {
 void Menu::set_option_sprite(int index, ugdk::graphic::Drawable *drawable) {
     if (index >= 0 && index < selection_num_ && content_box_defined_) {
         options_node_[index]->set_drawable(drawable);
-        options_node_[index]->modifier()->set_offset(selection_pos_[index]);
+        options_node_[index]->geometry().set_offset(selection_pos_[index]);
         drawable->set_hotspot(option_alignment_);
     }
 }
 
-void Menu::AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos) {
+void Menu::AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::math::Vector2D pos) {
     ugdk::graphic::Node* node = new ugdk::graphic::Node(drawable);
     interface_node()->AddChild(node);
-    node->modifier()->set_offset(pos);
+    node->geometry().set_offset(pos);
     node->set_zindex(-OPTION_ZINDEX);
 }
 
@@ -165,10 +165,10 @@ void Menu::DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment) {
     }
 
     for (int i = 0; i < SELECTION_SPRITES; i++)
-        selection_node_[i]->modifier()->set_offset(selection_pos_[0]);
+        selection_node_[i]->geometry().set_offset(selection_pos_[0]);
 }
 
-bool Menu::CheckMouse (ugdk::Vector2D &mouse_pos) {
+bool Menu::CheckMouse (ugdk::math::Vector2D &mouse_pos) {
 
     static double    old_x = 0, old_y = 0;
     double           x = mouse_pos.x,
@@ -197,7 +197,7 @@ void Menu::Select () {
         Vector2D pos = selection_pos_[selection_];
         double offset = (options_node_[selection_]->drawable()->size().x + selection_node_[i]->drawable()->size().x) * 0.5;
         pos.x = pos.x + i * -offset + (1 - i) * offset; // awesum dodge of if
-        selection_node_[i]->modifier()->set_offset(pos);
+        selection_node_[i]->geometry().set_offset(pos);
     }
 }
 

@@ -4,6 +4,7 @@
 #include FROM_TR1(functional)
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/action/animationplayer.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/light.h>
@@ -29,7 +30,7 @@ namespace builder {
 namespace ExplosionBuilder {
 
 using std::tr1::bind;
-using ugdk::action::AnimationSet;
+using ugdk::action::SpriteAnimationTable;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
 using pyramidworks::collision::CollisionObject;
@@ -43,13 +44,14 @@ COLLISION_DIRECT(double, ExplosionCollision, obj) {
 }
 
 static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::string& anim) {
-    AnimationSet* set = ResourceManager::GetAnimationSetFromFile("animations/explosion.gdd");
+    ugdk::action::SpriteTableAnimationPlayer* player = new ugdk::action::SpriteTableAnimationPlayer(
+             ResourceManager::GetSpriteAnimationTableFromFile("animations/explosion.gdd"));
     
     WorldObject *wobj = new WorldObject;
 
-    Sprite* sprite = new Sprite(sheet, set);
-    sprite->SelectAnimation(anim);
-    sprite->AddTickFunctionToAnimation(bind(&WorldObject::StartToDie, wobj));
+    Sprite* sprite = new Sprite(sheet, player);
+    player->Select(anim);
+    player->AddTickFunction(bind(&WorldObject::StartToDie, wobj));
 
     wobj->AddComponent(new component::BaseGraphic(sprite));
 

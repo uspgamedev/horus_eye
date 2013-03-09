@@ -28,7 +28,7 @@ namespace ProjectileBuilder {
 
 using component::Direction;
 using ugdk::base::ResourceManager;
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 using utils::IsometricAnimationSet;
 using sprite::WorldObject;
 using pyramidworks::collision::CollisionObject;
@@ -39,9 +39,9 @@ COLLISION_DIRECT(WorldObject*, DieCollision, data) { data_->StartToDie(); }
 COLLISION_DIRECT(WorldObject*, BounceCollision, data) {
     component::StateController* controller = data_->component<component::StateController>();
     WorldObject* wall = static_cast<WorldObject*>(data);
-    ugdk::Vector2D projectile_position = data_->world_position();
-    ugdk::Vector2D wall_position = wall->world_position();
-    ugdk::Vector2D new_direction = projectile_position - wall_position;
+    ugdk::math::Vector2D projectile_position = data_->world_position();
+    ugdk::math::Vector2D wall_position = wall->world_position();
+    ugdk::math::Vector2D new_direction = projectile_position - wall_position;
     double angle = new_direction.Angle();
     if( (angle >= PI/4 && angle <= 3*PI/4) || (angle <= -PI/4 && angle >= -3*PI/4) )
         controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::VERT));
@@ -90,7 +90,7 @@ static CollisionObject* buildCollisionObject(WorldObject* wobj, double radius) {
     return col;
 }
 
-static WorldObject* buildProjectile(const ugdk::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 
+static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 
                                     double light_radius, double speed, double duration, double radius) {
 
     IsometricAnimationSet* set = isometric_animation.empty() ? NULL : IsometricAnimationSet::LoadFromResourceManager(isometric_animation);
@@ -116,7 +116,7 @@ WorldObject* MagicBall(const Vector2D &dir) {
     return wobj;
 }
 /***/
-WorldObject* MummyProjectile(const ugdk::Vector2D &dir, double damage) {
+WorldObject* MummyProjectile(const ugdk::math::Vector2D &dir, double damage) {
     WorldObject* wobj = buildProjectile(dir, "mummy_projectile", "", 0.75, constants::GetDouble("MUMMYPROJECTILE_SPEED"), constants::GetDouble("MUMMYPROJECTILE_DURATION"), 0.15);
     wobj->shape()->collision()->AddCollisionLogic("Hero", new DamageAndDieCollision(wobj, damage));
     return wobj;

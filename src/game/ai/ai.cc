@@ -77,7 +77,7 @@ bool AI::IsUsingSkillSlot(SkillSlot slot) const {
     return data_->IsUsingSkillSlot(slot);
 }
 
-const ugdk::Vector2D& AI::direction_vector() const { 
+const ugdk::math::Vector2D& AI::direction_vector() const { 
     return data_->direction(); 
 }
 

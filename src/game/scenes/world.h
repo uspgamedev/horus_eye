@@ -22,7 +22,7 @@ class Hud;
 namespace sprite {
 class WorldObject;
 }
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 
 namespace scene {
 
@@ -34,7 +34,7 @@ class World : public ugdk::action::Scene {
     World();
     virtual ~World();
 
-    void set_hero_initial_data(const std::string& room, const ugdk::Vector2D& pos) { 
+    void set_hero_initial_data(const std::string& room, const ugdk::math::Vector2D& pos) { 
         hero_initial_room_ = room; hero_initial_position_ = pos;
     }
     void SetHero(sprite::WorldObject *hero);
@@ -95,7 +95,7 @@ class World : public ugdk::action::Scene {
     ugdk::graphic::Node *layers_[2];
 
     std::string hero_initial_room_;
-    ugdk::Vector2D hero_initial_position_;
+    ugdk::math::Vector2D hero_initial_position_;
 
 };  // class World
 

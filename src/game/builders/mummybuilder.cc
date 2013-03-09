@@ -29,7 +29,7 @@ using namespace component;
 using component::Animation;
 using component::Walker;
 using resource::Energy;
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 using pyramidworks::collision::CollisionObject;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
@@ -62,7 +62,8 @@ static void MummyDeath(sprite::WorldObject* wobj) {
 
 static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius, double speed, bool standing) {
     if(ANIMATIONS == NULL) {
-        ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
+        ANIMATIONS = new utils::IsometricAnimationSet(
+            ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
     }
     WorldObject* wobj = new WorldObject;
     wobj->AddComponent(new component::Graphic(tag, ANIMATIONS));

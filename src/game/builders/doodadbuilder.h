@@ -14,7 +14,7 @@ sprite::WorldObject* Wall(const std::vector<std::string>& arguments);
 sprite::WorldObject* Entry(const std::vector<std::string>& arguments);
 sprite::WorldObject* Button(const std::vector<std::string>& arguments);
 sprite::WorldObject* Block(const std::vector<std::string>& arguments);
-ugdk::graphic::Node* Floor(const ugdk::Vector2D& position);
+ugdk::graphic::Node* Floor(const ugdk::math::Vector2D& position);
 
 } // namespace DoodadBuilder
 } // namespace builder

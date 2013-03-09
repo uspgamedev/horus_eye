@@ -12,7 +12,7 @@ namespace utils {
 MenuImageFactory::MenuImageFactory() {}
 
 graphic::Sprite* MenuImageFactory::HorusEye() {
-    ugdk::action::AnimationSet* ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/menu.gdd");
+    ugdk::action::SpriteAnimationTable* ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/menu.gdd");
     ugdk::graphic::Spritesheet *menu_eye_sheet = ugdk::base::ResourceManager::GetSpritesheetFromTag("eye");
     Sprite* sprite = new Sprite(menu_eye_sheet, ANIMATIONS);
     sprite->set_hotspot(ugdk::graphic::Drawable::CENTER);

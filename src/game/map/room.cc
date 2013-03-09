@@ -23,7 +23,7 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
 
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);
-    floor_->modifier()->set_offset(core::FromWorldCoordinates(position_));
+    floor_->geometry().set_offset(core::FromWorldCoordinates(position_));
 }
 
 Room::~Room() {
@@ -42,7 +42,7 @@ void Room::AddObject(sprite::WorldObject* obj) {
         queued_objects_.push(obj);
 }
 
-void Room::AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position, bool absolute) {
+void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& position, bool absolute) {
     if(absolute == POSITION_ABSOLUTE)
         obj->set_world_position(position);
     else

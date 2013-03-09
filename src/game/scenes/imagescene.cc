@@ -5,7 +5,7 @@
 
 #include <ugdk/base/engine.h>
 #include <ugdk/action/generictask.h>
-#include <externals/ugdk-videomanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/input/inputmanager.h>
@@ -42,8 +42,8 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     if (image) {
         scene_layers_[IMG] = new ugdk::graphic::Node(image);
 
-        ugdk::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5;
-        scene_layers_[IMG]->modifier()->set_offset(offset);
+        ugdk::math::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5;
+        scene_layers_[IMG]->geometry().set_offset(offset);
 
         interface_node()->AddChild(scene_layers_[IMG]);
     }
@@ -56,7 +56,7 @@ ImageScene::~ImageScene() {}
 
 void ImageScene::End() {
     super::End();
-    interface_node()->modifier()->set_visible(false);
+    interface_node()->effect().set_visible(false);
 }
 
 }

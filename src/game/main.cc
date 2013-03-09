@@ -4,7 +4,7 @@
 #include <ugdk/base/genericcontainer.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/graphic/textmanager.h>
-#include <externals/ugdk-videomanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
 #include "SDL.h"
@@ -16,8 +16,6 @@
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 
-#include <ugdk/modules.h>
-#include <pyramidworks/modules.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/languages/lua/luawrapper.h>

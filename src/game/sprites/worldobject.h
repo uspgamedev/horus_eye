@@ -41,8 +41,8 @@ class WorldObject : public ::ugdk::action::Entity {
     void set_tag(const std::string& tag) { tag_ = tag; }
     const std::string& tag() const { return tag_; }
 
-    const ugdk::Vector2D& world_position() const { return world_position_; }
-    void set_world_position(const ugdk::Vector2D& pos);
+    const ugdk::math::Vector2D& world_position() const { return world_position_; }
+    void set_world_position(const ugdk::math::Vector2D& pos);
 
     bool dead() const { return dead_; }
 
@@ -146,7 +146,7 @@ class WorldObject : public ::ugdk::action::Entity {
     std::tr1::function<void (WorldObject*)> on_die_callback_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
-    ugdk::Vector2D world_position_;
+    ugdk::math::Vector2D world_position_;
 
     /// A tag used for searching for the object.
     std::string tag_;

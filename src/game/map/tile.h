@@ -100,12 +100,12 @@ class Tile {
     }
 
     static void CleanVisibility(GameMap &map);
-    static TilePos ToTilePos(ugdk::Vector2D pos);
-    static ugdk::Vector2D FromTilePos(const TilePos pos);
+    static TilePos ToTilePos(ugdk::math::Vector2D pos);
+    static ugdk::math::Vector2D FromTilePos(const TilePos pos);
     static Tile* GetFromMapPosition(GameMap &map, TilePos pos) {
         return SafeGetFromMap(map, pos);
     }
-    static Tile* GetFromWorldPosition(GameMap &map, ugdk::Vector2D pos);
+    static Tile* GetFromWorldPosition(GameMap &map, ugdk::math::Vector2D pos);
 
   private:
 

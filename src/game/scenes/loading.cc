@@ -4,7 +4,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
-#include <externals/ugdk-videomanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/drawable/text.h>
 
 
@@ -13,7 +13,7 @@
 
 namespace scene {
 
-using namespace ugdk;
+using ugdk::math::Vector2D;
 using ugdk::action::Task;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
@@ -55,10 +55,10 @@ Loading::Loading() {
     Vector2D position = VIDEO_MANAGER()->video_size() - Vector2D(10.0, 10.0);
 
     Node* loading = new ugdk::graphic::Node(loading_image);
-    loading->modifier()->set_offset(position);
+    loading->geometry().set_offset(position);
 
     interface_node()->AddChild(loading);
-    interface_node()->modifier()->set_visible(false);
+    interface_node()->effect().set_visible(false);
 
     this->StopsPreviousMusic(false);
 }
@@ -69,12 +69,12 @@ Loading::~Loading() {
 
 void Loading::Focus() {
     super::Focus();
-    interface_node()->modifier()->set_visible(true);
+    interface_node()->effect().set_visible(true);
     this->AddTask(new LoadTask);
 }
 
 void Loading::DeFocus() {
     super::DeFocus();
-    interface_node()->modifier()->set_visible(false);
+    interface_node()->effect().set_visible(false);
 }
 }

@@ -25,15 +25,15 @@ class Controller : public Base {
 
     virtual bool IsUsingSkillSlot(SkillSlot) const = 0;
 
-    virtual const ugdk::Vector2D& direction_vector() const = 0;
+    virtual const ugdk::math::Vector2D& direction_vector() const = 0;
     virtual const Direction& direction() const { return dir_; }
 
-    const ugdk::Vector2D& aim_destination() const { return aim_destination_; }
+    const ugdk::math::Vector2D& aim_destination() const { return aim_destination_; }
 
   protected:
     Direction dir_;
 
-    ugdk::Vector2D aim_destination_;
+    ugdk::math::Vector2D aim_destination_;
 
 };  // class Controller
 

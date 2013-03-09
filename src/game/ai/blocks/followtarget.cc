@@ -40,7 +40,7 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
 		return AIModule::ACTIVE;
 	}
     else if (search_target_) {
-	    ugdk::Vector2D dist = last_known_target_pos_ - owner->world_position();
+	    ugdk::math::Vector2D dist = last_known_target_pos_ - owner->world_position();
 
         /*Check if we arrived at the last_known_target_pos_ (or really close to it) */
 	    if (dist.LengthSquared() > 0.5) {

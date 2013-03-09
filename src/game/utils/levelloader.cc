@@ -15,7 +15,7 @@ namespace utils {
 
 using ugdk::script::VirtualObj;
 using ugdk::math::Integer2D;
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 
 Vector2D VobjsToVector(VirtualObj x, VirtualObj y) {
     return Vector2D(x.value<double>(), y.value<double>());

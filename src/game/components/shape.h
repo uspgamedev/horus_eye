@@ -23,7 +23,7 @@ class Shape : public Base {
     
     void Activate();
     void Deactivate();
-    void ChangePosition(const ugdk::Vector2D& pos);
+    void ChangePosition(const ugdk::math::Vector2D& pos);
     
           pyramidworks::collision::CollisionObject* collision()       { return collision_; }
     const pyramidworks::collision::CollisionObject* collision() const { return collision_; }

@@ -2,6 +2,7 @@
 #include FROM_TR1(functional)
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/action/animationplayer.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/light.h>
@@ -26,7 +27,7 @@ namespace builder {
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
-using ugdk::action::AnimationSet;
+using ugdk::action::SpriteAnimationTable;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
 using pyramidworks::collision::CollisionObject;
@@ -42,11 +43,12 @@ static void DamageCollisionFunc(double damage, void* obj) {
 
 
 WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
-    AnimationSet* set = ResourceManager::GetAnimationSetFromFile("animations/shield.gdd");
+    ugdk::action::SpriteTableAnimationPlayer* player = new ugdk::action::SpriteTableAnimationPlayer(
+             ResourceManager::GetSpriteAnimationTableFromFile("animations/shield.gdd"));
     utils::ImageFactory img;
 
-    Sprite* sprite = new Sprite(img.ShieldImage(), set);
-    sprite->SelectAnimation("IDLE");
+    Sprite* sprite = new Sprite(img.ShieldImage(), player);
+    player->Select("IDLE");
     
     WorldObject* wobj = new WorldObject(30.0);
     wobj->AddComponent(new component::BaseGraphic(sprite));

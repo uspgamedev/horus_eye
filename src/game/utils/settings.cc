@@ -144,8 +144,8 @@ class IniFileSource : public DataSource {
             }
         }
 
-        ugdk::Vector2D resolution((double) StringToInt(resolutionx), (double) StringToInt(resolutiony));
-        const ugdk::Vector2D* resolution_list = Settings::ResolutionList();
+        ugdk::math::Vector2D resolution((double) StringToInt(resolutionx), (double) StringToInt(resolutiony));
+        const ugdk::math::Vector2D* resolution_list = Settings::ResolutionList();
         for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
             if(resolution.x == resolution_list[i].x && resolution.y == resolution_list[i].y) {
                 data.resolution = i;

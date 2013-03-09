@@ -4,8 +4,8 @@
 
 namespace component {
 
-Direction Direction::FromScreenVector(const ugdk::Vector2D& versor) {
-    ugdk::Vector2D versorN = versor.Normalize();
+Direction Direction::FromScreenVector(const ugdk::math::Vector2D& versor) {
+    ugdk::math::Vector2D versorN = versor.Normalize();
     Direction d;
     if(versorN.x >  0.33) d.direction_ |= RIGHT;
     if(versorN.x < -0.33) d.direction_ |=  LEFT;
@@ -14,7 +14,7 @@ Direction Direction::FromScreenVector(const ugdk::Vector2D& versor) {
     return d;
 }
 
-Direction Direction::FromWorldVector(const ugdk::Vector2D& versor) {
+Direction Direction::FromWorldVector(const ugdk::math::Vector2D& versor) {
     return FromScreenVector(core::FromWorldLinearCoordinates(versor));
 }
 

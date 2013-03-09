@@ -7,11 +7,11 @@
 namespace builder {
 namespace ProjectileBuilder {
 
-sprite::WorldObject* MagicMissile(const ugdk::Vector2D &dir);
-sprite::WorldObject* MagicBall(const ugdk::Vector2D &dir);
-sprite::WorldObject* MummyProjectile(const ugdk::Vector2D &dir, double damage = 100.0);
-sprite::WorldObject* LightningBolt(const ugdk::Vector2D &dir);
-sprite::WorldObject* Fireball(const ugdk::Vector2D &dir);
+sprite::WorldObject* MagicMissile(const ugdk::math::Vector2D &dir);
+sprite::WorldObject* MagicBall(const ugdk::math::Vector2D &dir);
+sprite::WorldObject* MummyProjectile(const ugdk::math::Vector2D &dir, double damage = 100.0);
+sprite::WorldObject* LightningBolt(const ugdk::math::Vector2D &dir);
+sprite::WorldObject* Fireball(const ugdk::math::Vector2D &dir);
 
 } // namespace ProjectileBuilder
 } // namespace builder

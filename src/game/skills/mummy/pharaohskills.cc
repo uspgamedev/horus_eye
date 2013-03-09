@@ -17,7 +17,7 @@
 
 namespace skills {
 
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 using namespace builder::MummyBuilder;
 
 static bool RangedIsValid(const component::Caster* caster) {

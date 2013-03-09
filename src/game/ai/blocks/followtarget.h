@@ -29,7 +29,7 @@ protected:
     
     std::string detector_identifier_;
     bool search_target_;
-    ugdk::Vector2D last_known_target_pos_;
+    ugdk::math::Vector2D last_known_target_pos_;
 };
 
 }
