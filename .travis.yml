@@ -1,10 +1,8 @@
 install:
   - sudo apt-get install cmake libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-net1.2-dev libsdl-ttf2.0-dev swig2.0 lua5.1 liblua5.1-0-dev python-dev
-  - wget http://www.uspgamedev.org/downloads/projects/ugdk/v0.4.1/libugdk_0.4.1_precise_i386.deb
-  - sudo dpkg -i libugdk_0.4.1_precise_i386.deb
 
 script:
-  - cmake .
+  - cmake . -DUSE_EMBBEDED_UGDK=On
   - make horus_eye
 
 notifications:
