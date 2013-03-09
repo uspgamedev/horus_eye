@@ -2,7 +2,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/modifier.h>
+#include <ugdk/graphic/geometry.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
@@ -41,7 +41,7 @@ static Text* ConvertNumberToText(int val, bool center = true) {
     return result;
 }
 
-static Node* CreateBarOn(Node* container, TexturedRectangle* bar_image, HudImageFactory& img_fac) {
+static Node* CreateBarHolderOn(Node* container, TexturedRectangle* bar_image, HudImageFactory& img_fac) {
 
     TexturedRectangle 
         *totem_bar_image = img_fac.TotemImage(),
@@ -60,7 +60,8 @@ static Node* CreateBarOn(Node* container, TexturedRectangle* bar_image, HudImage
     container->AddChild(totem_top_node);
 
     Node* bar_node = new Node;
-    bar_node->geometry().set_offset(Vector2D(totem_bar_image->width() * 0.5 - bar_image->width() * 0.5, totem_bar_bottom->height() * (-1.0)));
+    bar_node->geometry().set_offset(Vector2D(totem_bar_image->width() * 0.5 - bar_image->width() * 0.5,
+                                             totem_bar_bottom->height() * (-1.0)));
     bar_node->set_zindex(-0.5);
     container->AddChild(bar_node);
 
@@ -112,29 +113,26 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     life_bar_container->geometry().set_offset(Vector2D(0.0, VIDEO_Y - back_left_image->height()));
     life_bar_container->set_zindex(-0.5);
     node_->AddChild(life_bar_container);
-    life_bar_ = life_bar_container;
 
     Node* mana_bar_container = new Node;
     mana_bar_container->geometry().set_offset(Vector2D(VIDEO_X - TOTEM_WIDTH, VIDEO_Y - back_right_image->height()));
     mana_bar_container->set_zindex(-0.5);
     node_->AddChild(mana_bar_container);
-    mana_bar_ = mana_bar_container;
 
     TexturedRectangle *life_bar_image = img_fac.LifeBarImage();
     TexturedRectangle *mana_bar_image = img_fac.ManaBarImage();
 
-    Node* life_bar = CreateBarOn(life_bar_container, life_bar_image, img_fac);
-    Node* mana_bar = CreateBarOn(mana_bar_container, mana_bar_image, img_fac);
+    Node* life_bar_holder = CreateBarHolderOn(life_bar_container, life_bar_image, img_fac);
+    Node* mana_bar_holder = CreateBarHolderOn(mana_bar_container, mana_bar_image, img_fac);
     
-    life_bar->AddChild(new Node(life_bar_image,  life_modifier_ = new Modifier));
-    mana_bar->AddChild(new Node(img_fac.ManaBarImage(), block_modifier_ = new Modifier));
-    mana_bar->AddChild(new Node(mana_bar_image,  mana_modifier_ = new Modifier));
-    block_modifier_->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.75));
+    life_bar_holder->AddChild(life_bar_  = new Node(life_bar_image));
+    mana_bar_holder->AddChild(block_bar_ = new Node(img_fac.ManaBarImage()));
+    mana_bar_holder->AddChild(mana_bar_  = new Node(mana_bar_image));
 
+    block_bar_->effect().set_color(ugdk::Color(0.5, 0.5, 0.5, 0.75));
 
     TexturedRectangle* mummy_counter_image = img_fac.MummyCounterImage();
     mummy_counter_image->set_hotspot(Drawable::BOTTOM_LEFT);
-
 
     Node *mummy_counter_node;
 
@@ -184,26 +182,30 @@ void Hud::Update(double delta_t) {
 #endif
 
     sprite::WorldObject* hero = world->hero();
+    life_bar_->effect().set_visible(hero && hero->damageable());
+    mana_bar_->effect().set_visible(hero && hero->caster());
     if(hero) {
         // Life Bar
         if(hero->damageable())
-            life_modifier_->set_offset(Vector2D(0.0, -(((double) hero->damageable()->life()) / hero->damageable()->life().max_value()) * LIFE_BAR_HEIGHT) );
-        life_bar_->effect().set_visible(hero->damageable() != NULL);
+            life_bar_->geometry().set_offset(Vector2D(0.0, -hero->damageable()->life().percentage() * LIFE_BAR_HEIGHT));
 
         if(hero->caster()) {
+            component::Caster* caster = hero->caster();
             // Update the Selected weapon icon
-            if(displayed_skill_ != hero->caster()->SkillAt(Controller::SECONDARY)) {
-                displayed_skill_ = hero->caster()->SkillAt(Controller::SECONDARY);
+            if(displayed_skill_ != caster->SkillAt(Controller::SECONDARY)) {
+                displayed_skill_ = caster->SkillAt(Controller::SECONDARY);
                 
                 weapon_icon_->set_drawable(displayed_skill_->icon());
-                if(displayed_skill_->icon() != NULL)
+                if(displayed_skill_->icon())
                     displayed_skill_->icon()->set_hotspot(Drawable::CENTER);
             }
             // Mana Bar
-            mana_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana()) / hero->caster()->FullMana()) * MANA_BAR_HEIGHT) );
-            block_modifier_->set_offset(Vector2D(0.0, -(((double) hero->caster()->mana_blocks().Get()) / hero->caster()->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
+            mana_bar_->geometry().set_offset(Vector2D(0.0, 
+                -(caster->mana().Get() / caster->FullMana()) * MANA_BAR_HEIGHT) );
+            block_bar_->geometry().set_offset(Vector2D(0.0, 
+                -(((double) caster->mana_blocks().Get()) / caster->mana_blocks().max_value()) * MANA_BAR_HEIGHT) );
         }
-        mana_bar_->effect().set_visible(hero->caster() != NULL);
+
     }
 }
 

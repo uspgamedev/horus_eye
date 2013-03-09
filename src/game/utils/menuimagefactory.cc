@@ -2,21 +2,23 @@
 
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
+#include <ugdk/action/animationplayer.h>
 #include <ugdk/graphic/drawable/sprite.h>
 
-using namespace ugdk;
 using ugdk::graphic::Sprite;
+using ugdk::base::ResourceManager;
 
 namespace utils {
 
 MenuImageFactory::MenuImageFactory() {}
 
-graphic::Sprite* MenuImageFactory::HorusEye() {
-    ugdk::action::SpriteAnimationTable* ANIMATIONS = ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/menu.gdd");
-    ugdk::graphic::Spritesheet *menu_eye_sheet = ugdk::base::ResourceManager::GetSpritesheetFromTag("eye");
-    Sprite* sprite = new Sprite(menu_eye_sheet, ANIMATIONS);
+ugdk::graphic::Sprite* MenuImageFactory::HorusEye() {
+    ugdk::action::SpriteAnimationTable* ANIMATIONS = ResourceManager::GetSpriteAnimationTableFromFile("animations/menu.gdd");
+    ugdk::graphic::Spritesheet *menu_eye_sheet = ResourceManager::GetSpritesheetFromTag("eye");
+    ugdk::action::SpriteTableAnimationPlayer* player = new ugdk::action::SpriteTableAnimationPlayer(ANIMATIONS);
+    player->Select("SELECTION_EYE");
+    Sprite* sprite = new Sprite(menu_eye_sheet, player);
     sprite->set_hotspot(ugdk::graphic::Drawable::CENTER);
-    sprite->SelectAnimation("SELECTION_EYE");
     return sprite;
 }
 }

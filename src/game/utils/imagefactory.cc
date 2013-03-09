@@ -6,8 +6,8 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "game/constants.h"
 
-using namespace ugdk;
 using ugdk::base::ResourceManager;
+using ugdk::math::Vector2D;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Spritesheet;
 
@@ -85,23 +85,23 @@ Spritesheet* ImageFactory::TileSwitchImage() {
 }
 
 Drawable* ImageFactory::LifePotionImage() {
-    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/life_potion2.png"));
+    return new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/life_potion2.png"));
 }
 
 Drawable* ImageFactory::ManaPotionImage() {
-    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/mana_potion.png"));
+    return new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/mana_potion.png"));
 }
 
 Drawable* ImageFactory::BlueGemImage() {
-    return new graphic::Sprite(ResourceManager::GetSpritesheetFromTag("light"));
+    return new ugdk::graphic::Sprite(ResourceManager::GetSpritesheetFromTag("light"));
 }
 
 Drawable* ImageFactory::SightPotionImage() {
-    return new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
+    return new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
 }
 
 Drawable* ImageFactory::FloorImage() {
-    Drawable* draw = new graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
+    Drawable* draw = new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
     draw->set_hotspot(Vector2D(constants::GetDouble("FLOOR_HOTSPOT_X"), constants::GetDouble("FLOOR_HOTSPOT_Y")));
     return draw;
 }

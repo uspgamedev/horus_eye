@@ -1,9 +1,10 @@
 #include <sstream>
 
-#include <ugdk/action/animationset.h>
+#include "game/utils/isometricanimationset.h"
+
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
-#include "game/utils/isometricanimationset.h"
+#include <ugdk/util/indexabletable.h>
 
 using ugdk::math::Vector2D;
 using component::Direction;
@@ -58,7 +59,7 @@ int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& di
 }
 
 IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& name) {
-    ugdk::action::SpriteAnimationTable* set = ugdk::base::ResourceManager::GetAnimationSetFromFile(name);
+    ugdk::action::SpriteAnimationTable* set = ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile(name);
     if(set)
         return new IsometricAnimationSet(set);
     return NULL;

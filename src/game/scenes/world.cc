@@ -77,11 +77,11 @@ bool VerifyCheats(double dt) {
         VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
     }
 
-    ugdk::graphic::Modifier* modifier = world->content_node()->modifier();
+    ugdk::graphic::Geometry& modifier = world->content_node()->geometry();
     if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
-        modifier->set_scale(modifier->scale() * 1.4/1.0);
+        modifier.set_scale(modifier.scale() * 1.4/1.0);
     if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
-        modifier->set_scale(modifier->scale() * 1.0/1.4);
+        modifier.set_scale(modifier.scale() * 1.0/1.4);
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid

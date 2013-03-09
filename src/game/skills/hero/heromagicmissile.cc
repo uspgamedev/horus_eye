@@ -10,8 +10,7 @@
 
 namespace skills {
 
-using namespace scene;
-using namespace ugdk;
+using ugdk::math::Vector2D;
 
 static void HeroMagicMissileUse(component::Caster* caster) {
     Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
@@ -20,7 +19,7 @@ static void HeroMagicMissileUse(component::Caster* caster) {
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::MagicMissile(versor), pos, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
+        AUDIO_MANAGER()->LoadSample("samples/fire.wav")->Play();
 }
 
 Skill* HeroMagicMissileBuild() {

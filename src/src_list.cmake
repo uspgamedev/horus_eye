@@ -1,7 +1,6 @@
 SET(GAME_SRCS 
     ./externals/inifile.cc 
     ./externals/inifile.h 
-    ./externals/ugdk-videomanager.h 
     ./game/ai.h 
     ./game/ai/ai.cc 
     ./game/ai/ai.h 
@@ -139,8 +138,6 @@ SET(GAME_SRCS
     ./game/sprites/effect.h 
     ./game/sprites/worldobject.cc 
     ./game/sprites/worldobject.h 
-    ./game/utils/geometryprimitives.cc 
-    ./game/utils/geometryprimitives.h 
     ./game/utils/hud.cc 
     ./game/utils/hud.h 
     ./game/utils/hudimagefactory.cc 
