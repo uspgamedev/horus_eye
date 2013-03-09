@@ -1,6 +1,6 @@
 
 #set (CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_DIR}")
-set (CMAKE_SWIG_OUTDIR "${SRC_DIR}/generated")
+set (CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}/generated")
 set (GENERATED_SRC "")
 
 # Does this work everywhere?
