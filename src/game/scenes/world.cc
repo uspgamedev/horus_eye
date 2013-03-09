@@ -121,7 +121,7 @@ World::World()
         collision_manager_(NULL),
         visibility_manager_(NULL) {
 
-    content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+    //content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
     layers_[BACKGROUND_LAYER] = new graphic::Node;
     layers_[FOREGROUND_LAYER] = new graphic::Node;

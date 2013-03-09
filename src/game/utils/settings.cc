@@ -202,7 +202,7 @@ class BinaryFileSource : public DataSource {
 
 Settings* Settings::reference_ = NULL;
 
-using namespace ugdk;
+using ugdk::math::Vector2D;
 
 Vector2D Settings::resolutions_[] = {
         Vector2D(800.0,600.0),
