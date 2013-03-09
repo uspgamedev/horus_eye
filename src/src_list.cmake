@@ -96,8 +96,6 @@ SET(GAME_SRCS
     ./game/map/room.h 
     ./game/map/tile.cc 
     ./game/map/tile.h 
-    ./game/modules.cc 
-    ./game/modules.h 
     ./game/resources/capacityblocks.h 
     ./game/resources/containedresource.h 
     ./game/resources/countableresource.h 

@@ -36,6 +36,7 @@ else()
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES libugdk)
+	add_definitions("-DEMBBEDED_UGDK")
 endif()
 
 add_subdirectory(src) # The game binary.

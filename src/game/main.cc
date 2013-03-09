@@ -1,3 +1,5 @@
+#include "Python.h"
+
 #include <string>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
@@ -16,12 +18,13 @@
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 
+#include <ugdk/script.h>
+#define MODULE_AUTO_LOAD(ACTION) ACTION(HORUS)
+
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/languages/lua/luawrapper.h>
 #include <ugdk/script/languages/python/pythonwrapper.h>
-
-#include "modules.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -35,13 +38,6 @@ utils::LevelManager* level_manager() {
 
 ugdk::Engine* engine() {
     return ugdk::Engine::reference();
-}
-
-static void InitScripts() {
-    using ugdk::script::lua::LuaWrapper;
-    using ugdk::script::python::PythonWrapper;
-    SCRIPT_MANAGER()->Register(new LuaWrapper);
-    SCRIPT_MANAGER()->Register(new PythonWrapper);
 }
 
 void StartGame() {
@@ -88,8 +84,14 @@ int main(int argc, char *argv[]) {
     engine_config.window_icon = "";
 #endif
 
-    InitScripts();
+    ugdk::script::InitScripts();
     engine()->Initialize(engine_config);
+#ifdef EMBBEDED_UGDK
+    {
+        PyObject *path = PySys_GetObject("path");
+        PyList_Append(path, PyString_FromString("externals/ugdk/src/generated"));
+    }
+#endif
     
     {
         SCRIPT_MANAGER()->LoadModule("init_constants");

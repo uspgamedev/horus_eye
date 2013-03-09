@@ -1,8 +1,6 @@
 
-set (MODULE_DIR "module")
-set (GENERATED_DIR "generated")
-#set (CMAKE_CURRENT_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/${MODULE_DIR}")
 #set (CMAKE_CURRENT_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/${GENERATED_DIR}")
+set (CMAKE_SWIG_OUTDIR "${SRC_DIR}/generated")
 set (GENERATED_SRC "")
 
 # Does this work everywhere?
@@ -10,9 +8,7 @@ find_package (SWIG REQUIRED)
 
 macro (horus_add_scriptlang lang)
 
-  swig_add_module (horus_${lang} ${lang} ${MODULE_SRC} ${GAME_SRC})
-  #message ("Adding SWIG modules: ${MODULE_SRC}")
-  #message ("Generating: ${swig_generated_sources}")
+  swig_add_module (ugdk_${lang} ${lang} ${HORUS_MODULE_SRC} ${GAME_SRC})
   set (TEMP_ONLY_CXX)
   foreach (it ${swig_generated_sources})
     if (${it} MATCHES ".cc$")
@@ -26,13 +22,31 @@ macro (horus_add_scriptlang lang)
 
 endmacro (horus_add_scriptlang lang)
 
-include (${CMAKE_SOURCE_DIR}/cmake/UseSWIG.cmake)
+include (${CMAKE_CURRENT_LIST_DIR}/UseSWIG.cmake)
 
-# Is MODULE_SRC defined?
-if (NOT MODULE_SRC)
-  message (FATAL_ERROR "Variable MODULE_SRC not defined! Please do so in the file src/module_list.cmake!")
-endif (NOT MODULE_SRC)
+# Is HORUS_MODULE_SRC defined?
+if (NOT HORUS_MODULE_SRC)
+	message (FATAL_ERROR "Variable HORUS_MODULE_SRC not defined! Please do so in the file src/module_list.cmake!")
+endif (NOT HORUS_MODULE_SRC)
 
-set_source_files_properties (${MODULE_SRC} PROPERTIES CPLUSPLUS ON)
-set_source_files_properties (${MODULE_SRC} PROPERTIES SWIG_FLAGS "")
+set_source_files_properties (${HORUS_MODULE_SRC} PROPERTIES CPLUSPLUS ON)
+set_source_files_properties (${HORUS_MODULE_SRC} PROPERTIES SWIG_FLAGS "")
 
+set(UGDK_SWIG_ENABLED True)
+
+set(MODULES_LIST "")
+foreach(it ${HORUS_MODULE_SRC})
+	get_filename_component(val ${it} NAME_WE)
+	set(MODULES_LIST "${MODULES_LIST} \\\n    ACTION(LANG, ${val})")
+endforeach()
+
+set(LANGUAGES_LIST "")
+foreach(it ${HORUS_LANGUAGES_LIST})
+	horus_add_scriptlang (${it})
+	string(TOUPPER ${it} itUPPER)
+	set(LANGUAGES_LIST "${LANGUAGES_LIST} \\\n    ACTION(${itUPPER})")
+endforeach()
+
+set(MODULES_NAME HORUS)
+set(GENERATED_SRC ${GENERATED_SRC} modules.cc)
+configure_file(${CMAKE_CURRENT_LIST_DIR}/modules.cc.in modules.cc)
