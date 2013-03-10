@@ -43,12 +43,10 @@ static void DamageCollisionFunc(double damage, void* obj) {
 
 
 WorldObject* EntityBuilder::BlueShieldEntity(sprite::WorldObject *target) {
-    ugdk::action::SpriteTableAnimationPlayer* player = new ugdk::action::SpriteTableAnimationPlayer(
-             ResourceManager::GetSpriteAnimationTableFromFile("animations/shield.gdd"));
     utils::ImageFactory img;
 
-    Sprite* sprite = new Sprite(img.ShieldImage(), player);
-    player->Select("IDLE");
+    Sprite* sprite = new Sprite(img.ShieldImage(), "animations/shield.gdd");
+    sprite->animation_player().Select("IDLE");
     
     WorldObject* wobj = new WorldObject(30.0);
     wobj->AddComponent(new component::BaseGraphic(sprite));

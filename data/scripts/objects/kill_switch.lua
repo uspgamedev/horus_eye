@@ -1,4 +1,5 @@
 
+require "ugdk.action"
 require "ugdk.drawable"
 require "ugdk.action"
 require "pyramidworks.geometry"
@@ -6,6 +7,7 @@ require "component"
 require "context"
 require "map"
 
+table.foreach(ugdk_action, print)
 local Sprite    = ugdk_drawable.Sprite
 local Rect      = pyramidworks_geometry.Rect
 
@@ -13,8 +15,9 @@ local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
   switch.sprite = Sprite("switch", "animations/switch.gdd")
-  switch.sprite:SelectAnimation "SWITCH_OFF"
-  switch.sprite:AddObserverToAnimation(switch)
+  local player = switch.sprite:animation_player()
+  player:Select "SWITCH_OFF"
+  player:AddObserver(switch)
   function switch:Tick ()
     if self.activated then
       self.sprite:SelectAnimation "SWITCH_ON"

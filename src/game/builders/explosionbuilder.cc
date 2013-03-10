@@ -44,14 +44,11 @@ COLLISION_DIRECT(double, ExplosionCollision, obj) {
 }
 
 static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::string& anim) {
-    ugdk::action::SpriteTableAnimationPlayer* player = new ugdk::action::SpriteTableAnimationPlayer(
-             ResourceManager::GetSpriteAnimationTableFromFile("animations/explosion.gdd"));
-    
     WorldObject *wobj = new WorldObject;
 
-    Sprite* sprite = new Sprite(sheet, player);
-    player->Select(anim);
-    player->AddTickFunction(bind(&WorldObject::StartToDie, wobj));
+    Sprite* sprite = new Sprite(sheet, "animations/explosion.gdd");
+    sprite->animation_player().Select(anim);
+    sprite->animation_player().AddTickFunction(bind(&WorldObject::StartToDie, wobj));
 
     wobj->AddComponent(new component::BaseGraphic(sprite));
 

@@ -27,7 +27,6 @@ class Graphic : public BaseGraphic {
     ugdk::graphic::Sprite* sprite_;
 
     utils::IsometricAnimationSet* isometric_animation_set_;
-    ugdk::action::SpriteTableAnimationPlayer* animation_player_;
 
 };  // class Graphic
 
