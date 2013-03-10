@@ -14,7 +14,6 @@
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
-#include "game/utils/geometryprimitives.h"
 #include "game/map/tile.h"
 
 using namespace ugdk;

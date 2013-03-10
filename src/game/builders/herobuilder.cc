@@ -58,7 +58,8 @@ void SetupCollision(sprite::WorldObject* obj) {
 
 sprite::WorldObject* Kha() {
     if(ANIMATIONS == NULL) {
-        ANIMATIONS = new utils::IsometricAnimationSet(ugdk::base::ResourceManager::GetAnimationSetFromFile("animations/creature.gdd"));
+        ANIMATIONS = new utils::IsometricAnimationSet(
+            ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
     }
 
     component::PlayerController* player_controller;

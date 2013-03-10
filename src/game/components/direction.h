@@ -13,9 +13,9 @@ class Direction {
     static const Direction    Up() { return Direction(UP);    }
     static const Direction  Down() { return Direction(DOWN);  }
 
-    static Direction FromScreenVector(const ugdk::Vector2D& versor);
+    static Direction FromScreenVector(const ugdk::math::Vector2D& versor);
     
-    static Direction FromWorldVector(const ugdk::Vector2D& versor);
+    static Direction FromWorldVector(const ugdk::math::Vector2D& versor);
 
     Direction operator|= (const Direction& rhs) {
         direction_ |= rhs.direction_;
@@ -48,13 +48,13 @@ class Direction {
         return result;
     }
 
-    ugdk::Vector2D ToVector2D() const {
-        ugdk::Vector2D dir (0, 0);
-        if(direction_ & UP)    dir += ugdk::Vector2D( 1,  1);
-        if(direction_ & DOWN)  dir += ugdk::Vector2D(-1, -1);
-        if(direction_ & LEFT)  dir += ugdk::Vector2D(-1,  1);
-        if(direction_ & RIGHT) dir += ugdk::Vector2D( 1, -1);
-        return ugdk::Vector2D::Normalized(dir);
+    ugdk::math::Vector2D ToVector2D() const {
+        ugdk::math::Vector2D dir (0, 0);
+        if(direction_ & UP)    dir += ugdk::math::Vector2D( 1,  1);
+        if(direction_ & DOWN)  dir += ugdk::math::Vector2D(-1, -1);
+        if(direction_ & LEFT)  dir += ugdk::math::Vector2D(-1,  1);
+        if(direction_ & RIGHT) dir += ugdk::math::Vector2D( 1, -1);
+        return ugdk::math::Vector2D::Normalized(dir);
     }
 
   private:

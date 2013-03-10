@@ -24,7 +24,7 @@ void Shape::Deactivate() {
 
 }
     
-void Shape::ChangePosition(const ugdk::Vector2D& pos) {
+void Shape::ChangePosition(const ugdk::math::Vector2D& pos) {
     if(collision_) collision_->MoveTo(pos);
     if(visibility_) visibility_->MoveTo(pos);
 }

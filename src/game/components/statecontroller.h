@@ -10,20 +10,20 @@ namespace component {
 class StateController : public Controller {
   public:
     StateController() {}
-    StateController(const Direction& dir, const ugdk::Vector2D& d) : direction_(d) { dir_ = dir; }
+    StateController(const Direction& dir, const ugdk::math::Vector2D& d) : direction_(d) { dir_ = dir; }
     ~StateController() {}
 
     void Update(double dt) {}
 
     bool IsUsingSkillSlot(SkillSlot) const { return false; }
 
-    const ugdk::Vector2D& direction_vector() const { return direction_; }
+    const ugdk::math::Vector2D& direction_vector() const { return direction_; }
 
-    void set_direction_vector(const ugdk::Vector2D& d) { direction_ = d; }
+    void set_direction_vector(const ugdk::math::Vector2D& d) { direction_ = d; }
     void set_direction(const Direction& dir) { dir_ = dir; }
 
   protected:
-    ugdk::Vector2D direction_;
+    ugdk::math::Vector2D direction_;
 };
 
 }

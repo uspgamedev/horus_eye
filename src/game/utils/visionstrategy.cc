@@ -6,7 +6,6 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/geometry/convexpolygon.h>
 
-#include "geometryprimitives.h"
 #include "game/scenes/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
@@ -33,7 +32,7 @@ bool wall(char obj){
     return false;
 }
     
-bool VisionStrategy::IsVisible(const ugdk::Vector2D& from, const ugdk::Vector2D& target) {
+bool VisionStrategy::IsVisible(const ugdk::math::Vector2D& from, const ugdk::math::Vector2D& target) {
     using pyramidworks::collision::CollisionManager;
     using pyramidworks::geometry::ConvexPolygon;
     CollisionManager* visman = WORLD()->visibility_manager();
@@ -55,7 +54,7 @@ bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
         return IsVisible(from, from->world_position());
 }
 
-bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::Vector2D& position2) {
+bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::math::Vector2D& position2) {
     return IsVisible(from->world_position(), position2);
 }
 

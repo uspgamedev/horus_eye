@@ -20,8 +20,8 @@ void AIData::ClearSharedData(const std::string& key) {
 }
 
 void AIData::Clear() {
-    direction_ = ugdk::Vector2D();
-    aim_destination_ = ugdk::Vector2D();
+    direction_ = ugdk::math::Vector2D();
+    aim_destination_ = ugdk::math::Vector2D();
     using_skills_.clear();
 }
 

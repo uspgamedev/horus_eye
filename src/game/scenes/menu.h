@@ -18,17 +18,17 @@ class Menu: public ugdk::action::Scene {
     void Update (double delta_t);
 
     void set_handler(MenuHandler* handler);
-    void set_content_box(ugdk::Frame content_box);
+    void set_content_box(ugdk::math::Frame content_box);
 
-    const ugdk::Vector2D& get_selection_position(int index) const {
+    const ugdk::math::Vector2D& get_selection_position(int index) const {
         return selection_pos_[index];
     }
 
-    void set_content_box(ugdk::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment);
+    void set_content_box(ugdk::math::Frame content_box, ugdk::graphic::Drawable::HookPoint alignment);
     void set_selection_sprite(ugdk::graphic::Drawable *drawable);
     void set_selection_sprite(ugdk::graphic::Drawable **drawable);
     void set_option_sprite(int index, ugdk::graphic::Drawable *draw);
-    void AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::Vector2D pos);
+    void AddDrawable(ugdk::graphic::Drawable *drawable, ugdk::math::Vector2D pos);
     void AddNode(ugdk::graphic::Node *node);
 
     void Hide()   { set_visibility(    false); }
@@ -41,7 +41,7 @@ class Menu: public ugdk::action::Scene {
     void set_visibility(const bool visibility);
     void DecideWhereOptionsGo(ugdk::graphic::Drawable::HookPoint alignment);
 
-    bool CheckMouse (ugdk::Vector2D &mouse_pos);
+    bool CheckMouse (ugdk::math::Vector2D &mouse_pos);
     void Select ();
 
     ugdk::graphic::Drawable::HookPoint option_alignment_;
@@ -61,8 +61,8 @@ class Menu: public ugdk::action::Scene {
 
     ugdk::graphic::Node *selection_node_[2];
     ugdk::graphic::Node **options_node_;
-    ugdk::Vector2D *selection_pos_;
-    ugdk::Frame    content_box_;
+    ugdk::math::Vector2D *selection_pos_;
+    ugdk::math::Frame    content_box_;
 
 };
 

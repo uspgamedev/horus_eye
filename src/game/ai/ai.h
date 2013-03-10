@@ -35,7 +35,7 @@ class AI : public component::Controller {
 
     bool IsUsingSkillSlot(SkillSlot slot) const;
 
-    const ugdk::Vector2D& direction_vector() const;
+    const ugdk::math::Vector2D& direction_vector() const;
 
   protected:
     /// The owner.

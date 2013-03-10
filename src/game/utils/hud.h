@@ -24,9 +24,7 @@ class Hud: public ugdk::action::Entity {
 
     const skills::Skill *displayed_skill_;
 
-    ugdk::graphic::Node *life_bar_;
-    ugdk::graphic::Node *mana_bar_;
-    ugdk::graphic::Modifier *life_modifier_, *mana_modifier_, *block_modifier_;
+    ugdk::graphic::Node *life_bar_, *mana_bar_, *block_bar_;
 
 #ifdef DEBUG
     ugdk::graphic::Node* fps_meter_node_;

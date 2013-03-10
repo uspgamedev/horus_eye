@@ -14,7 +14,7 @@
 
 namespace component {
 
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 using ugdk::graphic::Node;
 using ugdk::graphic::Drawable;
 
@@ -57,15 +57,15 @@ BaseGraphic::~BaseGraphic() {
     delete blink_duration_;
 }
 
-void BaseGraphic::SetPosition(const ugdk::Vector2D& position) {
+void BaseGraphic::SetPosition(const ugdk::math::Vector2D& position) {
     Vector2D screen_position = core::FromWorldCoordinates(position);
-    root_node_->modifier()->set_offset(screen_position);
+    root_node_->geometry().set_offset(screen_position);
     root_node_->set_zindex(screen_position.y);
 }
 
-void BaseGraphic::set_render_offset(const ugdk::Vector2D& render_offset) {
+void BaseGraphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
     render_offset_ = render_offset;
-    node_->modifier()->set_offset(render_offset_);
+    node_->geometry().set_offset(render_offset_);
 }
 
 void BaseGraphic::ChangeLightRadius(double radius) {
@@ -95,17 +95,17 @@ void BaseGraphic::ChangeLightColor(const ugdk::Color& color) {
 }
 
 double BaseGraphic::alpha() const {
-    return node_->modifier()->color().a;
+    return node_->effect().color().a;
 }
 
 void BaseGraphic::ChangeAlpha(double alpha) {
-    ugdk::Color color = node_->modifier()->color();
+    ugdk::Color color = node_->effect().color();
     color.a = alpha;
-    node_->modifier()->set_color(color);
+    node_->effect().set_color(color);
 }
 
 void BaseGraphic::set_visible(bool visible) {
-    root_node_->modifier()->set_visible(visible);
+    root_node_->effect().set_visible(visible);
 }
 
 void BaseGraphic::StartBlinking(int duration) {
@@ -119,7 +119,7 @@ void BaseGraphic::StartBlinking(int duration) {
 
 void BaseGraphic::StopBlinking() {
     is_blinking_ = false;
-    node_->modifier()->set_visible(true);
+    node_->effect().set_visible(true);
 }
 
 void BaseGraphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
@@ -135,7 +135,7 @@ void BaseGraphic::adjustBlink() {
         StopBlinking();
     if (is_blinking_ && blink_time_->Expired()) {
         blink_ = !blink_;
-        node_->modifier()->set_visible(blink_);
+        node_->effect().set_visible(blink_);
         blink_time_->Restart();
     }
 }

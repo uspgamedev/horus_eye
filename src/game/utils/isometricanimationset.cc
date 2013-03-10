@@ -1,11 +1,13 @@
 #include <sstream>
+#include <cassert>
 
-#include <ugdk/action/animationset.h>
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
 #include "game/utils/isometricanimationset.h"
 
-using ugdk::Vector2D;
+#include <ugdk/base/engine.h>
+#include <ugdk/base/resourcemanager.h>
+#include <ugdk/util/indexabletable.h>
+
+using ugdk::math::Vector2D;
 using component::Direction;
 
 typedef std::pair<int, const char*> DirectionValue;
@@ -23,7 +25,7 @@ static DirectionValue DIRECTION_VALUES[8] = {
 
 namespace utils {
 
-IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animation_set)
+IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set)
     :   animation_set_(animation_set) {
         
     for(int i = 0; i < 16; i++)
@@ -42,6 +44,7 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::AnimationSet* animati
 
     int dying = animation_set->MakeIndex("DYING");
     int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");
+
     for(int i = 0; i < 16; i++) {
         animation_index_[DEATH][i] = dying;
         animation_index_[TAKING_HIT][i] = taking_damage;
@@ -58,7 +61,7 @@ int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& di
 }
 
 IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& name) {
-    ugdk::action::AnimationSet* set = ugdk::base::ResourceManager::GetAnimationSetFromFile(name);
+    ugdk::action::SpriteAnimationTable* set = ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile(name);
     if(set)
         return new IsometricAnimationSet(set);
     return NULL;

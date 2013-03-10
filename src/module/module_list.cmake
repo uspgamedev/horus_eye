@@ -1,4 +1,4 @@
-set (MODULE_SRC
+set (HORUS_MODULE_SRC
   module/ai.i
   module/builder.i
   module/component.i

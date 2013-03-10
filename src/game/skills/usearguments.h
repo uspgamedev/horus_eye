@@ -10,7 +10,7 @@ namespace usearguments {
  *  Position where to cast single-positioned skills.
  *  For example, summons, spells cast directly at the cursor's position, etc...
  */
-typedef ugdk::Vector2D Position;
+typedef ugdk::math::Vector2D Position;
 
 /**
  *  Aim for aimed skills. Specially useful for projectile skills.

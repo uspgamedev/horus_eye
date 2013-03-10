@@ -37,7 +37,7 @@ class Room {
     @param position The position to place the object in.
     @param absolute Whether the position is relative to the room's position in the World, or absolute. Defaults to relative.
     @see AddObject */
-    void AddObject(sprite::WorldObject* obj, const ugdk::Vector2D& position, bool absolute = POSITION_RELATIVE);
+    void AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& position, bool absolute = POSITION_RELATIVE);
 
     //void RemoveObject(sprite::WorldObject* obj);
 

@@ -30,18 +30,18 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     double current_speed() const { return current_speed_; }
     void set_current_speed(double speed) { current_speed_ = speed; }
 
-    const ugdk::Vector2D& offset_direction() const { return offset_direction_; }
-    void set_offset_direction(const ugdk::Vector2D& offset_dir) { offset_direction_ = offset_dir; }
+    const ugdk::math::Vector2D& offset_direction() const { return offset_direction_; }
+    void set_offset_direction(const ugdk::math::Vector2D& offset_dir) { offset_direction_ = offset_dir; }
 
   protected:
-    void move(ugdk::Vector2D direction, double delta_t);
+    void move(ugdk::math::Vector2D direction, double delta_t);
     void collideWithRect(const pyramidworks::collision::CollisionObject*);
 
     /// The owner.
     sprite::WorldObject* owner_;
     
     /// The last position this creature was that is guaranteed to not colide with any walls.
-    ugdk::Vector2D last_stable_position_;
+    ugdk::math::Vector2D last_stable_position_;
 
     double last_dt_;
 
@@ -52,10 +52,10 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     double original_speed_;
 
     /// The direction this creature is moving to.
-    ugdk::Vector2D walking_direction_;
+    ugdk::math::Vector2D walking_direction_;
 
     /// 
-    ugdk::Vector2D offset_direction_;
+    ugdk::math::Vector2D offset_direction_;
     
     friend class RectCollision;
 

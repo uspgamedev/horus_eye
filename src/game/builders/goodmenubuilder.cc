@@ -8,7 +8,7 @@
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/input/inputmanager.h>
-#include <externals/ugdk-videomanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/text.h>
@@ -89,7 +89,7 @@ void SceneExit(Scene* scene, const Button * source) {
 
 Scene* MenuBuilder::PauseMenu() const {
     ugdk::action::Scene* pause_menu = new Scene();
-    ugdk::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
@@ -100,10 +100,10 @@ Scene* MenuBuilder::PauseMenu() const {
     Text* cont_text = ResourceManager::CreateTextFromLanguageTag("Continue");
     Text* exit_text = ResourceManager::CreateTextFromLanguageTag("Return to Menu");
 
-    ugdk::Vector2D cont_position = target * 0.5;
+    ugdk::math::Vector2D cont_position = target * 0.5;
     cont_position.y -= cont_text->size().y;
 
-    ugdk::Vector2D exit_position = target * 0.5;
+    ugdk::math::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
     menu->AddObject(new Button(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1)));
@@ -127,24 +127,24 @@ Scene* MenuBuilder::MainMenu() const {
     main_menu->set_focus_callback(Focus_Callback);
     main_menu->set_defocus_callback(DeFocus_Callback);
 
-    ugdk::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
     ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/logo_560x334_black.png"));
     logo->set_hotspot(ugdk::graphic::Drawable::TOP);
     Node* logo_node = new Node(logo);
-    logo_node->modifier()->set_offset(Vector2D(target.x * 0.5, 0.0));
+    logo_node->geometry().set_offset(Vector2D(target.x * 0.5, 0.0));
 
     ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(constants::version(), "FontD");
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     Node* version_node = new Node(version);
-    version_node->modifier()->set_offset(Vector2D(10.0, target.y - 10.0));
+    version_node->geometry().set_offset(Vector2D(10.0, target.y - 10.0));
 
     ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(RESOURCE_MANAGER()->GetTextureFromFile("images/developed_by_uspgamedev1.png"));
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     Node* developed_by_node = new Node(developed_by);
-    developed_by_node->modifier()->set_offset(VIDEO_MANAGER()->video_size() + Vector2D(-15.0, 0.0));
+    developed_by_node->geometry().set_offset(VIDEO_MANAGER()->video_size() + Vector2D(-15.0, 0.0));
 
     main_menu->interface_node()->AddChild(logo_node);
     main_menu->interface_node()->AddChild(version_node);
@@ -159,19 +159,19 @@ Scene* MenuBuilder::MainMenu() const {
     Text* credits_text  = ResourceManager::CreateTextFromLanguageTag("Credits");
     Text* exit_text     = ResourceManager::CreateTextFromLanguageTag("Exit");
 
-    ugdk::Vector2D play_position;
+    ugdk::math::Vector2D play_position;
     play_position.x = target.x * 0.5;
     play_position.y = target.y * 0.5 - play_text->size().y + 20.0;
 
-    ugdk::Vector2D settings_position;
+    ugdk::math::Vector2D settings_position;
     settings_position.x = target.x * 0.5;
     settings_position.y = target.y * 0.5 + 60.0;
 
-    ugdk::Vector2D credits_position;
+    ugdk::math::Vector2D credits_position;
     credits_position.x = target.x * 0.5;
     credits_position.y = target.y * 0.5 + settings_text->size().y + 80.0;
 
-    ugdk::Vector2D exit_position;
+    ugdk::math::Vector2D exit_position;
     exit_position.x = target.x * 0.5;
     exit_position.y = target.y * 0.5 + settings_text->size().y + credits_text->size().y + 100.0;
 
@@ -182,7 +182,7 @@ Scene* MenuBuilder::MainMenu() const {
 
 #ifdef DEBUG
     Text* debug_text    = ResourceManager::CreateTextFromLanguageTag("DebugStage");
-    ugdk::Vector2D debug_position;
+    ugdk::math::Vector2D debug_position;
     debug_position.x = debug_text->size().x * 0.6;
     debug_position.y = 50.0;
     menu->AddObject(new Button(debug_position,    debug_text,    bind(MainMenuDebugPlay, main_menu, _1)));
@@ -261,9 +261,9 @@ struct ConveninentSettingsData {
                     img = TEXT_MANAGER()->GetText(convertFromString(this->setting_functions_[i].values[j]), "FontB");
                 img->set_hotspot(ugdk::graphic::Drawable::CENTER);
                 this->nodes_[i][j] = new Node(img);
-                this->nodes_[i][j]->modifier()->set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
+                this->nodes_[i][j]->geometry().set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
                 node->AddChild(this->nodes_[i][j]);
-                if ( static_cast<int>(j) != this->sprites_active_[i] ) this->nodes_[i][j]->modifier()->set_visible(false);
+                if ( static_cast<int>(j) != this->sprites_active_[i] ) this->nodes_[i][j]->effect().set_visible(false);
             }
         }
     }
@@ -279,13 +279,13 @@ static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, in
     int max_val = (int) data->setting_functions_[value].values.size();
     std::tr1::function<void (utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
 
-    data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(false);
+    data->nodes_[value][data->sprites_active_[value]]->effect().set_visible(false);
     data->sprites_active_[value] = (data->sprites_active_[value] + modifier) % max_val;
     if (data->sprites_active_[value] < 0) data->sprites_active_[value] += max_val;
 
     settingsfunc(Settings::reference(), data->sprites_active_[value]);
 
-    data->nodes_[value][data->sprites_active_[value]]->modifier()->set_visible(true);
+    data->nodes_[value][data->sprites_active_[value]]->effect().set_visible(true);
 }
 
 static void ElementPress(std::tr1::shared_ptr<ConveninentSettingsData> data, const Button * source) {
@@ -304,7 +304,7 @@ static void ApplySettings(const Button * source) {
 
 Scene* MenuBuilder::SettingsMenu() const {
     ugdk::action::Scene* settings_menu = new Scene();
-    ugdk::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = VIDEO_MANAGER()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
@@ -317,18 +317,18 @@ Scene* MenuBuilder::SettingsMenu() const {
 
     for (int i = 0; i < 5; ++i) {
         ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(data->setting_functions_[i].name);
-        ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * (i + 1));
+        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (i + 1));
         Button* uie = new Button(pos, img, bind(ElementPress, data, _1));
         data->indices_[uie] = i;
         menu->AddObject(uie);
     }
 
     {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Apply");
-        ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * 7);
+        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 7);
         menu->AddObject(new Button(pos, img, ApplySettings)); }
 
     {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Exit");
-        ugdk::Vector2D pos = ugdk::Vector2D(left_column, 70.0 * 8);
+        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 8);
         menu->AddObject(new Button(pos, img, bind(SceneExit, settings_menu, _1))); }
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);

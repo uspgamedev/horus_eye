@@ -32,7 +32,7 @@ namespace DoodadBuilder {
 
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
-using ugdk::action::AnimationSet;
+using ugdk::action::SpriteAnimationTable;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;
 using ugdk::graphic::Node;
@@ -107,14 +107,14 @@ public:
         :	pressed_(false),
             sprite_(sprite),
             callback_(callback) {
-        sprite_->SetDefaultFrame(2); 
+        //sprite_->SetDefaultFrame(2); 
     }
 
     void Update(double dt) {}
 
     void Press() {
         if(!pressed_) {
-            sprite_->SetDefaultFrame(0);
+            //sprite_->SetDefaultFrame(0);
             callback_();
             pressed_ = true;
         }
@@ -226,7 +226,7 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     BlockLogic* logic = new BlockLogic(wobj);
     wobj->AddComponent(logic, "block", component::orders::LOGIC);
 
-    //wobj->node()->modifier()->set_scale(Vector2D(1.0,0.7));
+    //wobj->node()->geometry().set_scale(Vector2D(1.0,0.7));
     // TODO: different GDD
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
@@ -239,10 +239,10 @@ WorldObject* Block(const std::vector<std::string>& arguments) {
     return wobj;
 }
 
-Node* Floor(const ugdk::Vector2D& position) {
+Node* Floor(const ugdk::math::Vector2D& position) {
     utils::ImageFactory imagefactory;
     Node* floor = new Node(imagefactory.FloorImage());
-    floor->modifier()->set_offset(core::FromWorldCoordinates(position));
+    floor->geometry().set_offset(core::FromWorldCoordinates(position));
     return floor;
 }
 

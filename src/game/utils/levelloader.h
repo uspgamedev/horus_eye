@@ -24,7 +24,7 @@ namespace component {
 namespace sprite {
     class WorldObject;
 }
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 
 namespace utils {
 

@@ -5,7 +5,7 @@
 
 namespace core {
 
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 
 static Vector2D tile_size(106, 52);
 
@@ -26,7 +26,7 @@ Vector2D FromWorldCoordinates(const Vector2D& world_coords) {
 }
 
 Vector2D FromScreenCoordinates(const Vector2D& screen_coords) {
-    return FromScreenLinearCoordinates((screen_coords - WORLD()->content_node()->modifier()->offset()) / WORLD()->content_node()->modifier()->scale().x);
+    return FromScreenLinearCoordinates((screen_coords - WORLD()->content_node()->geometry().offset()) / WORLD()->content_node()->geometry().scale().x);
 }
 
 Vector2D ConvertLightRadius(double radius) {

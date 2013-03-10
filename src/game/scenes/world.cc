@@ -9,7 +9,7 @@
 #include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
-#include <externals/ugdk-videomanager.h>
+#include <ugdk/graphic/videomanager.h>
 #include <ugdk/time/timemanager.h>
 #include <ugdk/input/inputmanager.h>
 #include <ugdk/util/intervalkdtree.h>
@@ -77,11 +77,11 @@ bool VerifyCheats(double dt) {
         VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
     }
 
-    ugdk::graphic::Modifier* modifier = world->content_node()->modifier();
+    ugdk::graphic::Geometry& modifier = world->content_node()->geometry();
     if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
-        modifier->set_scale(modifier->scale() * 1.4/1.0);
+        modifier.set_scale(modifier.scale() * 1.4/1.0);
     if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
-        modifier->set_scale(modifier->scale() * 1.0/1.4);
+        modifier.set_scale(modifier.scale() * 1.0/1.4);
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
@@ -100,8 +100,8 @@ bool VerifyCheats(double dt) {
 bool UpdateOffset(double dt) {
     World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
-    if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->modifier()->scale().x;
-    world->content_node()->modifier()->set_offset(result);
+    if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->geometry().scale().x;
+    world->content_node()->geometry().set_offset(result);
     return true;
 }
 
@@ -121,7 +121,7 @@ World::World()
         collision_manager_(NULL),
         visibility_manager_(NULL) {
 
-    content_node()->modifier()->ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+    //content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
     layers_[BACKGROUND_LAYER] = new graphic::Node;
     layers_[FOREGROUND_LAYER] = new graphic::Node;
@@ -175,7 +175,7 @@ void World::SetHero(sprite::WorldObject *hero) {
 }
 
 void World::SetupCollisionManager() {
-    ugdk::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
+    ugdk::math::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
     ugdk::ikdtree::Box<2> box(min_coords.val, max_coords.val);
     collision_manager_ = new pyramidworks::collision::CollisionManager(box);
 

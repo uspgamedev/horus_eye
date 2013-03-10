@@ -15,7 +15,7 @@
 namespace ai {
 namespace blocks {
 
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 using sprite::WorldObject;
 using std::tr1::function;
 using std::tr1::bind;

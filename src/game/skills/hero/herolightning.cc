@@ -1,7 +1,5 @@
 #include <ugdk/math/vector2D.h>
-#include <ugdk/input/inputmanager.h>
 #include <ugdk/audio/audiomanager.h>
-#include <ugdk/action/animation.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/base/engine.h>
 
@@ -15,9 +13,7 @@
 
 namespace skills {
 
-using namespace scene;
-using namespace ugdk;
-using namespace utils;
+using ugdk::math::Vector2D;
 
 static void HeroLightningUse(component::Caster* caster) {
     //static Vector2D projectile_height = World::FromScreenCoordinates(Vector2D(0,Constants::LIGHTNING_SPRITE_CENTER_Y+Constants::LIGHTNING_HEIGHT));
@@ -28,11 +24,11 @@ static void HeroLightningUse(component::Caster* caster) {
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::LightningBolt(versor), pos, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
+        AUDIO_MANAGER()->LoadSample("samples/fire.wav")->Play();
 }
 
 Skill* HeroLightningBuild() {
-    HudImageFactory factory;
+    utils::HudImageFactory factory;
     return new CombatArt(factory.LightningIconImage(), HeroLightningUse, constants::GetInt("LIGHTNING_COST"));
 }
 

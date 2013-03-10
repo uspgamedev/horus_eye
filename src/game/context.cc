@@ -14,7 +14,7 @@ namespace context {
 
 using std::string;
 using std::vector;
-using ugdk::Vector2D;
+using ugdk::math::Vector2D;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionManager;
 using pyramidworks::collision::CollisionInstance;
@@ -130,7 +130,7 @@ void GetCollidingObjects(const string& classname, GeometricShape* shape, const V
     GetCollidingObjectsRaw(manager, classname, shape, pos, objects_colliding);
 }
 
-void GetCollidingVisibilityObjects(const std::string& classname, pyramidworks::geometry::GeometricShape* shape, const ugdk::Vector2D& pos, std::vector<sprite::WorldObject*> &objects_colliding) {
+void GetCollidingVisibilityObjects(const std::string& classname, pyramidworks::geometry::GeometricShape* shape, const ugdk::math::Vector2D& pos, std::vector<sprite::WorldObject*> &objects_colliding) {
     World *world = WORLD();
     if (!world) return;
     CollisionManager *manager = world->visibility_manager();

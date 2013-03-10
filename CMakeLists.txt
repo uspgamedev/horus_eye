@@ -27,7 +27,7 @@ if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/resources-v${RESOURCES_VERSION}.tgz)
 endif()
 
 # FindUGDK
-option (USE_EMBBEDED_UGDK "" OFF)
+option (USE_EMBBEDED_UGDK "" ON)
 find_package(UGDK)
 if(UGDK_FOUND AND UGDK_INCLUDE_DIR AND UGDK_LIBRARY AND NOT USE_EMBBEDED_UGDK)
     include_directories(${UGDK_INCLUDE_DIRS})
@@ -36,6 +36,7 @@ else()
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES libugdk)
+	add_definitions("-DEMBBEDED_UGDK")
 endif()
 
 add_subdirectory(src) # The game binary.

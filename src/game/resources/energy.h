@@ -23,15 +23,19 @@ class Energy : public ContainedResource<double> {
     const rate_t& variation_rate() const { return variation_rate_; }
 
     void ChangeMaxValue(double value) {
-        double proportion = Get()/max_value();
+        double proportion = percentage();
         set_max_value(value);
         Set(proportion*max_value());
     }
 
     void ChangeMinValue(double value) {
-        double proportion = Get()/max_value();
+        double proportion = percentage();
         set_min_value(value);
         Set(proportion*max_value());
+    }
+
+    double percentage() const {
+        return Get()/max_value();
     }
 
   private:
