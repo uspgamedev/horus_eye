@@ -12,8 +12,9 @@ local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
   switch.sprite = Sprite("switch", "animations/switch.gdd")
-  switch.sprite:SelectAnimation "SWITCH_OFF"
-  switch.sprite:AddObserverToAnimation(switch)
+  local player = switch.sprite:animation_player()
+  player:Select "SWITCH_OFF"
+  player:AddObserver(switch)
   function switch:Tick ()
     if self.activated then
       self.sprite:SelectAnimation "SWITCH_ON"

@@ -24,5 +24,5 @@ function generate ()
 end
 
 function build (wobj)
-  wobj:node():modifier():set_scale(ugdk_math.Vector2D(0.225, 0.225))
+  wobj:node():geometry():set_scale(ugdk_math.Vector2D(0.225, 0.225))
 end

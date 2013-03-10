@@ -27,8 +27,8 @@ include_directories (${PYTHON_INCLUDE_DIRS})
 
 include (module/module_list.cmake)
 set (HORUS_LANGUAGES_LIST "lua;python")
-include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
 set (GENERATED_PY_FILES)
+include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
 
 add_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES})

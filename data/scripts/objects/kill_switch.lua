@@ -7,7 +7,6 @@ require "component"
 require "context"
 require "map"
 
-table.foreach(ugdk_action, print)
 local Sprite    = ugdk_drawable.Sprite
 local Rect      = pyramidworks_geometry.Rect
 
