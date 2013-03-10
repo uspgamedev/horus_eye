@@ -6,7 +6,7 @@ from component import WorldObject
 def generate():
     d = {}
     d['drawable'] = Sprite("fireball_explosion", "animations/explosion.gdd")
-    d['drawable'].SelectAnimation("HERO_FIREBALL_WEAPON")
+    d['drawable'].animation_player().Select("HERO_FIREBALL_WEAPON")
     
     d['collision'] = {
         "class": "Button",

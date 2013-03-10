@@ -29,7 +29,6 @@ bool Graphic::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
 
 void Graphic::AddObserver(ugdk::action::Observer* observer) {
     sprite_->animation_player().AddObserver(observer);
-
 }
     
 }  // namespace component

@@ -12,11 +12,12 @@ local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
   switch.sprite = Sprite("switch", "animations/switch.gdd")
-  switch.sprite:SelectAnimation "SWITCH_OFF"
-  switch.sprite:AddObserverToAnimation(switch)
+  local player = switch.sprite:animation_player()
+  player:Select "SWITCH_OFF"
+  player:AddObserver(switch)
   function switch:Tick ()
     if self.activated then
-      self.sprite:SelectAnimation "SWITCH_ON"
+      self.sprite:animation_player():Select "SWITCH_ON"
     end
   end
   return switch
@@ -41,7 +42,7 @@ function generate ()
             else
               door:damageable():TakeDamage(1)
               switch.activated = true
-              switch.sprite:SelectAnimation "SWITCH_START"
+              switch.sprite:animation_player():Select "SWITCH_START"
             end
           end
         end

@@ -1,4 +1,5 @@
 #include <sstream>
+#include <cassert>
 
 #include "game/utils/isometricanimationset.h"
 
@@ -43,6 +44,7 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable*
 
     int dying = animation_set->MakeIndex("DYING");
     int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");
+
     for(int i = 0; i < 16; i++) {
         animation_index_[DEATH][i] = dying;
         animation_index_[TAKING_HIT][i] = taking_damage;

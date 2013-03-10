@@ -11,7 +11,7 @@ local Rect = pyramidworks_geometry.Rect
 function generate ()
   local args = {}
   args.drawable = Sprite("fireball_explosion", "animations/explosion.gdd")
-  args.drawable:SelectAnimation("HERO_FIREBALL_WEAPON")
+  args.drawable:animation_player():Select("HERO_FIREBALL_WEAPON")
 
   args.collision = {
     class = "Button",
