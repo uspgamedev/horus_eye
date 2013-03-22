@@ -1,10 +1,8 @@
 !CMakeLists.txt
-/Debug
-/Release
 /Makefile
 x64/
 Win32/
 /game/config.h
-horus_eye.dir/
+/modules.cc
 *.py
 *.pyc

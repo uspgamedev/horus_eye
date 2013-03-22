@@ -12,7 +12,6 @@
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/text.h>
-#include <ugdk/graphic/drawable/solidrectangle.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/ui/menu.h>
@@ -115,9 +114,10 @@ Scene* MenuBuilder::PauseMenu() const {
     pause_menu->interface_node()->AddChild(menu->node());
     pause_menu->AddEntity(menu);
 
-    ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
-    bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
-    pause_menu->interface_node()->set_drawable(bg);
+    //TODO: solid rectangle no longer exists
+    //ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
+    //bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
+    //pause_menu->interface_node()->set_drawable(bg);
 
     return pause_menu;
 }

@@ -1,13 +1,15 @@
 
 .*.swp
 *~
-/Debug
-/DebugFast
-/Release
+Debug/
+DebugFast/
+Release/
+RelWithDebInfo/
 /ipch
 /x64
 /Win32
 /horus_eye
+*.dir/
 
 /Makefile
 
@@ -28,6 +30,7 @@ CPackSourceConfig.cmake
 *.filters
 *.user
 *.sln
+*.psess
 !Horus Eye.sln
 
 /include
@@ -63,12 +66,6 @@ settings.ini
 /deploy/Output
 /deploy/Horus Eye.app/
 /deploy/Horus Eye.dmg
-/license/Thumbs.db
-/license/legalcode_arquivos/Thumbs.db
-/license/Creative_Commons_Legal_Code/Thumbs.db
-/license/Creative_Commons_Legal_Code/Thumbs.db
-/license/legalcode_arquivos/Thumbs.db
+Thumbs.db
 doc/doxy/
 /resources-v*.tgz
-
-/src/modules.cc
