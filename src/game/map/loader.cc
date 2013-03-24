@@ -13,7 +13,9 @@
 #include "game/sprites/worldobject.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
+#include "game/map/giantfloor.h"
 #include "game/scenes/world.h"
+#include "game/core/coordinates.h"
 
 namespace map {
 
@@ -110,7 +112,8 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
                 objects.push_back(descriptor);
 
                 if(tile.has_floor()) {
-                    ugdk::graphic::Node* floor = builder::DoodadBuilder::Floor(descriptor.position);
+                    ugdk::graphic::Node* floor = new ugdk::graphic::Node(new GiantFloor(room->size()));
+                    floor->geometry().set_offset(core::FromWorldCoordinates(descriptor.position));
                     room->floor()->AddChild(floor);
                 }
             }
@@ -118,6 +121,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
             ++x;
         }
     }
+    //room->floor()->set_drawable(new GiantFloor(room->size()));
 
     if(room_data["objects"]) {
         VirtualObj::Vector vobj_objects = room_data["objects"].value<VirtualObj::Vector>();
