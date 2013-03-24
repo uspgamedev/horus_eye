@@ -18,17 +18,33 @@ using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
 
 GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
-    : size_(106, 54),
+    : size_(106 * size.x, 54 * size.y),
       texture_(ugdk::base::ResourceManager::GetTextureFromFile("images/ground_texture.png")) {
     
-    set_hotspot(Vector2D(constants::GetDouble("FLOOR_HOTSPOT_X"), constants::GetDouble("FLOOR_HOTSPOT_Y")));
-    
-    const GLfloat vertex_data[] = { 
+    GLfloat vertex_data[] = { 
          53.0f,  0.0f, 
         106.0f, 26.0f, 
          53.0f, 52.0f,
           0.0f, 26.0f 
     };
+    vertex_data[0 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x, size.y)).x; // top
+    vertex_data[0 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x, size.y)).y;
+    vertex_data[1 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x,    0.0)).x; // right
+    vertex_data[1 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x,    0.0)).y;
+    vertex_data[2 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0,    0.0)).x; // bottom
+    vertex_data[2 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0,    0.0)).y;
+    vertex_data[3 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0, size.y)).x; // left
+    vertex_data[3 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0, size.y)).y;
+    GLfloat uv_data[] = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+    for(int i = 0; i < 4; ++i) {
+        uv_data[i * 2 + 0] *= size.y;
+        uv_data[i * 2 + 1] *= size.x;
+    }
     vertexbuffer_ = opengl::VertexBuffer::Create(sizeof(vertex_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
         opengl::VertexBuffer::Bind bind(*vertexbuffer_);
@@ -38,13 +54,6 @@ GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
         if (indices)
             memcpy(indices, vertex_data, sizeof(vertex_data));
     }
-
-    const GLfloat uv_data[] = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
-    };
     uvbuffer_ = opengl::VertexBuffer::Create(sizeof(uv_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
         opengl::VertexBuffer::Bind bind(*uvbuffer_);
@@ -66,10 +75,11 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
     final_geometry.Compose(Geometry(Vector2D(-hotspot_)));
 
     const glm::mat4& mat = final_geometry.AsMat4();
+    /*
     glm::vec4 right = mat * glm::vec4(106, 52, 0, 1);
     if(mat[3].x > 1 || mat[3].y < -1 || 
         right.x < -1 || right.y > 1)
-        return;
+        return;*/
     // Use our shader
     opengl::ShaderProgram::Use shader_use(VIDEO_MANAGER()->default_shader());
 

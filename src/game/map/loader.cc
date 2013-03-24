@@ -99,7 +99,7 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
         string matrix = room_data["matrix"].value<std::string>();
         int y = 0, x = 0;
         for(string::iterator it = matrix.begin(); it != matrix.end(); ++it) {
-            if(*it == '\n') {
+            if(*it == '\n' || x == width) {
                 //TODO if(x != width) { } (tratar erro?)
                 x = 0;
                 ++y;
@@ -111,17 +111,17 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
                 ObjectDescriptor descriptor(string(1, tile.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
                 objects.push_back(descriptor);
 
-                if(tile.has_floor()) {
+                /*if(tile.has_floor()) {
                     ugdk::graphic::Node* floor = new ugdk::graphic::Node(new GiantFloor(room->size()));
                     floor->geometry().set_offset(core::FromWorldCoordinates(descriptor.position));
                     room->floor()->AddChild(floor);
-                }
+                }*/
             }
 
             ++x;
         }
     }
-    //room->floor()->set_drawable(new GiantFloor(room->size()));
+    room->floor()->set_drawable(new GiantFloor(room->size()));
 
     if(room_data["objects"]) {
         VirtualObj::Vector vobj_objects = room_data["objects"].value<VirtualObj::Vector>();
