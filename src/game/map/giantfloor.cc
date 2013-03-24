@@ -22,26 +22,43 @@ GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
       texture_(ugdk::base::ResourceManager::GetTextureFromFile("images/ground_texture.png")) {
     
     set_hotspot(Vector2D(constants::GetDouble("FLOOR_HOTSPOT_X"), constants::GetDouble("FLOOR_HOTSPOT_Y")));
-    static const GLfloat buffer_data[] = { 
+    
+    const GLfloat vertex_data[] = { 
          53.0f,  0.0f, 
         106.0f, 26.0f, 
          53.0f, 52.0f,
           0.0f, 26.0f 
     };
-    vertexbuffer_ = opengl::VertexBuffer::Create(sizeof(buffer_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    vertexbuffer_ = opengl::VertexBuffer::Create(sizeof(vertex_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
         opengl::VertexBuffer::Bind bind(*vertexbuffer_);
         opengl::VertexBuffer::Mapper mapper(*vertexbuffer_);
 
         GLfloat *indices = static_cast<GLfloat*>(mapper.get());
         if (indices)
-            memcpy(indices, buffer_data, sizeof(buffer_data));
+            memcpy(indices, vertex_data, sizeof(vertex_data));
     }
-    uvbuffer_ = opengl::VertexBuffer::CreateDefault();
+
+    const GLfloat uv_data[] = {
+        0.0f, 0.0f,
+        1.0f, 0.0f,
+        1.0f, 1.0f,
+        0.0f, 1.0f
+    };
+    uvbuffer_ = opengl::VertexBuffer::Create(sizeof(uv_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    {
+        opengl::VertexBuffer::Bind bind(*uvbuffer_);
+        opengl::VertexBuffer::Mapper mapper(*uvbuffer_);
+
+        GLfloat *indices = static_cast<GLfloat*>(mapper.get());
+        if (indices)
+            memcpy(indices, uv_data, sizeof(uv_data));
+    }
 }
 
 GiantFloor::~GiantFloor() {
     delete vertexbuffer_;
+    delete uvbuffer_;
 }
 
 void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
@@ -51,8 +68,7 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
     const glm::mat4& mat = final_geometry.AsMat4();
     glm::vec4 right = mat * glm::vec4(106, 52, 0, 1);
     if(mat[3].x > 1 || mat[3].y < -1 || 
-        right.x < -1 || 
-        right.y > 1)
+        right.x < -1 || right.y > 1)
         return;
     // Use our shader
     opengl::ShaderProgram::Use shader_use(VIDEO_MANAGER()->default_shader());

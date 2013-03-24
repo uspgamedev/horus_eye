@@ -19,7 +19,7 @@ class GiantFloor : public ugdk::graphic::Drawable {
     ugdk::math::Vector2D size_;
     ugdk::graphic::Texture* texture_;
     ugdk::graphic::opengl::VertexBuffer* vertexbuffer_;
-    const ugdk::graphic::opengl::VertexBuffer* uvbuffer_;
+    ugdk::graphic::opengl::VertexBuffer* uvbuffer_;
 };
 } // namespace map
 
