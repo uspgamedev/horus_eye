@@ -78,10 +78,14 @@ bool VerifyCheats(double dt) {
     }
 
     ugdk::graphic::Geometry& modifier = world->content_node()->geometry();
-    if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
-        modifier.set_scale(modifier.scale() * 1.4/1.0);
-    if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
-        modifier.set_scale(modifier.scale() * 1.0/1.4);
+    {
+        math::Vector2D scale(1.0);
+        if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
+            scale = scale * 1.4/1.0;
+        if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
+            scale = scale * 1.0/1.4;
+        modifier *= graphic::Geometry(math::Vector2D(), scale);
+    }
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
