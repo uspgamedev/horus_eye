@@ -90,6 +90,8 @@ SET(GAME_SRCS
     ./game/initializer.h 
     ./game/main.cc 
     ./game/map.h 
+    ./game/map/giantfloor.cc 
+    ./game/map/giantfloor.h 
     ./game/map/loader.cc 
     ./game/map/loader.h 
     ./game/map/room.cc 
@@ -154,6 +156,9 @@ SET(GAME_SRCS
     ./game/utils/settings.h 
     ./game/utils/visionstrategy.cc 
     ./game/utils/visionstrategy.h 
+    ./GL/glew.h 
+    ./GL/glxew.h 
+    ./GL/wglew.h 
     ./mac/SDLMain.h 
     ./module/ai/logicblockproxy.h 
     ./module/aiLUA_wrap.cc 
@@ -167,7 +172,10 @@ SET(GAME_SRCS
     ./module/constantsPYTHON_wrap.cc 
     ./module/contextLUA_wrap.cc 
     ./module/contextPYTHON_wrap.cc 
+    ./module/coreLUA_wrap.cc 
+    ./module/corePYTHON_wrap.cc 
     ./module/luaproxy.h 
     ./module/mapLUA_wrap.cc 
     ./module/mapPYTHON_wrap.cc 
+    ./modules.cc 
 )
