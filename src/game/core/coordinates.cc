@@ -26,7 +26,7 @@ Vector2D FromWorldCoordinates(const Vector2D& world_coords) {
 }
 
 Vector2D FromScreenCoordinates(const Vector2D& screen_coords) {
-    return FromScreenLinearCoordinates((screen_coords - WORLD()->content_node()->geometry().offset()) / WORLD()->content_node()->geometry().scale().x);
+    return FromScreenLinearCoordinates((screen_coords - WORLD()->content_node()->geometry().offset()) / WORLD()->content_node()->geometry().CalculateScale().x);
 }
 
 Vector2D ConvertLightRadius(double radius) {

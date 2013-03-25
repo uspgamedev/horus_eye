@@ -7,6 +7,10 @@ SET(horus_eye_FULL_VERSION "${horus_eye_VERSION_MAJOR}.${horus_eye_VERSION_MINOR
 
 MESSAGE("== Horus Eye -- version ${horus_eye_FULL_VERSION} ==")
 
+IF(MSVC AND (CMAKE_SIZEOF_VOID_P EQUAL 8))
+	set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS ON)
+ENDIF()
+
 IF (UNIVERSAL)
   # Necessary for a Mac Universal Binary
   SET (CMAKE_OSX_ARCHITECTURES ppc;i386;x86_64)
