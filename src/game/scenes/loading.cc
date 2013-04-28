@@ -5,8 +5,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/drawable/text.h>
-
+#include <ugdk/graphic/drawable.h>
 
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"

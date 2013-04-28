@@ -4,8 +4,8 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/graphic/drawable/label.h>
 
 #include "hud.h"
 
@@ -33,10 +33,10 @@ using component::Controller;
 
 namespace utils {
 
-static Text* ConvertNumberToText(int val, bool center = true) {
+static Drawable* ConvertNumberToText(int val, bool center = true) {
     wchar_t str[15];
     swprintf(str, 15, L"%d", val);
-    Text* result = TEXT_MANAGER()->GetText(str);
+    Drawable* result = new Label(str, TEXT_MANAGER()->current_font());
     if(center) result->set_hotspot(Drawable::CENTER);
     return result;
 }
@@ -148,7 +148,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
     
 #ifdef DEBUG
-    Text* fps_label = TEXT_MANAGER()->GetText(L"FPS: ");
+    Drawable* fps_label = new Label(L"FPS: ", TEXT_MANAGER()->current_font());
     node_->AddChild(new Node(fps_label));
     node_->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
     fps_meter_node_->geometry().set_offset(Vector2D(fps_label->width(), 0.0));

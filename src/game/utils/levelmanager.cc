@@ -8,7 +8,6 @@
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/drawable/text.h>
 #include <ugdk/action/scene.h>
 
 #include "game/scenes/menu.h"
