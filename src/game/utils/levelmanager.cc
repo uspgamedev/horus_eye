@@ -7,6 +7,9 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/audio/audiomanager.h>
 #include <ugdk/util/pathmanager.h>
+#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/drawable/textbox.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/action/scene.h>
 
@@ -40,6 +43,7 @@ using ugdk::Engine;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
+using ugdk::graphic::TextBox;
 
 namespace utils {
 
@@ -83,14 +87,20 @@ void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::str
 void LevelManager::ShowIntro() {
     Engine::reference()->PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
-    Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("Intro"), 45);
+    ugdk::LanguageWord* langword = ResourceManager::GetLanguageWord("Intro");
+    TextBox* textbox = new TextBox(langword->text(), VIDEO_MANAGER()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    textbox->set_ident_style(TextBox::CENTER);
+    Scene *scroll = new ScrollingImageScene(NULL, textbox, 45);
     if(Settings::reference()->background_music())
         scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    Scene *scroll = new ScrollingImageScene(NULL, ResourceManager::CreateTextFromLanguageTag("CreditsFile"), 55);
+    ugdk::LanguageWord* langword = ResourceManager::GetLanguageWord("CreditsFile");
+    TextBox* textbox = new TextBox(langword->text(), VIDEO_MANAGER()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    textbox->set_ident_style(TextBox::CENTER);
+    Scene *scroll = new ScrollingImageScene(NULL, textbox, 55);
     if(Settings::reference()->background_music())
         scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
     Engine::reference()->PushScene(scroll);

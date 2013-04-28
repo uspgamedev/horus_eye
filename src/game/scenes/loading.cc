@@ -48,7 +48,7 @@ class LoadTask : public Task {
 };
 
 Loading::Loading() {
-    Drawable* loading_image = ResourceManager::CreateTextFromLanguageTag("Loading");
+    Drawable* loading_image = ResourceManager::GetLanguageWord("Loading")->CreateLabel();
     loading_image->set_hotspot(Drawable::BOTTOM_RIGHT);
 
     Vector2D position = VIDEO_MANAGER()->video_size() - Vector2D(10.0, 10.0);
