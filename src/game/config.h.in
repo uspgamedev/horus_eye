@@ -1,22 +1,10 @@
-
 #ifndef HORUSEYE_CONFIG_H_
 #define HORUSEYE_CONFIG_H_
 
 // Project configurations.
 
-@CHECKMAC@
-
+#cmakedefine ISMAC
 #define GAME_VERSION L"@horus_eye_FULL_VERSION@"
-
-#ifndef ISMAC
-# ifndef INSTALLED
-#  define INSTALL_PATH "@GAME_LOCAL_DIR@"
-# else  
-#  define INSTALL_PATH "@GAME_INSTALL_DIR@"
-# endif
-#else
-# define INSTALL_PATH "@GAME_INSTALL_DIR@"
-#endif
-
+#define INSTALL_PATH "@GAME_LOCAL_DIR@"
 
 #endif

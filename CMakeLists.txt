@@ -26,9 +26,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Mo
 
 set(RESOURCES_VERSION 2)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
-  file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
-  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v${RESOURCES_VERSION}.tgz
-                  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
+    message("Downloading resources file version ${RESOURCES_VERSION}...")
+    file(DOWNLOAD 
+        http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz 
+        ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz
+                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
 endif()
 
 # FindUGDK
@@ -53,7 +56,7 @@ else(NOT HORUSEYE_INTERNAL_UGDK)
         endif(GIT_FOUND)
     endif()
     
-    add_definitions("-DEMBBEDED_UGDK")
+    add_definitions(-DEMBBEDED_UGDK="${CMAKE_CURRENT_BINARY_DIR}/externals/ugdk")
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES libugdk)

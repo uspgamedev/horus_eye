@@ -89,7 +89,7 @@ int main(int argc, char *argv[]) {
 #ifdef EMBBEDED_UGDK
     {
         PyObject *path = PySys_GetObject("path");
-        PyList_Append(path, PyString_FromString("externals/ugdk/src/generated"));
+        PyList_Append(path, PyString_FromString(EMBBEDED_UGDK "/src/generated"));
     }
 #endif
     
