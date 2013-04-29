@@ -37,10 +37,17 @@ if(UGDK_FOUND AND UGDK_INCLUDE_DIR AND UGDK_LIBRARY AND NOT USE_EMBBEDED_UGDK)
     include_directories(${UGDK_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES ${UGDK_LIBRARIES})
 else()
+
+    find_package(Git REQUIRED)
+    if(GIT_FOUND)
+        execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init
+                        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+    endif(GIT_FOUND)
+
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES libugdk)
-	add_definitions("-DEMBBEDED_UGDK")
+    add_definitions("-DEMBBEDED_UGDK")
 endif()
 
 add_subdirectory(src) # The game binary.
