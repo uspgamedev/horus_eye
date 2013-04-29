@@ -4,7 +4,7 @@
 // Project configurations.
 
 #cmakedefine ISMAC
-#define GAME_VERSION L"@horus_eye_FULL_VERSION@"
-#define INSTALL_PATH "@GAME_LOCAL_DIR@"
+#cmakedefine horus_eye_VERSION L"@horus_eye_VERSION@"
+#cmakedefine horus_eye_DATA_PATH "@horus_eye_DATA_PATH@"
 
 #endif

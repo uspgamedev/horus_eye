@@ -35,12 +35,12 @@ include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
 add_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES})
 
-set(GAME_LOCAL_DIR "${CMAKE_SOURCE_DIR}/data")
+set(horus_eye_DATA_PATH "${CMAKE_SOURCE_DIR}/data")
 
 # Copy the generated .py files to the data/scripts
 foreach(it ${GENERATED_PY_FILES} )
     get_filename_component(FILE_NAME ${it} NAME)
-    add_custom_command(TARGET horus_eye POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${it} "${GAME_LOCAL_DIR}/scripts/${FILE_NAME}" 
+    add_custom_command(TARGET horus_eye POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${it} "${horus_eye_DATA_PATH}/scripts/${FILE_NAME}" 
     WORKING_DIRECTORY "../" COMMENT "Copying generated py scripts")
 endforeach()
 

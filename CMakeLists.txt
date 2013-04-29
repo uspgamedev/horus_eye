@@ -1,11 +1,5 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 PROJECT(horus_eye CXX C)
-set(horus_eye_VERSION_MAJOR 1)
-set(horus_eye_VERSION_MINOR 1)
-set(horus_eye_VERSION_SUBMINOR 2)
-SET(horus_eye_FULL_VERSION "${horus_eye_VERSION_MAJOR}.${horus_eye_VERSION_MINOR}.${horus_eye_VERSION_SUBMINOR} Alpha")
-
-MESSAGE("== Horus Eye -- version ${horus_eye_FULL_VERSION} ==")
 
 IF(MSVC AND (CMAKE_SIZEOF_VOID_P EQUAL 8))
 	set_property(GLOBAL PROPERTY FIND_LIBRARY_USE_LIB64_PATHS ON)
@@ -23,6 +17,17 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
 ENDIF()
 
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
+
+find_package(Git)
+if(GIT_FOUND)
+    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --dirty
+                            WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
+                            OUTPUT_VARIABLE horus_eye_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+else(GIT_FOUND)
+    set(horus_eye_VERSION "Unknown version")
+endif(GIT_FOUND)
+
+MESSAGE("== Horus Eye -- ${horus_eye_VERSION} ==")
 
 set(RESOURCES_VERSION 2)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
@@ -47,7 +52,6 @@ if(NOT HORUSEYE_INTERNAL_UGDK)
     
 else(NOT HORUSEYE_INTERNAL_UGDK)
     if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/externals/ugdk/CMakeLists.txt")
-        find_package(Git)
         if(GIT_FOUND)
             execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init
                             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")

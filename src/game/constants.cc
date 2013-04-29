@@ -40,11 +40,11 @@ string GetStr(const string& key) {
     return "";
 }
 
-const static std::string DATA_LOCATION = INSTALL_PATH "/";
+const static std::string DATA_LOCATION = horus_eye_DATA_PATH "/";
 const static std::string BINARY_CONFIGURATION_FILENAME = "settings.bin";
 const static std::string INI_CONFIGURATION_FILENAME = "settings.ini";
 const static std::string BACKGROUND_MUSIC = "musics/bgmusic.wav";
-const static std::wstring VERSION = L"v" GAME_VERSION;
+const static std::wstring VERSION = horus_eye_VERSION;
 
 std::string data_location () {
     return DATA_LOCATION;
