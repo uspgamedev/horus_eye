@@ -22,6 +22,8 @@ macro (horus_add_scriptlang lang)
 
 endmacro (horus_add_scriptlang lang)
 
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${SRC_DIR}/module")
+
 include (${CMAKE_CURRENT_LIST_DIR}/UseSWIG.cmake)
 
 # Is HORUS_MODULE_SRC defined?
