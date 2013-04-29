@@ -25,21 +25,26 @@ ENDIF()
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 
 set(RESOURCES_VERSION 2)
-if(NOT EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/resources-v${RESOURCES_VERSION}.tgz)
-  file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz ${CMAKE_CURRENT_SOURCE_DIR}/resources-v${RESOURCES_VERSION}.tgz)
-  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v${RESOURCES_VERSION}.tgz)
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
+  file(DOWNLOAD http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
+  execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf resources-v${RESOURCES_VERSION}.tgz
+                  WORKING_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}")
 endif()
 
 # FindUGDK
-option (USE_EMBBEDED_UGDK "" ON)
-find_package(UGDK)
-if(UGDK_FOUND AND UGDK_INCLUDE_DIR AND UGDK_LIBRARY AND NOT USE_EMBBEDED_UGDK)
+option(HORUSEYE_INTERNAL_UGDK   "Set to ON to use an internal UGDK instead of the system one." ON)
+if(NOT HORUSEYE_INTERNAL_UGDK)
+    find_package(UGDK)
+    if(NOT UGDK_FOUND)
+        set(HORUSEYE_INTERNAL_UGDK ON CACHE BOOL "Set to ON to use an internal UGDK instead of the system one." FORCE)
+        message(FATAL_ERROR "Unable to find UGDK, forcing internal. Please, re-run CMake.")
+    endif(NOT UGDK_FOUND)
     include_directories(${UGDK_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES ${UGDK_LIBRARIES})
-else()
-
-    find_package(Git)
+    
+else(NOT HORUSEYE_INTERNAL_UGDK)
     if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/externals/ugdk/CMakeLists.txt")
+        find_package(Git)
         if(GIT_FOUND)
             execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init
                             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
@@ -47,11 +52,11 @@ else()
             message(FATAL_ERROR "Git submodule 'externals/ugdk' not initialized and git not found.")
         endif(GIT_FOUND)
     endif()
-
+    
+    add_definitions("-DEMBBEDED_UGDK")
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
     set(UGDK_EXTERNAL_LIBRARIES libugdk)
-    add_definitions("-DEMBBEDED_UGDK")
-endif()
+endif(NOT HORUSEYE_INTERNAL_UGDK)
 
 add_subdirectory(src) # The game binary.
