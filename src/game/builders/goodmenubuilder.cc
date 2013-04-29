@@ -11,9 +11,9 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/text.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/drawable/label.h>
 #include <ugdk/ui/menu.h>
 #include <ugdk/ui/button.h>
 #include <ugdk/util/intervalkdtree.h>
@@ -31,7 +31,7 @@ using std::tr1::mem_fn;
 using namespace std::tr1::placeholders;
 using ugdk::action::Scene;
 using ugdk::base::ResourceManager;
-using ugdk::graphic::Text;
+using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
 using ugdk::ui::Menu;
 using ugdk::ui::Button;
@@ -96,8 +96,8 @@ Scene* MenuBuilder::PauseMenu() const {
     menu->SetOptionDrawable(mif.HorusEye(), 0);
     menu->SetOptionDrawable(mif.HorusEye(), 1);
 
-    Text* cont_text = ResourceManager::CreateTextFromLanguageTag("Continue");
-    Text* exit_text = ResourceManager::CreateTextFromLanguageTag("Return to Menu");
+    Drawable* cont_text = ResourceManager::GetLanguageWord("Continue")->CreateLabel();
+    Drawable* exit_text = ResourceManager::GetLanguageWord("Return to Menu")->CreateLabel();
 
     ugdk::math::Vector2D cont_position = target * 0.5;
     cont_position.y -= cont_text->size().y;
@@ -136,7 +136,7 @@ Scene* MenuBuilder::MainMenu() const {
     Node* logo_node = new Node(logo);
     logo_node->geometry().set_offset(Vector2D(target.x * 0.5, 0.0));
 
-    ugdk::graphic::Drawable *version = TEXT_MANAGER()->GetText(constants::version(), "FontD");
+    ugdk::graphic::Drawable *version = new ugdk::graphic::Label(constants::version(), TEXT_MANAGER()->GetFont("FontD"));
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     Node* version_node = new Node(version);
     version_node->geometry().set_offset(Vector2D(10.0, target.y - 10.0));
@@ -154,10 +154,10 @@ Scene* MenuBuilder::MainMenu() const {
     menu->SetOptionDrawable(mif.HorusEye(), 0);
     menu->SetOptionDrawable(mif.HorusEye(), 1);
 
-    Text* play_text     = ResourceManager::CreateTextFromLanguageTag("Play");
-    Text* settings_text = ResourceManager::CreateTextFromLanguageTag("Settings");
-    Text* credits_text  = ResourceManager::CreateTextFromLanguageTag("Credits");
-    Text* exit_text     = ResourceManager::CreateTextFromLanguageTag("Exit");
+    Drawable* play_text     = ResourceManager::GetLanguageWord("Play")->CreateLabel();
+    Drawable* settings_text = ResourceManager::GetLanguageWord("Settings")->CreateLabel();
+    Drawable* credits_text  = ResourceManager::GetLanguageWord("Credits")->CreateLabel();
+    Drawable* exit_text     = ResourceManager::GetLanguageWord("Exit")->CreateLabel();
 
     ugdk::math::Vector2D play_position;
     play_position.x = target.x * 0.5;
@@ -181,7 +181,7 @@ Scene* MenuBuilder::MainMenu() const {
     menu->AddObject(new Button(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
 
 #ifdef DEBUG
-    Text* debug_text    = ResourceManager::CreateTextFromLanguageTag("DebugStage");
+    Drawable* debug_text    = ResourceManager::GetLanguageWord("DebugStage")->CreateLabel();
     ugdk::math::Vector2D debug_position;
     debug_position.x = debug_text->size().x * 0.6;
     debug_position.y = 50.0;
@@ -256,10 +256,11 @@ struct ConveninentSettingsData {
             size_t size = this->setting_functions_[i].values.size();
             this->nodes_[i] = new Node*[size];
             for(size_t j = 0; j < size; ++j) {
-                ugdk::graphic::Drawable *img = ResourceManager::CreateTextFromLanguageTag(this->setting_functions_[i].values[j]);
+                Drawable *img = ResourceManager::GetLanguageWord(this->setting_functions_[i].values[j])->CreateLabel();
                 if(img == NULL)
-                    img = TEXT_MANAGER()->GetText(convertFromString(this->setting_functions_[i].values[j]), "FontB");
-                img->set_hotspot(ugdk::graphic::Drawable::CENTER);
+                    img = new ugdk::graphic::Label(convertFromString(this->setting_functions_[i].values[j]), 
+                                                   TEXT_MANAGER()->GetFont("FontB"));
+                img->set_hotspot(Drawable::CENTER);
                 this->nodes_[i][j] = new Node(img);
                 this->nodes_[i][j]->geometry().set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));
                 node->AddChild(this->nodes_[i][j]);
@@ -316,18 +317,18 @@ Scene* MenuBuilder::SettingsMenu() const {
     double left_column = target.x * 0.15;
 
     for (int i = 0; i < 5; ++i) {
-        ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag(data->setting_functions_[i].name);
+        Drawable* img = ResourceManager::GetLanguageWord(data->setting_functions_[i].name)->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (i + 1));
         Button* uie = new Button(pos, img, bind(ElementPress, data, _1));
         data->indices_[uie] = i;
         menu->AddObject(uie);
     }
 
-    {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Apply");
+    {   Drawable* img = ResourceManager::GetLanguageWord("Apply")->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 7);
         menu->AddObject(new Button(pos, img, ApplySettings)); }
 
-    {   ugdk::graphic::Drawable* img = ugdk::base::ResourceManager::CreateTextFromLanguageTag("Exit");
+    {   Drawable* img = ResourceManager::GetLanguageWord("Exit")->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 8);
         menu->AddObject(new Button(pos, img, bind(SceneExit, settings_menu, _1))); }
 

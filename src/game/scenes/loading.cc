@@ -5,8 +5,7 @@
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/videomanager.h>
-#include <ugdk/graphic/drawable/text.h>
-
+#include <ugdk/graphic/drawable.h>
 
 #include "game/utils/levelmanager.h"
 #include "game/utils/imagefactory.h"
@@ -49,7 +48,7 @@ class LoadTask : public Task {
 };
 
 Loading::Loading() {
-    Drawable* loading_image = ResourceManager::CreateTextFromLanguageTag("Loading");
+    Drawable* loading_image = ResourceManager::GetLanguageWord("Loading")->CreateLabel();
     loading_image->set_hotspot(Drawable::BOTTOM_RIGHT);
 
     Vector2D position = VIDEO_MANAGER()->video_size() - Vector2D(10.0, 10.0);

@@ -1,8 +1,8 @@
-#FONTS
-[FontA]{50}c+:font/Filmcrypob.ttf
-[FontB]{50}c:font/Filmcryptic.ttf
-[FontC]{30}c:font/Filmcryptic.ttf
-[FontD]{30}c+:font/Filmcrypob.ttf
+﻿#FONTS
+[FontA]50:font/Filmcrypob.ttf
+[FontB]50:font/Filmcryptic.ttf
+[FontC]30:font/Filmcryptic.ttf
+[FontD]30:font/Filmcrypob.ttf
 
 #WORDS
 // Main menu
