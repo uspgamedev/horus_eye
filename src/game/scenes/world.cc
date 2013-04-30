@@ -105,7 +105,7 @@ bool UpdateOffset(double dt) {
     World* world = WORLD();
     Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
     if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->geometry().CalculateScale().x;
-    world->content_node()->geometry().set_offset(result);
+    world->content_node()->geometry().set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
     return true;
 }
 
