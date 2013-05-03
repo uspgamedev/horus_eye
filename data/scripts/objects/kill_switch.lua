@@ -45,7 +45,7 @@ function generate (...)
             else
               door:Die()
               switch.activated = true
-			  switch.sprite:animation_player():Select "SWITCH_START"
+              switch.sprite:animation_player():Select "SWITCH_START"
               self:graphic():ChangeLightRadius(3.0)
             end
           end
