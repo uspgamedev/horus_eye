@@ -7,6 +7,9 @@ $TAKING_DAMAGE
 $DYING
 %number 40 41 42 43 44 45 46
 
+$SPAWNING
+%number 46 45 44 43 42 41 40
+
 $STANDING_UP
 %number 0
 

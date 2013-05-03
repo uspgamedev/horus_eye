@@ -44,10 +44,12 @@ IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable*
 
     int dying = animation_set->MakeIndex("DYING");
     int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");
+    int spawning = animation_set->MakeIndex("SPAWNING");
 
     for(int i = 0; i < 16; i++) {
         animation_index_[DEATH][i] = dying;
         animation_index_[TAKING_HIT][i] = taking_damage;
+        animation_index_[SPAWNING][i] = spawning;
     }
 }
 
