@@ -16,6 +16,7 @@ enum AnimtionType {
     MOVEMENT,
     ATTACK,
     TAKING_HIT,
+    SPAWNING,
     DEATH,
 
     NUM_ANIMATION_TYPES // Conveniently calculated by the compiler
