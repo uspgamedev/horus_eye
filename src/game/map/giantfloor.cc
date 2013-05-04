@@ -81,7 +81,7 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
         right.x < -1 || right.y > 1)
         return;*/
     // Use our shader
-    opengl::ShaderProgram::Use shader_use(VIDEO_MANAGER()->default_shader());
+    opengl::ShaderProgram::Use shader_use(VIDEO_MANAGER()->shaders().current_shader());
 
     // Send our transformation to the currently bound shader, 
     // in the "MVP" uniform

@@ -6,3 +6,4 @@ Win32/
 /modules.cc
 *.py
 *.pyc
+/*.dll
