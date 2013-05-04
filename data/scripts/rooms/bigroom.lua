@@ -46,7 +46,7 @@ matrix = [[
 ]]
 
 objects = {
-    { 0, 31, "!", { "urn" } },
+    { 2, 29, "!", { "urn" } },
 }
 
 collision_classes = {}
