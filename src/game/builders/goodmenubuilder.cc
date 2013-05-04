@@ -256,8 +256,11 @@ struct ConveninentSettingsData {
             size_t size = this->setting_functions_[i].values.size();
             this->nodes_[i] = new Node*[size];
             for(size_t j = 0; j < size; ++j) {
-                Drawable *img = ResourceManager::GetLanguageWord(this->setting_functions_[i].values[j])->CreateLabel();
-                if(img == NULL)
+                ugdk::LanguageWord* word = ResourceManager::GetLanguageWord(this->setting_functions_[i].values[j]);
+                Drawable *img;
+                if(word)
+                    img = word->CreateLabel();
+                else
                     img = new ugdk::graphic::Label(convertFromString(this->setting_functions_[i].values[j]), 
                                                    TEXT_MANAGER()->GetFont("FontB"));
                 img->set_hotspot(Drawable::CENTER);
