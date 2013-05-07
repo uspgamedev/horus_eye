@@ -108,6 +108,13 @@ void BaseGraphic::set_visible(bool visible) {
     root_node_->effect().set_visible(visible);
 }
 
+void BaseGraphic::Update(double dt) {
+    ugdk::graphic::Sprite* sprite = static_cast<ugdk::graphic::Sprite*>(node_->drawable());
+    if(sprite)
+        sprite->animation_player().Update(dt);
+    adjustBlink();
+}
+
 void BaseGraphic::StartBlinking(int duration) {
     is_blinking_ = true;
     blink_time_->Restart();

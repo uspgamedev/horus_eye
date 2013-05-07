@@ -93,8 +93,11 @@ Scene* MenuBuilder::PauseMenu() const {
     utils::MenuImageFactory mif;
 
     Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
-    menu->SetOptionDrawable(mif.HorusEye(), 0);
-    menu->SetOptionDrawable(mif.HorusEye(), 1);
+    for(int i = 0; i < 2; ++i) {
+        ugdk::graphic::Sprite* sprite = mif.HorusEye();
+        pause_menu->media_manager().AddPlayer(&sprite->animation_player());
+        menu->SetOptionDrawable(sprite, i);
+    }
 
     Drawable* cont_text = ResourceManager::GetLanguageWord("Continue")->CreateLabel();
     Drawable* exit_text = ResourceManager::GetLanguageWord("Return to Menu")->CreateLabel();
@@ -151,8 +154,11 @@ Scene* MenuBuilder::MainMenu() const {
     main_menu->interface_node()->AddChild(developed_by_node);
 
     Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
-    menu->SetOptionDrawable(mif.HorusEye(), 0);
-    menu->SetOptionDrawable(mif.HorusEye(), 1);
+    for(int i = 0; i < 2; ++i) {
+        ugdk::graphic::Sprite* sprite = mif.HorusEye();
+        main_menu->media_manager().AddPlayer(&sprite->animation_player());
+        menu->SetOptionDrawable(sprite, i);
+    }
 
     Drawable* play_text     = ResourceManager::GetLanguageWord("Play")->CreateLabel();
     Drawable* settings_text = ResourceManager::GetLanguageWord("Settings")->CreateLabel();
@@ -313,8 +319,11 @@ Scene* MenuBuilder::SettingsMenu() const {
     utils::MenuImageFactory mif;
 
     Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
-    menu->SetOptionDrawable(mif.HorusEye(), 0);
-    menu->SetOptionDrawable(mif.HorusEye(), 1);
+    for(int i = 0; i < 2; ++i) {
+        ugdk::graphic::Sprite* sprite = mif.HorusEye();
+        settings_menu->media_manager().AddPlayer(&sprite->animation_player());
+        menu->SetOptionDrawable(sprite, i);
+    }
 
     std::tr1::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(settings_menu->interface_node()));
     double left_column = target.x * 0.15;
