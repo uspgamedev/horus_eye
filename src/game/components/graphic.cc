@@ -9,6 +9,14 @@
 namespace component {
 
 using ugdk::graphic::Sprite;
+    
+Graphic::Graphic(const std::string& spritesheet_tag, const std::string& animation_set, double light_radius)
+ :  BaseGraphic(NULL, light_radius) {
+
+    isometric_animation_set_ = utils::IsometricAnimationSet::LoadFromResourceManager(animation_set);
+    sprite_ = new Sprite(spritesheet_tag, isometric_animation_set_ ? (isometric_animation_set_->animation_set()) : NULL);
+    node_->set_drawable(sprite_);
+}
 
 Graphic::Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* iso_animation_set, double light_radius)
     :   BaseGraphic(NULL, light_radius),
@@ -44,6 +52,10 @@ bool Graphic::ChangeAnimation(const std::string& animation_name) {
 void Graphic::Update(double dt) {
     BaseGraphic::Update(dt);
     sprite_->animation_player().Update(dt);
+}
+    
+ugdk::action::SpriteAnimationPlayer& Graphic::animation_player() {
+    return sprite_->animation_player();
 }
 
 void Graphic::AddObserver(ugdk::action::Observer* observer) {
