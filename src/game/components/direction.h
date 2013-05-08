@@ -36,6 +36,8 @@ class Direction {
 
     operator const bool() const { return !!direction_; }
 
+    bool operator < (const Direction& rhs) const { return direction_ < rhs.direction_; }
+
     bool operator== (const Direction& rhs) const { return direction_ == rhs.direction_; }
 
     int value() const { return direction_; }

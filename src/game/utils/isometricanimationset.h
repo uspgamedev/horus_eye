@@ -2,6 +2,7 @@
 #define HORUSEYE_UTILS_ISOMETRICANIMATIONSET_H_
 
 #include <string>
+#include <map>
 #include <ugdk/base/types.h>
 #include <ugdk/action.h>
 #include <ugdk/action/spritetypes.h>
@@ -27,7 +28,7 @@ class IsometricAnimationSet {
     IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set);
     virtual ~IsometricAnimationSet();
 
-    int Get(AnimtionType type, const component::Direction& dir);
+    int Get(AnimtionType type, const component::Direction& dir) const;
     
     ugdk::action::SpriteAnimationTable* animation_set() { return animation_set_; }
 
@@ -35,8 +36,11 @@ class IsometricAnimationSet {
     static IsometricAnimationSet* LoadFromResourceManager(const std::string& name);
 
   private:
+    typedef std::map<component::Direction, int> AnimationDirectionCache;
+    int getAnimationFromCache(const AnimationDirectionCache& cache, const component::Direction& dir) const;
+
     ugdk::action::SpriteAnimationTable* animation_set_;
-    ugdk::uint32 animation_index_[NUM_ANIMATION_TYPES][16];
+    AnimationDirectionCache animation_cache_[NUM_ANIMATION_TYPES];
 
 };  // class IsometricAnimationSet
 
