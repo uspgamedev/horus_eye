@@ -1,8 +1,7 @@
 #include "game/builders/builder.h"
 
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(unordered_map)
-#include FROM_TR1(functional)
+#include <unordered_map>
+#include <functional>
 
 #include "game/map/tile.h"
 #include "game/builders/doodadbuilder.h"
@@ -13,9 +12,9 @@
 namespace builder {
 
 using std::string;
-using std::tr1::unordered_map;
+using std::unordered_map;
 
-typedef std::tr1::function<sprite::WorldObject* (const ArgumentList&)> WorldObjectFactoryMethod;
+typedef std::function<sprite::WorldObject* (const ArgumentList&)> WorldObjectFactoryMethod;
 typedef unordered_map<string, WorldObjectFactoryMethod> WorldObjectFactoryMap;
 
 static WorldObjectFactoryMap build_type_factory_map() {
@@ -53,7 +52,7 @@ sprite::WorldObject* WorldObjectFromTypename(const string& type, const ArgumentL
 }
 
 bool HasFactoryMethod(const std::string& type) {
-    return type_factory_map[type];
+    return type_factory_map.find(type) != type_factory_map.end();
 }
 
 } // namespace builder
