@@ -11,13 +11,12 @@ local Rect = pyramidworks_geometry.Rect
 local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
-  switch.sprite = Sprite("switch", "animations/switch.gdd")
-  local player = switch.sprite:animation_player()
-  player:Select "SWITCH_OFF"
-  player:AddObserver(switch)
+  switch.graphic = component.Graphic("switch", "animations/switch.gdd")
+  switch.graphic:ChangeAnimation "SWITCH_OFF"
+  switch.graphic:animation_player():AddObserver(switch)
   function switch:Tick ()
     if self.activated then
-      self.sprite:animation_player():Select "SWITCH_ON"
+      self.graphic:ChangeAnimation "SWITCH_ON"
     end
   end
   return switch
@@ -26,7 +25,7 @@ end
 function build (wobj, ...)
   local switch = make_switch()
   local to_kill = { ... }
-  wobj:AddComponent(component.BaseGraphic(switch.sprite), "graphic", 100)
+  wobj:AddComponent(switch.graphic, "graphic", 100)
   
   return {
     collision = {
@@ -42,7 +41,7 @@ function build (wobj, ...)
               else
                 door:damageable():TakeDamage(1)
                 switch.activated = true
-                switch.sprite:animation_player():Select "SWITCH_START"
+                switch.graphic:ChangeAnimation "SWITCH_START"
                 self:graphic():ChangeLightRadius(3.0)
               end
             end
