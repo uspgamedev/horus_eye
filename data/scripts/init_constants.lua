@@ -7,7 +7,7 @@ constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
 constants.RegisterDouble("MAGICMISSILE_DURATION",   4.0)
 constants.RegisterDouble("MAGICMISSILE_DAMAGE",   200.0)
-constants.RegisterDouble("MAGICMISSILE_SPEED",      8.0)
+constants.RegisterDouble("MAGICMISSILE_SPEED",     20.0)
 
 constants.RegisterDouble("MAGICBALL_DURATION",   4.0)
 constants.RegisterDouble("MAGICBALL_DAMAGE",   200.0)
