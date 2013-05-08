@@ -25,26 +25,26 @@ local function make_switch ()
   return switch
 end
 
-function generate ()
+function build(wobj)
   local descriptor = {}
   local switch = make_switch()
   
-  descriptor.drawable = switch.sprite
+  wobj:AddComponent(component.BaseGraphic(switch.sprite), "graphic", 100)
 
-  descriptor.collision = {
-    class = "Wall",
-    shape = Rect(0.8, 0.8),
-    known_collision = {
-      Projectile = function(self, obj)
-        if not switch.activated then
-          switch.activated = true
-		  switch.sprite:animation_player():Select "SWITCH_START"
-		  self:current_room():AddObject(builder.Script("spike"), Vector2D(4, 23))
+  return { 
+    collision = {
+      class = "Wall",
+      shape = Rect(0.8, 0.8),
+      known_collision = {
+        Projectile = function(self, obj)
+          if not switch.activated then
+            switch.activated = true
+            switch.sprite:animation_player():Select "SWITCH_START"
+            self:current_room():AddObject(builder.Script("spike"), Vector2D(4, 23))
+          end
         end
-      end
+      }
     }
   }
-
-  return descriptor
 end
 

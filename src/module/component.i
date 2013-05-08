@@ -71,10 +71,14 @@ disable_disown(component::Base* component)
 %ignore component::Direction::operator&;
 %ignore component::Direction::operator const bool;
 
-%include <game/components/direction.h>
 %include <game/components/base.h>
-%include <game/components/damageable.h>
+
+enable_disown(ugdk::graphic::Drawable* drawable)
 %include <game/components/basegraphic.h>
+disable_disown(ugdk::graphic::Drawable* drawable)
+
+%include <game/components/direction.h>
+%include <game/components/damageable.h>
 %include <game/components/graphic.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
