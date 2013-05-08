@@ -9,9 +9,9 @@ require "context"
 local Sprite = ugdk_drawable.Sprite
 local Circle = pyramidworks_geometry.Circle
 
-function generate ()
-  local descriptor = {
-    drawable = Sprite("vase"),
+function build (wobj)
+  wobj:AddComponent(component.BaseGraphic(Sprite("vase")), "graphic", 100)
+  return {
     collision = {
       class = "Wall",
       shape = Circle(0.15),
@@ -20,9 +20,4 @@ function generate ()
       }
     }
   }
-  return descriptor
-end
-
-function build (wobj)
-  wobj:node():geometry():set_scale(ugdk_math.Vector2D(0.225, 0.225))
 end

@@ -55,21 +55,20 @@ class ScriptCollision {
     WorldObject *self_;
 };
 
-static void create_collision(WorldObject* wobj, VirtualObj coldata) {
+static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) {
     if(!check_for_fields(coldata, "class", "shape")) {
         fprintf(stdout, "Warning: collision description without required fields.");
-        return;
+        return NULL;
     }
 
     using pyramidworks::geometry::GeometricShape;
     GeometricShape* shape = coldata["shape"].value<GeometricShape*>(true);
     if(!shape) {
         fprintf(stdout, "Warning: field 'shape' has invalid value.");
-        return;
+        return NULL;
     }
 
     CollisionObject* colobj = new CollisionObject(WORLD()->collision_manager(), wobj);
-    wobj->AddComponent(new component::Shape(colobj, NULL));
 
     colobj->InitializeCollisionClass(coldata["class"].value<std::string>());
     colobj->set_shape(shape);
@@ -83,40 +82,22 @@ static void create_collision(WorldObject* wobj, VirtualObj coldata) {
             colobj->AddCollisionLogic(classname, logic);
         }
     }
+
+    return colobj;
 }
 
-static void create_drawable(WorldObject* wobj, VirtualObj data) {
-    wobj->AddComponent(new component::BaseGraphic(data.value<ugdk::graphic::Drawable*>(true)));
-}
-static void create_timedlife(WorldObject* wobj, VirtualObj data) {
-    wobj->set_timed_life(data.value<double>());
-}
+static void post_build(WorldObject* wobj, const VirtualObj& descriptor) {
+    CollisionObject *collision = NULL, *visibility = NULL;
 
-static void On_die_callback(WorldObject* wobj, VirtualObj vobj) {
-    VirtualObj arg = VirtualObj(vobj.wrapper());
-    arg.set_value<WorldObject*>(wobj);
-    vobj(VirtualObj::List(1, arg));
-}
-static void create_die_callback(WorldObject* wobj, VirtualObj data) {
-    wobj->set_die_callback(bind(On_die_callback, _1, data));
-}
-static void create_light_radius(WorldObject* wobj, VirtualObj data) {
-    wobj->graphic()->ChangeLightRadius(data.value<double>());
-}
+    if(descriptor["collision"])
+        collision = create_collision(wobj, descriptor["collision"]);
 
-#define NUM_FIELDS 5
-typedef void (*ScriptWobj)(WorldObject*, VirtualObj);
-struct ValidNameStruct { // Compiler doesn't like an annonymous struct here
-    std::string name;
-    ScriptWobj func;
-} valid_names[NUM_FIELDS] = {
-    {        "drawable", create_drawable     },
-    {      "timed_life", create_timedlife    },
-    { "on_die_callback", create_die_callback },
-    {    "light_radius", create_light_radius },
-    {       "collision", create_collision    }
-};
+    if(descriptor["visibility"])
+        visibility = create_collision(wobj, descriptor["visibility"]);
 
+    if(collision || visibility)
+        wobj->AddComponent(new component::Shape(collision, visibility));
+}
 
 /** arguments[0] is the script name. */
 WorldObject* Script(const vector<string>& arguments) {
@@ -126,38 +107,30 @@ WorldObject* Script(const vector<string>& arguments) {
         fprintf(stderr, "Unable to load 'objects.%s'.\n", arguments[0].c_str());
         return NULL;
     }
-    if(!script_generator["generate"]) {
-        fprintf(stderr, "Function 'generate' not found in 'objects.%s'.\n", arguments[0].c_str());
+    if(!script_generator["build"]) {
+        fprintf(stderr, "Function 'build' not found in 'objects.%s'.\n", arguments[0].c_str());
         return NULL;
     }
-
-    VirtualObj::List args;
-    for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
-        VirtualObj obj(script_generator.wrapper());
-        obj.set_value<string>(*it);
-        args.push_back(obj);
-    }
-    VirtualObj script_data = script_generator["generate"](args);
-    if(!script_data) {
-        fprintf(stderr, "Function 'generate' didn't return a valid object in 'objects.%s'.\n", arguments[0].c_str());
-        return NULL;
-    }
-
+    
     WorldObject* wobj = new WorldObject;
     wobj->set_identifier(arguments[0]);
 
-    for(int i = 0; i < NUM_FIELDS; ++i) {
-        VirtualObj data = script_data[valid_names[i].name];
-        if(data) valid_names[i].func(wobj, data);
+
+    VirtualObj::List args;
+
+    VirtualObj v_wobj(script_generator["build"].wrapper());
+    v_wobj.set_value<WorldObject*>(wobj);
+    args.push_back(v_wobj);
+
+    for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
+        VirtualObj obj(script_generator["build"].wrapper());
+        obj.set_value<string>(*it);
+        args.push_back(obj);
     }
 
-    VirtualObj script_builder = script_generator["build"];
-    if (script_builder) {
-        VirtualObj::List    args;
-        VirtualObj          v_wobj(script_builder.wrapper());
-        v_wobj.set_value<WorldObject*>(wobj);
-        args.push_back(v_wobj);
-        script_builder(args);
+    VirtualObj build_result = script_generator["build"](args);
+    if(build_result) {
+        post_build(wobj, build_result);
     }
 
     return wobj;
