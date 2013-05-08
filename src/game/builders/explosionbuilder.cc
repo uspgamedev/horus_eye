@@ -22,6 +22,7 @@
 #include "game/components/shape.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
+#include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
 #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
@@ -46,11 +47,12 @@ COLLISION_DIRECT(double, ExplosionCollision, obj) {
 static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::string& anim) {
     WorldObject *wobj = new WorldObject;
 
-    Sprite* sprite = new Sprite(sheet, "animations/explosion.gdd");
-    sprite->animation_player().Select(anim);
-    sprite->animation_player().AddTickFunction(bind(&WorldObject::StartToDie, wobj));
+    utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromResourceManager("animations/explosion.gdd");
+    component::Graphic* graphic = new component::Graphic(sheet, set);
+    graphic->ChangeAnimation(anim);
+    graphic->AddTickFunction(bind(&WorldObject::StartToDie, wobj));
 
-    wobj->AddComponent(new component::BaseGraphic(sprite));
+    wobj->AddComponent(graphic);
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Explosion");

@@ -109,9 +109,6 @@ void BaseGraphic::set_visible(bool visible) {
 }
 
 void BaseGraphic::Update(double dt) {
-    ugdk::graphic::Sprite* sprite = static_cast<ugdk::graphic::Sprite*>(node_->drawable());
-    if(sprite)
-        sprite->animation_player().Update(dt);
     adjustBlink();
 }
 
