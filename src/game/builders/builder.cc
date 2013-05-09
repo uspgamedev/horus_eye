@@ -19,7 +19,6 @@ typedef unordered_map<string, WorldObjectFactoryMethod> WorldObjectFactoryMap;
 
 static WorldObjectFactoryMap build_type_factory_map() {
     WorldObjectFactoryMap m;
-    m[string(1, BLOCK)] = builder::DoodadBuilder::Block;
     m[string(1, STANDING_MUMMY)] = builder::MummyBuilder::StandingMummy;
     m[string(1, STANDING_BIG_MUMMY)] = builder::MummyBuilder::StandingBigMummy;
     m[string(1, STANDING_RANGED_MUMMY)] = builder::MummyBuilder::StandingRangedMummy;
@@ -33,7 +32,6 @@ static WorldObjectFactoryMap build_type_factory_map() {
     m[string(1, POTIONM)] = builder::ItemBuilder::ManaPotion;
     m[string(1, POTIONS)] = builder::ItemBuilder::SightPotion;
     m[string(1, BLUEGEM)] = builder::ItemBuilder::BlueGem;
-    m[string(1, BUTTON)] = builder::DoodadBuilder::Button;
     m[string(1, SCRIPT)] = (sprite::WorldObject* (*)(const ArgumentList&)) builder::ScriptBuilder::Script;
     m[string(1, DOOR)] = builder::DoodadBuilder::Door;
     m[string(1, WALL)] = builder::DoodadBuilder::Wall;
