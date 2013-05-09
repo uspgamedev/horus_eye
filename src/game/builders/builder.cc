@@ -44,9 +44,9 @@ static WorldObjectFactoryMap build_type_factory_map() {
 static WorldObjectFactoryMap type_factory_map = build_type_factory_map();
 
 sprite::WorldObject* WorldObjectFromTypename(const string& type, const ArgumentList& arguments) {
-    WorldObjectFactoryMethod method = type_factory_map[type];
-    if(method)
-        return method(arguments);
+    auto iterator = type_factory_map.find(type);
+    if(iterator != type_factory_map.end())
+        return iterator->second(arguments);
     else
         return NULL;
 }

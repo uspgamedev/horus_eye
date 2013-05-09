@@ -3,6 +3,7 @@
 
 #include "game/components/basegraphic.h"
 
+#include <functional>
 #include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
 
@@ -17,11 +18,19 @@ class Graphic : public BaseGraphic {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
+    Graphic(const std::string& spritesheet_tag, const std::string& animation_set, double light_radius = 0.0);
     Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* animation_set, double light_radius = 0.0);
+    Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::IsometricAnimationSet* animation_set, double light_radius = 0.0);
     virtual ~Graphic();
 
+    void Update(double);
+
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
+    bool ChangeAnimation(const std::string& animation_name);
+
+    ugdk::action::SpriteAnimationPlayer& animation_player();
     void AddObserver(ugdk::action::Observer* observer);
+    void AddTickFunction(const std::function<void (void)>& tick);
 
   private:
     ugdk::graphic::Sprite* sprite_;

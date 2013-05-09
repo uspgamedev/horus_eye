@@ -108,6 +108,10 @@ void BaseGraphic::set_visible(bool visible) {
     root_node_->effect().set_visible(visible);
 }
 
+void BaseGraphic::Update(double dt) {
+    adjustBlink();
+}
+
 void BaseGraphic::StartBlinking(int duration) {
     is_blinking_ = true;
     blink_time_->Restart();

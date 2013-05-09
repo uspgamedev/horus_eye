@@ -10,58 +10,61 @@
 using ugdk::math::Vector2D;
 using component::Direction;
 
-typedef std::pair<int, const char*> DirectionValue;
-static DirectionValue DIRECTION_VALUES[8] = {
-    DirectionValue((Direction::Down()                     ).value(), "DOWN"),
-    DirectionValue((                    Direction::Left() ).value(), "LEFT"),
-    DirectionValue((                    Direction::Right()).value(), "RIGHT"),
-    DirectionValue((Direction::Up()                       ).value(), "UP"),
-    DirectionValue((Direction::Down() | Direction::Right()).value(), "DOWN_RIGHT"),
-    DirectionValue((Direction::Down() | Direction::Left() ).value(), "DOWN_LEFT"),
-    DirectionValue((Direction::Up()   | Direction::Right()).value(), "UP_RIGHT"),
-    DirectionValue((Direction::Up()   | Direction::Left() ).value(), "UP_LEFT")
-
-};
-
 namespace utils {
+
+std::map<Direction, std::string> DIRECTION_VALUES_CREATOR() {
+    std::map<Direction, std::string> result_set;
+
+    result_set[Direction()                           ] = "";
+    result_set[Direction::Down()                     ] = "_DOWN";
+    result_set[                    Direction::Left() ] = "_LEFT";
+    result_set[                    Direction::Right()] = "_RIGHT";
+    result_set[Direction::Up()                       ] = "_UP";
+    result_set[Direction::Down() | Direction::Right()] = "_DOWN_RIGHT";
+    result_set[Direction::Down() | Direction::Left() ] = "_DOWN_LEFT";
+    result_set[Direction::Up()   | Direction::Right()] = "_UP_RIGHT";
+    result_set[Direction::Up()   | Direction::Left() ] = "_UP_LEFT";
+    
+    return result_set;
+}
+std::map<Direction, std::string> DIRECTION_VALUES = DIRECTION_VALUES_CREATOR();
+
+std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES_CREATOR() {
+    std::map<AnimtionType, std::string> result_set;
+
+    result_set[IDLE] = "STANDING";
+    result_set[MOVEMENT] = "WALKING";
+    result_set[ATTACK] = "ATTACKING";
+    result_set[TAKING_HIT] = "TAKING_DAMAGE";
+    result_set[SPAWNING] = "SPAWNING";
+    result_set[DEATH] = "DYING";
+
+    return result_set;
+}
+std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES = ANIMATIONTYPE_NAMES_CREATOR();
+
 
 IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set)
     :   animation_set_(animation_set) {
         
-    for(int i = 0; i < 16; i++)
-        animation_index_[IDLE][i] = animation_index_[MOVEMENT][i] = animation_index_[ATTACK][i] = -1;
+    for(auto names = ANIMATIONTYPE_NAMES.begin(); names != ANIMATIONTYPE_NAMES.end(); ++names) {
+        for(auto dir = DIRECTION_VALUES.begin(); dir != DIRECTION_VALUES.end(); ++dir) {
+            std::stringstream composed_name;
+            composed_name << names->second<< dir->second;
 
-    for(int i = 0; i < 8; ++i) {
-        const DirectionValue& it = DIRECTION_VALUES[i];
-        std::stringstream standing, walking, attacking;
-        standing << "STANDING_" << it.second;
-        walking << "WALKING_" <<  it.second;
-        attacking << "ATTACKING_" << it.second;
-        animation_index_[IDLE][it.first] = animation_set->MakeIndex(standing.str());
-        animation_index_[MOVEMENT][it.first] = animation_set->MakeIndex(walking.str());
-        animation_index_[ATTACK][it.first] = animation_set->MakeIndex(attacking.str());
-    }
-
-    int dying = animation_set->MakeIndex("DYING");
-    int taking_damage = animation_set->MakeIndex("TAKING_DAMAGE");
-    int spawning = animation_set->MakeIndex("SPAWNING");
-
-    for(int i = 0; i < 16; i++) {
-        animation_index_[DEATH][i] = dying;
-        animation_index_[TAKING_HIT][i] = taking_damage;
-        animation_index_[SPAWNING][i] = spawning;
+            int index = animation_set->MakeIndex(composed_name.str());
+            if(index != -1)
+                animation_cache_[names->first][dir->first] = index;
+        }
     }
 }
 
 IsometricAnimationSet::~IsometricAnimationSet() {}
 
-int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& dir) {
-    /*switch(type) {
-    default:*/
-        return animation_index_[type][dir.value()];
-    //}
+int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& dir) const {
+    return getAnimationFromCache(animation_cache_[type], dir);
 }
-
+    
 IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& name) {
     ugdk::action::SpriteAnimationTable* set = ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile(name);
     if(set)
@@ -71,6 +74,21 @@ IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& na
 
 IsometricAnimationSet* IsometricAnimationSet::LoadFromResourceManager(const std::string& name) {
     return RESOURCE_MANAGER()->get_container<IsometricAnimationSet*>().Load(name, name);
+}
+    
+int IsometricAnimationSet::getAnimationFromCache(const AnimationDirectionCache& map, const component::Direction& dir) const {
+    // Check if this animation has the expected direction
+    auto expected_animation = map.find(dir);
+    if(expected_animation != map.end())
+        return expected_animation->second;
+
+    // Try using the 'no-direction' direction for this animation then
+    auto no_direction = map.find(Direction());
+    if(no_direction != map.end())
+        return no_direction->second;
+
+    // We don't have this animation, return error code.
+    return -1;
 }
 
 }  // namespace component

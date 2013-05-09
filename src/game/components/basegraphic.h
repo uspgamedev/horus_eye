@@ -42,7 +42,7 @@ class BaseGraphic : public Base {
 
     void set_visible(bool visible);
 
-    virtual void Update(double dt) { adjustBlink(); }
+    virtual void Update(double dt);
 
     void StartBlinking(int duration = -1);
     void StopBlinking();
