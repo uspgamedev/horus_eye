@@ -1,14 +1,18 @@
 #include "game/components/basegraphic.h"
 
+#include <glm/glm.hpp>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/components/orders.h"
 #include "game/constants.h"
 #include "game/core/coordinates.h"
+#include "game/initializer.h"
+#include "game/scenes/world.h"
 
 #define LIGHT_COEFFICIENT 0.75
 
@@ -21,35 +25,32 @@ using ugdk::graphic::Drawable;
 BaseGraphic::BaseGraphic()
   : root_node_(new Node),
     node_(new Node),
-    layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
+    layer_(scene::FOREGROUND_LAYER),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
     blink_(false),
-    light_radius_(0.0) { root_node_->AddChild(node_); }
+    light_radius_(0.0) { setup(); }
 
 BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable)
   : root_node_(new Node),
     node_(new Node(drawable)),
-    layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
+    layer_(scene::FOREGROUND_LAYER),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
     blink_(false),
-    light_radius_(0.0) { root_node_->AddChild(node_); }
+    light_radius_(0.0) { setup(); }
 
 BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable, double light_radius)
   : root_node_(new Node),
     node_(new Node(drawable)),
-    layer_(scene::FOREGROUND_LAYER),
     is_blinking_(false),
+    layer_(scene::FOREGROUND_LAYER),
     blink_time_(new ugdk::time::TimeAccumulator(75)),
     blink_duration_(new ugdk::time::TimeAccumulator(0)),
     blink_(false),
-    light_radius_(light_radius) {
-        root_node_->AddChild(node_);
-        ChangeLightRadius(light_radius_);
-}
+    light_radius_(light_radius) { setup(); }
 
 BaseGraphic::~BaseGraphic() {
     delete root_node_;
@@ -132,6 +133,24 @@ void BaseGraphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
 
 void BaseGraphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
     layers[layer_]->RemoveChild(root_node_);
+}
+    
+void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
+    node_->set_drawable(drawable);
+    using namespace ugdk::graphic;
+    if(drawable)
+        drawable->set_draw_setup_function([](const Drawable*, const Geometry& geo, const VisualEffect&) -> void {
+            glm::vec4 lightpos = (geo.AsMat4() * glm::vec4(0.0, 0.0, 0.0, 1.0)) * 0.5 + glm::vec4(0.5, 0.5, 0.0, 0.0);
+            ugdk::graphic::opengl::ShaderProgram::Use shader(get_horus_light_shader());
+            shader.SendUniform("lightUV", lightpos.x, lightpos.y);
+        });
+}
+    
+void BaseGraphic::setup() {
+    root_node_->AddChild(node_);
+    if(light_radius_ > 0)
+        ChangeLightRadius(light_radius_);
+    ChangeDrawable(node_->drawable());
 }
 
 void BaseGraphic::adjustBlink() {

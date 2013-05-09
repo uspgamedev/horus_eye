@@ -15,7 +15,7 @@ Graphic::Graphic(const std::string& spritesheet_tag, const std::string& animatio
 
     isometric_animation_set_ = utils::IsometricAnimationSet::LoadFromResourceManager(animation_set);
     sprite_ = new Sprite(spritesheet_tag, isometric_animation_set_ ? (isometric_animation_set_->animation_set()) : NULL);
-    node_->set_drawable(sprite_);
+    ChangeDrawable(sprite_);
 }
 
 Graphic::Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* iso_animation_set, double light_radius)
@@ -23,7 +23,7 @@ Graphic::Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSe
         sprite_(new Sprite(spritesheet_tag, iso_animation_set ? (iso_animation_set->animation_set()) : NULL)),
         isometric_animation_set_(iso_animation_set) {
 
-    node_->set_drawable(sprite_);
+    ChangeDrawable(sprite_);
 }
     
 Graphic::Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::IsometricAnimationSet* iso_animation_set, double light_radius)
@@ -31,7 +31,7 @@ Graphic::Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::Isometric
         sprite_(new Sprite(spritesheet, iso_animation_set ? (iso_animation_set->animation_set()) : NULL)),
         isometric_animation_set_(iso_animation_set) {
 
-    node_->set_drawable(sprite_);
+    ChangeDrawable(sprite_);
 }
 
 Graphic::~Graphic() {}

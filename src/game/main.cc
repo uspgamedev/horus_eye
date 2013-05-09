@@ -49,6 +49,7 @@ void StartGame() {
         engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
 
     engine()->video_manager()->SetLightSystem(true);
+    AddHorusShader();
 
     if(!engine()->language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");

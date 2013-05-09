@@ -53,8 +53,10 @@ class BaseGraphic : public Base {
   protected:
     ugdk::graphic::Node* root_node_;
     ugdk::graphic::Node* node_;
+    void ChangeDrawable(ugdk::graphic::Drawable*);
 
   private:
+    void setup();
     void adjustBlink();
 
     bool is_blinking_;

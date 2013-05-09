@@ -8,6 +8,7 @@
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
+#include <ugdk/graphic/defaultshaders.h>
 
 #include "game/core/coordinates.h"
 #include "game/constants.h"
@@ -16,11 +17,17 @@ namespace map {
 
 using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
+    
+ugdk::graphic::opengl::ShaderProgram* GiantFloor::continuous_light_shader_ = NULL;
 
 GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
     : size_(106 * size.x, 54 * size.y),
       texture_(ugdk::base::ResourceManager::GetTextureFromFile("images/ground_texture.png")) {
     
+    if(!continuous_light_shader_) {
+        continuous_light_shader_ = ugdk::graphic::CreateShader(true, false);
+    }
+
     GLfloat vertex_data[] = { 
          53.0f,  0.0f, 
         106.0f, 26.0f, 
@@ -81,7 +88,9 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
         right.x < -1 || right.y > 1)
         return;*/
     // Use our shader
-    opengl::ShaderProgram::Use shader_use(VIDEO_MANAGER()->shaders().current_shader());
+    opengl::ShaderProgram::Use shader_use(continuous_light_shader_);
+
+    shader_use.SendTexture(1, VIDEO_MANAGER()->light_buffer(), continuous_light_shader_->UniformLocation("light_texture"));
 
     // Send our transformation to the currently bound shader, 
     // in the "MVP" uniform
