@@ -41,6 +41,7 @@ endif()
 
 # FindUGDK
 option(HORUSEYE_INTERNAL_UGDK   "Set to ON to use an internal UGDK instead of the system one." ON)
+option(HORUSEYE_FORCE_SUBMODULE "Set to ON to force git submodule update whenever cmake is ran." ON)
 if(NOT HORUSEYE_INTERNAL_UGDK)
     find_package(UGDK)
     if(NOT UGDK_FOUND)
@@ -51,7 +52,7 @@ if(NOT HORUSEYE_INTERNAL_UGDK)
     set(UGDK_EXTERNAL_LIBRARIES ${UGDK_LIBRARIES})
     
 else(NOT HORUSEYE_INTERNAL_UGDK)
-    if(NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/externals/ugdk/CMakeLists.txt")
+    if(HORUSEYE_FORCE_SUBMODULE OR NOT EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/externals/ugdk/CMakeLists.txt")
         if(GIT_FOUND)
             execute_process(COMMAND ${GIT_EXECUTABLE} submodule update --init
                             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
