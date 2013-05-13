@@ -140,7 +140,7 @@ void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
     using namespace ugdk::graphic;
     if(drawable)
         drawable->set_draw_setup_function([](const Drawable*, const Geometry& geo, const VisualEffect&) -> void {
-            glm::vec4 lightpos = (geo.AsMat4() * glm::vec4(0.0, 0.0, 0.0, 1.0)) * 0.5 + glm::vec4(0.5, 0.5, 0.0, 0.0);
+            Vector2D lightpos = geo.offset() * 0.5 + Vector2D(0.5, 0.5);
             ugdk::graphic::opengl::ShaderProgram::Use shader(get_horus_light_shader());
             shader.SendUniform("lightUV", lightpos.x, lightpos.y);
         });

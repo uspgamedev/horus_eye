@@ -11,7 +11,6 @@ class GiantFloor : public ugdk::graphic::Drawable {
     GiantFloor(const ugdk::math::Integer2D& size);
     ~GiantFloor();
 
-    void Update(double) {}
     void Draw(const ugdk::graphic::Geometry&, const ugdk::graphic::VisualEffect&) const;
     const ugdk::math::Vector2D& size() const { return size_; }
 

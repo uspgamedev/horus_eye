@@ -79,7 +79,7 @@ GiantFloor::~GiantFloor() {
 
 void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
     Geometry final_geometry(geometry);
-    final_geometry.Compose(Geometry(Vector2D(-hotspot_)));
+    final_geometry.Compose(Geometry(-hotspot_));
 
     const glm::mat4& mat = final_geometry.AsMat4();
     /*
