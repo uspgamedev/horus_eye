@@ -46,13 +46,14 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
                                  "uniform sampler2D light_texture;" "\n");
     
     fragment_shader.AddCodeBlock("float calculate_offset(float x) {" "\n"
-                                 "  return PIXEL_SIZE.y * (27.0/53.0) * abs(x - 0.5);" "\n"
+                                 "  return PIXEL_SIZE.y * 27.0 * 2 * (0.5 - abs(x - 0.5));" "\n"
                                  "}" "\n");
 
     fragment_shader.AddLineInMain("	vec2 screenPosLight = screenPos.xy * 0.5 + vec2(0.5, 0.5);" "\n");
+    fragment_shader.AddLineInMain("	vec2 lightPosition = vec2(screenPosLight.x, lightUV.y - calculate_offset(UV.x));" "\n");
+
     fragment_shader.AddLineInMain("	vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
-    fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, "
-                                        "vec2(screenPosLight.x, lightUV.y + calculate_offset(UV.x))).rgb, 1.0);" "\n");
+    fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightPosition).rgb, 1.0);" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 
@@ -88,6 +89,7 @@ void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::grap
 
     Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
     shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
+    shader_use.SendUniform("PIXEL_SIZE", 1/VIDEO_MANAGER()->video_size().x, 1/VIDEO_MANAGER()->video_size().y);
 
     shader_use.SendTexture(1, VIDEO_MANAGER()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
