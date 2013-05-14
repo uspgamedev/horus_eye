@@ -30,20 +30,29 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
 
     // VERTEX
     vertex_shader.AddCodeBlock("out vec2 UV;" "\n");
-    vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
+    vertex_shader.AddCodeBlock("out vec4 screenPos;" "\n");
+    vertex_shader.AddLineInMain("	gl_Position = screenPos = geometry_matrix * vec4(vertexPosition,0,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
     fragment_shader.AddCodeBlock("in vec2 UV;" "\n"
+                                 "in vec4 screenPos;" "\n"
                                  "uniform sampler2D drawable_texture;" "\n"
                                  "uniform vec4 effect_color;" "\n");
 
     fragment_shader.AddCodeBlock("uniform vec2 lightUV;" "\n"
+                                 "uniform vec2 PIXEL_SIZE;" "\n"
                                  "uniform sampler2D light_texture;" "\n");
+    
+    fragment_shader.AddCodeBlock("float calculate_offset(float x) {" "\n"
+                                 "  return PIXEL_SIZE.y * (27.0/53.0) * abs(x - 0.5);" "\n"
+                                 "}" "\n");
 
+    fragment_shader.AddLineInMain("	vec2 screenPosLight = screenPos.xy * 0.5 + vec2(0.5, 0.5);" "\n");
     fragment_shader.AddLineInMain("	vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
-    fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightUV).rgb, 1.0);" "\n");
+    fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, "
+                                        "vec2(screenPosLight.x, lightUV.y + calculate_offset(UV.x))).rgb, 1.0);" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 
