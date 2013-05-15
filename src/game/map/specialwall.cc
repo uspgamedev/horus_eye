@@ -46,7 +46,8 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
                                  "uniform sampler2D light_texture;" "\n");
     
     fragment_shader.AddCodeBlock("float calculate_offset(float x) {" "\n"
-                                 "  return PIXEL_SIZE.y * 27.0 * 2 * (0.5 - abs(x - 0.5));" "\n"
+                                 "  return PIXEL_SIZE.y * 27.0 * min(x, 1-x) * 2;" "\n" // convert x from 0->0.5->1 to 0->1->0
+                                                                                        // 27 is tile_height/2 (54/2)
                                  "}" "\n");
 
     fragment_shader.AddLineInMain("	vec2 screenPosLight = screenPos.xy * 0.5 + vec2(0.5, 0.5);" "\n");
