@@ -125,6 +125,7 @@ WorldObject* MummyProjectile(const ugdk::math::Vector2D &dir, double damage) {
 WorldObject* LightningBolt(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, "lightning_bolt", "animations/lightning.gdd", 1.0, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"), 0.25);
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
+    wobj->graphic()->ChangeLightColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageCollision("LIGHTNING_DAMAGE"));
     wobj->set_start_to_die_callback(std::tr1::mem_fn(&WorldObject::Die));
