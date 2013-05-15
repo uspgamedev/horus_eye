@@ -132,6 +132,7 @@ WorldObject* LightningBolt(const Vector2D &dir) {
 
 WorldObject* Fireball(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, "fireball", "animations/fireball.gdd", 1.0, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"), 0.25);
+    wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
     wobj->graphic()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DieCollision(wobj));
