@@ -95,6 +95,8 @@ SET(GAME_SRCS
     game/map/loader.h 
     game/map/room.cc 
     game/map/room.h 
+    game/map/specialwall.cc 
+    game/map/specialwall.h 
     game/map/tile.cc 
     game/map/tile.h 
     game/resources/capacityblocks.h 

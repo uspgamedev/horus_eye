@@ -6,22 +6,18 @@
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/light.h>
-#include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/collision/genericcollisionlogic.h>
-#include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "doodadbuilder.h"
 
 #include "game/core/coordinates.h"
 #include "game/components/damageable.h"
-#include "game/components/base.h"
 #include "game/components/shape.h"
-#include "game/components/logic/follower.h"
 #include "game/components/basegraphic.h"
+#include "game/map/specialwall.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
@@ -39,11 +35,9 @@ using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
 using ugdk::graphic::Sprite;
 using ugdk::graphic::Node;
-using ugdk::time::TimeAccumulator;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::GenericCollisionLogic;
 using pyramidworks::geometry::Rect;
-using component::Follower;
 using component::Shape;
 using sprite::WorldObject;
 
@@ -69,8 +63,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
 static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     WorldObject* wobj = new WorldObject;
-    //ugdk::graphic::Drawable* drawable = new Sprite(sheet);
-    Drawable* drawable = new TexturedRectangle(texture);
+    Drawable* drawable = new map::SpecialWall(texture);
     drawable->set_hotspot(Vector2D(53, 156));
     wobj->AddComponent(new component::BaseGraphic(drawable));
     wobj->set_identifier("Wall");
