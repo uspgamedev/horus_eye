@@ -27,7 +27,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 }
 
 static void HeroLightUse(component::Caster* caster){
-    sprite::WorldObject *light = new sprite::WorldObject(5.0);
+    sprite::WorldObject *light = new sprite::WorldObject(15.0);
     light->AddComponent(new component::BaseGraphic(new ugdk::graphic::Sprite("light"), 4.0));
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
