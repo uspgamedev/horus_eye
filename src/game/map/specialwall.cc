@@ -92,20 +92,13 @@ void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::grap
     shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
     shader_use.SendUniform("PIXEL_SIZE", 1/VIDEO_MANAGER()->video_size().x, 1/VIDEO_MANAGER()->video_size().y);
 
+    shader_use.SendTexture(0, texture_);
     shader_use.SendTexture(1, VIDEO_MANAGER()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
-    // Send our transformation to the currently bound shader, 
-    // in the "MVP" uniform
     shader_use.SendGeometry(mat);
     shader_use.SendEffect(effect);
 
-    // Bind our texture in Texture Unit 0
-    shader_use.SendTexture(0, texture_);
-
-    // 1rst attribute buffer : vertices
     shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::VERTEX, 0);
-
-    // 2nd attribute buffer : UVs
     shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
 
     // Draw the triangle !
