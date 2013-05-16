@@ -40,7 +40,12 @@ void LevelLoader::Load(const std::string& name) {
         int x = room_data[0].value<int>();
         int y = room_data[1].value<int>();
         std::string name = room_data[2].value<std::string>();
-        map::Room* room = map::LoadRoom(name, Integer2D(x, y));
+        VirtualObj may_be_a_room = level_data[name];
+        map::Room *room = NULL;
+        if (may_be_a_room.valid())
+          room = map::LoadRoom(may_be_a_room, Integer2D(x, y));
+        else
+          room = map::LoadRoom(name, Integer2D(x, y));
         if(room) {
             world_->AddRoom(room);
         } else {
