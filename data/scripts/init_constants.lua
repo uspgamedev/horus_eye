@@ -7,7 +7,7 @@ constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
 constants.RegisterDouble("MAGICMISSILE_DURATION",   4.0)
 constants.RegisterDouble("MAGICMISSILE_DAMAGE",   200.0)
-constants.RegisterDouble("MAGICMISSILE_SPEED",     20.0)
+constants.RegisterDouble("MAGICMISSILE_SPEED",     15.0)
 
 constants.RegisterDouble("MAGICBALL_DURATION",   4.0)
 constants.RegisterDouble("MAGICBALL_DAMAGE",   200.0)
@@ -100,7 +100,7 @@ constants.RegisterDouble("HERO_MANA_PER_BLOCK", 200.0)
 constants.RegisterDouble("HERO_MANA_REGEN_BASE", 20.0)
 
 constants.RegisterDouble("LIGHTNING_SPEED", 24.0)
-constants.RegisterDouble("LIGHTNING_HEIGHT", 12.0)
+constants.RegisterDouble("LIGHTNING_HEIGHT", 20.0)
 
 constants.RegisterDouble("FIREBALL_SPEED", 10.0)
 constants.RegisterDouble("FIREBALL_HEIGHT", 12.0)
