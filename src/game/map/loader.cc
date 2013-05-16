@@ -64,8 +64,9 @@ struct ObjectDescriptor {
     string tag;
 };
 
-Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
-    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
+namespace {
+Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::math::Integer2D& position) {
+
     if(!room_data) return NULL;
 
     if(!room_data["width"] || !room_data["height"]) return NULL;
@@ -173,6 +174,17 @@ Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
     }
 
     return room;
+}
+
+} //namespace anon
+
+Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
+    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
+    return DoLoadRoom(name, room_data, position);
+}
+
+Room* LoadRoom(const std::string& name, const VirtualObj& room_script, const ugdk::math::Integer2D& position) {
+    return DoLoadRoom(name, room_script, position);
 }
 
 } // namespace utils
