@@ -29,14 +29,14 @@ endif(GIT_FOUND)
 
 MESSAGE("== Horus Eye -- ${horus_eye_VERSION} ==")
 
-set(RESOURCES_VERSION 2)
+set(RESOURCES_VERSION 3)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
     message("Downloading resources file version ${RESOURCES_VERSION}...")
     file(DOWNLOAD 
-        http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tgz 
-        ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz
-                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}")
+        http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tar.gz 
+        ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tar.gz)
+    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tar.gz
+                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data")
 endif()
 
 # FindUGDK
