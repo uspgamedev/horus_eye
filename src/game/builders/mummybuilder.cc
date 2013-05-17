@@ -141,7 +141,8 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
+        constants::GetDouble("PAPER_MUMMY_RADIUS"), constants::GetDouble("PAPER_MUMMY_SPEED"),
+        true);
     wobj->graphic()->ChangeAlpha(0.5);
     wobj->caster()->power().Set(constants::GetInt("PAPER_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("paper_melee", Controller::PRIMARY);
