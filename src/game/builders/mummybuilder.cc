@@ -98,7 +98,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("MUMMY_LIFE"), 
         constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
-
+    wobj->caster()->power().Set(constants::GetInt("MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
     return wobj;
 }
@@ -112,7 +112,7 @@ sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
 sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_ranged", constants::GetInt("RANGED_MUMMY_LIFE"), 
         constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
-
+    wobj->caster()->power().Set(constants::GetInt("RANGED_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_ranged", Controller::PRIMARY);
     return wobj;
 }
@@ -128,9 +128,8 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
         constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"), true);
     // TODO: different GDD
     wobj->damageable()->set_super_armor(true);
-
+    wobj->caster()->power().Set(constants::GetInt("BIG_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
-    wobj->caster()->power().Set(200);
     return wobj;
 }
 
@@ -142,8 +141,10 @@ sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments)
 
 sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
     WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
+        constants::GetDouble("PAPER_MUMMY_RADIUS"), constants::GetDouble("PAPER_MUMMY_SPEED"),
+        true);
     wobj->graphic()->ChangeAlpha(0.5);
+    wobj->caster()->power().Set(constants::GetInt("PAPER_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("paper_melee", Controller::PRIMARY);
     return wobj;
 }
@@ -163,7 +164,7 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
     resource::Energy mana(constants::GetInt("PHARAOH_MANA"), constants::GetDouble("PHARAOH_MANA_REGEN")); 
     wobj->AddComponent(new Caster(wobj, mana));
 
-    wobj->caster()->power().Set(300);
+    wobj->caster()->power().Set(constants::GetInt("PHARAOH_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
     wobj->caster()->LearnAndEquipSkill("pharaoh_ranged", Controller::SECONDARY);
     wobj->caster()->LearnAndEquipSkill("pharaoh_summon", Controller::SPECIAL1);
