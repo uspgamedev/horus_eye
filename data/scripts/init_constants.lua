@@ -5,9 +5,9 @@ constants.RegisterDouble("PLAYER_MOUSE_HEIGHT_OFFSET", 58.0)
 constants.RegisterInt("PROJECTILE_SPRITE_HEIGHT", 32)
 constants.RegisterDouble("PROJECTILE_HEIGHT", 12.0)
 
-constants.RegisterDouble("MAGICMISSILE_DURATION",   4.0)
-constants.RegisterDouble("MAGICMISSILE_DAMAGE",   200.0)
-constants.RegisterDouble("MAGICMISSILE_SPEED",     15.0)
+constants.RegisterDouble("MAGICMISSILE_DURATION", 4.0)
+constants.RegisterDouble("MAGICMISSILE_DAMAGE",   50.0)
+constants.RegisterDouble("MAGICMISSILE_SPEED",    15.0)
 
 constants.RegisterDouble("MAGICBALL_DURATION",   4.0)
 constants.RegisterDouble("MAGICBALL_DAMAGE",   200.0)
@@ -41,7 +41,7 @@ constants.RegisterInt("TOTEM_OFFSET_X", 36)
 constants.RegisterInt("TOTEM_OFFSET_Y", 80)
 
 constants.RegisterInt("MUMMY_LIFE", 400)
-constants.RegisterInt("MUMMY_DAMAGE", 200)
+constants.RegisterInt("MUMMY_DAMAGE", 100)
 
 constants.RegisterInt("RANGED_MUMMY_LIFE", 400)
 constants.RegisterInt("RANGED_MUMMY_DAMAGE", 200)
@@ -50,7 +50,7 @@ constants.RegisterInt("BIG_MUMMY_LIFE", 1200)
 constants.RegisterInt("BIG_MUMMY_DAMAGE", 300)
 
 constants.RegisterInt("PAPER_MUMMY_LIFE", 1)
-constants.RegisterInt("PAPER_MUMMY_DAMAGE", 25)
+constants.RegisterInt("PAPER_MUMMY_DAMAGE", 400)
 
 constants.RegisterInt("FIREBALL_EXPLOSION_DAMAGE", 200)
 constants.RegisterInt("FIREBALL_COST", 200)
