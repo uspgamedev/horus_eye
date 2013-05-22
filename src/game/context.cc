@@ -4,6 +4,7 @@
 #include <vector>
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
@@ -17,7 +18,8 @@ using std::vector;
 using ugdk::math::Vector2D;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionManager;
-using pyramidworks::collision::CollisionInstance;
+using pyramidworks::collision::CollisionObjectList;
+using pyramidworks::collision::CollisionClass;
 using pyramidworks::geometry::GeometricShape;
 using sprite::WorldObject;
 using scene::World;
@@ -106,35 +108,27 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
     _internal_AddDamageableComponent(obj, life);
 }
 
-static void GetCollidingObjectsRaw(CollisionManager *manager, const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
-    if (!manager) return;
-    CollisionObject* obj = new CollisionObject(manager, NULL);
-	obj->set_shape(shape);
-	obj->AddCollisionLogic(classname, NULL);
-    obj->MoveTo(pos);
-	
-	vector<CollisionInstance> col_instances;
-	obj->SearchCollisions(col_instances);
-	vector<CollisionInstance>::iterator it;
-    for(it = col_instances.begin(); it != col_instances.end(); ++it) {
-		//it->first->Handle(it->second);
-		WorldObject* wobj = static_cast<WorldObject*>(it->second);
-		if (wobj != NULL)	objects_colliding.push_back(wobj);
-    }
+static void findCollisions(CollisionClass *colclass, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
+    if(!colclass) return;
+    CollisionObjectList result;
+    colclass->FindCollidingObjects(pos, shape, result);
+    for(const CollisionObject * obj : result)
+        if(WorldObject* wobj = static_cast<WorldObject*>(obj->data()))
+            objects_colliding.push_back(wobj);
 }
 
-void GetCollidingObjects(const string& classname, GeometricShape* shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
+void GetCollidingObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
     World *world = WORLD();
     if (!world) return;
-    CollisionManager *manager = world->collision_manager();
-    GetCollidingObjectsRaw(manager, classname, shape, pos, objects_colliding);
+    CollisionClass *colclass = world->collision_manager()->Get(classname);
+    findCollisions(colclass, shape, pos, objects_colliding);
 }
 
-void GetCollidingVisibilityObjects(const std::string& classname, pyramidworks::geometry::GeometricShape* shape, const ugdk::math::Vector2D& pos, std::vector<sprite::WorldObject*> &objects_colliding) {
+void GetCollidingVisibilityObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
     World *world = WORLD();
     if (!world) return;
-    CollisionManager *manager = world->visibility_manager();
-    GetCollidingObjectsRaw(manager, classname, shape, pos, objects_colliding);
+    CollisionClass *colclass = world->visibility_manager()->Get(classname);
+    findCollisions(colclass, shape, pos, objects_colliding);
 }
 
 sprite::WorldObject* hero() {

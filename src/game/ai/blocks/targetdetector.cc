@@ -42,7 +42,7 @@ AIModule::Status TargetDetector::Update(double dt, AIData* data) {
     }
 
     possible_targets_.clear();
-    context::GetCollidingObjects(target_classname_, area_, owner->world_position(), possible_targets_);
+    context::GetCollidingObjects(target_classname_, *area_, owner->world_position(), possible_targets_);
     function<bool (WorldObject*, WorldObject*)> comp = bind(CompareWObjDist, owner, _1, _2);
     //possible_targets_.sort(comp);
     std::sort(possible_targets_.begin(), possible_targets_.end(), comp);
