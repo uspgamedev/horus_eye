@@ -69,4 +69,5 @@ settings.ini
 Thumbs.db
 doc/doxy/
 /resources-v*.tgz
+/resources-v*.tar.gz
 /build

@@ -42,7 +42,7 @@ bool VisionStrategy::IsVisible(const ugdk::math::Vector2D& from, const ugdk::mat
 
     // TODO: add support to UGDK to a simple "CHECK IF EXISTS"
     std::vector<WorldObject*> objects;
-    context::GetCollidingVisibilityObjects("Opaque", &ray, from, objects);
+    context::GetCollidingVisibilityObjects("Opaque", ray, from, objects);
     return objects.empty();
 }
     
