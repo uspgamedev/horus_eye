@@ -10,7 +10,9 @@ local Sprite = ugdk_drawable.Sprite
 local Circle = pyramidworks_geometry.Circle
 
 function build (wobj)
-  wobj:AddComponent(component.BaseGraphic(Sprite("vase")), "graphic", 100)
+  local graphic_comp = component.Graphic("vase", "animations/urn.gdd")
+  graphic_comp:ChangeAnimation "STANDING"
+  wobj:AddComponent(graphic_comp, "graphic", 100)
   return {
     collision = {
       class = "Wall",
