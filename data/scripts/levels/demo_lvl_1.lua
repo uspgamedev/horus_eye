@@ -1,4 +1,4 @@
-music = "music/Arabesque.ogg"
+music = "musics/Arabesque.ogg"
 roomsize = 16
 rooms = {
    {0, roomsize * 0, "entrance"},
