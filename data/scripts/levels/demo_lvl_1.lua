@@ -14,9 +14,9 @@ width = roomsize*#rooms
 height = roomsize
 
 entrance = {
-   width = roomsize,
-   height = roomsize,
-   matrix = [[
+  width = roomsize,
+  height = roomsize,
+  matrix = [[
 ################
 #..............#
 #..............#
@@ -34,12 +34,11 @@ entrance = {
 #..............#
 ################
 ]],
-   objects = {
-   }
-   
+  objects = {},
+  collision_classes = {
+    { "Switch", "Wall" }
+  }
 }
-
-entrance.objects[1] = { 5, 5, "!", {"activated-switch"}}
 
 for i = 1,6 do
   local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
