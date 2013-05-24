@@ -39,6 +39,9 @@ entrance = {
    
 }
 
-for i = 1,10 do
-   table.insert(entrance.objects, {math.random(2,15), math.random(2,15), "!", {"urn"}})
+for i = 1,6 do
+  local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
+  for i = 1,math.random(3,4) do
+    table.insert(entrance.objects, {x+math.random()*2-1, y+math.random()*2-1, "!", {"urn"}})
+  end
 end
