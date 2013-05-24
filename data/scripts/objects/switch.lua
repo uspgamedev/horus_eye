@@ -21,8 +21,8 @@ local function make_switch ()
   end
   return switch
 end
+
 function build (wobj)
-  local descriptor = {}
   local switch = make_switch()
   wobj:AddComponent(switch.graphic, "graphic", 100)
 
@@ -39,16 +39,14 @@ function build (wobj)
                 print "door not found"
               else
                 door:damageable():TakeDamage(1)
-                switch.activated = true
-                switch.graphic:ChangeAnimation "SWITCH_START"
-                self:graphic():ChangeLightRadius(3.0)
               end
             end
+            switch.activated = true
+            switch.graphic:ChangeAnimation "SWITCH_START"
+            self:graphic():ChangeLightRadius(3.0)
           end
         end
       }
     }
   }
-
-  return descriptor
 end
