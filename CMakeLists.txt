@@ -29,7 +29,7 @@ endif(GIT_FOUND)
 
 MESSAGE("== Horus Eye -- ${horus_eye_VERSION} ==")
 
-set(RESOURCES_VERSION 3)
+set(RESOURCES_VERSION 4)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tgz)
     message("Downloading resources file version ${RESOURCES_VERSION}...")
     file(DOWNLOAD 
