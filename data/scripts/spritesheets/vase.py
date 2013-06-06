@@ -1,4 +1,4 @@
 import ugdk_math
 
-file = ["images/vase00.png"]
-fill = [ 102, 261, ugdk_math.Vector2D(51, 261) ]
+file = ["images/vase.png"]
+fill = [ 106, 106, ugdk_math.Vector2D(53, 93) ]
