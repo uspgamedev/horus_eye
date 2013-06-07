@@ -1,8 +1,11 @@
+require "component"
+require "map"
+
 music = "musics/Arabesque.ogg"
 roomsize = 16
 rooms = {
    {0, roomsize * 0, "entrance"},
-   {0, roomsize * 1, "opencorridor"},
+   {roomsize * 1, 0, "opencorridor"},
    {0, roomsize * 2, "closedcorridor"},
    {0, roomsize * 3, "firstblood"},
    {0, roomsize * 4, "exit"}
@@ -34,10 +37,15 @@ entrance = {
 #..............#
 ################
 ]],
-  objects = {},
+  objects = {
+    { 4, 4, "!", {"room_loader", "opencorridor"}, "ENTRANCE_ROOM_LOADER" },
+  },
   collision_classes = {
     { "Switch", "Wall" }
-  }
+  },
+  setup = function(self)
+             (self:WorldObjectByTag "ENTRANCE_ROOM_LOADER"):set_timed_life(0.01)
+  end
 }
 
 for i = 1,6 do
@@ -47,3 +55,25 @@ for i = 1,6 do
   end
 end
 
+opencorridor = {
+  width = roomsize,
+  height = roomsize,
+  matrix = [[
+################
+#..............#
+#..............#
+#..............#
+#..............#
+#..............#
+................
+................
+................
+................
+#..............#
+#..............#
+#..............#
+#..............#
+#..............#
+################
+]],
+}

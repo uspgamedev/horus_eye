@@ -1,4 +1,5 @@
 
+require "component"
 require "context"
 
 function build (wobj, ...)

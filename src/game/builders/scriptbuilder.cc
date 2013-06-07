@@ -124,12 +124,10 @@ WorldObject* Script(const vector<string>& arguments) {
     WorldObject* wobj = new WorldObject;
     wobj->set_identifier(arguments[0]);
 
-
-    VirtualObj::List args;
-
     VirtualObj v_wobj(script_generator["build"].wrapper());
     v_wobj.set_value<WorldObject*>(wobj);
-    args.push_back(v_wobj);
+    
+    VirtualObj::List args(1, v_wobj);
 
     for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
         VirtualObj obj(script_generator["build"].wrapper());
