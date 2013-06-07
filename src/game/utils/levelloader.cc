@@ -17,7 +17,7 @@ using ugdk::script::VirtualObj;
 using ugdk::math::Integer2D;
 using ugdk::math::Vector2D;
 
-Vector2D VobjsToVector(VirtualObj x, VirtualObj y) {
+Vector2D VobjsToVector2D(VirtualObj x, VirtualObj y) {
     return Vector2D(x.value<double>(), y.value<double>());
 }
 
@@ -54,7 +54,7 @@ void LevelLoader::Load(const std::string& name) {
     }
 
     VirtualObj::Vector start_position = level_data["start_position"].value<VirtualObj::Vector>();
-    world_->set_hero_initial_data(start_position[0].value<std::string>(), VobjsToVector(start_position[1], start_position[2]));
+    world_->set_hero_initial_data(start_position[0].value<std::string>(), VobjsToVector2D(start_position[1], start_position[2]));
 
     world_->SetHero(builder::HeroBuilder::Kha());
 

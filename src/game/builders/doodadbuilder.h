@@ -11,6 +11,7 @@ namespace DoodadBuilder {
 
 sprite::WorldObject* Door(const std::vector<std::string>& arguments);
 sprite::WorldObject* Wall(const std::vector<std::string>& arguments);
+sprite::WorldObject* InvisibleWall(const std::vector<std::string>& arguments);
 sprite::WorldObject* Entry(const std::vector<std::string>& arguments);
 ugdk::graphic::Node* Floor(const ugdk::math::Vector2D& position);
 

@@ -16,6 +16,7 @@ namespace map {
 #define EMPTY                    ' '
 #define FLOOR                    '.'
 #define WALL                     '#'
+#define INVISIBLEWALL            '%'
 #define DOOR                     'D'
 #define ENTRY                    'E'
 #define MUMMY                    'm'
