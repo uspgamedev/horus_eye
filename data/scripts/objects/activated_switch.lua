@@ -13,7 +13,7 @@ function build (wobj)
   wobj:AddComponent(graphic, "graphic", 100)
   return {
     collision = {
-      class = "Switch",
+      class = "Wall",
       shape = Rect(0.8,0.8),
       known_collision = {}
     }

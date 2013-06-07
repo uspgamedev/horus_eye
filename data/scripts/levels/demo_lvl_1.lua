@@ -66,4 +66,7 @@ opencorridor = {
 ................
 ################
 ]],
+  objects = {
+     { 12, 3, "!", { "activated_switch" } },
+  }
 }
