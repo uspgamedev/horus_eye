@@ -83,17 +83,14 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
 }
 
 WorldObject* Wall(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     return buildWall(ResourceManager::GetTextureFromFile("images/wall-simple.png"));
 }
 
 WorldObject* InvisibleWall(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
-    return buildWall(nullptr);
+    return buildWall(ResourceManager::GetTextureFromFile("images/wall-shortened.png"));
 }
 
 WorldObject* Entry(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     return buildWall(ResourceManager::GetTextureFromFile("images/door.png"));
 }
 
