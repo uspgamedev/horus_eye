@@ -67,6 +67,8 @@ opencorridor = {
 ################
 ]],
   objects = {
-     { 12, 3, "!", { "activated_switch" } },
+     {  12,   3, "!", { "activated_switch" } },
+     { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+     { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
   }
 }
