@@ -90,6 +90,10 @@ WorldObject* InvisibleWall(const std::vector<std::string>& arguments) {
     return buildWall(ResourceManager::GetTextureFromFile("images/wall-shortened.png"));
 }
 
+WorldObject* BurntWall(const std::vector<std::string>& arguments) {
+    return buildWall(ResourceManager::GetTextureFromFile("images/wall-burnt.png"));
+}
+
 WorldObject* Entry(const std::vector<std::string>& arguments) {
     return buildWall(ResourceManager::GetTextureFromFile("images/door.png"));
 }

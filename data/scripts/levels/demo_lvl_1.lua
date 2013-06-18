@@ -6,9 +6,9 @@ roomsize = 16
 rooms = {
    {0, roomsize * 0, "entrance"},
    {roomsize * 1, 5, "opencorridor"},
-   {0, roomsize * 2, "closedcorridor"},
-   {0, roomsize * 3, "firstblood"},
-   {0, roomsize * 4, "exit"}
+   --{0, roomsize * 2, "closedcorridor"},
+   --{0, roomsize * 3, "firstblood"},
+   --{0, roomsize * 4, "exit"}
 }
 
 start_position = {"entrance", roomsize / 2, roomsize / 2}
@@ -64,7 +64,7 @@ opencorridor = {
 ................
 ................
 ................
-################
+#######&########
 ]],
   objects = {
      {  12,   3, "!", { "activated_switch" } },
