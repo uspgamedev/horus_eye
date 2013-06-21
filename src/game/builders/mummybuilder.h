@@ -10,6 +10,9 @@ namespace builder {
 
 namespace MummyBuilder {
 
+void PrepareBasicMummy(sprite::WorldObject* wobj, const std::string& spritesheetname,
+                       double life, double radius, double speed, bool standing);
+
 sprite::WorldObject *WalkingMummy(const std::vector<std::string>& arguments);
 sprite::WorldObject *StandingMummy(const std::vector<std::string>& arguments);
 sprite::WorldObject *WalkingRangedMummy(const std::vector<std::string>& arguments);
@@ -21,7 +24,7 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
 sprite::WorldObject *WalkingPharaoh(const std::vector<std::string>& arguments);
 sprite::WorldObject *StandingPharaoh(const std::vector<std::string>& arguments);
 
-};
+} // namespace MummyBuilder
 
 } // namespace builder
 
