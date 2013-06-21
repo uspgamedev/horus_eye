@@ -6,15 +6,12 @@
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include <ugdk/script/virtualobj.h>
+#include <ugdk/math.h>
 
 #include "game/builders/itembuilder.h"
 #include "game/builders/mummybuilder.h"
-#include "game/builders/entitybuilder.h"
 #include "game/builders/doodadbuilder.h"
 
-namespace ugdk {
-    class Vector2D;
-}
 namespace scene {
     class World;
 }

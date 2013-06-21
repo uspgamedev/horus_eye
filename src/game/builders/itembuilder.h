@@ -11,8 +11,6 @@ namespace ItemBuilder {
 
 sprite::WorldObject* LifePotion(const std::vector<std::string>& arguments);
 sprite::WorldObject* ManaPotion(const std::vector<std::string>& arguments);
-sprite::WorldObject* SightPotion(const std::vector<std::string>& arguments);
-sprite::WorldObject* BlueGem(const std::vector<std::string>& arguments);
 
 }
 }

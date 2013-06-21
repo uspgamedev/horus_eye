@@ -30,10 +30,6 @@ SET(GAME_SRCS
     game/builders/builder.h 
     game/builders/doodadbuilder.cc 
     game/builders/doodadbuilder.h 
-    game/builders/effectbuilder.cc 
-    game/builders/effectbuilder.h 
-    game/builders/entitybuilder.cc 
-    game/builders/entitybuilder.h 
     game/builders/explosionbuilder.cc 
     game/builders/explosionbuilder.h 
     game/builders/functions/carrier.cc 

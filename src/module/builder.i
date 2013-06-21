@@ -11,7 +11,6 @@
 #include <game/sprites.h>
 #include <game/builders/aibuilder.h>
 #include <game/builders/doodadbuilder.h>
-#include <game/builders/entitybuilder.h>
 #include <game/builders/explosionbuilder.h>
 #include <game/builders/itembuilder.h>
 #include <game/builders/mummybuilder.h>
@@ -32,7 +31,6 @@
 
 %include <game/builders/aibuilder.h>
 %include <game/builders/doodadbuilder.h>
-%include <game/builders/entitybuilder.h>
 %include <game/builders/explosionbuilder.h>
 %include <game/builders/itembuilder.h>
 %include <game/builders/mummybuilder.h>

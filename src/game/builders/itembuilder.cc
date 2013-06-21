@@ -21,8 +21,6 @@
 #include "game/components/condition.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/effect.h"
-#include "game/builders/effectbuilder.h"
-#include "game/builders/entitybuilder.h"
 #include "game/utils/imagefactory.h"
 
 #define INCREASE_SIGHT_TIME 3.00
@@ -123,32 +121,6 @@ class RecoverManaEvent {
 };
 
 //=======================================
-class IncreaseSightEvent {
-  public:
-    IncreaseSightEvent() {}
-
-    bool operator() (sprite::WorldObject* hero) {
-        std::tr1::shared_ptr<Effect> effect = EffectBuilder::increase_sight();
-        if(effect->CanAffect(hero))
-            return hero->component<component::Condition>()->AddEffect(effect);
-        return false;
-    }
-};
-
-//=======================================
-
-class BlueGemShieldEvent {
-  public:
-    BlueGemShieldEvent() {}
-
-    bool operator() (sprite::WorldObject* hero) {
-        EntityBuilder builder;
-        hero->current_room()->AddObject(builder.BlueShieldEntity(hero), hero->world_position(), map::POSITION_ABSOLUTE);
-        return true;
-    }
-};
-
-//=======================================
 
 WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
@@ -161,20 +133,6 @@ WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
     WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
     CreateItemUse(wobj, RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
-    return wobj;
-}
-
-WorldObject* SightPotion(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.SightPotionImage());
-    CreateItemUse(wobj, IncreaseSightEvent());
-    return wobj;
-}
-
-WorldObject* BlueGem(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.BlueGemImage());
-    CreateItemUse(wobj, BlueGemShieldEvent());
     return wobj;
 }
 

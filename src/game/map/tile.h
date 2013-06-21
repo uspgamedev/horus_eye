@@ -30,8 +30,6 @@ namespace map {
 #define HERO                     '@'
 #define POTIONL                  'L'
 #define POTIONM                  'N'
-#define POTIONS                  'S'
-#define BLUEGEM                  'G'
 #define SCRIPT                   '!'
 
 typedef struct TilePos {

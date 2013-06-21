@@ -47,14 +47,12 @@ static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {
 static void MummyDeath(sprite::WorldObject* wobj) {
     int potion = rand() % 100;
     WorldObject* potion_obj = NULL;
-    if (potion <=20){
+    if (potion < 20) {
         std::vector<std::string> blank;
-        if(potion > 10)
+        if(potion < 10)
             potion_obj = builder::ItemBuilder::LifePotion(blank);
-        else if(potion> 5)
-            potion_obj = builder::ItemBuilder::ManaPotion(blank);
         else
-            potion_obj = builder::ItemBuilder::SightPotion(blank);
+            potion_obj = builder::ItemBuilder::ManaPotion(blank);
     }
     if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position(), map::POSITION_ABSOLUTE);
     //WORLD()->DecreaseEnemyCount();
