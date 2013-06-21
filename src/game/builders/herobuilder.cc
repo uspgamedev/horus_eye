@@ -69,7 +69,7 @@ sprite::WorldObject* Kha() {
                          constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
     WorldObject* hero_wobj = new WorldObject;
-    hero_wobj->set_die_callback(HeroDeathEvent);
+    hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(new component::Graphic("hero", ANIMATIONS));

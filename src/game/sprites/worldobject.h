@@ -25,6 +25,9 @@ namespace sprite {
 
 class WorldObject : public ::ugdk::action::Entity {
   public:
+
+    typedef std::tr1::function<void (WorldObject*)> WorldObjectEvent;
+
     /** @param duration Sets timed life to the given value, if positive. */
     WorldObject(double duration = -1.0);
     ~WorldObject();
@@ -58,8 +61,8 @@ class WorldObject : public ::ugdk::action::Entity {
         on_start_to_die_callback_ = on_death_start_callback;
     }
 
-    void set_die_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback) {
-        on_die_callback_ = on_death_end_callback;
+    void AddDeathEvent(const WorldObjectEvent& on_death_end_callback) {
+        on_die_callbacks_.push_back(on_death_end_callback);
     }
 
     component::Damageable* damageable();
@@ -140,10 +143,11 @@ class WorldObject : public ::ugdk::action::Entity {
     map::Room* current_room() const { return current_room_; }
 
   private:
+
     // TODO: make this somethintg
     std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
-    std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
-    std::tr1::function<void (WorldObject*)> on_die_callback_;
+    WorldObjectEvent                                    on_start_to_die_callback_;
+    std::list<WorldObjectEvent>                         on_die_callbacks_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;
