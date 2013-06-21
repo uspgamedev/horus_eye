@@ -60,10 +60,10 @@ opencorridor = {
    height = roomsize - 10,
    matrix = [[
 %%%%%%%%%%%%%%%%
+...............%
 ................
 ................
-................
-................
+...............#
 #######&########
 ]],
    objects = {
@@ -82,19 +82,17 @@ closedcorridor = {
   height = roomsize - 10,
   matrix = [[
 %%%%%%%%%%%%%%%%
+...............%
 ................
 ................
-................
-................
+...............#
 #######&########
 ]],
   objects = {
-    {  12,   3, "!", { "activated_switch" } },
     { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
     { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-    { 15, 1, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
-    { 15, 2, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
-    { 15, 3, "!", {"closed-door", "LEFT"}, "THE-DOOR-3" },
-    { 15, 4, "!", {"closed-door", "LEFT"}, "THE-DOOR-4" },
+    { 15, 2, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
+    { 15, 3, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
+    { 12, 2, "!", {"kill_switch", "THE-DOOR-1", "THE-DOOR-2",} },
   }
 }
