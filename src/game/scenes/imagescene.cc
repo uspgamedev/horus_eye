@@ -4,7 +4,7 @@
 #include FROM_TR1(functional)
 
 #include <ugdk/base/engine.h>
-#include <ugdk/action/generictask.h>
+#include <ugdk/action.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
@@ -14,7 +14,7 @@
 
 namespace scene {
 
-using ugdk::action::GenericTask;
+using ugdk::action::Task;
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
 
@@ -49,7 +49,7 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     }
     else scene_layers_[IMG] = NULL;
 
-    this->AddTask(new GenericTask(bind(FinishImageSceneTask, this, _1)));
+    this->AddTask(bind(FinishImageSceneTask, this, _1));
 }
 
 ImageScene::~ImageScene() {}

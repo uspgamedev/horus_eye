@@ -6,7 +6,6 @@
 #include <ugdk/portable/tr1.h>
 #include FROM_TR1(functional)
 #include <ugdk/action/scene.h>
-#include <ugdk/action/generictask.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
@@ -34,7 +33,6 @@ namespace scene {
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
-using ugdk::action::GenericTask;
 using std::tr1::bind;
 using namespace std::tr1::placeholders;
 using pyramidworks::collision::CollisionInstance;
@@ -139,13 +137,13 @@ World::World()
     interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
-    this->AddTask(new GenericTask(bind(&World::updateRooms, this, _1)));
+    this->AddTask(bind(&World::updateRooms, this, _1));
 
-    this->AddTask(new GenericTask(bind(FinishLevelTask, _1, &level_state_), 1000));
+    this->AddTask(bind(FinishLevelTask, _1, &level_state_), 1000);
 //#ifdef DEBUG
-    this->AddTask(new GenericTask(VerifyCheats));
+    this->AddTask(VerifyCheats);
 //#endif
-    this->AddTask(new GenericTask(UpdateOffset));
+    this->AddTask(UpdateOffset);
 }
 
 // Destrutor

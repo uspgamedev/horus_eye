@@ -1,4 +1,4 @@
-#include <ugdk/action/task.h>
+#include <ugdk/action.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/graphic/videomanager.h>
 #include <ugdk/graphic/drawable.h>
@@ -17,7 +17,7 @@ using ugdk::action::Scene;
 using ugdk::graphic::Node;
 using ugdk::math::Vector2D;
 
-class ScrollingTask : public Task {
+class ScrollingTask {
 public:
     ScrollingTask(double time, Node* target, Scene* scene) : time_(time), target_(target), scene_(scene) {
         double delta_h = VIDEO_MANAGER()->video_size().y;
@@ -28,13 +28,14 @@ public:
         target->geometry().set_offset(offset);
     }
 
-    void operator()(double dt) {
+    bool operator()(double dt) {
         Vector2D new_offset = target_->geometry().offset() + movement_*dt;
         target_->geometry().set_offset(new_offset);
 
         time_ -= dt;
-        finished_ = (time_ < 0.0);
-        if(finished_ && scene_) scene_->Finish();
+        bool finished = (time_ < 0.0);
+        if(finished && scene_) scene_->Finish();
+        return !finished;
     }
 
 private:
@@ -48,7 +49,7 @@ ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ug
          ImageScene(background, image) {
 
     if(scene_layers_[IMG]) {
-        AddTask(new ScrollingTask(time, scene_layers_[IMG], this));
+        AddTask(ScrollingTask(time, scene_layers_[IMG], this));
     }
 }
 

@@ -46,8 +46,6 @@ SET(GAME_SRCS
     game/builders/projectilebuilder.h 
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
-    game/builders/taskbuilder.cc 
-    game/builders/taskbuilder.h 
     game/components.h 
     game/components/animation.cc 
     game/components/animation.h 

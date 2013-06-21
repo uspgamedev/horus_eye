@@ -3,7 +3,7 @@
 #include FROM_TR1(functional)
 #include FROM_TR1(memory)
 
-#include <ugdk/action/generictask.h>
+#include <ugdk/action.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>

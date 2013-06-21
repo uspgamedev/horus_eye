@@ -1,6 +1,6 @@
 #include "loading.h"
 
-#include <ugdk/action/task.h>
+#include <ugdk/action.h>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/node.h>
@@ -18,15 +18,15 @@ using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
 
-class LoadTask : public Task {
+class LoadTask {
   public:
     LoadTask() : first_frame_(true) {}
     ~LoadTask() {}
 
-    void operator()(double dt) {
+    bool operator()(double dt) {
         if(first_frame_) {
             first_frame_ = false;
-            return;
+            return true;
         }
         utils::ImageFactory factory;
 
@@ -40,7 +40,8 @@ class LoadTask : public Task {
         factory.ExplosionImage();
         factory.QuakeImage();
         utils::LevelManager::reference()->LoadNextLevel();
-        finished_ = true;
+
+        return false;
     }
 
   private:
@@ -69,7 +70,7 @@ Loading::~Loading() {
 void Loading::Focus() {
     super::Focus();
     interface_node()->effect().set_visible(true);
-    this->AddTask(new LoadTask);
+    this->AddTask(LoadTask());
 }
 
 void Loading::DeFocus() {

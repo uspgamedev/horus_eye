@@ -11,6 +11,7 @@
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/drawable/textbox.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/input/inputmanager.h>
 #include <ugdk/action/scene.h>
 
 #include "game/scenes/menu.h"
@@ -20,7 +21,6 @@
 #include "game/scenes/loading.h"
 #include "game/components/caster.h"
 #include "game/builders/goodmenubuilder.h"
-#include "game/builders/taskbuilder.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
@@ -169,8 +169,14 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
         loader.Load(level_name);
     }
     {
-        builder::TaskBuilder task_builder;
-        current_level_->AddTask(task_builder.PauseMenuTask());
+        current_level_->AddTask([](double) -> bool {
+            ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();
+            if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
+                builder::MenuBuilder builder;
+                ugdk::Engine::reference()->PushScene(builder.PauseMenu());
+            }
+            return true;
+        });
     }
 
     Engine::reference()->PushScene(current_level_);
