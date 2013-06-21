@@ -3,6 +3,7 @@
 
 #include <cstdlib>
 #include <functional>
+#include <string>
 
 #include <ugdk/graphic.h>
 #include "game/components.h"
