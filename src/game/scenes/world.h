@@ -3,8 +3,7 @@
 
 #include <list>
 #include <vector>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(unordered_map)
+#include <unordered_map>
 #include <ugdk/action/scene.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/math/integer2D.h>
@@ -85,7 +84,7 @@ class World : public ugdk::action::Scene {
 
     utils::Hud *hud_;
     ugdk::math::Integer2D size_;
-    std::tr1::unordered_map<std::string, map::Room*> rooms_;
+    std::unordered_map<std::string, map::Room*> rooms_;
     std::list<map::Room*> active_rooms_;
 
   private:

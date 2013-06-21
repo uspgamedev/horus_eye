@@ -1,8 +1,7 @@
 #include "itembuilder.h"
 
-#include <ugdk/portable/tr1.h>
 #include <cmath>
-#include FROM_TR1(functional)
+#include <functional>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <pyramidworks/collision/collisionobject.h>
@@ -36,7 +35,7 @@ using component::Caster;
 using sprite::Effect;
 using pyramidworks::collision::CollisionObject;
 
-typedef std::tr1::function<bool (WorldObject*)> ItemEvent;
+typedef std::function<bool (WorldObject*)> ItemEvent;
 
 struct ItemUseData {
     WorldObject* wobj_;

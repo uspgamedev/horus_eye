@@ -1,7 +1,6 @@
 #include "imagescene.h"
 
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 
 #include <ugdk/base/engine.h>
 #include <ugdk/action.h>
@@ -15,8 +14,8 @@
 namespace scene {
 
 using ugdk::action::Task;
-using std::tr1::bind;
-using namespace std::tr1::placeholders;
+using std::bind;
+using namespace std::placeholders;
 
 #define BG  0
 #define IMG 1

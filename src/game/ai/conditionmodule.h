@@ -1,14 +1,14 @@
 #ifndef HORUSEYE_GAME_AI_CONDITIONMODULE_H_
 #define HORUSEYE_GAME_AI_CONDITIONMODULE_H_
 
+#include <functional>
+
 #include "game/ai.h"
 #include "game/ai/aimodule.h"
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
 
 namespace ai {
 
-typedef std::tr1::function<bool (ConditionModule*, double, AIData*)> ConditionEvalFunc;
+typedef std::function<bool (ConditionModule*, double, AIData*)> ConditionEvalFunc;
 
 class ConditionModule : public AIModule {
 

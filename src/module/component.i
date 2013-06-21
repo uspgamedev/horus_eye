@@ -38,8 +38,8 @@ proxy_class(component::Base)
 
 // sprite::WorldObject
 
-%ignore sprite::WorldObject::set_start_to_die_callback (std::tr1::function<void (WorldObject*)> on_death_start_callback);
-%ignore sprite::WorldObject::set_die_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback);
+%ignore sprite::WorldObject::set_start_to_die_callback (std::function<void (WorldObject*)> on_death_start_callback);
+%ignore sprite::WorldObject::set_die_callback(std::function<void (WorldObject*)> on_death_end_callback);
 
 enable_disown(pyramidworks::collision::CollisionObject* col)
 enable_disown(component::Base* component)

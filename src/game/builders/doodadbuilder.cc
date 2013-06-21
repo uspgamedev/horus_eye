@@ -1,6 +1,5 @@
 #include <cmath>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/graphic/drawable/sprite.h>
@@ -27,8 +26,8 @@
 namespace builder {
 namespace DoodadBuilder {
 
-using std::tr1::bind;
-using namespace std::tr1::placeholders;
+using std::bind;
+using namespace std::placeholders;
 using ugdk::action::SpriteAnimationTable;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;

@@ -1,7 +1,6 @@
 #include <sstream>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
-#include FROM_TR1(memory)
+#include <functional>
+#include <memory>
 
 #include <ugdk/action.h>
 #include <ugdk/action/scene.h>
@@ -26,9 +25,9 @@
 #include "game/utils/menuimagefactory.h"
 #include "game/utils/settings.h"
 
-using std::tr1::bind;
-using std::tr1::mem_fn;
-using namespace std::tr1::placeholders;
+using std::bind;
+using std::mem_fn;
+using namespace std::placeholders;
 using ugdk::action::Scene;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
@@ -204,7 +203,7 @@ Scene* MenuBuilder::MainMenu() const {
 
 struct SettingsFunction {
     std::string name;
-    std::tr1::function<void (utils::Settings*, int)> function;
+    std::function<void (utils::Settings*, int)> function;
     std::vector<std::string> values;
 };
 static void fillSettingsFunction(SettingsFunction* sf) {
@@ -283,11 +282,11 @@ struct ConveninentSettingsData {
     }
 };
 
-static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, int modifier, const UIElement * source) {
+static void ChangeSetting(std::shared_ptr<ConveninentSettingsData> data, int modifier, const UIElement * source) {
     if(data->indices_.find(source) == data->indices_.end()) return;
     int value = data->indices_[source];
     int max_val = (int) data->setting_functions_[value].values.size();
-    std::tr1::function<void (utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
+    std::function<void (utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
 
     data->nodes_[value][data->sprites_active_[value]]->effect().set_visible(false);
     data->sprites_active_[value] = (data->sprites_active_[value] + modifier) % max_val;
@@ -298,11 +297,11 @@ static void ChangeSetting(std::tr1::shared_ptr<ConveninentSettingsData> data, in
     data->nodes_[value][data->sprites_active_[value]]->effect().set_visible(true);
 }
 
-static void ElementPress(std::tr1::shared_ptr<ConveninentSettingsData> data, const Button * source) {
+static void ElementPress(std::shared_ptr<ConveninentSettingsData> data, const Button * source) {
     ChangeSetting(data, +1, source);
 }
 
-static void PressArrow(std::tr1::shared_ptr<ConveninentSettingsData> data, int modifier, Menu* menu) {
+static void PressArrow(std::shared_ptr<ConveninentSettingsData> data, int modifier, Menu* menu) {
     ChangeSetting(data, modifier, menu->focused_element());
 }
 
@@ -325,7 +324,7 @@ Scene* MenuBuilder::SettingsMenu() const {
         menu->SetOptionDrawable(sprite, i);
     }
 
-    std::tr1::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(settings_menu->interface_node()));
+    std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(settings_menu->interface_node()));
     double left_column = target.x * 0.15;
 
     for (int i = 0; i < 5; ++i) {

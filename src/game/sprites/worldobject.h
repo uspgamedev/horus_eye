@@ -3,9 +3,8 @@
 
 #include <string>
 #include <list>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
-#include FROM_TR1(unordered_map)
+#include <functional>
+#include <unordered_map>
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
@@ -50,15 +49,15 @@ class WorldObject : public ::ugdk::action::Entity {
 
     void OnRoomAdd(map::Room*);
     
-    void set_room_add_callback(std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback) {
+    void set_room_add_callback(std::function<void (WorldObject*, map::Room*)> on_room_add_callback) {
         on_room_add_callback_ = on_room_add_callback;
     }
 
-    void set_start_to_die_callback(std::tr1::function<void (WorldObject*)> on_death_start_callback) {
+    void set_start_to_die_callback(std::function<void (WorldObject*)> on_death_start_callback) {
         on_start_to_die_callback_ = on_death_start_callback;
     }
 
-    void set_die_callback(std::tr1::function<void (WorldObject*)> on_death_end_callback) {
+    void set_die_callback(std::function<void (WorldObject*)> on_death_end_callback) {
         on_die_callback_ = on_death_end_callback;
     }
 
@@ -141,9 +140,9 @@ class WorldObject : public ::ugdk::action::Entity {
 
   private:
     // TODO: make this somethintg
-    std::tr1::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
-    std::tr1::function<void (WorldObject*)> on_start_to_die_callback_;
-    std::tr1::function<void (WorldObject*)> on_die_callback_;
+    std::function<void (WorldObject*, map::Room*)> on_room_add_callback_;
+    std::function<void (WorldObject*)> on_start_to_die_callback_;
+    std::function<void (WorldObject*)> on_die_callback_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;
@@ -171,7 +170,7 @@ class WorldObject : public ::ugdk::action::Entity {
         bool operator == (const component::Base*) const;
     };
     typedef std::list<OrderedComponent> ComponentsByOrder;
-    typedef std::tr1::unordered_map<std::string, ComponentsByOrder::iterator> ComponentsByName;
+    typedef std::unordered_map<std::string, ComponentsByOrder::iterator> ComponentsByName;
 
     ComponentsByName components_;
     ComponentsByOrder components_order_;

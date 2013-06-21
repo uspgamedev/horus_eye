@@ -5,9 +5,7 @@
 #include <vector>
 #include <string>
 #include <queue>
-
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(unordered_map)
+#include <unordered_map>
 
 #include <ugdk/graphic.h>
 #include <ugdk/math/integer2D.h>
@@ -63,7 +61,7 @@ class Room {
     void flushObjectQueue();
     void handleNewObject(sprite::WorldObject*);
 
-    typedef std::tr1::unordered_map<std::string, sprite::WorldObject*> TagTable;
+    typedef std::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
     std::string name_;
     ugdk::math::Integer2D size_, position_;

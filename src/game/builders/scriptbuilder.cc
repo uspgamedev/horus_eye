@@ -18,13 +18,13 @@ namespace ScriptBuilder {
     
 using ugdk::script::VirtualObj;
 using sprite::WorldObject;
-using std::tr1::bind;
+using std::bind;
 using std::string;
 using std::vector;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::GenericCollisionLogic;
-using namespace std::tr1::placeholders;
+using namespace std::placeholders;
 
 bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::string(), const std::string& f2 = std::string(),
     const std::string& f3 = std::string(), const std::string& f4 = std::string(), const std::string& f5 = std::string()) {

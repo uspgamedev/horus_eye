@@ -2,8 +2,7 @@
 #define HORUSEYE_COMPONENT_ANIMATION_H_
 
 #include <map>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
@@ -20,7 +19,7 @@ namespace component {
 
 class Animation : public Base, private ugdk::action::Observer {
   public:
-    typedef std::tr1::function<void (sprite::WorldObject*)> AnimationCallback;
+    typedef std::function<void (sprite::WorldObject*)> AnimationCallback;
     static const char* DEFAULT_NAME() { return "animation"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 

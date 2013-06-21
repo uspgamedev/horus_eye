@@ -128,7 +128,7 @@ WorldObject* LightningBolt(const Vector2D &dir) {
     wobj->graphic()->ChangeLightColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DamageCollision("LIGHTNING_DAMAGE"));
-    wobj->set_start_to_die_callback(std::tr1::mem_fn(&WorldObject::Die));
+    wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Die));
     return wobj;
 }
 

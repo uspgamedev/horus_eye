@@ -3,8 +3,7 @@
 
 #include <vector>
 #include <string>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/math.h>
 
@@ -25,7 +24,7 @@ using ugdk::math::Vector2D;
 
 namespace utils {
 
-typedef std::tr1::function<sprite::WorldObject* (const std::vector<std::string>&)> WorldObjectFactoryMethod;
+typedef std::function<sprite::WorldObject* (const std::vector<std::string>&)> WorldObjectFactoryMethod;
 typedef std::vector<std::string> ArgumentList;
 
 class LevelLoader;

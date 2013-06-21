@@ -5,7 +5,7 @@
 namespace component {
 
 using std::list;
-using std::tr1::shared_ptr;
+using std::shared_ptr;
 using sprite::Effect;
 
 Condition::Condition(sprite::WorldObject* owner)
@@ -25,7 +25,7 @@ void Condition::Update(double dt) {
     effects_.remove_if(deleteeffect);
 }
 
-bool Condition::AddEffect(const std::tr1::shared_ptr<sprite::Effect>& new_effect) {
+bool Condition::AddEffect(const std::shared_ptr<sprite::Effect>& new_effect) {
     effects_.push_front(new_effect);
     new_effect->StartEffect(owner_);
     return true;

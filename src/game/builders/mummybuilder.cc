@@ -68,7 +68,7 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->AddComponent(new component::Animation(wobj, utils::SPAWNING, Direction()));
     wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
-    wobj->component<Animation>()->AddCallback(utils::DEATH, std::tr1::mem_fn(&WorldObject::Die));
+    wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Die));
 
     ai::AI* mummyAI = AIBuilder::AIScript(wobj, "basicmummy");
     mummyAI->set_standing(standing);

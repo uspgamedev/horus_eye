@@ -7,7 +7,7 @@
 #include <pyramidworks/geometry/geometricshape.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 #include <algorithm>
 #include <string>
 #include <cstdio>
@@ -17,9 +17,9 @@ namespace blocks {
 
 using ugdk::math::Vector2D;
 using sprite::WorldObject;
-using std::tr1::function;
-using std::tr1::bind;
-using namespace std::tr1::placeholders;
+using std::function;
+using std::bind;
+using namespace std::placeholders;
 
 TargetDetector::~TargetDetector() {
     delete area_;

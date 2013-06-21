@@ -3,8 +3,7 @@
 #include <cmath>
 #include <iostream>
 #include <algorithm>
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 #include <ugdk/action/scene.h>
 #include <ugdk/audio/music.h>
 #include <ugdk/base/engine.h>
@@ -33,8 +32,8 @@ namespace scene {
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
-using std::tr1::bind;
-using namespace std::tr1::placeholders;
+using std::bind;
+using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
 
 bool VerifyCheats(double dt) {
@@ -240,7 +239,7 @@ bool World::IsRoomActive(const map::Room* room) const {
 }
 
 map::Room* World::findRoom(const std::string& name) const {
-    std::tr1::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
+    std::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
     if(it == rooms_.end()) return NULL;
     return it->second;
 }
@@ -252,7 +251,7 @@ bool World::updateRooms(double dt) {
 }
 
 void World::removeAllRooms() {
-    for(std::tr1::unordered_map<std::string, map::Room*>::iterator it = rooms_.begin(); it != rooms_.end(); ++it)
+    for(std::unordered_map<std::string, map::Room*>::iterator it = rooms_.begin(); it != rooms_.end(); ++it)
         delete it->second;
     rooms_.clear();
     active_rooms_.clear();

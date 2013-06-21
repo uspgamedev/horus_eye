@@ -1,9 +1,8 @@
 #ifndef HORUSEYE_COMPONENT_CONDITION_H_
 #define HORUSEYE_COMPONENT_CONDITION_H_
 
-#include <ugdk/portable/tr1.h>
 #include <list>
-#include FROM_TR1(memory)
+#include <memory>
 
 #include "game/components/base.h"
 
@@ -22,7 +21,7 @@ class Condition : public Base {
     
     void Update(double dt);
 
-    bool AddEffect(const std::tr1::shared_ptr<sprite::Effect>& new_effect);
+    bool AddEffect(const std::shared_ptr<sprite::Effect>& new_effect);
     int CountEffectsByName(const std::string&) const;
 
     sprite::WorldObject* owner() { return owner_; }
@@ -32,7 +31,7 @@ class Condition : public Base {
     sprite::WorldObject* owner_;
 
     // The conditions currently affecting this creature.
-    std::list< std::tr1::shared_ptr<sprite::Effect> > effects_;
+    std::list< std::shared_ptr<sprite::Effect> > effects_;
 
 };  // class Walker
 

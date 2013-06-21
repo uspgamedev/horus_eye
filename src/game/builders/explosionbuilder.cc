@@ -1,7 +1,6 @@
 #include "explosionbuilder.h"
 
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(functional)
+#include <functional>
 #include <ugdk/base/engine.h>
 #include <ugdk/base/resourcemanager.h>
 #include <ugdk/action/animationplayer.h>
@@ -30,7 +29,7 @@
 namespace builder {
 namespace ExplosionBuilder {
 
-using std::tr1::bind;
+using std::bind;
 using ugdk::action::SpriteAnimationTable;
 using ugdk::base::ResourceManager;
 using ugdk::graphic::Sprite;

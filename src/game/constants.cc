@@ -1,5 +1,4 @@
-#include <ugdk/portable/tr1.h>
-#include FROM_TR1(unordered_map)
+#include <unordered_map>
 #include "constants.h"
 #include "game/config.h"
 
@@ -8,7 +7,7 @@
 namespace constants {
 
 using std::string;
-using std::tr1::unordered_map;
+using std::unordered_map;
 
 static unordered_map<string, int> int_db_;
 static unordered_map<string, double> double_db_;
