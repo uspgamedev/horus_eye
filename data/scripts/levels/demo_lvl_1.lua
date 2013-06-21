@@ -38,7 +38,7 @@ entrance = {
 ################
 ]],
   objects = {
-    { 4, 4, "!", {"room_loader", "opencorridor"}, "ENTRANCE_ROOM_LOADER" },
+    { -1, -1, "!", {"room_loader", "opencorridor"}, "ENTRANCE_ROOM_LOADER" },
   },
   collision_classes = {
     { "Switch", "Wall" }
@@ -67,8 +67,12 @@ opencorridor = {
 #######&########
 ]],
   objects = {
-     {  12,   3, "!", { "activated_switch" } },
-     { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-     { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+    {  12,   3, "!", { "activated_switch" } },
+    { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+    { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+    { 15, 1, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
+    { 15, 2, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
+    { 15, 3, "!", {"closed-door", "LEFT"}, "THE-DOOR-3" },
+    { 15, 4, "!", {"closed-door", "LEFT"}, "THE-DOOR-4" },
   }
 }
