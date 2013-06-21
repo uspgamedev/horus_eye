@@ -6,7 +6,7 @@ roomsize = 16
 rooms = {
    {0, roomsize * 0, "entrance"},
    {roomsize * 1, 5, "opencorridor"},
-   --{0, roomsize * 2, "closedcorridor"},
+   {roomsize * 2, 5, "closedcorridor"},
    --{0, roomsize * 3, "firstblood"},
    --{0, roomsize * 4, "exit"}
 }
@@ -56,6 +56,28 @@ for i = 1,6 do
 end
 
 opencorridor = {
+   width = roomsize,
+   height = roomsize - 10,
+   matrix = [[
+%%%%%%%%%%%%%%%%
+................
+................
+................
+................
+#######&########
+]],
+   objects = {
+      {  12,   3, "!", { "activated_switch" } },
+      { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+      { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+      { 4, 4, "!", {"room_loader", "closedcorridor"}, "ENTRANCE_ROOM_LOADER" }
+   },
+   setup = function(self)
+     (self:WorldObjectByTag "ENTRANCE_ROOM_LOADER"):set_timed_life(0.01)
+   end
+}
+
+closedcorridor = {
   width = roomsize,
   height = roomsize - 10,
   matrix = [[
