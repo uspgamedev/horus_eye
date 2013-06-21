@@ -7,8 +7,6 @@ namespace builder {
 namespace ExplosionBuilder {
 
 sprite::WorldObject* FireballExplosion();
-sprite::WorldObject* EarthquakeExplosion();
-sprite::WorldObject* MeteorExplosion();
 
 }
 }

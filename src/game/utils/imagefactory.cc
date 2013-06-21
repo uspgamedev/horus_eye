@@ -13,9 +13,6 @@ using ugdk::graphic::Spritesheet;
 
 namespace utils {
 
-#define HERO_HOTSPOT_X 55.0
-#define HERO_HOTSPOT_Y 102.0
-  
 Spritesheet* ImageFactory::HeroImage() {
     return ResourceManager::GetSpritesheetFromTag("hero");
 }
@@ -48,18 +45,6 @@ Spritesheet* ImageFactory::MummyProjectileImage() {
     return ResourceManager::GetSpritesheetFromTag("mummy_projectile");
 }
 
-Spritesheet* ImageFactory::ExplosionImage() {
-    return ResourceManager::GetSpritesheetFromTag("fireball_explosion");
-}
-
-Spritesheet* ImageFactory::QuakeImage() {
-    return ResourceManager::GetSpritesheetFromTag("quake");
-}
-
-Spritesheet* ImageFactory::ShieldImage() {
-    return ResourceManager::GetSpritesheetFromTag("shield");
-}
-
 Spritesheet* ImageFactory::DoorImage() {
     return ResourceManager::GetSpritesheetFromTag("stairs");
 }
@@ -90,20 +75,6 @@ Drawable* ImageFactory::LifePotionImage() {
 
 Drawable* ImageFactory::ManaPotionImage() {
     return new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/mana_potion.png"));
-}
-
-Drawable* ImageFactory::BlueGemImage() {
-    return new ugdk::graphic::Sprite(ResourceManager::GetSpritesheetFromTag("light"));
-}
-
-Drawable* ImageFactory::SightPotionImage() {
-    return new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/sight_potion.png"));
-}
-
-Drawable* ImageFactory::FloorImage() {
-    Drawable* draw = new ugdk::graphic::TexturedRectangle(ugdk::base::ResourceManager::GetTextureFromFile("images/ground2_106x54.png"));
-    draw->set_hotspot(Vector2D(constants::GetDouble("FLOOR_HOTSPOT_X"), constants::GetDouble("FLOOR_HOTSPOT_Y")));
-    return draw;
 }
 
 }

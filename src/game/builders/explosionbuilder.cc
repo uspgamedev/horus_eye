@@ -43,11 +43,11 @@ COLLISION_DIRECT(double, ExplosionCollision, obj) {
     wobj->damageable()->TakeDamage(data_);
 }
 
-static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::string& anim) {
+static WorldObject* baseExplosion(const std::string& spritesheet, const std::string& anim) {
     WorldObject *wobj = new WorldObject;
 
     utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromResourceManager("animations/explosion.gdd");
-    component::Graphic* graphic = new component::Graphic(sheet, set);
+    component::Graphic* graphic = new component::Graphic(spritesheet, set);
     graphic->ChangeAnimation(anim);
     graphic->AddTickFunction(bind(&WorldObject::StartToDie, wobj));
 
@@ -62,7 +62,7 @@ static WorldObject* baseExplosion(ugdk::graphic::Spritesheet* sheet, const std::
 
 WorldObject* FireballExplosion() {
     utils::ImageFactory factory;
-    WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
+    WorldObject *wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
     
     wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
     wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
@@ -70,32 +70,6 @@ WorldObject* FireballExplosion() {
     CollisionObject* col = wobj->shape()->collision();
     col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
     col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
-
-    return wobj;
-}
-
-WorldObject* EarthquakeExplosion() {
-    utils::ImageFactory factory;
-    WorldObject *wobj = baseExplosion(factory.QuakeImage(), "HERO_EXPLOSION_WEAPON");
-
-    wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3* constants::GetDouble("QUAKE_EXPLOSION_RADIUS"));
-
-    CollisionObject* col = wobj->shape()->collision();
-    col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("QUAKE_EXPLOSION_DAMAGE")));
-    col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("QUAKE_EXPLOSION_RADIUS")));
-
-    return wobj;
-}
-
-WorldObject* MeteorExplosion() {
-    utils::ImageFactory factory;
-    WorldObject *wobj = baseExplosion(factory.ExplosionImage(), "HERO_FIREBALL_WEAPON");
-
-    // TODO: make an animation for the explosion
-
-    CollisionObject* col = wobj->shape()->collision();
-    col->AddCollisionLogic("Mummy", new ExplosionCollision(constants::GetInt("METEOR_EXPLOSION_DAMAGE")));
-    col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("METEOR_EXPLOSION_RADIUS")));
 
     return wobj;
 }

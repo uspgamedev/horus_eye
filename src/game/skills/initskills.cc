@@ -11,9 +11,6 @@ Skill* HeroMagicMissileBuild();
 Skill* HeroFireballBuild();
 Skill* HeroLightningBuild();
 Skill* HeroLightBuild();
-Skill* HeroQuakeBuild();
-Skill* HeroMeteorBuild();
-Skill* HeroSandstormBuild();
 Skill* MummyMeleeBuild();
 Skill* MummyRangedBuild();
 Skill* PaperMeleeBuild();
@@ -26,9 +23,6 @@ void InitHeroSkills() {
     container.Insert("fireball", HeroFireballBuild());
     container.Insert("lightning", HeroLightningBuild());
     container.Insert("light", HeroLightBuild());
-    container.Insert("quake", HeroQuakeBuild());
-    container.Insert("meteor", HeroMeteorBuild());
-    container.Insert("sandstorm", HeroSandstormBuild());
 }
 void InitMummySkills() {
     ugdk::base::ResourceContainer<Skill*>& container = RESOURCE_MANAGER()->get_container<skills::Skill*>();

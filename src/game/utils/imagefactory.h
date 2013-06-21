@@ -18,9 +18,6 @@ class ImageFactory {
     ugdk::graphic::Spritesheet* MagicMissileImage();
     ugdk::graphic::Spritesheet* FireballImage();
     ugdk::graphic::Spritesheet* MummyProjectileImage();
-    ugdk::graphic::Spritesheet* ExplosionImage();
-    ugdk::graphic::Spritesheet* QuakeImage();
-    ugdk::graphic::Spritesheet* ShieldImage();
     ugdk::graphic::Spritesheet* DoorImage();
     ugdk::graphic::Spritesheet* WallImage();
     ugdk::graphic::Spritesheet* EntryImage();
@@ -29,9 +26,6 @@ class ImageFactory {
     ugdk::graphic::Spritesheet* TileSwitchImage();
     ugdk::graphic::Drawable* LifePotionImage();
     ugdk::graphic::Drawable* ManaPotionImage();
-    ugdk::graphic::Drawable* SightPotionImage();
-    ugdk::graphic::Drawable* BlueGemImage();
-    ugdk::graphic::Drawable* FloorImage();
 };
 
 }

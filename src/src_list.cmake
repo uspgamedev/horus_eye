@@ -120,9 +120,6 @@ SET(GAME_SRCS
     game/skills/hero/herolight.cc 
     game/skills/hero/herolightning.cc 
     game/skills/hero/heromagicmissile.cc 
-    game/skills/hero/herometeor.cc 
-    game/skills/hero/heroquake.cc 
-    game/skills/hero/herosandstorm.cc 
     game/skills/initskills.cc 
     game/skills/initskills.h 
     game/skills/mummy/mummyskills.cc 
