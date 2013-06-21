@@ -89,13 +89,15 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
 static void post_build(WorldObject* wobj, const VirtualObj& descriptor) {
     CollisionObject *collision = NULL, *visibility = NULL;
 
-    if(descriptor["on_die_callback"]) {
-        VirtualObj callback_function = descriptor["on_die_callback"];
-        wobj->AddDeathEvent([callback_function](WorldObject* obj) -> void {
-            VirtualObj arg = VirtualObj(callback_function.wrapper());
-            arg.set_value<WorldObject*>(obj);
-            callback_function(VirtualObj::List(1, arg));
-        });
+    if(descriptor["on_die_callbacks"]) {
+        VirtualObj::List callbacks = descriptor["on_die_callbacks"].value<VirtualObj::List>();
+        for (auto callback_function : callbacks) {
+          wobj->AddDeathEvent([callback_function](WorldObject* obj) -> void {
+              VirtualObj arg = VirtualObj(callback_function.wrapper());
+              arg.set_value<WorldObject*>(obj);
+              callback_function(VirtualObj::List(1, arg));
+          });
+        }
     }
 
     if(descriptor["collision"])
