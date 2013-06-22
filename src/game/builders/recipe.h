@@ -3,24 +3,22 @@
 
 #include <vector>
 #include <memory>
+#include <functional>
 #include "game/sprites.h"
 
 namespace builder {
-     
-class Director {
-  public:
-    virtual void Visit(sprite::WorldObject* wobj) = 0;
-};
+
+typedef std::function<void (sprite::WorldObject*)> Director;
 
 class Recipe {
   public:
-    void AddDirector(const std::shared_ptr<Director>& director) {
+    void AddDirector(const Director& director) {
         directors_.push_back(director);
     }
     sprite::WorldObject* Generate() const;
 
   private:
-    std::vector<std::shared_ptr<Director>> directors_;
+    std::vector<Director> directors_;
 };
 
 } // namespace builder

@@ -15,6 +15,7 @@
 #include "constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
+#include "game/builders/recipes/init.h"
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 
@@ -105,6 +106,7 @@ int main(int argc, char *argv[]) {
     engine()->resource_manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::base::GenericContainer<utils::IsometricAnimationSet*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
+    builder::InitRecipes();
 
     do {
         // Initializes game data
