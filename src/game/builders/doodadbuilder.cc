@@ -89,12 +89,5 @@ WorldObject* Entry(const std::vector<std::string>& arguments) {
     return buildWall(ResourceManager::GetTextureFromFile("images/door.png"));
 }
 
-Node* Floor(const ugdk::math::Vector2D& position) {
-    utils::ImageFactory imagefactory;
-    Node* floor = new Node(imagefactory.FloorImage());
-    floor->geometry().set_offset(core::FromWorldCoordinates(position));
-    return floor;
-}
-
 } // namespace DoodadBuilder
 } // namespace builder

@@ -37,8 +37,6 @@ class LoadTask {
         factory.LightImage();
 
         // Load explosions.
-        factory.ExplosionImage();
-        factory.QuakeImage();
         utils::LevelManager::reference()->LoadNextLevel();
 
         return false;
