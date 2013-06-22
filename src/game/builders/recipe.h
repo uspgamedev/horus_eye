@@ -2,7 +2,6 @@
 #define HORUS_EYE_GAME_BUILDERS_RECIPE_H_
 
 #include <vector>
-#include <string>
 #include <memory>
 #include "game/sprites.h"
 

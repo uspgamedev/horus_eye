@@ -13,6 +13,9 @@ sprite::WorldObject* WorldObjectFromTypename(const std::string& type, const Argu
 
 bool HasFactoryMethod(const std::string& type);
 
+class Recipe;
+const Recipe* FindRecipeFor(const std::string&);
+void AddRecipe(const std::string&, Recipe*);
 
 } // namespace builder
 
