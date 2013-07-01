@@ -98,6 +98,19 @@ closedcorridor = {
   }
 }
 
+local function mummy_maker (x,y)
+  return {
+    2,  roomsize/2, --position
+    "!", --scriptobj
+    {
+      "spawn_trap", --type
+      1.0, roomsize, -- width, height
+      x, y, -- position
+      "mummy_spawner", 0.5 -- spawned object
+    }
+  }
+end
+
 firstblood = {
   width = roomsize,
   height = roomsize,
@@ -120,16 +133,7 @@ firstblood = {
 ################
 ]],
   objects = {
-    {
-      2,  roomsize/2, --position
-      "!", --scriptobj
-      {
-        "spawn_trap", --type
-        1.0, roomsize, -- width, height
-        roomsize-3, roomsize/2, -- position
-        "mummy_spawner", 0.5 -- spawned object
-      }
-    },
+    mummy_maker(roomsize-3, roomsize/2)
   },
   collision_classes = {
     { "EventArea" }
