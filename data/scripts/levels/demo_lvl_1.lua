@@ -4,10 +4,10 @@ require "map"
 music = "musics/Arabesque.ogg"
 roomsize = 16
 rooms = {
-   {0, roomsize * 0, "entrance"},
+   {roomsize * 0, 0, "entrance"},
    {roomsize * 1, 5, "opencorridor"},
    {roomsize * 2, 5, "closedcorridor"},
-   --{0, roomsize * 3, "firstblood"},
+   {roomsize * 3, 0, "firstblood"},
    --{0, roomsize * 4, "exit"}
 }
 
@@ -93,6 +93,45 @@ closedcorridor = {
     { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
     { 15, 2, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
     { 15, 3, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
-    { 12, 2, "!", {"kill_switch", "THE-DOOR-1", "THE-DOOR-2",} },
+    { 12, 2, "!", {"kill_switch", "THE-DOOR-1", "THE-DOOR-2", "CORRIDOR_ROOM_LOADER"} },
+    { -1, -1, "!", {"room_loader", "firstblood"}, "CORRIDOR_ROOM_LOADER" },
   }
+}
+
+firstblood = {
+  width = roomsize,
+  height = roomsize,
+  matrix = [[
+%%%%%%%%%%%%%%%%
+%..............#
+%..............#
+%..............#
+%..............#
+%..............#
+...............#
+...............#
+...............#
+...............#
+%..............#
+%..............#
+%..............#
+%..............#
+%..............#
+################
+]],
+  objects = {
+    {
+      2,  roomsize/2, --position
+      "!", --scriptobj
+      {
+        "spawn_trap", --type
+        1.0, roomsize, -- width, height
+        roomsize-3, roomsize/2, -- position
+        "mummy_spawner", 0.5 -- spawned object
+      }
+    },
+  },
+  collision_classes = {
+    { "EventArea" }
+  },
 }
