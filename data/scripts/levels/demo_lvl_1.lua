@@ -1,5 +1,6 @@
 require "component"
 require "map"
+require "constants"
 
 music = "musics/Arabesque.ogg"
 roomsize = 16
@@ -122,8 +123,8 @@ firstblood = {
 %..............#
 %..............#
 %..............#
-...............#
-...............#
+................
+................
 %..............#
 %..............#
 %..............#
@@ -133,14 +134,28 @@ firstblood = {
 ################
 ]],
   objects = {
-    spawn_region(roomsize-3, 3, "mummy_spawner", 0.5),
-    spawn_region(roomsize-3, roomsize-3, "mummy_spawner", 0.5),
-    spawn_region(0.5, 7.0, "closed-door", "LEFT"),
-    spawn_region(0.5, 8.0, "closed-door", "LEFT"),
-    spawn_region(0.5, 8.0, "closed-door", "LEFT"),
-    spawn_region(-1, -1, "room_loader", "closedcorridor", 0, "true")
+    spawn_region(
+      roomsize-3, 3,
+      "custom_mummy_spawner",
+      0.5,
+      "event_mummy",
+      "mummy_basic",
+      constants.GetInt "MUMMY_LIFE",
+      constants.GetDouble "MUMMY_RADIUS",
+      constants.GetDouble "MUMMY_SPEED"
+    ),
+    --spawn_region(roomsize-3, roomsize-3, "mummy_spawner", 0.5),
+    spawn_region(0, 7, "closed-door", "LEFT"),
+    spawn_region(0, 8, "closed-door", "LEFT"),
+    spawn_region(-1, -1, "room_loader", "closedcorridor", 0, "true"),
+    { 15, 7, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
+    { 15, 8, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
+    --{ -1, -1, "!", {"room_loader", "firstblood"}, "CORRIDOR_ROOM_LOADER" },
   },
   collision_classes = {
     { "EventArea" }
   },
+  setup = function (room)
+
+  end
 }
