@@ -136,7 +136,9 @@ firstblood = {
     spawn_region(roomsize-3, 3, "mummy_spawner", 0.5),
     spawn_region(roomsize-3, roomsize-3, "mummy_spawner", 0.5),
     spawn_region(0.5, 7.0, "closed-door", "LEFT"),
-    spawn_region(0.5, 8.0, "closed-door", "LEFT")
+    spawn_region(0.5, 8.0, "closed-door", "LEFT"),
+    spawn_region(0.5, 8.0, "closed-door", "LEFT"),
+    spawn_region(-1, -1, "room_loader", "closedcorridor", 0, "true")
   },
   collision_classes = {
     { "EventArea" }
