@@ -144,6 +144,16 @@ firstblood = {
       constants.GetDouble "MUMMY_RADIUS",
       constants.GetDouble "MUMMY_SPEED"
     ),
+    spawn_region(
+      roomsize-3, roomsize-3,
+      "custom_mummy_spawner",
+      0.5,
+      "event_mummy",
+      "mummy_basic",
+      constants.GetInt "MUMMY_LIFE",
+      constants.GetDouble "MUMMY_RADIUS",
+      constants.GetDouble "MUMMY_SPEED"
+    ),
     --spawn_region(roomsize-3, roomsize-3, "mummy_spawner", 0.5),
     spawn_region(0, 7, "closed-door", "LEFT"),
     spawn_region(0, 8, "closed-door", "LEFT"),
