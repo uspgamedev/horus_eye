@@ -142,7 +142,9 @@ firstblood = {
       "mummy_basic",
       constants.GetInt "MUMMY_LIFE",
       constants.GetDouble "MUMMY_RADIUS",
-      constants.GetDouble "MUMMY_SPEED"
+      constants.GetDouble "MUMMY_SPEED",
+      "THE-DOOR-1",
+      "THE-DOOR-2"
     ),
     spawn_region(
       roomsize-3, roomsize-3,
@@ -152,7 +154,9 @@ firstblood = {
       "mummy_basic",
       constants.GetInt "MUMMY_LIFE",
       constants.GetDouble "MUMMY_RADIUS",
-      constants.GetDouble "MUMMY_SPEED"
+      constants.GetDouble "MUMMY_SPEED",
+      "THE-DOOR-1",
+      "THE-DOOR-2"
     ),
     --spawn_region(roomsize-3, roomsize-3, "mummy_spawner", 0.5),
     spawn_region(0, 7, "closed-door", "LEFT"),
@@ -166,6 +170,8 @@ firstblood = {
     { "EventArea" }
   },
   setup = function (room)
-
+    for i=1,2 do
+      context.AddDamageableComponent(room, "THE-DOOR-"..i, 2)
+    end
   end
 }
