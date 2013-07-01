@@ -9,10 +9,10 @@ rooms = {
    {roomsize * 1, 5, "opencorridor"},
    {roomsize * 2, 5, "closedcorridor"},
    {roomsize * 3, 0, "firstblood"},
-   --{0, roomsize * 4, "exit"}
+   {roomsize * 4, 5, "exit"}
 }
 
-start_position = {"entrance", roomsize / 2, roomsize / 2}
+start_position = {"entrance", roomsize / 2 - 5, roomsize / 2}
 
 width = roomsize*#rooms
 height = roomsize
@@ -144,7 +144,8 @@ firstblood = {
       constants.GetDouble "MUMMY_RADIUS",
       constants.GetDouble "MUMMY_SPEED",
       "THE-DOOR-1",
-      "THE-DOOR-2"
+      "THE-DOOR-2",
+      "BATTLE_ROOM_LOADER"
     ),
     spawn_region(
       roomsize-3, roomsize-3,
@@ -156,15 +157,15 @@ firstblood = {
       constants.GetDouble "MUMMY_RADIUS",
       constants.GetDouble "MUMMY_SPEED",
       "THE-DOOR-1",
-      "THE-DOOR-2"
+      "THE-DOOR-2",
+      "BATTLE_ROOM_LOADER"
     ),
-    --spawn_region(roomsize-3, roomsize-3, "mummy_spawner", 0.5),
     spawn_region(0, 7, "closed-door", "LEFT"),
     spawn_region(0, 8, "closed-door", "LEFT"),
     spawn_region(-1, -1, "room_loader", "closedcorridor", 0, "true"),
     { 15, 7, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
     { 15, 8, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
-    --{ -1, -1, "!", {"room_loader", "firstblood"}, "CORRIDOR_ROOM_LOADER" },
+    { -1, -1, "!", {"room_loader", "exit"}, "BATTLE_ROOM_LOADER" },
   },
   collision_classes = {
     { "EventArea" }
@@ -173,5 +174,24 @@ firstblood = {
     for i=1,2 do
       context.AddDamageableComponent(room, "THE-DOOR-"..i, 2)
     end
+    context.AddDamageableComponent(room, "BATTLE_ROOM_LOADER", 2)
   end
 }
+
+exit = {
+   width = roomsize,
+   height = roomsize - 10,
+   matrix = [[
+%%%%%%%%%%%%%%%#
+...............#
+...........D...#
+...............#
+...............#
+################
+]],
+   objects = {
+   },
+   setup = function(self)
+   end
+}
+
