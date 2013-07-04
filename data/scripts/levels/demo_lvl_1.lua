@@ -3,6 +3,7 @@ require "map"
 require "constants"
 require "ugdk.math"
 require "pyramidworks.geometry"
+require "data.scripts.event"
 
 music = "musics/Arabesque.ogg"
 roomsize = 16
@@ -42,11 +43,20 @@ entrance = {
 ]],
   objects = {},
   recipes = {
-    load_corridor = { property = "room_loader", params = { room = "opencorridor", time = 0.01 } },
+    load_corridor = { property = "timer", params = { time = 0.01 } },
     urn = { property = "urn" },
   },
+  collision_classes = {
+    { "Switch", "Wall" }
+  },
   setup = function(self)
-    self:MakeRecipe "load_corridor"
+    self:MakeRecipe("load_corridor", "LOAD_CORRIDOR")
+    event.Register(
+      "LOAD_CORRIDOR",
+      function ()
+        context.ActivateRoom "opencorridor"
+      end
+    )
     for i = 1,6 do
       local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
       for i = 1,math.random(3,4) do
