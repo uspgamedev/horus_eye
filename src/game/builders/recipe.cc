@@ -6,8 +6,8 @@ namespace builder {
 
 sprite::WorldObject* Recipe::Generate() const {
     sprite::WorldObject *wobj = new sprite::WorldObject;
-    for(const Director& director : directors_)
-        director(wobj);
+    for(const Property& property : properties_)
+        property(wobj);
     return wobj;
 }
 

@@ -2,23 +2,22 @@
 #define HORUS_EYE_GAME_BUILDERS_RECIPE_H_
 
 #include <vector>
-#include <memory>
 #include <functional>
 #include "game/sprites.h"
 
 namespace builder {
 
-typedef std::function<void (sprite::WorldObject*)> Director;
+typedef std::function<void (sprite::WorldObject*)> Property;
 
 class Recipe {
   public:
-    void AddDirector(const Director& director) {
-        directors_.push_back(director);
+    void AddProperty(const Property& property) {
+        properties_.push_back(property);
     }
     sprite::WorldObject* Generate() const;
 
   private:
-    std::vector<Director> directors_;
+    std::vector<Property> properties_;
 };
 
 } // namespace builder

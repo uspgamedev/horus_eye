@@ -54,6 +54,8 @@ bool HasFactoryMethod(const std::string& type) {
     return type_factory_map.find(type) != type_factory_map.end();
 }
 
+//==================================================
+
 static unordered_map<string, Recipe*> recipe_database;
 const Recipe* FindRecipeFor(const std::string& recipe_name) {
     auto iterator = recipe_database.find(recipe_name);

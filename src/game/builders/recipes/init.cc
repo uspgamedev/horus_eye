@@ -18,7 +18,7 @@
 
 namespace builder {
 
-Director createBaseExplosionDirector(const std::string& spritesheet, const std::string& animation) {
+Property createBaseExplosionProperty(const std::string& spritesheet, const std::string& animation) {
     return [=](sprite::WorldObject* wobj) {
         utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromResourceManager("animations/explosion.gdd");
         component::Graphic* graphic = new component::Graphic(spritesheet, set);
@@ -35,8 +35,8 @@ Director createBaseExplosionDirector(const std::string& spritesheet, const std::
 
 Recipe* createFireballExplosionRecipe() {
     Recipe* recipe = new Recipe;
-    recipe->AddDirector(createBaseExplosionDirector("fireball_explosion", "HERO_FIREBALL_WEAPON"));
-    recipe->AddDirector([](sprite::WorldObject* wobj) {
+    recipe->AddProperty(createBaseExplosionProperty("fireball_explosion", "HERO_FIREBALL_WEAPON"));
+    recipe->AddProperty([](sprite::WorldObject* wobj) {
         wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
         wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
 
