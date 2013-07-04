@@ -62,9 +62,11 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
 static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     WorldObject* wobj = new WorldObject;
-    Drawable* drawable = new map::SpecialWall(texture);
-    drawable->set_hotspot(Vector2D(53, 156));
-    wobj->AddComponent(new component::BaseGraphic(drawable));
+    if(texture) {
+        Drawable* drawable = new map::SpecialWall(texture);
+        drawable->set_hotspot(Vector2D(53, 156));
+        wobj->AddComponent(new component::BaseGraphic(drawable));
+    }
     wobj->set_identifier("Wall");
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
@@ -80,12 +82,18 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
 }
 
 WorldObject* Wall(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     return buildWall(ResourceManager::GetTextureFromFile("images/wall-simple.png"));
 }
 
+WorldObject* InvisibleWall(const std::vector<std::string>& arguments) {
+    return buildWall(ResourceManager::GetTextureFromFile("images/wall-shortened.png"));
+}
+
+WorldObject* BurntWall(const std::vector<std::string>& arguments) {
+    return buildWall(ResourceManager::GetTextureFromFile("images/wall-burnt.png"));
+}
+
 WorldObject* Entry(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     return buildWall(ResourceManager::GetTextureFromFile("images/door.png"));
 }
 

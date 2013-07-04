@@ -89,13 +89,15 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
 static void post_build(WorldObject* wobj, const VirtualObj& descriptor) {
     CollisionObject *collision = NULL, *visibility = NULL;
 
-    if(descriptor["on_die_callback"]) {
-        VirtualObj callback_function = descriptor["on_die_callback"];
-        wobj->set_die_callback([callback_function](WorldObject* obj) -> void {
-            VirtualObj arg = VirtualObj(callback_function.wrapper());
-            arg.set_value<WorldObject*>(obj);
-            callback_function(VirtualObj::List(1, arg));
-        });
+    if(descriptor["on_die_callbacks"]) {
+        VirtualObj::List callbacks = descriptor["on_die_callbacks"].value<VirtualObj::List>();
+        for (auto callback_function : callbacks) {
+          wobj->AddDeathEvent([callback_function](WorldObject* obj) -> void {
+              VirtualObj arg = VirtualObj(callback_function.wrapper());
+              arg.set_value<WorldObject*>(obj);
+              callback_function(VirtualObj::List(1, arg));
+          });
+        }
     }
 
     if(descriptor["collision"])
@@ -124,12 +126,10 @@ WorldObject* Script(const vector<string>& arguments) {
     WorldObject* wobj = new WorldObject;
     wobj->set_identifier(arguments[0]);
 
-
-    VirtualObj::List args;
-
     VirtualObj v_wobj(script_generator["build"].wrapper());
     v_wobj.set_value<WorldObject*>(wobj);
-    args.push_back(v_wobj);
+    
+    VirtualObj::List args(1, v_wobj);
 
     for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
         VirtualObj obj(script_generator["build"].wrapper());

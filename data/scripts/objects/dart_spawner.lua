@@ -13,11 +13,13 @@ function build(wobj, ...)
   wobj:set_timed_life(tonumber(delay))
   
   return {
-    on_die_callback = function (obj)
-      local dart =
-        builder.MummyProjectile(Vector2D(dx,dy), 200)
-      obj:current_room():AddObject(dart, obj:world_position(), map.POSITION_ABSOLUTE)
-    end
+    on_die_callbacks = {
+      function (obj)
+        local dart =
+          builder.MummyProjectile(Vector2D(dx,dy), 200)
+        obj:current_room():AddObject(dart, obj:world_position(), map.POSITION_ABSOLUTE)
+      end
+    }
   }
 end
 

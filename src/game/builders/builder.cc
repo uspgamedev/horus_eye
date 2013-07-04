@@ -33,6 +33,8 @@ static WorldObjectFactoryMap build_type_factory_map() {
     m[string(1, SCRIPT)] = (sprite::WorldObject* (*)(const ArgumentList&)) builder::ScriptBuilder::Script;
     m[string(1, DOOR)] = builder::DoodadBuilder::Door;
     m[string(1, WALL)] = builder::DoodadBuilder::Wall;
+    m[string(1, INVISIBLEWALL)] = builder::DoodadBuilder::InvisibleWall;
+    m[string(1, BURNTWALL)] = builder::DoodadBuilder::BurntWall;
     m[string(1, ENTRY)] = builder::DoodadBuilder::Entry;
     return m;
 }

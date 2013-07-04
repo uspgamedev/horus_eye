@@ -69,7 +69,7 @@ sprite::WorldObject* Kha() {
                          constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
     WorldObject* hero_wobj = new WorldObject;
-    hero_wobj->set_die_callback(HeroDeathEvent);
+    hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(new component::Graphic("hero", ANIMATIONS));
@@ -95,10 +95,14 @@ sprite::WorldObject* Kha() {
     caster->LearnAndEquipSkill("magic_missile", component::Controller::PRIMARY);
 
     int id;
-    player_controller->AddSkill(id = caster->LearnSkill("fireball"));
-    player_controller->AddSkill(caster->LearnSkill("lightning"));
-    player_controller->AddSkill(caster->LearnSkill("light"));
-    caster->EquipSkill(id, component::Controller::SECONDARY);
+
+    // No weapons for now.
+
+    // player_controller->AddSkill(id = caster->LearnSkill("fireball"));
+    // player_controller->AddSkill(caster->LearnSkill("lightning"));
+    // player_controller->AddSkill(caster->LearnSkill("light"));
+    // caster->EquipSkill(id, component::Controller::SECONDARY);
+
     // Add here the other initial weapons of the hero.
 
     SetupCollision(hero_wobj);

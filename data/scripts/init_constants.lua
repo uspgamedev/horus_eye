@@ -40,7 +40,7 @@ constants.RegisterInt("MANA_BAR_OFFSET_Y", 100)
 constants.RegisterInt("TOTEM_OFFSET_X", 36)
 constants.RegisterInt("TOTEM_OFFSET_Y", 80)
 
-constants.RegisterInt("MUMMY_LIFE", 400)
+constants.RegisterInt("MUMMY_LIFE", 120)
 constants.RegisterInt("MUMMY_DAMAGE", 100)
 
 constants.RegisterInt("RANGED_MUMMY_LIFE", 400)

@@ -1,0 +1,11 @@
+
+$STANDING
+%number 0
+
+$STANDING_LEFT
+%number 0
+
+$STANDING_RIGHT
++effect [mirror h]
+%number 0
+

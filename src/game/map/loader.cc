@@ -90,6 +90,10 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     }
 
     Room* room = new Room(name, Integer2D(width, height), position);
+
+    //=========================================
+    //         LOADING MATRIX
+
     if(room_data["matrix"]) {
         vector< vector< ArgumentList > > arguments(height, vector<ArgumentList>(width));
         parseArguments(arguments, room_data["arguments"]);
@@ -123,8 +127,16 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
         }
     }
     room->floor()->set_drawable(new GiantFloor(room->size()));
+    
+    //=========================================
+    //         LOADING OBJECTS
 
     if(room_data["objects"]) {
+        // Field 1: x
+        // Field 2: y
+		// Field 3: type string
+		// Field 4: arguments list (optional)
+		// Field 5: tag (optional)
         VirtualObj::Vector vobj_objects = room_data["objects"].value<VirtualObj::Vector>();
 
         //ofr object in object list add object hzuzzah
@@ -148,6 +160,9 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
         }
     }
 
+    //=========================================
+    //         CREATING OBJECTS
+
     for(list<ObjectDescriptor>::const_iterator it = objects.begin(); it != objects.end(); ++it) {
         sprite::WorldObject* obj = builder::WorldObjectFromTypename(it->type, it->arguments);
         if(obj) {
@@ -162,6 +177,9 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
             fprintf(stderr, "}.\n");
         }
     }
+
+    //=========================================
+    //         RUNNING SETUP
     
     VirtualObj setup = room_data["setup"];
     if (setup) {
@@ -179,7 +197,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 } //namespace anon
 
 Room* LoadRoom(const std::string& name, const ugdk::math::Integer2D& position) {
-    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("rooms." + name);
+    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("levels.rooms." + name);
     return DoLoadRoom(name, room_data, position);
 }
 

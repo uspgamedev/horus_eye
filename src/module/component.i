@@ -52,12 +52,12 @@ disable_disown(component::Base* component)
 
 // resource::Energy and dependencies
 
-%ignore resource::Resource;
 %ignore resource::Resource::operator=;
+%ignore resource::Resource::operator resource_t;
 %ignore resource::ContainedResource;
 
 %include <game/resources/resource.h>
-%template(Resource) resource::Resource<double>;
+%template(DoubleResource) resource::Resource<double>;
 %template(IntegerResource) resource::Resource<int>;
 
 %include <game/resources/containedresource.h>

@@ -7,19 +7,17 @@ require "component"
 require "context"
 
 local Sprite = ugdk_drawable.Sprite
-local Circle = pyramidworks_geometry.Circle
+local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  local graphic_comp = component.Graphic("vase", "animations/urn.gdd")
+  local graphic_comp = component.Graphic("dummy-spike-trap", "animations/spike-trap.gdd")
   graphic_comp:ChangeAnimation "STANDING"
   wobj:AddComponent(graphic_comp, "graphic", 100)
   return {
     collision = {
       class = "Wall",
-      shape = Circle(0.15),
-      known_collision = {
-        Projectile = function(self, obj) self:Die() end
-      }
+      shape = Rect(1,1),
+      known_collision = {}
     }
   }
 end

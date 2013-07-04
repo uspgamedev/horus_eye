@@ -52,7 +52,9 @@ void WorldObject::Die() {
     dead_ = true;
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
-    if(on_die_callback_) on_die_callback_(this);
+    if(!on_die_callbacks_.empty())
+      for (auto callback : on_die_callbacks_)
+        callback(this);
 }
 
 void WorldObject::StartToDie() {

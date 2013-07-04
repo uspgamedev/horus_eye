@@ -34,14 +34,14 @@ GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
          53.0f, 52.0f,
           0.0f, 26.0f 
     };
-    vertex_data[0 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x, size.y)).x; // top
-    vertex_data[0 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x, size.y)).y;
-    vertex_data[1 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x,    0.0)).x; // right
-    vertex_data[1 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x,    0.0)).y;
-    vertex_data[2 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0,    0.0)).x; // bottom
-    vertex_data[2 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0,    0.0)).y;
-    vertex_data[3 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0, size.y)).x; // left
-    vertex_data[3 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0, size.y)).y;
+    vertex_data[0 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x - 0.5, size.y - 0.5)).x; // top
+    vertex_data[0 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x - 0.5, size.y - 0.5)).y;
+    vertex_data[1 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x - 0.5,    0.0 - 0.5)).x; // right
+    vertex_data[1 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x - 0.5,    0.0 - 0.5)).y;
+    vertex_data[2 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5,    0.0 - 0.5)).x; // bottom
+    vertex_data[2 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5,    0.0 - 0.5)).y;
+    vertex_data[3 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5, size.y - 0.5)).x; // left
+    vertex_data[3 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5, size.y - 0.5)).y;
     GLfloat uv_data[] = {
         0.0f, 0.0f,
         1.0f, 0.0f,

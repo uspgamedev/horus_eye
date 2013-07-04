@@ -58,13 +58,19 @@ static void MummyDeath(sprite::WorldObject* wobj) {
     //WORLD()->DecreaseEnemyCount();
 }
 
-static WorldObject* build_mummy_wobj(const std::string& tag, double life, double radius, double speed, bool standing) {
+static WorldObject* build_mummy_wobj(const std::string& spritesheetname, double life, double radius, double speed, bool standing) {
+    WorldObject* wobj = new WorldObject;
+    PrepareBasicMummy(wobj, spritesheetname, life, radius, speed, standing);
+    return wobj;
+}
+
+void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
+                       double life, double radius, double speed, bool standing) {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(
             ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
     }
-    WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::Graphic(tag, ANIMATIONS));
+    wobj->AddComponent(new component::Graphic(spritesheetname, ANIMATIONS));
     wobj->AddComponent(new component::Animation(wobj, utils::SPAWNING, Direction()));
     wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
@@ -90,7 +96,6 @@ static WorldObject* build_mummy_wobj(const std::string& tag, double life, double
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);
     wobj->set_room_add_callback(MummyRoomAdd);
-    return wobj;
 }
 
 sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
