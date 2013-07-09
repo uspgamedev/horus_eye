@@ -9,9 +9,9 @@ require "context"
 local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
-function build (wobj, dir)
+function build (wobj, params)
   local graphic_comp = component.Graphic("closed-door", "animations/closed-door.gdd")
-  graphic_comp:ChangeAnimation("STANDING"..(dir and ("_"..dir) or ""))
+  graphic_comp:ChangeAnimation("STANDING"..(params.dir and ("_"..params.dir) or ""))
   wobj:AddComponent(graphic_comp, "graphic", 100)
   return {
     collision = {

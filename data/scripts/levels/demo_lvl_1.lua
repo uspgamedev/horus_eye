@@ -66,15 +66,17 @@ opencorridor = {
 ...............#
 #######&########
 ]],
-  objects = {
-    {  12,   3, "!", { "activated_switch" } },
-    { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-    { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-  },
+  objects = {},
   recipes = {
     load_corridor = { property = "room_loader", params = { room = "closedcorridor", time = 0.01 } },
+    activated_switch = { property = "activated_switch" },
+    dummyspiketrap = { property = "dummy-spike-trap" },
   },
   setup = function(self)
+    self:MakeRecipe "load_corridor"
+    self:MakeRecipe("activated_switch", ugdk_math.Vector2D(12, 3))
+    self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(8 + math.random(), 1 + math.random() * 3))
+    self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(4 + math.random(), 1 + math.random() * 3))
   end
 }
 
@@ -90,13 +92,26 @@ closedcorridor = {
 #######&########
 ]],
   objects = {
-    { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-    { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-    { 15, 2, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
-    { 15, 3, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
-    { 12, 2, "!", {"kill_switch", "THE-DOOR-1", "THE-DOOR-2", "CORRIDOR_ROOM_LOADER"} },
-    { -1, -1, "!", {"room_loader", "firstblood"}, "CORRIDOR_ROOM_LOADER" },
-  }
+  },
+  collision_classes = {
+    { "Switch", "Wall" }
+  },
+  recipes = {
+    load_corridor = { property = "room_loader", params = { room = "firstblood" } },
+    dummyspiketrap = { property = "dummy-spike-trap" },
+    door = { property = "closed-door", params = { dir = "LEFT" } },
+    killswitch = { property = "kill_switch", params = { "THE-DOOR-1", "THE-DOOR-2", "CORRIDOR_ROOM_LOADER" } }
+  },
+  setup = function(self)
+    self:MakeRecipe("load_corridor", "CORRIDOR_ROOM_LOADER")
+    self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(8 + math.random(), 1 + math.random() * 3))
+    self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(4 + math.random(), 1 + math.random() * 3))
+    
+    self:MakeRecipe("door", ugdk_math.Vector2D(15, 2), "THE-DOOR-1")
+    self:MakeRecipe("door", ugdk_math.Vector2D(15, 3), "THE-DOOR-2")
+    
+    self:MakeRecipe("killswitch", ugdk_math.Vector2D(12, 2))
+  end
 }
 
 local function spawn_region (x,y,...)
