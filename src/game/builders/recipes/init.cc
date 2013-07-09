@@ -1,6 +1,5 @@
 #include "game/builders/recipes/init.h"
 
-#include "game/builders/recipe.h"
 #include "game/builders/builder.h"
 
 #include "game/sprites/worldobject.h"
@@ -18,6 +17,7 @@
 
 namespace builder {
 
+/*
 Property createBaseExplosionProperty(const std::string& spritesheet, const std::string& animation) {
     return [=](sprite::WorldObject* wobj) {
         utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromResourceManager("animations/explosion.gdd");
@@ -49,9 +49,9 @@ Recipe* createFireballExplosionRecipe() {
     });
     return recipe;
 }
-
+*/
 void InitRecipes() {
-    AddRecipe("fireball_explosion", createFireballExplosionRecipe());
+  //  AddRecipe("fireball_explosion", createFireballExplosionRecipe());
 }
 
 } // namespace builder

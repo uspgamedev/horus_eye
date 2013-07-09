@@ -8,7 +8,6 @@
 #include "game/builders/mummybuilder.h"
 #include "game/builders/itembuilder.h"
 #include "game/builders/scriptbuilder.h"
-#include "game/builders/recipe.h"
 
 namespace builder {
 
@@ -31,7 +30,6 @@ static WorldObjectFactoryMap build_type_factory_map() {
     m[string(1, PHARAOH)] = builder::MummyBuilder::StandingPharaoh;
     m[string(1, POTIONL)] = builder::ItemBuilder::LifePotion;
     m[string(1, POTIONM)] = builder::ItemBuilder::ManaPotion;
-    m[string(1, SCRIPT)] = (sprite::WorldObject* (*)(const ArgumentList&)) builder::ScriptBuilder::Script;
     m[string(1, DOOR)] = builder::DoodadBuilder::Door;
     m[string(1, WALL)] = builder::DoodadBuilder::Wall;
     m[string(1, INVISIBLEWALL)] = builder::DoodadBuilder::InvisibleWall;
@@ -52,24 +50,6 @@ sprite::WorldObject* WorldObjectFromTypename(const string& type, const ArgumentL
 
 bool HasFactoryMethod(const std::string& type) {
     return type_factory_map.find(type) != type_factory_map.end();
-}
-
-//==================================================
-
-static unordered_map<string, Recipe*> recipe_database;
-const Recipe* FindRecipeFor(const std::string& recipe_name) {
-    auto iterator = recipe_database.find(recipe_name);
-    if(iterator != recipe_database.end())
-        return iterator->second;
-    else
-        return NULL;
-}
-
-void AddRecipe(const std::string& name, Recipe* recipe) {
-    Recipe*& recipe_pos = recipe_database[name];
-    if(recipe_pos)
-        delete recipe_pos;
-    recipe_pos = recipe;
 }
 
 } // namespace builder

@@ -52,14 +52,17 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& posit
     AddObject(obj);
 }
 
-void Room::MakeRecipe(const std::string& recipe_name) {
+void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position, const std::string& tag) {
     VirtualObj recipe = recipes_[recipe_name];
     if(!recipe) {
         fprintf(stderr, "Warning: Could not find recipe '%s' in room '%s'.\n", recipe_name.c_str(), name_.c_str());
         return;
     }
     WorldObject* wobj = builder::ScriptBuilder::Script(recipe["property"].value<std::string>(), recipe["params"]);
-    AddObject(wobj);
+    if(wobj) {
+        wobj->set_tag(tag);
+        AddObject(wobj, position);
+    }
 }
 
 void Room::DefineLevel(scene::World* level) {
@@ -102,7 +105,8 @@ void Room::flushObjectQueue() {
 void Room::handleNewObject(sprite::WorldObject* obj) {
     objects_.push_back(obj);
     obj->OnRoomAdd(this);
-    tagged_[obj->tag()] = obj;
+    if(!obj->tag().empty())
+        tagged_[obj->tag()] = obj;
     if(level_ && level_->IsRoomActive(this) && obj->graphic())
         obj->graphic()->InsertIntoLayers(level_->layers());
 }

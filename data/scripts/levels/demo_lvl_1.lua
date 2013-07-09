@@ -38,14 +38,15 @@ entrance = {
 %..............#
 ################
 ]],
-  objects = {
-    { -1, -1, "!", {"room_loader", "opencorridor"}, "ENTRANCE_ROOM_LOADER" },
+  objects = {},
+  recipes = {
+    load_corridor = { property = "room_loader", params = { room = "opencorridor", time = 0.01 } },
   },
   collision_classes = {
     { "Switch", "Wall" }
   },
   setup = function(self)
-    (self:WorldObjectByTag "ENTRANCE_ROOM_LOADER"):set_timed_life(0.01)
+    self:MakeRecipe "load_corridor"
   end
 }
 
@@ -57,9 +58,9 @@ for i = 1,6 do
 end
 
 opencorridor = {
-   width = roomsize,
-   height = roomsize - 10,
-   matrix = [[
+  width = roomsize,
+  height = roomsize - 10,
+  matrix = [[
 %%%%%%%%%%%%%%%%
 ...............%
 ................
@@ -67,15 +68,16 @@ opencorridor = {
 ...............#
 #######&########
 ]],
-   objects = {
-      {  12,   3, "!", { "activated_switch" } },
-      { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-      { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
-      { 4, 4, "!", {"room_loader", "closedcorridor"}, "ENTRANCE_ROOM_LOADER" }
-   },
-   setup = function(self)
-     (self:WorldObjectByTag "ENTRANCE_ROOM_LOADER"):set_timed_life(0.01)
-   end
+  objects = {
+    {  12,   3, "!", { "activated_switch" } },
+    { 8 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+    { 4 + math.random(), 1 + math.random() * 3, "!", { "dummy-spike-trap" } },
+  },
+  recipes = {
+    load_corridor = { property = "room_loader", params = { room = "closedcorridor", time = 0.01 } },
+  },
+  setup = function(self)
+  end
 }
 
 closedcorridor = {

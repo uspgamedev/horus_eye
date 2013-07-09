@@ -10,6 +10,7 @@
 #include <ugdk/graphic.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/math/integer2D.h>
+#include <ugdk/math/vector2D.h>
 
 #include "game/scenes.h"
 #include "game/sprites.h"
@@ -42,7 +43,11 @@ class Room {
 
     /// Creates an object following a stored recipe with the given name.
     /** Logs an error when the given recipe is not found. */
-    void MakeRecipe(const std::string& recipe_name);
+    void MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position = ugdk::math::Vector2D(), const std::string& tag = "");
+
+    void MakeRecipe(const std::string& recipe_name, const std::string& tag) {
+        MakeRecipe(recipe_name, ugdk::math::Vector2D(), tag);
+    }
 
     /// Sets which level this room belongs to.
     void DefineLevel(scene::World*);
