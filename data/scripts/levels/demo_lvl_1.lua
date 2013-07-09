@@ -1,6 +1,7 @@
 require "component"
 require "map"
 require "constants"
+require "ugdk.math"
 
 music = "musics/Arabesque.ogg"
 roomsize = 16
@@ -41,22 +42,19 @@ entrance = {
   objects = {},
   recipes = {
     load_corridor = { property = "room_loader", params = { room = "opencorridor", time = 0.01 } },
-  },
-  collision_classes = {
-    { "Switch", "Wall" }
+    urn = { property = "urn", params = {} },
   },
   setup = function(self)
     self:MakeRecipe "load_corridor"
+    for i = 1,6 do
+      local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
+      for i = 1,math.random(3,4) do
+        self:MakeRecipe("urn", ugdk_math.Vector2D(x+math.random()*2-1, y+math.random()*2-1))
+      end
+    end
   end
 }
-
-for i = 1,6 do
-  local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
-  for i = 1,math.random(3,4) do
-    table.insert(entrance.objects, {x+math.random()*2-1, y+math.random()*2-1, "!", {"urn"}})
-  end
-end
-
+ 
 opencorridor = {
   width = roomsize,
   height = roomsize - 10,
