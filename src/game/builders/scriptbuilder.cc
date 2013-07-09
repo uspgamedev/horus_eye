@@ -118,7 +118,7 @@ WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualO
         return NULL;
     }
 
-    if(script_generator.wrapper() != params.wrapper()) {
+    if(params && script_generator.wrapper() != params.wrapper()) {
         fprintf(stderr, "Received params are incompatible with script 'properties.%s'.\n", script_name.c_str());
         return NULL;
     }
@@ -135,7 +135,10 @@ WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualO
     v_wobj.set_value<WorldObject*>(wobj);
     
     VirtualObj::List args(1, v_wobj);
-    args.push_back(params);
+    if(params)
+        args.push_back(params);
+    else // If we don't have params, place an empty vobj of the correct language there.
+        args.emplace_back(v_wobj.wrapper());
 
     VirtualObj build_result = script_generator["build"](args);
     if(build_result)

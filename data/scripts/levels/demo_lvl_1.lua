@@ -42,7 +42,7 @@ entrance = {
   objects = {},
   recipes = {
     load_corridor = { property = "room_loader", params = { room = "opencorridor", time = 0.01 } },
-    urn = { property = "urn", params = {} },
+    urn = { property = "urn" },
   },
   setup = function(self)
     self:MakeRecipe "load_corridor"
