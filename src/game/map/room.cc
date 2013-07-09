@@ -3,6 +3,7 @@
 #include <cfloat>
 #include <ugdk/graphic/node.h>
 
+#include "game/builders/scriptbuilder.h"
 #include "game/core/coordinates.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
@@ -16,6 +17,7 @@ using sprite::WorldObject;
 using scene::BACKGROUND_LAYER;
 using scene::FOREGROUND_LAYER;
 using ugdk::graphic::Node;
+using ugdk::script::VirtualObj;
 
 Room::Room(const std::string& name, const ugdk::math::Integer2D& _size, 
     const ugdk::math::Integer2D& _position)
@@ -48,6 +50,16 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& posit
     else
         obj->set_world_position(position + position_);
     AddObject(obj);
+}
+
+void Room::MakeRecipe(const std::string& recipe_name) {
+    VirtualObj recipe = recipes_[recipe_name];
+    if(!recipe) {
+        fprintf(stderr, "Warning: Could not find recipe '%s' in room '%s'.\n", recipe_name.c_str(), name_.c_str());
+        return;
+    }
+    WorldObject* wobj = builder::ScriptBuilder::Script(recipe["property"].value<std::string>(), recipe["params"]);
+    AddObject(wobj);
 }
 
 void Room::DefineLevel(scene::World* level) {

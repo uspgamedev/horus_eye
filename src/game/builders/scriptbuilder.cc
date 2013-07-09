@@ -86,7 +86,7 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
     return colobj;
 }
 
-static void post_build(WorldObject* wobj, const VirtualObj& descriptor) {
+static void ApplyDescriptor(WorldObject* wobj, const VirtualObj& descriptor) {
     CollisionObject *collision = NULL, *visibility = NULL;
 
     if(descriptor["on_die_callbacks"]) {
@@ -110,44 +110,40 @@ static void post_build(WorldObject* wobj, const VirtualObj& descriptor) {
         wobj->AddComponent(new component::Shape(collision, visibility));
 }
 
-/** arguments[0] is the script name. */
-WorldObject* Script(const vector<string>& arguments) {
-    if (arguments.empty()) return NULL;
-    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("objects." + arguments[0]);
+
+WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualObj& params) {
+    VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("properties." + script_name);
     if(!script_generator) {
-        fprintf(stderr, "Unable to load 'objects.%s'.\n", arguments[0].c_str());
+        fprintf(stderr, "Unable to load 'properties.%s'.\n", script_name.c_str());
         return NULL;
     }
+
+    if(script_generator.wrapper() != params.wrapper()) {
+        fprintf(stderr, "Received params are incompatible with script 'properties.%s'.\n", script_name.c_str());
+        return NULL;
+    }
+
     if(!script_generator["build"]) {
-        fprintf(stderr, "Function 'build' not found in 'objects.%s'.\n", arguments[0].c_str());
+        fprintf(stderr, "Function 'build' not found in 'properties.%s'.\n", script_name.c_str());
         return NULL;
     }
     
     WorldObject* wobj = new WorldObject;
-    wobj->set_identifier(arguments[0]);
+    wobj->set_identifier(script_name);
 
     VirtualObj v_wobj(script_generator["build"].wrapper());
     v_wobj.set_value<WorldObject*>(wobj);
     
     VirtualObj::List args(1, v_wobj);
-
-    for (vector<string>::const_iterator it = arguments.begin()+1; it != arguments.end(); it++) {
-        VirtualObj obj(script_generator["build"].wrapper());
-        obj.set_value<string>(*it);
-        args.push_back(obj);
-    }
+    args.push_back(params);
 
     VirtualObj build_result = script_generator["build"](args);
-    if(build_result) {
-        post_build(wobj, build_result);
-    }
+    if(build_result)
+        ApplyDescriptor(wobj, build_result);
 
     return wobj;
 }
 
-sprite::WorldObject* Script(const std::string& script_name) {
-    return Script(vector<string>(1, script_name));
-}
 
 } // namespace ScriptBuilder
 } // namespace builder

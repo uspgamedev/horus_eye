@@ -8,6 +8,7 @@
 #include <unordered_map>
 
 #include <ugdk/graphic.h>
+#include <ugdk/script/virtualobj.h>
 #include <ugdk/math/integer2D.h>
 
 #include "game/scenes.h"
@@ -39,12 +40,21 @@ class Room {
 
     //void RemoveObject(sprite::WorldObject* obj);
 
+    /// Creates an object following a stored recipe with the given name.
+    /** Logs an error when the given recipe is not found. */
+    void MakeRecipe(const std::string& recipe_name);
+
     /// Sets which level this room belongs to.
     void DefineLevel(scene::World*);
 
     /// Gets an object based on it's tag.
     sprite::WorldObject* WorldObjectByTag (const std::string& tag) const;
     void RemoveTag(const std::string& tag);
+
+    /// Sets the VirtualObj from where recipes are acquired.
+    void DefineCookbook(const ugdk::script::VirtualObj& cookbook) {
+        recipes_ = cookbook;
+    }
 
     const std::string& name() const { return name_; }
     const ugdk::math::Integer2D& size() const { return size_; }
@@ -67,6 +77,7 @@ class Room {
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
     ugdk::graphic::Node* floor_;
+    ugdk::script::VirtualObj recipes_;
 
     scene::World* level_;
     std::list<sprite::WorldObject*> objects_;

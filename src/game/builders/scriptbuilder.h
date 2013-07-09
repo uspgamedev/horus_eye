@@ -3,13 +3,13 @@
 
 #include <string>
 #include <vector>
+#include <ugdk/script.h>
 #include "game/sprites.h"
 
 namespace builder {
 namespace ScriptBuilder {
 
-sprite::WorldObject* Script(const std::string& script_name);
-sprite::WorldObject* Script(const std::vector<std::string>& arguments);
+sprite::WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualObj& params);
 
 } // namespace ScriptBuilder
 } // namespace builder
