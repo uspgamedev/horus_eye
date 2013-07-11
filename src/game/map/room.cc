@@ -52,7 +52,7 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& posit
     AddObject(obj);
 }
 
-void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position, const std::string& tag) {
+void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position, const std::string& tag, bool absolute) {
     VirtualObj recipe = recipes_[recipe_name];
     if(!recipe) {
         fprintf(stderr, "Warning: Could not find recipe '%s' in room '%s'.\n", recipe_name.c_str(), name_.c_str());
@@ -61,7 +61,7 @@ void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D
     WorldObject* wobj = builder::ScriptBuilder::Script(recipe["property"].value<std::string>(), recipe["params"]);
     if(wobj) {
         wobj->set_tag(tag);
-        AddObject(wobj, position);
+        AddObject(wobj, position, absolute);
     }
 }
 

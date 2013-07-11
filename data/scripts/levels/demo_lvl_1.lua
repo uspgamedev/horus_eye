@@ -149,37 +149,7 @@ firstblood = {
 %..............#
 ################
 ]],
-  objects = { --[[
-    spawn_region(
-      roomsize-3, 3,
-      "custom_mummy_spawner",
-      0.5,
-      "event_mummy",
-      "mummy_basic",
-      constants.GetInt "MUMMY_LIFE",
-      constants.GetDouble "MUMMY_RADIUS",
-      constants.GetDouble "MUMMY_SPEED",
-      "THE-DOOR-1",
-      "THE-DOOR-2",
-      "BATTLE_ROOM_LOADER"
-    ),
-    spawn_region(
-      roomsize-3, roomsize-3,
-      "custom_mummy_spawner",
-      0.5,
-      "event_mummy",
-      "mummy_basic",
-      constants.GetInt "MUMMY_LIFE",
-      constants.GetDouble "MUMMY_RADIUS",
-      constants.GetDouble "MUMMY_SPEED",
-      "THE-DOOR-1",
-      "THE-DOOR-2",
-      "BATTLE_ROOM_LOADER"
-    ),
-    spawn_region(0, 7, "closed-door", "LEFT"),
-    spawn_region(0, 8, "closed-door", "LEFT"),
-    spawn_region(-1, -1, "room_loader", "closedcorridor", 0, "true"),
-  ]]},
+  objects = {},
   collision_classes = {
     { "EventArea" }
   },
@@ -187,6 +157,26 @@ firstblood = {
     load_exit = { property = "room_loader", params = { room = "exit" } },
     close_back = { property = "room_loader", params = { room = "closedcorridor", unload = true, time = 0.0 } },
     door = { property = "closed-door", params = { dir = "LEFT" } },
+    
+    delayed_mummy = {
+      property = "delayed_spawner",
+      params = {
+        time = 0.5,
+        recipe = "event_mummy"
+      }
+    },
+    
+    event_mummy = {
+      property = "event_mummy",
+      params = {
+        spritesheet = "mummy_basic",
+        life = constants.GetInt "MUMMY_LIFE",
+        radius = constants.GetDouble "MUMMY_RADIUS",
+        speed = constants.GetDouble "MUMMY_SPEED",
+        triggers = { "THE-DOOR-3", "THE-DOOR-4", "BATTLE_ROOM_LOADER" }
+      }
+    },
+    
     entrance_event = {
       property = "event_region",
       params = {
@@ -202,11 +192,14 @@ firstblood = {
   },
   setup = function (room)
     room:MakeRecipe("load_exit", "BATTLE_ROOM_LOADER")
-    room:MakeRecipe("door", ugdk_math.Vector2D(15, 7), "THE-DOOR-1")
-    room:MakeRecipe("door", ugdk_math.Vector2D(15, 8), "THE-DOOR-2")
+    room:MakeRecipe("door", ugdk_math.Vector2D(15, 7), "THE-DOOR-3")
+    room:MakeRecipe("door", ugdk_math.Vector2D(15, 8), "THE-DOOR-4")
     room:MakeRecipe("entrance_event", ugdk_math.Vector2D(3, roomsize/2))
     
-    for i=1,2 do
+    room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, 3))
+    room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, roomsize-3))
+    
+    for i=3,4 do
       context.AddDamageableComponent(room, "THE-DOOR-"..i, 2)
     end
     context.AddDamageableComponent(room, "BATTLE_ROOM_LOADER", 2)

@@ -43,7 +43,7 @@ class Room {
 
     /// Creates an object following a stored recipe with the given name.
     /** Logs an error when the given recipe is not found. */
-    void MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position = ugdk::math::Vector2D(), const std::string& tag = "");
+    void MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position = ugdk::math::Vector2D(), const std::string& tag = "", bool absolute = POSITION_RELATIVE);
 
     void MakeRecipe(const std::string& recipe_name, const std::string& tag) {
         MakeRecipe(recipe_name, ugdk::math::Vector2D(), tag);
