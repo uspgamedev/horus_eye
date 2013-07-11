@@ -2,6 +2,7 @@ require "component"
 require "map"
 require "constants"
 require "ugdk.math"
+require "pyramidworks.geometry"
 
 music = "musics/Arabesque.ogg"
 roomsize = 16
@@ -148,7 +149,7 @@ firstblood = {
 %..............#
 ################
 ]],
-  objects = {
+  objects = { --[[
     spawn_region(
       roomsize-3, 3,
       "custom_mummy_spawner",
@@ -178,14 +179,29 @@ firstblood = {
     spawn_region(0, 7, "closed-door", "LEFT"),
     spawn_region(0, 8, "closed-door", "LEFT"),
     spawn_region(-1, -1, "room_loader", "closedcorridor", 0, "true"),
-    { 15, 7, "!", {"closed-door", "LEFT"}, "THE-DOOR-1" },
-    { 15, 8, "!", {"closed-door", "LEFT"}, "THE-DOOR-2" },
-    { -1, -1, "!", {"room_loader", "exit"}, "BATTLE_ROOM_LOADER" },
-  },
+  ]]},
   collision_classes = {
     { "EventArea" }
   },
+  recipes = {
+    load_exit = { property = "room_loader", params = { room = "exit" } },
+    door = { property = "closed-door", params = { dir = "LEFT" } },
+    entrance_event = {
+      property = "event_region",
+      params = {
+        shape = pyramidworks_geometry.Rect(1.0, roomsize),
+        callback = function (region)
+          print "OI"
+        end
+      }
+    }
+  },
   setup = function (room)
+    room:MakeRecipe("load_exit", "BATTLE_ROOM_LOADER")
+    room:MakeRecipe("door", ugdk_math.Vector2D(15, 7), "THE-DOOR-1")
+    room:MakeRecipe("door", ugdk_math.Vector2D(15, 8), "THE-DOOR-2")
+    room:MakeRecipe("entrance_event", ugdk_math.Vector2D(3, roomsize/2))
+    
     for i=1,2 do
       context.AddDamageableComponent(room, "THE-DOOR-"..i, 2)
     end
