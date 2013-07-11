@@ -185,13 +185,17 @@ firstblood = {
   },
   recipes = {
     load_exit = { property = "room_loader", params = { room = "exit" } },
+    close_back = { property = "room_loader", params = { room = "closedcorridor", unload = true, time = 0.0 } },
     door = { property = "closed-door", params = { dir = "LEFT" } },
     entrance_event = {
       property = "event_region",
       params = {
         shape = pyramidworks_geometry.Rect(1.0, roomsize),
         callback = function (region)
-          print "OI"
+          local room = region:current_room()
+          room:MakeRecipe("door", ugdk_math.Vector2D(0, 7), "THE-DOOR-1")
+          room:MakeRecipe("door", ugdk_math.Vector2D(0, 8), "THE-DOOR-2")
+          room:MakeRecipe("close_back")
         end
       }
     }

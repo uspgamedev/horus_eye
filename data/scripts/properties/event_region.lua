@@ -28,9 +28,8 @@ function build (wobj, params)
         Hero = function(self, obj)
           if not region.activated then
             region.activated = true
-            print(self:identifier() .. " Activated!")
+            print(self:identifier() .. " Activated!") -- TODO: Debug print
             params.callback(self)
-            --self:current_room()
           end
         end
       }
