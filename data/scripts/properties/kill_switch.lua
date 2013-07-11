@@ -24,9 +24,8 @@ local function make_switch ()
   return switch
 end
 
-function build(wobj, ...)
+function build(wobj, to_kill)
   local switch = make_switch()
-  local to_kill = { ... }
   wobj:AddComponent(switch.graphic, "graphic", 100)
   
   return {

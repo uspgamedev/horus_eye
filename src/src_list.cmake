@@ -44,6 +44,8 @@ SET(GAME_SRCS
     game/builders/mummybuilder.h 
     game/builders/projectilebuilder.cc 
     game/builders/projectilebuilder.h 
+    game/builders/recipes/init.cc 
+    game/builders/recipes/init.h 
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
     game/components.h 

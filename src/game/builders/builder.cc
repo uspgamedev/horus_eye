@@ -30,7 +30,6 @@ static WorldObjectFactoryMap build_type_factory_map() {
     m[string(1, PHARAOH)] = builder::MummyBuilder::StandingPharaoh;
     m[string(1, POTIONL)] = builder::ItemBuilder::LifePotion;
     m[string(1, POTIONM)] = builder::ItemBuilder::ManaPotion;
-    m[string(1, SCRIPT)] = (sprite::WorldObject* (*)(const ArgumentList&)) builder::ScriptBuilder::Script;
     m[string(1, DOOR)] = builder::DoodadBuilder::Door;
     m[string(1, WALL)] = builder::DoodadBuilder::Wall;
     m[string(1, INVISIBLEWALL)] = builder::DoodadBuilder::InvisibleWall;

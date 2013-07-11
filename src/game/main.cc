@@ -15,6 +15,7 @@
 #include "constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
+#include "game/builders/recipes/init.h"
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 
@@ -49,6 +50,7 @@ void StartGame() {
         engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
 
     engine()->video_manager()->SetLightSystem(true);
+    engine()->video_manager()->SetVSync(true);
     AddHorusShader();
 
     if(!engine()->language_manager()->Setup(settings->language_name())) {
@@ -105,6 +107,7 @@ int main(int argc, char *argv[]) {
     engine()->resource_manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::base::GenericContainer<utils::IsometricAnimationSet*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
+    builder::InitRecipes();
 
     do {
         // Initializes game data

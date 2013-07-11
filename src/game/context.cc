@@ -44,10 +44,6 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
         return NULL;
 }
 
-WorldObject* BuildWorldObject (const string& scriptname) {
-    return Script(vector<string>(1,scriptname));
-}
-
 CollisionObject* MakeCollisionObject (WorldObject* obj) {
     World *world = WORLD();
     if (!world) return NULL;

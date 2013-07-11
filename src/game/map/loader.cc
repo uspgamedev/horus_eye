@@ -91,6 +91,9 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 
     Room* room = new Room(name, Integer2D(width, height), position);
 
+    if(room_data["recipes"])
+        room->DefineCookbook(room_data["recipes"]);
+
     //=========================================
     //         LOADING MATRIX
 
