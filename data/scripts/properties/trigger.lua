@@ -5,7 +5,9 @@ require "data.scripts.event"
 
 function build (wobj, params)
   local activates = params.activates or "UNKNOWN_TRIGGER" 
-  wobj:set_timed_life(tonumber(params.delay) or 0.0)
+  if params.delay then
+    wobj:set_timed_life(tonumber(params.delay))
+  end
   return {
     on_die_callbacks = {
       function (obj)
