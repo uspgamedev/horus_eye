@@ -43,14 +43,14 @@ entrance = {
 ]],
   objects = {},
   recipes = {
-    ["load_corridor_trigger"] = { property = "timer", params = { time = 0.01 } },
+    ["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR" } },
     ["urn"] = { property = "urn" },
   },
   collision_classes = {
     { "Switch", "Wall" }
   },
   setup = function(self)
-    self:MakeRecipe("load_corridor_trigger", "LOAD_CORRIDOR")
+    self:MakeRecipe "load_corridor_trigger"
     event.Register(
       "LOAD_CORRIDOR",
       function ()
