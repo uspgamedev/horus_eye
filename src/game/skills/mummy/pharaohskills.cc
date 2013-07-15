@@ -1,7 +1,7 @@
 #include <cmath>
 
-#include <ugdk/base/engine.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/map/room.h"
@@ -41,7 +41,7 @@ static void PharaohRangedUse(component::Caster* caster) {
     room->AddObject(builder::ProjectileBuilder::MummyProjectile(offsetright, caster->power().Get() * 0.5), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
+        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 static void PharaohSummonUse(component::Caster* caster) {

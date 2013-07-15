@@ -1,9 +1,9 @@
 #include "game/skills/combatart.h"
 
 #include <ugdk/math/vector2D.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/base/engine.h>
+#include <ugdk/system/engine.h>
 
 #include "game/constants.h"
 #include "game/utils/hudimagefactory.h"
@@ -25,7 +25,7 @@ static void HeroFireballUse(component::Caster* caster) {
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::Fireball(versor), pos, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
-        AUDIO_MANAGER()->LoadSample("samples/fire.wav")->Play();
+        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 Skill* HeroFireballBuild() {

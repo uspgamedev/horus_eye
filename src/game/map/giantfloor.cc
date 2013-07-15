@@ -3,9 +3,9 @@
 
 #include "game/map/giantfloor.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/defaultshaders.h>
@@ -22,7 +22,7 @@ ugdk::graphic::opengl::ShaderProgram* GiantFloor::continuous_light_shader_ = NUL
 
 GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
     : size_(106 * size.x, 54 * size.y),
-      texture_(ugdk::base::ResourceManager::GetTextureFromFile("images/ground_texture.png")) {
+      texture_(ugdk::resource::GetTextureFromFile("images/ground_texture.png")) {
     
     if(!continuous_light_shader_) {
         continuous_light_shader_ = ugdk::graphic::CreateShader(true, false);
@@ -90,7 +90,7 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
     // Use our shader
     opengl::ShaderProgram::Use shader_use(continuous_light_shader_);
 
-    shader_use.SendTexture(1, VIDEO_MANAGER()->light_buffer(), continuous_light_shader_->UniformLocation("light_texture"));
+    shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), continuous_light_shader_->UniformLocation("light_texture"));
 
     // Send our transformation to the currently bound shader, 
     // in the "MVP" uniform

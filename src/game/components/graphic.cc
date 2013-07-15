@@ -11,7 +11,7 @@ namespace component {
 using ugdk::graphic::Sprite;
     
 Graphic::Graphic(const std::string& spritesheet_tag, const std::string& animation_set, double light_radius)
- :  BaseGraphic(NULL, light_radius) {
+    :   BaseGraphic(NULL, light_radius) {
 
     isometric_animation_set_ = utils::IsometricAnimationSet::LoadFromResourceManager(animation_set);
     sprite_ = new Sprite(spritesheet_tag, isometric_animation_set_ ? (isometric_animation_set_->animation_set()) : NULL);

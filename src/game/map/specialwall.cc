@@ -3,9 +3,9 @@
 
 #include "game/map/specialwall.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
@@ -90,10 +90,10 @@ void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::grap
 
     Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
     shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
-    shader_use.SendUniform("PIXEL_SIZE", 1/VIDEO_MANAGER()->video_size().x, 1/VIDEO_MANAGER()->video_size().y);
+    shader_use.SendUniform("PIXEL_SIZE", 1/ugdk::graphic::manager()->video_size().x, 1/ugdk::graphic::manager()->video_size().y);
 
     shader_use.SendTexture(0, texture_);
-    shader_use.SendTexture(1, VIDEO_MANAGER()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
+    shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
     shader_use.SendGeometry(mat);
     shader_use.SendEffect(effect);

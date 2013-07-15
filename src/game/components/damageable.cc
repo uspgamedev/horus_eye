@@ -1,5 +1,5 @@
-#include <ugdk/base/engine.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/time/timeaccumulator.h>
 #include "damageable.h"
 #include "game/components/animation.h"
@@ -60,7 +60,7 @@ void Damageable::TakeDamage(double life_points) {
 void Damageable::PlayHitSound() const {
     if(hit_sounds_.empty()) return;
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample(hit_sounds_[rand() % hit_sounds_.size()])->Play();
+        ugdk::audio::manager()->LoadSample(hit_sounds_[rand() % hit_sounds_.size()])->Play();
 }
 
 

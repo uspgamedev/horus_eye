@@ -1,12 +1,12 @@
 #include "Python.h"
 
 #include <string>
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
-#include <ugdk/base/genericcontainer.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/resource/genericcontainer.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/graphic/textmanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
 #include "SDL.h"
@@ -37,23 +37,19 @@ utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
 }
 
-ugdk::Engine* engine() {
-    return ugdk::Engine::reference();
-}
-
 void StartGame() {
     Settings* settings = Settings::reference();
 
-    // Checks if restarting game. Avoids changing resolution during
-    // startup, to avoid taking longer uselessly.
-    if(level_manager()->RestartGameQueued())
-        engine()->video_manager()->ChangeResolution(settings->resolution_vector(), settings->fullscreen());
+    ugdk::graphic::VideoSettings video_settings;
+    video_settings.resolution = settings->resolution_vector();
+    video_settings.fullscreen = settings->fullscreen();
+    video_settings.vsync = true; // TODO: configurable
+    video_settings.light_system = true;
+    ugdk::graphic::manager()->ChangeSettings(video_settings);
 
-    engine()->video_manager()->SetLightSystem(true);
-    engine()->video_manager()->SetVSync(true);
     AddHorusShader();
 
-    if(!engine()->language_manager()->Setup(settings->language_name())) {
+    if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");
     }
     level_manager()->Initialize();
@@ -62,10 +58,10 @@ void StartGame() {
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
-    ugdk::Configuration engine_config;
-    engine_config.window_title = "Horus Eye";
-    engine_config.window_size  = settings->resolution_vector();
-    engine_config.fullscreen   = settings->fullscreen();
+    ugdk::system::Configuration engine_config;
+    engine_config.window_title      = "Horus Eye";
+    engine_config.window_resolution = settings->resolution_vector();
+    engine_config.fullscreen        = settings->fullscreen();
 
     engine_config.base_path = constants::data_location();
     if(!VerifyFolderExists(engine_config.base_path)) {
@@ -88,7 +84,7 @@ int main(int argc, char *argv[]) {
 #endif
 
     ugdk::script::InitScripts();
-    engine()->Initialize(engine_config);
+    ugdk::system::Initialize(engine_config);
 #ifdef EMBBEDED_UGDK
     {
         PyObject *path = PySys_GetObject("path");
@@ -100,11 +96,11 @@ int main(int argc, char *argv[]) {
         SCRIPT_MANAGER()->LoadModule("init_constants");
     }
     
-    engine()->language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
-    engine()->language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
+    ugdk::system::language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
+    ugdk::system::language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 
-    engine()->resource_manager()->add_container<skills::Skill*>(new ugdk::base::GenericContainer<skills::Skill*>);
-    engine()->resource_manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::base::GenericContainer<utils::IsometricAnimationSet*>);
+    ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);
+    ugdk::resource::manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::resource::GenericContainer<utils::IsometricAnimationSet*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
     builder::InitRecipes();
@@ -114,16 +110,15 @@ int main(int argc, char *argv[]) {
         StartGame();
 
         // Transfers control to the framework.
-        engine()->Run();
+        ugdk::system::Run();
 
         // Releases data persistant between levels.
         level_manager()->Finish();
 
         // Releases all loaded textures, to avoid issues when changing resolution.
-        engine()->video_manager()->Release();
-        engine()->text_manager()->Release();
+        //engine()->video_manager()->Release();
 
     } while(level_manager()->RestartGameQueued());
-    engine()->Release();
+    ugdk::system::Release();
     return 0;
 }

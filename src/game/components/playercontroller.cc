@@ -2,8 +2,8 @@
 
 #include "playercontroller.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/input/inputmanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/input/module.h>
 #include <ugdk/input/keys.h>
 
 #include "game/components/caster.h"
@@ -36,7 +36,7 @@ static void cycle_iterator(std::list<int>::const_iterator& it, const std::list<i
 }
 
 void PlayerController::Update(double dt) {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
+    ugdk::input::Manager *input_ = ugdk::input::manager();
 
     aim_destination_ = core::FromScreenCoordinates(input_->GetMousePosition() + mouse_aim_offset_);
 
@@ -76,7 +76,7 @@ void PlayerController::RemoveSkill(int id) {
 }
 
 bool PlayerController::IsUsingSkillSlot(SkillSlot slot) const {
-    ugdk::input::InputManager *input_ = Engine::reference()->input_manager();
+    ugdk::input::Manager *input_ = ugdk::input::manager();
     switch(slot) {
     case PRIMARY:   return input_->MouseDown(ugdk::input::M_BUTTON_LEFT);
     case SECONDARY: return input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);

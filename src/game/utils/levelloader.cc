@@ -1,7 +1,7 @@
 #include "levelloader.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 
@@ -59,7 +59,7 @@ void LevelLoader::Load(const std::string& name) {
     world_->SetHero(builder::HeroBuilder::Kha());
 
     if(level_data["music"] && utils::Settings::reference()->background_music())
-        world_->set_background_music(AUDIO_MANAGER()->LoadMusic(level_data["music"].value<std::string>()));
+        world_->set_background_music(ugdk::audio::manager()->LoadMusic(level_data["music"].value<std::string>()));
 }
 
 } // namespace utils

@@ -3,10 +3,9 @@
 
 #include <string>
 #include <map>
-#include <ugdk/base/types.h>
 #include <ugdk/action.h>
 #include <ugdk/action/spritetypes.h>
-#include <ugdk/base/types.h>
+#include <ugdk/common/types.h>
 #include "game/components/direction.h"
 
 namespace utils {

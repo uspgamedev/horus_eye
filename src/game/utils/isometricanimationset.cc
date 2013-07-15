@@ -3,8 +3,8 @@
 
 #include "game/utils/isometricanimationset.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
 #include <ugdk/util/indexabletable.h>
 
 using ugdk::math::Vector2D;
@@ -66,14 +66,14 @@ int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& di
 }
     
 IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& name) {
-    ugdk::action::SpriteAnimationTable* set = ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile(name);
+    ugdk::action::SpriteAnimationTable* set = ugdk::resource::GetSpriteAnimationTableFromFile(name);
     if(set)
         return new IsometricAnimationSet(set);
     return NULL;
 }
 
 IsometricAnimationSet* IsometricAnimationSet::LoadFromResourceManager(const std::string& name) {
-    return RESOURCE_MANAGER()->get_container<IsometricAnimationSet*>().Load(name, name);
+    return ugdk::resource::manager()->get_container<IsometricAnimationSet*>()->Load(name, name);
 }
     
 int IsometricAnimationSet::getAnimationFromCache(const AnimationDirectionCache& map, const component::Direction& dir) const {

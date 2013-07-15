@@ -4,7 +4,7 @@
 #include <list>
 #include <string>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/base/types.h>
+#include <ugdk/common/types.h>
 
 namespace utils {
 

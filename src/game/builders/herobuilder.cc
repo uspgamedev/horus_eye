@@ -1,6 +1,6 @@
 #include "herobuilder.h"
 
-#include <ugdk/base/resourcemanager.h>
+#include <ugdk/resource/module.h>
 #include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
@@ -59,7 +59,7 @@ void SetupCollision(sprite::WorldObject* obj) {
 sprite::WorldObject* Kha() {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(
-            ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
+            ugdk::resource::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
     }
 
     component::PlayerController* player_controller;

@@ -2,12 +2,12 @@
 
 #include <functional>
 
-#include <ugdk/base/engine.h>
+#include <ugdk/system/engine.h>
 #include <ugdk/action.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
-#include <ugdk/input/inputmanager.h>
+#include <ugdk/input/module.h>
 #include "game/utils/levelmanager.h"
 #include <ugdk/input/keys.h>
 
@@ -21,7 +21,7 @@ using namespace std::placeholders;
 #define IMG 1
 
 static bool FinishImageSceneTask(ugdk::action::Scene* scene, double) {
-    ugdk::input::InputManager *input = INPUT_MANAGER();
+    ugdk::input::Manager *input = ugdk::input::manager();
     if (input->KeyPressed(ugdk::input::K_RETURN) || input->KeyPressed(ugdk::input::K_ESCAPE) ||
         input->KeyPressed(ugdk::input::K_KP_ENTER) || input->MouseReleased(ugdk::input::M_BUTTON_LEFT))
         scene->Finish();
@@ -41,7 +41,7 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     if (image) {
         scene_layers_[IMG] = new ugdk::graphic::Node(image);
 
-        ugdk::math::Vector2D offset = (VIDEO_MANAGER()->video_size() - image->size())* 0.5;
+        ugdk::math::Vector2D offset = (ugdk::graphic::manager()->video_size() - image->size())* 0.5;
         scene_layers_[IMG]->geometry().set_offset(offset);
 
         interface_node()->AddChild(scene_layers_[IMG]);

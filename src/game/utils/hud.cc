@@ -1,13 +1,14 @@
+#include "hud.h"
+
 #include <ugdk/math/vector2D.h>
-#include <ugdk/base/engine.h>
+#include <ugdk/system/engine.h>
 #include <ugdk/graphic/textmanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/label.h>
-
-#include "hud.h"
+#include <ugdk/time/module.h>
 
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
@@ -23,8 +24,8 @@
 
 #define TOTEM_WIDTH constants::GetDouble("TOTEM_WIDTH")
 
-#define VIDEO_Y VIDEO_MANAGER()->video_size().y 
-#define VIDEO_X VIDEO_MANAGER()->video_size().x 
+#define VIDEO_Y ugdk::graphic::manager()->video_size().y 
+#define VIDEO_X ugdk::graphic::manager()->video_size().x 
 
 using namespace ugdk;
 using namespace ugdk::graphic;
@@ -173,7 +174,7 @@ void Hud::Update(double delta_t) {
     }
 
 #ifdef DEBUG
-    int fps = Engine::reference()->current_fps();
+    int fps = static_cast<int>(1.0/ugdk::time::manager()->TimeDifference());
     if(std::abs(previous_fps_ - fps) > 0) {
         previous_fps_ = fps;
         delete fps_meter_node_->drawable();
