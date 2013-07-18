@@ -76,9 +76,17 @@ sprite::WorldObject* Kha() {
     hero_wobj->AddComponent(new component::Animation(hero_wobj));
     hero_wobj->graphic()->ChangeLightRadius(constants::GetDouble("LIGHT_RADIUS_INITIAL"));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
+
     hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
+    for(int i = 1; i <= 4; ++i) {
+        char buffer[255];
+        sprintf(buffer, "samples/hit%d.wav", i);
+        hero_wobj->damageable()->AddHitSound(buffer);
+    }
+
+
     hero_wobj->AddComponent(new component::Condition(hero_wobj));
     hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Die));
     hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),

@@ -39,7 +39,7 @@ class Damageable : public Base {
 
     void set_super_armor(bool super_armor) { super_armor_ = super_armor; }
 
-    void add_hit_sound(const std::string& sound) {
+    void AddHitSound(const std::string& sound) {
         hit_sounds_.push_back(sound);
     }
 
