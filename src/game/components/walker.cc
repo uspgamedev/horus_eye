@@ -51,6 +51,8 @@ void Walker::Update(double dt) {
         component::Controller* controller = owner_->controller();
         component::Animation* animation = owner_->component<Animation>();
 
+        if(!controller) return;
+
         const Direction& direction = controller->direction();
         if(direction && animation && animation->CanInterrupt(utils::MOVEMENT)) {
             animation->ChangeAnimation(utils::MOVEMENT, direction);

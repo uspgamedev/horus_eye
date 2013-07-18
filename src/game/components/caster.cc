@@ -33,6 +33,7 @@ void Caster::Update(double dt) {
     if(!owner_->component<Animation>()->CanInterrupt(utils::ATTACK)) return;
     
     Controller* controller = owner_->controller();
+    if(!controller) return;
     for(std::map<Controller::SkillSlot, const skills::Skill*>::iterator it = active_skills_.begin(); it != active_skills_.end(); ++it) {
         if(it->second && controller->IsUsingSkillSlot(it->first) && it->second->IsValidUse(this)) {
             if(CastSkill(it->first)) {
