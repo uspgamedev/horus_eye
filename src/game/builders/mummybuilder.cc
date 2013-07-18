@@ -70,15 +70,22 @@ void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
         ANIMATIONS = new utils::IsometricAnimationSet(
             ugdk::resource::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
     }
+    std::string aiscript = "basicmummy";
+
+
     wobj->AddComponent(new component::Graphic(spritesheetname, ANIMATIONS));
     wobj->AddComponent(new component::Animation(wobj, utils::SPAWNING, Direction()));
     wobj->AddComponent(new component::Damageable(wobj, 300));
     wobj->damageable()->life() = Energy(life);
     wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Die));
 
-    ai::AI* mummyAI = AIBuilder::AIScript(wobj, "basicmummy");
-    mummyAI->set_standing(standing);
-    wobj->AddComponent( mummyAI );
+    ai::AI* mummyAI = AIBuilder::AIScript(wobj, aiscript);
+    if(mummyAI) {
+        mummyAI->set_standing(standing);
+        wobj->AddComponent( mummyAI );
+    } else {
+        fprintf(stderr, "Failed to assign ai '%s' to wobj '%s'\n", aiscript.c_str(), wobj->identifier().c_str());
+    }
 
     resource::Energy mana;
     wobj->AddComponent(new Caster(wobj, mana));
