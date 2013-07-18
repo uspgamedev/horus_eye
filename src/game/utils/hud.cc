@@ -174,11 +174,11 @@ void Hud::Update(double delta_t) {
     }
 
 #ifdef DEBUG
-    int fps = static_cast<int>(1.0/ugdk::time::manager()->TimeDifference());
-    if(std::abs(previous_fps_ - fps) > 0) {
+    double fps = 1000.0/ugdk::time::manager()->TimeDifference();
+    if(std::abs(previous_fps_ - fps) > 0.5) {
         previous_fps_ = fps;
         delete fps_meter_node_->drawable();
-        fps_meter_node_->set_drawable(ConvertNumberToText(fps, false));
+        fps_meter_node_->set_drawable(ConvertNumberToText(static_cast<int>(fps), false));
     }
 #endif
 
