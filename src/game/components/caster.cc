@@ -1,7 +1,7 @@
 #include "game/components/caster.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
 
 #include "game/sprites/worldobject.h"
 #include "game/skills/skill.h"
@@ -70,7 +70,7 @@ int Caster::LearnSkill(const skills::Skill* skill) {
 }
 
 int Caster::LearnSkill(const std::string& skill_name) {
-    return LearnSkill(RESOURCE_MANAGER()->get_container<skills::Skill*>().Find(skill_name));
+    return LearnSkill(ugdk::resource::manager()->get_container<skills::Skill*>()->Find(skill_name));
 }
 
 void Caster::UnlearnSkill(int id) {

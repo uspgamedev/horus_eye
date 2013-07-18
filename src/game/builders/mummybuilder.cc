@@ -1,6 +1,6 @@
 #include "mummybuilder.h"
 
-#include <ugdk/base/resourcemanager.h>
+#include <ugdk/resource/module.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionlogic.h>
@@ -68,7 +68,7 @@ void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
                        double life, double radius, double speed, bool standing) {
     if(ANIMATIONS == NULL) {
         ANIMATIONS = new utils::IsometricAnimationSet(
-            ugdk::base::ResourceManager::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
+            ugdk::resource::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
     }
     wobj->AddComponent(new component::Graphic(spritesheetname, ANIMATIONS));
     wobj->AddComponent(new component::Animation(wobj, utils::SPAWNING, Direction()));

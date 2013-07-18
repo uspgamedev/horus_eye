@@ -1,9 +1,9 @@
 #include <cstdlib>
 #include <string>
-#include <ugdk/base/engine.h>
+#include <ugdk/system/engine.h>
 #include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/input/inputmanager.h>
+#include <ugdk/graphic/module.h>
+#include <ugdk/input/module.h>
 
 #include "menu.h"
 
@@ -20,10 +20,10 @@ using namespace utils;
 #define RECT_HEIGHT         90
 #define SELECTION_WIDTH     864
 #define SELECTION_HEIGHT    155
-#define MENU_TOP            VIDEO_MANAGER()->video_size().y/3.0
-#define MENU_LEFT           VIDEO_MANAGER()->video_size().x/2.0 - RECT_WIDTH/2.0
+#define MENU_TOP            ugdk::graphic::manager()->video_size().y/3.0
+#define MENU_LEFT           ugdk::graphic::manager()->video_size().x/2.0 - RECT_WIDTH/2.0
 #define MENU_BOTTOM         MENU_TOP + Menu::MAIN_SELECT_NUM*RECT_HEIGHT
-#define MENU_RIGHT          VIDEO_MANAGER()->video_size().x/2.0 + RECT_WIDTH/2.0
+#define MENU_RIGHT          ugdk::graphic::manager()->video_size().x/2.0 + RECT_WIDTH/2.0
 #define SELECTION_SPRITES   2
 
 const double Menu::OPTION_ZINDEX = 10.0;
@@ -57,7 +57,7 @@ Menu::~Menu () {
 
 void Menu::Update(double delta_t) {
     Scene::Update(delta_t);
-    ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();
+    ugdk::input::Manager *input = ugdk::input::manager();
     Vector2D mouse_pos = input->GetMousePosition();
 
     if (input->KeyPressed(ugdk::input::K_ESCAPE)) {

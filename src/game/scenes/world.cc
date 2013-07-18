@@ -6,10 +6,10 @@
 #include <functional>
 #include <ugdk/action/scene.h>
 #include <ugdk/audio/music.h>
-#include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
-#include <ugdk/time/timemanager.h>
-#include <ugdk/input/inputmanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/graphic/module.h>
+#include <ugdk/time/module.h>
+#include <ugdk/input/module.h>
 #include <ugdk/util/intervalkdtree.h>
 
 #include <pyramidworks/collision/collisionobject.h>
@@ -37,24 +37,24 @@ using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
 
 bool VerifyCheats(double dt) {
-    ugdk::input::InputManager *input = Engine::reference()->input_manager();
+    ugdk::input::Manager *input = ugdk::input::manager();
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->get_current_level();
     WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
-    if(Engine::reference()->time_handler()->TimeSince(last_level_warp) > 1250) {
+    if(ugdk::time::manager()->TimeSince(last_level_warp) > 1250) {
         if (input->KeyPressed(ugdk::input::K_p)) {
             level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
             world->FinishLevel(LevelManager::FINISH_WARP);
-            last_level_warp = Engine::reference()->time_handler()->TimeElapsed();
+            last_level_warp = ugdk::time::manager()->TimeElapsed();
 
         } else if (input->KeyPressed(ugdk::input::K_o)) {
             unsigned int cur_level = level_manager->GetNextLevelID();
             if(cur_level > 0) {
                 level_manager->SetNextLevel(cur_level - 1);
                 world->FinishLevel(LevelManager::FINISH_WARP);
-                last_level_warp = Engine::reference()->time_handler()->TimeElapsed();
+                last_level_warp = ugdk::time::manager()->TimeElapsed();
             }
         }
     }
@@ -67,11 +67,6 @@ bool VerifyCheats(double dt) {
         }
         if(input->KeyPressed(ugdk::input::K_t))
             hero->set_world_position(core::FromScreenCoordinates(input->GetMousePosition()));
-    }
-
-    if(input->KeyPressed(ugdk::input::K_l)) {
-        static bool lights_on = true;
-        VIDEO_MANAGER()->SetLightSystem(lights_on = !lights_on);
     }
 
     ugdk::graphic::Geometry& modifier = world->content_node()->geometry();
@@ -90,7 +85,7 @@ bool VerifyCheats(double dt) {
         Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
         if(input->CheckSequence(konami, 10)) {
             hero_->Invulnerable(85000);
-            AUDIO_MANAGER()->LoadMusic("musics/sf2Guile456.mid")->Play();
+            ugdk::audio::manager()->LoadMusic("musics/sf2Guile456.mid")->Play();
             konami_used_ = true;
         }
     }*/
@@ -100,7 +95,8 @@ bool VerifyCheats(double dt) {
 
 bool UpdateOffset(double dt) {
     World* world = WORLD();
-    Vector2D result = VIDEO_MANAGER()->video_size()*0.5;
+    auto mgr = ugdk::graphic::manager();
+    Vector2D result = mgr->video_size()*0.5;
     if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->geometry().CalculateScale().x;
     world->content_node()->geometry().set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
     return true;

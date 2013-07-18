@@ -28,7 +28,7 @@ class Hud: public ugdk::action::Entity {
 
 #ifdef DEBUG
     ugdk::graphic::Node* fps_meter_node_;
-    int previous_fps_;
+    double previous_fps_;
 #endif
 };
 

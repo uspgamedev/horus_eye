@@ -20,7 +20,7 @@ namespace builder {
 /*
 Property createBaseExplosionProperty(const std::string& spritesheet, const std::string& animation) {
     return [=](sprite::WorldObject* wobj) {
-        utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromResourceManager("animations/explosion.gdd");
+        utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromugdk::resource::("animations/explosion.gdd");
         component::Graphic* graphic = new component::Graphic(spritesheet, set);
         graphic->ChangeAnimation(animation);
         graphic->AddTickFunction(std::bind(&sprite::WorldObject::StartToDie, wobj));

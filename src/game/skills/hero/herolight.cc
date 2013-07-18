@@ -1,9 +1,9 @@
 #include <ugdk/math/vector2D.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/base/engine.h>
+#include <ugdk/system/engine.h>
 
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
@@ -33,7 +33,7 @@ static void HeroLightUse(component::Caster* caster){
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 
     if(utils::Settings::reference()->sound_effects())
-        Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
+        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 Skill* HeroLightBuild() {

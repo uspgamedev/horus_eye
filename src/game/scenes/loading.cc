@@ -1,10 +1,10 @@
 #include "loading.h"
 
 #include <ugdk/action.h>
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/drawable.h>
 
 #include "game/utils/levelmanager.h"
@@ -14,7 +14,6 @@ namespace scene {
 
 using ugdk::math::Vector2D;
 using ugdk::action::Task;
-using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
 
@@ -47,10 +46,10 @@ class LoadTask {
 };
 
 Loading::Loading() {
-    Drawable* loading_image = ResourceManager::GetLanguageWord("Loading")->CreateLabel();
+    Drawable* loading_image = ugdk::resource::GetLanguageWord("Loading")->CreateLabel();
     loading_image->set_hotspot(Drawable::BOTTOM_RIGHT);
 
-    Vector2D position = VIDEO_MANAGER()->video_size() - Vector2D(10.0, 10.0);
+    Vector2D position = ugdk::graphic::manager()->video_size() - Vector2D(10.0, 10.0);
 
     Node* loading = new ugdk::graphic::Node(loading_image);
     loading->geometry().set_offset(position);

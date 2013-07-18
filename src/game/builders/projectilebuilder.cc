@@ -1,9 +1,9 @@
 #include "projectilebuilder.h"
 
 #include <cmath>
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
-#include <ugdk/base/types.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/common/types.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
@@ -27,7 +27,6 @@ namespace builder {
 namespace ProjectileBuilder {
 
 using component::Direction;
-using ugdk::base::ResourceManager;
 using ugdk::math::Vector2D;
 using utils::IsometricAnimationSet;
 using sprite::WorldObject;

@@ -2,8 +2,8 @@
 #include <cerrno>
 #include "initializer.h"
 
-#include <ugdk/base/engine.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shader.h>
 
@@ -53,5 +53,5 @@ void AddHorusShader() {
     bool status = horus_light_shader_->SetupProgram();
     assert(status);
 
-    VIDEO_MANAGER()->shaders().ReplaceShader(1, horus_light_shader_);
+    ugdk::graphic::manager()->shaders().ReplaceShader(1, horus_light_shader_);
 }

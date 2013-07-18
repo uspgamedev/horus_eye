@@ -1,7 +1,7 @@
 #include <cmath>
 #include <functional>
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/node.h>
@@ -29,7 +29,6 @@ namespace DoodadBuilder {
 using std::bind;
 using namespace std::placeholders;
 using ugdk::action::SpriteAnimationTable;
-using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
 using ugdk::graphic::Sprite;
@@ -82,19 +81,19 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
 }
 
 WorldObject* Wall(const std::vector<std::string>& arguments) {
-    return buildWall(ResourceManager::GetTextureFromFile("images/wall-simple.png"));
+    return buildWall(ugdk::resource::GetTextureFromFile("images/wall-simple.png"));
 }
 
 WorldObject* InvisibleWall(const std::vector<std::string>& arguments) {
-    return buildWall(ResourceManager::GetTextureFromFile("images/wall-shortened.png"));
+    return buildWall(ugdk::resource::GetTextureFromFile("images/wall-shortened.png"));
 }
 
 WorldObject* BurntWall(const std::vector<std::string>& arguments) {
-    return buildWall(ResourceManager::GetTextureFromFile("images/wall-burnt.png"));
+    return buildWall(ugdk::resource::GetTextureFromFile("images/wall-burnt.png"));
 }
 
 WorldObject* Entry(const std::vector<std::string>& arguments) {
-    return buildWall(ResourceManager::GetTextureFromFile("images/door.png"));
+    return buildWall(ugdk::resource::GetTextureFromFile("images/door.png"));
 }
 
 } // namespace DoodadBuilder

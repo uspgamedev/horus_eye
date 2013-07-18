@@ -6,7 +6,6 @@
 #include "game/components/animation.h"
 #include <pyramidworks/geometry/geometricshape.h>
 #include <ugdk/script/virtualobj.h>
-#include <ugdk/portable/tr1.h>
 #include <functional>
 #include <algorithm>
 #include <string>

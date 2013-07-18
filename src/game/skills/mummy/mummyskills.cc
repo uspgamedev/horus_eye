@@ -1,5 +1,5 @@
-#include <ugdk/base/engine.h>
-#include <ugdk/audio/audiomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/audio/module.h>
 
 #include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
@@ -38,7 +38,7 @@ static void MummyRangedUse(component::Caster* caster) {
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::MummyProjectile(versor, caster->power().Get() * 1.0), pos, map::POSITION_ABSOLUTE);
     
     if(utils::Settings::reference()->sound_effects())
-        ugdk::Engine::reference()->audio_manager()->LoadSample("samples/fire.wav")->Play();
+        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
 }
 
 Skill* MummyMeleeBuild() {

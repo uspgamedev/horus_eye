@@ -3,15 +3,14 @@
 #include <fstream>
 #include <iostream>
 
-#include <ugdk/base/engine.h>
-#include <ugdk/base/resourcemanager.h>
-#include <ugdk/audio/audiomanager.h>
-#include <ugdk/util/pathmanager.h>
-#include <ugdk/graphic/videomanager.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/audio/module.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/drawable/textbox.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/input/inputmanager.h>
+#include <ugdk/input/module.h>
 #include <ugdk/action/scene.h>
 
 #include "game/scenes/menu.h"
@@ -39,8 +38,6 @@ using namespace sprite;
 
 using std::string;
 using std::ifstream;
-using ugdk::Engine;
-using ugdk::base::ResourceManager;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
 using ugdk::graphic::TextBox;
@@ -56,13 +53,13 @@ void LevelManager::Initialize() {
     level_list_iterator_ = 0;
     builder::MenuBuilder builder;
     menu_ = builder.MainMenu();
-    Engine::reference()->PushScene(menu_);
+    ugdk::system::PushScene(menu_);
 
     loading_ = NULL;
 }
 
 void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::string>& level_list) {
-    string file = PATH_MANAGER()->ResolvePath(relative_file);
+    string file = ugdk::system::ResolvePath(relative_file);
     level_list.clear();
     ifstream list (file.c_str());
     if(list.is_open()) {
@@ -85,41 +82,41 @@ void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::str
 }
 
 void LevelManager::ShowIntro() {
-    Engine::reference()->PushScene(loading_ = new Loading);
+    ugdk::system::PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
-    ugdk::LanguageWord* langword = ResourceManager::GetLanguageWord("Intro");
-    TextBox* textbox = new TextBox(langword->text(), VIDEO_MANAGER()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("Intro");
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     Scene *scroll = new ScrollingImageScene(NULL, textbox, 45);
     if(Settings::reference()->background_music())
-        scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
-    Engine::reference()->PushScene(scroll);
+        scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
+    ugdk::system::PushScene(scroll);
 }
 
 void LevelManager::ShowCredits() {
-    ugdk::LanguageWord* langword = ResourceManager::GetLanguageWord("CreditsFile");
-    TextBox* textbox = new TextBox(langword->text(), VIDEO_MANAGER()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     Scene *scroll = new ScrollingImageScene(NULL, textbox, 55);
     if(Settings::reference()->background_music())
-        scroll->set_background_music(AUDIO_MANAGER()->LoadMusic("musics/action_game_theme.ogg"));
-    Engine::reference()->PushScene(scroll);
+        scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
+    ugdk::system::PushScene(scroll);
 }
 
 void LevelManager::ShowEnding() {
     loading_->Finish();
     loading_ = NULL;
-    Drawable* message = new TexturedRectangle(ResourceManager::GetTextureFromFile("images/you_win.png"));
-    Engine::reference()->PushScene(new ImageScene(NULL, message));
+    Drawable* message = new TexturedRectangle(ugdk::resource::GetTextureFromFile("images/you_win.png"));
+    ugdk::system::PushScene(new ImageScene(NULL, message));
 }
 
 void LevelManager::ShowGameOver() {
-    Drawable* message = new TexturedRectangle(ResourceManager::GetTextureFromFile("images/game_over.png"));
-    Engine::reference()->PushScene(new ImageScene(NULL, message));
+    Drawable* message = new TexturedRectangle(ugdk::resource::GetTextureFromFile("images/game_over.png"));
+    ugdk::system::PushScene(new ImageScene(NULL, message));
 }
 
 void LevelManager::FinishLevel(LevelState state) {
-    if(Engine::reference()->CurrentScene() != current_level_) {
+    if(ugdk::system::CurrentScene() != current_level_) {
         // Oh crap, there's some stacked Scene that shouldn't be there!
         // Lets just do nothing...
         return;
@@ -170,16 +167,15 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     }
     {
         current_level_->AddTask([](double) -> bool {
-            ugdk::input::InputManager *input = ugdk::Engine::reference()->input_manager();
-            if(input->KeyPressed(ugdk::input::K_ESCAPE)) {
+            if(ugdk::input::manager()->KeyPressed(ugdk::input::K_ESCAPE)) {
                 builder::MenuBuilder builder;
-                ugdk::Engine::reference()->PushScene(builder.PauseMenu());
+                ugdk::system::PushScene(builder.PauseMenu());
             }
             return true;
         });
     }
 
-    Engine::reference()->PushScene(current_level_);
+    ugdk::system::PushScene(current_level_);
     current_level_->Start();
 }
 
