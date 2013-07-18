@@ -50,8 +50,8 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
                                                                                         // 27 is tile_height/2 (54/2)
                                  "}" "\n");
 
-    fragment_shader.AddLineInMain("	vec2 screenPosLight = screenPos.xy * 0.5 + vec2(0.5, 0.5);" "\n");
-    fragment_shader.AddLineInMain("	vec2 lightPosition = vec2(screenPosLight.x, lightUV.y - calculate_offset(UV.x));" "\n");
+    fragment_shader.AddLineInMain("	float screenPosLightX = screenPos.x * 0.5 + 0.5;" "\n");
+    fragment_shader.AddLineInMain("	vec2 lightPosition = vec2(screenPosLightX, lightUV.y - calculate_offset(UV.x));" "\n");
 
     fragment_shader.AddLineInMain("	vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightPosition).rgb, 1.0);" "\n");
@@ -90,7 +90,7 @@ void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::grap
 
     Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
     shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
-    shader_use.SendUniform("PIXEL_SIZE", 1/ugdk::graphic::manager()->video_size().x, 1/ugdk::graphic::manager()->video_size().y);
+    shader_use.SendUniform("PIXEL_SIZE", 1.0f/ugdk::graphic::manager()->video_size().x, 1.0f/ugdk::graphic::manager()->video_size().y);
 
     shader_use.SendTexture(0, texture_);
     shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
