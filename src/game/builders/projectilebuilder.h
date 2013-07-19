@@ -7,6 +7,8 @@
 namespace builder {
 namespace ProjectileBuilder {
 
+void PrepareProjectile(sprite::WorldObject*, const ugdk::math::Vector2D &dir, double speed, double radius);
+
 sprite::WorldObject* MagicMissile(const ugdk::math::Vector2D &dir);
 sprite::WorldObject* MagicBall(const ugdk::math::Vector2D &dir);
 sprite::WorldObject* MummyProjectile(const ugdk::math::Vector2D &dir, double damage = 100.0);

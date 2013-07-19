@@ -40,15 +40,19 @@ static CollisionObject* buildCollisionObject(WorldObject* wobj, double radius) {
     return col;
 }
 
+void PrepareProjectile(sprite::WorldObject* wobj, const ugdk::math::Vector2D &dir, double speed, double radius) {
+    wobj->AddComponent(new component::StateController(Direction::FromWorldVector(dir), dir));
+    wobj->AddComponent(new component::Walker(wobj, speed));
+    wobj->AddComponent(new component::Shape(buildCollisionObject(wobj, radius), NULL));
+}
+
 static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 
                                     double light_radius, double speed, double duration, double radius) {
 
     IsometricAnimationSet* set = isometric_animation.empty() ? NULL : IsometricAnimationSet::LoadFromResourceManager(isometric_animation);
     WorldObject* wobj = new WorldObject(duration);
     wobj->AddComponent(new component::Graphic(spritesheet, set, light_radius));
-    wobj->AddComponent(new component::StateController(Direction::FromWorldVector(dir), dir));
-    wobj->AddComponent(new component::Walker(wobj, speed));
-    wobj->AddComponent(new component::Shape(buildCollisionObject(wobj, radius), NULL));
+    PrepareProjectile(wobj, dir, speed, radius);
     return wobj;
 }
 
