@@ -88,7 +88,7 @@ sprite::WorldObject* Kha() {
 
 
     hero_wobj->AddComponent(new component::Condition(hero_wobj));
-    hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Die));
+    hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
     hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),
     		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     

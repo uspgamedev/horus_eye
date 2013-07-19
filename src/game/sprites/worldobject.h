@@ -35,13 +35,15 @@ class WorldObject : public ::ugdk::action::Entity {
     void Update(double dt);
 
     void Die();
-    void StartToDie();
+    void Remove();
 
-    void set_identifier(const std::string& identifier) { identifier_ = identifier; }
+    /// Identifier is the debuging name for the object.
     const std::string& identifier() const { return identifier_; }
+    void set_identifier(const std::string& identifier) { identifier_ = identifier; }
 
-    void set_tag(const std::string& tag) { tag_ = tag; }
+    /// 
     const std::string& tag() const { return tag_; }
+    void set_tag(const std::string& tag) { tag_ = tag; }
 
     const ugdk::math::Vector2D& world_position() const { return world_position_; }
     void set_world_position(const ugdk::math::Vector2D& pos);

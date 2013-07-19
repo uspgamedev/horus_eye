@@ -47,29 +47,28 @@ WorldObject::~WorldObject() {
         delete it->component;
 }
 
-void WorldObject::Die() {
+void WorldObject::Remove() {
     if(graphic()) graphic()->set_visible(false);
     dead_ = true;
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
-    if(!on_die_callbacks_.empty())
-      for (auto callback : on_die_callbacks_)
+    for (const auto& callback : on_die_callbacks_)
         callback(this);
 }
 
-void WorldObject::StartToDie() {
+void WorldObject::Die() {
     dead_ = true;
     if(shape()) shape()->Deactivate();
     if(on_start_to_die_callback_) on_start_to_die_callback_(this);
-    if(!HasComponent("animation")) Die();
+    if(!HasComponent("animation")) Remove();
 }
 
 void WorldObject::Update(double dt) {
     if(timed_life_ && timed_life_->Expired())
-        StartToDie();
+        Die();
 
-    for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
-        it->component->Update(dt);
+    for(const auto& it : components_order_)
+        it.component->Update(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
@@ -92,7 +91,7 @@ void WorldObject::OnRoomAdd(map::Room* room) {
 }
 
 void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {
-    assert(component != NULL);
+    assert(component != nullptr);
     assert(components_.find(name) == components_.end());
     assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
 

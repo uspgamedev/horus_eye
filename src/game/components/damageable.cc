@@ -39,7 +39,7 @@ void Damageable::TakeDamage(double life_points) {
         if (!owner_->dead()) {
             if (animation)
                 animation->ChangeAnimation(utils::DEATH);
-            owner_->StartToDie();
+            owner_->Die();
             #ifdef DEBUG
                 fprintf(stderr, "\tTriggering death animation.\n");
             #endif

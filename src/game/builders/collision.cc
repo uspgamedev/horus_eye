@@ -13,7 +13,7 @@ using ugdk::math::Vector2D;
 using sprite::WorldObject;
 
 void DieCollision::Handle(void*) {
-    owner_->StartToDie();
+    owner_->Die();
 }
 
 void BounceCollision::Handle(void* data) {
@@ -38,7 +38,7 @@ void DamageAndDieCollision::Handle(void* obj) {
     WorldObject *wobj = static_cast<WorldObject *>(obj);
     if(!owner_->dead() && wobj->damageable()) {
         wobj->damageable()->TakeDamage(damage_);
-        owner_->StartToDie();
+        owner_->Die();
     }
 }
 

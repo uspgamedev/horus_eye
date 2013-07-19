@@ -84,7 +84,7 @@ void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
         wobj->damageable()->AddHitSound(buffer);
     }
 
-    wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Die));
+    wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
 
     ai::AI* mummyAI = AIBuilder::AIScript(wobj, aiscript);
     if(mummyAI) {
