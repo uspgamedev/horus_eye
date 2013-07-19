@@ -9,6 +9,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionlogic.h>
 
+#include "game/builders/collision.h"
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
 #include "game/components/animation.h"
@@ -21,8 +22,6 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
-#define PI 3.1415926535897932384626433832795
-
 namespace builder {
 namespace ProjectileBuilder {
 
@@ -32,54 +31,6 @@ using utils::IsometricAnimationSet;
 using sprite::WorldObject;
 using pyramidworks::collision::CollisionObject;
 using function::Carrier;
-
-COLLISION_DIRECT(WorldObject*, DieCollision, data) { data_->StartToDie(); }
-
-COLLISION_DIRECT(WorldObject*, BounceCollision, data) {
-    component::StateController* controller = data_->component<component::StateController>();
-    WorldObject* wall = static_cast<WorldObject*>(data);
-    ugdk::math::Vector2D projectile_position = data_->world_position();
-    ugdk::math::Vector2D wall_position = wall->world_position();
-    ugdk::math::Vector2D new_direction = projectile_position - wall_position;
-    double angle = new_direction.Angle();
-    if( (angle >= PI/4 && angle <= 3*PI/4) || (angle <= -PI/4 && angle >= -3*PI/4) )
-        controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::VERT));
-    else
-        controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::HORZ));
-
-}
-
-class DamageCollision : public pyramidworks::collision::CollisionLogic {
-  public:
-    DamageCollision(double damage) : damage_(damage) {}
-    DamageCollision(const std::string& constant_name) : damage_(constants::GetDouble(constant_name)) {}
-
-    void Handle(void* obj) {
-        WorldObject *wobj = static_cast<WorldObject *>(obj);
-        if(wobj->damageable()) wobj->damageable()->TakeDamage(damage_);
-    }
-
-  private:
-    double damage_;
-};
-
-class DamageAndDieCollision : public pyramidworks::collision::CollisionLogic {
-  public:
-    DamageAndDieCollision(WorldObject* owner, double damage) : owner_(owner), damage_(damage) {}
-    DamageAndDieCollision(WorldObject* owner, const std::string& constant_name) : owner_(owner), damage_(constants::GetDouble(constant_name)) {}
-
-    void Handle(void* obj) {
-        WorldObject *wobj = static_cast<WorldObject *>(obj);
-        if(!owner_->dead() && wobj->damageable()) {
-            wobj->damageable()->TakeDamage(damage_);
-            owner_->StartToDie();
-        }
-    }
-
-  private:
-    double damage_;
-    WorldObject* owner_;
-};
 
 static CollisionObject* buildCollisionObject(WorldObject* wobj, double radius) {
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);

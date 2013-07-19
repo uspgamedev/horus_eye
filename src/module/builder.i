@@ -10,6 +10,7 @@
 
 #include <game/sprites.h>
 #include <game/builders/aibuilder.h>
+#include <game/builders/collision.h>
 #include <game/builders/doodadbuilder.h>
 #include <game/builders/explosionbuilder.h>
 #include <game/builders/itembuilder.h>
@@ -30,6 +31,7 @@
 %template(StringList) std::vector<std::string>;
 
 %include <game/builders/aibuilder.h>
+%include <game/builders/collision.h>
 %include <game/builders/doodadbuilder.h>
 %include <game/builders/explosionbuilder.h>
 %include <game/builders/itembuilder.h>
@@ -38,4 +40,3 @@
 %include <game/builders/scriptbuilder.h>
 
 confirm_exports(builder)
-

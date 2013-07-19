@@ -28,6 +28,8 @@ SET(GAME_SRCS
     game/builders/aibuilder.h 
     game/builders/builder.cc 
     game/builders/builder.h 
+    game/builders/collision.cc 
+    game/builders/collision.h 
     game/builders/doodadbuilder.cc 
     game/builders/doodadbuilder.h 
     game/builders/explosionbuilder.cc 
