@@ -48,7 +48,6 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
-    LoadLevelList("level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
 
@@ -56,29 +55,6 @@ void LevelManager::Initialize() {
     ugdk::system::PushScene(menu_);
 
     loading_ = NULL;
-}
-
-void LevelManager::LoadLevelList(std::string relative_file, std::vector<std::string>& level_list) {
-    string file = ugdk::system::ResolvePath(relative_file);
-    level_list.clear();
-    ifstream list (file.c_str());
-    if(list.is_open()) {
-        int level_count;
-        list >> level_count;
-        for(int i = 0; i < level_count; ++i) {
-            string filename;
-            list >> filename;
-            level_list.push_back(filename);
-        }
-        list.close();
-    } else {
-#ifdef WIN32
-        MessageBox(HWND_DESKTOP,"Could not open the level list file.","Fatal Error: File not Found", MB_OK);
-#else
-        fprintf(stderr, "Fatal Error: Cannot open the level list file in %s.\n", file.c_str());
-#endif
-        exit(1);
-    }
 }
 
 void LevelManager::ShowIntro() {

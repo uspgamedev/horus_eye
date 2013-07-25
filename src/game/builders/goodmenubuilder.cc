@@ -109,7 +109,7 @@ Scene* CampaignMenu() {
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
+    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
     for(int i = 0; i < 2; ++i) {
         ugdk::graphic::Sprite* sprite = mif.HorusEye();
         mission_menu->media_manager().AddPlayer(&sprite->animation_player());
@@ -127,16 +127,26 @@ Scene* CampaignMenu() {
             if(ent->d_name[0] == '.') continue;
 
             using ugdk::script::VirtualObj;
-            VirtualObj campaign_module = SCRIPT_MANAGER()->LoadModule("campaigns." + std::string(ent->d_name));
+            VirtualObj campaign_module = SCRIPT_MANAGER()->LoadModule("campaigns." + std::string(ent->d_name) + ".descriptor");
             if(!campaign_module) continue;
             if(!campaign_module["playable"] || !campaign_module["playable"].value<bool>()) continue;
             if(!campaign_module["name"]) continue;
 
             std::wstring name(convertFromString(campaign_module["name"].value<std::string>()));
+            std::vector<std::string> list; 
+            for(const auto& level : campaign_module["level_list"].value<VirtualObj::Vector>())
+                list.push_back(level.value<std::string>());
 
-            menu->AddObject(new Button(Vector2D(200.0, y),
-                                       new Label(name, TEXT_MANAGER()->GetFont("FontB")),
-                                       [mission_menu](const Button*) { mission_menu->Finish(); }));
+            menu->AddObject(
+                new Button(
+                    Vector2D(200.0, y),
+                    new Label(name, TEXT_MANAGER()->GetFont("FontB")),
+                    [list,mission_menu](const Button*) {
+                        mission_menu->Finish(); 
+                        utils::LevelManager* levelmanager = utils::LevelManager::reference();
+                        levelmanager->set_level_list(list);
+                        levelmanager->ShowIntro();
+            }));
 
             y += 50.0;
         }
