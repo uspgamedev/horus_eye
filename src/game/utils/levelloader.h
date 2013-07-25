@@ -33,7 +33,7 @@ class LevelLoader {
     LevelLoader(scene::World * world) : world_(world) {}
     virtual ~LevelLoader() {}
 
-    void Load(const std::string&);
+    void Load(const std::string& campaign, const std::string& level_name);
 
   private:
     scene::World * world_;

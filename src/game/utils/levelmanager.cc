@@ -139,7 +139,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     current_level_ = new World();
     {
         LevelLoader loader(current_level_);
-        loader.Load(level_name);
+        loader.Load(current_campaign_, level_name);
     }
     current_level_->AddTask([](double) {
         if(ugdk::input::manager()->KeyPressed(ugdk::input::K_ESCAPE))

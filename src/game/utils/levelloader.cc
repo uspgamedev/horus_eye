@@ -21,8 +21,8 @@ Vector2D VobjsToVector2D(VirtualObj x, VirtualObj y) {
     return Vector2D(x.value<double>(), y.value<double>());
 }
 
-void LevelLoader::Load(const std::string& name) {
-    VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("levels." + name);
+void LevelLoader::Load(const std::string& campaign, const std::string& name) {
+    VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("campaigns." + campaign + ".levels." + name);
     if(!level_data) return;
 
     if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["start_position"]) return;

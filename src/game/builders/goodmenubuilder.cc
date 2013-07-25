@@ -127,24 +127,29 @@ Scene* CampaignMenu() {
             if(ent->d_name[0] == '.') continue;
 
             using ugdk::script::VirtualObj;
-            VirtualObj campaign_module = SCRIPT_MANAGER()->LoadModule("campaigns." + std::string(ent->d_name) + ".descriptor");
+            
+            std::string campaign_module_name = std::string(ent->d_name);
+
+            VirtualObj campaign_module = SCRIPT_MANAGER()->LoadModule("campaigns." + campaign_module_name + ".descriptor");
             if(!campaign_module) continue;
             if(!campaign_module["playable"] || !campaign_module["playable"].value<bool>()) continue;
             if(!campaign_module["name"]) continue;
 
             std::wstring name(convertFromString(campaign_module["name"].value<std::string>()));
-            std::vector<std::string> list; 
-            for(const auto& level : campaign_module["level_list"].value<VirtualObj::Vector>())
-                list.push_back(level.value<std::string>());
 
             menu->AddObject(
                 new Button(
                     Vector2D(200.0, y),
                     new Label(name, TEXT_MANAGER()->GetFont("FontB")),
-                    [list,mission_menu](const Button*) {
+                    [campaign_module_name,campaign_module,mission_menu](const Button*) {
                         mission_menu->Finish(); 
                         utils::LevelManager* levelmanager = utils::LevelManager::reference();
-                        levelmanager->set_level_list(list);
+
+                        std::vector<std::string> list; 
+                        for(const auto& level : campaign_module["level_list"].value<VirtualObj::Vector>())
+                            list.push_back(level.value<std::string>());
+
+                        levelmanager->ChangeCampaign(campaign_module_name, list);
                         levelmanager->ShowIntro();
             }));
 

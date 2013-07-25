@@ -37,6 +37,8 @@ class LevelManager {
 
     void FinishLevel(LevelState);
 
+    const std::string& current_campaign() const { return current_campaign_; }
+
     scene::World* get_current_level() { return current_level_; }
     void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
     unsigned int GetNextLevelID() { return level_list_iterator_; }
@@ -48,7 +50,10 @@ class LevelManager {
     void QueueRestartGame() { restart_game_ = true; }
     bool RestartGameQueued() { return restart_game_; }
 
-    void set_level_list(const std::vector<std::string>& list) { level_list_ = list; }
+    void ChangeCampaign(const std::string& name, const std::vector<std::string>& list) { 
+        current_campaign_ = name;
+        level_list_ = list;
+    }
 
     void InformLoadingDeleted() { loading_ = NULL; }
 
@@ -65,6 +70,7 @@ class LevelManager {
     scene::World* current_level_;
     ugdk::action::Scene* menu_;
     scene::Loading* loading_;
+    std::string current_campaign_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
     bool restart_game_;
