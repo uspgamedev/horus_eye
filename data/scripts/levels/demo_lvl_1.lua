@@ -146,19 +146,6 @@ closedcorridor = {
   end
 }
 
-local function spawn_region (x,y,...)
-  return {
-    3,  roomsize/2, --position
-    "!", --scriptobj
-    {
-      "spawn_trap", --type
-      1.0, roomsize, -- width, height
-      x, y, -- position
-      ... -- spawned object
-    }
-  }
-end
-
 firstblood = {
   width = roomsize,
   height = roomsize,
@@ -215,6 +202,8 @@ firstblood = {
           local room = region:current_room()
           room:MakeRecipe("door", ugdk_math.Vector2D(0, 7), "THE-DOOR-1")
           room:MakeRecipe("door", ugdk_math.Vector2D(0, 8), "THE-DOOR-2")
+          room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, 3))
+          room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, roomsize-3))
           context.DeactivateRoom "closedcorridor"
         end
       }
@@ -225,10 +214,7 @@ firstblood = {
     room:MakeRecipe("door", ugdk_math.Vector2D(15, 7), "THE-DOOR-3")
     room:MakeRecipe("door", ugdk_math.Vector2D(15, 8), "THE-DOOR-4")
     room:MakeRecipe("entrance_event", ugdk_math.Vector2D(3, roomsize/2))
-    
-    room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, 3))
-    room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, roomsize-3))
-    
+
     for i=3,4 do
       context.AddDamageableComponent(room, "THE-DOOR-"..i, 2)
     end
