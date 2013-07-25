@@ -51,8 +51,8 @@ void LevelManager::Initialize() {
     LoadLevelList("level_list.txt", level_list_);
     current_level_ = NULL;
     level_list_iterator_ = 0;
-    builder::MenuBuilder builder;
-    menu_ = builder.MainMenu();
+
+    menu_ = builder::MainMenu();
     ugdk::system::PushScene(menu_);
 
     loading_ = NULL;
@@ -165,16 +165,10 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
         LevelLoader loader(current_level_);
         loader.Load(level_name);
     }
-    {
-        current_level_->AddTask([](double) -> bool {
-            if(ugdk::input::manager()->KeyPressed(ugdk::input::K_ESCAPE)) {
-                builder::MenuBuilder builder;
-                ugdk::system::PushScene(builder.PauseMenu());
-            }
-            return true;
-        });
-    }
-
+    current_level_->AddTask([](double) {
+        if(ugdk::input::manager()->KeyPressed(ugdk::input::K_ESCAPE))
+            ugdk::system::PushScene(builder::PauseMenu());
+    });
     ugdk::system::PushScene(current_level_);
     current_level_->Start();
 }

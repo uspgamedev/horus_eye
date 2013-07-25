@@ -6,15 +6,9 @@
 
 namespace builder {
 
-class MenuBuilder {
-  public:
-    MenuBuilder() {}
-    ~MenuBuilder() {}
-
-    ugdk::action::Scene* PauseMenu() const;
-    ugdk::action::Scene* MainMenu() const;
-    ugdk::action::Scene* SettingsMenu() const;
-};
+ugdk::action::Scene* PauseMenu();
+ugdk::action::Scene* MainMenu();
+ugdk::action::Scene* SettingsMenu();
 
 }
 

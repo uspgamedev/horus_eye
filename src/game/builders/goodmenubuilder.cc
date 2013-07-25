@@ -1,6 +1,7 @@
 #include <sstream>
 #include <functional>
 #include <memory>
+#include <dirent.h>
 
 #include <ugdk/action.h>
 #include <ugdk/action/scene.h>
@@ -16,6 +17,8 @@
 #include <ugdk/ui/menu.h>
 #include <ugdk/ui/button.h>
 #include <ugdk/util/intervalkdtree.h>
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 
 #include "goodmenubuilder.h"
 
@@ -31,10 +34,12 @@ using namespace std::placeholders;
 using ugdk::action::Scene;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
+using ugdk::graphic::Label;
 using ugdk::ui::Menu;
 using ugdk::ui::Button;
 using ugdk::ui::UIElement;
 using utils::Settings;
+using ugdk::resource::GetLanguageWord;
 
 static std::wstring convertFromString(const std::string& str) {
     std::wstring str2(str.length(), L' '); // Make room for characters
@@ -43,32 +48,6 @@ static std::wstring convertFromString(const std::string& str) {
 }
 
 namespace builder {
-
-void Focus_Callback(Scene* scene) {
-    scene->interface_node()->set_active(true);
-}
-
-void DeFocus_Callback(Scene* scene) {
-    scene->interface_node()->set_active(false);
-}
-
-void PauseContinueCallback(Scene* menu, const Button * source) {
-    menu->Finish();
-}
-
-void PauseExitCallback(Scene* menu, const Button * source) {
-    menu->Finish();
-    WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
-}
-
-void MainMenuPlay(Scene* menu, const Button * source) {
-    utils::LevelManager::reference()->ShowIntro();
-}
-
-void MainMenuSettings(Scene* menu, const Button * source) {
-    MenuBuilder builder;
-    ugdk::system::PushScene(builder.SettingsMenu());
-}
 
 void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
@@ -80,11 +59,7 @@ void MainMenuDebugPlay(Scene* menu, const Button * source) {
 }
 #endif
 
-void SceneExit(Scene* scene, const Button * source) {
-    scene->Finish();
-}
-
-Scene* MenuBuilder::PauseMenu() const {
+Scene* PauseMenu() {
     ugdk::action::Scene* pause_menu = new Scene();
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
@@ -106,8 +81,11 @@ Scene* MenuBuilder::PauseMenu() const {
     ugdk::math::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    menu->AddObject(new Button(cont_position, cont_text, bind(PauseContinueCallback, pause_menu, _1)));
-    menu->AddObject(new Button(exit_position, exit_text, bind(PauseExitCallback, pause_menu, _1)));
+    menu->AddObject(new Button(cont_position, cont_text, [pause_menu](const Button*) { pause_menu->Finish(); }));
+    menu->AddObject(new Button(exit_position, exit_text, [pause_menu](const Button*) { 
+        pause_menu->Finish();
+        WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
+    }));
 
     pause_menu->StopsPreviousMusic(false);
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
@@ -123,10 +101,66 @@ Scene* MenuBuilder::PauseMenu() const {
     return pause_menu;
 }
 
-Scene* MenuBuilder::MainMenu() const {
+Scene* CampaignMenu() {
+    ugdk::action::Scene* mission_menu = new Scene();
+    mission_menu->set_focus_callback(  [](Scene* scene){ scene->interface_node()->set_active(true);  });
+    mission_menu->set_defocus_callback([](Scene* scene){ scene->interface_node()->set_active(false); });
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
+    ugdk::ikdtree::Box<2> box(origin.val, target.val);
+    utils::MenuImageFactory mif;
+
+    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
+    for(int i = 0; i < 2; ++i) {
+        ugdk::graphic::Sprite* sprite = mif.HorusEye();
+        mission_menu->media_manager().AddPlayer(&sprite->animation_player());
+        menu->SetOptionDrawable(sprite, i);
+    }
+
+    double y = 100.0;
+
+    //
+    DIR *dir;
+    struct dirent *ent;
+    if ((dir = opendir((constants::data_location() + "scripts/campaigns").c_str())) != NULL) {
+        /* print all the files and directories within directory */
+        while ((ent = readdir (dir)) != NULL) {
+            if(ent->d_name[0] == '.') continue;
+
+            using ugdk::script::VirtualObj;
+            VirtualObj campaign_module = SCRIPT_MANAGER()->LoadModule("campaigns." + std::string(ent->d_name));
+            if(!campaign_module) continue;
+            if(!campaign_module["playable"] || !campaign_module["playable"].value<bool>()) continue;
+            if(!campaign_module["name"]) continue;
+
+            std::wstring name(convertFromString(campaign_module["name"].value<std::string>()));
+
+            menu->AddObject(new Button(Vector2D(200.0, y),
+                                       new Label(name, TEXT_MANAGER()->GetFont("FontB")),
+                                       [mission_menu](const Button*) { mission_menu->Finish(); }));
+
+            y += 50.0;
+        }
+        closedir (dir);
+    } else {
+        fprintf(stderr, "NAO ABRUI A PASTA");
+    }
+
+    menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->video_size().y - 100.0),
+                               GetLanguageWord("Exit")->CreateLabel(),
+                               [mission_menu](const Button*) { mission_menu->Finish(); }));
+
+    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    mission_menu->interface_node()->AddChild(menu->node());
+    mission_menu->AddEntity(menu);
+
+    return mission_menu;
+}
+
+Scene* MainMenu() {
     ugdk::action::Scene* main_menu = new Scene();
-    main_menu->set_focus_callback(Focus_Callback);
-    main_menu->set_defocus_callback(DeFocus_Callback);
+    main_menu->set_focus_callback(  [](Scene* scene){ scene->interface_node()->set_active(true);  });
+    main_menu->set_defocus_callback([](Scene* scene){ scene->interface_node()->set_active(false); });
 
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
@@ -179,17 +213,17 @@ Scene* MenuBuilder::MainMenu() const {
     exit_position.x = target.x * 0.5;
     exit_position.y = target.y * 0.5 + settings_text->size().y + credits_text->size().y + 100.0;
 
-    menu->AddObject(new Button(play_position,     play_text,     bind(MainMenuPlay, main_menu, _1)));
-    menu->AddObject(new Button(settings_position, settings_text, bind(MainMenuSettings, main_menu, _1)));
-    menu->AddObject(new Button(credits_position,  credits_text,  bind(MainMenuCredits, main_menu, _1)));
-    menu->AddObject(new Button(exit_position,     exit_text,     bind(SceneExit, main_menu, _1)));
+    menu->AddObject(new Button(play_position,     play_text,     [](const Button*) { ugdk::system::PushScene(CampaignMenu()); }));
+    menu->AddObject(new Button(settings_position, settings_text, [](const Button*) { ugdk::system::PushScene(SettingsMenu()); }));
+    menu->AddObject(new Button(credits_position,  credits_text,  [](const Button*) { utils::LevelManager::reference()->ShowCredits(); }));
+    menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
 
 #ifdef DEBUG
     Drawable* debug_text    = ugdk::resource::GetLanguageWord("DebugStage")->CreateLabel();
     ugdk::math::Vector2D debug_position;
     debug_position.x = debug_text->size().x * 0.6;
     debug_position.y = 50.0;
-    menu->AddObject(new Button(debug_position,    debug_text,    bind(MainMenuDebugPlay, main_menu, _1)));
+    menu->AddObject(new Button(debug_position, debug_text, [](const Button*) { utils::LevelManager::reference()->DebugLoadSpecificLevel("debug_level"); }));
 #endif
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
@@ -310,7 +344,7 @@ static void ApplySettings(const Button * source) {
     ugdk::system::Quit();
 }
 
-Scene* MenuBuilder::SettingsMenu() const {
+Scene* SettingsMenu() {
     ugdk::action::Scene* settings_menu = new Scene();
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
@@ -340,7 +374,7 @@ Scene* MenuBuilder::SettingsMenu() const {
 
     {   Drawable* img = ugdk::resource::GetLanguageWord("Exit")->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 8);
-        menu->AddObject(new Button(pos, img, bind(SceneExit, settings_menu, _1))); }
+        menu->AddObject(new Button(pos, img, [settings_menu](const Button*) { settings_menu->Finish(); })); }
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
