@@ -44,7 +44,7 @@ void LevelLoader::Load(const std::string& campaign, const std::string& name) {
         if (level_data[name].valid())
             room = map::LoadRoom(name, level_data[name], Integer2D(x, y));
         else
-            room = map::LoadRoom(name, Integer2D(x, y));
+            room = map::LoadRoom(name, campaign, Integer2D(x, y));
         
         if(room) {
             world_->AddRoom(room);
