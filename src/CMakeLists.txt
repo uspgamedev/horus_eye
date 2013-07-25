@@ -10,6 +10,10 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     SET(ISMAC ON)
 ENDIF ()
 
+if(MSVC)
+    include_directories(externals/windows/include)
+endif(MSVC)
+
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 if (UNIX OR MINGW)
     # se for o g++ para *nix ou o MinGW para Windows:
