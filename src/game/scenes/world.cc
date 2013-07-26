@@ -138,7 +138,7 @@ World::World()
 //#ifdef DEBUG
     this->AddTask(VerifyCheats);
 //#endif
-    this->AddTask(UpdateOffset);
+    this->AddTask(UpdateOffset, 1.0);
 }
 
 // Destrutor
