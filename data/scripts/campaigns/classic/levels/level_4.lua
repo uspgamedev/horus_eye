@@ -70,3 +70,8 @@ stage = {
                        #################                    
 ]]
 }
+
+oldmatrix = stage.matrix
+stage.matrix = ""
+for line in oldmatrix:gmatch("[^\n]+") do stage.matrix = line .. "\n" .. stage.matrix end
+start_position[3] = height - start_position[3]
