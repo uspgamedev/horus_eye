@@ -177,14 +177,12 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
         constants::GetDouble("PHARAOH_RADIUS"), constants::GetDouble("PHARAOH_SPEED"), true);
     wobj->damageable()->set_super_armor(true);
 
-    delete wobj->caster();
-    resource::Energy mana(constants::GetInt("PHARAOH_MANA"), constants::GetDouble("PHARAOH_MANA_REGEN")); 
-    wobj->AddComponent(new Caster(wobj, mana));
-
-    wobj->caster()->power().Set(constants::GetInt("PHARAOH_DAMAGE"));
-    wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
-    wobj->caster()->LearnAndEquipSkill("pharaoh_ranged", Controller::SECONDARY);
-    wobj->caster()->LearnAndEquipSkill("pharaoh_summon", Controller::SPECIAL1);
+    component::Caster* caster = wobj->caster();
+    caster->mana() = Energy(constants::GetInt("PHARAOH_MANA"), constants::GetDouble("PHARAOH_MANA_REGEN")); 
+    caster->power().Set(constants::GetInt("PHARAOH_DAMAGE"));
+    caster->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
+    caster->LearnAndEquipSkill("pharaoh_ranged", Controller::SECONDARY);
+    caster->LearnAndEquipSkill("pharaoh_summon", Controller::SPECIAL1);
     return wobj;
 }
 
