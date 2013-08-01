@@ -14,7 +14,6 @@ void Carrier::operator()(sprite::WorldObject *wobj) {
     for(it = drop_list_.begin(); it !=  drop_list_.end(); ++it)
         wobj->current_room()->AddObject(*it, wobj->world_position(), map::POSITION_ABSOLUTE);
     drop_list_.clear();
-    wobj->Die();
 }
 
 } // namespace function

@@ -106,10 +106,10 @@ sprite::WorldObject* Kha() {
 
     // No weapons for now.
 
-    // player_controller->AddSkill(id = caster->LearnSkill("fireball"));
-    // player_controller->AddSkill(caster->LearnSkill("lightning"));
-    // player_controller->AddSkill(caster->LearnSkill("light"));
-    // caster->EquipSkill(id, component::Controller::SECONDARY);
+    player_controller->AddSkill(id = caster->LearnSkill("fireball"));
+    player_controller->AddSkill(caster->LearnSkill("lightning"));
+    player_controller->AddSkill(caster->LearnSkill("light"));
+    caster->EquipSkill(id, component::Controller::SECONDARY);
 
     // Add here the other initial weapons of the hero.
 

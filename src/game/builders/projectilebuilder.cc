@@ -92,7 +92,8 @@ WorldObject* Fireball(const Vector2D &dir) {
     wobj->graphic()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->shape()->collision()->AddCollisionLogic("Mummy", new DieCollision(wobj));
-    wobj->set_start_to_die_callback(Carrier(builder::ExplosionBuilder::FireballExplosion()));
+    wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
+    wobj->AddDeathEvent(Carrier(builder::ExplosionBuilder::FireballExplosion()));
     return wobj;
 }
 
