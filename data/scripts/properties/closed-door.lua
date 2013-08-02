@@ -13,6 +13,8 @@ function build (wobj, params)
   local graphic_comp = component.Graphic("closed-door", "animations/closed-door.gdd")
   graphic_comp:ChangeAnimation("STANDING"..(params.dir and ("_"..params.dir) or ""))
   wobj:AddComponent(graphic_comp, "graphic", 100)
+  wobj:AddComponent(component.Animation(wobj), "animation", 101)
+  context.EnableDeathAnimation(wobj)
   return {
     collision = {
       class = "Wall",
