@@ -7,6 +7,9 @@ require "pyramidworks.geometry"
 require "data.scripts.event"
 
 local roomsize = 12
+local function DOOR (i)
+  return "THE-DOOR-"..i
+end
 
 music = "musics/Arabesque.ogg"
 rooms = {
@@ -44,6 +47,7 @@ entrance = {
     --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
     ["urn"] = { property = "urn" },
     ["door"] = { property = "closed-door", params = { dir = "Left" } },
+    ["eventswitch"] = { property = "event_switch", params = { "DOOR-COUNTER" } }
   },
   collision_classes = {
     { "Switch", "Wall" }
@@ -51,15 +55,22 @@ entrance = {
   setup = function(self)
     --self:MakeRecipe "load_corridor_trigger"
 
-    --event.Register(
-    --  "LOAD_CORRIDOR",
-    --  function ()
-    --    context.ActivateRoom "opencorridor"
-    --    event.Clear "LOAD_CORRIDOR"
-    --  end
-    --)
-    self:MakeRecipe("door", ugdk_math.Vector2D(8, 5), "THE-DOOR-1")
-    self:MakeRecipe("door", ugdk_math.Vector2D(8, 6), "THE-DOOR-2")
+    local switch_counter = 2
+    event.Register(
+      "DOOR-COUNTER",
+      function ()
+        switch_counter = switch_counter - 1
+        if switch_counter <= 0 then
+          for i=1,2 do
+            self:WorldObjectByTag(DOOR(i)):Die()
+          end
+        end
+      end
+    )
+    self:MakeRecipe("door", ugdk_math.Vector2D(8, 5), DOOR(1))
+    self:MakeRecipe("door", ugdk_math.Vector2D(8, 6), DOOR(2))
+    self:MakeRecipe("eventswitch", ugdk_math.Vector2D(9, 2))
+    self:MakeRecipe("eventswitch", ugdk_math.Vector2D(9, 9))
 
     for i = 1,2 do
       local x,y = 4.5, 1.2+8.6*(i-1)
