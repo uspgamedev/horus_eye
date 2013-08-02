@@ -11,7 +11,7 @@ rooms = {
    {roomsize * 0, 0, "entrance"},
    {roomsize * 1, 5, "opencorridor"},
    {roomsize * 2, 5, "closedcorridor"},
-   {roomsize * 3, 0, "firstblood"},
+   {roomsize * 3, 2, "firstblood"},
    {roomsize * 4, 5, "exit"}
 }
 
@@ -148,23 +148,19 @@ closedcorridor = {
 
 firstblood = {
   width = roomsize,
-  height = roomsize,
+  height = roomsize-4,
   matrix = [[
 %%%%%%%%%%%%%%%%
-%..............#
-%..............#
-%..............#
-%..............#
-%..............#
-%..............#
+%....%%%%%%%%%%%
+%....%%%%%%%%%%%
+%....%%%%%%%%%%%
+%..............%
 ................
 ................
 %..............#
-%..............#
-%..............#
-%..............#
-%..............#
-%..............#
+%....###########
+%....###########
+%....###########
 ################
 ]],
   objects = {},
@@ -200,10 +196,10 @@ firstblood = {
         shape = pyramidworks_geometry.Rect(1.0, roomsize),
         callback = function (region)
           local room = region:current_room()
-          room:MakeRecipe("door", ugdk_math.Vector2D(0, 7), "THE-DOOR-1")
-          room:MakeRecipe("door", ugdk_math.Vector2D(0, 8), "THE-DOOR-2")
-          room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, 3))
-          room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(roomsize-3, roomsize-3))
+          room:MakeRecipe("door", ugdk_math.Vector2D(0, 5), "THE-DOOR-1")
+          room:MakeRecipe("door", ugdk_math.Vector2D(0, 6), "THE-DOOR-2")
+          room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(2, 2))
+          room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(2, roomsize-4-2))
           context.DeactivateRoom "closedcorridor"
         end
       }
@@ -211,8 +207,8 @@ firstblood = {
   },
   setup = function (room)
     room:MakeRecipe("load_exit_trigger", "BATTLE_ROOM_LOADER")
-    room:MakeRecipe("door", ugdk_math.Vector2D(15, 7), "THE-DOOR-3")
-    room:MakeRecipe("door", ugdk_math.Vector2D(15, 8), "THE-DOOR-4")
+    room:MakeRecipe("door", ugdk_math.Vector2D(15, 5), "THE-DOOR-3")
+    room:MakeRecipe("door", ugdk_math.Vector2D(15, 6), "THE-DOOR-4")
     room:MakeRecipe("entrance_event", ugdk_math.Vector2D(3, roomsize/2))
 
     for i=3,4 do
