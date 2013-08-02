@@ -10,6 +10,7 @@
 #include "game/builders/scriptbuilder.h"
 #include "game/map/room.h"
 #include "game/components/damageable.h"
+#include "game/components/animation.h"
 
 namespace context {
 
@@ -24,7 +25,7 @@ using pyramidworks::geometry::GeometricShape;
 using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
-
+using component::Animation;
 
 sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
     World *world = WORLD();
@@ -102,6 +103,13 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
         return;
     }
     _internal_AddDamageableComponent(obj, life);
+}
+
+void EnableDeathAnimation (WorldObject* wobj) {
+    wobj->set_start_to_die_callback([](WorldObject* wobj) -> void {
+        wobj->component<Animation>()->ChangeAnimation(utils::DEATH);
+    });
+    wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
 }
 
 static void findCollisions(CollisionClass *colclass, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {

@@ -123,7 +123,7 @@ closedcorridor = {
   recipes = {
     ["load_firstblood_trigger"] = { property = "trigger", params = { activates = "LOAD_FIRSTBLOOD" } },
     ["dummyspiketrap"] = { property = "dummy-spike-trap" },
-    ["door"] = { property = "closed-door", params = { dir = "LEFT" } },
+    ["door"] = { property = "closed-door", params = { dir = "Left" } },
     ["killswitch"] = { property = "kill_switch", params = { "THE-DOOR-1", "THE-DOOR-2", "CORRIDOR_ROOM_LOADER" } }
   },
   setup = function(self)
@@ -173,7 +173,7 @@ firstblood = {
   },
   recipes = {
     ["load_exit_trigger"] = { property = "trigger", params = { activates = "LOAD_EXIT" } },
-    ["door"] = { property = "closed-door", params = { dir = "LEFT" } },
+    ["door"] = { property = "closed-door", params = { dir = "Left" } },
     
     ["delayed_mummy"] = {
       property = "delayed_spawner",
@@ -246,4 +246,6 @@ exit = {
    setup = function(self)
    end
 }
+
+table.foreach(firstblood.recipes.door.params, print)
 

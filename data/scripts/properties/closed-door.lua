@@ -10,9 +10,13 @@ local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj, params)
+  local dir = params.dir or "Left"
   local graphic_comp = component.Graphic("closed-door", "animations/closed-door.gdd")
-  graphic_comp:ChangeAnimation("STANDING"..(params.dir and ("_"..params.dir) or ""))
   wobj:AddComponent(graphic_comp, "graphic", 100)
+  local anim_comp = component.Animation(wobj)
+  wobj:AddComponent(anim_comp, "animation", 101)
+  anim_comp:ChangeDirection(component["Direction_"..dir]())
+  context.EnableDeathAnimation(wobj)
   return {
     collision = {
       class = "Wall",
