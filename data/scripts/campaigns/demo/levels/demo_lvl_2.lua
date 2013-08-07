@@ -95,7 +95,7 @@ entrance = {
           end
           event.Clear "DOOR-COUNTER"
           context.ActivateRoom "divergence"
-          context.ActivateRoom "spike_room"
+          --context.ActivateRoom "spike_room"
         end
       end
     )
@@ -138,13 +138,26 @@ divergence = {
   objects = {},
   recipes = {
     --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
+    ["spike-exit-event"] = {
+      property = "event_region",
+      params = {
+        shape = pyramidworks_geometry.Rect(1.0, 2.0),
+        callback = function (region)
+          local room = region:current_room()
+          context.ActivateRoom "spike_room"
+          room:WorldObjectByTag("SPIKEDOOR-1"):Die()
+          room:WorldObjectByTag("SPIKEDOOR-2"):Die()
+        end
+      }
+    },
     ["urn"] = { property = "urn" },
     ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
     ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
     ["eventswitch"] = { property = "event_switch", params = { "DOOR-COUNTER" } }
   },
   collision_classes = {
-    { "Switch", "Wall" }
+    { "Switch", "Wall" },
+    {"EventArea"}
   },
   setup = function(self)
     self:MakeRecipe("urn", ugdk_math.Vector2D(3, 1))
@@ -168,13 +181,14 @@ divergence = {
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12))
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12.5))
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 13))
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 3), DOOR(1))
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 4), DOOR(2))
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 12), DOOR(1))
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 13), DOOR(2))
-    self:MakeRecipe("door-right", ugdk_math.Vector2D(4, 15), DOOR(1))
-    self:MakeRecipe("door-right", ugdk_math.Vector2D(5, 15), DOOR(1))
-    self:MakeRecipe("door-right", ugdk_math.Vector2D(6, 15), DOOR(2))
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 3), "FIREDOOR-1")
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 4), "FIREDOOR-2")
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 12), "SPIKEDOOR-1")
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 13), "SPIKEDOOR-2")
+    self:MakeRecipe("door-right", ugdk_math.Vector2D(4, 15), "NEXTDOOR-1")
+    self:MakeRecipe("door-right", ugdk_math.Vector2D(5, 15), "NEXTDOOR-2")
+    self:MakeRecipe("door-right", ugdk_math.Vector2D(6, 15), "NEXTDOOR-3")
+    self:MakeRecipe("spike-exit-event", ugdk_math.Vector2D(2, 12))
   end
 }
 
@@ -197,7 +211,7 @@ spike_room = {
     ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
   },
   setup = function(self)
-    self:MakeRecipe("eventbutton", ugdk_math.Vector2D(1,2.5))
+    self:MakeRecipe("eventbutton", ugdk_math.Vector2D(2,2.5))
   end
 }
 
