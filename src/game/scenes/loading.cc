@@ -1,5 +1,6 @@
 #include "loading.h"
 
+#include <functional>
 #include <ugdk/action.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
@@ -16,6 +17,7 @@ using ugdk::math::Vector2D;
 using ugdk::action::Task;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
+using namespace std::placeholders;
 
 class LoadTask {
   public:
@@ -51,27 +53,28 @@ Loading::Loading() {
 
     Vector2D position = ugdk::graphic::manager()->video_size() - Vector2D(10.0, 10.0);
 
-    Node* loading = new ugdk::graphic::Node(loading_image);
-    loading->geometry().set_offset(position);
+    loading_ = new ugdk::graphic::Node(loading_image);
+    loading_->geometry().set_offset(position);
 
-    interface_node()->AddChild(loading);
-    interface_node()->effect().set_visible(false);
+    set_visible(false);
+    set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), loading_, _1, _2));
 
     this->StopsPreviousMusic(false);
 }
 
 Loading::~Loading() {
+    delete loading_;
     utils::LevelManager::reference()->InformLoadingDeleted();
 }
 
 void Loading::Focus() {
     super::Focus();
-    interface_node()->effect().set_visible(true);
+    this->set_visible(true);
     this->AddTask(LoadTask());
 }
 
 void Loading::DeFocus() {
     super::DeFocus();
-    interface_node()->effect().set_visible(false);
+    this->set_visible(false);
 }
 }

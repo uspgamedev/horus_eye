@@ -1,6 +1,7 @@
 #ifndef HORUSEYE_GAME_SCENES_LOADING_H_
 #define HORUSEYE_GAME_SCENES_LOADING_H_
 
+#include <ugdk/graphic.h>
 #include <ugdk/action/scene.h>
 
 namespace scene {
@@ -16,6 +17,9 @@ class Loading: public ugdk::action::Scene {
 
     /// When the Loading loses focus, it becomes invisible.
     virtual void DeFocus();
+
+  private:
+    ugdk::graphic::Node* loading_;
 };
 
 }
