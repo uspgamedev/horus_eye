@@ -15,7 +15,7 @@ music = "musics/Arabesque.ogg"
 rooms = {
   {0, 0, "hero_room"},
   {0, 0, "entrance"},
-  {8, 2, "divergence"},
+  {11, 2, "divergence"},
   --{roomsize * 2, 5, "closedcorridor"},
   --{roomsize * 3, 2, "firstblood"},
   --{roomsize * 4, 5, "exit"}
@@ -23,8 +23,8 @@ rooms = {
 
 start_position = {"hero_room", 2, roomsize / 2}
 
-width = roomsize*#rooms
-height = roomsize
+width = 100
+height = 100
 
 hero_room = {
   width = 1,
@@ -48,21 +48,21 @@ hero_room = {
 }
 
 entrance = {
-  width = roomsize-1,
-  height = roomsize,
+  width = 11,
+  height = 12,
   matrix = [[
 %%%%%%%%%%%
 %%%.......%
 %%%.......%
 %.........%
-%.......###
+%.......%%%
 %..........
 %..........
-%.......###
-%.........#
-###.......#
-###.......#
-###########
+%.......%%%
+%.........%
+%%%.......%
+%%%.......%
+%%%%%%%%%%%
 ]],
   objects = {},
   recipes = {
@@ -76,7 +76,7 @@ entrance = {
         callback = function (region)
           local room = region:current_room()
           context.ActivateRoom "divergence"
-          context.DeactivateRoom "entrance"
+          --context.DeactivateRoom "entrance"
         end
       }
     }
@@ -99,8 +99,8 @@ entrance = {
         end
       end
     )
-    self:MakeRecipe("door", ugdk_math.Vector2D(8, 5), DOOR(1))
-    self:MakeRecipe("door", ugdk_math.Vector2D(8, 6), DOOR(2))
+    self:MakeRecipe("door", ugdk_math.Vector2D(10, 5), DOOR(1))
+    self:MakeRecipe("door", ugdk_math.Vector2D(10, 6), DOOR(2))
     self:MakeRecipe("door-switch", ugdk_math.Vector2D(9, 2))
     self:MakeRecipe("door-switch", ugdk_math.Vector2D(9, 9))
     self:MakeRecipe("exit-event", ugdk_math.Vector2D(9, roomsize/2))
@@ -115,21 +115,25 @@ entrance = {
 }
 
 divergence = {
-  width = roomsize-1,
-  height = roomsize,
+  width = 11,
+  height = 16,
   matrix = [[
+%%%%%%%%%%%
+%%%..%..%%%
+%%.......%%
 ...........
 ...........
-...........
-...........
-...........
-...........
-...........
-...........
-...........
-...........
-...........
-...........
+%%.......##
+%.........#
+%.........#
+%%.......##
+%.........#
+%.........#
+%%.......##
+.....#...##
+.....#...##
+##...#...##
+######...##
 ]],
   objects = {},
   recipes = {
@@ -142,6 +146,24 @@ divergence = {
     { "Switch", "Wall" }
   },
   setup = function(self)
+    self:MakeRecipe("urn", ugdk_math.Vector2D(3, 1))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(3.5, 1))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(4, 1))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(6, 1))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(6.5, 1))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(7, 1))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 6))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 6.5))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 7))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 9))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 9.5))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 10))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 6))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 6.5))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 7))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 9))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 9.5))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 10))
   end
 }
 
