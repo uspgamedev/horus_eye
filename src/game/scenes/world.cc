@@ -167,6 +167,16 @@ void World::End() {
     removeAllRooms();
 }
 
+void World::Focus() {
+    Scene::Focus();
+    this->set_active(true);
+}
+
+void World::DeFocus() {
+    Scene::DeFocus();
+    this->set_active(false);
+}
+
 void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
 }

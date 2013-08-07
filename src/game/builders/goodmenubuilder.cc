@@ -49,6 +49,16 @@ static std::wstring convertFromString(const std::string& str) {
 
 namespace builder {
 
+void MenuFocus(Scene* scene){ 
+    scene->interface_node()->set_active(true);
+    scene->set_active(true);
+}
+
+void MenuDeFocus(Scene* scene){ 
+    scene->interface_node()->set_active(false);
+    scene->set_active(false);
+}
+
 void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
@@ -61,6 +71,8 @@ void MainMenuDebugPlay(Scene* menu, const Button * source) {
 
 Scene* PauseMenu() {
     ugdk::action::Scene* pause_menu = new Scene();
+    pause_menu->set_focus_callback(MenuFocus);
+    pause_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
@@ -103,8 +115,8 @@ Scene* PauseMenu() {
 
 Scene* CampaignMenu() {
     ugdk::action::Scene* mission_menu = new Scene();
-    mission_menu->set_focus_callback(  [](Scene* scene){ scene->interface_node()->set_active(true);  });
-    mission_menu->set_defocus_callback([](Scene* scene){ scene->interface_node()->set_active(false); });
+    mission_menu->set_focus_callback(MenuFocus);
+    mission_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
@@ -174,8 +186,8 @@ Scene* CampaignMenu() {
 
 Scene* MainMenu() {
     ugdk::action::Scene* main_menu = new Scene();
-    main_menu->set_focus_callback(  [](Scene* scene){ scene->interface_node()->set_active(true);  });
-    main_menu->set_defocus_callback([](Scene* scene){ scene->interface_node()->set_active(false); });
+    main_menu->set_focus_callback(MenuFocus);
+    main_menu->set_defocus_callback(MenuDeFocus);
 
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);

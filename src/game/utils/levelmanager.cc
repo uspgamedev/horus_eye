@@ -48,16 +48,22 @@ LevelManager::LevelManager() {}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
-    current_level_ = NULL;
+    current_level_ = nullptr;
     level_list_iterator_ = 0;
 
     menu_ = builder::MainMenu();
     ugdk::system::PushScene(menu_);
 
-    loading_ = NULL;
+    loading_ = nullptr;
 }
 
 void LevelManager::ShowIntro() {
+
+    if(loading_) {
+        loading_->Finish();
+        loading_ = nullptr;
+    }
+
     ugdk::system::PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("Intro");
@@ -81,7 +87,7 @@ void LevelManager::ShowCredits() {
 
 void LevelManager::ShowEnding() {
     loading_->Finish();
-    loading_ = NULL;
+    loading_ = nullptr;
     Drawable* message = new TexturedRectangle(ugdk::resource::GetTextureFromFile("images/you_win.png"));
     ugdk::system::PushScene(new ImageScene(NULL, message));
 }
@@ -92,16 +98,16 @@ void LevelManager::ShowGameOver() {
 }
 
 void LevelManager::FinishLevel(LevelState state) {
-    if(ugdk::system::CurrentScene() != current_level_) {
+    //if(ugdk::system::CurrentScene() != current_level_) {
         // Oh crap, there's some stacked Scene that shouldn't be there!
         // Lets just do nothing...
-        return;
-    }
+        //return;
+    //}
     if(state == FINISH_WIN)
         ++level_list_iterator_;
 
     current_level_->Finish();
-    current_level_ = NULL;
+    current_level_ = nullptr;
 
     switch(state) {
     case FINISH_DIE:
@@ -109,7 +115,7 @@ void LevelManager::FinishLevel(LevelState state) {
         // no break on purpose
     case FINISH_QUIT:
         if(loading_) loading_->Finish();
-        loading_ = NULL;
+        loading_ = nullptr;
         // no break on purpose
     case NOT_FINISHED:
         return;
