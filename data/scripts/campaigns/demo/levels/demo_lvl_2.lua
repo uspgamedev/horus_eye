@@ -69,20 +69,18 @@ entrance = {
     ["urn"] = { property = "urn" },
     ["door"] = { property = "closed-door", params = { dir = "Left" } },
     ["door-switch"] = { property = "event_switch", params = { "DOOR-COUNTER" } },
-    ["exit-event"] = {
-      property = "event_region",
-      params = {
-        shape = pyramidworks_geometry.Rect(1.0, 2.0),
-        callback = function (region)
-          local room = region:current_room()
-          context.ActivateRoom "divergence"
-          --context.DeactivateRoom "entrance"
-        end
-      }
-    }
+    --["exit-event"] = {
+    --  property = "event_region",
+    --  params = {
+    --    shape = pyramidworks_geometry.Rect(1.0, 2.0),
+    --    callback = function (region)
+    --      local room = region:current_room()
+    --      context.ActivateRoom "divergence"
+    --    end
+    --  }
+    --}
   },
   collision_classes = {
-    { "EventArea" },
     { "Switch", "Wall" }
   },
   setup = function(self)
@@ -96,6 +94,7 @@ entrance = {
             self:WorldObjectByTag(DOOR(i)):Die()
           end
           event.Clear "DOOR-COUNTER"
+          context.ActivateRoom "divergence"
         end
       end
     )
@@ -103,7 +102,7 @@ entrance = {
     self:MakeRecipe("door", ugdk_math.Vector2D(10, 6), DOOR(2))
     self:MakeRecipe("door-switch", ugdk_math.Vector2D(9, 2))
     self:MakeRecipe("door-switch", ugdk_math.Vector2D(9, 9))
-    self:MakeRecipe("exit-event", ugdk_math.Vector2D(9, roomsize/2))
+    --self:MakeRecipe("exit-event", ugdk_math.Vector2D(9, roomsize/2))
 
     for i = 1,2 do
       local x,y = 4.5, 1.2+8.6*(i-1)
@@ -130,16 +129,17 @@ divergence = {
 %.........#
 %.........#
 %%.......##
-.....#...##
-.....#...##
-##...#...##
-######...##
+..........#
+..........#
+##.......##
+####...####
 ]],
   objects = {},
   recipes = {
     --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
     ["urn"] = { property = "urn" },
-    ["door"] = { property = "closed-door", params = { dir = "Left" } },
+    ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
+    ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
     ["eventswitch"] = { property = "event_switch", params = { "DOOR-COUNTER" } }
   },
   collision_classes = {
@@ -164,6 +164,16 @@ divergence = {
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 9))
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 9.5))
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 10))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12.5))
+    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 13))
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 3), DOOR(1))
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 4), DOOR(2))
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 12), DOOR(1))
+    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 13), DOOR(2))
+    self:MakeRecipe("door-right", ugdk_math.Vector2D(4, 15), DOOR(1))
+    self:MakeRecipe("door-right", ugdk_math.Vector2D(5, 15), DOOR(1))
+    self:MakeRecipe("door-right", ugdk_math.Vector2D(6, 15), DOOR(2))
   end
 }
 
