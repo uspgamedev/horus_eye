@@ -16,7 +16,7 @@ rooms = {
   {0, 0, "hero_room"},
   {0, 0, "entrance"},
   {11, 2, "divergence"},
-  --{roomsize * 2, 5, "closedcorridor"},
+  {2, 12, "spike_room"},
   --{roomsize * 3, 2, "firstblood"},
   --{roomsize * 4, 5, "exit"}
 }
@@ -95,6 +95,7 @@ entrance = {
           end
           event.Clear "DOOR-COUNTER"
           context.ActivateRoom "divergence"
+          context.ActivateRoom "spike_room"
         end
       end
     )
@@ -174,6 +175,29 @@ divergence = {
     self:MakeRecipe("door-right", ugdk_math.Vector2D(4, 15), DOOR(1))
     self:MakeRecipe("door-right", ugdk_math.Vector2D(5, 15), DOOR(1))
     self:MakeRecipe("door-right", ugdk_math.Vector2D(6, 15), DOOR(2))
+  end
+}
+
+spike_room = {
+  width = 9,
+  height = 6,
+  matrix = [[
+%%%%%%%%%
+%.......%
+%........
+%........
+%.......#
+#########
+]],
+  recipes = {
+    --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
+    ["urn"] = { property = "urn" },
+    ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
+    ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
+    ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
+  },
+  setup = function(self)
+    self:MakeRecipe("eventbutton", ugdk_math.Vector2D(1,2.5))
   end
 }
 
