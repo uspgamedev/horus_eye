@@ -128,11 +128,8 @@ void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& ef
     math::Vector2D left_vector = (left_point - from).Normalize();
     math::Vector2D right_vector = (right_point - from).Normalize();
 
-    math::Vector2D far_left = left_point + left_vector * 10.0;
-    math::Vector2D far_right = right_point + right_vector * 10.0;
-
     static const double near_distance = 0.01;
-    static const double far_distance = 10.0;
+    static const double far_distance = 20.0;
 
     DrawQuadrilateral(
         left_point + left_vector * far_distance, // far left
@@ -157,17 +154,22 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             for(const collision::CollisionObject * obj : walls) {
+                std::list<Vector2D> vertices;
                 if(const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
                     // OH YEAHHHHHH
                     math::Vector2D top_left = obj->absolute_position() + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
                     math::Vector2D bottom_right = obj->absolute_position() - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
 
-                    // para apenas um segmento conveniente (o de baixo)
-                    CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(),
-                        math::Vector2D(top_left.x, bottom_right.y), math::Vector2D(bottom_right.x, bottom_right.y));
+                    vertices.emplace_back(    top_left.x,     top_left.y);
+                    vertices.emplace_back(bottom_right.x,     top_left.y);
+                    vertices.emplace_back(bottom_right.x, bottom_right.y);
+                    vertices.emplace_back(    top_left.x, bottom_right.y);
+
                 } else {
                     puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
                 }
+                // Choose the two points that have the widest angle.
+                CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), vertices.front(), vertices.back());
             }
         }
     }
