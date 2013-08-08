@@ -34,7 +34,6 @@
 #endif
 
 using namespace utils;
-namespace graphic = ugdk::graphic;
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
@@ -51,12 +50,7 @@ void StartGame() {
     ugdk::graphic::manager()->ChangeSettings(video_settings);
 
     AddHorusShader();
-
-    ugdk::system::PushScene(ugdk::graphic::CreateLightrenderingScene([](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
-        if(scene::World* world = utils::LevelManager::reference()->current_level()) {
-            world->content_node()->RenderLight(geometry, effect);
-        }
-    }));
+    ugdk::system::PushScene(CreateHorusLightrenderingScene());
 
     if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");

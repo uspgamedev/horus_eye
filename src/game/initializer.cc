@@ -4,8 +4,18 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shader.h>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/collision/collisionclass.h>
+#include <pyramidworks/geometry/rect.h>
+#include "game/scenes/world.h"
+#include "game/sprites/worldobject.h"
+    
+using namespace ugdk;
+using namespace ugdk::graphic;
 
 bool VerifyFolderExists(const std::string& path) {
     struct stat st;
@@ -22,7 +32,6 @@ static ugdk::graphic::opengl::ShaderProgram* horus_light_shader_ = NULL;
 ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader() { return horus_light_shader_; }
 
 void AddHorusShader() {
-    using namespace ugdk::graphic;
 
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
@@ -54,4 +63,24 @@ void AddHorusShader() {
     assert(status);
 
     ugdk::graphic::manager()->shaders().ReplaceShader((1 << 0) + (0 << 1), horus_light_shader_);
+}
+
+void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
+    if(scene::World* world = utils::LevelManager::reference()->current_level()) {
+        world->content_node()->RenderLight(geometry, effect);
+
+        if(sprite::WorldObject* hero = world->hero()) {
+            auto opaque_class = world->visibility_manager()->Get("Opaque");
+            pyramidworks::geometry::Rect screen_rect(10.0, 10.0); // TODO: Get size from screen size
+            pyramidworks::collision::CollisionObjectList walls;
+            opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
+        
+            printf("%d\n", walls.size());
+            //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        }
+    }
+}
+
+ugdk::action::Scene* CreateHorusLightrenderingScene() {
+    return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
