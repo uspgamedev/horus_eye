@@ -47,8 +47,8 @@ class World : public ugdk::action::Scene {
     void Start();
     void End();
 
-    void Focus() override;
-    void DeFocus() override;
+    void Focus();
+    void DeFocus();
 
     void AddRoom(map::Room* room);
     void ActivateRoom(const std::string& name);
