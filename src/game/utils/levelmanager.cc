@@ -13,7 +13,6 @@
 #include <ugdk/input/module.h>
 #include <ugdk/action/scene.h>
 
-#include "game/scenes/menu.h"
 #include "game/scenes/world.h"
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
