@@ -17,6 +17,7 @@ rooms = {
   {0, 0, "entrance"},
   {11, 2, "divergence"},
   {2, 12, "spike_room"},
+  {22, 3, "fireball_room"},
   --{roomsize * 3, 2, "firstblood"},
   --{roomsize * 4, 5, "exit"}
 }
@@ -138,6 +139,7 @@ divergence = {
   objects = {},
   recipes = {
     --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
+    --TODO: Modularizar o teco abaixo se a gente for usar mais
     ["spike-exit-event"] = {
       property = "event_region",
       params = {
@@ -147,6 +149,18 @@ divergence = {
           context.ActivateRoom "spike_room"
           room:WorldObjectByTag("SPIKEDOOR-1"):Die()
           room:WorldObjectByTag("SPIKEDOOR-2"):Die()
+        end
+      }
+    },
+    ["fireball-exit-event"] = {
+      property = "event_region",
+      params = {
+        shape = pyramidworks_geometry.Rect(1.0, 2.0),
+        callback = function (region)
+          local room = region:current_room()
+          context.ActivateRoom "fireball_room"
+          room:WorldObjectByTag("FIREDOOR-1"):Die()
+          room:WorldObjectByTag("FIREDOOR-2"):Die()
         end
       }
     },
@@ -189,6 +203,7 @@ divergence = {
     self:MakeRecipe("door-right", ugdk_math.Vector2D(5, 15), "NEXTDOOR-2")
     self:MakeRecipe("door-right", ugdk_math.Vector2D(6, 15), "NEXTDOOR-3")
     self:MakeRecipe("spike-exit-event", ugdk_math.Vector2D(2, 12))
+    self:MakeRecipe("fireball-exit-event", ugdk_math.Vector2D(8, 3))
   end
 }
 
@@ -241,3 +256,48 @@ spike_room = {
   end
 }
 
+fireball_room = {
+  width = 9,
+  height = 6,
+  matrix = [[
+%%%%%%%%%
+%.......%
+........%
+........%
+#.......%
+####&####
+]],
+  recipes = {
+    ["fireball-trigger"] = { property = "trigger", params = { activates = "FIREBALL", delay = 0.4 } },
+    ["fireball-trap"] = { property = "fireball-trap" },
+    ["fireball-event"] = {
+      property = "event_region",
+      params = {
+        shape = pyramidworks_geometry.Rect(1.0, 4.0),
+        callback = function (region)
+          local room = region:current_room()
+          event.Register(
+            "FIREBALL",
+            function ()
+	      print("Placeholder!")
+              --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 1))
+              --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 2))
+              --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 3))
+              --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 4))
+              event.Clear "FIREBALL"
+            end
+          )
+          room:MakeRecipe "fireball-trigger"
+        end
+      }
+    },
+    ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
+  },
+  collision_classes = {
+    "EventArea"
+  },
+  setup = function(self)
+    self:MakeRecipe("eventbutton", ugdk_math.Vector2D(4,2.5))
+    self:MakeRecipe("fireball-event", ugdk_math.Vector2D(2,2.5))
+  end
+}
