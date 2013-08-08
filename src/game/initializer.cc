@@ -124,6 +124,23 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
     delete uvbuffer_;
 }
 
+void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& effect, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
+    math::Vector2D left_vector = (left_point - from).Normalize();
+    math::Vector2D right_vector = (right_point - from).Normalize();
+
+    math::Vector2D far_left = left_point + left_vector * 10.0;
+    math::Vector2D far_right = right_point + right_vector * 10.0;
+
+    static const double near_distance = 0.01;
+    static const double far_distance = 10.0;
+
+    DrawQuadrilateral(
+        left_point + left_vector * far_distance, // far left
+        left_point + left_vector * near_distance, // near left
+        right_point + right_vector * near_distance, // near right
+        right_point + right_vector * far_distance, // far right
+        geometry, effect);
+}
 
 void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
     if(scene::World* world = utils::LevelManager::reference()->current_level()) {
@@ -142,27 +159,16 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
             for(const collision::CollisionObject * obj : walls) {
                 if(const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
                     // OH YEAHHHHHH
-                    math::Vector2D top_left = obj->absolute_position() - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
-                    math::Vector2D bottom_right = obj->absolute_position() + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+                    math::Vector2D top_left = obj->absolute_position() + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+                    math::Vector2D bottom_right = obj->absolute_position() - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
 
                     // para apenas um segmento conveniente (o de baixo)
-                    math::Vector2D left_point = math::Vector2D(top_left.x, bottom_right.y);
-                    math::Vector2D right_point = math::Vector2D(bottom_right.x, bottom_right.y);
-
-                    math::Vector2D left_vector = (left_point - hero->world_position()).Normalize();
-                    math::Vector2D right_vector = (right_point - hero->world_position()).Normalize();
-
-                    math::Vector2D far_left = left_point + left_vector * 10.0;
-                    math::Vector2D far_right = right_point + right_vector * 10.0;
-
-                    // DESENHA TRAPEzIO
-                    DrawQuadrilateral(far_left, left_point, right_point, far_right, offset_geometry, black_effect);
-
+                    CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(),
+                        math::Vector2D(top_left.x, bottom_right.y), math::Vector2D(bottom_right.x, bottom_right.y));
                 } else {
                     puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
                 }
             }
-            printf("%d\n", walls.size());
         }
     }
 }
