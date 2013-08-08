@@ -3,16 +3,30 @@
 $STANDING
 %number 0
 
-$FALLING
+$SPAWNING
 @fps 45
 +frame [position 0 -200] [alpha 0.0]
-+frame [position 0 -160] [alpha 0.2]
-+frame [position 0 -140] [alpha 0.4]
-+frame [position 0 -120] [alpha 0.6]
-+frame [position 0 -100] [alpha 0.8]
-+frame [position 0 -80] [alpha 1.0]
-+frame [position 0 -60] [alpha 1.0]
-+frame [position 0 -40] [alpha 1.0]
-+frame [position 0 -20] [alpha 1.0]
++frame [position 0 -195] [alpha 0.2]
++frame [position 0 -185] [alpha 0.4]
++frame [position 0 -160] [alpha 0.6]
++frame [position 0 -140] [alpha 0.8]
++frame [position 0 -115] [alpha 1.0]
++frame [position 0 -85] [alpha 1.0]
++frame [position 0 -50] [alpha 1.0]
++frame [position 0 -10] [alpha 1.0]
 +frame [position 0 0] [alpha 1.0]
+
+$DYING
+@fps 30
++frame [number 0] [alpha 1.0]
++frame [number 0] [alpha 0.9]
++frame [number 0] [alpha 0.8]
++frame [number 0] [alpha 0.7]
++frame [number 0] [alpha 0.6]
++frame [number 0] [alpha 0.5]
++frame [number 0] [alpha 0.4]
++frame [number 0] [alpha 0.3]
++frame [number 0] [alpha 0.2]
++frame [number 0] [alpha 0.1]
++frame [number 0] [alpha 0.0]
 
