@@ -131,10 +131,11 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
 
         if(sprite::WorldObject* hero = world->hero()) {
             auto opaque_class = world->visibility_manager()->Get("Opaque");
-            geometry::Rect screen_rect(10.0, 10.0); // TODO: Get size from screen size
+            geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
             collision::CollisionObjectList walls;
             opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
+            Geometry offset_geometry = geometry * world->content_node()->geometry();
             VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0));
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -148,14 +149,14 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
                     math::Vector2D left_point = math::Vector2D(top_left.x, bottom_right.y);
                     math::Vector2D right_point = math::Vector2D(bottom_right.x, bottom_right.y);
 
-                    math::Vector2D left_vector = left_point - hero->world_position();
-                    math::Vector2D right_vector = right_point - hero->world_position();
+                    math::Vector2D left_vector = (left_point - hero->world_position()).Normalize();
+                    math::Vector2D right_vector = (right_point - hero->world_position()).Normalize();
 
                     math::Vector2D far_left = left_point + left_vector * 10.0;
                     math::Vector2D far_right = right_point + right_vector * 10.0;
 
                     // DESENHA TRAPEzIO
-                    DrawQuadrilateral(far_left, left_point, right_point, far_right, geometry, black_effect);
+                    DrawQuadrilateral(far_left, left_point, right_point, far_right, offset_geometry, black_effect);
 
                 } else {
                     puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
