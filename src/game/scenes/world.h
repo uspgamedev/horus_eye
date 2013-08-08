@@ -25,7 +25,7 @@ using ugdk::math::Vector2D;
 
 namespace scene {
 
-#define WORLD() (utils::LevelManager::reference()->get_current_level() )
+#define WORLD() (utils::LevelManager::reference()->current_level() )
 
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;

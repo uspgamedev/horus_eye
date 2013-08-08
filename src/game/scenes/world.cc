@@ -39,7 +39,7 @@ using pyramidworks::collision::CollisionInstance;
 bool VerifyCheats(double dt) {
     ugdk::input::Manager *input = ugdk::input::manager();
     LevelManager *level_manager = LevelManager::reference();
-    World* world = level_manager->get_current_level();
+    World* world = level_manager->current_level();
     WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
@@ -141,7 +141,10 @@ World::World()
     this->AddTask(UpdateOffset, 1.0);
 
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
+        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         content_node()->Render(geometry, effect);
+        
+        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         this->hud_->node()->Render(geometry, effect);
     });
 }

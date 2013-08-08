@@ -39,7 +39,7 @@ class LevelManager {
 
     const std::string& current_campaign() const { return current_campaign_; }
 
-    scene::World* get_current_level() { return current_level_; }
+    scene::World* current_level() { return current_level_; }
     void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
     unsigned int GetNextLevelID() { return level_list_iterator_; }
 
