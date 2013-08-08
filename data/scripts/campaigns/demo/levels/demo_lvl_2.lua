@@ -219,6 +219,7 @@ spike_room = {
               room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 2))
               room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 3))
               room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 4))
+              event.Clear "FALL_SPIKES"
             end
           )
           room:MakeRecipe "fall-spikes-trigger"
@@ -231,6 +232,7 @@ spike_room = {
     ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
   },
   collision_classes = {
+    {"Spike"},
     {"EventArea"}
   },
   setup = function(self)
