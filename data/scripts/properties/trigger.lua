@@ -1,7 +1,7 @@
 
 require "context"
 require "map"
-require "data.scripts.event"
+require "event"
 
 function build (wobj, params)
   local activates = params.activates or "UNKNOWN_TRIGGER" 

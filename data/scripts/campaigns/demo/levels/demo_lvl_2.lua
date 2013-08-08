@@ -4,7 +4,7 @@ require "map"
 require "constants"
 require "ugdk.math"
 require "pyramidworks.geometry"
-require "data.scripts.event"
+require "event"
 
 local roomsize = 12
 local function DOOR (i)

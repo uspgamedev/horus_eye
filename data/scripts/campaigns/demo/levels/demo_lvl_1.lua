@@ -3,7 +3,7 @@ require "map"
 require "constants"
 require "ugdk.math"
 require "pyramidworks.geometry"
-require "data.scripts.event"
+require "event"
 
 music = "musics/Arabesque.ogg"
 roomsize = 16
