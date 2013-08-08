@@ -268,8 +268,8 @@ fireball_room = {
 ####&####
 ]],
   recipes = {
-    ["fireball-trigger"] = { property = "trigger", params = { activates = "FIREBALL", delay = 0.4 } },
-    ["fireball-trap"] = { property = "fireball-trap" },
+    ["fireball-trigger"] = { property = "trigger", params = { activates = "FIREBALL", delay = 0.0 } },
+    ["fireball-trap"] = { property = "fireball-trap", params = {dir = ugdk_math.Vector2D(0, -1)}},
     ["fireball-event"] = {
       property = "event_region",
       params = {
@@ -280,7 +280,7 @@ fireball_room = {
             "FIREBALL",
             function ()
 	      print("Placeholder!")
-              --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 1))
+              room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(4, 5))
               --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 2))
               --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 3))
               --room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(5, 4))
@@ -298,6 +298,6 @@ fireball_room = {
   },
   setup = function(self)
     self:MakeRecipe("eventbutton", ugdk_math.Vector2D(4,2.5))
-    self:MakeRecipe("fireball-event", ugdk_math.Vector2D(2,2.5))
+    self:MakeRecipe("fireball-event", ugdk_math.Vector2D(4,2.5))
   end
 }
