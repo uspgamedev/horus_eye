@@ -49,6 +49,16 @@ static std::wstring convertFromString(const std::string& str) {
 
 namespace builder {
 
+void MenuFocus(Scene* scene){ 
+    scene->set_active(true);
+    scene->set_visible(true);
+}
+
+void MenuDeFocus(Scene* scene){ 
+    scene->set_active(false);
+    scene->set_visible(false);
+}
+
 void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
@@ -61,6 +71,8 @@ void MainMenuDebugPlay(Scene* menu, const Button * source) {
 
 Scene* PauseMenu() {
     ugdk::action::Scene* pause_menu = new Scene();
+    pause_menu->set_focus_callback(MenuFocus);
+    pause_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
@@ -90,8 +102,8 @@ Scene* PauseMenu() {
     pause_menu->StopsPreviousMusic(false);
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
-    pause_menu->interface_node()->AddChild(menu->node());
     pause_menu->AddEntity(menu);
+    pause_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
 
     //TODO: solid rectangle no longer exists
     //ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
@@ -103,8 +115,8 @@ Scene* PauseMenu() {
 
 Scene* CampaignMenu() {
     ugdk::action::Scene* mission_menu = new Scene();
-    mission_menu->set_focus_callback(  [](Scene* scene){ scene->interface_node()->set_active(true);  });
-    mission_menu->set_defocus_callback([](Scene* scene){ scene->interface_node()->set_active(false); });
+    mission_menu->set_focus_callback(MenuFocus);
+    mission_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
@@ -166,16 +178,16 @@ Scene* CampaignMenu() {
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
-    mission_menu->interface_node()->AddChild(menu->node());
     mission_menu->AddEntity(menu);
+    mission_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
 
     return mission_menu;
 }
 
 Scene* MainMenu() {
     ugdk::action::Scene* main_menu = new Scene();
-    main_menu->set_focus_callback(  [](Scene* scene){ scene->interface_node()->set_active(true);  });
-    main_menu->set_defocus_callback([](Scene* scene){ scene->interface_node()->set_active(false); });
+    main_menu->set_focus_callback(MenuFocus);
+    main_menu->set_defocus_callback(MenuDeFocus);
 
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
     ugdk::ikdtree::Box<2> box(origin.val, target.val);
@@ -196,16 +208,18 @@ Scene* MainMenu() {
     Node* developed_by_node = new Node(developed_by);
     developed_by_node->geometry().set_offset(ugdk::graphic::manager()->video_size() + Vector2D(-15.0, 0.0));
 
-    main_menu->interface_node()->AddChild(logo_node);
-    main_menu->interface_node()->AddChild(version_node);
-    main_menu->interface_node()->AddChild(developed_by_node);
-
     Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
     for(int i = 0; i < 2; ++i) {
         ugdk::graphic::Sprite* sprite = mif.HorusEye();
         main_menu->media_manager().AddPlayer(&sprite->animation_player());
         menu->SetOptionDrawable(sprite, i);
     }
+
+    // The scene's drawables
+    menu->node()->AddChild(logo_node);
+    menu->node()->AddChild(version_node);
+    menu->node()->AddChild(developed_by_node);
+    // =======
 
     Drawable* play_text     = ugdk::resource::GetLanguageWord("Play")->CreateLabel();
     Drawable* settings_text = ugdk::resource::GetLanguageWord("Settings")->CreateLabel();
@@ -243,8 +257,9 @@ Scene* MainMenu() {
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
-    main_menu->interface_node()->AddChild(menu->node());
+    
     main_menu->AddEntity(menu);
+    main_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
 
     return main_menu;
 }
@@ -372,7 +387,7 @@ Scene* SettingsMenu() {
         menu->SetOptionDrawable(sprite, i);
     }
 
-    std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(settings_menu->interface_node()));
+    std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(menu->node()));
     double left_column = target.x * 0.15;
 
     for (int i = 0; i < 5; ++i) {
@@ -396,8 +411,8 @@ Scene* SettingsMenu() {
     menu->AddCallback(ugdk::input::K_RIGHT , bind(PressArrow, data, +1, _1));
     menu->AddCallback(ugdk::input::K_LEFT  , bind(PressArrow, data, -1, _1));
 
-    settings_menu->interface_node()->AddChild(menu->node());
     settings_menu->AddEntity(menu);
+    settings_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
     return settings_menu;
 }
 

@@ -1,11 +1,11 @@
 SET(GAME_SRCS 
     externals/inifile.cc 
     externals/inifile.h 
-    game/ai.h 
+    externals/windows/include/dirent.h 
     game/ai/ai.cc 
-    game/ai/ai.h 
     game/ai/aidata.cc 
     game/ai/aidata.h 
+    game/ai/ai.h 
     game/ai/aimodule.h 
     game/ai/blocks/followtarget.cc 
     game/ai/blocks/followtarget.h 
@@ -17,6 +17,7 @@ SET(GAME_SRCS
     game/ai/blocks/useweapon.h 
     game/ai/conditionmodule.cc 
     game/ai/conditionmodule.h 
+    game/ai.h 
     game/ai/logicblock.h 
     game/ai/logicmodule.cc 
     game/ai/logicmodule.h 
@@ -50,12 +51,11 @@ SET(GAME_SRCS
     game/builders/recipes/init.h 
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
-    game/components.h 
     game/components/animation.cc 
     game/components/animation.h 
-    game/components/base.h 
     game/components/basegraphic.cc 
     game/components/basegraphic.h 
+    game/components/base.h 
     game/components/caster.cc 
     game/components/caster.h 
     game/components/condition.cc 
@@ -67,6 +67,7 @@ SET(GAME_SRCS
     game/components/direction.h 
     game/components/graphic.cc 
     game/components/graphic.h 
+    game/components.h 
     game/components/logic/follower.cc 
     game/components/logic/follower.h 
     game/components/orders.h 
@@ -86,9 +87,9 @@ SET(GAME_SRCS
     game/initializer.cc 
     game/initializer.h 
     game/main.cc 
-    game/map.h 
     game/map/giantfloor.cc 
     game/map/giantfloor.h 
+    game/map.h 
     game/map/loader.cc 
     game/map/loader.h 
     game/map/room.cc 
@@ -102,24 +103,21 @@ SET(GAME_SRCS
     game/resources/countableresource.h 
     game/resources/energy.h 
     game/resources/resource.h 
-    game/scenes.h 
     game/scenes/gamelayer.h 
+    game/scenes.h 
     game/scenes/imagescene.cc 
     game/scenes/imagescene.h 
     game/scenes/loading.cc 
     game/scenes/loading.h 
-    game/scenes/menu.cc 
-    game/scenes/menu.h 
-    game/scenes/menuhandler.h 
     game/scenes/scrollingimagescene.cc 
     game/scenes/scrollingimagescene.h 
     game/scenes/world.cc 
     game/scenes/world.h 
-    game/skills.h 
     game/skills/combatart.cc 
     game/skills/combatart.h 
     game/skills/divinegift.cc 
     game/skills/divinegift.h 
+    game/skills.h 
     game/skills/hero/herofireball.cc 
     game/skills/hero/herolight.cc 
     game/skills/hero/herolightning.cc 
@@ -130,8 +128,8 @@ SET(GAME_SRCS
     game/skills/mummy/pharaohskills.cc 
     game/skills/skill.h 
     game/skills/usearguments.h 
-    game/sprites.h 
     game/sprites/effect.h 
+    game/sprites.h 
     game/sprites/worldobject.cc 
     game/sprites/worldobject.h 
     game/utils/hud.cc 

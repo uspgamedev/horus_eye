@@ -7,6 +7,7 @@
 #include <ugdk/audio/module.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
 #include "SDL.h"
@@ -15,6 +16,7 @@
 #include "constants.h"
 #include "utils/levelmanager.h"
 #include "utils/settings.h"
+#include "game/scenes/world.h"
 #include "game/builders/recipes/init.h"
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
@@ -32,6 +34,7 @@
 #endif
 
 using namespace utils;
+namespace graphic = ugdk::graphic;
 
 utils::LevelManager* level_manager() {
     return utils::LevelManager::reference();
@@ -44,10 +47,16 @@ void StartGame() {
     video_settings.resolution = settings->resolution_vector();
     video_settings.fullscreen = settings->fullscreen();
     video_settings.vsync = true; // TODO: configurable
-    video_settings.light_system = true;
+    video_settings.light_system = false;
     ugdk::graphic::manager()->ChangeSettings(video_settings);
 
     AddHorusShader();
+
+    ugdk::system::PushScene(ugdk::graphic::CreateLightrenderingScene([](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
+        if(scene::World* world = utils::LevelManager::reference()->current_level()) {
+            world->content_node()->RenderLight(geometry, effect);
+        }
+    }));
 
     if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");

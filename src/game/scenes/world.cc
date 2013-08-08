@@ -8,6 +8,7 @@
 #include <ugdk/audio/music.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/node.h>
 #include <ugdk/time/module.h>
 #include <ugdk/input/module.h>
 #include <ugdk/util/intervalkdtree.h>
@@ -17,7 +18,6 @@
 
 #include "game/map/room.h"
 
-#include "game/scenes/menu.h"
 #include "game/sprites/worldobject.h"
 #include "game/core/coordinates.h"
 #include "game/components/caster.h"
@@ -39,7 +39,7 @@ using pyramidworks::collision::CollisionInstance;
 bool VerifyCheats(double dt) {
     ugdk::input::Manager *input = ugdk::input::manager();
     LevelManager *level_manager = LevelManager::reference();
-    World* world = level_manager->get_current_level();
+    World* world = level_manager->current_level();
     WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
@@ -116,7 +116,8 @@ World::World()
         size_(10, 10),
         level_state_(LevelManager::NOT_FINISHED),
         collision_manager_(NULL),
-        visibility_manager_(NULL) {
+        visibility_manager_(NULL),
+        content_node_(new graphic::Node) {
 
     //content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
 
@@ -129,7 +130,6 @@ World::World()
     content_node()->AddChild(layers_[FOREGROUND_LAYER]);
 
     hud_ = new utils::Hud(this);
-    interface_node()->AddChild(hud_->node());
     this->AddEntity(hud_);
 
     this->AddTask(bind(&World::updateRooms, this, _1));
@@ -139,6 +139,14 @@ World::World()
     this->AddTask(VerifyCheats);
 //#endif
     this->AddTask(UpdateOffset, 1.0);
+
+    set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
+        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+        content_node()->Render(geometry, effect);
+        
+        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
+        this->hud_->node()->Render(geometry, effect);
+    });
 }
 
 // Destrutor
@@ -159,12 +167,21 @@ void World::End() {
     super::End();
 
     this->RemoveEntity(hud_);
-    interface_node()->RemoveChild(hud_->node());
     delete hud_;
     hud_ = NULL;
 
     RemoveAllEntities();
     removeAllRooms();
+}
+
+void World::Focus() {
+    Scene::Focus();
+    this->set_active(true);
+}
+
+void World::DeFocus() {
+    Scene::DeFocus();
+    this->set_active(false);
 }
 
 void World::SetHero(sprite::WorldObject *hero) {

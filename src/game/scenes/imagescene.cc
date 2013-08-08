@@ -33,29 +33,31 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     if (background) {
         scene_layers_[BG] = new ugdk::graphic::Node(background);
         scene_layers_[BG]->set_zindex(-1.0);
-        interface_node()->AddChild(scene_layers_[BG]);
     }
     else scene_layers_[BG] = NULL;
 
     // Node [1], main image
     if (image) {
         scene_layers_[IMG] = new ugdk::graphic::Node(image);
-
         ugdk::math::Vector2D offset = (ugdk::graphic::manager()->video_size() - image->size())* 0.5;
         scene_layers_[IMG]->geometry().set_offset(offset);
-
-        interface_node()->AddChild(scene_layers_[IMG]);
     }
     else scene_layers_[IMG] = NULL;
 
     this->AddTask(bind(FinishImageSceneTask, this, _1));
+    set_render_function([this](const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) {
+        if(scene_layers_[BG])
+            scene_layers_[BG]->Render(geometry, effect);
+        if(scene_layers_[IMG])
+            scene_layers_[IMG]->Render(geometry, effect);
+    });
 }
 
 ImageScene::~ImageScene() {}
 
 void ImageScene::End() {
     super::End();
-    interface_node()->effect().set_visible(false);
+    this->set_visible(false);
 }
 
 }

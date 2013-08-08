@@ -53,5 +53,5 @@ void AddHorusShader() {
     bool status = horus_light_shader_->SetupProgram();
     assert(status);
 
-    ugdk::graphic::manager()->shaders().ReplaceShader(1, horus_light_shader_);
+    ugdk::graphic::manager()->shaders().ReplaceShader((1 << 0) + (0 << 1), horus_light_shader_);
 }

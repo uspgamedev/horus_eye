@@ -25,7 +25,7 @@ using ugdk::math::Vector2D;
 
 namespace scene {
 
-#define WORLD() (utils::LevelManager::reference()->get_current_level() )
+#define WORLD() (utils::LevelManager::reference()->current_level() )
 
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
@@ -47,6 +47,9 @@ class World : public ugdk::action::Scene {
     void Start();
     void End();
 
+    void Focus();
+    void DeFocus();
+
     void AddRoom(map::Room* room);
     void ActivateRoom(const std::string& name);
     void DeactivateRoom(const std::string& name);
@@ -60,6 +63,8 @@ class World : public ugdk::action::Scene {
 
     const ugdk::math::Integer2D& size() const { return size_; }
     const std::list<map::Room*>& active_rooms() const { return active_rooms_; }
+
+    ugdk::graphic::Node* content_node() const { return content_node_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return visibility_manager_; }
@@ -91,6 +96,7 @@ class World : public ugdk::action::Scene {
     utils::LevelManager::LevelState level_state_;
     pyramidworks::collision::CollisionManager* collision_manager_;
     pyramidworks::collision::CollisionManager* visibility_manager_;
+    ugdk::graphic::Node* content_node_;
     ugdk::graphic::Node *layers_[2];
 
     std::string hero_initial_room_;
