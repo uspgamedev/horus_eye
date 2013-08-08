@@ -3,3 +3,16 @@
 $STANDING
 %number 0
 
+$FALLING
+@fps 45
++frame [position 0 -200] [alpha 0.0]
++frame [position 0 -160] [alpha 0.2]
++frame [position 0 -140] [alpha 0.4]
++frame [position 0 -120] [alpha 0.6]
++frame [position 0 -100] [alpha 0.8]
++frame [position 0 -80] [alpha 1.0]
++frame [position 0 -60] [alpha 1.0]
++frame [position 0 -40] [alpha 1.0]
++frame [position 0 -20] [alpha 1.0]
++frame [position 0 0] [alpha 1.0]
+

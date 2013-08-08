@@ -205,7 +205,7 @@ spike_room = {
 ]],
   recipes = {
     ["fall-spikes-trigger"] = { property = "trigger", params = { activates = "FALL_SPIKES", delay = 1.0 } },
-    ["spike-trap"] = { property = "dummy-spike-trap" },
+    ["spike-trap"] = { property = "spike-trap" },
     ["spike-trap-event"] = {
       property = "event_region",
       params = {
