@@ -204,14 +204,38 @@ spike_room = {
 #########
 ]],
   recipes = {
-    --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
+    ["fall-spikes-trigger"] = { property = "trigger", params = { activates = "FALL_SPIKES", delay = 1.0 } },
+    ["spike-trap"] = { property = "dummy-spike-trap" },
+    ["spike-trap-event"] = {
+      property = "event_region",
+      params = {
+        shape = pyramidworks_geometry.Rect(1.0, 4.0),
+        callback = function (region)
+          local room = region:current_room()
+          event.Register(
+            "FALL_SPIKES",
+            function ()
+              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 1))
+              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 2))
+              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 3))
+              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 4))
+            end
+          )
+          room:MakeRecipe "fall-spikes-trigger"
+        end
+      }
+    },
     ["urn"] = { property = "urn" },
     ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
     ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
     ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
   },
+  collision_classes = {
+    {"EventArea"}
+  },
   setup = function(self)
     self:MakeRecipe("eventbutton", ugdk_math.Vector2D(2,2.5))
+    self:MakeRecipe("spike-trap-event", ugdk_math.Vector2D(5,2.5))
   end
 }
 
