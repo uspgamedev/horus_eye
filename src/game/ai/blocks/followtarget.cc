@@ -29,7 +29,7 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
         target = vtarget.value<sprite::WorldObject*>(true);
     }
 
-	if (target != NULL) {// && vision_strategy_.IsVisible(owner, target->world_position())) {
+	if (target != NULL && vision_strategy_.IsVisible(owner, target->world_position())) {
         parent_->base()->set_standing(false);  
 
 		search_target_ = true;

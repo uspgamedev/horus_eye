@@ -23,7 +23,7 @@ class Evasion(LogicBlock):
         
     def Update(self, dt, data):
         owner = self.parent().base().owner()
-        if not owner.is_active():   return AIModule.DORMANT
+        if owner.dead():   return AIModule.DORMANT
         
         target = data.GetSharedData(self.detector_identifier + "_target")
         if target == None:
@@ -65,17 +65,20 @@ def generate(oAI, *args):
     ####
     mainList = SequenceModule()
     oAI.set_root(mainList)
+    
+    def createDetectHeroModule():
+        detectHeroLogic = TargetDetector()
+        detectHeroLogic.set_target_classname("Hero")
+        detectHeroLogic.set_area( Circle(10.0) )
+        detectHeroLogic.set_identifier("hero")
+        return LogicModule( detectHeroLogic )
+        
+    
     ####
-    detectHeroLogic = TargetDetector()
-    detectHeroLogic.set_target_classname("Hero")
-    detectHeroLogic.set_area( Circle(10.0) )
-    detectHeroLogic.set_identifier("hero")
-    detectHero = LogicModule( detectHeroLogic )
+    detectHero = createDetectHeroModule()
     mainList.AddChildModule(detectHero)
     ####
-    randomMoveLogic = RandomMovement(1.0)
-    randomMove = LogicModule( randomMoveLogic )
-    mainList.AddChildModule(randomMove)
+    mainList.AddChildModule(LogicModule(RandomMovement(1.0)))
     ####
     followHeroLogic = FollowTarget()
     followHeroLogic.set_detector_identifier("hero")
@@ -93,7 +96,7 @@ def generate(oAI, *args):
     #detectShotLogic.set_identifier("shot")
     #detectShot = LogicModule( detectShotLogic )
     #attack.set_child(detectShot)
-    ###
+    ##
     #evadeLogic = Evasion("shot")
     #evade = LogicModule( evadeLogic )
     #detectShot.set_child( evade )

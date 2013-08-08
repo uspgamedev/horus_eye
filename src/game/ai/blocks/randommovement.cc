@@ -21,12 +21,12 @@ void RandomMovement::Start() {
 AIModule::Status RandomMovement::Update(double dt, AIData* data) {
 	sprite::WorldObject* owner = parent_->base()->owner();
 	
+	time_left_ -= dt;
     if (!owner->component<component::Animation>()->CanInterrupt(utils::MOVEMENT) ) return AIModule::DORMANT;
 	if (owner->dead()) return AIModule::DORMANT;
 
     if (parent_->base()->standing())   return AIModule::DORMANT;
 
-	time_left_ -= dt;
 	if (time_left_ < 0) {
 		time_left_ = WaitingTime();
 
