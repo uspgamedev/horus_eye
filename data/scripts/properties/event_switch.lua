@@ -1,7 +1,6 @@
 
 require "ugdk.action"
 require "ugdk.drawable"
-require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
 require "context"

@@ -30,9 +30,13 @@ function build (wobj)
   wobj:AddComponent(spike.graphic, "graphic", 100)
   return {
     collision = {
-      class = "Wall",
-      shape = Rect(1,1),
-      known_collision = {}
+      class = "Spike",
+      shape = Rect(0.9,0.9),
+      known_collision = {
+        Hero = function (self, obj)
+          obj:damageable():TakeDamage(100)
+        end
+      }
     }
   }
 end
