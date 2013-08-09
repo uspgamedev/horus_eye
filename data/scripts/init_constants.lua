@@ -92,7 +92,7 @@ constants.RegisterDouble("TOTEM_WIDTH", 72.0)
 constants.RegisterDouble("TOTEM_HEIGHT", 518.0)
 
 constants.RegisterDouble("LIGHT_RADIUS_THRESHOLD", 0.25)
-constants.RegisterDouble("LIGHT_RADIUS_INITIAL", 7.0)
+constants.RegisterDouble("LIGHT_RADIUS_INITIAL", 4.0)
 
 constants.RegisterDouble("HERO_SPEED", 4.0)
 constants.RegisterDouble("HERO_MAX_LIFE", 1000.0)

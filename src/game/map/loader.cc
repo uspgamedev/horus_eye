@@ -7,7 +7,10 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/rect.h>
 
+#include "game/components/shape.h"
 #include "game/builders/builder.h"
 #include "game/builders/doodadbuilder.h"
 #include "game/sprites/worldobject.h"
@@ -26,6 +29,10 @@ using ugdk::math::Vector2D;
 using ugdk::math::Integer2D;
 using ugdk::script::VirtualObj;
 using pyramidworks::collision::CollisionManager;
+using pyramidworks::collision::CollisionObject;
+using pyramidworks::geometry::Rect;
+using sprite::WorldObject;
+using component::Shape;
 
 typedef std::vector<std::string> ArgumentList;
 
@@ -65,6 +72,69 @@ struct ObjectDescriptor {
 };
 
 namespace {
+
+struct Cell {
+    char obj;
+    bool h, v;
+};
+
+typedef vector<vector<Cell>> Map;
+
+bool BlocksVision (char obj) {
+    switch(obj) {
+        case WALL:
+        case INVISIBLEWALL:
+        case BURNTWALL:
+            return true;
+        default:
+            return false;
+    }
+}
+
+void AddObstacle (Room* room, double x, double y, double width, double height) {
+    WorldObject* wobj = new WorldObject;
+    
+    CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
+    vis->InitializeCollisionClass("Opaque");
+    vis->set_shape(new pyramidworks::geometry::Rect(width, height));
+    
+    wobj->AddComponent(new Shape(nullptr, vis));
+    room->AddObject(wobj, Vector2D(x, y));
+}
+
+void AddVisionObstacles (Room* room, Map& map) {
+    for (size_t i = 0; i < map.size(); ++i) {
+        auto &row = map[i];
+        for (size_t j = 0; j < row.size(); ++j) {
+            Cell &cell = row[j];
+            if (!BlocksVision(cell.obj)) continue;
+            if (!cell.h) {
+                cell.h = true;
+                size_t width = 1;
+                for (size_t k = j+1; k < row.size(); ++k) {
+                    Cell &another = row[k];
+                    if (!BlocksVision(another.obj)) break;
+                    ++width;
+                    another.h = true;
+                }
+                AddObstacle(room, 1.0*j+(width-1)/2.0, 1.0*i, 1.0*width, 1.0);
+            }
+            if (!cell.v) {
+                cell.v = true;
+                size_t height = 1;
+                for (size_t k = i+1; k < map.size(); ++k) {
+                    Cell &another = map[k][j];
+                    if (!BlocksVision(another.obj)) break;
+                    ++height;
+                    another.v = true;
+                }
+                AddObstacle(room, 1.0*j, 1.0*i+(height-1)/2.0, 1.0, 1.0*height);
+            }
+            
+        }
+    }
+}
+
 Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::math::Integer2D& position) {
 
     if(!room_data) return NULL;
@@ -90,6 +160,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     }
 
     Room* room = new Room(name, Integer2D(width, height), position);
+    auto map = Map(height, vector<Cell>(width, { '.', false , false}));
 
     if(room_data["recipes"])
         room->DefineCookbook(room_data["recipes"]);
@@ -115,15 +186,9 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
                 continue;
             }
             {
-                Tile tile(y, x, *it);
-                ObjectDescriptor descriptor(string(1, tile.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
+                ObjectDescriptor descriptor(string(1, *it), arguments[y][x], Vector2D(x, y), tags[y][x]);
                 objects.push_back(descriptor);
-
-                /*if(tile.has_floor()) {
-                    ugdk::graphic::Node* floor = new ugdk::graphic::Node(new GiantFloor(room->size()));
-                    floor->geometry().set_offset(core::FromWorldCoordinates(descriptor.position));
-                    room->floor()->AddChild(floor);
-                }*/
+                map[y][x].obj = *it;
             }
 
             ++x;
@@ -180,6 +245,8 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
             fprintf(stderr, "}.\n");
         }
     }
+
+    AddVisionObstacles(room, map);
 
     //=========================================
     //         RUNNING SETUP
