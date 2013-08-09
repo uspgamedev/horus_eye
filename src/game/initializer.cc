@@ -13,6 +13,7 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/geometry/rect.h>
+#include <pyramidworks/geometry/circle.h>
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/core/coordinates.h"
@@ -128,7 +129,7 @@ void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& ef
     math::Vector2D left_vector = (left_point - from).Normalize();
     math::Vector2D right_vector = (right_point - from).Normalize();
 
-    static const double near_distance = 0.01;
+    static const double near_distance = 0.07;
     static const double far_distance = 20.0;
 
     DrawQuadrilateral(
@@ -137,6 +138,11 @@ void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& ef
         right_point + right_vector * near_distance, // near right
         right_point + right_vector * far_distance, // far right
         geometry, effect);
+}
+
+bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, const Vector2D& point) {
+    geometry::Circle c(0.0);
+    return shape->Intersects(position, &c, point);
 }
 
 void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
@@ -150,7 +156,7 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
             opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
             Geometry offset_geometry = geometry * world->content_node()->geometry();
-            VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0));
+            VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             for(const collision::CollisionObject * obj : walls) {
@@ -168,8 +174,17 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
                 } else {
                     puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
                 }
+
+                std::list<Vector2D> extremes;
+                for(const Vector2D& vertex : vertices) {
+                    Vector2D dir = (vertex - hero->world_position()).Normalize();
+                    if(!is_inside(obj->shape(), obj->absolute_position(), vertex + dir * 0.01)
+                        && !is_inside(obj->shape(), obj->absolute_position(), vertex - dir * 0.01))
+                        extremes.push_back(vertex);
+                }
+
                 // Choose the two points that have the widest angle.
-                CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), vertices.front(), vertices.back());
+                CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), extremes.front(), extremes.back());
             }
         }
     }
