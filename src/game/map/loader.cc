@@ -160,7 +160,8 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     }
 
     Room* room = new Room(name, Integer2D(width, height), position);
-    auto map = Map(height, vector<Cell>(width, { '.', false , false}));
+    Cell cell = { '.', false, false };
+    auto map = Map(height, vector<Cell>(width, cell));
 
     if(room_data["recipes"])
         room->DefineCookbook(room_data["recipes"]);

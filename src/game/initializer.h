@@ -11,4 +11,6 @@ ugdk::action::Scene* CreateHorusLightrenderingScene();
 
 ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader();
 
+void DrawShadows(ugdk::graphic::Texture* texture, const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect);
+
 #endif
