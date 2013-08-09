@@ -130,38 +130,51 @@ divergence = {
   recipes = {
     --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
     --TODO: Modularizar o teco abaixo se a gente for usar mais
-    ["spike-exit-event"] = {
-      property = "event_region",
-      params = {
-        shape = pyramidworks_geometry.Rect(1.0, 2.0),
-        callback = function (region)
-          local room = region:current_room()
-          context.ActivateRoom "spike_room"
-          room:WorldObjectByTag("SPIKEDOOR-1"):Die()
-          room:WorldObjectByTag("SPIKEDOOR-2"):Die()
-        end
-      }
-    },
-    ["fireball-exit-event"] = {
-      property = "event_region",
-      params = {
-        shape = pyramidworks_geometry.Rect(1.0, 2.0),
-        callback = function (region)
-          local room = region:current_room()
-          context.ActivateRoom "fireball_room"
-          room:WorldObjectByTag("FIREDOOR-1"):Die()
-          room:WorldObjectByTag("FIREDOOR-2"):Die()
-        end
-      }
-    },
+    --["spike-exit-event"] = {
+    --  property = "event_region",
+    --  params = {
+    --    shape = pyramidworks_geometry.Rect(1.0, 2.0),
+    --    callback = function (region)
+    --      local room = region:current_room()
+    --      context.ActivateRoom "spike_room"
+    --      room:WorldObjectByTag("SPIKEDOOR-1"):Die()
+    --      room:WorldObjectByTag("SPIKEDOOR-2"):Die()
+    --    end
+    --  }
+    --},
+    --["fireball-exit-event"] = {
+    --  property = "event_region",
+    --  params = {
+    --    shape = pyramidworks_geometry.Rect(1.0, 2.0),
+    --    callback = function (region)
+    --      local room = region:current_room()
+    --      context.ActivateRoom "fireball_room"
+    --      room:WorldObjectByTag("FIREDOOR-1"):Die()
+    --      room:WorldObjectByTag("FIREDOOR-2"):Die()
+    --    end
+    --  }
+    --},
     ["urn"] = { property = "urn" },
-    ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
-    ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
+    ["spike-door"] = {
+      property = "open-door",
+      params = {
+        dir = "LEFT",
+        open_event = function () context.ActivateRoom "spike_room" end
+      }
+    },
+    ["fireball-door"] = {
+      property = "open-door",
+      params = {
+        dir = "LEFT",
+        open_event = function () context.ActivateRoom "fireball_room" end
+      }
+    },
+    ["closed-door"] = { property = "closed-door", params = { dir = "Right" } },
     ["eventswitch"] = { property = "event_switch", params = { "DOOR-COUNTER" } }
   },
   collision_classes = {
     { "Switch", "Wall" },
-    {"EventArea"}
+    { "EventArea" }
   },
   setup = function(self)
     self:MakeRecipe("urn", ugdk_math.Vector2D(3, 1))
@@ -185,15 +198,13 @@ divergence = {
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12))
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12.5))
     self:MakeRecipe("urn", ugdk_math.Vector2D(9, 13))
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 3), "FIREDOOR-1")
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(10, 4), "FIREDOOR-2")
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 12), "SPIKEDOOR-1")
-    self:MakeRecipe("door-left", ugdk_math.Vector2D(0, 13), "SPIKEDOOR-2")
-    self:MakeRecipe("door-right", ugdk_math.Vector2D(4, 15), "NEXTDOOR-1")
-    self:MakeRecipe("door-right", ugdk_math.Vector2D(5, 15), "NEXTDOOR-2")
-    self:MakeRecipe("door-right", ugdk_math.Vector2D(6, 15), "NEXTDOOR-3")
-    self:MakeRecipe("spike-exit-event", ugdk_math.Vector2D(2, 12))
-    self:MakeRecipe("fireball-exit-event", ugdk_math.Vector2D(8, 3))
+    self:MakeRecipe("fireball-door", ugdk_math.Vector2D(10, 3), "FIREDOOR-1")
+    self:MakeRecipe("fireball-door", ugdk_math.Vector2D(10, 4), "FIREDOOR-2")
+    self:MakeRecipe("spike-door", ugdk_math.Vector2D(0, 12), "SPIKEDOOR-1")
+    self:MakeRecipe("spike-door", ugdk_math.Vector2D(0, 13), "SPIKEDOOR-2")
+    self:MakeRecipe("closed-door", ugdk_math.Vector2D(4, 15), "NEXTDOOR-1")
+    self:MakeRecipe("closed-door", ugdk_math.Vector2D(5, 15), "NEXTDOOR-2")
+    self:MakeRecipe("closed-door", ugdk_math.Vector2D(6, 15), "NEXTDOOR-3")
   end
 }
 
