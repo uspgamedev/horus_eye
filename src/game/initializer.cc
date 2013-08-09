@@ -73,15 +73,14 @@ void AddShadowcastingShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
-    vertex_shader.AddCodeBlock("in float vertexAlpha;" "\n");
-    vertex_shader.AddCodeBlock("out vec4 color;" "\n");
+    vertex_shader.AddCodeBlock("out float color;" "\n");
     vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
-    vertex_shader.AddLineInMain("	color = vec4(0.0, 0.0, 0.0, vertexAlpha);" "\n");
+    vertex_shader.AddLineInMain("	color = vertexUV.x;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
-    fragment_shader.AddCodeBlock("in vec4 color;" "\n");
-    fragment_shader.AddLineInMain(" gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);" "\n");
+    fragment_shader.AddCodeBlock("in float color;" "\n");
+    fragment_shader.AddLineInMain(" gl_FragColor = vec4(0.0, 0.0, 0.0, color);" "\n");
     fragment_shader.GenerateSource();
 
     horus_shadowcasting_shader_ = new opengl::ShaderProgram;
@@ -107,10 +106,10 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
                        const math::Vector2D& p3, const math::Vector2D& p4, 
                        const Geometry& geometry, const VisualEffect& effect) {
     //opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
-    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
+    opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
     shader_use.SendGeometry(geometry);
-    shader_use.SendEffect(effect);
-    shader_use.SendTexture(0, graphic::manager()->white_texture());
+    //shader_use.SendEffect(effect);
+    //shader_use.SendTexture(0, graphic::manager()->white_texture());
 
     math::Vector2D p1s = core::FromWorldCoordinates(p1),
                    p2s = core::FromWorldCoordinates(p2),
@@ -130,20 +129,20 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
         vertex_data[3 * 2 + 0] = static_cast<GLfloat>(p4s.x); // far right
         vertex_data[3 * 2 + 1] = static_cast<GLfloat>(p4s.y);
     }
-    const opengl::VertexBuffer* uvbuffer = opengl::VertexBuffer::CreateDefault();
-    opengl::VertexArray colorbuffer(sizeof(GLfloat) * 1 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    opengl::VertexArray colorbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
         opengl::VertexBuffer::Mapper mapper(colorbuffer);
         GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        vertex_data[0] = 0.5f; // far left
-        vertex_data[1] = 0.5f; // right
-        vertex_data[2] = 0.5f; // bottom
-        vertex_data[3] = 0.5f; // left
+        for(int i = 0; i < 8; ++i)
+            vertex_data[i] = 0.0f;
+        vertex_data[0] = 0.0f; // far left
+        vertex_data[2] = 0.0f; // right
+        vertex_data[4] = 1.0f; // bottom
+        vertex_data[6] = 1.0f; // left
     }
 
     shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
-    shader_use.SendVertexBuffer(uvbuffer, opengl::TEXTURE, 0);
-    //shader_use.SendVertexBuffer(&colorbuffer, opengl::COLOR, 0, 1);
+    shader_use.SendVertexBuffer(&colorbuffer, opengl::TEXTURE, 0);
     glDrawArrays(GL_QUADS, 0, 4);
 }
 
