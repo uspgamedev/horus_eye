@@ -73,14 +73,22 @@ void AddShadowcastingShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
-    vertex_shader.AddCodeBlock("out float color;" "\n");
-    vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
-    vertex_shader.AddLineInMain("	color = vertexUV.x;" "\n");
+    vertex_shader.AddCodeBlock("out vec2 P; " "\n");
+    vertex_shader.AddLineInMain("	vec4 position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
+    vertex_shader.AddLineInMain("	gl_Position = position;" "\n");
+    vertex_shader.AddLineInMain("	P = vertexPosition.xy;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
-    fragment_shader.AddCodeBlock("in float color;" "\n");
-    fragment_shader.AddLineInMain(" gl_FragColor = vec4(0.0, 0.0, 0.0, color);" "\n");
+    fragment_shader.AddCodeBlock("in vec2 P;" "\n");
+    fragment_shader.AddCodeBlock("uniform vec2 O;" "\n");
+    fragment_shader.AddCodeBlock("uniform vec2 A;" "\n");
+    fragment_shader.AddCodeBlock("uniform vec2 B;" "\n");
+    fragment_shader.AddLineInMain(" vec2 OP = P - O;" "\n");
+    fragment_shader.AddLineInMain(" vec2 AB = B - A;" "\n");
+    fragment_shader.AddLineInMain(" float angle = (O.y + OP.y * ((A.x - O.x) / OP.x) - A.y) / (AB.y - ((OP.y * AB.x) / OP.x));" "\n");
+    fragment_shader.AddLineInMain(" float alpha = 1.0 - abs(1.0 - 2 * angle);" "\n");
+    fragment_shader.AddLineInMain(" gl_FragColor = vec4(0.0, 0.0, 0.0, clamp(0.25 + 2 * alpha, 0.0, 1.0));" "\n");
     fragment_shader.GenerateSource();
 
     horus_shadowcasting_shader_ = new opengl::ShaderProgram;
@@ -90,7 +98,6 @@ void AddShadowcastingShader() {
 
     bool status = horus_shadowcasting_shader_->SetupProgram();
     assert(status);
-    glBindAttribLocation(horus_shadowcasting_shader_->id(), 2, "vertexAlpha");
 }
 
 }
@@ -103,7 +110,8 @@ void AddHorusShader() {
 }
 
 void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2, 
-                       const math::Vector2D& p3, const math::Vector2D& p4, 
+                       const math::Vector2D& p3, const math::Vector2D& p4,
+                       const math::Vector2D& O,
                        const Geometry& geometry, const VisualEffect& effect) {
     //opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
     opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
@@ -114,7 +122,8 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
     math::Vector2D p1s = core::FromWorldCoordinates(p1),
                    p2s = core::FromWorldCoordinates(p2),
                    p3s = core::FromWorldCoordinates(p3),
-                   p4s = core::FromWorldCoordinates(p4);
+                   p4s = core::FromWorldCoordinates(p4),
+                   Os = core::FromWorldCoordinates(O);
 
     opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
@@ -133,13 +142,15 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
     {
         opengl::VertexBuffer::Mapper mapper(colorbuffer);
         GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        for(int i = 0; i < 8; ++i)
+        for(int i = 0; i < 4; ++i)
             vertex_data[i] = 0.0f;
-        vertex_data[0] = 0.0f; // far left
-        vertex_data[2] = 0.0f; // right
-        vertex_data[4] = 1.0f; // bottom
-        vertex_data[6] = 1.0f; // left
+        for(int i = 4; i < 8; ++i)
+            vertex_data[i] = 1.0f;
     }
+
+    shader_use.SendUniform("O", float(Os.x),  float(Os.y));
+    shader_use.SendUniform("A", float(p2s.x), float(p2s.y));
+    shader_use.SendUniform("B", float(p3s.x), float(p3s.y));
 
     shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(&colorbuffer, opengl::TEXTURE, 0);
@@ -158,6 +169,7 @@ void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& ef
         left_point + left_vector * near_distance, // near left
         right_point + right_vector * near_distance, // near right
         right_point + right_vector * far_distance, // far right
+        from,
         geometry, effect);
 }
 
