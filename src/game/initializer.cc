@@ -9,6 +9,7 @@
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
+#include <ugdk/graphic/texture.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
@@ -88,7 +89,8 @@ void AddShadowcastingShader() {
     fragment_shader.AddLineInMain(" vec2 AB = B - A;" "\n");
     fragment_shader.AddLineInMain(" float angle = (O.y + OP.y * ((A.x - O.x) / OP.x) - A.y) / (AB.y - ((OP.y * AB.x) / OP.x));" "\n");
     fragment_shader.AddLineInMain(" float alpha = 1.0 - abs(1.0 - 2 * angle);" "\n");
-    fragment_shader.AddLineInMain(" gl_FragColor = vec4(0.0, 0.0, 0.0, clamp(0.25 + 2 * alpha, 0.0, 1.0));" "\n");
+    fragment_shader.AddLineInMain(" alpha = clamp(0.25 + 2 * alpha, 0.0, 1.0);" "\n");
+    fragment_shader.AddLineInMain(" gl_FragColor = vec4(alpha, alpha, alpha, 1.0);" "\n");
     fragment_shader.GenerateSource();
 
     horus_shadowcasting_shader_ = new opengl::ShaderProgram;
@@ -99,6 +101,8 @@ void AddShadowcastingShader() {
     bool status = horus_shadowcasting_shader_->SetupProgram();
     assert(status);
 }
+
+ugdk::graphic::Texture* shadow_texture_ = nullptr;
 
 }
 
@@ -178,10 +182,35 @@ bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, 
     return shape->Intersects(position, &c, point);
 }
 
+void DrawShadows(const Geometry& geometry, const VisualEffect& effect) {
+    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
+    shader_use.SendGeometry(geometry);
+    shader_use.SendEffect(effect);
+    shader_use.SendTexture(0, shadow_texture_);
+    
+    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    {
+        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
+        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
+        vertex_data[0 * 2 + 0] = 0.0f; // near left
+        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(shadow_texture_->height());
+        
+        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(shadow_texture_->width()); // near right
+        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(shadow_texture_->height());
+        
+        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(shadow_texture_->width()); // far right
+        vertex_data[2 * 2 + 1] = 0.0f;
+
+        vertex_data[3 * 2 + 0] = 0.0f; // far left
+        vertex_data[3 * 2 + 1] = 0.0f;
+    }
+    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
+    shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
+    glDrawArrays(GL_QUADS, 0, 4);
+}
+
 void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
     if(scene::World* world = utils::LevelManager::reference()->current_level()) {
-        world->content_node()->RenderLight(geometry, effect);
-
         if(sprite::WorldObject* hero = world->hero()) {
             auto opaque_class = world->visibility_manager()->Get("Opaque");
             geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
@@ -191,7 +220,6 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
             Geometry offset_geometry = geometry * world->content_node()->geometry();
             VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));
 
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             for(const collision::CollisionObject * obj : walls) {
                 std::list<Vector2D> vertices;
                 if(const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
@@ -220,9 +248,28 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
                 CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), extremes.front(), extremes.back());
             }
         }
+        graphic::manager()->SaveBackbufferToTexture(shadow_texture_);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+
+        DrawShadows(geometry, effect);
+
+        world->content_node()->RenderLight(geometry, effect);
+        
+        //glBlendFunc(GL_ZERO, GL_SRC_COLOR);
     }
 }
 
 ugdk::action::Scene* CreateHorusLightrenderingScene() {
+    auto screensize = graphic::manager()->video_size();
+    shadow_texture_ = ugdk::graphic::Texture::CreateRawTexture(screensize.x, screensize.y);
+    glBindTexture(GL_TEXTURE_2D, shadow_texture_->gltexture());
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
+    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, shadow_texture_->width(),
+        shadow_texture_->height(), 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
+    glBindTexture(GL_TEXTURE_2D, 0);
+
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
