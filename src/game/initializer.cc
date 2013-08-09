@@ -161,8 +161,8 @@ void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& ef
     math::Vector2D left_vector = (left_point - from).Normalize();
     math::Vector2D right_vector = (right_point - from).Normalize();
 
-    static const double near_distance = 0.07;
-    static const double far_distance = 40.0;
+    static const double near_distance = 0.1;
+    static const double far_distance = 100.0;
 
     DrawQuadrilateral(
         left_point + left_vector * far_distance, // far left
