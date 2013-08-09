@@ -118,7 +118,8 @@ void AddVisionObstacles (Room* room, Map& map) {
                     another.h = true;
                 }
                 AddObstacle(room, 1.0*j+(width-1)/2.0, 1.0*i, 1.0*width, 1.0);
-            } else if (!cell.v) {
+            }
+            if (!cell.v) {
                 cell.v = true;
                 size_t height = 1;
                 for (size_t k = i+1; k < map.size(); ++k) {
