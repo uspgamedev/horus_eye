@@ -72,11 +72,14 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     col->InitializeCollisionClass("Wall");
     col->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
     
-    CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
-    vis->InitializeCollisionClass("Opaque");
-    vis->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
+    //CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
+    //vis->InitializeCollisionClass("Opaque");
+    //vis->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
+      
+    //wobj->AddComponent(new Shape(col, vis));
 
-    wobj->AddComponent(new Shape(col, vis));
+    wobj->AddComponent(new Shape(col, nullptr));
+
     return wobj;
 }
 

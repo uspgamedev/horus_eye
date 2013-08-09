@@ -115,15 +115,8 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
                 continue;
             }
             {
-                Tile tile(y, x, *it);
-                ObjectDescriptor descriptor(string(1, tile.object()), arguments[y][x], Vector2D(x, y), tags[y][x]);
+                ObjectDescriptor descriptor(string(1, *it), arguments[y][x], Vector2D(x, y), tags[y][x]);
                 objects.push_back(descriptor);
-
-                /*if(tile.has_floor()) {
-                    ugdk::graphic::Node* floor = new ugdk::graphic::Node(new GiantFloor(room->size()));
-                    floor->geometry().set_offset(core::FromWorldCoordinates(descriptor.position));
-                    room->floor()->AddChild(floor);
-                }*/
             }
 
             ++x;
