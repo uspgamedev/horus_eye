@@ -78,51 +78,24 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
     shader_use.SendEffect(effect);
     shader_use.SendTexture(0, graphic::manager()->white_texture());
 
-    GLfloat vertex_data[] = { 
-         53.0f,  0.0f, 
-        106.0f, 26.0f, 
-         53.0f, 52.0f,
-          0.0f, 26.0f 
-    };
-    vertex_data[0 * 2 + 0] = core::FromWorldCoordinates(p1).x; // top
-    vertex_data[0 * 2 + 1] = core::FromWorldCoordinates(p1).y;
-    vertex_data[1 * 2 + 0] = core::FromWorldCoordinates(p2).x; // right
-    vertex_data[1 * 2 + 1] = core::FromWorldCoordinates(p2).y;
-    vertex_data[2 * 2 + 0] = core::FromWorldCoordinates(p3).x; // bottom
-    vertex_data[2 * 2 + 1] = core::FromWorldCoordinates(p3).y;
-    vertex_data[3 * 2 + 0] = core::FromWorldCoordinates(p4).x; // left
-    vertex_data[3 * 2 + 1] = core::FromWorldCoordinates(p4).y;
-    GLfloat uv_data[] = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
-    };
-    opengl::VertexBuffer* vertexbuffer_ = opengl::VertexBuffer::Create(sizeof(vertex_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    opengl::VertexArray vertexbuffer_(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
-        opengl::VertexBuffer::Bind bind(*vertexbuffer_);
-        opengl::VertexBuffer::Mapper mapper(*vertexbuffer_);
-
-        GLfloat *indices = static_cast<GLfloat*>(mapper.get());
-        if (indices)
-            memcpy(indices, vertex_data, sizeof(vertex_data));
+        opengl::VertexBuffer::Mapper mapper(vertexbuffer_);
+        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
+        vertex_data[0 * 2 + 0] = core::FromWorldCoordinates(p1).x; // top
+        vertex_data[0 * 2 + 1] = core::FromWorldCoordinates(p1).y;
+        vertex_data[1 * 2 + 0] = core::FromWorldCoordinates(p2).x; // right
+        vertex_data[1 * 2 + 1] = core::FromWorldCoordinates(p2).y;
+        vertex_data[2 * 2 + 0] = core::FromWorldCoordinates(p3).x; // bottom
+        vertex_data[2 * 2 + 1] = core::FromWorldCoordinates(p3).y;
+        vertex_data[3 * 2 + 0] = core::FromWorldCoordinates(p4).x; // left
+        vertex_data[3 * 2 + 1] = core::FromWorldCoordinates(p4).y;
     }
-    opengl::VertexBuffer* uvbuffer_ = opengl::VertexBuffer::Create(sizeof(uv_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-    {
-        opengl::VertexBuffer::Bind bind(*uvbuffer_);
-        opengl::VertexBuffer::Mapper mapper(*uvbuffer_);
+    const opengl::VertexBuffer* uvbuffer_ = opengl::VertexBuffer::CreateDefault();
 
-        GLfloat *indices = static_cast<GLfloat*>(mapper.get());
-        if (indices)
-            memcpy(indices, uv_data, sizeof(uv_data));
-    }
-
-    shader_use.SendVertexBuffer(vertexbuffer_, opengl::VERTEX, 0);
+    shader_use.SendVertexBuffer(&vertexbuffer_, opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(uvbuffer_, opengl::TEXTURE, 0);
     glDrawArrays(GL_QUADS, 0, 4);
-
-    delete vertexbuffer_;
-    delete uvbuffer_;
 }
 
 void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& effect, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
