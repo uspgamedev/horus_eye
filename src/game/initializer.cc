@@ -251,11 +251,10 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
         graphic::manager()->SaveBackbufferToTexture(shadow_texture_);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        DrawShadows(geometry, effect);
-
         world->content_node()->RenderLight(geometry, effect);
         
-        //glBlendFunc(GL_ZERO, GL_SRC_COLOR);
+        glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+        DrawShadows(geometry, effect);
     }
 }
 
