@@ -224,7 +224,7 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
             collision::CollisionObjectList walls;
             opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
-            Geometry offset_geometry = geometry * world->content_node()->geometry();
+            Geometry offset_geometry = geometry * world->camera();
             VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));
 
             for(const collision::CollisionObject * obj : walls) {

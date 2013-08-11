@@ -71,7 +71,7 @@ bool VerifyCheats(double dt) {
             hero->set_world_position(core::FromScreenCoordinates(input->GetMousePosition()));
     }
 
-    ugdk::graphic::Geometry& modifier = world->content_node()->geometry();
+    ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
     {
         math::Vector2D scale(1.0);
         if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
@@ -92,15 +92,6 @@ bool VerifyCheats(double dt) {
         }
     }*/
 
-    return true;
-}
-
-bool UpdateOffset(double dt) {
-    World* world = WORLD();
-    auto mgr = ugdk::graphic::manager();
-    Vector2D result = mgr->video_size()*0.5;
-    if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->geometry().CalculateScale().x;
-    world->content_node()->geometry().set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
     return true;
 }
 
@@ -139,7 +130,6 @@ World::World(const ugdk::math::Integer2D& size)
 
     // Graphic
     hud_(nullptr),
-    content_node_(new graphic::Node) ,
 
     // Hero
     hero_(nullptr)
@@ -153,11 +143,17 @@ World::World(const ugdk::math::Integer2D& size)
 //#ifdef DEBUG
     this->AddTask(VerifyCheats);
 //#endif
-    this->AddTask(UpdateOffset, 1.0);
+    this->AddTask([this](double) {
+        Vector2D result = ugdk::graphic::manager()->video_size()*0.5;
+        if(hero_)
+            result -= core::FromWorldCoordinates(hero_->world_position()) 
+                                * camera_.CalculateScale().x;
+        camera_.set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
+    }, 1.0);
 
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
-        graphic::Geometry camera_geometry = geometry * content_node()->geometry();
+        graphic::Geometry camera_geometry = geometry * this->camera_;
         for(const map::Room* room : active_rooms_)
             room->Render(camera_geometry, effect);
         //content_node()->Render(geometry, effect);
@@ -227,7 +223,7 @@ void World::SetupCollisionManager() {
 }
     
 void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
-    graphic::Geometry camera_geometry = geometry * content_node()->geometry();
+    graphic::Geometry camera_geometry = geometry * camera_;
     for(const map::Room* room : active_rooms_)
         room->RenderLight(camera_geometry, effect);
 }

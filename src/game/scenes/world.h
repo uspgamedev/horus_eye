@@ -6,6 +6,7 @@
 #include <vector>
 #include <unordered_map>
 #include <ugdk/action/scene.h>
+#include <ugdk/graphic/geometry.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/math/integer2D.h>
 #include <ugdk/structure/intervalkdtree.h>
@@ -63,12 +64,10 @@ class World : public ugdk::action::Scene {
     const map::Room* GetRoom(const std::string& name) const { return findRoom(name); }
 
     //getters
-    sprite::WorldObject * hero() const { return hero_; }
-
     const ugdk::math::Integer2D& size() const { return size_; }
+    const ugdk::graphic::Geometry& camera() const { return camera_; }
+    sprite::WorldObject* hero() const { return hero_; }
     //const std::set<map::Room*>& active_rooms() const { return active_rooms_; }
-
-    ugdk::graphic::Node* content_node() const { return content_node_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
@@ -93,7 +92,7 @@ class World : public ugdk::action::Scene {
 
     // Graphic
     utils::Hud *hud_;
-    ugdk::graphic::Node* content_node_;
+    ugdk::graphic::Geometry camera_;
 
     // Hero
     sprite::WorldObject *hero_;
