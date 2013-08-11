@@ -111,10 +111,10 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
-World::World() 
+World::World(const ugdk::math::Integer2D& size) 
     :   Scene(),
         hero_(NULL),
-        size_(10, 10),
+        size_(size),
         level_state_(LevelManager::NOT_FINISHED),
         collision_manager_(NULL),
         visibility_manager_(NULL),
@@ -148,11 +148,14 @@ World::World()
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         this->hud_->node()->Render(geometry, effect);
     });
+
+    SetupCollisionManager();
 }
 
 // Destrutor
 World::~World() {
-    if(collision_manager_) delete collision_manager_;
+    delete collision_manager_;
+    delete visibility_manager_;
 }
 
 void World::Start() {

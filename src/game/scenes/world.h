@@ -30,7 +30,7 @@ namespace scene {
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
-    World();
+    World(const ugdk::math::Integer2D& size);
     virtual ~World();
 
     void set_hero_initial_data(const std::string& room, const ugdk::math::Vector2D& pos) { 
@@ -41,8 +41,6 @@ class World : public ugdk::action::Scene {
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
     }
-
-    void SetupCollisionManager();
 
     void Start();
     void End();
@@ -81,6 +79,7 @@ class World : public ugdk::action::Scene {
     }
 
   protected:
+    void SetupCollisionManager();
     map::Room* findRoom(const std::string& name) const;
     bool updateRooms(double dt);
     void removeAllRooms();

@@ -29,11 +29,10 @@ void LoadLevel(const std::string& campaign, const std::string& name, scene::Worl
     if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["start_position"]) 
         return;
 
-    scene::World* world = *world_ptr = new scene::World;
-
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
-    world->set_size(Integer2D(width, height));
+
+    scene::World* world = *world_ptr = new scene::World(Integer2D(width, height));
 
     world->SetupCollisionManager();
 
