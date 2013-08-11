@@ -144,15 +144,6 @@ World::World(const ugdk::math::Integer2D& size)
     // Hero
     hero_(nullptr)
 {
-    //content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
-    layers_[BACKGROUND_LAYER] = new graphic::Node;
-    layers_[FOREGROUND_LAYER] = new graphic::Node;
-    layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
-    layers_[FOREGROUND_LAYER]->set_zindex(FOREGROUND_LAYER);
-
-    content_node()->AddChild(layers_[BACKGROUND_LAYER]);
-    content_node()->AddChild(layers_[FOREGROUND_LAYER]);
-
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
 

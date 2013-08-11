@@ -72,24 +72,12 @@ class World : public ugdk::action::Scene {
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
-    
-    //setters
-    void set_size(const ugdk::math::Integer2D& _size) { size_ = _size; }
-
-    ugdk::graphic::Node** layers() {
-        return layers_;
-    }
-
-    ugdk::graphic::Node* layer_node(GameLayer layer) { 
-        return layers_[layer];
-    }
 
   protected:
     void SetupCollisionManager();
     map::Room* findRoom(const std::string& name) const;
     bool updateRooms(double dt);
     void removeAllRooms();
-
 
     // World Layout
     ugdk::math::Integer2D size_;
@@ -106,7 +94,6 @@ class World : public ugdk::action::Scene {
     // Graphic
     utils::Hud *hud_;
     ugdk::graphic::Node* content_node_;
-    ugdk::graphic::Node *layers_[2];
 
     // Hero
     sprite::WorldObject *hero_;
