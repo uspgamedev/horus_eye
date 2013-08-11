@@ -222,6 +222,9 @@ void World::AddRoom(map::Room* room) {
     if(room && !room->name().empty()) {
         room->DefineLevel(this);
         rooms_[room->name()] = room;
+        rooms_by_location_.Insert(
+            Box<2>(Vector2D(room->position()), Vector2D(room->position() + room->size())),
+            room);
     }
 }
 
@@ -257,19 +260,20 @@ bool World::IsRoomActive(const map::Room* room) const {
 
 map::Room* World::findRoom(const std::string& name) const {
     std::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
-    if(it == rooms_.end()) return NULL;
+    if(it == rooms_.end()) return nullptr;
     return it->second;
 }
 
 bool World::updateRooms(double dt) {
-    for(std::list<map::Room*>::const_iterator it = active_rooms_.begin(); it != active_rooms_.end(); ++it)
-        (*it)->Update(dt);
+    for(map::Room* room : active_rooms_)
+        room->Update(dt);
     return true;
 }
 
 void World::removeAllRooms() {
-    for(std::unordered_map<std::string, map::Room*>::iterator it = rooms_.begin(); it != rooms_.end(); ++it)
-        delete it->second;
+    rooms_by_location_.Clear();
+    for(const auto& it : rooms_)
+        delete it.second;
     rooms_.clear();
     active_rooms_.clear();
 }
