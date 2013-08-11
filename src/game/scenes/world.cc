@@ -33,6 +33,7 @@ namespace scene {
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
+using ugdk::structure::Box;
 using std::bind;
 using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
@@ -112,16 +113,24 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
 }
 
 World::World(const ugdk::math::Integer2D& size) 
-    :   Scene(),
-        hero_(NULL),
-        size_(size),
-        level_state_(LevelManager::NOT_FINISHED),
-        collision_manager_(NULL),
-        visibility_manager_(NULL),
-        content_node_(new graphic::Node) {
+  :   
+    // World Layout
+    size_(size),
+    rooms_by_location_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size)), 4),
 
+    // Game logic
+    level_state_(LevelManager::NOT_FINISHED),
+    collision_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
+    visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
+
+    // Graphic
+    hud_(nullptr),
+    content_node_(new graphic::Node) ,
+
+    // Hero
+    hero_(nullptr)
+{
     //content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
-
     layers_[BACKGROUND_LAYER] = new graphic::Node;
     layers_[FOREGROUND_LAYER] = new graphic::Node;
     layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
@@ -154,8 +163,6 @@ World::World(const ugdk::math::Integer2D& size)
 
 // Destrutor
 World::~World() {
-    delete collision_manager_;
-    delete visibility_manager_;
 }
 
 void World::Start() {
@@ -193,29 +200,22 @@ void World::SetHero(sprite::WorldObject *hero) {
 }
 
 void World::SetupCollisionManager() {
-    ugdk::math::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
-    ugdk::structure::Box<2> box(min_coords, max_coords);
-    collision_manager_ = new pyramidworks::collision::CollisionManager(box);
+    collision_manager_.Generate("Creature");
+    collision_manager_.Generate("Hero", "Creature");
+    collision_manager_.Generate("Mummy", "Creature");
 
-    collision_manager_->Generate("WorldObject");
+    collision_manager_.Generate("Wall");
+    collision_manager_.Generate("Block", "Wall");
+    collision_manager_.Generate("Door", "Wall");
 
-    collision_manager_->Generate("Creature", "WorldObject");
-    collision_manager_->Generate("Hero", "Creature");
-    collision_manager_->Generate("Mummy", "Creature");
+    collision_manager_.Generate("Item");
+    collision_manager_.Generate("Projectile");
+    collision_manager_.Generate("Button");
+    collision_manager_.Generate("Explosion");
 
-    collision_manager_->Generate("Wall", "WorldObject");
-    collision_manager_->Generate("Block", "Wall");
-    collision_manager_->Generate("Door", "Wall");
-
-    collision_manager_->Generate("Item", "WorldObject");
-    collision_manager_->Generate("Projectile", "WorldObject");
-    collision_manager_->Generate("Button", "WorldObject");
-    collision_manager_->Generate("Explosion", "WorldObject");
-
-    this->AddTask(collision_manager_->GenerateHandleCollisionTask());
+    this->AddTask(collision_manager_.GenerateHandleCollisionTask());
     
-    visibility_manager_ = new pyramidworks::collision::CollisionManager(box);
-    visibility_manager_->Generate("Opaque");
+    visibility_manager_.Generate("Opaque");
 }
 
 void World::AddRoom(map::Room* room) {

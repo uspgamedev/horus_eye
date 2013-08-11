@@ -7,7 +7,9 @@
 #include <ugdk/action/scene.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/math/integer2D.h>
+#include <ugdk/structure/intervalkdtree.h>
 #include <pyramidworks/collision.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/map.h"
 #include "game/components.h"
@@ -64,8 +66,8 @@ class World : public ugdk::action::Scene {
 
     ugdk::graphic::Node* content_node() const { return content_node_; }
 
-    pyramidworks::collision::CollisionManager* collision_manager() { return collision_manager_; }
-    pyramidworks::collision::CollisionManager* visibility_manager() { return visibility_manager_; }
+    pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
+    pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
     
     //setters
     void set_size(const ugdk::math::Integer2D& _size) { size_ = _size; }
@@ -84,20 +86,26 @@ class World : public ugdk::action::Scene {
     bool updateRooms(double dt);
     void removeAllRooms();
 
-    sprite::WorldObject *hero_;
 
-    utils::Hud *hud_;
+    // World Layout
     ugdk::math::Integer2D size_;
     std::unordered_map<std::string, map::Room*> rooms_;
     std::list<map::Room*> active_rooms_;
+    ugdk::structure::ikdtree::IntervalKDTree<map::Room*, 2> rooms_by_location_;
 
   private:
+    // Game logic
     utils::LevelManager::LevelState level_state_;
-    pyramidworks::collision::CollisionManager* collision_manager_;
-    pyramidworks::collision::CollisionManager* visibility_manager_;
+    pyramidworks::collision::CollisionManager collision_manager_;
+    pyramidworks::collision::CollisionManager visibility_manager_;
+
+    // Graphic
+    utils::Hud *hud_;
     ugdk::graphic::Node* content_node_;
     ugdk::graphic::Node *layers_[2];
 
+    // Hero
+    sprite::WorldObject *hero_;
     std::string hero_initial_room_;
     ugdk::math::Vector2D hero_initial_position_;
 
