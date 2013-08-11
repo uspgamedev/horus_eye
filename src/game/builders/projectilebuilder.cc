@@ -3,7 +3,7 @@
 #include <cmath>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/common/types.h>
+#include <ugdk/structure/types.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>

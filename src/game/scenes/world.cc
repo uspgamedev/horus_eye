@@ -11,7 +11,7 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/time/module.h>
 #include <ugdk/input/module.h>
-#include <ugdk/util/intervalkdtree.h>
+#include <ugdk/structure/intervalkdtree.h>
 
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
@@ -190,7 +190,7 @@ void World::SetHero(sprite::WorldObject *hero) {
 
 void World::SetupCollisionManager() {
     ugdk::math::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
-    ugdk::ikdtree::Box<2> box(min_coords.val, max_coords.val);
+    ugdk::structure::Box<2> box(min_coords, max_coords);
     collision_manager_ = new pyramidworks::collision::CollisionManager(box);
 
     collision_manager_->Generate("WorldObject");

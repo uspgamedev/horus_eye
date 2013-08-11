@@ -5,7 +5,7 @@
 #include <map>
 #include <ugdk/action.h>
 #include <ugdk/action/spritetypes.h>
-#include <ugdk/common/types.h>
+#include <ugdk/structure/types.h>
 #include "game/components/direction.h"
 
 namespace utils {

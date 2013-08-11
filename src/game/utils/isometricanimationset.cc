@@ -5,7 +5,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/util/indexabletable.h>
+#include <ugdk/structure/indexabletable.h>
 
 using ugdk::math::Vector2D;
 using component::Direction;

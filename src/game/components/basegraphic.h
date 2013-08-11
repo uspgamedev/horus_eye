@@ -3,7 +3,7 @@
 
 #include "game/components/base.h"
 
-#include <ugdk/common/types.h>
+#include <ugdk/structure/types.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
 #include <ugdk/math/vector2D.h>

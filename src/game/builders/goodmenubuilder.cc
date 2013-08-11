@@ -16,7 +16,7 @@
 #include <ugdk/graphic/drawable/label.h>
 #include <ugdk/ui/menu.h>
 #include <ugdk/ui/button.h>
-#include <ugdk/util/intervalkdtree.h>
+#include <ugdk/structure/intervalkdtree.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 
@@ -74,10 +74,9 @@ Scene* PauseMenu() {
     pause_menu->set_focus_callback(MenuFocus);
     pause_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
-    ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
+    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
     for(int i = 0; i < 2; ++i) {
         ugdk::graphic::Sprite* sprite = mif.HorusEye();
         pause_menu->media_manager().AddPlayer(&sprite->animation_player());
@@ -118,10 +117,9 @@ Scene* CampaignMenu() {
     mission_menu->set_focus_callback(MenuFocus);
     mission_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
-    ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
+    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
     for(int i = 0; i < 2; ++i) {
         ugdk::graphic::Sprite* sprite = mif.HorusEye();
         mission_menu->media_manager().AddPlayer(&sprite->animation_player());
@@ -190,7 +188,6 @@ Scene* MainMenu() {
     main_menu->set_defocus_callback(MenuDeFocus);
 
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
-    ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
     ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/logo_560x334_black.png"));
@@ -208,7 +205,7 @@ Scene* MainMenu() {
     Node* developed_by_node = new Node(developed_by);
     developed_by_node->geometry().set_offset(ugdk::graphic::manager()->video_size() + Vector2D(-15.0, 0.0));
 
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
+    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
     for(int i = 0; i < 2; ++i) {
         ugdk::graphic::Sprite* sprite = mif.HorusEye();
         main_menu->media_manager().AddPlayer(&sprite->animation_player());
@@ -377,10 +374,9 @@ static void ApplySettings(const Button * source) {
 Scene* SettingsMenu() {
     ugdk::action::Scene* settings_menu = new Scene();
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
-    ugdk::ikdtree::Box<2> box(origin.val, target.val);
     utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(box, Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
+    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
     for(int i = 0; i < 2; ++i) {
         ugdk::graphic::Sprite* sprite = mif.HorusEye();
         settings_menu->media_manager().AddPlayer(&sprite->animation_player());
