@@ -112,10 +112,24 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
+bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
+    Vector2D ap = core::FromWorldCoordinates(a->position()), bp = core::FromWorldCoordinates(b->position());
+    if(ap.y < bp.y)
+        return true;
+    if(ap.y == bp.y) {
+        if(ap.x < bp.x)
+            return true;
+        if(ap.x == bp.x)
+            return a < b;
+    }
+    return false;
+}
+
 World::World(const ugdk::math::Integer2D& size) 
   :   
     // World Layout
     size_(size),
+    active_rooms_(RoomCompareByPositionAndPointer),
     rooms_by_location_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size)), 4),
 
     // Game logic
@@ -152,7 +166,10 @@ World::World(const ugdk::math::Integer2D& size)
 
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
-        content_node()->Render(geometry, effect);
+        graphic::Geometry camera_geometry = geometry * content_node()->geometry();
+        for(const map::Room* room : active_rooms_)
+            room->Render(camera_geometry, effect);
+        //content_node()->Render(geometry, effect);
         
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         this->hud_->node()->Render(geometry, effect);
@@ -217,6 +234,12 @@ void World::SetupCollisionManager() {
     
     visibility_manager_.Generate("Opaque");
 }
+    
+void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
+    graphic::Geometry camera_geometry = geometry * content_node()->geometry();
+    for(const map::Room* room : active_rooms_)
+        room->RenderLight(camera_geometry, effect);
+}
 
 void World::AddRoom(map::Room* room) {
     if(room && !room->name().empty()) {
@@ -231,22 +254,14 @@ void World::AddRoom(map::Room* room) {
 void World::ActivateRoom(const std::string& name) {
     map::Room* room = rooms_[name];
     if(room && !IsRoomActive(room)) {
-        active_rooms_.push_back(room);
-        layer_node(BACKGROUND_LAYER)->AddChild(room->floor());
-        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            if((*it)->graphic())
-                (*it)->graphic()->InsertIntoLayers(layers());
+        active_rooms_.insert(room);
     }
 }
 
 void World::DeactivateRoom(const std::string& name) {
     map::Room* room = findRoom(name);
     if(room && IsRoomActive(room)) {
-        active_rooms_.remove(room);
-        layer_node(BACKGROUND_LAYER)->RemoveChild(room->floor());
-        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            if((*it)->graphic())
-                (*it)->graphic()->RemoveFromLayers(layers());
+        active_rooms_.erase(room);
     }
 }
 
@@ -256,6 +271,13 @@ bool World::IsRoomActive(const std::string& name) const {
 
 bool World::IsRoomActive(const map::Room* room) const {
     return std::find(active_rooms_.begin(), active_rooms_.end(), room) != active_rooms_.end();
+}
+    
+map::Room* World::FindRoomFromPoint(const math::Vector2D& point) const {
+    std::list<map::Room*> results;
+    rooms_by_location_.FindIntersectingItems(Box<2>(point, point), std::back_inserter(results));
+    assert(results.size() <= 1);
+    return results.front();
 }
 
 map::Room* World::findRoom(const std::string& name) const {

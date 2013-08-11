@@ -231,8 +231,10 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
                 std::list<Vector2D> vertices;
                 if(const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
                     // OH YEAHHHHHH
-                    math::Vector2D top_left = obj->absolute_position() + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
-                    math::Vector2D bottom_right = obj->absolute_position() - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+                    math::Vector2D top_left = obj->absolute_position() 
+                        + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+                    math::Vector2D bottom_right = obj->absolute_position() 
+                        - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
 
                     vertices.emplace_back(    top_left.x,     top_left.y);
                     vertices.emplace_back(bottom_right.x,     top_left.y);
@@ -258,7 +260,7 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
         graphic::manager()->SaveBackbufferToTexture(shadow_texture_);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        world->content_node()->RenderLight(geometry, effect);
+        world->RenderLight(geometry, effect);
         
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         DrawShadows(shadow_texture_, geometry, effect);

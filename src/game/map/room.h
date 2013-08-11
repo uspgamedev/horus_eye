@@ -27,6 +27,8 @@ class Room {
     ~Room();
 
     void Update(double dt);
+    void Render(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
+    void RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
 
     /** Adds the object to the room. 
     Objects are added only at the end of a room's Update, unless the room hasn't been added to a World. */
@@ -65,6 +67,7 @@ class Room {
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::math::Integer2D& position() const { return position_; }
     ugdk::graphic::Node* floor() const { return floor_; }
+    scene::World* level() const { return level_; }
 
     typedef std::list<sprite::WorldObject*>::const_iterator WObjListConstIterator;
     WObjListConstIterator begin() const { return objects_.begin(); } 
@@ -82,6 +85,7 @@ class Room {
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
     ugdk::graphic::Node* floor_;
+    ugdk::graphic::Node *layers_[2];
     ugdk::script::VirtualObj recipes_;
 
     scene::World* level_;

@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_SCENES_WORLD_H_
 
 #include <list>
+#include <set>
 #include <vector>
 #include <unordered_map>
 #include <ugdk/action/scene.h>
@@ -50,19 +51,22 @@ class World : public ugdk::action::Scene {
     void Focus();
     void DeFocus();
 
+    void RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
+
     void AddRoom(map::Room* room);
     void ActivateRoom(const std::string& name);
     void DeactivateRoom(const std::string& name);
     bool IsRoomActive(const std::string& name) const;
     bool IsRoomActive(const map::Room*) const;
 
+    map::Room* FindRoomFromPoint(const ugdk::math::Vector2D& point) const;
     const map::Room* GetRoom(const std::string& name) const { return findRoom(name); }
 
     //getters
     sprite::WorldObject * hero() const { return hero_; }
 
     const ugdk::math::Integer2D& size() const { return size_; }
-    const std::list<map::Room*>& active_rooms() const { return active_rooms_; }
+    //const std::set<map::Room*>& active_rooms() const { return active_rooms_; }
 
     ugdk::graphic::Node* content_node() const { return content_node_; }
 
@@ -90,7 +94,7 @@ class World : public ugdk::action::Scene {
     // World Layout
     ugdk::math::Integer2D size_;
     std::unordered_map<std::string, map::Room*> rooms_;
-    std::list<map::Room*> active_rooms_;
+    std::set<map::Room*, std::function<bool (map::Room*, map::Room*)>> active_rooms_;
     ugdk::structure::ikdtree::IntervalKDTree<map::Room*, 2> rooms_by_location_;
 
   private:
