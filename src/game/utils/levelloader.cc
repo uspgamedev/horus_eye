@@ -21,17 +21,21 @@ Vector2D VobjsToVector2D(VirtualObj x, VirtualObj y) {
     return Vector2D(x.value<double>(), y.value<double>());
 }
 
-void LevelLoader::Load(const std::string& campaign, const std::string& name) {
+void LoadLevel(const std::string& campaign, const std::string& name, scene::World** world_ptr) {
+    *world_ptr = nullptr;
     VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("campaigns." + campaign + ".levels." + name);
     if(!level_data) return;
 
-    if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["start_position"]) return;
+    if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["start_position"]) 
+        return;
+
+    scene::World* world = *world_ptr = new scene::World;
 
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
-    world_->set_size(Integer2D(width, height));
+    world->set_size(Integer2D(width, height));
 
-    world_->SetupCollisionManager();
+    world->SetupCollisionManager();
 
     VirtualObj::List rooms = level_data["rooms"].value<VirtualObj::List>();
     for(VirtualObj::List::iterator it = rooms.begin(); it != rooms.end(); ++it) {
@@ -47,19 +51,17 @@ void LevelLoader::Load(const std::string& campaign, const std::string& name) {
             room = map::LoadRoom(name, campaign, Integer2D(x, y));
         
         if(room) {
-            world_->AddRoom(room);
+            world->AddRoom(room);
         } else {
             printf("Room '%s' could not be loaded.\n", name.c_str());
         }
     }
 
     VirtualObj::Vector start_position = level_data["start_position"].value<VirtualObj::Vector>();
-    world_->set_hero_initial_data(start_position[0].value<std::string>(), VobjsToVector2D(start_position[1], start_position[2]));
-
-    world_->SetHero(builder::HeroBuilder::Kha());
+    world->set_hero_initial_data(start_position[0].value<std::string>(), VobjsToVector2D(start_position[1], start_position[2]));
 
     if(level_data["music"] && utils::Settings::reference()->background_music())
-        world_->set_background_music(ugdk::audio::manager()->LoadMusic(level_data["music"].value<std::string>()));
+        world->set_background_music(ugdk::audio::manager()->LoadMusic(level_data["music"].value<std::string>()));
 }
 
 } // namespace utils

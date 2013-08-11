@@ -26,6 +26,7 @@
 #include "game/components/shape.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
+#include "game/initializer.h"
 
 namespace scene {
 
