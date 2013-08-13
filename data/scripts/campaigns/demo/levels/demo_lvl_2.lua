@@ -114,13 +114,13 @@ divergence = {
 %%.......%%
 ...........
 ...........
-%%.......##
-%.........#
-%.........#
-%%.......##
-%.........#
+%%...%...##
+%....%....#
 %.........#
 %%.......##
+%.........#
+%....%....#
+%%...%...##
 ..........#
 ..........#
 ##.......##
@@ -128,32 +128,6 @@ divergence = {
 ]],
   objects = {},
   recipes = {
-    --["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
-    --TODO: Modularizar o teco abaixo se a gente for usar mais
-    --["spike-exit-event"] = {
-    --  property = "event_region",
-    --  params = {
-    --    shape = pyramidworks_geometry.Rect(1.0, 2.0),
-    --    callback = function (region)
-    --      local room = region:current_room()
-    --      context.ActivateRoom "spike_room"
-    --      room:WorldObjectByTag("SPIKEDOOR-1"):Die()
-    --      room:WorldObjectByTag("SPIKEDOOR-2"):Die()
-    --    end
-    --  }
-    --},
-    --["fireball-exit-event"] = {
-    --  property = "event_region",
-    --  params = {
-    --    shape = pyramidworks_geometry.Rect(1.0, 2.0),
-    --    callback = function (region)
-    --      local room = region:current_room()
-    --      context.ActivateRoom "fireball_room"
-    --      room:WorldObjectByTag("FIREDOOR-1"):Die()
-    --      room:WorldObjectByTag("FIREDOOR-2"):Die()
-    --    end
-    --  }
-    --},
     ["urn"] = { property = "urn" },
     ["spike-door"] = {
       property = "open-door",
