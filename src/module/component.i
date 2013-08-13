@@ -44,6 +44,8 @@ proxy_class(component::Base)
 enable_disown(pyramidworks::collision::CollisionObject* col)
 enable_disown(component::Base* component)
 
+%include <game/scenes/gamelayer.h>
+%include <game/utils/isometricanimationset.h>
 %include <game/sprites/effect.h>
 %include <game/sprites/worldobject.h>
 
