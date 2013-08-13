@@ -162,17 +162,24 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
 }
 
 void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& effect, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
-    math::Vector2D left_vector = (left_point - from).Normalize();
-    math::Vector2D right_vector = (right_point - from).Normalize();
+    using math::Vector2D;
+    Vector2D wall_dir = (right_point - left_point).Normalize();
+    Vector2D left_vector = left_point - from;
+    Vector2D right_vector = right_point - from;
 
-    static const double near_distance = 0.1;
-    static const double far_distance = 100.0;
+    static const double near_distance = 0.02;
+    static const double far_distance = 10.0;
+
+    double near_coef_left   = near_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
+    double near_coef_right  = near_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
+    double far_coef_left    = far_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
+    double far_coef_right   = far_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
 
     DrawQuadrilateral(
-        left_point + left_vector * far_distance, // far left
-        left_point + left_vector * near_distance, // near left
-        right_point + right_vector * near_distance, // near right
-        right_point + right_vector * far_distance, // far right
+        left_point  + left_vector   * far_coef_left, // far left
+        left_point  + left_vector   * near_coef_left, // near left
+        right_point + right_vector  * near_coef_right, // near right
+        right_point + right_vector  * far_coef_right, // far right
         from,
         geometry, effect);
 }
