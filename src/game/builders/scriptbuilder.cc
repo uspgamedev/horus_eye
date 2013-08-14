@@ -37,8 +37,11 @@ bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::stri
 }
 
 CollisionLogic ScriptCollision(VirtualObj logic, WorldObject* owner) {
+    assert(logic);
     return [logic, owner](const CollisionObject* obj) {
         WorldObject *another = dynamic_cast<WorldObject*>(obj->owner());
+        assert(logic.valid());
+        assert(logic.wrapper());
         VirtualObj  self (logic.wrapper()),
                     target (logic.wrapper());
         self.set_value<WorldObject*>(owner);
@@ -46,18 +49,6 @@ CollisionLogic ScriptCollision(VirtualObj logic, WorldObject* owner) {
         logic((self, target));
     };
 }
-
-class ScriptCollision {
-  public:
-    ScriptCollision (const VirtualObj& logic, WorldObject* obj) :
-        logic_(logic), self_(obj) {}
-    void operator () (void* data) {
-
-    }
-  private:
-    VirtualObj  logic_;
-    WorldObject *self_;
-};
 
 static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) {
     if(!check_for_fields(coldata, "class", "shape")) {

@@ -147,11 +147,20 @@ divergence = {
     ["mummy-spawn"] = {
       property = "spawn_region",
       params = {
+        shape = pyramidworks_geometry.Rect(4.0, 4.0),
         id = 42,
         tag = "Mummy",
         delay = 1.0,
-        shape = pyramidworks_geometry.Rect(4.0, 4.0),
         recipe = "mummy"
+      }
+    },
+    ["mummy"] = {
+      property = "event_mummy",
+      params = {
+        spritesheet = "mummy_basic",
+        life = constants.GetInt "MUMMY_LIFE",
+        radius = constants.GetDouble "MUMMY_RADIUS",
+        speed = constants.GetDouble "MUMMY_SPEED"
       }
     }
   },
@@ -160,6 +169,9 @@ divergence = {
     { "EventArea" }
   },
   setup = function(self)
+    self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 3))
+    self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 8))
+    self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 13))
     self:MakeRecipe("urn", ugdk_math.Vector2D(3, 1))
     self:MakeRecipe("urn", ugdk_math.Vector2D(3.5, 1))
     self:MakeRecipe("urn", ugdk_math.Vector2D(4, 1))
