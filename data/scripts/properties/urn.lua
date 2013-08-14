@@ -18,7 +18,8 @@ function build (wobj)
       class = "Wall",
       shape = Circle(0.15),
       known_collision = {
-        Projectile = function(self, obj) self:Die() end
+        Projectile = function(self, obj) self:Die() end,
+        Explosion = function(self, obj) self:Die() end
       }
     }
   }
