@@ -30,12 +30,12 @@ entrance = {
 %..............%
 %..............%
 %..............%
-%..............%
+%..%..%..%..%..%
 %...............
 %...............
 %...............
 %...............
-%..............#
+%..%..%..%..%..#
 %..............#
 %..............#
 %..............#
@@ -50,8 +50,8 @@ entrance = {
     { "Switch", "Wall" }
   },
   setup = function(self)
-    for i = 1,6 do
-      local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
+    for i = 1,12 do
+      local x,y = 1+i, 2
       for i = 1,math.random(3,4) do
         self:MakeRecipe("urn", ugdk_math.Vector2D(x+math.random()*2-1, y+math.random()*2-1))
       end
