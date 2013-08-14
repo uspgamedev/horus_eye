@@ -144,7 +144,16 @@ divergence = {
       }
     },
     ["closed-door"] = { property = "closed-door", params = { dir = "Right" } },
-    ["eventswitch"] = { property = "event_switch", params = { "DOOR-COUNTER" } }
+    ["mummy-spawn"] = {
+      property = "spawn_region",
+      params = {
+        id = 42,
+        tag = "Mummy",
+        delay = 1.0,
+        shape = pyramidworks_geometry.Rect(4.0, 4.0),
+        recipe = "mummy"
+      }
+    }
   },
   collision_classes = {
     { "Switch", "Wall" },

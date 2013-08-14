@@ -146,12 +146,12 @@ firstblood = {
       property = "delayed_spawner",
       params = {
         time = 0.5,
-        recipe = "event_mummy"
+        recipe = "surprise_mummy"
       }
     },
     
-    ["event_mummy"] = {
-      property = "event_mummy",
+    ["surprise_mummy"] = {
+      property = "trigger_mummy",
       params = {
         spritesheet = "mummy_basic",
         life = constants.GetInt "MUMMY_LIFE",
@@ -160,7 +160,6 @@ firstblood = {
         triggers = { "THE-DOOR-3", "THE-DOOR-4" }
       }
     },
-    
     ["entrance_event"] = {
       property = "event_region",
       params = {
