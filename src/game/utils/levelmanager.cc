@@ -50,7 +50,21 @@ std::wstring str_to_wstr(const std::string& arg);
 
 namespace utils {
 
+namespace {
+LevelManager* reference_ = nullptr;
+}
+
+LevelManager* LevelManager::reference() {
+    if(!reference_)
+        reference_ = new LevelManager;
+    return reference_;
+}
+
 LevelManager::LevelManager() {}
+
+LevelManager::~LevelManager() {
+    reference_ = nullptr;
+}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
@@ -144,8 +158,6 @@ void LevelManager::Finish() {
     if (loading_)
         delete loading_;
 }
-
-LevelManager::~LevelManager() {}
 
 void LevelManager::loadSpecificLevel(const std::string& level_name) {
     utils::LoadLevel(current_campaign_, level_name, &current_level_);

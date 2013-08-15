@@ -16,10 +16,8 @@ namespace utils {
 
 class LevelManager {
   public:
-    static LevelManager* reference() {
-        static LevelManager* r = new LevelManager();
-        return r;
-    }
+    static LevelManager* reference();
+    ~LevelManager();
     void Initialize();
 
     typedef enum {
@@ -39,16 +37,15 @@ class LevelManager {
 
     const std::string& current_campaign() const { return current_campaign_; }
 
-    scene::World* current_level() { return current_level_; }
+    scene::World* current_level() const { return current_level_; }
     void SetNextLevel(unsigned int id) { level_list_iterator_ = id; }
-    unsigned int GetNextLevelID() { return level_list_iterator_; }
+    unsigned int GetNextLevelID() const { return level_list_iterator_; }
 
     void LoadNextLevel();
     void Finish();
-    ~LevelManager();
 
     void QueueRestartGame() { restart_game_ = true; }
-    bool RestartGameQueued() { return restart_game_; }
+    bool RestartGameQueued() const { return restart_game_; }
 
     void ChangeCampaign(const std::string& name, const std::vector<std::string>& list) { 
         current_campaign_ = name;

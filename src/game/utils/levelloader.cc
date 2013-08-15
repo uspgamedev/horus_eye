@@ -34,6 +34,17 @@ void LoadLevel(const std::string& campaign, const std::string& name, scene::Worl
 
     scene::World* world = *world_ptr = new scene::World(Integer2D(width, height));
 
+    if(VirtualObj collision_classes = level_data["collision_classes"]) {
+        VirtualObj::Vector collision_classes_vector = collision_classes.value<VirtualObj::Vector>();
+        for(const VirtualObj& it : collision_classes_vector) {
+            VirtualObj::Vector collclass = it.value<VirtualObj::Vector>();
+            if (collclass.size() >= 2)
+                world->collision_manager()->Generate(collclass[0].value<std::string>(), collclass[1].value<std::string>());
+            else if (collclass.size() >= 1)
+                world->collision_manager()->Generate(collclass[0].value<std::string>());
+        }
+    }
+
     VirtualObj::List rooms = level_data["rooms"].value<VirtualObj::List>();
     for(VirtualObj::List::iterator it = rooms.begin(); it != rooms.end(); ++it) {
         VirtualObj::Vector room_data = it->value<VirtualObj::Vector>();
