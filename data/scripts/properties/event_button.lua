@@ -15,6 +15,7 @@ local function make_button ()
   button.graphic = component.Graphic("button", "animations/button.gdd")
   button.graphic:ChangeAnimation "OFF"
   button.graphic:set_layer(component.BACKGROUND_LAYER)
+  button.activated = false
   return button
 end
 
@@ -29,6 +30,7 @@ function build(wobj, params)
       known_collision = {
         Hero = function(self, obj)
           if not button.activated then
+            button.activated = true
             for _,trigger in pairs(params) do
               event.Activate(trigger)
             end

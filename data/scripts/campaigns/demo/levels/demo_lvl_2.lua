@@ -18,7 +18,7 @@ rooms = {
   {11, 2, "divergence"},
   {2, 12, "spike_room"},
   {22, 3, "fireball_room"},
-  --{roomsize * 3, 2, "firstblood"},
+  {8, 18, "central_room"},
   --{roomsize * 4, 5, "exit"}
 }
 
@@ -105,6 +105,7 @@ entrance = {
   end
 }
 
+event.Clear "DIVERGENCE-DOOR-COUNTER"
 divergence = {
   width = 11,
   height = 16,
@@ -170,6 +171,19 @@ divergence = {
     { "EventArea" }
   },
   setup = function(self)
+    local counter = 2
+    event.Register(
+      "DIVERGENCE-DOOR-COUNTER",
+      function ()
+        counter = counter - 1
+        if counter <= 0 then
+          for i=1,3 do
+            self:WorldObjectByTag("THE-LOCKED-DOOR-"..i):Die()
+          end
+          context.ActivateRoom "central_room"
+        end
+      end
+    )
     self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 3))
     self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 8))
     self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 13))
@@ -198,9 +212,9 @@ divergence = {
     self:MakeRecipe("fireball-door", ugdk_math.Vector2D(10, 4), "FIREDOOR-2")
     self:MakeRecipe("spike-door", ugdk_math.Vector2D(0, 12), "SPIKEDOOR-1")
     self:MakeRecipe("spike-door", ugdk_math.Vector2D(0, 13), "SPIKEDOOR-2")
-    self:MakeRecipe("closed-door", ugdk_math.Vector2D(4, 15), "NEXTDOOR-1")
-    self:MakeRecipe("closed-door", ugdk_math.Vector2D(5, 15), "NEXTDOOR-2")
-    self:MakeRecipe("closed-door", ugdk_math.Vector2D(6, 15), "NEXTDOOR-3")
+    self:MakeRecipe("closed-door", ugdk_math.Vector2D(4, 15), "THE-LOCKED-DOOR-1")
+    self:MakeRecipe("closed-door", ugdk_math.Vector2D(5, 15), "THE-LOCKED-DOOR-2")
+    self:MakeRecipe("closed-door", ugdk_math.Vector2D(6, 15), "THE-LOCKED-DOOR-3")
   end
 }
 
@@ -286,4 +300,28 @@ fireball_room = {
     self:MakeRecipe("eventbutton", ugdk_math.Vector2D(4,2.5))
     self:MakeRecipe("fireball-event", ugdk_math.Vector2D(4,2.5))
   end
+}
+
+central_room = {
+  width = 17,
+  height = 17,
+  matrix = [[
+%%%%%%%...%%%%%%%
+%%%%%%%...%%%%%%%
+%%%%.........%%%%
+%%%%.........%%%%
+%%.............%%
+%%.............%%
+%%.............%%
+.................
+.................
+.................
+%%.............%%
+%%.............%%
+%%.............%%
+%%%%.........%%%%
+%%%%.........%%%%
+%%%%%%%...%%%%%%%
+%%%%%%%...%%%%%%%
+]],
 }
