@@ -147,7 +147,7 @@ divergence = {
     ["mummy-spawn"] = {
       property = "spawn_region",
       params = {
-        shape = pyramidworks_geometry.Rect(4.0, 4.0),
+        shapefactory = function () return pyramidworks_geometry.Rect(4.0, 4.0) end,
         id = 42,
         tag = "Mummy",
         delay = 1.0,
@@ -166,6 +166,7 @@ divergence = {
   },
   collision_classes = {
     { "Switch", "Wall" },
+    { "Area" },
     { "EventArea" }
   },
   setup = function(self)

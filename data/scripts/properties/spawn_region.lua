@@ -7,6 +7,8 @@ require "component"
 require "context"
 require "builder"
 
+local Rect = pyramidworks_geometry.Rect
+
 local function make_region()
   local region = {}
   region.activated = false
@@ -21,7 +23,7 @@ function build (wobj, params)
   return {
     collision = {
       class = "EventArea",
-      shape = params.shape,
+      shape = params.shapefactory and params.shapefactory() or Rect(1.0, 1.0),
       known_collision = {
         Hero = function(self)
           if not activated then
