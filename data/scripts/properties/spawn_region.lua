@@ -40,12 +40,17 @@ function build (wobj, params)
     },
     on_die_callbacks = {
       function (self)
-        self:current_room():MakeRecipe(
-          params.recipe,
-          self:world_position(),
-          params.tag or "",
-          map.POSITION_ABSOLUTE
-        )
+        local n = params.multiple and #params.multiple or 1
+        for i=1,n do
+          local offset =
+            params.multiple and params.multiple[i] or ugdk_math.Vector2D()
+          self:current_room():MakeRecipe(
+            params.recipe,
+            self:world_position()+offset,
+            params.tag or "",
+            map.POSITION_ABSOLUTE
+          )
+        end
       end
     }
   }

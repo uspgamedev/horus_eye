@@ -302,6 +302,22 @@ fireball_room = {
   end
 }
 
+local function dual_spawner(offset)
+  return {
+    property = "spawn_region",
+    params = {
+      shapefactory = function () return pyramidworks_geometry.Rect(2.0, 2.0) end,
+      id = 64,
+      tag = "Mummy",
+      recipe = "mummy",
+      multiple = {
+        offset,
+        -offset,
+      }
+    }
+  }
+end
+
 central_room = {
   width = 17,
   height = 17,
@@ -315,13 +331,32 @@ central_room = {
 %%...%%...%%...%%
 .................
 .................
-.................
+......M...M......
 %%...%%...%%...##
 %%....%...%....##
 %%.............##
 %%%%.........####
-%%%%.........####
+%%%%..M...M..####
 %%%%%%%...#######
 %%%%%%%...#######
 ]],
+  recipes = {
+    ["horizontal-mummy-spawn"] = dual_spawner(ugdk_math.Vector2D(4, 0)),
+    ["vertical-mummy-spawn"] = dual_spawner(ugdk_math.Vector2D(0, 4)),
+    ["mummy"] = {
+      property = "event_mummy",
+      params = {
+        spritesheet = "mummy_basic",
+        life = constants.GetInt "MUMMY_LIFE",
+        radius = constants.GetDouble "MUMMY_RADIUS",
+        speed = constants.GetDouble "MUMMY_SPEED"
+      }
+    }
+  },
+  setup = function (self)
+    self:MakeRecipe("horizontal-mummy-spawn", ugdk_math.Vector2D(8, 5.5))
+    self:MakeRecipe("horizontal-mummy-spawn", ugdk_math.Vector2D(8, 16-5.5))
+    self:MakeRecipe("vertical-mummy-spawn", ugdk_math.Vector2D(5.5, 8))
+    self:MakeRecipe("vertical-mummy-spawn", ugdk_math.Vector2D(16-5.5, 8))
+  end
 }
