@@ -117,7 +117,8 @@ void AddVisionObstacles (Room* room, Map& map) {
                     ++width;
                     another.h = true;
                 }
-                AddObstacle(room, 1.0*j+(width-1)/2.0, 1.0*i, 1.0*width, 1.0);
+                if(width > 1 || cell.v)
+                    AddObstacle(room, 1.0*j+(width-1)/2.0, 1.0*i, 1.0*width, 1.0);
             }
             if (!cell.v) {
                 cell.v = true;
@@ -128,7 +129,8 @@ void AddVisionObstacles (Room* room, Map& map) {
                     ++height;
                     another.v = true;
                 }
-                AddObstacle(room, 1.0*j, 1.0*i+(height-1)/2.0, 1.0, 1.0*height);
+                if(height > 1 || !cell.h)
+                    AddObstacle(room, 1.0*j, 1.0*i+(height-1)/2.0, 1.0, 1.0*height);
             }
             
         }
