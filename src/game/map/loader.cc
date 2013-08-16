@@ -268,12 +268,16 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 
 } //namespace anon
 
-Room* LoadRoom(const std::string& name, const std::string& campaign, const ugdk::math::Integer2D& position) {
-    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule("campaigns." + campaign + ".levels.rooms." + name);
+Room* LoadRoom(const string& name, const string& campaign, const string& level,
+               const ugdk::math::Integer2D& position) {
+    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule(
+        "campaigns." + campaign + ".levels." + level + "." + name
+    );
     return DoLoadRoom(name, room_data, position);
 }
 
-Room* LoadRoom(const std::string& name, const VirtualObj& room_script, const ugdk::math::Integer2D& position) {
+Room* LoadRoom(const string& name, const VirtualObj& room_script,
+               const ugdk::math::Integer2D& position) {
     return DoLoadRoom(name, room_script, position);
 }
 
