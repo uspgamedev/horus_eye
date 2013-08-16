@@ -104,14 +104,8 @@ void AddShadowcastingShader() {
 
 ugdk::graphic::Texture* shadow_texture_ = nullptr;
 
-}
-
-ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader() { return horus_light_shader_; }
-
-void AddHorusShader() {
-    AddHorusLightShader();
-    AddShadowcastingShader();
-}
+bool light_system_activated = true;
+bool shadowcasting_actiavated = true;
 
 void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2, 
                        const math::Vector2D& p3, const math::Vector2D& p4,
@@ -189,7 +183,7 @@ bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, 
     return shape->Intersects(position, &c, point);
 }
 
-void DrawShadows(ugdk::graphic::Texture* texture, const Geometry& geometry, const VisualEffect& effect) {
+void DrawTexture(ugdk::graphic::Texture* texture, const Geometry& geometry, const VisualEffect& effect) {
     opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
     shader_use.SendGeometry(geometry);
     shader_use.SendEffect(effect);
@@ -216,55 +210,83 @@ void DrawShadows(ugdk::graphic::Texture* texture, const Geometry& geometry, cons
     glDrawArrays(GL_QUADS, 0, 4);
 }
 
+void DrawShadows(scene::World* world, sprite::WorldObject* hero, const Geometry& geometry, const VisualEffect& effect) {
+    auto opaque_class = world->visibility_manager()->Get("Opaque");
+    geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
+    collision::CollisionObjectList walls;
+    opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
+
+    Geometry offset_geometry = geometry * world->camera();
+    VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));
+
+    for(const collision::CollisionObject * obj : walls) {
+        std::list<Vector2D> vertices;
+        if(const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
+            // OH YEAHHHHHH
+            math::Vector2D top_left = obj->absolute_position() 
+                + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+            math::Vector2D bottom_right = obj->absolute_position() 
+                - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+
+            vertices.emplace_back(    top_left.x,     top_left.y);
+            vertices.emplace_back(bottom_right.x,     top_left.y);
+            vertices.emplace_back(bottom_right.x, bottom_right.y);
+            vertices.emplace_back(    top_left.x, bottom_right.y);
+
+        } else {
+            puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
+        }
+
+        std::list<Vector2D> extremes;
+        for(const Vector2D& vertex : vertices) {
+            Vector2D dir = (vertex - hero->world_position()).Normalize();
+            if(!is_inside(obj->shape(), obj->absolute_position(), vertex + dir * 0.01)
+                && !is_inside(obj->shape(), obj->absolute_position(), vertex - dir * 0.01))
+                extremes.push_back(vertex);
+        }
+
+        // Choose the two points that have the widest angle.
+        CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), extremes.front(), extremes.back());
+    }
+}
+
 void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
     if(scene::World* world = utils::LevelManager::reference()->current_level()) {
-        if(sprite::WorldObject* hero = world->hero()) {
-            auto opaque_class = world->visibility_manager()->Get("Opaque");
-            geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
-            collision::CollisionObjectList walls;
-            opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
-
-            Geometry offset_geometry = geometry * world->camera();
-            VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));
-
-            for(const collision::CollisionObject * obj : walls) {
-                std::list<Vector2D> vertices;
-                if(const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
-                    // OH YEAHHHHHH
-                    math::Vector2D top_left = obj->absolute_position() 
-                        + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
-                    math::Vector2D bottom_right = obj->absolute_position() 
-                        - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
-
-                    vertices.emplace_back(    top_left.x,     top_left.y);
-                    vertices.emplace_back(bottom_right.x,     top_left.y);
-                    vertices.emplace_back(bottom_right.x, bottom_right.y);
-                    vertices.emplace_back(    top_left.x, bottom_right.y);
-
-                } else {
-                    puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
-                }
-
-                std::list<Vector2D> extremes;
-                for(const Vector2D& vertex : vertices) {
-                    Vector2D dir = (vertex - hero->world_position()).Normalize();
-                    if(!is_inside(obj->shape(), obj->absolute_position(), vertex + dir * 0.01)
-                        && !is_inside(obj->shape(), obj->absolute_position(), vertex - dir * 0.01))
-                        extremes.push_back(vertex);
-                }
-
-                // Choose the two points that have the widest angle.
-                CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), extremes.front(), extremes.back());
-            }
-        }
+        if(shadowcasting_actiavated)
+            if(sprite::WorldObject* hero = world->hero())
+                DrawShadows(world, hero, geometry, effect);
         graphic::manager()->SaveBackbufferToTexture(shadow_texture_);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
-        world->RenderLight(geometry, effect);
+        if(light_system_activated)
+            world->RenderLight(geometry, effect);
+        else {
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+        }
         
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-        DrawShadows(shadow_texture_, geometry, effect);
+        if(shadowcasting_actiavated)
+            DrawTexture(shadow_texture_, geometry, effect);
     }
+}
+
+} // namespace
+
+ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader() { return horus_light_shader_; }
+
+void AddHorusShader() {
+    AddHorusLightShader();
+    AddShadowcastingShader();
+}
+
+void ToggleShadowcasting() {
+   shadowcasting_actiavated = !shadowcasting_actiavated;
+}
+
+void ToggleLightsystem() {
+    light_system_activated = !light_system_activated;
 }
 
 ugdk::action::Scene* CreateHorusLightrenderingScene() {

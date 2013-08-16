@@ -45,7 +45,7 @@ bool VerifyCheats(double dt) {
     WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
-    if(ugdk::time::manager()->TimeSince(last_level_warp) > 1250) {
+    if(ugdk::time::manager()->TimeSince(last_level_warp) > 100) {
         if (input->KeyPressed(ugdk::input::K_p)) {
             level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
             world->FinishLevel(LevelManager::FINISH_WARP);
@@ -80,6 +80,12 @@ bool VerifyCheats(double dt) {
             scale = scale * 1.0/1.4;
         modifier *= graphic::Geometry(math::Vector2D(), scale);
     }
+
+    if(input->KeyPressed(ugdk::input::K_l))
+        ToggleLightsystem();
+    
+    if(input->KeyPressed(ugdk::input::K_k))
+        ToggleShadowcasting();
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
