@@ -6,6 +6,7 @@ require "ugdk.math"
 require "pyramidworks.geometry"
 require "event"
 
+local vec2 = ugdk_math.Vector2D
 local roomsize = 12
 local function DOOR (i)
   return "THE-DOOR-"..i
@@ -91,15 +92,15 @@ entrance = {
         end
       end
     )
-    self:MakeRecipe("door", ugdk_math.Vector2D(10, 5), DOOR(1))
-    self:MakeRecipe("door", ugdk_math.Vector2D(10, 6), DOOR(2))
-    self:MakeRecipe("door-switch", ugdk_math.Vector2D(9, 2))
-    self:MakeRecipe("door-switch", ugdk_math.Vector2D(9, 9))
+    self:MakeRecipe("door", vec2(10, 5), DOOR(1))
+    self:MakeRecipe("door", vec2(10, 6), DOOR(2))
+    self:MakeRecipe("door-switch", vec2(9, 2))
+    self:MakeRecipe("door-switch", vec2(9, 9))
 
     for i = 1,2 do
       local x,y = 4.5, 1.2+8.6*(i-1)
       for i = 1,6 do
-        self:MakeRecipe("urn", ugdk_math.Vector2D(x+0.6*(i-1), y))
+        self:MakeRecipe("urn", vec2(x+0.6*(i-1), y))
       end
     end
   end
@@ -184,37 +185,37 @@ divergence = {
         end
       end
     )
-    self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 3))
-    self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 8))
-    self:MakeRecipe("mummy-spawn", ugdk_math.Vector2D(5, 13))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(3, 1))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(3.5, 1))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(4, 1))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(6, 1))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(6.5, 1))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(7, 1))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 6))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 6.5))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 7))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 9))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 9.5))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(1, 10))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 6))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 6.5))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 7))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 9))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 9.5))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 10))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 12.5))
-    self:MakeRecipe("urn", ugdk_math.Vector2D(9, 13))
-    self:MakeRecipe("fireball-door", ugdk_math.Vector2D(10, 3), "FIREDOOR-1")
-    self:MakeRecipe("fireball-door", ugdk_math.Vector2D(10, 4), "FIREDOOR-2")
-    self:MakeRecipe("spike-door", ugdk_math.Vector2D(0, 12), "SPIKEDOOR-1")
-    self:MakeRecipe("spike-door", ugdk_math.Vector2D(0, 13), "SPIKEDOOR-2")
-    self:MakeRecipe("closed-door", ugdk_math.Vector2D(4, 15), "THE-LOCKED-DOOR-1")
-    self:MakeRecipe("closed-door", ugdk_math.Vector2D(5, 15), "THE-LOCKED-DOOR-2")
-    self:MakeRecipe("closed-door", ugdk_math.Vector2D(6, 15), "THE-LOCKED-DOOR-3")
+    self:MakeRecipe("mummy-spawn", vec2(5, 3))
+    self:MakeRecipe("mummy-spawn", vec2(5, 8))
+    self:MakeRecipe("mummy-spawn", vec2(5, 13))
+    self:MakeRecipe("urn", vec2(3, 1))
+    self:MakeRecipe("urn", vec2(3.5, 1))
+    self:MakeRecipe("urn", vec2(4, 1))
+    self:MakeRecipe("urn", vec2(6, 1))
+    self:MakeRecipe("urn", vec2(6.5, 1))
+    self:MakeRecipe("urn", vec2(7, 1))
+    self:MakeRecipe("urn", vec2(1, 6))
+    self:MakeRecipe("urn", vec2(1, 6.5))
+    self:MakeRecipe("urn", vec2(1, 7))
+    self:MakeRecipe("urn", vec2(1, 9))
+    self:MakeRecipe("urn", vec2(1, 9.5))
+    self:MakeRecipe("urn", vec2(1, 10))
+    self:MakeRecipe("urn", vec2(9, 6))
+    self:MakeRecipe("urn", vec2(9, 6.5))
+    self:MakeRecipe("urn", vec2(9, 7))
+    self:MakeRecipe("urn", vec2(9, 9))
+    self:MakeRecipe("urn", vec2(9, 9.5))
+    self:MakeRecipe("urn", vec2(9, 10))
+    self:MakeRecipe("urn", vec2(9, 12))
+    self:MakeRecipe("urn", vec2(9, 12.5))
+    self:MakeRecipe("urn", vec2(9, 13))
+    self:MakeRecipe("fireball-door", vec2(10, 3), "FIREDOOR-1")
+    self:MakeRecipe("fireball-door", vec2(10, 4), "FIREDOOR-2")
+    self:MakeRecipe("spike-door", vec2(0, 12), "SPIKEDOOR-1")
+    self:MakeRecipe("spike-door", vec2(0, 13), "SPIKEDOOR-2")
+    self:MakeRecipe("closed-door", vec2(4, 15), "THE-LOCKED-DOOR-1")
+    self:MakeRecipe("closed-door", vec2(5, 15), "THE-LOCKED-DOOR-2")
+    self:MakeRecipe("closed-door", vec2(6, 15), "THE-LOCKED-DOOR-3")
   end
 }
 
@@ -242,10 +243,10 @@ spike_room = {
           event.Register(
             "FALL_SPIKES",
             function ()
-              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 1))
-              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 2))
-              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 3))
-              room:MakeRecipe("spike-trap", ugdk_math.Vector2D(5, 4))
+              room:MakeRecipe("spike-trap", vec2(5, 1))
+              room:MakeRecipe("spike-trap", vec2(5, 2))
+              room:MakeRecipe("spike-trap", vec2(5, 3))
+              room:MakeRecipe("spike-trap", vec2(5, 4))
               event.Clear "FALL_SPIKES"
             end
           )
@@ -263,8 +264,8 @@ spike_room = {
     {"EventArea"}
   },
   setup = function(self)
-    self:MakeRecipe("eventbutton", ugdk_math.Vector2D(2,2.5))
-    self:MakeRecipe("spike-trap-event", ugdk_math.Vector2D(5,2.5))
+    self:MakeRecipe("eventbutton", vec2(2,2.5))
+    self:MakeRecipe("spike-trap-event", vec2(5,2.5))
   end
 }
 
@@ -280,14 +281,14 @@ fireball_room = {
 ####&####
 ]],
   recipes = {
-    ["fireball-trap"] = { property = "fireball-trap", params = {dir = ugdk_math.Vector2D(0, -1)}},
+    ["fireball-trap"] = { property = "fireball-trap", params = {dir = vec2(0, -1)}},
     ["fireball-event"] = {
       property = "event_region",
       params = {
         shape = pyramidworks_geometry.Rect(1.0, 4.0),
         callback = function (region)
           local room = region:current_room()
-          room:MakeRecipe("fireball-trap", ugdk_math.Vector2D(4, 5))
+          room:MakeRecipe("fireball-trap", vec2(4, 5))
         end
       }
     },
@@ -297,8 +298,8 @@ fireball_room = {
     { "EventArea" }
   },
   setup = function(self)
-    self:MakeRecipe("eventbutton", ugdk_math.Vector2D(4,2.5))
-    self:MakeRecipe("fireball-event", ugdk_math.Vector2D(4,2.5))
+    self:MakeRecipe("eventbutton", vec2(4,2.5))
+    self:MakeRecipe("fireball-event", vec2(4,2.5))
   end
 }
 
@@ -341,8 +342,8 @@ central_room = {
 %%%%%%%...#######
 ]],
   recipes = {
-    ["horizontal-mummy-spawn"] = dual_spawner(ugdk_math.Vector2D(4, 0)),
-    ["vertical-mummy-spawn"] = dual_spawner(ugdk_math.Vector2D(0, 4)),
+    ["horizontal-mummy-spawn"] = dual_spawner(vec2(4, 0)),
+    ["vertical-mummy-spawn"] = dual_spawner(vec2(0, 4)),
     ["mummy"] = {
       property = "event_mummy",
       params = {
@@ -361,13 +362,13 @@ central_room = {
     },
   },
   setup = function (self)
-    self:MakeRecipe("horizontal-mummy-spawn", ugdk_math.Vector2D(8, 5.5))
-    self:MakeRecipe("horizontal-mummy-spawn", ugdk_math.Vector2D(8, 16-5.5))
-    self:MakeRecipe("vertical-mummy-spawn", ugdk_math.Vector2D(5.5, 8))
-    self:MakeRecipe("vertical-mummy-spawn", ugdk_math.Vector2D(16-5.5, 8))
-    self:MakeRecipe("explo-door", ugdk_math.Vector2D(0, 7))
-    self:MakeRecipe("explo-door", ugdk_math.Vector2D(0, 8))
-    self:MakeRecipe("explo-door", ugdk_math.Vector2D(0, 9))
+    self:MakeRecipe("horizontal-mummy-spawn", vec2(8, 5.5))
+    self:MakeRecipe("horizontal-mummy-spawn", vec2(8, 16-5.5))
+    self:MakeRecipe("vertical-mummy-spawn", vec2(5.5, 8))
+    self:MakeRecipe("vertical-mummy-spawn", vec2(16-5.5, 8))
+    self:MakeRecipe("explo-door", vec2(0, 7))
+    self:MakeRecipe("explo-door", vec2(0, 8))
+    self:MakeRecipe("explo-door", vec2(0, 9))
   end
 }
 
@@ -377,15 +378,26 @@ explo_room = {
   matrix = [[
 %%%%%%%%
 %......%
-%......%
+%.M..M.%
 %......%
 %.......
 %.......
 %.......
 %......#
-%......#
+%.M..M.#
 %......#
 ########
 ]],
+  recipes = {
+    ["urn"] = { property = "urn" },
+  },
+  setup = function (self) 
+    for i=1,6 do  
+      self:MakeRecipe("urn", vec2(0.75+(i-1), 2.75))
+      self:MakeRecipe("urn", vec2(1.25+(i-1), 3.25))
+      self:MakeRecipe("urn", vec2(0.75+(i-1), 6.75))
+      self:MakeRecipe("urn", vec2(1.25+(i-1), 7.25))
+    end
+  end
 }
 

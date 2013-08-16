@@ -1,6 +1,7 @@
 
 $HERO_FIREBALL_WEAPON
-@fps 18
+@fps 30
++effect [position 0 -64] [size 0.5 0.8]
 %number 0 1 2 3 4 5 6 7 8 9 10 11
 
 $HERO_EXPLOSION_WEAPON
