@@ -1,5 +1,10 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
+# OPTIONS
+option(HORUSEYE_DEBUG_TOOLS "Set to ON to enable debugging tools ingame." ON)
+
+
+# SOURCE LIST
 include (src_list.cmake)
 if (WIN32) # Adding the icon to the windows executable
 	set(GAME_SRCS ${GAME_SRCS} horus_eye.rc)
@@ -10,21 +15,21 @@ IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     SET(ISMAC ON)
 ENDIF ()
 
-if(MSVC)
-    include_directories(externals/windows/include)
-endif(MSVC)
-
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 if (UNIX OR MINGW)
     # se for o g++ para *nix ou o MinGW para Windows:
     add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -msse2 -std=gnu++0x)
 elseif (MSVC) 
     add_definitions(/D_CRT_SECURE_NO_WARNINGS /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /fp:fast /MP)
+    # SSE2 is automatic in amd64
     IF(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
         add_definitions(/arch:SSE2)
     ENDIF()
 endif ()
 
+if(MSVC)
+    include_directories(externals/windows/include)
+endif(MSVC)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 include_directories (${CMAKE_CURRENT_BINARY_DIR})
 
@@ -51,7 +56,7 @@ foreach(it ${GENERATED_PY_FILES} )
     WORKING_DIRECTORY "../" COMMENT "Copying generated py scripts")
 endforeach()
 
-# On windows, copy the .dll files so it can run annoying anyone.
+# On windows, copy the .dll files so it can run without annoying anyone.
 if(WIN32)
     IF(CMAKE_SIZEOF_VOID_P EQUAL 8)
         set(LIBS_SOURCE "${CMAKE_SOURCE_DIR}/lib64/")

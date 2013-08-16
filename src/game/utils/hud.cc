@@ -10,6 +10,7 @@
 #include <ugdk/graphic/drawable/label.h>
 #include <ugdk/time/module.h>
 
+#include "game/config.h"
 #include "game/scenes/world.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/skills/skill.h"
@@ -148,7 +149,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     //previous_mummy_counter_value_ = world->CountRemainingEnemies();
     mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
     
-#ifdef DEBUG
+#ifdef HORUSEYE_DEBUG_TOOLS
     Drawable* fps_label = new Label(L"FPS: ", TEXT_MANAGER()->current_font());
     node_->AddChild(new Node(fps_label));
     node_->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
@@ -173,7 +174,7 @@ void Hud::Update(double delta_t) {
         mummy_counter_text_holder_->set_drawable(ConvertNumberToText(enemy_number));
     }
 
-#ifdef DEBUG
+#ifdef HORUSEYE_DEBUG_TOOLS
     double fps = 1000.0/ugdk::time::manager()->TimeDifference();
     if(std::abs(previous_fps_ - fps) > 0.5) {
         previous_fps_ = fps;

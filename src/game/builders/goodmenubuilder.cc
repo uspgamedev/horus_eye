@@ -63,12 +63,6 @@ void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
 
-#ifdef DEBUG
-void MainMenuDebugPlay(Scene* menu, const Button * source) {
-    utils::LevelManager::reference()->DebugLoadSpecificLevel("debug_level");
-}
-#endif
-
 Scene* PauseMenu() {
     ugdk::action::Scene* pause_menu = new Scene();
     pause_menu->set_focus_callback(MenuFocus);
@@ -243,14 +237,6 @@ Scene* MainMenu() {
     menu->AddObject(new Button(settings_position, settings_text, [](const Button*) { ugdk::system::PushScene(SettingsMenu()); }));
     menu->AddObject(new Button(credits_position,  credits_text,  [](const Button*) { utils::LevelManager::reference()->ShowCredits(); }));
     menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
-
-#ifdef DEBUG
-    Drawable* debug_text    = ugdk::resource::GetLanguageWord("DebugStage")->CreateLabel();
-    ugdk::math::Vector2D debug_position;
-    debug_position.x = debug_text->size().x * 0.6;
-    debug_position.y = 50.0;
-    menu->AddObject(new Button(debug_position, debug_text, [](const Button*) { utils::LevelManager::reference()->DebugLoadSpecificLevel("debug_level"); }));
-#endif
 
     menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);

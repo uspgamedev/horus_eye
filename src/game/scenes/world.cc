@@ -16,14 +16,14 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
-#include "game/map/room.h"
-
-#include "game/sprites/worldobject.h"
-#include "game/core/coordinates.h"
+#include "game/config.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/shape.h"
+#include "game/core/coordinates.h"
+#include "game/map/room.h"
+#include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 
@@ -131,14 +131,13 @@ World::World()
 
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
-
     this->AddTask(bind(&World::updateRooms, this, _1));
-
     this->AddTask(bind(FinishLevelTask, _1, &level_state_), 1000);
-//#ifdef DEBUG
-    this->AddTask(VerifyCheats);
-//#endif
     this->AddTask(UpdateOffset, 1.0);
+
+#ifdef HORUSEYE_DEBUG_TOOLS
+    this->AddTask(VerifyCheats);
+#endif
 
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);

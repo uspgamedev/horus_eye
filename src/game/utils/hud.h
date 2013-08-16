@@ -4,6 +4,7 @@
 #include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
 #include "game/scenes/world.h"
+#include "game/config.h"
 
 namespace skills {
 class Skill;
@@ -26,7 +27,7 @@ class Hud: public ugdk::action::Entity {
 
     ugdk::graphic::Node *life_bar_, *mana_bar_, *block_bar_;
 
-#ifdef DEBUG
+#ifdef HORUSEYE_DEBUG_TOOLS
     ugdk::graphic::Node* fps_meter_node_;
     double previous_fps_;
 #endif
