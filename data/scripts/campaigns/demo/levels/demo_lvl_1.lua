@@ -21,6 +21,7 @@ width = roomsize*#rooms
 height = roomsize
 
 entrance = {
+  neighborhood = { "opencorridor" },
   width = roomsize,
   height = roomsize,
   matrix = [[
@@ -43,23 +44,12 @@ entrance = {
 ]],
   objects = {},
   recipes = {
-    ["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CORRIDOR", delay = 0.0 } },
     ["urn"] = { property = "urn" },
   },
   collision_classes = {
     { "Switch", "Wall" }
   },
   setup = function(self)
-    self:MakeRecipe "load_corridor_trigger"
-
-    event.Register(
-      "LOAD_CORRIDOR",
-      function ()
-        context.ActivateRoom "opencorridor"
-        event.Clear "LOAD_CORRIDOR"
-      end
-    )
-
     for i = 1,6 do
       local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
       for i = 1,math.random(3,4) do
@@ -70,6 +60,7 @@ entrance = {
 }
  
 opencorridor = {
+  neighborhood = { "entrance", "closedcorridor" },
   width = roomsize,
   height = roomsize - 10,
   matrix = [[
@@ -82,7 +73,6 @@ opencorridor = {
 ]],
   objects = {},
   recipes = {
-    ["load_corridor_trigger"] = { property = "trigger", params = { activates = "LOAD_CLOSED_CORRIDOR", delay = 0.0 } },
     ["activated_switch"] = { property = "activated_switch" },
     ["dummyspiketrap"] = { property = "dummy-spike-trap" },
   },
@@ -90,21 +80,12 @@ opencorridor = {
     self:MakeRecipe("activated_switch", ugdk_math.Vector2D(12, 3))
     self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(8 + math.random(), 1 + math.random() * 3))
     self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(4 + math.random(), 1 + math.random() * 3))
-
-    self:MakeRecipe "load_corridor_trigger"
-
-    event.Register(
-      "LOAD_CLOSED_CORRIDOR",
-      function ()
-        context.ActivateRoom "closedcorridor"
-        event.Clear "LOAD_CLOSED_CORRIDOR"
-      end
-    )
   end
 
 }
 
 closedcorridor = {
+  neighborhood = { "opencorridor", "firstblood" },
   width = roomsize,
   height = roomsize - 10,
   matrix = [[
@@ -121,13 +102,11 @@ closedcorridor = {
     { "Switch", "Wall" }
   },
   recipes = {
-    ["load_firstblood_trigger"] = { property = "trigger", params = { activates = "LOAD_FIRSTBLOOD" } },
     ["dummyspiketrap"] = { property = "dummy-spike-trap" },
     ["door"] = { property = "closed-door", params = { dir = "Left" } },
-    ["killswitch"] = { property = "kill_switch", params = { "THE-DOOR-1", "THE-DOOR-2", "CORRIDOR_ROOM_LOADER" } }
+    ["killswitch"] = { property = "kill_switch", params = { "THE-DOOR-1", "THE-DOOR-2" } }
   },
   setup = function(self)
-    self:MakeRecipe("load_firstblood_trigger", "CORRIDOR_ROOM_LOADER")
     self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(8 + math.random(), 1 + math.random() * 3))
     self:MakeRecipe("dummyspiketrap", ugdk_math.Vector2D(4 + math.random(), 1 + math.random() * 3))
     
@@ -135,18 +114,11 @@ closedcorridor = {
     self:MakeRecipe("door", ugdk_math.Vector2D(15, 3), "THE-DOOR-2")
     
     self:MakeRecipe("killswitch", ugdk_math.Vector2D(12, 2))
-
-    event.Register(
-      "LOAD_FIRSTBLOOD",
-      function ()
-        context.ActivateRoom "firstblood"
-        event.Clear "LOAD_FIRSTBLOOD"
-      end
-    )
   end
 }
 
 firstblood = {
+  neighborhood = { "closedcorridor", "exit" },
   width = roomsize,
   height = roomsize-4,
   matrix = [[
@@ -168,7 +140,6 @@ firstblood = {
     { "EventArea" }
   },
   recipes = {
-    ["load_exit_trigger"] = { property = "trigger", params = { activates = "LOAD_EXIT" } },
     ["door"] = { property = "closed-door", params = { dir = "Left" } },
     
     ["delayed_mummy"] = {
@@ -186,7 +157,7 @@ firstblood = {
         life = constants.GetInt "MUMMY_LIFE",
         radius = constants.GetDouble "MUMMY_RADIUS",
         speed = constants.GetDouble "MUMMY_SPEED",
-        triggers = { "THE-DOOR-3", "THE-DOOR-4", "BATTLE_ROOM_LOADER" }
+        triggers = { "THE-DOOR-3", "THE-DOOR-4" }
       }
     },
     
@@ -200,13 +171,11 @@ firstblood = {
           room:MakeRecipe("door", ugdk_math.Vector2D(0, 6), "THE-DOOR-2")
           room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(2, 2))
           room:MakeRecipe("delayed_mummy", ugdk_math.Vector2D(2, roomsize-4-2))
-          context.DeactivateRoom "closedcorridor"
         end
       }
     }
   },
   setup = function (room)
-    room:MakeRecipe("load_exit_trigger", "BATTLE_ROOM_LOADER")
     room:MakeRecipe("door", ugdk_math.Vector2D(15, 5), "THE-DOOR-3")
     room:MakeRecipe("door", ugdk_math.Vector2D(15, 6), "THE-DOOR-4")
     room:MakeRecipe("entrance_event", ugdk_math.Vector2D(3, roomsize/2))
@@ -214,19 +183,11 @@ firstblood = {
     for i=3,4 do
       context.AddDamageableComponent(room, "THE-DOOR-"..i, 2)
     end
-    context.AddDamageableComponent(room, "BATTLE_ROOM_LOADER", 2)
-
-    event.Register(
-      "LOAD_EXIT",
-      function ()
-        context.ActivateRoom "exit"
-        event.Clear "LOAD_EXIT"
-      end
-    )
   end
 }
 
 exit = {
+   neighborhood = { "firstblood" },
    width = roomsize,
    height = roomsize - 10,
    matrix = [[

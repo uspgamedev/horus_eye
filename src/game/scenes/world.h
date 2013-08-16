@@ -57,8 +57,8 @@ class World : public ugdk::action::Scene {
     void RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
 
     void AddRoom(map::Room* room);
-    void ActivateRoom(const std::string& name);
-    void DeactivateRoom(const std::string& name);
+    void ChangeFocusedRoom(const std::string& name);
+    void ChangeFocusedRoom(map::Room*);
     bool IsRoomActive(const std::string& name) const;
     bool IsRoomActive(const map::Room*) const;
 

@@ -69,18 +69,6 @@ void AddCollisionClass (const string& classname, const std::string& supername) {
     manager->Generate(classname, supername);
 }
 
-void ActivateRoom(const std::string& roomname) {
-    World *world = WORLD();
-    assert(world);
-    world->ActivateRoom(roomname);
-}
-
-void DeactivateRoom(const std::string& roomname) {
-    World *world = WORLD();
-    assert(world);
-    world->DeactivateRoom(roomname);
-}
-
 static void _internal_AddDamageableComponent(sprite::WorldObject* obj, double life) {
     component::Damageable* damageable = new component::Damageable(obj);
     damageable->life() = resource::Energy(life);

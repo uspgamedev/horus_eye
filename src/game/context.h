@@ -22,10 +22,6 @@ void AddCollisionClass (const std::string& classname);
 
 void AddCollisionClass (const std::string& classname, const std::string& supername);
 
-void ActivateRoom(const std::string& roomname);
-
-void DeactivateRoom(const std::string& roomname);
-
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
 void EnableDeathAnimation(sprite::WorldObject* wobj);

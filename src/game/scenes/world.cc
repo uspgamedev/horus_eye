@@ -152,6 +152,9 @@ World::World(const ugdk::math::Integer2D& size)
             p.first->current_room()->RemoveObject(p.first);
             p.second->ForceAddObject(p.first);
             this->queued_moves_.pop();
+
+            if(p.first == this->hero_)
+                ChangeFocusedRoom(p.second);
         }
     }, 0.6);
 
@@ -178,12 +181,10 @@ World::~World() {
 }
 
 void World::Start() {
-    map::Room* room = hero_initial_room_.empty() ? NULL : rooms_[hero_initial_room_];
-    if(room) {
-        ActivateRoom(hero_initial_room_);
-        if(hero_)
-            room->AddObject(hero_, hero_initial_position_, map::POSITION_ABSOLUTE);
-    }
+    ChangeFocusedRoom(hero_initial_room_);
+    if(hero_)
+        if(map::Room* initial_room = findRoom(hero_initial_room_))
+            initial_room->AddObject(hero_, hero_initial_position_, map::POSITION_ABSOLUTE);
 }
 
 void World::End() {
@@ -250,18 +251,17 @@ void World::AddRoom(map::Room* room) {
     }
 }
 
-void World::ActivateRoom(const std::string& name) {
-    map::Room* room = rooms_[name];
-    if(room && !IsRoomActive(room)) {
-        active_rooms_.insert(room);
-    }
+void World::ChangeFocusedRoom(const std::string& name) {
+    ChangeFocusedRoom(findRoom(name));
 }
 
-void World::DeactivateRoom(const std::string& name) {
-    map::Room* room = findRoom(name);
-    if(room && IsRoomActive(room)) {
-        active_rooms_.erase(room);
-    }
+void World::ChangeFocusedRoom(map::Room* room) {
+    if(!room) return;
+    active_rooms_.clear();
+    active_rooms_.insert(room);
+    for(const std::string& neightbor_name : room->neighborhood())
+        if(map::Room* neightbor = findRoom(neightbor_name))
+            active_rooms_.insert(neightbor);
 }
 
 bool World::IsRoomActive(const std::string& name) const {
