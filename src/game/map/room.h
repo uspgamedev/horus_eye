@@ -66,7 +66,13 @@ class Room {
         recipes_ = cookbook;
     }
 
+    /// Declares that the room with name str is an adjacent room.
+    void AddNeighbor(const std::string& str) {
+        neighborhood_.push_back(str);
+    }
+
     const std::string& name() const { return name_; }
+    const std::list<std::string>& neighborhood() const { return neighborhood_; }
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::math::Integer2D& position() const { return position_; }
     ugdk::graphic::Node* floor() const { return floor_; }
@@ -85,6 +91,7 @@ class Room {
     typedef std::unordered_map<std::string, sprite::WorldObject*> TagTable;
 
     std::string name_;
+    std::list<std::string> neighborhood_;
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
     ugdk::graphic::Node* floor_;

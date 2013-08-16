@@ -164,6 +164,10 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     Cell cell = { '.', false, false };
     auto map = Map(height, vector<Cell>(width, cell));
 
+    if(VirtualObj neighborhood = room_data["neighborhood"])
+        for(const VirtualObj& neighbor : neighborhood.value<VirtualObj::List>())
+            room->AddNeighbor(neighbor.value<std::string>());
+
     if(room_data["recipes"])
         room->DefineCookbook(room_data["recipes"]);
 
