@@ -27,64 +27,6 @@ start_position = {"entrance", 2, roomsize / 2}
 width = 100
 height = 100
 
-event.Clear "DOOR-COUNTER"
-entrance = {
-  neighborhood = { "divergence" },
-  width = 11,
-  height = 12,
-  matrix = [[
-%%%%%%%%%%%
-%%%.......%
-%%%.......%
-%.........%
-%.......%%%
-%..........
-%..........
-%.......%%%
-%.........%
-%%%.......%
-%%%.......%
-%%%%%%%%%%%
-]],
-  objects = {},
-  recipes = {
-    ["urn"] = { property = "urn" },
-    ["door"] = { property = "closed-door", params = { dir = "Left" } },
-    ["door-switch"] = {
-      property = "event_switch",
-      params = { "DOOR-COUNTER" }
-    },
-  },
-  collision_classes = {
-    { "Switch", "Wall" }
-  },
-  setup = function(self)
-    local switch_counter = 2
-    event.Register(
-      "DOOR-COUNTER",
-      function ()
-        switch_counter = switch_counter - 1
-        if switch_counter <= 0 then
-          for i=1,2 do
-            self:WorldObjectByTag(DOOR(i)):Die()
-          end
-        end
-      end
-    )
-    self:MakeRecipe("door", vec2(10, 5), DOOR(1))
-    self:MakeRecipe("door", vec2(10, 6), DOOR(2))
-    self:MakeRecipe("door-switch", vec2(9, 2))
-    self:MakeRecipe("door-switch", vec2(9, 9))
-
-    for i = 1,2 do
-      local x,y = 4.5, 1.2+8.6*(i-1)
-      for i = 1,6 do
-        self:MakeRecipe("urn", vec2(x+0.6*(i-1), y))
-      end
-    end
-  end
-}
-
 event.Clear "DIVERGENCE-DOOR-COUNTER"
 divergence = {
   neighborhood = {
