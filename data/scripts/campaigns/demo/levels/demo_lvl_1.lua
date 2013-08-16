@@ -55,6 +55,10 @@ entrance = {
       for i = 1,math.random(3,4) do
         self:MakeRecipe("urn", ugdk_math.Vector2D(x+math.random()*2-1, y+math.random()*2-1))
       end
+      y = 13
+      for i = 1,math.random(3,4) do
+        self:MakeRecipe("urn", ugdk_math.Vector2D(x+math.random()*2-1, y+math.random()*2-1))
+      end
     end
   end
 }
