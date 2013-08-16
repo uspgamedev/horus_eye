@@ -14,7 +14,6 @@ end
 
 music = "musics/Arabesque.ogg"
 rooms = {
-  {0, 0, "hero_room"},
   {0, 0, "entrance"},
   {11, 2, "divergence"},
   {2, 12, "spike_room"},
@@ -23,35 +22,10 @@ rooms = {
   {0, 21, "explo_room"}
 }
 
-start_position = {"hero_room", 2, roomsize / 2}
+start_position = {"entrance", 2, roomsize / 2}
 
 width = 100
 height = 100
-
-event.Clear "LOAD_ENTRANCE"
-hero_room = {
-  width = 1,
-  height = 1,
-  matrix = [[.]],
-  objects = {},
-  recipes = {
-    ["load-entrance"] = {
-      property = "trigger",
-      params = { activates = "LOAD_ENTRANCE", delay = 0.0 }
-    },
-  },
-  collision_classes = {},
-  setup = function(self) 
-    self:MakeRecipe "load-entrance"
-    event.Register(
-      "LOAD_ENTRANCE",
-      function ()
-        context.ActivateRoom "entrance"
-        event.Clear "LOAD_ENTRANCE"
-      end
-    )
-  end
-}
 
 event.Clear "DOOR-COUNTER"
 entrance = {
@@ -93,8 +67,6 @@ entrance = {
           for i=1,2 do
             self:WorldObjectByTag(DOOR(i)):Die()
           end
-          event.Clear "DOOR-COUNTER"
-          context.ActivateRoom "divergence"
         end
       end
     )
@@ -137,18 +109,10 @@ divergence = {
   objects = {},
   recipes = {
     ["urn"] = { property = "urn" },
-    ["spike-door"] = {
+    ["open-door"] = {
       property = "open-door",
       params = {
-        dir = "LEFT",
-        open_event = function () context.ActivateRoom "spike_room" end
-      }
-    },
-    ["fireball-door"] = {
-      property = "open-door",
-      params = {
-        dir = "LEFT",
-        open_event = function () context.ActivateRoom "fireball_room" end
+        dir = "LEFT"
       }
     },
     ["closed-door"] = { property = "closed-door", params = { dir = "Right" } },
@@ -189,7 +153,6 @@ divergence = {
           for i=1,3 do
             self:WorldObjectByTag("THE-LOCKED-DOOR-"..i):Die()
           end
-          context.ActivateRoom "central_room"
         end
       end
     )
@@ -217,10 +180,10 @@ divergence = {
     self:MakeRecipe("urn", vec2(9, 12))
     self:MakeRecipe("urn", vec2(9, 12.5))
     self:MakeRecipe("urn", vec2(9, 13))
-    self:MakeRecipe("fireball-door", vec2(10, 3), "FIREDOOR-1")
-    self:MakeRecipe("fireball-door", vec2(10, 4), "FIREDOOR-2")
-    self:MakeRecipe("spike-door", vec2(0, 12), "SPIKEDOOR-1")
-    self:MakeRecipe("spike-door", vec2(0, 13), "SPIKEDOOR-2")
+    self:MakeRecipe("open-door", vec2(10, 3), "FIREDOOR-1")
+    self:MakeRecipe("open-door", vec2(10, 4), "FIREDOOR-2")
+    self:MakeRecipe("open-door", vec2(0, 12), "SPIKEDOOR-1")
+    self:MakeRecipe("open-door", vec2(0, 13), "SPIKEDOOR-2")
     self:MakeRecipe("closed-door", vec2(4, 15), "THE-LOCKED-DOOR-1")
     self:MakeRecipe("closed-door", vec2(5, 15), "THE-LOCKED-DOOR-2")
     self:MakeRecipe("closed-door", vec2(6, 15), "THE-LOCKED-DOOR-3")
@@ -375,11 +338,10 @@ central_room = {
         speed = constants.GetDouble "MUMMY_SPEED"
       }
     },
-    ["explo-door"] = {
+    ["open-door"] = {
       property = "open-door",
       params = {
         dir = "LEFT",
-        open_event = function () context.ActivateRoom "explo_room" end
       }
     },
   },
@@ -388,9 +350,9 @@ central_room = {
     self:MakeRecipe("horizontal-mummy-spawn", vec2(8, 16-5.5))
     self:MakeRecipe("vertical-mummy-spawn", vec2(5.5, 8))
     self:MakeRecipe("vertical-mummy-spawn", vec2(16-5.5, 8))
-    self:MakeRecipe("explo-door", vec2(0, 7))
-    self:MakeRecipe("explo-door", vec2(0, 8))
-    self:MakeRecipe("explo-door", vec2(0, 9))
+    self:MakeRecipe("open-door", vec2(0, 7))
+    self:MakeRecipe("open-door", vec2(0, 8))
+    self:MakeRecipe("open-door", vec2(0, 9))
   end
 }
 
