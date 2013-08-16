@@ -19,7 +19,7 @@ rooms = {
   {2, 12, "spike_room"},
   {22, 3, "fireball_room"},
   {8, 18, "central_room"},
-  --{roomsize * 4, 5, "exit"}
+  {0, 21, "explo_room"}
 }
 
 start_position = {"hero_room", 2, roomsize / 2}
@@ -351,12 +351,41 @@ central_room = {
         radius = constants.GetDouble "MUMMY_RADIUS",
         speed = constants.GetDouble "MUMMY_SPEED"
       }
-    }
+    },
+    ["explo-door"] = {
+      property = "open-door",
+      params = {
+        dir = "LEFT",
+        open_event = function () context.ActivateRoom "explo_room" end
+      }
+    },
   },
   setup = function (self)
     self:MakeRecipe("horizontal-mummy-spawn", ugdk_math.Vector2D(8, 5.5))
     self:MakeRecipe("horizontal-mummy-spawn", ugdk_math.Vector2D(8, 16-5.5))
     self:MakeRecipe("vertical-mummy-spawn", ugdk_math.Vector2D(5.5, 8))
     self:MakeRecipe("vertical-mummy-spawn", ugdk_math.Vector2D(16-5.5, 8))
+    self:MakeRecipe("explo-door", ugdk_math.Vector2D(0, 7))
+    self:MakeRecipe("explo-door", ugdk_math.Vector2D(0, 8))
+    self:MakeRecipe("explo-door", ugdk_math.Vector2D(0, 9))
   end
 }
+
+explo_room = {
+  width = 8,
+  height = 11,
+  matrix = [[
+%%%%%%%%
+%......%
+%......%
+%......%
+%.......
+%.......
+%.......
+%......#
+%......#
+%......#
+########
+]],
+}
+
