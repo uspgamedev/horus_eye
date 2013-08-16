@@ -4,6 +4,7 @@
 #include <list>
 #include <set>
 #include <vector>
+#include <queue>
 #include <unordered_map>
 #include <ugdk/action/scene.h>
 #include <ugdk/graphic/geometry.h>
@@ -41,6 +42,7 @@ class World : public ugdk::action::Scene {
         hero_initial_room_ = room; hero_initial_position_ = pos;
     }
     void SetHero(sprite::WorldObject *hero);
+    void QueueRoomChange(sprite::WorldObject*, map::Room* next_room);
 
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
@@ -89,6 +91,7 @@ class World : public ugdk::action::Scene {
     utils::LevelManager::LevelState level_state_;
     pyramidworks::collision::CollisionManager collision_manager_;
     pyramidworks::collision::CollisionManager visibility_manager_;
+    std::queue<std::pair<sprite::WorldObject*, map::Room*> > queued_moves_;
 
     // Graphic
     utils::Hud *hud_;

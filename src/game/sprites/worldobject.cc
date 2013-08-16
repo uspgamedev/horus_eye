@@ -72,9 +72,14 @@ void WorldObject::Update(double dt) {
 }
 
 void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
-   world_position_ = pos;
-   if(shape()) shape()->ChangePosition(pos);
-   if(graphic()) graphic()->SetPosition(world_position_);
+    world_position_ = pos;
+    if(shape()) shape()->ChangePosition(pos);
+    if(graphic()) graphic()->SetPosition(world_position_);
+    if(current_room_) {
+        map::Room* new_room = current_room_->level()->FindRoomFromPoint(world_position_);
+        if(new_room != current_room_)
+            current_room_->level()->QueueRoomChange(this, new_room);
+    }
 }
 
 void WorldObject::set_timed_life(double duration) {

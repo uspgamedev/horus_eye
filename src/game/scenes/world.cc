@@ -151,6 +151,15 @@ World::World(const ugdk::math::Integer2D& size)
         camera_.set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
     }, 1.0);
 
+    this->AddTask([this](double) {
+        while(!queued_moves_.empty()) {
+            auto p = this->queued_moves_.front();
+            p.first->current_room()->RemoveObject(p.first);
+            p.second->ForceAddObject(p.first);
+            this->queued_moves_.pop();
+        }
+    }, 0.6);
+
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         graphic::Geometry camera_geometry = geometry * this->camera_;
@@ -203,6 +212,10 @@ void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
 }
 
+void World::QueueRoomChange(sprite::WorldObject* wobj, map::Room* next_room) {
+    queued_moves_.emplace(wobj, next_room);
+}
+
 void World::SetupCollisionManager() {
     collision_manager_.Generate("Creature");
     collision_manager_.Generate("Hero", "Creature");
@@ -217,7 +230,7 @@ void World::SetupCollisionManager() {
     collision_manager_.Generate("Button");
     collision_manager_.Generate("Explosion");
 
-    this->AddTask(collision_manager_.GenerateHandleCollisionTask());
+    this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
     
     visibility_manager_.Generate("Opaque");
 }
