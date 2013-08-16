@@ -29,6 +29,7 @@ height = 100
 
 event.Clear "DOOR-COUNTER"
 entrance = {
+  neighborhood = { "divergence" },
   width = 11,
   height = 12,
   matrix = [[
@@ -86,6 +87,9 @@ entrance = {
 
 event.Clear "DIVERGENCE-DOOR-COUNTER"
 divergence = {
+  neighborhood = {
+    "entrance", "spike_room", "fireball_room", "central_room"
+  },
   width = 11,
   height = 16,
   matrix = [[
@@ -192,6 +196,7 @@ divergence = {
 
 event.Clear "FALL_SPIKES"
 spike_room = {
+  neighborhood = { "divergence" },
   width = 9,
   height = 6,
   matrix = [[
@@ -247,6 +252,7 @@ spike_room = {
 }
 
 fireball_room = {
+  neighborhood = { "divergence" },
   width = 9,
   height = 6,
   matrix = [[
@@ -305,6 +311,9 @@ local function dual_spawner(offset)
 end
 
 central_room = {
+  neighborhood = {
+    "divergence", "explo_room"
+  },
   width = 17,
   height = 17,
   matrix = [[
@@ -357,6 +366,7 @@ central_room = {
 }
 
 explo_room = {
+  neighborhood = { "central_room" },
   width = 8,
   height = 11,
   matrix = [[
