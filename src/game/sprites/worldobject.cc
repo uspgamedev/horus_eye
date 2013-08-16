@@ -77,7 +77,7 @@ void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
     if(graphic()) graphic()->SetPosition(world_position_);
     if(current_room_) {
         map::Room* new_room = current_room_->level()->FindRoomFromPoint(world_position_);
-        if(new_room != current_room_)
+        if(new_room && new_room != current_room_)
             current_room_->level()->QueueRoomChange(this, new_room);
     }
 }

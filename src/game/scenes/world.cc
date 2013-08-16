@@ -276,7 +276,7 @@ map::Room* World::FindRoomFromPoint(const math::Vector2D& point) const {
     std::list<map::Room*> results;
     rooms_by_location_.FindIntersectingItems(Box<2>(point, point), std::back_inserter(results));
     assert(results.size() <= 1);
-    return results.front();
+    return results.empty() ? nullptr : results.front();
 }
 
 map::Room* World::findRoom(const std::string& name) const {
