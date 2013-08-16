@@ -183,33 +183,6 @@ bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, 
     return shape->Intersects(position, &c, point);
 }
 
-void DrawTexture(ugdk::graphic::Texture* texture, const Geometry& geometry, const VisualEffect& effect) {
-    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
-    shader_use.SendGeometry(geometry);
-    shader_use.SendEffect(effect);
-    shader_use.SendTexture(0, texture);
-    
-    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-    {
-        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
-        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        vertex_data[0 * 2 + 0] = 0.0f; // near left
-        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(texture->height());
-        
-        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(texture->width()); // near right
-        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(texture->height());
-        
-        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(texture->width()); // far right
-        vertex_data[2 * 2 + 1] = 0.0f;
-
-        vertex_data[3 * 2 + 0] = 0.0f; // far left
-        vertex_data[3 * 2 + 1] = 0.0f;
-    }
-    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
-    shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
-    glDrawArrays(GL_QUADS, 0, 4);
-}
-
 void DrawShadows(scene::World* world, sprite::WorldObject* hero, const Geometry& geometry, const VisualEffect& effect) {
     auto opaque_class = world->visibility_manager()->Get("Opaque");
     geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
@@ -302,4 +275,31 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
+}
+
+void DrawTexture(ugdk::graphic::Texture* texture, const Geometry& geometry, const VisualEffect& effect) {
+    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
+    shader_use.SendGeometry(geometry);
+    shader_use.SendEffect(effect);
+    shader_use.SendTexture(0, texture);
+    
+    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    {
+        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
+        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
+        vertex_data[0 * 2 + 0] = 0.0f; // near left
+        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(texture->height());
+        
+        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(texture->width()); // near right
+        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(texture->height());
+        
+        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(texture->width()); // far right
+        vertex_data[2 * 2 + 1] = 0.0f;
+
+        vertex_data[3 * 2 + 0] = 0.0f; // far left
+        vertex_data[3 * 2 + 1] = 0.0f;
+    }
+    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
+    shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
+    glDrawArrays(GL_QUADS, 0, 4);
 }

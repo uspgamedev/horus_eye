@@ -38,6 +38,12 @@ using std::bind;
 using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
 
+namespace {
+int render_sprites = 1; // 0 == nothing, 1 == sprites, 2 == lights
+bool render_collision = false;
+bool render_visibility = false;
+}
+
 bool VerifyCheats(double dt) {
     ugdk::input::Manager *input = ugdk::input::manager();
     LevelManager *level_manager = LevelManager::reference();
@@ -86,6 +92,12 @@ bool VerifyCheats(double dt) {
     
     if(input->KeyPressed(ugdk::input::K_k))
         ToggleShadowcasting();
+    
+    if(input->KeyPressed(ugdk::input::K_i))
+        render_sprites = (render_sprites + 1) % 3;
+    
+    if(input->KeyPressed(ugdk::input::K_u))
+        render_collision = !render_collision;
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
@@ -171,10 +183,11 @@ World::World(const ugdk::math::Integer2D& size)
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         graphic::Geometry camera_geometry = geometry * this->camera_;
-        for(const map::Room* room : active_rooms_)
-            room->Render(camera_geometry, effect);
-        //content_node()->Render(geometry, effect);
-        
+        if(render_sprites == 1)
+            for(const map::Room* room : active_rooms_)
+                room->Render(camera_geometry, effect);
+        else if(render_sprites == 2)
+            DrawTexture(ugdk::graphic::manager()->light_buffer(), geometry, effect);
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         this->hud_->node()->Render(geometry, effect);
     });
