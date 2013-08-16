@@ -68,6 +68,18 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& posit
     AddObject(obj);
 }
 
+void Room::ForceAddObject(sprite::WorldObject* obj) {
+    handleNewObject(obj);
+}
+
+void Room::RemoveObject(sprite::WorldObject* obj) {
+    objects_.remove(obj);
+    if(!obj->tag().empty())
+        RemoveTag(obj->tag());
+    if(obj->graphic())
+        obj->graphic()->RemoveFromLayers(layers_);
+}
+
 void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position, const std::string& tag, bool absolute) {
     VirtualObj recipe = recipes_[recipe_name];
     if(!recipe) {

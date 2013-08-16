@@ -41,7 +41,10 @@ class Room {
     @see AddObject */
     void AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& position, bool absolute = POSITION_RELATIVE);
 
-    //void RemoveObject(sprite::WorldObject* obj);
+    void ForceAddObject(sprite::WorldObject* obj);
+
+    /** Queues the object to be removed from this room at the end of the room's Update. */
+    void RemoveObject(sprite::WorldObject* obj);
 
     /// Creates an object following a stored recipe with the given name.
     /** Logs an error when the given recipe is not found. */
