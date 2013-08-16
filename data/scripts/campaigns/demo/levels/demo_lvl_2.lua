@@ -35,7 +35,10 @@ hero_room = {
   matrix = [[.]],
   objects = {},
   recipes = {
-    ["load-entrance"] = { property = "trigger", params = { activates = "LOAD_ENTRANCE", delay = 0.0 } },
+    ["load-entrance"] = {
+      property = "trigger",
+      params = { activates = "LOAD_ENTRANCE", delay = 0.0 }
+    },
   },
   collision_classes = {},
   setup = function(self) 
@@ -72,7 +75,10 @@ entrance = {
   recipes = {
     ["urn"] = { property = "urn" },
     ["door"] = { property = "closed-door", params = { dir = "Left" } },
-    ["door-switch"] = { property = "event_switch", params = { "DOOR-COUNTER" } },
+    ["door-switch"] = {
+      property = "event_switch",
+      params = { "DOOR-COUNTER" }
+    },
   },
   collision_classes = {
     { "Switch", "Wall" }
@@ -149,7 +155,9 @@ divergence = {
     ["mummy-spawn"] = {
       property = "spawn_region",
       params = {
-        shapefactory = function () return pyramidworks_geometry.Rect(4.0, 4.0) end,
+        shapefactory = function ()
+          return pyramidworks_geometry.Rect(4.0, 4.0)
+        end,
         id = 42,
         tag = "Mummy",
         delay = 1.0,
@@ -232,7 +240,10 @@ spike_room = {
 #########
 ]],
   recipes = {
-    ["fall-spikes-trigger"] = { property = "trigger", params = { activates = "FALL_SPIKES", delay = 0.4 } },
+    ["fall-spikes-trigger"] = {
+      property = "trigger",
+      params = { activates = "FALL_SPIKES", delay = 0.4 }
+    },
     ["spike-trap"] = { property = "spike-trap" },
     ["spike-trap-event"] = {
       property = "event_region",
@@ -257,7 +268,10 @@ spike_room = {
     ["urn"] = { property = "urn" },
     ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
     ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
-    ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
+    ["eventbutton"] = {
+      property = "event_button",
+      params = { "DIVERGENCE-DOOR-COUNTER" }
+    }
   },
   collision_classes = {
     {"Spike"},
@@ -281,7 +295,10 @@ fireball_room = {
 ####&####
 ]],
   recipes = {
-    ["fireball-trap"] = { property = "fireball-trap", params = {dir = vec2(0, -1)}},
+    ["fireball-trap"] = {
+      property = "fireball-trap",
+      params = {dir = vec2(0, -1)}
+    },
     ["fireball-event"] = {
       property = "event_region",
       params = {
@@ -292,7 +309,10 @@ fireball_room = {
         end
       }
     },
-    ["eventbutton"] = { property = "event_button", params = { "DIVERGENCE-DOOR-COUNTER" } }
+    ["eventbutton"] = {
+      property = "event_button",
+      params = { "DIVERGENCE-DOOR-COUNTER" }
+    }
   },
   collision_classes = {
     { "EventArea" }
@@ -307,7 +327,9 @@ local function dual_spawner(offset)
   return {
     property = "spawn_region",
     params = {
-      shapefactory = function () return pyramidworks_geometry.Rect(2.0, 2.0) end,
+      shapefactory = function ()
+        return pyramidworks_geometry.Rect(2.0, 2.0)
+      end,
       id = 64,
       tag = "Mummy",
       recipe = "mummy",
@@ -389,7 +411,7 @@ explo_room = {
 ########
 ]],
   recipes = {
-    ["urn"] = { property = "urn" },
+    ["urn"] = { property = "urn", params = { drops = {"FireballExplosion"} } },
   },
   setup = function (self) 
     for i=1,6 do  
