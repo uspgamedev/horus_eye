@@ -26,12 +26,14 @@
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
+#include "game/initializer.h"
 
 namespace scene {
 
 using namespace ugdk;
 using namespace sprite;
 using namespace utils;
+using ugdk::structure::Box;
 using std::bind;
 using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
@@ -69,7 +71,7 @@ bool VerifyCheats(double dt) {
             hero->set_world_position(core::FromScreenCoordinates(input->GetMousePosition()));
     }
 
-    ugdk::graphic::Geometry& modifier = world->content_node()->geometry();
+    ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
     {
         math::Vector2D scale(1.0);
         if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
@@ -93,15 +95,6 @@ bool VerifyCheats(double dt) {
     return true;
 }
 
-bool UpdateOffset(double dt) {
-    World* world = WORLD();
-    auto mgr = ugdk::graphic::manager();
-    Vector2D result = mgr->video_size()*0.5;
-    if(world->hero()) result -= core::FromWorldCoordinates(world->hero()->world_position()) * world->content_node()->geometry().CalculateScale().x;
-    world->content_node()->geometry().set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
-    return true;
-}
-
 bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     if (*state != LevelManager::NOT_FINISHED) {
         LevelManager::reference()->FinishLevel(*state);
@@ -110,30 +103,57 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
     return true;
 }
 
-World::World() 
-    :   Scene(),
-        hero_(NULL),
-        size_(10, 10),
-        level_state_(LevelManager::NOT_FINISHED),
-        collision_manager_(NULL),
-        visibility_manager_(NULL),
-        content_node_(new graphic::Node) {
+bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
+    Vector2D ap = core::FromWorldCoordinates(a->position()), bp = core::FromWorldCoordinates(b->position());
+    if(ap.y < bp.y)
+        return true;
+    if(ap.y == bp.y) {
+        if(ap.x < bp.x)
+            return true;
+        if(ap.x == bp.x)
+            return a < b;
+    }
+    return false;
+}
 
-    //content_node()->geometry().ToggleFlag(ugdk::graphic::Modifier::TRUNCATES_WHEN_APPLIED);
+World::World(const ugdk::math::Integer2D& size) 
+  :   
+    // World Layout
+    size_(size),
+    active_rooms_(RoomCompareByPositionAndPointer),
+    rooms_by_location_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size)), 4),
 
-    layers_[BACKGROUND_LAYER] = new graphic::Node;
-    layers_[FOREGROUND_LAYER] = new graphic::Node;
-    layers_[BACKGROUND_LAYER]->set_zindex(BACKGROUND_LAYER);
-    layers_[FOREGROUND_LAYER]->set_zindex(FOREGROUND_LAYER);
+    // Game logic
+    level_state_(LevelManager::NOT_FINISHED),
+    collision_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
+    visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
 
-    content_node()->AddChild(layers_[BACKGROUND_LAYER]);
-    content_node()->AddChild(layers_[FOREGROUND_LAYER]);
+    // Graphic
+    hud_(nullptr),
 
+    // Hero
+    hero_(nullptr)
+{
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(bind(FinishLevelTask, _1, &level_state_), 1000);
-    this->AddTask(UpdateOffset, 1.0);
+    this->AddTask([this](double) {
+        Vector2D result = ugdk::graphic::manager()->video_size()*0.5;
+        if(hero_)
+            result -= core::FromWorldCoordinates(hero_->world_position()) 
+                                * camera_.CalculateScale().x;
+        camera_.set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
+    }, 1.0);
+
+    this->AddTask([this](double) {
+        while(!queued_moves_.empty()) {
+            auto p = this->queued_moves_.front();
+            p.first->current_room()->RemoveObject(p.first);
+            p.second->ForceAddObject(p.first);
+            this->queued_moves_.pop();
+        }
+    }, 0.6);
 
 #ifdef HORUSEYE_DEBUG_TOOLS
     this->AddTask(VerifyCheats);
@@ -141,16 +161,20 @@ World::World()
 
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
-        content_node()->Render(geometry, effect);
+        graphic::Geometry camera_geometry = geometry * this->camera_;
+        for(const map::Room* room : active_rooms_)
+            room->Render(camera_geometry, effect);
+        //content_node()->Render(geometry, effect);
         
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         this->hud_->node()->Render(geometry, effect);
     });
+
+    SetupCollisionManager();
 }
 
 // Destrutor
 World::~World() {
-    if(collision_manager_) delete collision_manager_;
 }
 
 void World::Start() {
@@ -187,58 +211,56 @@ void World::SetHero(sprite::WorldObject *hero) {
     hero_ = hero;
 }
 
+void World::QueueRoomChange(sprite::WorldObject* wobj, map::Room* next_room) {
+    queued_moves_.emplace(wobj, next_room);
+}
+
 void World::SetupCollisionManager() {
-    ugdk::math::Vector2D min_coords( -1.0, -1.0 ), max_coords(size_);
-    ugdk::structure::Box<2> box(min_coords, max_coords);
-    collision_manager_ = new pyramidworks::collision::CollisionManager(box);
+    collision_manager_.Generate("Creature");
+    collision_manager_.Generate("Hero", "Creature");
+    collision_manager_.Generate("Mummy", "Creature");
 
-    collision_manager_->Generate("WorldObject");
+    collision_manager_.Generate("Wall");
+    collision_manager_.Generate("Block", "Wall");
+    collision_manager_.Generate("Door", "Wall");
 
-    collision_manager_->Generate("Creature", "WorldObject");
-    collision_manager_->Generate("Hero", "Creature");
-    collision_manager_->Generate("Mummy", "Creature");
+    collision_manager_.Generate("Item");
+    collision_manager_.Generate("Projectile");
+    collision_manager_.Generate("Button");
+    collision_manager_.Generate("Explosion");
 
-    collision_manager_->Generate("Wall", "WorldObject");
-    collision_manager_->Generate("Block", "Wall");
-    collision_manager_->Generate("Door", "Wall");
-
-    collision_manager_->Generate("Item", "WorldObject");
-    collision_manager_->Generate("Projectile", "WorldObject");
-    collision_manager_->Generate("Button", "WorldObject");
-    collision_manager_->Generate("Explosion", "WorldObject");
-
-    this->AddTask(collision_manager_->GenerateHandleCollisionTask());
+    this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
     
-    visibility_manager_ = new pyramidworks::collision::CollisionManager(box);
-    visibility_manager_->Generate("Opaque");
+    visibility_manager_.Generate("Opaque");
+}
+    
+void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
+    graphic::Geometry camera_geometry = geometry * camera_;
+    for(const map::Room* room : active_rooms_)
+        room->RenderLight(camera_geometry, effect);
 }
 
 void World::AddRoom(map::Room* room) {
     if(room && !room->name().empty()) {
         room->DefineLevel(this);
         rooms_[room->name()] = room;
+        rooms_by_location_.Insert(
+            Box<2>(Vector2D(room->position()), Vector2D(room->position() + room->size())),
+            room);
     }
 }
 
 void World::ActivateRoom(const std::string& name) {
     map::Room* room = rooms_[name];
     if(room && !IsRoomActive(room)) {
-        active_rooms_.push_back(room);
-        layer_node(BACKGROUND_LAYER)->AddChild(room->floor());
-        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            if((*it)->graphic())
-                (*it)->graphic()->InsertIntoLayers(layers());
+        active_rooms_.insert(room);
     }
 }
 
 void World::DeactivateRoom(const std::string& name) {
     map::Room* room = findRoom(name);
     if(room && IsRoomActive(room)) {
-        active_rooms_.remove(room);
-        layer_node(BACKGROUND_LAYER)->RemoveChild(room->floor());
-        for(map::Room::WObjListConstIterator it = room->begin(); it != room->end(); ++it)
-            if((*it)->graphic())
-                (*it)->graphic()->RemoveFromLayers(layers());
+        active_rooms_.erase(room);
     }
 }
 
@@ -249,22 +271,30 @@ bool World::IsRoomActive(const std::string& name) const {
 bool World::IsRoomActive(const map::Room* room) const {
     return std::find(active_rooms_.begin(), active_rooms_.end(), room) != active_rooms_.end();
 }
+    
+map::Room* World::FindRoomFromPoint(const math::Vector2D& point) const {
+    std::list<map::Room*> results;
+    rooms_by_location_.FindIntersectingItems(Box<2>(point, point), std::back_inserter(results));
+    assert(results.size() <= 1);
+    return results.front();
+}
 
 map::Room* World::findRoom(const std::string& name) const {
     std::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
-    if(it == rooms_.end()) return NULL;
+    if(it == rooms_.end()) return nullptr;
     return it->second;
 }
 
 bool World::updateRooms(double dt) {
-    for(std::list<map::Room*>::const_iterator it = active_rooms_.begin(); it != active_rooms_.end(); ++it)
-        (*it)->Update(dt);
+    for(map::Room* room : active_rooms_)
+        room->Update(dt);
     return true;
 }
 
 void World::removeAllRooms() {
-    for(std::unordered_map<std::string, map::Room*>::iterator it = rooms_.begin(); it != rooms_.end(); ++it)
-        delete it->second;
+    rooms_by_location_.Clear();
+    for(const auto& it : rooms_)
+        delete it.second;
     rooms_.clear();
     active_rooms_.clear();
 }

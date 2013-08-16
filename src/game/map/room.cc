@@ -26,15 +26,31 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);
     floor_->geometry().set_offset(core::FromWorldCoordinates(position_));
+    layers_[BACKGROUND_LAYER] = new Node;
+    layers_[FOREGROUND_LAYER] = new Node;
 }
 
 Room::~Room() {
+    delete floor_;
+    delete layers_[BACKGROUND_LAYER];
+    delete layers_[FOREGROUND_LAYER];
 }
 
 void Room::Update(double dt) {
     updateObjects(dt);
     deleteToBeRemovedObjects();
     flushObjectQueue();
+}
+    
+void Room::Render(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
+    floor_->Render(geometry, effect);
+    layers_[BACKGROUND_LAYER]->Render(geometry, effect);
+    layers_[FOREGROUND_LAYER]->Render(geometry, effect);
+}
+    
+void Room::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
+    layers_[BACKGROUND_LAYER]->RenderLight(geometry, effect);
+    layers_[FOREGROUND_LAYER]->RenderLight(geometry, effect);
 }
 
 void Room::AddObject(sprite::WorldObject* obj) {
@@ -50,6 +66,18 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& posit
     else
         obj->set_world_position(position + position_);
     AddObject(obj);
+}
+
+void Room::ForceAddObject(sprite::WorldObject* obj) {
+    handleNewObject(obj);
+}
+
+void Room::RemoveObject(sprite::WorldObject* obj) {
+    objects_.remove(obj);
+    if(!obj->tag().empty())
+        RemoveTag(obj->tag());
+    if(obj->graphic())
+        obj->graphic()->RemoveFromLayers(layers_);
 }
 
 void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position, const std::string& tag, bool absolute) {
@@ -107,8 +135,8 @@ void Room::handleNewObject(sprite::WorldObject* obj) {
     obj->OnRoomAdd(this);
     if(!obj->tag().empty())
         tagged_[obj->tag()] = obj;
-    if(level_ && level_->IsRoomActive(this) && obj->graphic())
-        obj->graphic()->InsertIntoLayers(level_->layers());
+    if(obj->graphic())
+        obj->graphic()->InsertIntoLayers(layers_);
 }
     
 } // namespace map

@@ -144,6 +144,9 @@ class WorldObject : public ::ugdk::action::Entity {
     map::Room* current_room() const { return current_room_; }
 
   private:
+    
+    /// Internal identifier. Debugging purposes.
+    std::string identifier_;
 
     // TODO: make this somethintg
     std::function<void (WorldObject*, map::Room*)>  on_room_add_callback_;
@@ -155,9 +158,6 @@ class WorldObject : public ::ugdk::action::Entity {
 
     /// A tag used for searching for the object.
     std::string tag_;
-
-    /// Internal identifier. Debugging purposes.
-    std::string identifier_;
 
     /// The room this object is currently in. (In practice, the room it was created in.)
     map::Room* current_room_;

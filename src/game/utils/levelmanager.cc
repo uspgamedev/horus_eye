@@ -8,6 +8,7 @@
 #include <ugdk/audio/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/drawable/label.h>
 #include <ugdk/graphic/drawable/textbox.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/input/module.h>
@@ -17,14 +18,15 @@
 #include "game/scenes/imagescene.h"
 #include "game/scenes/scrollingimagescene.h"
 #include "game/scenes/loading.h"
+#include "game/scenes/imagescene.h"
 #include "game/components/caster.h"
 #include "game/builders/goodmenubuilder.h"
+#include "game/builders/herobuilder.h"
 #include "game/sprites/worldobject.h"
-#include "game/scenes/imagescene.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/levelloader.h"
-#include "game/map/tile.h"
 #include "game/utils/settings.h"
+#include "game/map/tile.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -41,9 +43,28 @@ using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
 using ugdk::graphic::TextBox;
 
+namespace externals {
+// Convert string to wstring
+std::wstring str_to_wstr(const std::string& arg);
+}
+
 namespace utils {
 
+namespace {
+LevelManager* reference_ = nullptr;
+}
+
+LevelManager* LevelManager::reference() {
+    if(!reference_)
+        reference_ = new LevelManager;
+    return reference_;
+}
+
 LevelManager::LevelManager() {}
+
+LevelManager::~LevelManager() {
+    reference_ = nullptr;
+}
 
 void LevelManager::Initialize() {
     restart_game_ = false;
@@ -138,18 +159,23 @@ void LevelManager::Finish() {
         delete loading_;
 }
 
-LevelManager::~LevelManager() {}
-
 void LevelManager::loadSpecificLevel(const std::string& level_name) {
-    current_level_ = new World();
-    {
-        LevelLoader loader(current_level_);
-        loader.Load(current_campaign_, level_name);
+    utils::LoadLevel(current_campaign_, level_name, &current_level_);
+    if(!current_level_) {
+        ugdk::system::PushScene(new ImageScene(NULL, new ugdk::graphic::Label(
+            L"Error loading level '" + externals::str_to_wstr(level_name) 
+            + L"' from campaign '" + externals::str_to_wstr(current_campaign_) + L"'.",
+            TEXT_MANAGER()->current_font()
+        )));
+        if(ugdk::input::manager()->KeyDown(ugdk::input::K_ESCAPE))
+            loading_->Finish();
+        return;
     }
     current_level_->AddTask([](double) {
         if(ugdk::input::manager()->KeyPressed(ugdk::input::K_ESCAPE))
             ugdk::system::PushScene(builder::PauseMenu());
     });
+    current_level_->SetHero(builder::HeroBuilder::Kha());
     ugdk::system::PushScene(current_level_);
     current_level_->Start();
 }

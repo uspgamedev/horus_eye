@@ -147,10 +147,9 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     int height = room_data["height"].value<int>();
     std::list<ObjectDescriptor> objects;
     
-    CollisionManager* collision_manager = WORLD()->collision_manager();
-    
     if(room_data["collision_classes"]) {
         VirtualObj::Vector collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
+        CollisionManager* collision_manager = WORLD()->collision_manager();
 
         for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
             VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
