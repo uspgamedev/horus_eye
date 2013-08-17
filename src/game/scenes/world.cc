@@ -26,6 +26,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
+#include "game/renders/shape.h"
 #include "game/initializer.h"
 
 namespace scene {
@@ -98,6 +99,9 @@ bool VerifyCheats(double dt) {
     
     if(input->KeyPressed(ugdk::input::K_u))
         render_collision = !render_collision;
+    
+    if(input->KeyPressed(ugdk::input::K_j))
+        render_visibility = !render_visibility;
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
@@ -188,7 +192,14 @@ World::World(const ugdk::math::Integer2D& size)
                 room->Render(camera_geometry, effect);
         else if(render_sprites == 2)
             DrawTexture(ugdk::graphic::manager()->light_buffer(), geometry, effect);
+
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
+        if(render_collision)
+            for(auto collobject : collision_manager_.active_objects())
+                renders::DrawCollisionObject(collobject, camera_geometry, effect);
+        if(render_visibility)
+            for(auto collobject : visibility_manager_.active_objects())
+                renders::DrawCollisionObject(collobject, camera_geometry, effect);
         this->hud_->node()->Render(geometry, effect);
     });
 
