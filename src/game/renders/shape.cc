@@ -16,10 +16,13 @@
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/geometry/circle.h>
 #include "game/core/coordinates.h"
+
+#define PI 3.1415926535897932384626433832795
     
 using namespace ugdk;
 using namespace ugdk::graphic;
 using namespace pyramidworks;
+using math::Vector2D;
 
 namespace renders
 {
@@ -57,11 +60,43 @@ void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, const 
     glDrawArrays(GL_QUADS, 0, 4);
 }
 
-void DrawCircle(const geometry::Circle* circle, const math::Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
+void DrawCircle(const geometry::Circle* circle, const Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
 {
+    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().current_shader());
+    shader_use.SendGeometry(geometry);
+    shader_use.SendEffect(effect);
+    shader_use.SendTexture(0, graphic::manager()->white_texture());
+    
+    math::Vector2D origin = core::FromWorldCoordinates(position);
+    
+    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 10, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    {
+        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
+        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
+        vertex_data[0 * 2 + 0] = static_cast<GLfloat>(origin.x);
+        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(origin.y);
+
+        for(int i = 0; i < 9; ++i) {
+            math::Vector2D p = core::FromWorldCoordinates(
+                position + Vector2D(circle->radius(), 0.0).Rotate(i/4.0 * PI));
+            vertex_data[(i+1) * 2 + 0] = static_cast<GLfloat>(p.x); // near left
+            vertex_data[(i+1) * 2 + 1] = static_cast<GLfloat>(p.y);
+        }
+    }
+    opengl::VertexArray uvbuffer(sizeof(GLfloat) * 2 * 10, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    {
+        opengl::VertexBuffer::Mapper mapper(uvbuffer);
+        GLfloat *uv_data = static_cast<GLfloat*>(mapper.get());
+        uv_data[0 * 2 + 0] = uv_data[0 * 2 + 1] = 0.0f;
+        for(int i = 1; i < 10; ++i)
+            uv_data[i * 2 + 0] = uv_data[i * 2 + 1] = 1.0f;
+    }
+    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
+    shader_use.SendVertexBuffer(&uvbuffer, opengl::TEXTURE, 0);
+    glDrawArrays(GL_TRIANGLE_FAN, 0, 10);
 }
 
-void DrawShape(const geometry::GeometricShape* shape, const math::Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
+void DrawShape(const geometry::GeometricShape* shape, const Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
 {
     if(auto rect = dynamic_cast<const geometry::Rect*>(shape))
         DrawRect(rect, position, geometry, effect);
@@ -73,14 +108,14 @@ void DrawShape(const geometry::GeometricShape* shape, const math::Vector2D& posi
 
 void DrawCollisionObject(const collision::CollisionObject* collobject, const Geometry& geometry, const VisualEffect& effect) {
 #ifdef _DEBUG
-    Color color(std::hash<std::string>()(collobject->collision_class()->name()), 0.5);
+    std::size_t hashval = std::hash<std::string>()(collobject->collision_class()->name());
 #else
-    Color color(std::hash<collision::CollisionClass*>()(collobject->collision_class()), 0.5);
+    std::size_t hashval = std::hash<collision::CollisionClass*>()(collobject->collision_class());
 #endif
     DrawShape(collobject->shape(), 
         collobject->absolute_position(), 
         geometry, 
-        effect * VisualEffect(color));
+        effect * VisualEffect(Color(static_cast<uint32>(hashval), 0.5)));
 }
 
 }
