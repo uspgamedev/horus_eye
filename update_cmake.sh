@@ -1,6 +1,6 @@
 #!/bin/bash
 cd src
-FILES=`find externals/ game/ | grep "^.*\.\(h\|cc\)$" | grep -v "game/config.h" | sort -h`
+FILES=`find externals/ game/ | grep "^.*\.\(h\|cc\)$" | grep -v "game/config.h" | sort`
 echo "SET(GAME_SRCS " > ./src_list.cmake
 for f in $FILES; do
 	echo "    $f " >> ./src_list.cmake
