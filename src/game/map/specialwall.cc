@@ -70,7 +70,8 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
 }
 
 SpecialWall::SpecialWall(const ugdk::graphic::Texture* texture)
-    : texture_(texture), size_(texture->width(), texture->height()) {
+    : size_(texture->width(), texture->height())
+    , texture_(texture) {
     
     if(!wall_light_shader_) {
         wall_light_shader_ = createWallShader();

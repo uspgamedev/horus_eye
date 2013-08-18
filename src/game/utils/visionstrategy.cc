@@ -35,7 +35,6 @@ bool wall(char obj){
 bool VisionStrategy::IsVisible(const ugdk::math::Vector2D& from, const ugdk::math::Vector2D& target) {
     using pyramidworks::collision::CollisionManager;
     using pyramidworks::geometry::ConvexPolygon;
-    CollisionManager* visman = WORLD()->visibility_manager();
     std::vector<Vector2D> points(2);
     points[1] = Vector2D(target - from);
     ConvexPolygon ray(points);
