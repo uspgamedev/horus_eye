@@ -61,8 +61,9 @@ else(NOT HORUSEYE_INTERNAL_UGDK)
         endif(GIT_FOUND)
     endif()
     
-    set(UGDK_BUILD_TESTS OFF CACHE BOOL "Set to ON to enable building tests.")
-    
+    set(UGDK_BUILD_TESTS    OFF CACHE BOOL "Set to ON to enable building tests.")
+    set(UGDK_BUILD_EXAMPLES OFF CACHE BOOL "Set to ON to enable building examples.")
+
     add_definitions(-DEMBBEDED_UGDK="${CMAKE_CURRENT_BINARY_DIR}/externals/ugdk")
     add_subdirectory(externals/ugdk)
     include_directories(${UGDK_EXTERNAL_INCLUDE_DIRS})
