@@ -5,7 +5,6 @@
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/components/animation.h"
 #include "game/components/controller.h"
@@ -26,15 +25,6 @@ using map::TilePos;
 using sprite::WorldObject;
 
 namespace component {
-
-COLLISION_DIRECT(Walker*, RectCollision, obj) {
-    WorldObject *wobj = (WorldObject *) obj;
-    data_->collideWithRect(wobj->shape()->collision());
-}
-
-pyramidworks::collision::CollisionLogic* CreateWalkerRectCollision(Walker* obj) {
-    return new RectCollision(obj);
-}
 
 Walker::Walker(WorldObject* owner, double original_speed)
     :   owner_(owner),
@@ -73,6 +63,14 @@ void Walker::Update(double dt) {
         }
     }
     current_speed_ = original_speed_;
+}
+
+pyramidworks::collision::CollisionLogic Walker::CreateRectCollision() {
+    return [this](ugdk::action::Entity* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj);
+        if(wobj)
+            this->collideWithRect(wobj->shape()->collision());
+    };
 }
 
 void Walker::move(Vector2D direction, double delta_t) {

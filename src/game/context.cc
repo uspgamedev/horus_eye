@@ -50,7 +50,7 @@ CollisionObject* MakeCollisionObject (WorldObject* obj) {
     if (!world) return NULL;
     CollisionManager *manager = world->collision_manager();
     if (!manager) return NULL;
-    return new CollisionObject(manager, static_cast<void*>(obj));
+    return new CollisionObject(manager, obj);
 }
 
 void AddCollisionClass (const string& classname) {

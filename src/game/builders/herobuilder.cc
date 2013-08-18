@@ -1,7 +1,6 @@
 #include "herobuilder.h"
 
 #include <ugdk/resource/module.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
 
@@ -25,7 +24,9 @@
 namespace builder {
 namespace HeroBuilder {
 
+using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
+using pyramidworks::collision::CollisionLogic;
 using sprite::WorldObject;
 using resource::Energy;
 using resource::CapacityBlocks;
@@ -42,16 +43,18 @@ static void HeroDeathEvent(sprite::WorldObject* wobj) {
     WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
 }
 
-COLLISION_DIRECT(component::Walker*, MummySlowCollision, mummy) {
-    data_->set_current_speed(data_->current_speed() / 1.19);
+CollisionLogic MummySlowCollision(component::Walker* walker) {
+    return [walker](Entity*) {
+        walker->set_current_speed(walker->current_speed() / 1.19);
+    };
 }
 
 void SetupCollision(sprite::WorldObject* obj) {
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), obj);
     col->InitializeCollisionClass("Hero");
     col->set_shape(new pyramidworks::geometry::Circle(0.3));
-    col->AddCollisionLogic("Wall", component::CreateWalkerRectCollision(obj->component<Walker>()));
-    col->AddCollisionLogic("Mummy", new MummySlowCollision(obj->component<component::Walker>()));
+    col->AddCollisionLogic("Wall", obj->component<Walker>()->CreateRectCollision());
+    col->AddCollisionLogic("Mummy", MummySlowCollision(obj->component<component::Walker>()));
 
     obj->AddComponent(new Shape(col, NULL));
 }

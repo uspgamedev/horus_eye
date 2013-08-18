@@ -6,12 +6,11 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
-#include <pyramidworks/collision/genericcollisionlogic.h>
 #include <pyramidworks/geometry/rect.h>
 
 #include "doodadbuilder.h"
 
+#include "game/builders/collision.h"
 #include "game/core/coordinates.h"
 #include "game/components/damageable.h"
 #include "game/components/shape.h"
@@ -29,20 +28,15 @@ namespace DoodadBuilder {
 using std::bind;
 using namespace std::placeholders;
 using ugdk::action::SpriteAnimationTable;
+using ugdk::action::Entity;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
 using ugdk::graphic::Sprite;
 using ugdk::graphic::Node;
 using pyramidworks::collision::CollisionObject;
-using pyramidworks::collision::GenericCollisionLogic;
 using pyramidworks::geometry::Rect;
 using component::Shape;
 using sprite::WorldObject;
-
-COLLISION_DIRECT(double, DamageCollisionExtra, obj) {
-    sprite::WorldObject *wobj = static_cast<sprite::WorldObject*>(obj);
-    wobj->damageable()->TakeDamage(data_);
-}
 
 WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
@@ -50,9 +44,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
     CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
     col->InitializeCollisionClass("Wall");
-    col->AddCollisionLogic("Hero", new GenericCollisionLogic([](void*) {
-        WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN);
-    }));
+    col->AddCollisionLogic("Hero", [](Entity*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
     col->set_shape(new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     wobj->AddComponent(new Shape(col, NULL));
 

@@ -5,7 +5,6 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 
 
@@ -33,7 +32,9 @@ using namespace utils;
 using sprite::WorldObject;
 using component::Caster;
 using sprite::Effect;
+using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
+using pyramidworks::collision::CollisionLogic;
 
 typedef std::function<bool (WorldObject*)> ItemEvent;
 
@@ -44,15 +45,16 @@ struct ItemUseData {
     ItemUseData(WorldObject* wobj, const ItemEvent& ev) : wobj_(wobj), event_(ev) {}
 };
 
-
-COLLISION_DIRECT(ItemUseData, UseCollision, obj) {
-    WorldObject *wobj = (WorldObject*) obj;
-    if (data_.event_(wobj))
-        data_.wobj_->Die();
+CollisionLogic UseCollision(WorldObject* owner, ItemEvent event) {
+    return [owner, event](Entity* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject*>(obj);
+        if (event(wobj))
+            owner->Die();
+    };
 }
 
 void CreateItemUse(WorldObject* wobj, const ItemEvent& ev) {
-    wobj->shape()->collision()->AddCollisionLogic("Hero", new UseCollision(ItemUseData(wobj, ev)));
+    wobj->shape()->collision()->AddCollisionLogic("Hero", UseCollision(wobj, ev));
 }
 
 class ItemLogic : public component::Base {
