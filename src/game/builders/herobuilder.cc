@@ -50,8 +50,7 @@ CollisionLogic MummySlowCollision(component::Walker* walker) {
 }
 
 void SetupCollision(sprite::WorldObject* obj) {
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), obj);
-    col->InitializeCollisionClass("Hero");
+    CollisionObject* col = new CollisionObject(obj, "Hero");
     col->set_shape(new pyramidworks::geometry::Circle(0.3));
     col->AddCollisionLogic("Wall", obj->component<Walker>()->CreateRectCollision());
     col->AddCollisionLogic("Mummy", MummySlowCollision(obj->component<component::Walker>()));

@@ -42,8 +42,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
     wobj->AddComponent(new component::BaseGraphic(new Sprite("stairs")));
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Wall");
+    CollisionObject* col = new CollisionObject(wobj, "Wall");
     col->AddCollisionLogic("Hero", [](Entity*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
     col->set_shape(new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     wobj->AddComponent(new Shape(col, NULL));
@@ -60,8 +59,7 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     }
     wobj->set_identifier("Wall");
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Wall");
+    CollisionObject* col = new CollisionObject(wobj, "Wall");
     col->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
     
     //CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);

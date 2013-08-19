@@ -77,8 +77,7 @@ WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
     wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
     image->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Item");
+    CollisionObject* col = new CollisionObject(wobj, "Item");
     col->set_shape(new pyramidworks::geometry::Circle(0.15));
 
     wobj->AddComponent(new component::Shape(col, NULL));

@@ -72,9 +72,7 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
         return NULL;
     }
 
-    CollisionObject* colobj = new CollisionObject(WORLD()->collision_manager(), wobj);
-
-    colobj->InitializeCollisionClass(coldata["class"].value<std::string>());
+    CollisionObject* colobj = new CollisionObject(wobj, coldata["class"].value<std::string>());
     colobj->set_shape(shape);
 
     if(coldata["known_collision"]) {

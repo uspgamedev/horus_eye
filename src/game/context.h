@@ -6,7 +6,6 @@
 #include <vector>
 
 #include <ugdk/math.h>
-#include <pyramidworks/collision.h>
 #include <pyramidworks/geometry.h>
 
 #include "game/map.h"
@@ -15,8 +14,6 @@
 namespace context {
     
 sprite::WorldObject* WorldObjectByTag (const std::string& tag);
-
-pyramidworks::collision::CollisionObject* MakeCollisionObject (sprite::WorldObject* obj);
 
 void AddCollisionClass (const std::string& classname);
 

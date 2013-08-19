@@ -7,6 +7,7 @@
 #include <pyramidworks/collision.h>
 
 #include "game/sprites.h"
+#include "game/scenes.h"
 #include "game/components/orders.h"
 
 namespace component {
@@ -21,7 +22,7 @@ class Shape : public Base {
 
     void Update(double dt) {}
     
-    void Activate();
+    void Activate(scene::World*);
     void Deactivate();
     void ChangePosition(const ugdk::math::Vector2D& pos);
     

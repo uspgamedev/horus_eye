@@ -45,14 +45,6 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
         return NULL;
 }
 
-CollisionObject* MakeCollisionObject (WorldObject* obj) {
-    World *world = WORLD();
-    if (!world) return NULL;
-    CollisionManager *manager = world->collision_manager();
-    if (!manager) return NULL;
-    return new CollisionObject(manager, obj);
-}
-
 void AddCollisionClass (const string& classname) {
     World *world = WORLD();
     assert(world);
@@ -105,7 +97,7 @@ static void findCollisions(CollisionClass *colclass, const GeometricShape& shape
     CollisionObjectList result;
     colclass->FindCollidingObjects(pos, shape, result);
     for(const CollisionObject * obj : result)
-        if(WorldObject* wobj = static_cast<WorldObject*>(obj->data()))
+        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data()))
             objects_colliding.push_back(wobj);
 }
 

@@ -107,11 +107,7 @@ void DrawShape(const geometry::GeometricShape* shape, const Vector2D& position, 
 }
 
 void DrawCollisionObject(const collision::CollisionObject* collobject, const Geometry& geometry, const VisualEffect& effect) {
-#ifdef _DEBUG
-    std::size_t hashval = std::hash<std::string>()(collobject->collision_class()->name());
-#else
-    std::size_t hashval = std::hash<collision::CollisionClass*>()(collobject->collision_class());
-#endif
+    std::size_t hashval = std::hash<std::string>()(collobject->collision_class());
     DrawShape(collobject->shape(), 
         collobject->absolute_position(), 
         geometry, 

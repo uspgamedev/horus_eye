@@ -34,8 +34,7 @@ static WorldObject* baseExplosion(const std::string& spritesheet, const std::str
 
     wobj->AddComponent(graphic);
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Explosion");
+    CollisionObject* col = new CollisionObject(wobj, "Explosion");
     wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;

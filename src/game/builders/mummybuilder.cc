@@ -100,8 +100,7 @@ void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
     resource::Energy mana;
     wobj->AddComponent(new Caster(wobj, mana));
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Mummy");
+    CollisionObject* col = new CollisionObject(wobj, "Mummy");
     col->set_shape(new pyramidworks::geometry::Circle(radius));
     wobj->AddComponent(new component::Shape(col, NULL));
 

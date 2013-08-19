@@ -94,8 +94,7 @@ bool BlocksVision (char obj) {
 void AddObstacle (Room* room, double x, double y, double width, double height) {
     WorldObject* wobj = new WorldObject;
     
-    CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
-    vis->InitializeCollisionClass("Opaque");
+    CollisionObject* vis = new CollisionObject(wobj, "Opaque");
     vis->set_shape(new pyramidworks::geometry::Rect(width, height));
     
     wobj->AddComponent(new Shape(nullptr, vis));

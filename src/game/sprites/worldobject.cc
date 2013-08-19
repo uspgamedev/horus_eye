@@ -48,7 +48,8 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Remove() {
-    if(graphic()) graphic()->set_visible(false);
+    if(auto g = graphic())
+        g->set_visible(false);
     dead_ = true;
     if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
@@ -58,9 +59,12 @@ void WorldObject::Remove() {
 
 void WorldObject::Die() {
     dead_ = true;
-    if(shape()) shape()->Deactivate();
-    if(on_start_to_die_callback_) on_start_to_die_callback_(this);
-    if(!HasComponent("animation")) Remove();
+    if(auto s = shape())
+        s->Deactivate();
+    if(on_start_to_die_callback_)
+        on_start_to_die_callback_(this);
+    if(!HasComponent("animation"))
+        Remove();
 }
 
 void WorldObject::Update(double dt) {
@@ -73,8 +77,10 @@ void WorldObject::Update(double dt) {
 
 void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
     world_position_ = pos;
-    if(shape()) shape()->ChangePosition(pos);
-    if(graphic()) graphic()->SetPosition(world_position_);
+    if(auto s = shape()) 
+        s->ChangePosition(pos);
+    if(auto g = graphic()) 
+        g->SetPosition(world_position_);
     if(current_room_) {
         map::Room* new_room = current_room_->level()->FindRoomFromPoint(world_position_);
         if(new_room && new_room != current_room_)
@@ -89,7 +95,8 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnRoomAdd(map::Room* room) {
-    if(shape()) shape()->Activate();
+    if(auto s = shape())
+        s->Activate(WORLD()); // room->level() may be nullptr, fix
     current_room_ = room;
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);
