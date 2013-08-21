@@ -69,12 +69,12 @@ recipes = {
   },
 }
 
-setup = function (self)
-  self:MakeRecipe("horizontal-mummy-spawn", vec2(8, 5.5))
-  self:MakeRecipe("horizontal-mummy-spawn", vec2(8, 16-5.5))
-  self:MakeRecipe("vertical-mummy-spawn", vec2(5.5, 8))
-  self:MakeRecipe("vertical-mummy-spawn", vec2(16-5.5, 8))
-  self:MakeRecipe("open-door", vec2(0, 7))
-  self:MakeRecipe("open-door", vec2(0, 8))
-  self:MakeRecipe("open-door", vec2(0, 9))
+function setup (room)
+  room:MakeRecipe("horizontal-mummy-spawn", vec2(8, 5.5))
+  room:MakeRecipe("horizontal-mummy-spawn", vec2(8, 16-5.5))
+  room:MakeRecipe("vertical-mummy-spawn", vec2(5.5, 8))
+  room:MakeRecipe("vertical-mummy-spawn", vec2(16-5.5, 8))
+  room:MakeRecipe("open-door", vec2(0, 7))
+  room:MakeRecipe("open-door", vec2(0, 8))
+  room:MakeRecipe("open-door", vec2(0, 9))
 end
