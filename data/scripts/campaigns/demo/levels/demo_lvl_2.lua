@@ -9,6 +9,10 @@ require "event"
 local roomsize = 12
 local vec2 = ugdk_math.Vector2D
 
+math.randomseed(os.time())
+math.random()
+math.random()
+
 music = "musics/Arabesque.ogg"
 rooms = {
   {0, 0, "entrance"},

@@ -53,5 +53,16 @@ recipes = {
 }
 
 function setup (room)
+  local device  = math.random() > 0.5 and 'button' or 'switch'
+  local side    = math.random() > 0.5 and 5.5 or 16.5
   room:MakeRecipe('entrance-trap', vec2(11, 1.5))
+  room:MakeRecipe('escape-'..device, vec2(side, 5.5))
+  event.Register(
+    'OPEN-ESCAPE-DOOR',
+    function ()
+      for i=1,3 do
+        room:WorldObjectByTag('THE-DOOR-'..i):Die()
+      end
+    end
+  )
 end
