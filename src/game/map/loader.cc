@@ -94,8 +94,7 @@ bool BlocksVision (char obj) {
 void AddObstacle (Room* room, double x, double y, double width, double height) {
     WorldObject* wobj = new WorldObject;
     
-    CollisionObject* vis = new CollisionObject(wobj, "Opaque");
-    vis->set_shape(new pyramidworks::geometry::Rect(width, height));
+    CollisionObject* vis = new CollisionObject(wobj, "Opaque", new pyramidworks::geometry::Rect(width, height));
     
     wobj->AddComponent(new Shape(nullptr, vis));
     room->AddObject(wobj, Vector2D(x, y));
@@ -153,7 +152,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
         for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
             VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
             if (collclass.size() >= 2)
-                collision_manager->ChangeParent(collclass.front().value<string>(), collclass[1].value<string>());
+                collision_manager->ChangeClassParent(collclass.front().value<string>(), collclass[1].value<string>());
         }
     }
 

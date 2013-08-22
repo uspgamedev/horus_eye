@@ -15,8 +15,6 @@ namespace context {
     
 sprite::WorldObject* WorldObjectByTag (const std::string& tag);
 
-void AddCollisionClass (const std::string& classname, const std::string& supername);
-
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
 void EnableDeathAnimation(sprite::WorldObject* wobj);

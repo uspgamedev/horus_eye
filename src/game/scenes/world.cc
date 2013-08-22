@@ -246,11 +246,11 @@ void World::QueueRoomChange(sprite::WorldObject* wobj, map::Room* next_room) {
 }
 
 void World::SetupCollisionManager() {
-    collision_manager_.ChangeParent("Hero", "Creature");
-    collision_manager_.ChangeParent("Mummy", "Creature");
+    collision_manager_.ChangeClassParent("Hero", "Creature");
+    collision_manager_.ChangeClassParent("Mummy", "Creature");
 
-    collision_manager_.ChangeParent("Block", "Wall");
-    collision_manager_.ChangeParent("Door", "Wall");
+    collision_manager_.ChangeClassParent("Block", "Wall");
+    collision_manager_.ChangeClassParent("Door", "Wall");
 
     this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
 }

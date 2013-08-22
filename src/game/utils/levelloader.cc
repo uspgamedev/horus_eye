@@ -39,7 +39,7 @@ void LoadLevel(const std::string& campaign, const std::string& name, scene::Worl
         for(const VirtualObj& it : collision_classes_vector) {
             VirtualObj::Vector collclass = it.value<VirtualObj::Vector>();
             if (collclass.size() >= 2)
-                world->collision_manager()->ChangeParent(collclass[0].value<std::string>(), collclass[1].value<std::string>());
+                world->collision_manager()->ChangeClassParent(collclass[0].value<std::string>(), collclass[1].value<std::string>());
         }
     }
 

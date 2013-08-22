@@ -45,14 +45,6 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
         return NULL;
 }
 
-void AddCollisionClass (const string& classname, const std::string& supername) {
-    World *world = WORLD();
-    assert(world);
-    CollisionManager *manager = world->collision_manager();
-    assert(manager);
-    manager->ChangeParent(classname, supername);
-}
-
 static void _internal_AddDamageableComponent(sprite::WorldObject* obj, double life) {
     component::Damageable* damageable = new component::Damageable(obj);
     damageable->life() = resource::Energy(life);

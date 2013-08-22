@@ -32,8 +32,7 @@ using pyramidworks::collision::CollisionObject;
 using function::Carrier;
 
 static CollisionObject* buildCollisionObject(WorldObject* wobj, double radius) {
-    CollisionObject* col = new CollisionObject(wobj, "Projectile");
-    col->set_shape(new pyramidworks::geometry::Circle(radius));
+    CollisionObject* col = new CollisionObject(wobj, "Projectile", new pyramidworks::geometry::Circle(radius));
     col->AddCollisionLogic("Wall", DieCollision(wobj));
     return col;
 }
