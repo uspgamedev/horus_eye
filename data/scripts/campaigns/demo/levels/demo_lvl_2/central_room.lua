@@ -23,7 +23,7 @@ local function dual_spawner(offset)
 end
 
 neighborhood = {
-  "divergence", "explo_room"
+  "divergence", "explo_room", "assault_room"
 }
 
 width = 17

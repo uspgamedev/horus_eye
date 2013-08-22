@@ -16,7 +16,8 @@ rooms = {
   {2, 12, "spike_room"},
   {22, 3, "fireball_room"},
   {8, 18, "central_room"},
-  {0, 21, "explo_room"}
+  {0, 21, "explo_room"},
+  {6, 35, "assault_room"}
 }
 
 start_position = {"entrance", 2, roomsize / 2}
