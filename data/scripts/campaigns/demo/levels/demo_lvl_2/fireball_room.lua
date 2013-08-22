@@ -34,7 +34,7 @@ recipes = {
     }
   },
   ["eventbutton"] = {
-    property = "event_button",
+    property = "trigger-button",
     params = { "DIVERGENCE-DOOR-COUNTER" }
   }
 }

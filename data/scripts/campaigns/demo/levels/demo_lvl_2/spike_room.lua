@@ -50,7 +50,7 @@ recipes = {
   ["door-left"] = { property = "closed-door", params = { dir = "Left" } },
   ["door-right"] = { property = "closed-door", params = { dir = "Right" } },
   ["eventbutton"] = {
-    property = "event_button",
+    property = "trigger-button",
     params = { "DIVERGENCE-DOOR-COUNTER" }
   }
 }

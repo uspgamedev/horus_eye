@@ -34,7 +34,7 @@ recipes = {
   ["urn"] = { property = "urn" },
   ["door"] = { property = "closed-door", params = { dir = "Left" } },
   ["door-switch"] = {
-    property = "event_switch",
+    property = "trigger-switch",
     params = { "DOOR-COUNTER" }
   },
 }
