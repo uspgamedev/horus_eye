@@ -66,10 +66,8 @@ void Walker::Update(double dt) {
 }
 
 pyramidworks::collision::CollisionLogic Walker::CreateRectCollision() {
-    return [this](ugdk::action::Entity* obj) {
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj);
-        if(wobj)
-            this->collideWithRect(wobj->shape()->collision());
+    return [this](const pyramidworks::collision::CollisionObject* obj) {
+        this->collideWithRect(obj);
     };
 }
 
@@ -90,14 +88,12 @@ void Walker::collideWithRect(const pyramidworks::collision::CollisionObject* col
     //const pyramidworks::geometry::Circle *circle =
     //    (const pyramidworks::geometry::Circle*) owner_->collision_object()->shape();
 
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) coll_obj->shape();
-
-    Vector2D circ_pos = owner_->shape()->collision()->absolute_position();
+    Vector2D circ_pos = owner_->world_position();
     Vector2D rect_pos = coll_obj->absolute_position();
 
-    double half_r_width  = rect->width() /2.0;
-    double half_r_height = rect->height()/2.0;
+    auto box = coll_obj->CreateBoundingBox();
+    double half_r_width  = (box.max_coordinates()[0] - box.min_coordinates()[0])/2.0;
+    double half_r_height = (box.max_coordinates()[1] - box.min_coordinates()[1])/2.0;
 
     double r_left   = rect_pos.x - half_r_width;
     double r_right  = rect_pos.x + half_r_width;

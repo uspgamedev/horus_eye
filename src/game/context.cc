@@ -88,7 +88,7 @@ static void findCollisions(CollisionClass &colclass, const GeometricShape& shape
     CollisionObjectList result;
     colclass.FindCollidingObjects(pos, shape, result);
     for(const CollisionObject * obj : result)
-        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data()))
+        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->owner()))
             objects_colliding.push_back(wobj);
 }
 

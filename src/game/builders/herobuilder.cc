@@ -24,7 +24,6 @@
 namespace builder {
 namespace HeroBuilder {
 
-using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
 using sprite::WorldObject;
@@ -44,7 +43,7 @@ static void HeroDeathEvent(sprite::WorldObject* wobj) {
 }
 
 CollisionLogic MummySlowCollision(component::Walker* walker) {
-    return [walker](Entity*) {
+    return [walker](const CollisionObject*) {
         walker->set_current_speed(walker->current_speed() / 1.19);
     };
 }

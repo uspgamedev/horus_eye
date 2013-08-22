@@ -43,7 +43,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
     wobj->AddComponent(new component::BaseGraphic(new Sprite("stairs")));
 
     CollisionObject* col = new CollisionObject(wobj, "Wall");
-    col->AddCollisionLogic("Hero", [](Entity*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
+    col->AddCollisionLogic("Hero", [](const CollisionObject*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
     col->set_shape(new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     wobj->AddComponent(new Shape(col, NULL));
 

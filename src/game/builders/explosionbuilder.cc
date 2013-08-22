@@ -34,8 +34,6 @@ static WorldObject* baseExplosion(const std::string& spritesheet, const std::str
 
     wobj->AddComponent(graphic);
 
-    CollisionObject* col = new CollisionObject(wobj, "Explosion");
-    wobj->AddComponent(new Shape(col, NULL));
 
     return wobj;
 }
@@ -47,7 +45,8 @@ WorldObject* FireballExplosion() {
     wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
     wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
 
-    CollisionObject* col = wobj->shape()->collision();
+    CollisionObject* col = new CollisionObject(wobj, "Explosion");
+    wobj->AddComponent(new Shape(col, NULL));
     col->AddCollisionLogic("Mummy", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
     col->set_shape(new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
 

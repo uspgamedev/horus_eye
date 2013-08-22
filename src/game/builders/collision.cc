@@ -1,6 +1,7 @@
 #include "game/builders/collision.h"
 
 #include <cmath>
+#include <pyramidworks/collision/collisionobject.h>
 #include "game/constants.h"
 #include "game/components/damageable.h"
 #include "game/components/statecontroller.h"
@@ -13,17 +14,18 @@ namespace builder {
 using ugdk::math::Vector2D;
 using ugdk::action::Entity;
 using pyramidworks::collision::CollisionLogic;
+using pyramidworks::collision::CollisionObject;
 using sprite::WorldObject;
 
 CollisionLogic DieCollision(sprite::WorldObject* owner) {
-    return [owner](Entity*) {
+    return [owner](const CollisionObject*) {
         owner->Die();
     };
 }
 
 CollisionLogic DamageCollision(double damage) {
-    return [damage](Entity* obj) {
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj);
+    return [damage](const CollisionObject* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
         if(wobj && wobj->damageable()) 
             wobj->damageable()->TakeDamage(damage);
     };
@@ -34,8 +36,8 @@ CollisionLogic DamageCollision(const std::string& constant_name) {
 }
 
 CollisionLogic DamageAndDieCollision(WorldObject* owner, double damage) {
-    return [owner,damage](Entity* obj) {
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj);
+    return [owner,damage](const CollisionObject* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
         if(wobj && !owner->dead() && wobj->damageable()) {
             wobj->damageable()->TakeDamage(damage);
             owner->Die();
@@ -48,9 +50,9 @@ CollisionLogic DamageAndDieCollision(WorldObject* owner, const std::string& cons
 }
 
 pyramidworks::collision::CollisionLogic BounceCollision(sprite::WorldObject* owner) {
-    return [owner](Entity* obj) {
+    return [owner](const CollisionObject* obj) {
         component::StateController* controller = owner->component<component::StateController>();
-        WorldObject* wall = dynamic_cast<WorldObject*>(obj);
+        WorldObject* wall = dynamic_cast<WorldObject*>(obj->owner());
         if(!controller || !wall) return;
         ugdk::math::Vector2D projectile_position = owner->world_position();
         ugdk::math::Vector2D wall_position = wall->world_position();

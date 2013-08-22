@@ -36,8 +36,8 @@ using pyramidworks::collision::CollisionLogic;
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
 CollisionLogic AntiStackCollision(Walker* data_) {
-    return [data_](Entity* obj) {
-        sprite::WorldObject *wobj = dynamic_cast<sprite::WorldObject *>(obj);
+    return [data_](const CollisionObject* obj) {
+        sprite::WorldObject *wobj = dynamic_cast<sprite::WorldObject *>(obj->owner());
         Vector2D deviation = (data_->owner()->world_position() - wobj->world_position()).Normalize() * 0.9;
         data_->set_offset_direction(deviation);
     };

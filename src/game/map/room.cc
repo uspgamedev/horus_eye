@@ -109,7 +109,7 @@ void Room::RemoveTag(const std::string& tag) {
 }
     
 void Room::Activate() {
-    assert(static_cast<bool>(level_));
+    assert(level_);
     for(WorldObject* wobj : objects_)
         if(auto s = wobj->shape())
             s->Activate(level_);

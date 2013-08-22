@@ -46,15 +46,11 @@ struct ItemUseData {
 };
 
 CollisionLogic UseCollision(WorldObject* owner, ItemEvent event) {
-    return [owner, event](Entity* obj) {
-        WorldObject *wobj = dynamic_cast<WorldObject*>(obj);
+    return [owner, event](const CollisionObject* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject*>(obj->owner());
         if (event(wobj))
             owner->Die();
     };
-}
-
-void CreateItemUse(WorldObject* wobj, const ItemEvent& ev) {
-    wobj->shape()->collision()->AddCollisionLogic("Hero", UseCollision(wobj, ev));
 }
 
 class ItemLogic : public component::Base {
@@ -71,7 +67,7 @@ class ItemLogic : public component::Base {
     double total_time_;
 };
 
-WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
+WorldObject* buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, const std::string& target_class = "Hero") {
     WorldObject* wobj = new WorldObject;
     wobj->AddComponent(new component::BaseGraphic);
     wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
@@ -79,6 +75,7 @@ WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
 
     CollisionObject* col = new CollisionObject(wobj, "Item");
     col->set_shape(new pyramidworks::geometry::Circle(0.15));
+    col->AddCollisionLogic(target_class, UseCollision(wobj, ev));
 
     wobj->AddComponent(new component::Shape(col, NULL));
     return wobj;
@@ -124,15 +121,13 @@ class RecoverManaEvent {
 
 WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.LifePotionImage());
-    CreateItemUse(wobj, RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
+    WorldObject* wobj = buildBaseItem(factory.LifePotionImage(), RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
     return wobj;
 }
 
 WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
-    CreateItemUse(wobj, RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
+    WorldObject* wobj = buildBaseItem(factory.ManaPotionImage(), RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
     return wobj;
 }
 

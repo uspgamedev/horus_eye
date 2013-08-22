@@ -37,8 +37,8 @@ bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::stri
 }
 
 CollisionLogic ScriptCollision(VirtualObj logic, WorldObject* owner) {
-    return [logic, owner](ugdk::action::Entity* obj) {
-        WorldObject *another = dynamic_cast<WorldObject*>(obj);
+    return [logic, owner](const CollisionObject* obj) {
+        WorldObject *another = dynamic_cast<WorldObject*>(obj->owner());
         VirtualObj  self (logic.wrapper()),
                     target (logic.wrapper());
         self.set_value<WorldObject*>(owner);
