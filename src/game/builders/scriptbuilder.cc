@@ -3,7 +3,6 @@
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/genericcollisionlogic.h>
 
 #include "scriptbuilder.h"
 
@@ -23,7 +22,6 @@ using std::string;
 using std::vector;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
-using pyramidworks::collision::GenericCollisionLogic;
 using namespace std::placeholders;
 
 bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::string(), const std::string& f2 = std::string(),
@@ -38,17 +36,23 @@ bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::stri
     return true;
 }
 
+CollisionLogic ScriptCollision(VirtualObj logic, WorldObject* owner) {
+    return [logic, owner](const CollisionObject* obj) {
+        WorldObject *another = dynamic_cast<WorldObject*>(obj->owner());
+        VirtualObj  self (logic.wrapper()),
+                    target (logic.wrapper());
+        self.set_value<WorldObject*>(owner);
+        target.set_value<WorldObject*>(another);
+        logic((self, target));
+    };
+}
+
 class ScriptCollision {
   public:
     ScriptCollision (const VirtualObj& logic, WorldObject* obj) :
         logic_(logic), self_(obj) {}
     void operator () (void* data) {
-        WorldObject *another = static_cast<WorldObject*>(data);
-        VirtualObj  self (logic_.wrapper()),
-                    target (logic_.wrapper());
-        self.set_value<WorldObject*>(self_);
-        target.set_value<WorldObject*>(another);
-        logic_((self, target));
+
     }
   private:
     VirtualObj  logic_;
@@ -68,18 +72,15 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
         return NULL;
     }
 
-    CollisionObject* colobj = new CollisionObject(WORLD()->collision_manager(), wobj);
-
-    colobj->InitializeCollisionClass(coldata["class"].value<std::string>());
-    colobj->set_shape(shape);
+    CollisionObject* colobj = new CollisionObject(wobj, coldata["class"].value<std::string>(), shape);
 
     if(coldata["known_collision"]) {
         VirtualObj::Map custom_collisions = coldata["known_collision"].value<VirtualObj::Map>();
         for(VirtualObj::Map::iterator it = custom_collisions.begin(); it != custom_collisions.end(); ++it) {
             std::string classname = it->first.value<std::string>();
-            VirtualObj scriptlogic = it->second;
-            CollisionLogic* logic = new GenericCollisionLogic(ScriptCollision(scriptlogic, wobj));
-            colobj->AddCollisionLogic(classname, logic);
+            colobj->AddCollisionLogic(
+                classname, 
+                ScriptCollision(it->second, wobj));
         }
     }
 

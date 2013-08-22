@@ -71,6 +71,9 @@ class Room {
         neighborhood_.push_back(str);
     }
 
+    void Activate();
+    void Deactivate();
+
     const std::string& name() const { return name_; }
     const std::list<std::string>& neighborhood() const { return neighborhood_; }
     const ugdk::math::Integer2D& size() const { return size_; }

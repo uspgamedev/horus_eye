@@ -25,6 +25,8 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     
     void Update(double dt);
 
+    pyramidworks::collision::CollisionLogic CreateRectCollision();
+
     sprite::WorldObject* owner() { return owner_; }
     double original_speed() const { return original_speed_; }
     double current_speed() const { return current_speed_; }
@@ -60,8 +62,6 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     friend class RectCollision;
 
 };  // class Walker
-
-pyramidworks::collision::CollisionLogic* CreateWalkerRectCollision(Walker*);
 
 } // namespace component
 

@@ -45,30 +45,6 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
         return NULL;
 }
 
-CollisionObject* MakeCollisionObject (WorldObject* obj) {
-    World *world = WORLD();
-    if (!world) return NULL;
-    CollisionManager *manager = world->collision_manager();
-    if (!manager) return NULL;
-    return new CollisionObject(manager, static_cast<void*>(obj));
-}
-
-void AddCollisionClass (const string& classname) {
-    World *world = WORLD();
-    assert(world);
-    CollisionManager *manager = world->collision_manager();
-    assert(manager);
-    manager->Generate(classname);
-}
-
-void AddCollisionClass (const string& classname, const std::string& supername) {
-    World *world = WORLD();
-    assert(world);
-    CollisionManager *manager = world->collision_manager();
-    assert(manager);
-    manager->Generate(classname, supername);
-}
-
 static void _internal_AddDamageableComponent(sprite::WorldObject* obj, double life) {
     component::Damageable* damageable = new component::Damageable(obj);
     damageable->life() = resource::Energy(life);
@@ -100,26 +76,25 @@ void EnableDeathAnimation (WorldObject* wobj) {
     wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
 }
 
-static void findCollisions(CollisionClass *colclass, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
-    if(!colclass) return;
+static void findCollisions(CollisionClass &colclass, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
     CollisionObjectList result;
-    colclass->FindCollidingObjects(pos, shape, result);
+    colclass.FindCollidingObjects(pos, shape, result);
     for(const CollisionObject * obj : result)
-        if(WorldObject* wobj = static_cast<WorldObject*>(obj->data()))
+        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->owner()))
             objects_colliding.push_back(wobj);
 }
 
 void GetCollidingObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
     World *world = WORLD();
     if (!world) return;
-    CollisionClass *colclass = world->collision_manager()->Get(classname);
+    CollisionClass &colclass = world->collision_manager()->Find(classname);
     findCollisions(colclass, shape, pos, objects_colliding);
 }
 
 void GetCollidingVisibilityObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
     World *world = WORLD();
     if (!world) return;
-    CollisionClass *colclass = world->visibility_manager()->Get(classname);
+    CollisionClass &colclass = world->visibility_manager()->Find(classname);
     findCollisions(colclass, shape, pos, objects_colliding);
 }
 

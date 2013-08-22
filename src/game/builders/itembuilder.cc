@@ -5,7 +5,6 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 
 
@@ -33,7 +32,9 @@ using namespace utils;
 using sprite::WorldObject;
 using component::Caster;
 using sprite::Effect;
+using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
+using pyramidworks::collision::CollisionLogic;
 
 typedef std::function<bool (WorldObject*)> ItemEvent;
 
@@ -44,15 +45,12 @@ struct ItemUseData {
     ItemUseData(WorldObject* wobj, const ItemEvent& ev) : wobj_(wobj), event_(ev) {}
 };
 
-
-COLLISION_DIRECT(ItemUseData, UseCollision, obj) {
-    WorldObject *wobj = (WorldObject*) obj;
-    if (data_.event_(wobj))
-        data_.wobj_->Die();
-}
-
-void CreateItemUse(WorldObject* wobj, const ItemEvent& ev) {
-    wobj->shape()->collision()->AddCollisionLogic("Hero", new UseCollision(ItemUseData(wobj, ev)));
+CollisionLogic UseCollision(WorldObject* owner, ItemEvent event) {
+    return [owner, event](const CollisionObject* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject*>(obj->owner());
+        if (event(wobj))
+            owner->Die();
+    };
 }
 
 class ItemLogic : public component::Base {
@@ -69,15 +67,14 @@ class ItemLogic : public component::Base {
     double total_time_;
 };
 
-WorldObject* buildBaseItem(ugdk::graphic::Drawable* image) {
+WorldObject* buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, const std::string& target_class = "Hero") {
     WorldObject* wobj = new WorldObject;
     wobj->AddComponent(new component::BaseGraphic);
     wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
     image->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Item");
-    col->set_shape(new pyramidworks::geometry::Circle(0.15));
+    CollisionObject* col = new CollisionObject(wobj, "Item", new pyramidworks::geometry::Circle(0.15));
+    col->AddCollisionLogic(target_class, UseCollision(wobj, ev));
 
     wobj->AddComponent(new component::Shape(col, NULL));
     return wobj;
@@ -123,15 +120,13 @@ class RecoverManaEvent {
 
 WorldObject* LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.LifePotionImage());
-    CreateItemUse(wobj, RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
+    WorldObject* wobj = buildBaseItem(factory.LifePotionImage(), RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
     return wobj;
 }
 
 WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.ManaPotionImage());
-    CreateItemUse(wobj, RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
+    WorldObject* wobj = buildBaseItem(factory.ManaPotionImage(), RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
     return wobj;
 }
 

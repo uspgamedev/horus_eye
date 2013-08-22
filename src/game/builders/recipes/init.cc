@@ -6,7 +6,6 @@
 
 // For createFireballExplosionRecipe()
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/genericcollisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 #include "game/components/graphic.h"
 #include "game/components/shape.h"

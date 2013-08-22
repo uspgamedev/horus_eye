@@ -83,7 +83,7 @@ class World : public ugdk::action::Scene {
     // World Layout
     ugdk::math::Integer2D size_;
     std::unordered_map<std::string, map::Room*> rooms_;
-    std::set<map::Room*, std::function<bool (map::Room*, map::Room*)>> active_rooms_;
+    std::vector<map::Room*> active_rooms_;
     ugdk::structure::ikdtree::IntervalKDTree<map::Room*, 2> rooms_by_location_;
 
   private:

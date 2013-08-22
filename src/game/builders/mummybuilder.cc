@@ -3,7 +3,6 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 #include <pyramidworks/geometry/circle.h>
 
 #include "game/builders/itembuilder.h"
@@ -30,14 +29,18 @@ using component::Animation;
 using component::Walker;
 using resource::Energy;
 using ugdk::math::Vector2D;
+using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
+using pyramidworks::collision::CollisionLogic;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
-COLLISION_DIRECT(Walker*, AntiStackCollision, voiddata) {
-    sprite::WorldObject *obj = static_cast<sprite::WorldObject *>(voiddata);
-    Vector2D deviation = (data_->owner()->world_position() - obj->world_position()).Normalize() * 0.9;
-    data_->set_offset_direction(deviation);
+CollisionLogic AntiStackCollision(Walker* data_) {
+    return [data_](const CollisionObject* obj) {
+        sprite::WorldObject *wobj = dynamic_cast<sprite::WorldObject *>(obj->owner());
+        Vector2D deviation = (data_->owner()->world_position() - wobj->world_position()).Normalize() * 0.9;
+        data_->set_offset_direction(deviation);
+    };
 }
 
 static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {
@@ -97,15 +100,13 @@ void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
     resource::Energy mana;
     wobj->AddComponent(new Caster(wobj, mana));
 
-    CollisionObject* col = new CollisionObject(WORLD()->collision_manager(), wobj);
-    col->InitializeCollisionClass("Mummy");
-    col->set_shape(new pyramidworks::geometry::Circle(radius));
+    CollisionObject* col = new CollisionObject(wobj, "Mummy", new pyramidworks::geometry::Circle(radius));
     wobj->AddComponent(new component::Shape(col, NULL));
 
     Walker* walker = new Walker(wobj, speed);
     wobj->AddComponent(walker);
-    col->AddCollisionLogic("Mummy", new AntiStackCollision(walker));
-    col->AddCollisionLogic("Wall", CreateWalkerRectCollision(walker));
+    col->AddCollisionLogic("Mummy", AntiStackCollision(walker));
+    col->AddCollisionLogic("Wall", walker->CreateRectCollision());
 
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);

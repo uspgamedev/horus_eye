@@ -142,7 +142,6 @@ World::World(const ugdk::math::Integer2D& size)
   :   
     // World Layout
     size_(size),
-    active_rooms_(RoomCompareByPositionAndPointer),
     rooms_by_location_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size)), 4),
 
     // Game logic
@@ -247,22 +246,13 @@ void World::QueueRoomChange(sprite::WorldObject* wobj, map::Room* next_room) {
 }
 
 void World::SetupCollisionManager() {
-    collision_manager_.Generate("Creature");
-    collision_manager_.Generate("Hero", "Creature");
-    collision_manager_.Generate("Mummy", "Creature");
+    collision_manager_.ChangeClassParent("Hero", "Creature");
+    collision_manager_.ChangeClassParent("Mummy", "Creature");
 
-    collision_manager_.Generate("Wall");
-    collision_manager_.Generate("Block", "Wall");
-    collision_manager_.Generate("Door", "Wall");
-
-    collision_manager_.Generate("Item");
-    collision_manager_.Generate("Projectile");
-    collision_manager_.Generate("Button");
-    collision_manager_.Generate("Explosion");
+    collision_manager_.ChangeClassParent("Block", "Wall");
+    collision_manager_.ChangeClassParent("Door", "Wall");
 
     this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
-    
-    visibility_manager_.Generate("Opaque");
 }
     
 void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
@@ -287,11 +277,17 @@ void World::ChangeFocusedRoom(const std::string& name) {
 
 void World::ChangeFocusedRoom(map::Room* room) {
     if(!room) return;
+    for(map::Room* active_room : active_rooms_)
+        active_room->Deactivate();
     active_rooms_.clear();
-    active_rooms_.insert(room);
+    active_rooms_.reserve(1 + room->neighborhood().size());
+    active_rooms_.push_back(room);
     for(const std::string& neightbor_name : room->neighborhood())
         if(map::Room* neightbor = findRoom(neightbor_name))
-            active_rooms_.insert(neightbor);
+            active_rooms_.push_back(neightbor);
+    for(map::Room* active_room : active_rooms_)
+        active_room->Activate();
+    std::sort(active_rooms_.begin(), active_rooms_.end(), RoomCompareByPositionAndPointer);
 }
 
 bool World::IsRoomActive(const std::string& name) const {
@@ -308,9 +304,9 @@ map::Room* World::FindRoomFromPoint(const math::Vector2D& point) const {
     assert(results.size() <= 1);
     return results.empty() ? nullptr : results.front();
 }
-
+    
 map::Room* World::findRoom(const std::string& name) const {
-    std::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
+    auto it = rooms_.find(name);
     if(it == rooms_.end()) return nullptr;
     return it->second;
 }

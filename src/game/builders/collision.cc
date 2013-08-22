@@ -1,6 +1,8 @@
 #include "game/builders/collision.h"
 
 #include <cmath>
+#include <pyramidworks/collision/collisionobject.h>
+#include "game/constants.h"
 #include "game/components/damageable.h"
 #include "game/components/statecontroller.h"
 #include "game/sprites/worldobject.h"
@@ -10,36 +12,58 @@
 namespace builder {
 
 using ugdk::math::Vector2D;
+using ugdk::action::Entity;
+using pyramidworks::collision::CollisionLogic;
+using pyramidworks::collision::CollisionObject;
 using sprite::WorldObject;
 
-void DieCollision::Handle(void*) {
-    owner_->Die();
+CollisionLogic DieCollision(sprite::WorldObject* owner) {
+    return [owner](const CollisionObject*) {
+        owner->Die();
+    };
 }
 
-void BounceCollision::Handle(void* data) {
-    component::StateController* controller = owner_->component<component::StateController>();
-    WorldObject* wall = static_cast<WorldObject*>(data);
-    ugdk::math::Vector2D projectile_position = owner_->world_position();
-    ugdk::math::Vector2D wall_position = wall->world_position();
-    ugdk::math::Vector2D new_direction = projectile_position - wall_position;
-    double angle = new_direction.Angle();
-    if( (angle >= PI/4 && angle <= 3*PI/4) || (angle <= -PI/4 && angle >= -3*PI/4) )
-        controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::VERT));
-    else
-        controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::HORZ));
+CollisionLogic DamageCollision(double damage) {
+    return [damage](const CollisionObject* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
+        if(wobj && wobj->damageable()) 
+            wobj->damageable()->TakeDamage(damage);
+    };
 }
 
-void DamageCollision::Handle(void* obj) {
-    WorldObject *wobj = static_cast<WorldObject *>(obj);
-    if(wobj->damageable()) wobj->damageable()->TakeDamage(damage_);
+CollisionLogic DamageCollision(const std::string& constant_name) {
+    return DamageCollision(constants::GetDouble(constant_name));
 }
 
-void DamageAndDieCollision::Handle(void* obj) {
-    WorldObject *wobj = static_cast<WorldObject *>(obj);
-    if(!owner_->dead() && wobj->damageable()) {
-        wobj->damageable()->TakeDamage(damage_);
-        owner_->Die();
-    }
+CollisionLogic DamageAndDieCollision(WorldObject* owner, double damage) {
+    return [owner,damage](const CollisionObject* obj) {
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
+        if(wobj && !owner->dead() && wobj->damageable()) {
+            wobj->damageable()->TakeDamage(damage);
+            owner->Die();
+        }
+    };
 }
+
+CollisionLogic DamageAndDieCollision(WorldObject* owner, const std::string& constant_name) {
+    return DamageAndDieCollision(owner, constants::GetDouble(constant_name));
+}
+
+pyramidworks::collision::CollisionLogic BounceCollision(sprite::WorldObject* owner) {
+    return [owner](const CollisionObject* obj) {
+        component::StateController* controller = owner->component<component::StateController>();
+        WorldObject* wall = dynamic_cast<WorldObject*>(obj->owner());
+        if(!controller || !wall) return;
+        ugdk::math::Vector2D projectile_position = owner->world_position();
+        ugdk::math::Vector2D wall_position = wall->world_position();
+        ugdk::math::Vector2D new_direction = projectile_position - wall_position;
+        double angle = new_direction.Angle();
+        if( (angle >= PI/4 && angle <= 3*PI/4) || (angle <= -PI/4 && angle >= -3*PI/4) )
+            controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::VERT));
+        else
+            controller->set_direction_vector(new_direction.Mirrored(ugdk::enums::mirroraxis::HORZ));
+    };
+}
+
 
 } // namespace builder

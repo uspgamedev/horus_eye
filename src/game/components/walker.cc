@@ -5,7 +5,6 @@
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionlogic.h>
 
 #include "game/components/animation.h"
 #include "game/components/controller.h"
@@ -26,15 +25,6 @@ using map::TilePos;
 using sprite::WorldObject;
 
 namespace component {
-
-COLLISION_DIRECT(Walker*, RectCollision, obj) {
-    WorldObject *wobj = (WorldObject *) obj;
-    data_->collideWithRect(wobj->shape()->collision());
-}
-
-pyramidworks::collision::CollisionLogic* CreateWalkerRectCollision(Walker* obj) {
-    return new RectCollision(obj);
-}
 
 Walker::Walker(WorldObject* owner, double original_speed)
     :   owner_(owner),
@@ -75,6 +65,12 @@ void Walker::Update(double dt) {
     current_speed_ = original_speed_;
 }
 
+pyramidworks::collision::CollisionLogic Walker::CreateRectCollision() {
+    return [this](const pyramidworks::collision::CollisionObject* obj) {
+        this->collideWithRect(obj);
+    };
+}
+
 void Walker::move(Vector2D direction, double delta_t) {
     // If you called Move() you should be in a stable position.
 
@@ -92,14 +88,12 @@ void Walker::collideWithRect(const pyramidworks::collision::CollisionObject* col
     //const pyramidworks::geometry::Circle *circle =
     //    (const pyramidworks::geometry::Circle*) owner_->collision_object()->shape();
 
-    const pyramidworks::geometry::Rect *rect = 
-        (const pyramidworks::geometry::Rect*) coll_obj->shape();
-
-    Vector2D circ_pos = owner_->shape()->collision()->absolute_position();
+    Vector2D circ_pos = owner_->world_position();
     Vector2D rect_pos = coll_obj->absolute_position();
 
-    double half_r_width  = rect->width() /2.0;
-    double half_r_height = rect->height()/2.0;
+    auto box = coll_obj->CreateBoundingBox();
+    double half_r_width  = (box.max_coordinates()[0] - box.min_coordinates()[0])/2.0;
+    double half_r_height = (box.max_coordinates()[1] - box.min_coordinates()[1])/2.0;
 
     double r_left   = rect_pos.x - half_r_width;
     double r_right  = rect_pos.x + half_r_width;
