@@ -107,6 +107,19 @@ WorldObject* Room::WorldObjectByTag (const std::string& tag) const {
 void Room::RemoveTag(const std::string& tag) {
     tagged_[tag] = NULL;
 }
+    
+void Room::Activate() {
+    assert(static_cast<bool>(level_));
+    for(WorldObject* wobj : objects_)
+        if(auto s = wobj->shape())
+            s->Activate(level_);
+}
+
+void Room::Deactivate() {
+    for(WorldObject* wobj : objects_)
+        if(auto s = wobj->shape())
+            s->Deactivate();
+}
 
 void Room::updateObjects(double delta_t) {
     for(std::list<sprite::WorldObject*>::iterator it = objects_.begin(); it != objects_.end(); ++it)
