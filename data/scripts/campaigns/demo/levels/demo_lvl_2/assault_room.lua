@@ -27,6 +27,10 @@ matrix = [[
 ]]
 
 recipes = {
+  ['entrance-trap'] = {
+    property = 'event-region',
+    params = {}
+  },
   ['escape-button'] = {
     property = 'trigger-button',
     params = { 'OPEN-ESCAPE-DOOR' }

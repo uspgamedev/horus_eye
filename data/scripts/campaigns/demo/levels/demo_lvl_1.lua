@@ -165,7 +165,7 @@ firstblood = {
       }
     },
     ["entrance_event"] = {
-      property = "event_region",
+      property = "event-region",
       params = {
         shape = pyramidworks_geometry.Rect(1.0, roomsize),
         callback = function (region)

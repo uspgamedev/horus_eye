@@ -11,10 +11,10 @@ height = 6
 
 matrix = [[
 %%%%%%%%%
-%.......%
-........%
-........%
-#.......%
+%.......#
+........#
+........#
+#.......#
 ####&####
 ]]
 
@@ -24,7 +24,7 @@ recipes = {
     params = {dir = vec2(0, -1)}
   },
   ["fireball-event"] = {
-    property = "event_region",
+    property = "event-region",
     params = {
       shape = pyramidworks_geometry.Rect(1.0, 4.0),
       callback = function (region)

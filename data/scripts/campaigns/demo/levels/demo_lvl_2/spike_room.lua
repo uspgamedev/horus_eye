@@ -27,7 +27,7 @@ recipes = {
   },
   ["spike-trap"] = { property = "spike-trap" },
   ["spike-trap-event"] = {
-    property = "event_region",
+    property = "event-region",
     params = {
       shape = pyramidworks_geometry.Rect(1.0, 4.0),
       callback = function (region)
