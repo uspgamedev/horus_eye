@@ -76,6 +76,7 @@ class World : public ugdk::action::Scene {
 
   protected:
     void SetupCollisionManager();
+    void ActivateRoom(map::Room*);
     map::Room* findRoom(const std::string& name) const;
     bool updateRooms(double dt);
     void removeAllRooms();

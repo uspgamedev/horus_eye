@@ -95,8 +95,6 @@ void WorldObject::set_timed_life(double duration) {
 }
 
 void WorldObject::OnRoomAdd(map::Room* room) {
-    if(auto s = shape())
-        s->Activate(WORLD()); // room->level() may be nullptr, fix
     current_room_ = room;
     if(on_room_add_callback_)
         on_room_add_callback_(this, room);

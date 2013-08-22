@@ -287,11 +287,15 @@ void World::ChangeFocusedRoom(const std::string& name) {
 
 void World::ChangeFocusedRoom(map::Room* room) {
     if(!room) return;
+    for(map::Room* active_room : active_rooms_)
+        for(WorldObject* wobj : *active_room)
+            if(auto s = wobj->shape())
+                s->Deactivate();
     active_rooms_.clear();
-    active_rooms_.insert(room);
+    ActivateRoom(room);
     for(const std::string& neightbor_name : room->neighborhood())
         if(map::Room* neightbor = findRoom(neightbor_name))
-            active_rooms_.insert(neightbor);
+            ActivateRoom(neightbor);
 }
 
 bool World::IsRoomActive(const std::string& name) const {
@@ -308,7 +312,14 @@ map::Room* World::FindRoomFromPoint(const math::Vector2D& point) const {
     assert(results.size() <= 1);
     return results.empty() ? nullptr : results.front();
 }
-
+    
+void World::ActivateRoom(map::Room* room) {
+    active_rooms_.insert(room);
+    for(WorldObject* wobj : *room)
+        if(auto s = wobj->shape())
+            s->Activate(this);
+}
+    
 map::Room* World::findRoom(const std::string& name) const {
     std::unordered_map<std::string, map::Room*>::const_iterator it = rooms_.find(name);
     if(it == rooms_.end()) return nullptr;
