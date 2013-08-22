@@ -184,10 +184,10 @@ bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, 
 }
 
 void DrawShadows(scene::World* world, sprite::WorldObject* hero, const Geometry& geometry, const VisualEffect& effect) {
-    auto opaque_class = world->visibility_manager()->Get("Opaque");
+    auto& opaque_class = world->visibility_manager()->Find("Opaque");
     geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
     collision::CollisionObjectList walls;
-    opaque_class->FindCollidingObjects(hero->world_position(), screen_rect, walls);
+    opaque_class.FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
     Geometry offset_geometry = geometry * world->camera();
     VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));

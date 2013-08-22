@@ -246,22 +246,13 @@ void World::QueueRoomChange(sprite::WorldObject* wobj, map::Room* next_room) {
 }
 
 void World::SetupCollisionManager() {
-    collision_manager_.Generate("Creature");
-    collision_manager_.Generate("Hero", "Creature");
-    collision_manager_.Generate("Mummy", "Creature");
+    collision_manager_.ChangeParent("Hero", "Creature");
+    collision_manager_.ChangeParent("Mummy", "Creature");
 
-    collision_manager_.Generate("Wall");
-    collision_manager_.Generate("Block", "Wall");
-    collision_manager_.Generate("Door", "Wall");
-
-    collision_manager_.Generate("Item");
-    collision_manager_.Generate("Projectile");
-    collision_manager_.Generate("Button");
-    collision_manager_.Generate("Explosion");
+    collision_manager_.ChangeParent("Block", "Wall");
+    collision_manager_.ChangeParent("Door", "Wall");
 
     this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
-    
-    visibility_manager_.Generate("Opaque");
 }
     
 void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {

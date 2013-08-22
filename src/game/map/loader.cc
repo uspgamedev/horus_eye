@@ -153,9 +153,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
         for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
             VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
             if (collclass.size() >= 2)
-                collision_manager->Generate(collclass.front().value<string>(), collclass[1].value<string>());
-            else if (collclass.size() >= 1)
-                collision_manager->Generate(collclass.front().value<string>());
+                collision_manager->ChangeParent(collclass.front().value<string>(), collclass[1].value<string>());
         }
     }
 
