@@ -19,44 +19,44 @@ AI::~AI() {
 }
 
 void AI::Start() {
-	if (state_ != CREATED) return;
+    if (state_ != CREATED) return;
 
-	if (root_) {
-		root_->Start();
-		state_ = RUNNING;
-	}
+    if (root_) {
+        root_->Start();
+        state_ = RUNNING;
+    }
 }
 
 void AI::Update(double dt) {
-	Start(); /*Due to the state_, this should execute only once.*/
-	if (state_ != RUNNING) return;
+    Start(); /*Due to the state_, this should execute only once.*/
+    if (state_ != RUNNING) return;
 
     data_->Clear();
-	AIModule::Status stat;
-	if (root_) {
-		stat = root_->Update(dt, data_);
-		if (stat == AIModule::DONE) {
-			Finish();
-		}
-	}
+    AIModule::Status stat;
+    if (root_) {
+        stat = root_->Update(dt, data_);
+        if (stat == AIModule::DONE) {
+            Finish();
+        }
+    }
     aim_destination_ = data_->aim_destination();
     dir_ = component::Direction::FromWorldVector(data_->direction());
 }
 
 void AI::Finish(){
-	if (state_ != RUNNING) return;
+    if (state_ != RUNNING) return;
 
-	if (root_) {
-		root_->Finish();
-		state_ = FINISHED;
-	}
+    if (root_) {
+        root_->Finish();
+        state_ = FINISHED;
+    }
 }
 
 void AI::set_root(AIModule* root) {
-	if (state_ != CREATED) return;
+    if (state_ != CREATED) return;
 
-	root_ = root;
-	root_->base_ = this;
+    root_ = root;
+    root_->base_ = this;
 }
 
 void AI::set_standing(bool standing) {
@@ -73,7 +73,7 @@ bool AI::standing() {
 }
 
 bool AI::IsUsingSkillSlot(SkillSlot slot) const {
-	if (state_ != RUNNING) return false;
+    if (state_ != RUNNING) return false;
     return data_->IsUsingSkillSlot(slot);
 }
 
