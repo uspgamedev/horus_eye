@@ -15,7 +15,7 @@
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/components/condition.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/effect.h"
@@ -76,7 +76,7 @@ WorldObject* buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, 
     CollisionObject* col = new CollisionObject(wobj, "Item", new pyramidworks::geometry::Circle(0.15));
     col->AddCollisionLogic(target_class, UseCollision(wobj, ev));
 
-    wobj->AddComponent(new component::Shape(col, NULL));
+    wobj->AddComponent(new component::Body(col, NULL));
     return wobj;
 }
 

@@ -20,7 +20,7 @@
 #include <game/components/animation.h>
 #include <game/components/direction.h>
 #include <game/components/caster.h>
-#include <game/components/shape.h>
+#include <game/components/body.h>
 #include <game/components/condition.h>
 
 #include <ugdk/script/baseproxy.h>
@@ -87,7 +87,7 @@ disable_disown(ugdk::graphic::Drawable* drawable)
 %include <game/components/controller.h>
 %include <game/components/animation.h>
 %include <game/components/caster.h>
-%include <game/components/shape.h>
+%include <game/components/body.h>
 %include <game/components/condition.h>
 
 namespace sprite {
@@ -104,7 +104,7 @@ namespace component {
     export_class(Controller)
     export_class(Animation)
     export_class(Caster)
-    export_class(Shape)
+    export_class(Body)
 	export_class(Condition)
 }
 

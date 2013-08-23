@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_COMPONENT_SHAPE_H_
-#define HORUSEYE_COMPONENT_SHAPE_H_
+#ifndef HORUSEYE_COMPONENT_BODY_H_
+#define HORUSEYE_COMPONENT_BODY_H_
 
 #include <list>
 #include <memory>
@@ -14,13 +14,13 @@
 
 namespace component {
 
-class Shape : public Base {
+class Body : public Base {
   public:
-    static const char* DEFAULT_NAME() { return "shape"; }
+    static const char* DEFAULT_NAME() { return "body"; }
     static int DEFAULT_ORDER() { return orders::LOGIC; }
 
-    Shape(pyramidworks::collision::CollisionObject* collision, pyramidworks::collision::CollisionObject* visibility);
-    ~Shape();
+    Body(pyramidworks::collision::CollisionObject* collision, pyramidworks::collision::CollisionObject* visibility);
+    ~Body();
 
     void Update(double dt) {}
     
@@ -38,4 +38,4 @@ class Shape : public Base {
 
 }  // namespace component
 
-#endif  // HORUSEYE_COMPONENT_SHAPE_H_
+#endif  // HORUSEYE_COMPONENT_BODY_H_

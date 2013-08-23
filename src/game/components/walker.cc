@@ -9,7 +9,7 @@
 #include "game/components/animation.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"

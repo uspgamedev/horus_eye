@@ -10,7 +10,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/isometricanimationset.h"
@@ -21,7 +21,7 @@ namespace ExplosionBuilder {
 
 using std::bind;
 using pyramidworks::collision::CollisionObject;
-using component::Shape;
+using component::Body;
 using sprite::WorldObject;
 
 static WorldObject* baseExplosion(const std::string& spritesheet, const std::string& anim) {
@@ -46,7 +46,7 @@ WorldObject* FireballExplosion() {
     wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
 
     CollisionObject* col = new CollisionObject(wobj, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
-    wobj->AddComponent(new Shape(col, NULL));
+    wobj->AddComponent(new Body(col, NULL));
     col->AddCollisionLogic("Creature", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
 
     return wobj;

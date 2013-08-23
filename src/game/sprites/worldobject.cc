@@ -15,7 +15,7 @@
 #include "game/components/damageable.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 
 
 namespace sprite {
@@ -59,8 +59,8 @@ void WorldObject::Remove() {
 
 void WorldObject::Die() {
     dead_ = true;
-    if(auto s = shape())
-        s->Deactivate();
+    if(auto b = body())
+        b->Deactivate();
     if(on_start_to_die_callback_)
         on_start_to_die_callback_(this);
     if(!HasComponent("animation"))
@@ -77,8 +77,8 @@ void WorldObject::Update(double dt) {
 
 void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
     world_position_ = pos;
-    if(auto s = shape()) 
-        s->ChangePosition(pos);
+    if(auto b = body()) 
+        b->ChangePosition(pos);
     if(auto g = graphic()) 
         g->SetPosition(world_position_);
     if(current_room_) {
@@ -122,6 +122,6 @@ component::Damageable* WorldObject::damageable() { return component<component::D
 component::BaseGraphic* WorldObject::graphic() { return component<component::BaseGraphic>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
-component::Shape* WorldObject::shape() { return component<component::Shape>(); }
+component::Body* WorldObject::body() { return component<component::Body>(); }
 
 }  // namespace sprite

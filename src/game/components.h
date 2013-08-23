@@ -10,7 +10,7 @@ class Damageable;
 class Caster;
 class Graphic;
 class BaseGraphic;
-class Shape;
+class Body;
 
 class Controller;
 class PlayerController;

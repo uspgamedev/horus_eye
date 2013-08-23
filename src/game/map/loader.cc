@@ -10,7 +10,7 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/rect.h>
 
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/builders/builder.h"
 #include "game/builders/doodadbuilder.h"
 #include "game/sprites/worldobject.h"
@@ -32,7 +32,7 @@ using pyramidworks::collision::CollisionManager;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::geometry::Rect;
 using sprite::WorldObject;
-using component::Shape;
+using component::Body;
 
 typedef std::vector<std::string> ArgumentList;
 
@@ -96,7 +96,7 @@ void AddObstacle (Room* room, double x, double y, double width, double height) {
     
     CollisionObject* vis = new CollisionObject(wobj, "Opaque", new pyramidworks::geometry::Rect(width, height));
     
-    wobj->AddComponent(new Shape(nullptr, vis));
+    wobj->AddComponent(new Body(nullptr, vis));
     room->AddObject(wobj, Vector2D(x, y));
 }
 

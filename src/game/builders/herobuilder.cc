@@ -10,7 +10,7 @@
 #include "game/components/caster.h"
 #include "game/components/playercontroller.h"
 #include "game/components/walker.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/components/condition.h"
 #include "game/resources/energy.h"
 #include "game/resources/capacityblocks.h"
@@ -32,7 +32,7 @@ using resource::CapacityBlocks;
 using component::Animation;
 using component::Caster;
 using component::Walker;
-using component::Shape;
+using component::Body;
 using skills::usearguments::Aim;
 
 static utils::IsometricAnimationSet* ANIMATIONS = NULL;
@@ -53,7 +53,7 @@ void SetupCollision(sprite::WorldObject* obj) {
     col->AddCollisionLogic("Wall", obj->component<Walker>()->CreateRectCollision());
     col->AddCollisionLogic("Mummy", MummySlowCollision(obj->component<component::Walker>()));
 
-    obj->AddComponent(new Shape(col, NULL));
+    obj->AddComponent(new Body(col, NULL));
 }
 
 sprite::WorldObject* Kha() {

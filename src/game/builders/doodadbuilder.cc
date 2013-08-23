@@ -13,7 +13,7 @@
 #include "game/builders/collision.h"
 #include "game/core/coordinates.h"
 #include "game/components/damageable.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/components/basegraphic.h"
 #include "game/map/specialwall.h"
 #include "game/scenes/world.h"
@@ -35,7 +35,7 @@ using ugdk::graphic::Sprite;
 using ugdk::graphic::Node;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::geometry::Rect;
-using component::Shape;
+using component::Body;
 using sprite::WorldObject;
 
 WorldObject* Door(const std::vector<std::string>& arguments) {
@@ -44,7 +44,7 @@ WorldObject* Door(const std::vector<std::string>& arguments) {
 
     CollisionObject* col = new CollisionObject(wobj, "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
-    wobj->AddComponent(new Shape(col, NULL));
+    wobj->AddComponent(new Body(col, NULL));
 
     return wobj;
 }
@@ -64,9 +64,9 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     //vis->InitializeCollisionClass("Opaque");
     //vis->set_shape(new pyramidworks::geometry::Rect(1.0, 1.0));
       
-    //wobj->AddComponent(new Shape(col, vis));
+    //wobj->AddComponent(new Body(col, vis));
 
-    wobj->AddComponent(new Shape(col, nullptr));
+    wobj->AddComponent(new Body(col, nullptr));
 
     return wobj;
 }

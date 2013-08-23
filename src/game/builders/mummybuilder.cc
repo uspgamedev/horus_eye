@@ -13,7 +13,7 @@
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/components/walker.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/scenes/world.h"
 #include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
@@ -101,7 +101,7 @@ void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
     wobj->AddComponent(new Caster(wobj, mana));
 
     CollisionObject* col = new CollisionObject(wobj, "Mummy", new pyramidworks::geometry::Circle(radius));
-    wobj->AddComponent(new component::Shape(col, NULL));
+    wobj->AddComponent(new component::Body(col, NULL));
 
     Walker* walker = new Walker(wobj, speed);
     wobj->AddComponent(walker);

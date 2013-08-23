@@ -16,7 +16,7 @@
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
 #include "game/components/statecontroller.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
@@ -58,7 +58,7 @@ WorldObject* MagicMissile(const Vector2D &dir) {
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
 
     colobj->AddCollisionLogic("Mummy", DamageAndDieCollision(wobj, "MAGICMISSILE_DAMAGE"));
-    wobj->AddComponent(new component::Shape(colobj, NULL));
+    wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 
@@ -67,7 +67,7 @@ WorldObject* MagicBall(const Vector2D &dir) {
     auto colobj = buildCollisionObject(wobj, 0.15);
     colobj->AddCollisionLogic("Mummy", DamageAndDieCollision(wobj, "MAGICBALL_DAMAGE"));
     colobj->AddCollisionLogic("Wall", BounceCollision(wobj));
-    wobj->AddComponent(new component::Shape(colobj, NULL));
+    wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 /***/
@@ -75,7 +75,7 @@ WorldObject* MummyProjectile(const ugdk::math::Vector2D &dir, double damage) {
     WorldObject* wobj = buildProjectile(dir, "mummy_projectile", "", 0.75, constants::GetDouble("MUMMYPROJECTILE_SPEED"), constants::GetDouble("MUMMYPROJECTILE_DURATION"));
     auto colobj = buildCollisionObject(wobj, 0.15);
     colobj->AddCollisionLogic("Hero", DamageAndDieCollision(wobj, damage));
-    wobj->AddComponent(new component::Shape(colobj, NULL));
+    wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 
@@ -87,7 +87,7 @@ WorldObject* LightningBolt(const Vector2D &dir) {
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     colobj->AddCollisionLogic("Mummy", DamageCollision("LIGHTNING_DAMAGE"));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
-    wobj->AddComponent(new component::Shape(colobj, NULL));
+    wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 
@@ -100,7 +100,7 @@ WorldObject* Fireball(const Vector2D &dir) {
     colobj->AddCollisionLogic("Mummy", DieCollision(wobj));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
     wobj->AddDeathEvent(Carrier(builder::ExplosionBuilder::FireballExplosion()));
-    wobj->AddComponent(new component::Shape(colobj, NULL));
+    wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 

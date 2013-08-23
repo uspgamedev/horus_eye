@@ -47,8 +47,6 @@ SET(GAME_SRCS
     game/builders/mummybuilder.h 
     game/builders/projectilebuilder.cc 
     game/builders/projectilebuilder.h 
-    game/builders/recipes/init.cc 
-    game/builders/recipes/init.h 
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
     game/components.h 
@@ -57,6 +55,8 @@ SET(GAME_SRCS
     game/components/base.h 
     game/components/basegraphic.cc 
     game/components/basegraphic.h 
+    game/components/body.cc 
+    game/components/body.h 
     game/components/caster.cc 
     game/components/caster.h 
     game/components/condition.cc 
@@ -73,8 +73,6 @@ SET(GAME_SRCS
     game/components/orders.h 
     game/components/playercontroller.cc 
     game/components/playercontroller.h 
-    game/components/shape.cc 
-    game/components/shape.h 
     game/components/statecontroller.h 
     game/components/walker.cc 
     game/components/walker.h 

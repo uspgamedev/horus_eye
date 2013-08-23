@@ -8,7 +8,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
-#include "game/components/shape.h"
+#include "game/components/body.h"
 
 namespace map {
 
@@ -111,14 +111,14 @@ void Room::RemoveTag(const std::string& tag) {
 void Room::Activate() {
     assert(level_);
     for(WorldObject* wobj : objects_)
-        if(auto s = wobj->shape())
-            s->Activate(level_);
+        if(auto b = wobj->body())
+            b->Activate(level_);
 }
 
 void Room::Deactivate() {
     for(WorldObject* wobj : objects_)
-        if(auto s = wobj->shape())
-            s->Deactivate();
+        if(auto b = wobj->body())
+            b->Deactivate();
 }
 
 void Room::updateObjects(double delta_t) {
@@ -152,8 +152,8 @@ void Room::handleNewObject(sprite::WorldObject* obj) {
     if(obj->graphic())
         obj->graphic()->InsertIntoLayers(layers_);
     if(level_ && level_->IsRoomActive(this))
-        if(auto s = obj->shape())
-            s->Activate(level_);
+        if(auto b = obj->body())
+            b->Activate(level_);
 }
     
 } // namespace map

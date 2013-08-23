@@ -70,7 +70,7 @@ class WorldObject : public ::ugdk::action::Entity {
     component::BaseGraphic* graphic();
     component::Controller* controller();
     component::Caster* caster();
-    component::Shape* shape();
+    component::Body* body();
 
     /// Gets a component with the requested type with the given name.
     /**
