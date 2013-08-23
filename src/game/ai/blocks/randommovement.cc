@@ -7,8 +7,6 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/animation.h"
 
-#include <iostream>
-
 #define PI 3.1415926535897931
 
 namespace ai {
@@ -45,7 +43,6 @@ AIModule::Status RandomMovement::Update(double dt, AIData* data) {
         direction_ = ugdk::math::Vector2D(cos(dir*PI/4.0),sin(dir*PI/4.0));
     }
     data->set_direction( direction_ );
-    std::cout << "RANDMOV UPDATE" << std::endl;
     return AIModule::ACTIVE;
 }
 
