@@ -49,12 +49,12 @@ void LoadLevel(const std::string& campaign, const std::string& name, scene::Worl
         if(room_data.size() != 3) continue;
         int x = room_data[0].value<int>();
         int y = room_data[1].value<int>();
-        std::string name = room_data[2].value<std::string>();
+        std::string room_name = room_data[2].value<std::string>();
         map::Room *room = NULL;
-        if (level_data[name].valid())
-            room = map::LoadRoom(name, level_data[name], Integer2D(x, y));
+        if (level_data[room_name].valid())
+            room = map::LoadRoom(room_name, level_data[room_name], Integer2D(x, y));
         else
-            room = map::LoadRoom(name, campaign, Integer2D(x, y));
+            room = map::LoadRoom(room_name, campaign, name, Integer2D(x, y));
         
         if(room) {
             world->AddRoom(room);

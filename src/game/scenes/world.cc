@@ -126,7 +126,8 @@ bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
 }
 
 bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
-    Vector2D ap = core::FromWorldCoordinates(a->position()), bp = core::FromWorldCoordinates(b->position());
+    Vector2D  ap = core::FromWorldCoordinates(a->position()+a->size()/2.0),
+              bp = core::FromWorldCoordinates(b->position()+b->size()/2.0);
     if(ap.y < bp.y)
         return true;
     if(ap.y == bp.y) {

@@ -30,12 +30,12 @@ entrance = {
 %..............%
 %..............%
 %..............%
-%..............%
+%..%..%..%..%..%
 %...............
 %...............
 %...............
 %...............
-%..............#
+%..%..%..%..%..#
 %..............#
 %..............#
 %..............#
@@ -50,8 +50,12 @@ entrance = {
     { "Switch", "Wall" }
   },
   setup = function(self)
-    for i = 1,6 do
-      local x,y = math.random(2,13), math.random(2,1+(i > 3 and 13+i-3 or i))
+    for i = 1,12 do
+      local x,y = 1+i, 2
+      for i = 1,math.random(3,4) do
+        self:MakeRecipe("urn", ugdk_math.Vector2D(x+math.random()*2-1, y+math.random()*2-1))
+      end
+      y = 13
       for i = 1,math.random(3,4) do
         self:MakeRecipe("urn", ugdk_math.Vector2D(x+math.random()*2-1, y+math.random()*2-1))
       end
@@ -146,12 +150,12 @@ firstblood = {
       property = "delayed_spawner",
       params = {
         time = 0.5,
-        recipe = "event_mummy"
+        recipe = "surprise_mummy"
       }
     },
     
-    ["event_mummy"] = {
-      property = "event_mummy",
+    ["surprise_mummy"] = {
+      property = "trigger_mummy",
       params = {
         spritesheet = "mummy_basic",
         life = constants.GetInt "MUMMY_LIFE",
@@ -160,9 +164,8 @@ firstblood = {
         triggers = { "THE-DOOR-3", "THE-DOOR-4" }
       }
     },
-    
     ["entrance_event"] = {
-      property = "event_region",
+      property = "event-region",
       params = {
         shape = pyramidworks_geometry.Rect(1.0, roomsize),
         callback = function (region)

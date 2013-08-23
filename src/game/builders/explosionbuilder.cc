@@ -47,7 +47,7 @@ WorldObject* FireballExplosion() {
 
     CollisionObject* col = new CollisionObject(wobj, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
     wobj->AddComponent(new Shape(col, NULL));
-    col->AddCollisionLogic("Mummy", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
+    col->AddCollisionLogic("Creature", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
 
     return wobj;
 }

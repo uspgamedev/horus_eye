@@ -38,7 +38,7 @@ function build (wobj, params)
 
   return {
     collision = {
-      class = "WorldObject",
+      class = "Area",
       shape = Rect(3,3),
       known_collision = {
         Creature = function (self, creature)
