@@ -13,7 +13,7 @@
 
 namespace scene {
 
-using ugdk::action::Task;
+using ugdk::system::Task;
 using std::bind;
 using namespace std::placeholders;
 

@@ -12,7 +12,7 @@ namespace scene {
 #define IMG 1
 
 using namespace ugdk;
-using ugdk::action::Task;
+using ugdk::system::Task;
 using ugdk::action::Scene;
 using ugdk::graphic::Node;
 using ugdk::math::Vector2D;

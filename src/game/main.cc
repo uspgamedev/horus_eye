@@ -10,7 +10,6 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
-#include "SDL.h"
 #include "initializer.h"
 
 #include "constants.h"
@@ -57,6 +56,16 @@ void StartGame() {
     level_manager()->Initialize();
 }
 
+void ExitWithFatalError(const std::string& msg) {
+#ifdef _WIN32
+    MessageBox(HWND_DESKTOP, msg.c_str(), "Fatal Error", MB_OK | MB_ICONERROR);
+#else
+    fprintf(stderr, "Fatal Error: %s\n", msg.c_str();
+#endif
+    assert(false);
+    exit(EXIT_FAILURE);
+}
+
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
@@ -66,17 +75,8 @@ int main(int argc, char *argv[]) {
     engine_config.fullscreen        = settings->fullscreen();
 
     engine_config.base_path = constants::data_location();
-    if(!VerifyFolderExists(engine_config.base_path)) {
-#ifdef WIN32
-        MessageBox(HWND_DESKTOP, "Horus Eye could not find the Data folder.", "Fatal Error", MB_OK | MB_ICONERROR);
-        return 2;
-#else
-        engine_config.base_path = "./";
-#ifdef DEBUG
-        fprintf(stderr, "Warning: data folder '%s' specified by config.h could not be found. Using default './'\n", constants::data_location().c_str());
-#endif
-#endif
-    }
+    if(!VerifyFolderExists(engine_config.base_path))
+        ExitWithFatalError("Data folder '" + engine_config.base_path + "' specified by config.h could not be found.");
 
 #ifndef ISMAC
     engine_config.window_icon = "images/eye.bmp";
@@ -86,7 +86,9 @@ int main(int argc, char *argv[]) {
 #endif
 
     ugdk::script::InitScripts();
-    ugdk::system::Initialize(engine_config);
+    if(!ugdk::system::Initialize(engine_config))
+        ExitWithFatalError("Could not initialize UGDK.");
+
 #ifdef EMBBEDED_UGDK
     {
         PyObject *path = PySys_GetObject("path");

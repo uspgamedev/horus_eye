@@ -14,7 +14,7 @@
 namespace scene {
 
 using ugdk::math::Vector2D;
-using ugdk::action::Task;
+using ugdk::system::Task;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
 using namespace std::placeholders;
