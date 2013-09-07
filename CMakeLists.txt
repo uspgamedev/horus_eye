@@ -20,9 +20,14 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Mo
 
 find_package(Git)
 if(GIT_FOUND)
-    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --dirty
+    execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --always
                             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
-                            OUTPUT_VARIABLE horus_eye_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE)
+                            OUTPUT_VARIABLE horus_eye_VERSION OUTPUT_STRIP_TRAILING_WHITESPACE
+                            RESULT_VARIABLE GIT_DESCRIBE_SUCCESS)
+    if(NOT ${GIT_DESCRIBE_SUCCESS} EQUAL 0)
+        # Source is not in a git repository
+        set(horus_eye_VERSION "Unknown version")
+    endif()
 else(GIT_FOUND)
     set(horus_eye_VERSION "Unknown version")
 endif(GIT_FOUND)
