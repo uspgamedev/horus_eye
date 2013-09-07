@@ -60,7 +60,7 @@ void ExitWithFatalError(const std::string& msg) {
 #ifdef _WIN32
     MessageBox(HWND_DESKTOP, msg.c_str(), "Fatal Error", MB_OK | MB_ICONERROR);
 #else
-    fprintf(stderr, "Fatal Error: %s\n", msg.c_str();
+    fprintf(stderr, "Fatal Error: %s\n", msg.c_str());
 #endif
     assert(false);
     exit(EXIT_FAILURE);
