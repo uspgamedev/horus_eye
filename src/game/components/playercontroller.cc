@@ -52,9 +52,9 @@ void PlayerController::Update(double dt) {
 
     if(known_skills_.size() > 0) {
         std::list<int>::const_iterator curr_it = selected_skill_;
-        if(keyboard.IsDown(Scancode::E))
+        if(keyboard.IsPressed(Scancode::E))
             cycle_iterator(selected_skill_, known_skills_, +1);
-        if(keyboard.IsDown(Scancode::Q))
+        if(keyboard.IsPressed(Scancode::Q))
             cycle_iterator(selected_skill_, known_skills_, -1);
 
         if(selected_skill_ != curr_it)

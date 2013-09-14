@@ -38,19 +38,15 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     }
     else scene_layers_[IMG] = NULL;
 
-    event_handler().AddListener<KeyPressedEvent>([this](const KeyPressedEvent& ev) -> ugdk::system::Task {
-        return [this,ev](double) -> bool {
-            if(ev.scancode == Scancode::RETURN || ev.scancode == Scancode::ESCAPE
-                || ev.scancode == Scancode::NUMPAD_ENTER)
-                this->Finish();
-            return false;
-        };
-    });
-    event_handler().AddListener<MouseButtonReleasedEvent>([this](const MouseButtonReleasedEvent&) -> ugdk::system::Task {
-        return [this](double) -> bool {
+    event_handler().AddListener<KeyPressedEvent>([this](const KeyPressedEvent& ev, double) {
+        if(ev.scancode == Scancode::RETURN || ev.scancode == Scancode::ESCAPE
+            || ev.scancode == Scancode::NUMPAD_ENTER)
             this->Finish();
-            return false;
-        };
+        return false;
+    });
+    event_handler().AddListener<MouseButtonReleasedEvent>([this](const MouseButtonReleasedEvent&, double) {
+        this->Finish();
+        return false;
     });
     set_render_function([this](const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) {
         if(scene_layers_[BG])
