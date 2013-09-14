@@ -167,12 +167,12 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
             + L"' from campaign '" + externals::str_to_wstr(current_campaign_) + L"'.",
             TEXT_MANAGER()->current_font()
         )));
-        if(ugdk::input::manager()->KeyDown(ugdk::input::K_ESCAPE))
+        if(ugdk::input::manager()->keyboard().IsDown(ugdk::input::Keycode::ESCAPE))
             loading_->Finish();
         return;
     }
     current_level_->AddTask([](double) {
-        if(ugdk::input::manager()->KeyPressed(ugdk::input::K_ESCAPE))
+        if(ugdk::input::manager()->keyboard().IsPressed(ugdk::input::Keycode::ESCAPE))
             ugdk::system::PushScene(builder::PauseMenu());
     });
     current_level_->SetHero(builder::HeroBuilder::Kha());

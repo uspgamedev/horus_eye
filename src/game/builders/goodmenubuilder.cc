@@ -1,8 +1,6 @@
-#include <sstream>
-#include <functional>
-#include <memory>
-#include <dirent.h>
+#include "goodmenubuilder.h"
 
+#include <ugdk/input/keycode.h>
 #include <ugdk/action.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/system/engine.h>
@@ -20,13 +18,17 @@
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 
-#include "goodmenubuilder.h"
-
 #include "game/constants.h"
 #include "game/scenes/world.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/menuimagefactory.h"
 #include "game/utils/settings.h"
+
+#include <sstream>
+#include <functional>
+#include <memory>
+#include <dirent.h>
+
 
 using std::bind;
 using std::mem_fn;
@@ -93,8 +95,8 @@ Scene* PauseMenu() {
     }));
 
     pause_menu->StopsPreviousMusic(false);
-    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
     pause_menu->AddEntity(menu);
     pause_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
 
@@ -168,8 +170,8 @@ Scene* CampaignMenu() {
                                GetLanguageWord("Exit")->CreateLabel(),
                                [mission_menu](const Button*) { mission_menu->Finish(); }));
 
-    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
     mission_menu->AddEntity(menu);
     mission_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
 
@@ -238,8 +240,8 @@ Scene* MainMenu() {
     menu->AddObject(new Button(credits_position,  credits_text,  [](const Button*) { utils::LevelManager::reference()->ShowCredits(); }));
     menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
 
-    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
     
     main_menu->AddEntity(menu);
     main_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
@@ -388,10 +390,10 @@ Scene* SettingsMenu() {
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 8);
         menu->AddObject(new Button(pos, img, [settings_menu](const Button*) { settings_menu->Finish(); })); }
 
-    menu->AddCallback(ugdk::input::K_ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::K_RETURN, ugdk::ui::Menu::INTERACT_MENU);
-    menu->AddCallback(ugdk::input::K_RIGHT , bind(PressArrow, data, +1, _1));
-    menu->AddCallback(ugdk::input::K_LEFT  , bind(PressArrow, data, -1, _1));
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RIGHT , bind(PressArrow, data, +1, _1));
+    menu->AddCallback(ugdk::input::Keycode::LEFT  , bind(PressArrow, data, -1, _1));
 
     settings_menu->AddEntity(menu);
     settings_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));

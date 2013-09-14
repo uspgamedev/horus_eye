@@ -53,12 +53,12 @@ bool VerifyCheats(double dt) {
 
     static uint32 last_level_warp = 0;
     if(ugdk::time::manager()->TimeSince(last_level_warp) > 100) {
-        if (input->KeyPressed(ugdk::input::K_p)) {
+        if (input->keyboard().IsPressed(ugdk::input::Keycode::p)) {
             level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
             world->FinishLevel(LevelManager::FINISH_WARP);
             last_level_warp = ugdk::time::manager()->TimeElapsed();
 
-        } else if (input->KeyPressed(ugdk::input::K_o)) {
+        } else if (input->keyboard().IsPressed(ugdk::input::Keycode::o)) {
             unsigned int cur_level = level_manager->GetNextLevelID();
             if(cur_level > 0) {
                 level_manager->SetNextLevel(cur_level - 1);
@@ -68,39 +68,39 @@ bool VerifyCheats(double dt) {
         }
     }
     if(hero) {
-        if(input->KeyPressed(ugdk::input::K_h)) {
-            if(input->KeyDown(ugdk::input::K_LSHIFT))
+        if(input->keyboard().IsPressed(ugdk::input::Keycode::h)) {
+            if(input->keyboard().IsDown(ugdk::input::Scancode::LSHIFT))
             	hero->caster()->mana_blocks().Fill();
             hero->damageable()->life().Fill();
             hero->caster()->mana().Fill();
         }
-        if(input->KeyPressed(ugdk::input::K_t))
-            hero->set_world_position(core::FromScreenCoordinates(input->GetMousePosition()));
+        if(input->keyboard().IsPressed(ugdk::input::Keycode::t))
+            hero->set_world_position(core::FromScreenCoordinates(input->mouse().position()));
     }
 
     ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
     {
         math::Vector2D scale(1.0);
-        if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
+        if(input->keyboard().IsPressed(ugdk::input::Keycode::NUMPAD_MULTIPLY))
             scale = scale * 1.4/1.0;
-        if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
+        if(input->keyboard().IsPressed(ugdk::input::Keycode::NUMPAD_DIVIDE))
             scale = scale * 1.0/1.4;
         modifier *= graphic::Geometry(math::Vector2D(), scale);
     }
 
-    if(input->KeyPressed(ugdk::input::K_l))
+    if(input->keyboard().IsPressed(ugdk::input::Keycode::l))
         ToggleLightsystem();
     
-    if(input->KeyPressed(ugdk::input::K_k))
+    if(input->keyboard().IsPressed(ugdk::input::Keycode::k))
         ToggleShadowcasting();
     
-    if(input->KeyPressed(ugdk::input::K_i))
+    if(input->keyboard().IsPressed(ugdk::input::Keycode::i))
         render_sprites = (render_sprites + 1) % 3;
     
-    if(input->KeyPressed(ugdk::input::K_u))
+    if(input->keyboard().IsPressed(ugdk::input::Keycode::u))
         render_collision = !render_collision;
     
-    if(input->KeyPressed(ugdk::input::K_j))
+    if(input->keyboard().IsPressed(ugdk::input::Keycode::j))
         render_visibility = !render_visibility;
 
     // EASTER EGG/TODO: remove before any release!
