@@ -46,7 +46,7 @@ bool render_collision = false;
 bool render_visibility = false;
 }
 
-bool VerifyCheats(const input::KeyPressedEvent& ev, double dt) {
+void VerifyCheats(const input::KeyPressedEvent& ev) {
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->current_level();
     WorldObject* hero = world->hero();
@@ -114,8 +114,6 @@ bool VerifyCheats(const input::KeyPressedEvent& ev, double dt) {
             konami_used_ = true;
         }
     }*/
-
-    return false;
 }
 
 bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
@@ -160,16 +158,16 @@ World::World(const ugdk::math::Integer2D& size)
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
-    this->AddTask(bind(FinishLevelTask, _1, &level_state_), 1000);
-    this->AddTask([this](double) {
+    this->AddTask(ugdk::system::Task(bind(FinishLevelTask, _1, &level_state_), 1.0));
+    this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->video_size()*0.5;
         if(hero_)
             result -= core::FromWorldCoordinates(hero_->world_position()) 
                                 * camera_.CalculateScale().x;
         camera_.set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
-    }, 1.0);
+    }, 1.0));
 
-    this->AddTask([this](double) {
+    this->AddTask(ugdk::system::Task([this](double) {
         while(!queued_moves_.empty()) {
             auto p = this->queued_moves_.front();
             p.first->current_room()->RemoveObject(p.first);
@@ -179,7 +177,7 @@ World::World(const ugdk::math::Integer2D& size)
             if(p.first == this->hero_)
                 ChangeFocusedRoom(p.second);
         }
-    }, 0.6);
+    }, 0.6));
 
 #ifdef HORUSEYE_DEBUG_TOOLS
     this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);
@@ -254,7 +252,7 @@ void World::SetupCollisionManager() {
     collision_manager_.ChangeClassParent("Block", "Wall");
     collision_manager_.ChangeClassParent("Door", "Wall");
 
-    this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
+    this->AddTask(collision_manager_.GenerateHandleCollisionTask(0.75));
 }
     
 void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
