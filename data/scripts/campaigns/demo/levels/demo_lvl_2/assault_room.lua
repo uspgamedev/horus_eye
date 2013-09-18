@@ -1,6 +1,7 @@
 
 require 'ugdk.math'
 require 'pyramidworks.geometry'
+require 'component'
 require 'event'
 
 local vec2 = ugdk_math.Vector2D
@@ -38,6 +39,7 @@ recipes = {
         room:MakeRecipe('door', vec2(10, 0), 'THE-DOOR-1')
         room:MakeRecipe('door', vec2(11, 0), 'THE-DOOR-2')
         room:MakeRecipe('door', vec2(12, 0), 'THE-DOOR-3')
+        room:MakeRecipe 'assault-spawner'
       end
     }
   },
@@ -50,6 +52,10 @@ recipes = {
     property = 'trigger-switch',
     params = { 'OPEN-ESCAPE-DOOR' }
   },
+  ['assault-spawner'] = {
+    property = 'spawner',
+    params = { delay = 2 }
+  }
 }
 
 function setup (room)
