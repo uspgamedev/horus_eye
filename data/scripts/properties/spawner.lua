@@ -11,6 +11,7 @@ function build (wobj, params)
   args = builder.StringList();
   args:push_back 'assault'
   args:push_back(params.recipe)
+  args:push_back '5.5 7.2'
   local spawnerAI = builder.AIScript(wobj, args)
   context.AddAIComponent(wobj, spawnerAI)
 end
