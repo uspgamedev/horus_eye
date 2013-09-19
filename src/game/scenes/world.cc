@@ -10,6 +10,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/time/module.h>
+#include <ugdk/input/events.h>
 #include <ugdk/input/module.h>
 #include <ugdk/structure/intervalkdtree.h>
 
@@ -45,20 +46,19 @@ bool render_collision = false;
 bool render_visibility = false;
 }
 
-bool VerifyCheats(double dt) {
-    ugdk::input::Manager *input = ugdk::input::manager();
+void VerifyCheats(const input::KeyPressedEvent& ev) {
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->current_level();
     WorldObject* hero = world->hero();
 
     static uint32 last_level_warp = 0;
     if(ugdk::time::manager()->TimeSince(last_level_warp) > 100) {
-        if (input->KeyPressed(ugdk::input::K_p)) {
+        if (ev.keycode == ugdk::input::Keycode::p) {
             level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
             world->FinishLevel(LevelManager::FINISH_WARP);
             last_level_warp = ugdk::time::manager()->TimeElapsed();
 
-        } else if (input->KeyPressed(ugdk::input::K_o)) {
+        } else if (ev.keycode == ugdk::input::Keycode::o) {
             unsigned int cur_level = level_manager->GetNextLevelID();
             if(cur_level > 0) {
                 level_manager->SetNextLevel(cur_level - 1);
@@ -68,39 +68,40 @@ bool VerifyCheats(double dt) {
         }
     }
     if(hero) {
-        if(input->KeyPressed(ugdk::input::K_h)) {
-            if(input->KeyDown(ugdk::input::K_LSHIFT))
+        if(ev.keycode == input::Keycode::h) {
+            if(ev.modifiers & input::Keymod::SHIFT)
             	hero->caster()->mana_blocks().Fill();
             hero->damageable()->life().Fill();
             hero->caster()->mana().Fill();
         }
-        if(input->KeyPressed(ugdk::input::K_t))
-            hero->set_world_position(core::FromScreenCoordinates(input->GetMousePosition()));
+        if(ev.keycode == input::Keycode::t)
+            hero->set_world_position(core::FromScreenCoordinates(
+            input::manager()->mouse().position()));
     }
 
     ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
     {
         math::Vector2D scale(1.0);
-        if(input->KeyPressed(ugdk::input::K_KP_MULTIPLY))
+        if(ev.keycode == input::Keycode::NUMPAD_MULTIPLY)
             scale = scale * 1.4/1.0;
-        if(input->KeyPressed(ugdk::input::K_KP_DIVIDE))
+        if(ev.keycode == input::Keycode::NUMPAD_DIVIDE)
             scale = scale * 1.0/1.4;
         modifier *= graphic::Geometry(math::Vector2D(), scale);
     }
 
-    if(input->KeyPressed(ugdk::input::K_l))
+    if(ev.keycode == input::Keycode::l)
         ToggleLightsystem();
     
-    if(input->KeyPressed(ugdk::input::K_k))
+    if(ev.keycode == input::Keycode::k)
         ToggleShadowcasting();
     
-    if(input->KeyPressed(ugdk::input::K_i))
+    if(ev.keycode == input::Keycode::i)
         render_sprites = (render_sprites + 1) % 3;
     
-    if(input->KeyPressed(ugdk::input::K_u))
+    if(ev.keycode == input::Keycode::u)
         render_collision = !render_collision;
     
-    if(input->KeyPressed(ugdk::input::K_j))
+    if(ev.keycode == input::Keycode::j)
         render_visibility = !render_visibility;
 
     // EASTER EGG/TODO: remove before any release!
@@ -113,8 +114,6 @@ bool VerifyCheats(double dt) {
             konami_used_ = true;
         }
     }*/
-
-    return true;
 }
 
 bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
@@ -159,16 +158,16 @@ World::World(const ugdk::math::Integer2D& size)
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
-    this->AddTask(bind(FinishLevelTask, _1, &level_state_), 1000);
-    this->AddTask([this](double) {
+    this->AddTask(ugdk::system::Task(bind(FinishLevelTask, _1, &level_state_), 1.0));
+    this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->video_size()*0.5;
         if(hero_)
             result -= core::FromWorldCoordinates(hero_->world_position()) 
                                 * camera_.CalculateScale().x;
         camera_.set_offset(Vector2D(std::floor(result.x), std::floor(result.y)));
-    }, 1.0);
+    }, 1.0));
 
-    this->AddTask([this](double) {
+    this->AddTask(ugdk::system::Task([this](double) {
         while(!queued_moves_.empty()) {
             auto p = this->queued_moves_.front();
             p.first->current_room()->RemoveObject(p.first);
@@ -178,10 +177,10 @@ World::World(const ugdk::math::Integer2D& size)
             if(p.first == this->hero_)
                 ChangeFocusedRoom(p.second);
         }
-    }, 0.6);
+    }, 0.6));
 
 #ifdef HORUSEYE_DEBUG_TOOLS
-    this->AddTask(VerifyCheats);
+    this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);
 #endif
 
     set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
@@ -253,7 +252,7 @@ void World::SetupCollisionManager() {
     collision_manager_.ChangeClassParent("Block", "Wall");
     collision_manager_.ChangeClassParent("Door", "Wall");
 
-    this->AddTask(collision_manager_.GenerateHandleCollisionTask(), 0.75);
+    this->AddTask(collision_manager_.GenerateHandleCollisionTask(0.75));
 }
     
 void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {

@@ -4,7 +4,6 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/input/module.h>
-#include <ugdk/input/keys.h>
 
 #include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
@@ -13,6 +12,9 @@
 
 using namespace ugdk;
 
+using ugdk::input::Scancode;
+using ugdk::input::Keycode;
+using ugdk::input::MouseButton;
 using sprite::WorldObject;
 
 namespace component {
@@ -36,22 +38,23 @@ static void cycle_iterator(std::list<int>::const_iterator& it, const std::list<i
 }
 
 void PlayerController::Update(double dt) {
-    ugdk::input::Manager *input_ = ugdk::input::manager();
+    const auto& keyboard = ugdk::input::manager()->keyboard();
+    const auto& mouse = ugdk::input::manager()->mouse();
 
-    aim_destination_ = core::FromScreenCoordinates(input_->GetMousePosition() + mouse_aim_offset_);
+    aim_destination_ = core::FromScreenCoordinates(mouse.position() + mouse_aim_offset_);
 
     Direction d;
-    if(input_->KeyDown(ugdk::input::K_w)) d |= Direction::Up();
-    if(input_->KeyDown(ugdk::input::K_a)) d |= Direction::Left();
-    if(input_->KeyDown(ugdk::input::K_s) && d.NumDirections() < 2) d |= Direction::Down();
-    if(input_->KeyDown(ugdk::input::K_d) && d.NumDirections() < 2) d |= Direction::Right();
+    if(keyboard.IsDown(Scancode::W)) d |= Direction::Up();
+    if(keyboard.IsDown(Scancode::A)) d |= Direction::Left();
+    if(keyboard.IsDown(Scancode::S) && d.NumDirections() < 2) d |= Direction::Down();
+    if(keyboard.IsDown(Scancode::D) && d.NumDirections() < 2) d |= Direction::Right();
     dir_ = d;
 
     if(known_skills_.size() > 0) {
         std::list<int>::const_iterator curr_it = selected_skill_;
-        if (input_->KeyPressed(ugdk::input::K_e))
+        if(keyboard.IsPressed(Scancode::E))
             cycle_iterator(selected_skill_, known_skills_, +1);
-        if (input_->KeyPressed(ugdk::input::K_q))
+        if(keyboard.IsPressed(Scancode::Q))
             cycle_iterator(selected_skill_, known_skills_, -1);
 
         if(selected_skill_ != curr_it)
@@ -76,11 +79,11 @@ void PlayerController::RemoveSkill(int id) {
 }
 
 bool PlayerController::IsUsingSkillSlot(SkillSlot slot) const {
-    ugdk::input::Manager *input_ = ugdk::input::manager();
+    const auto& mouse = ugdk::input::manager()->mouse();
     switch(slot) {
-    case PRIMARY:   return input_->MouseDown(ugdk::input::M_BUTTON_LEFT);
-    case SECONDARY: return input_->MouseDown(ugdk::input::M_BUTTON_RIGHT);
-    case SPECIAL1: return input_->KeyDown(ugdk::input::K_r);
+    case PRIMARY:   return mouse.IsDown(MouseButton::LEFT);
+    case SECONDARY: return mouse.IsDown(MouseButton::RIGHT);
+    case SPECIAL1: return ugdk::input::manager()->keyboard().IsDown(Scancode::R);
     default: return false;
     }
 }
