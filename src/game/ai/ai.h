@@ -13,25 +13,25 @@ class AI : public component::Controller {
   typedef component::Controller super;
   public:
 
-	// States in which an AI can be, generally.
-	enum State { CREATED, RUNNING, FINISHED };
+    // States in which an AI can be, generally.
+    enum State { CREATED, RUNNING, FINISHED };
 
-	AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name);
-	~AI();
+    AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name);
+    ~AI();
 
-	void Start();
-	void Update(double dt);
-	void Finish();
+    void Start();
+    void Update(double dt);
+    void Finish();
 
-	void set_root(AIModule* root);
+    void set_root(AIModule* root);
 
           sprite::WorldObject* owner()       { return owner_; }
     const sprite::WorldObject* owner() const { return owner_; }
-	const std::string& name() const { return name_; }
-	State state() const { return state_; }
-	
-	void set_standing(bool standing);
-	bool standing();
+    const std::string& name() const { return name_; }
+    State state() const { return state_; }
+    
+    void set_standing(bool standing);
+    bool standing();
 
     bool IsUsingSkillSlot(SkillSlot slot) const;
 
@@ -42,9 +42,9 @@ class AI : public component::Controller {
     sprite::WorldObject* owner_;
     
     std::string name_;
-	AIModule* root_;
+    AIModule* root_;
     AIData* data_;
-	State state_;
+    State state_;
 };
 
 }

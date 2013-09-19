@@ -126,7 +126,7 @@ constants.RegisterDouble("SIGHT_POTION_INCREASE", 1.2)
 constants.RegisterDouble("MUMMY_SIGHT_RANGE", 20.0)
 
 constants.RegisterDouble("MUMMY_RADIUS", 0.4)
-constants.RegisterDouble("MUMMY_SPEED", 2.0)
+constants.RegisterDouble("MUMMY_SPEED", 1.0)
 
 constants.RegisterDouble("PAPER_MUMMY_RADIUS", 0.4)
 constants.RegisterDouble("PAPER_MUMMY_SPEED", 5.0)

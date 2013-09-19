@@ -11,7 +11,11 @@ function build (wobj, params)
   return {
     on_die_callbacks = {
       function (obj)
-        obj:current_room():MakeRecipe(params.recipe, obj:world_position(), params.tag or "", map.POSITION_ABSOLUTE)
+        obj:current_room():MakeRecipe(
+          params.recipe,
+          obj:world_position(),
+          params.tag or "", map.POSITION_ABSOLUTE
+        )
       end
     }
   }

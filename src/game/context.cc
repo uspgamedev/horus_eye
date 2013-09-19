@@ -8,9 +8,11 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
+#include "game/builders/aibuilder.h"
 #include "game/map/room.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
+#include "game/ai/ai.h"
 
 namespace context {
 
@@ -67,6 +69,10 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
         return;
     }
     _internal_AddDamageableComponent(obj, life);
+}
+
+void AddAIComponent(WorldObject* wobj, ai::AI* the_ai) {
+    wobj->AddComponent(the_ai);
 }
 
 void EnableDeathAnimation (WorldObject* wobj) {

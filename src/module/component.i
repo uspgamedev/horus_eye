@@ -99,13 +99,13 @@ namespace component {
     export_class(Base)
     export_class(Direction)
     export_class(Damageable)
-	export_class(BaseGraphic)
+    export_class(BaseGraphic)
     export_class(Graphic)
     export_class(Controller)
     export_class(Animation)
     export_class(Caster)
     export_class(Body)
-	export_class(Condition)
+    export_class(Condition)
 }
 
 confirm_exports(component)

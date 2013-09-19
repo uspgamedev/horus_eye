@@ -1,4 +1,5 @@
-from math import pi
+from math import pi, log
+from random import random
 import ugdk_action #POG
 from ugdk_math import Vector2D
 from pyramidworks_geometry import Circle
@@ -59,6 +60,31 @@ class Evasion(LogicBlock):
 
     def End(self):
         pass
+
+class Maybe(LogicBlock):
+    def __init__(self, activeMean, dormantMean):
+        self.active = True
+        self.activeMean = activeMean
+        self.dormantMean = dormantMean
+        self.CalculateDelay(activeMean)
+
+    def CalculateDelay(self, mean):
+        self.delay = -log(random())*mean
+
+    def Start(self):
+        pass
+
+    def Update(self, dt, data):
+        self.delay -= dt
+        if self.delay <= 0:
+            self.active = not self.active
+            self.CalculateDelay(self.activeMean if self.active else self.dormantMean)
+        if self.active:
+            return AIModule.ACTIVE
+        return AIModule.DORMANT
+
+    def End(self):
+        pass
         
 
 def generate(oAI, *args):
@@ -72,7 +98,6 @@ def generate(oAI, *args):
         detectHeroLogic.set_area( Circle(10.0) )
         detectHeroLogic.set_identifier("hero")
         return LogicModule( detectHeroLogic )
-        
     
     ####
     detectHero = createDetectHeroModule()
@@ -80,10 +105,13 @@ def generate(oAI, *args):
     ####
     mainList.AddChildModule(LogicModule(RandomMovement(1.0)))
     ####
+    maybeBeDumb = LogicModule(Maybe(2.0, 1.0))
+    detectHero.set_child(maybeBeDumb)
+    ####
     followHeroLogic = FollowTarget()
     followHeroLogic.set_detector_identifier("hero")
     followHero = LogicModule( followHeroLogic )
-    detectHero.set_child(followHero)
+    maybeBeDumb.set_child(followHero)
     ####
     attackLogic = UseWeapon(Controller.PRIMARY)
     attack = LogicModule( attackLogic )
