@@ -8,7 +8,7 @@ require "context"
 require "builder"
 
 function build (wobj, params)
-  --local spawner = component.Spawner()
-  --wobj:AddComponent(spawner, "spawner", 0)
+  local spawnerAI = builder.AIScript(wobj, 'assault')
+  context.AddAIComponent(wobj, spawnerAI)
   return {}
 end

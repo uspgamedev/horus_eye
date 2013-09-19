@@ -8,8 +8,9 @@
 #include <ugdk/math.h>
 #include <pyramidworks/geometry.h>
 
-#include "game/map.h"
 #include "game/sprites/worldobject.h"
+#include "game/map.h"
+#include "game/ai.h"
 
 namespace context {
     
@@ -17,6 +18,7 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag);
 
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
+void AddAIComponent(sprite::WorldObject* wobj, ai::AI* the_ai);
 void EnableDeathAnimation(sprite::WorldObject* wobj);
 
 /// Appends to the objects_colliding list all WorldObjects from the given collision class (classname) that are colliding with
