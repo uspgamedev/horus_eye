@@ -10,4 +10,4 @@ def generate(oAI, *args):
     ####
     mainList = SequenceModule()
     oAI.set_root(mainList)
-
+    print args[0]

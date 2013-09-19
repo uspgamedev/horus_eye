@@ -8,7 +8,9 @@ require "context"
 require "builder"
 
 function build (wobj, params)
-  local spawnerAI = builder.AIScript(wobj, 'assault')
+  args = builder.StringList();
+  args:push_back 'assault'
+  args:push_back(params.recipe)
+  local spawnerAI = builder.AIScript(wobj, args)
   context.AddAIComponent(wobj, spawnerAI)
-  return {}
 end

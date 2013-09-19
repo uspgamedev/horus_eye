@@ -54,7 +54,7 @@ recipes = {
   },
   ['assault-spawner'] = {
     property = 'spawner',
-    params = { delay = 2 }
+    params = { delay = 2, recipe = 'paper-mummy' }
   }
 }
 
