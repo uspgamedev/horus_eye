@@ -1,8 +1,8 @@
 #ifndef HORUSEYE_GAME_AI_SEQUENCEMODULE_H_
 #define HORUSEYE_GAME_AI_SEQUENCEMODULE_H_
 
-#include <vector>
 #include "game/ai/aimodule.h"
+#include <vector>
 
 namespace ai {
 
@@ -12,7 +12,11 @@ class SequenceModule : public AIModule {
 	~SequenceModule();
 
 	void Start();
+
+    /** In sequence, calls the Update of each child, stopping at the first
+        that returns non-DORMANT. */
 	AIModule::Status Update(double dt, AIData* data);
+
 	void Finish();
 
 	void AddChildModule(AIModule* child) { childs_.push_back(child); child->set_parent(this); }
@@ -21,5 +25,6 @@ class SequenceModule : public AIModule {
 	std::vector<AIModule*> childs_;
 };
 
-}
-#endif // SEQUENCEMODULE_H_
+} // namespace ai
+
+#endif // HORUSEYE_GAME_AI_SEQUENCEMODULE_H_

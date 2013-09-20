@@ -30,7 +30,7 @@ class AIModule {
 	AIModule* parent_;
 
   protected:
-	AIModule() : base_(0), parent_(0) {}
+	AIModule() : base_(nullptr), parent_(nullptr) {}
 
 
 	friend class AI;

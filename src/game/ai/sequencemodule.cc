@@ -4,46 +4,29 @@
 
 namespace ai {
 
-using std::vector;
-
 SequenceModule::~SequenceModule() {
-    for (vector<AIModule*>::iterator it = childs_.begin(); it != childs_.end(); ++it) {
-        AIModule *child = *it;
-		delete child;
-    }
+    for (AIModule* child : childs_)
+        delete child;
     childs_.clear();
 }
 
 void SequenceModule::Start() {
-	for (vector<AIModule*>::iterator it = childs_.begin(); it != childs_.end(); ++it) {
-        AIModule *child = *it;
-		child->Start();
-    }
+    for (AIModule* child : childs_)
+        child->Start();
 }
 
 AIModule::Status SequenceModule::Update(double dt, AIData* data) {
-	unsigned child_index = 0;
-	AIModule* child;
-	AIModule::Status stat;
-
-	while (child_index < childs_.size() ) {
-		child = childs_[child_index];
-		stat = child->Update(dt, data);
-
-		if (stat == AIModule::DORMANT)
-			child_index++;
-		else
-			break;
-	}
-
-	return stat;
-}
-
-void SequenceModule::Finish(){
-	for (vector<AIModule*>::iterator it = childs_.begin(); it != childs_.end(); ++it) {
-        AIModule *child = *it;
-		child->Finish();
+    for(AIModule* child : childs_) {
+        AIModule::Status stat = child->Update(dt, data);
+        if(stat != AIModule::DORMANT)
+            return stat;
     }
+    return AIModule::DORMANT;
 }
 
+void SequenceModule::Finish() {
+    for (AIModule* child : childs_)
+        child->Finish();
 }
+
+} // namespace ai

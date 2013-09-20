@@ -3,8 +3,7 @@
 namespace ai {
 
 ConditionModule::~ConditionModule() {
-    if (child_)
-        delete child_;
+    delete child_;
 }
 
 void ConditionModule::Start() {
