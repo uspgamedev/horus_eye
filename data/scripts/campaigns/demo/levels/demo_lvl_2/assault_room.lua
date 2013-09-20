@@ -66,7 +66,12 @@ recipes = {
       spritesheet = "mummy_basic",
       life = constants.GetInt "PAPER_MUMMY_LIFE",
       radius = constants.GetDouble "PAPER_MUMMY_RADIUS",
-      speed = constants.GetDouble "PAPER_MUMMY_SPEED"
+      speed = constants.GetDouble "PAPER_MUMMY_SPEED",
+      extra = function (wobj)
+        wobj:graphic():ChangeAlpha(0.5)
+        wobj:caster():power():Set(constants.GetInt "PAPER_MUMMY_DAMAGE")
+        wobj:caster():LearnAndEquipSkill('paper_melee', 0)
+      end
     }
   }
 }

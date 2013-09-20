@@ -12,6 +12,9 @@ function build (wobj, params)
   -- FIXME GAMBS MAGIC NUMBER
   -- Should be Controller.PRIMARY
   wobj:caster():LearnAndEquipSkill("mummy_melee", 0)
+  if params.extra then
+    params.extra(wobj)
+  end
   return {
     on_die_callbacks = { params.callback }
   }

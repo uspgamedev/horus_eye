@@ -11,17 +11,17 @@ namespace ai {
 
 class RandomModule : public AIModule {
   public:
-	RandomModule();
-	~RandomModule();
+    RandomModule();
+    ~RandomModule();
 
-	void Start();
-	AIModule::Status Update(double dt, AIData* data);
-	void Finish();
+    void Start();
+    AIModule::Status Update(double dt, AIData* data);
+    void Finish();
 
-	void AddChildModule(AIModule* child, double chance);
+    void AddChildModule(AIModule* child, double chance);
 
     // Distributes the same chance to all modules.
-	void SetUniformDistribution();
+    void SetUniformDistribution();
 
   protected:
     double total_probability_;
