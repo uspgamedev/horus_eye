@@ -14,7 +14,7 @@ namespace builder {
 using std::string;
 using std::unordered_map;
 
-typedef std::function<sprite::WorldObject* (const ArgumentList&)> WorldObjectFactoryMethod;
+typedef std::function<sprite::WObjPtr (const ArgumentList&)> WorldObjectFactoryMethod;
 typedef unordered_map<string, WorldObjectFactoryMethod> WorldObjectFactoryMap;
 
 static WorldObjectFactoryMap build_type_factory_map() {
@@ -40,12 +40,12 @@ static WorldObjectFactoryMap build_type_factory_map() {
 
 static WorldObjectFactoryMap type_factory_map = build_type_factory_map();
 
-sprite::WorldObject* WorldObjectFromTypename(const string& type, const ArgumentList& arguments) {
+sprite::WObjPtr WorldObjectFromTypename(const string& type, const ArgumentList& arguments) {
     auto iterator = type_factory_map.find(type);
     if(iterator != type_factory_map.end())
         return iterator->second(arguments);
     else
-        return NULL;
+        return sprite::WObjPtr();
 }
 
 bool HasFactoryMethod(const std::string& type) {

@@ -39,13 +39,13 @@ static WorldObject* baseExplosion(const std::string& spritesheet, const std::str
     return wobj;
 }
 
-WorldObject* FireballExplosion() {
+sprite::WObjPtr FireballExplosion() {
     utils::ImageFactory factory;
-    WorldObject *wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
+    sprite::WObjPtr wobj = sprite::WObjPtr(baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON"));
 
     wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 
-    CollisionObject* col = new CollisionObject(wobj, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
+    CollisionObject* col = new CollisionObject(wobj.get(), "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
     wobj->AddComponent(new Body(col, NULL));
     col->AddCollisionLogic("Creature", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
 

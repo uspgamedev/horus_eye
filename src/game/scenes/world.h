@@ -14,6 +14,7 @@
 #include <pyramidworks/collision.h>
 #include <pyramidworks/collision/collisionmanager.h>
 
+#include "game/sprites.h"
 #include "game/map.h"
 #include "game/components.h"
 #include "game/scenes/gamelayer.h"
@@ -22,9 +23,6 @@
 
 namespace utils {
 class Hud;
-}
-namespace sprite {
-class WorldObject;
 }
 using ugdk::math::Vector2D;
 
@@ -41,8 +39,8 @@ class World : public ugdk::action::Scene {
     void set_hero_initial_data(const std::string& room, const ugdk::math::Vector2D& pos) { 
         hero_initial_room_ = room; hero_initial_position_ = pos;
     }
-    void SetHero(sprite::WorldObject *hero);
-    void QueueRoomChange(sprite::WorldObject*, map::Room* next_room);
+    void SetHero(const sprite::WObjPtr& hero);
+    void QueueRoomChange(const sprite::WObjPtr&, map::Room* next_room);
 
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
@@ -68,7 +66,7 @@ class World : public ugdk::action::Scene {
     //getters
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::graphic::Geometry& camera() const { return camera_; }
-    sprite::WorldObject* hero() const { return hero_; }
+    sprite::WObjWeakPtr hero() const { return hero_; }
     //const std::set<map::Room*>& active_rooms() const { return active_rooms_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
@@ -91,14 +89,14 @@ class World : public ugdk::action::Scene {
     utils::LevelManager::LevelState level_state_;
     pyramidworks::collision::CollisionManager collision_manager_;
     pyramidworks::collision::CollisionManager visibility_manager_;
-    std::queue<std::pair<sprite::WorldObject*, map::Room*> > queued_moves_;
+    std::queue<std::pair<sprite::WObjPtr, map::Room*> > queued_moves_;
 
     // Graphic
     utils::Hud *hud_;
     ugdk::graphic::Geometry camera_;
 
     // Hero
-    sprite::WorldObject *hero_;
+    sprite::WObjPtr hero_;
     std::string hero_initial_room_;
     ugdk::math::Vector2D hero_initial_position_;
 

@@ -3,6 +3,7 @@
 #include <ugdk/resource/module.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
 
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
@@ -56,14 +57,16 @@ void SetupCollision(sprite::WorldObject* obj) {
     obj->AddComponent(new Body(col, nullptr));
 }
 
-sprite::WorldObject* Kha() {
+sprite::WObjPtr Kha() {
     component::PlayerController* player_controller;
     Energy life = Energy(constants::GetDouble("HERO_MAX_LIFE"));
     Energy mana = Energy(constants::GetInt("HERO_MAX_MANA_BLOCKS") * constants::GetDouble("HERO_MANA_PER_BLOCK"),
                          constants::GetDouble("HERO_MANA_REGEN_BASE"),
                          constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
-    WorldObject* hero_wobj = new WorldObject;
+    sprite::WObjPtr hero = sprite::WObjPtr(new WorldObject);
+    sprite::WorldObject* hero_wobj = hero.get();
+
     hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
@@ -97,10 +100,9 @@ sprite::WorldObject* Kha() {
  
     caster->LearnAndEquipSkill("magic_missile", component::Controller::PRIMARY);
 
-    int id;
-
     // No weapons for now.
 
+    int id;
     player_controller->AddSkill(id = caster->LearnSkill("fireball"));
     player_controller->AddSkill(caster->LearnSkill("lightning"));
     player_controller->AddSkill(caster->LearnSkill("light"));
@@ -110,7 +112,7 @@ sprite::WorldObject* Kha() {
 
     SetupCollision(hero_wobj);
 
-    return hero_wobj;
+    return hero;
 }
 
 } // namespace HeroBuilder

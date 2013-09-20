@@ -9,8 +9,8 @@
 namespace builder {
 namespace ItemBuilder {
 
-sprite::WorldObject* LifePotion(const std::vector<std::string>& arguments);
-sprite::WorldObject* ManaPotion(const std::vector<std::string>& arguments);
+sprite::WObjPtr LifePotion(const std::vector<std::string>& arguments);
+sprite::WObjPtr ManaPotion(const std::vector<std::string>& arguments);
 
 }
 }

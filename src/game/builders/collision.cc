@@ -17,9 +17,10 @@ using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
 using sprite::WorldObject;
 
-CollisionLogic DieCollision(sprite::WorldObject* owner) {
+CollisionLogic DieCollision(const sprite::WObjWeakPtr& owner) {
     return [owner](const CollisionObject*) {
-        owner->Die();
+        if(auto o = owner.lock())
+            o->Die();
     };
 }
 
@@ -35,22 +36,25 @@ CollisionLogic DamageCollision(const std::string& constant_name) {
     return DamageCollision(constants::GetDouble(constant_name));
 }
 
-CollisionLogic DamageAndDieCollision(WorldObject* owner, double damage) {
-    return [owner,damage](const CollisionObject* obj) {
+CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& ownerweak, double damage) {
+    return [ownerweak,damage](const CollisionObject* obj) {
+        auto owner = ownerweak.lock();
         WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
-        if(wobj && !owner->dead() && wobj->damageable()) {
+        if(wobj && owner && !owner->dead() && wobj->damageable()) {
             wobj->damageable()->TakeDamage(damage);
             owner->Die();
         }
     };
 }
 
-CollisionLogic DamageAndDieCollision(WorldObject* owner, const std::string& constant_name) {
+CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& owner, const std::string& constant_name) {
     return DamageAndDieCollision(owner, constants::GetDouble(constant_name));
 }
 
-pyramidworks::collision::CollisionLogic BounceCollision(sprite::WorldObject* owner) {
-    return [owner](const CollisionObject* obj) {
+pyramidworks::collision::CollisionLogic BounceCollision(const sprite::WObjWeakPtr& ownerweak) {
+    return [ownerweak](const CollisionObject* obj) {
+        auto owner = ownerweak.lock();
+        if(!owner) return;
         component::StateController* controller = owner->component<component::StateController>();
         WorldObject* wall = dynamic_cast<WorldObject*>(obj->owner());
         if(!controller || !wall) return;

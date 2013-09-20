@@ -9,10 +9,11 @@ namespace function {
 
 class Carrier {
   protected:
-    std::list<sprite::WorldObject*> drop_list_;
+    std::list<sprite::WObjPtr> drop_list_;
+
   public:
-    Carrier(std::list<sprite::WorldObject*> &list) : drop_list_(list) {}
-    Carrier(sprite::WorldObject *drop) { drop_list_.push_back(drop); }
+    Carrier(std::list<sprite::WObjPtr>& list) : drop_list_(list) {}
+    Carrier(const sprite::WObjPtr& drop) : drop_list_(1, drop) {}
 
     void operator()(sprite::WorldObject *wobj);
 };

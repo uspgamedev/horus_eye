@@ -29,13 +29,13 @@ using scene::World;
 using builder::ScriptBuilder::Script;
 using component::Animation;
 
-sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
+sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag) {
     World *world = WORLD();
     assert(world);
     size_t slashpos = tag.find_first_of('/');
     if(slashpos == std::string::npos) {
         fprintf(stderr, "Tag '%s' is not of the format 'X/Y'\n", tag.c_str());
-        return NULL;
+        return sprite::WObjWeakPtr();
     }
     std::string room_name = tag.substr(0, slashpos),
         obj_tag = tag.substr(slashpos);
@@ -44,17 +44,17 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag) {
     if(room)
         return room->WorldObjectByTag(obj_tag);
     else
-        return NULL;
+        return sprite::WObjWeakPtr();
 }
 
-static void _internal_AddDamageableComponent(sprite::WorldObject* obj, double life) {
-    component::Damageable* damageable = new component::Damageable(obj);
+static void _internal_AddDamageableComponent(const sprite::WObjPtr& obj, double life) {
+    component::Damageable* damageable = new component::Damageable(obj.get());
     damageable->life() = resource::Energy(life);
     obj->AddComponent(damageable);
 }
 
 void AddDamageableComponent(const std::string& tag, double life) {
-    sprite::WorldObject* obj = WorldObjectByTag(tag);
+    sprite::WObjPtr obj = WorldObjectByTag(tag).lock();
     if(!obj) {
         fprintf(stderr, "No object with tag '%s' found.\n", tag.c_str());
         return;
@@ -63,7 +63,7 @@ void AddDamageableComponent(const std::string& tag, double life) {
 }
 
 void AddDamageableComponent(const map::Room* room, const std::string& tag, double life) {
-    sprite::WorldObject* obj = room->WorldObjectByTag(tag);
+    sprite::WObjPtr obj = room->WorldObjectByTag(tag).lock();
     if(!obj) {
         fprintf(stderr, "No object with tag '%s' in room '%s' found.\n", tag.c_str(), room->name().c_str());
         return;
@@ -104,9 +104,9 @@ void GetCollidingVisibilityObjects(const string& classname, const GeometricShape
     findCollisions(colclass, shape, pos, objects_colliding);
 }
 
-sprite::WorldObject* hero() {
+sprite::WObjWeakPtr hero() {
     World *world = WORLD();
-    if (!world) return NULL;
+    if (!world) return sprite::WObjWeakPtr();
     return world->hero();
 }
 

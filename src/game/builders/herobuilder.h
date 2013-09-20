@@ -6,7 +6,7 @@
 namespace builder {
 namespace HeroBuilder {
 
-sprite::WorldObject* Kha();
+sprite::WObjPtr Kha();
 
 } // namespace HeroBuilder
 } // namespace builder

@@ -56,7 +56,7 @@ std::shared_ptr<graphic::TextBox> profiler_text(nullptr);
 void VerifyCheats(const input::KeyPressedEvent& ev) {
     LevelManager *level_manager = LevelManager::reference();
     World* world = level_manager->current_level();
-    WorldObject* hero = world->hero();
+    sprite::WObjPtr hero = world->hero().lock();
 
     static uint32 last_level_warp = 0;
     if(ugdk::time::manager()->TimeSince(last_level_warp) > 100) {
@@ -170,10 +170,7 @@ World::World(const ugdk::math::Integer2D& size)
     visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
 
     // Graphic
-    hud_(nullptr),
-
-    // Hero
-    hero_(nullptr)
+    hud_(nullptr)
 {
 
     set_identifier("World");
@@ -274,11 +271,11 @@ void World::DeFocus() {
     this->set_active(false);
 }
 
-void World::SetHero(sprite::WorldObject *hero) {
+void World::SetHero(const sprite::WObjPtr& hero) {
     hero_ = hero;
 }
 
-void World::QueueRoomChange(sprite::WorldObject* wobj, map::Room* next_room) {
+void World::QueueRoomChange(const sprite::WObjPtr& wobj, map::Room* next_room) {
     queued_moves_.emplace(wobj, next_room);
 }
 

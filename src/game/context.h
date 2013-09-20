@@ -14,7 +14,7 @@
 
 namespace context {
     
-sprite::WorldObject* WorldObjectByTag (const std::string& tag);
+sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag);
 
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
@@ -25,15 +25,15 @@ void EnableDeathAnimation(sprite::WorldObject* wobj);
 /// the given GeometricShape.
 void GetCollidingObjects(const std::string& classname,
                          const pyramidworks::geometry::GeometricShape& shape, 
-						             const ugdk::math::Vector2D& pos,
+						 const ugdk::math::Vector2D& pos,
                          std::vector<sprite::WorldObject*> &objects_colliding);
 
 void GetCollidingVisibilityObjects(const std::string& classname,
                                    const pyramidworks::geometry::GeometricShape& shape, 
-								                   const ugdk::math::Vector2D& pos,
+								   const ugdk::math::Vector2D& pos,
                                    std::vector<sprite::WorldObject*> &objects_colliding);
 
-sprite::WorldObject* hero();
+sprite::WObjWeakPtr hero();
 
 } // namespace context
 

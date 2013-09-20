@@ -5,6 +5,7 @@
 #include <list>
 #include <functional>
 #include <unordered_map>
+#include <memory>
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
@@ -22,7 +23,7 @@
 
 namespace sprite {
 
-class WorldObject : public ::ugdk::action::Entity {
+class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_from_this<WorldObject> {
   public:
 
     typedef std::function<void (WorldObject*)> WorldObjectEvent;

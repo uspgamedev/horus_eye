@@ -30,6 +30,7 @@ namespace ItemBuilder {
 
 using namespace utils;
 using sprite::WorldObject;
+using sprite::WObjPtr;
 using component::Caster;
 using sprite::Effect;
 using ugdk::action::Entity;
@@ -118,15 +119,15 @@ class RecoverManaEvent {
 
 //=======================================
 
-WorldObject* LifePotion(const std::vector<std::string>& arguments) {
+WObjPtr LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.LifePotionImage(), RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
+    WObjPtr wobj = WObjPtr(buildBaseItem(factory.LifePotionImage(), RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE"))));
     return wobj;
 }
 
-WorldObject* ManaPotion(const std::vector<std::string>& arguments) {
+WObjPtr ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WorldObject* wobj = buildBaseItem(factory.ManaPotionImage(), RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
+    WObjPtr wobj = WObjPtr(buildBaseItem(factory.ManaPotionImage(), RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA"))));
     return wobj;
 }
 

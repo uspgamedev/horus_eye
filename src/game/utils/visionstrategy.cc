@@ -46,7 +46,7 @@ bool VisionStrategy::IsVisible(const ugdk::math::Vector2D& from, const ugdk::mat
 }
     
 bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
-    WorldObject* hero = WORLD()->hero();
+    WObjPtr hero = WORLD()->hero().lock();
     if(hero)
         return IsVisible(from, hero->world_position());
     else
@@ -112,12 +112,11 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
 }
 
 queue<Vector2D> VisionStrategy::Calculate(sprite::WorldObject* who) {
-    World *world = WORLD();
-    WorldObject* hero = world->hero();
+    auto hero = WORLD()->hero().lock();
 
     queue<Vector2D> resp;
 
-    if(hero == NULL)
+    if(!hero)
         return resp;
 
     if(IsVisible(who, hero->world_position()))
