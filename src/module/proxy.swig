@@ -34,7 +34,7 @@ Mainly, they need to be named ClassProxy, and their constructor receives a ugdk:
 
 #ifdef SWIGLUA
 %{
-#include <module/luaproxy.h>
+#include <module/luaproxy_horus.h>
 %}
 
 %luacode {

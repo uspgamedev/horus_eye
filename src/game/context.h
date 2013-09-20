@@ -25,12 +25,12 @@ void EnableDeathAnimation(sprite::WorldObject* wobj);
 /// the given GeometricShape.
 void GetCollidingObjects(const std::string& classname,
                          const pyramidworks::geometry::GeometricShape& shape, 
-						             const ugdk::math::Vector2D& pos,
+                         const ugdk::math::Vector2D& pos,
                          std::vector<sprite::WorldObject*> &objects_colliding);
 
 void GetCollidingVisibilityObjects(const std::string& classname,
                                    const pyramidworks::geometry::GeometricShape& shape, 
-								                   const ugdk::math::Vector2D& pos,
+                                   const ugdk::math::Vector2D& pos,
                                    std::vector<sprite::WorldObject*> &objects_colliding);
 
 sprite::WorldObject* hero();
