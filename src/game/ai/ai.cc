@@ -32,9 +32,8 @@ void AI::Update(double dt) {
     if (state_ != RUNNING) return;
 
     data_->Clear();
-    AIModule::Status stat;
     if (root_) {
-        stat = root_->Update(dt, data_);
+        AIModule::Status stat = root_->Update(dt, data_);
         if (stat == AIModule::DONE) {
             Finish();
         }

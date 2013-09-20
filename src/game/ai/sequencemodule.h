@@ -2,7 +2,9 @@
 #define HORUSEYE_GAME_AI_SEQUENCEMODULE_H_
 
 #include "game/ai/aimodule.h"
+
 #include <vector>
+#include <memory>
 
 namespace ai {
 
@@ -19,10 +21,10 @@ class SequenceModule : public AIModule {
 
 	void Finish();
 
-	void AddChildModule(AIModule* child) { childs_.push_back(child); child->set_parent(this); }
+	void AddChildModule(AIModule* child);
 
   protected:
-	std::vector<AIModule*> childs_;
+    std::vector<std::unique_ptr<AIModule>> childs_;
 };
 
 } // namespace ai

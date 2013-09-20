@@ -4,19 +4,15 @@
 
 namespace ai {
 
-SequenceModule::~SequenceModule() {
-    for (AIModule* child : childs_)
-        delete child;
-    childs_.clear();
-}
+SequenceModule::~SequenceModule() {}
 
 void SequenceModule::Start() {
-    for (AIModule* child : childs_)
+    for (std::unique_ptr<AIModule>& child : childs_)
         child->Start();
 }
 
 AIModule::Status SequenceModule::Update(double dt, AIData* data) {
-    for(AIModule* child : childs_) {
+    for(std::unique_ptr<AIModule>& child : childs_) {
         AIModule::Status stat = child->Update(dt, data);
         if(stat != AIModule::DORMANT)
             return stat;
@@ -25,8 +21,13 @@ AIModule::Status SequenceModule::Update(double dt, AIData* data) {
 }
 
 void SequenceModule::Finish() {
-    for (AIModule* child : childs_)
+    for (std::unique_ptr<AIModule>& child : childs_)
         child->Finish();
+}
+	
+void SequenceModule::AddChildModule(AIModule* child) {
+    childs_.emplace_back(child);
+    child->set_parent(this);
 }
 
 } // namespace ai

@@ -1,14 +1,17 @@
 #ifndef HORUSEYE_GAME_AI_RANDOMMODULE_H_
 #define HORUSEYE_GAME_AI_RANDOMMODULE_H_
 
-#include <vector>
 #include "game/ai/aimodule.h"
+
+#include <vector>
+#include <memory>
+#include <utility>
 
 namespace ai {
 
 class RandomModule : public AIModule {
   public:
-	RandomModule() {}
+	RandomModule();
 	~RandomModule();
 
 	void Start();
@@ -16,12 +19,15 @@ class RandomModule : public AIModule {
 	void Finish();
 
 	void AddChildModule(AIModule* child, double chance);
+
+    // Distributes the same chance to all modules.
 	void SetUniformDistribution();
 
   protected:
-	std::vector<AIModule*> childs_;
-	std::vector<double> probability_distribution_;
+    double total_probability_;
+    std::vector<std::pair<std::unique_ptr<AIModule>, double>> childs_;
 };
 
-}
-#endif // RANDOMMODULE_H_
+} // namespace ai
+
+#endif // HORUSEYE_GAME_AI_RANDOMMODULE_H_
