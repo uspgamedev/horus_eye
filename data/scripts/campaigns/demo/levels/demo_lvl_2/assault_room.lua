@@ -12,7 +12,7 @@ event.Clear 'OPEN-ESCAPE-DOOR'
 neighborhood = { 'central_room' }
 
 width   = 23
-height  = 13
+height  = 12
 
 matrix = [[
 %%%%%%%%%%...%%%%%%%%%%
@@ -55,9 +55,9 @@ recipes = {
   ['assault-spawner'] = {
     property = 'spawner',
     params = {
-      delay = 2,
+      delay = 3,
       recipe = 'paper-mummy',
-      points = { vec2(1,1), vec2(21,1), vec2(1,11), vec2(21,11)} 
+      points = { vec2(1,1), vec2(21,1), vec2(1,10), vec2(21,10)} 
     }
   },
   ['paper-mummy'] = {
