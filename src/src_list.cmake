@@ -25,6 +25,8 @@ SET(GAME_SRCS
     game/ai/randommodule.h 
     game/ai/sequencemodule.cc 
     game/ai/sequencemodule.h 
+    game/ai/delaymodule.cc 
+    game/ai/delaymodule.h 
     game/builders/aibuilder.cc 
     game/builders/aibuilder.h 
     game/builders/builder.cc 

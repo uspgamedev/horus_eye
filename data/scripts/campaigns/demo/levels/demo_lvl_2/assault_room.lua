@@ -54,14 +54,18 @@ recipes = {
   },
   ['assault-spawner'] = {
     property = 'spawner',
-    params = { delay = 2, recipe = 'paper-mummy' }
+    params = {
+      delay = 2,
+      recipe = 'paper-mummy',
+      points = { vec2(1,1), vec2(21,1), vec2(1,11), vec2(21,11) }
+    }
   }
 }
 
 function setup (room)
   local device  = math.random() > 0.5 and 'button' or 'switch'
   local side    = math.random() > 0.5 and 5.5 or 16.5
-  room:MakeRecipe('entrance-trap', vec2(11, 1.5))
+  room:MakeRecipe('entrance-trap', vec2(11, 2))
   room:MakeRecipe('escape-'..device, vec2(side, 5.5))
   event.Register(
     'OPEN-ESCAPE-DOOR',
