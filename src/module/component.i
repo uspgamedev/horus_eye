@@ -6,9 +6,11 @@
 %include <module/proxy.swig>
 %include "std_string.i"
 %include "std_map.i"
+%include "memory.i"
 
 %{
 
+#include <ugdk/action/scene.h>
 #include <game/sprites/effect.h>
 #include <game/sprites/worldobject.h>
 #include <game/resources/energy.h>
@@ -32,6 +34,7 @@
 
 proxy_class(ugdk::action::Observer)
 
+%import(module="ugdk_action") <ugdk/action.h>
 %import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="ugdk_action") <ugdk/action/observer.h>
 %import(module="ugdk_action") <ugdk/action/animationplayer.h>
@@ -55,6 +58,9 @@ enable_disown(component::Base* component)
 
 disable_disown(pyramidworks::collision::CollisionObject* col)
 disable_disown(component::Base* component)
+
+%template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
+%template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
 
 // resource::Energy and dependencies
 

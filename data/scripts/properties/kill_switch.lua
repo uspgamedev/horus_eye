@@ -40,7 +40,7 @@ function build(wobj, to_kill)
               if not door then
                 print("Tag "..tag.." not found")
               else
-                door:Die()
+                door:lock():get():Die()
                 switch.activated = true
                 switch.graphic:animator():ChangeAnimation "SWITCH_START"
                 if not self:HasComponent "light" then

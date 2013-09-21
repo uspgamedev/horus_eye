@@ -7,14 +7,21 @@
 %include "std_string.i"
 %include "std_vector.i"
 %include "std_map.i"
+%include "memory.i"
 
 %{
 
 #include <game/map.h>
 #include <game/map/room.h>
 #include <game/map/tile.h>
+#include <game/sprites/worldobject.h>
 
 %}
+
+%import(module="component") <game/sprites.h>
+%import(module="component") <game/sprites/worldobject.h>
+%template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
+%template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
 
 %include <game/map.h>    
 %include <game/map/room.h>
