@@ -26,8 +26,8 @@ using pyramidworks::collision::CollisionObject;
 using component::Body;
 using sprite::WorldObject;
 
-static WorldObject* baseExplosion(const std::string& spritesheet, const std::string& anim) {
-    WorldObject *wobj = new WorldObject;
+static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::string& anim) {
+    sprite::WObjPtr wobj = WorldObject::Create();
 
     auto animator = new component::Animator(spritesheet, "animations/explosion.gdd");
     animator->ChangeAnimation(anim);
@@ -41,7 +41,7 @@ static WorldObject* baseExplosion(const std::string& spritesheet, const std::str
 
 sprite::WObjPtr FireballExplosion() {
     utils::ImageFactory factory;
-    sprite::WObjPtr wobj = sprite::WObjPtr(baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON"));
+    sprite::WObjPtr wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
 
     wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 

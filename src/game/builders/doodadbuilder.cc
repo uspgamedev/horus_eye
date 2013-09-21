@@ -39,7 +39,7 @@ using component::Body;
 using sprite::WorldObject;
 
 sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr wobj = sprite::WObjPtr(new WorldObject);
+    sprite::WObjPtr wobj = WorldObject::Create();
     wobj->AddComponent(component::Graphic::Create(std::shared_ptr<ugdk::graphic::Drawable>(new Sprite("stairs"))));
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
@@ -50,7 +50,7 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
 }
 
 static sprite::WObjPtr buildWall(ugdk::graphic::Texture* texture) {
-    sprite::WObjPtr wobj = sprite::WObjPtr(new WorldObject);
+    sprite::WObjPtr wobj = WorldObject::Create();
     if(texture) {
         Drawable* drawable = new map::SpecialWall(texture);
         drawable->set_hotspot(Vector2D(53, 156));

@@ -57,7 +57,7 @@ static void MummyDeath(sprite::WorldObject* wobj) {
 }
 
 static sprite::WObjPtr build_mummy_wobj(const std::string& spritesheetname, double life, double radius, double speed, bool standing) {
-    sprite::WObjPtr wobj = sprite::WObjPtr(new WorldObject);
+    sprite::WObjPtr wobj = WorldObject::Create();
     PrepareBasicMummy(wobj, spritesheetname, life, radius, speed, standing);
     return wobj;
 }

@@ -56,11 +56,11 @@ enable_disown(component::Base* component)
 %include <game/sprites/effect.h>
 %include <game/sprites/worldobject.h>
 
-disable_disown(pyramidworks::collision::CollisionObject* col)
-disable_disown(component::Base* component)
-
 %template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
 %template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
+
+disable_disown(pyramidworks::collision::CollisionObject* col)
+disable_disown(component::Base* component)
 
 // resource::Energy and dependencies
 
@@ -106,8 +106,10 @@ disable_disown(ugdk::graphic::Drawable* drawable)
 namespace sprite {
     export_class(WorldObject)
     export_class(Effect)
-}
 
+    export_class(WObjPtr)
+    export_class(WObjWeakPtr)
+}
 namespace component {
     export_class(Base)
     export_class(Direction)
@@ -121,6 +123,4 @@ namespace component {
     export_class(Body)
     export_class(Condition)
 }
-
 confirm_exports(component)
-

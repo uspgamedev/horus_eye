@@ -64,7 +64,7 @@ sprite::WObjPtr Kha() {
                          constants::GetDouble("HERO_MANA_REGEN_BASE"),
                          constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
-    sprite::WObjPtr hero = sprite::WObjPtr(new WorldObject);
+    sprite::WObjPtr hero = WorldObject::Create();
     sprite::WorldObject* hero_wobj = hero.get();
 
     hero_wobj->AddDeathEvent(HeroDeathEvent);

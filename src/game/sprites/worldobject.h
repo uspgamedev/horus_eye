@@ -25,11 +25,10 @@ namespace sprite {
 
 class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_from_this<WorldObject> {
   public:
-
     typedef std::function<void (WorldObject*)> WorldObjectEvent;
 
     /** @param duration Sets timed life to the given value, if positive. */
-    WorldObject(double duration = -1.0);
+    static WObjPtr Create(double duration = -1.0);
     ~WorldObject();
 
     // The BIG Awesome update method. TODO explain better
@@ -146,6 +145,7 @@ class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_fro
     map::Room* current_room() const { return current_room_; }
 
   private:
+    WorldObject(double duration);
     
     /// Internal identifier. Debugging purposes.
     std::string identifier_;

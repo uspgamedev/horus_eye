@@ -13,11 +13,10 @@ function build (wobj, params)
   local dir = params.dir or "Left"
   local graphic_comp = component.Graphic_Create("closed-door", "animations/closed-door.gdd")
   wobj:AddComponent(graphic_comp, "graphic", 100)
-  
-  local anim_comp = component.Animation(wobj)
+  local anim_comp = component.Animation(wobj:get())
   wobj:AddComponent(anim_comp, "animation", 101)
   anim_comp:ChangeDirection(component["Direction_"..dir]())
-  context.EnableDeathAnimation(wobj)
+  context.EnableDeathAnimation(wobj:get())
   return {
     collision = {
       class = "Wall",

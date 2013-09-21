@@ -33,6 +33,10 @@ bool WorldObject::OrderedComponent::operator == (const component::Base* base) co
 
 WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
 
+WObjPtr WorldObject::Create(double duration) {
+    return WObjPtr(new WorldObject(duration));
+}
+
 WorldObject::WorldObject(double duration)
     :   identifier_("Generic World Object"),
         current_room_(NULL),

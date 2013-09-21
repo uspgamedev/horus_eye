@@ -68,14 +68,14 @@ class ItemLogic : public component::Base {
     double total_time_;
 };
 
-WorldObject* buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, const std::string& target_class = "Hero") {
-    WorldObject* wobj = new WorldObject;
+sprite::WObjPtr buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, const std::string& target_class = "Hero") {
+    sprite::WObjPtr wobj = WorldObject::Create();
     wobj->AddComponent(component::Graphic::Create(nullptr));
     wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
     image->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
 
-    CollisionObject* col = new CollisionObject(wobj, "Item", new pyramidworks::geometry::Circle(0.15));
-    col->AddCollisionLogic(target_class, UseCollision(wobj, ev));
+    CollisionObject* col = new CollisionObject(wobj.get(), "Item", new pyramidworks::geometry::Circle(0.15));
+    col->AddCollisionLogic(target_class, UseCollision(wobj.get(), ev));
 
     wobj->AddComponent(new component::Body(col, NULL));
     return wobj;
@@ -121,13 +121,13 @@ class RecoverManaEvent {
 
 WObjPtr LifePotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WObjPtr wobj = WObjPtr(buildBaseItem(factory.LifePotionImage(), RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE"))));
+    WObjPtr wobj = buildBaseItem(factory.LifePotionImage(), RecoverLifeEvent(constants::GetInt("LIFEPOTION_RECOVER_LIFE")));
     return wobj;
 }
 
 WObjPtr ManaPotion(const std::vector<std::string>& arguments) {
     utils::ImageFactory factory;
-    WObjPtr wobj = WObjPtr(buildBaseItem(factory.ManaPotionImage(), RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA"))));
+    WObjPtr wobj = buildBaseItem(factory.ManaPotionImage(), RecoverManaEvent(constants::GetInt("MANAPOTION_RECOVER_MANA")));
     return wobj;
 }
 

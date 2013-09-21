@@ -103,7 +103,7 @@ static void ApplyDescriptor(WorldObject* wobj, const VirtualObj& descriptor) {
 }
 
 
-WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualObj& params) {
+sprite::WObjPtr Script(const std::string& script_name, const ugdk::script::VirtualObj& params) {
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("properties." + script_name);
     if(!script_generator) {
         fprintf(stderr, "Unable to load 'properties.%s'.\n", script_name.c_str());
@@ -120,11 +120,11 @@ WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualO
         return NULL;
     }
     
-    WorldObject* wobj = new WorldObject;
+    sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier(script_name);
 
     VirtualObj v_wobj(script_generator["build"].wrapper());
-    v_wobj.set_value<WorldObject*>(wobj);
+    v_wobj.set_value<sprite::WObjPtr*>(&wobj); // assuming it doesn't disown
     
     VirtualObj::List args(1, v_wobj);
     if(params)
@@ -134,7 +134,7 @@ WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualO
 
     VirtualObj build_result = script_generator["build"](args);
     if(build_result)
-        ApplyDescriptor(wobj, build_result);
+        ApplyDescriptor(wobj.get(), build_result);
 
     return wobj;
 }

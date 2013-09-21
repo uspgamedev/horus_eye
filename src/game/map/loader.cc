@@ -92,7 +92,7 @@ bool BlocksVision (char obj) {
 }
 
 void AddObstacle (Room* room, double x, double y, double width, double height) {
-    sprite::WObjPtr wobj = sprite::WObjPtr(new WorldObject);
+    sprite::WObjPtr wobj = WorldObject::Create();
     
     CollisionObject* vis = new CollisionObject(wobj.get(), "Opaque", new pyramidworks::geometry::Rect(width, height));
     
