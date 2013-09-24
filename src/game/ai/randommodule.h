@@ -25,7 +25,7 @@ class RandomModule : public AIModule {
 
   protected:
     double total_probability_;
-    std::vector<std::pair<std::unique_ptr<AIModule>, double>> childs_;
+    std::vector<std::pair<std::unique_ptr<AIModule>, double> > childs_;
 };
 
 } // namespace ai

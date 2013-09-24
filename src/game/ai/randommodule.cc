@@ -1,5 +1,7 @@
 #include "game/ai/randommodule.h"
 
+#include <cstdlib>
+
 namespace ai {
 
 RandomModule::RandomModule() : total_probability_(0.0) {}
@@ -13,7 +15,7 @@ void RandomModule::Start() {
 
 AIModule::Status RandomModule::Update(double dt, AIData* data) {
     // Choose a random number in [0, total_probability_[
-    double choice = total_probability_ * (static_cast<double>(rand()) / RAND_MAX);
+    double choice = total_probability_ * (static_cast<double>(std::rand()) / RAND_MAX);
 
     for (const auto& it : childs_) {
         // If the 'random range' of the given 

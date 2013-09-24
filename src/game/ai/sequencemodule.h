@@ -24,7 +24,7 @@ class SequenceModule : public AIModule {
 	void AddChildModule(AIModule* child);
 
   protected:
-    std::vector<std::unique_ptr<AIModule>> childs_;
+    std::vector<std::unique_ptr<AIModule> > childs_;
 };
 
 } // namespace ai
