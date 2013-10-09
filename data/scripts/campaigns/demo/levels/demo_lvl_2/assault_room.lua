@@ -61,7 +61,7 @@ recipes = {
     }
   },
   ['paper-mummy'] = {
-    property = 'event_mummy',
+    property = 'custom-monster',
     params = {
       spritesheet = "mummy_basic",
       life = constants.GetInt "PAPER_MUMMY_LIFE",

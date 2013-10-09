@@ -53,12 +53,16 @@ recipes = {
   ["horizontal-mummy-spawn"] = dual_spawner(vec2(4, 0)),
   ["vertical-mummy-spawn"] = dual_spawner(vec2(0, 4)),
   ["mummy"] = {
-    property = "event_mummy",
+    property = 'custom-monster',
     params = {
       spritesheet = "mummy_basic",
       life = constants.GetInt "MUMMY_LIFE",
       radius = constants.GetDouble "MUMMY_RADIUS",
-      speed = constants.GetDouble "MUMMY_SPEED"
+      speed = constants.GetDouble "MUMMY_SPEED",
+      extra = function (wobj)
+        wobj:caster():power():Set(constants.GetInt "MUMMY_DAMAGE")
+        wobj:caster():LearnAndEquipSkill("mummy_melee", 0)
+      end
     }
   },
   ["open-door"] = {
