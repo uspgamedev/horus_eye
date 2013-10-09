@@ -23,7 +23,7 @@ local function dual_spawner(offset)
 end
 
 neighborhood = {
-  "divergence", "explo_room", "assault_room"
+  "divergence", "explo_room", "assault_room", "spawner_room"
 }
 
 width = 17
@@ -77,4 +77,7 @@ function setup (room)
   room:MakeRecipe("open-door", vec2(0, 7))
   room:MakeRecipe("open-door", vec2(0, 8))
   room:MakeRecipe("open-door", vec2(0, 9))
+  room:MakeRecipe("open-door", vec2(16, 7))
+  room:MakeRecipe("open-door", vec2(16, 8))
+  room:MakeRecipe("open-door", vec2(16, 9))
 end
