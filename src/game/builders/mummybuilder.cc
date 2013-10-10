@@ -22,12 +22,15 @@
 #include "game/constants.h"
 #include "game/resources/energy.h"
 
+#include <unordered_map>
+
 namespace builder {
 namespace MummyBuilder {
 
 using namespace sprite;
 using namespace component;
 using std::string;
+using std::unordered_map;
 using component::Animation;
 using component::Walker;
 using resource::Energy;

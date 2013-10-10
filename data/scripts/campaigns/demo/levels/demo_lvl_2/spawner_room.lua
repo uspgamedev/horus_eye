@@ -39,11 +39,11 @@ recipes = {
     params = {
       spritesheet = 'altar',
       life = constants.GetInt 'CURSED_ALTAR_LIFE',
-      radius = 2,
+      radius = 1.2,
       speed = 0,
       animations = 'altar',
       extra = function (wobj)
-        --wobj:caster():LearnAndEquipSkill("altar_summon", 0)
+        wobj:caster():LearnAndEquipSkill("altar_summon", 0)
       end
     }
   }
