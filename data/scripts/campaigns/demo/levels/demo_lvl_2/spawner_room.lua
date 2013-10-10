@@ -1,8 +1,11 @@
 
 require "ugdk.math"
 require "event"
+require "pyramidworks.collision"
+require "pyramidworks.geometry"
 
 local vec2 = ugdk_math.Vector2D
+local rect = pyramidworks_geometry.Rect
 
 neighborhood = {
   "central_room"
@@ -44,6 +47,9 @@ recipes = {
       animations = 'altar',
       extra = function (wobj)
         wobj:caster():LearnAndEquipSkill("altar_summon", 0)
+        -- TODO THIS
+        -- Remember: CollisionObjects steal geometry's ownership!
+        --wobj:body():AddCollision(pyramidworks_collision.CollisionObject(wobj, 'Wall', rect(1,1)))
       end
     }
   }
