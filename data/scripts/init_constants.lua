@@ -52,6 +52,8 @@ constants.RegisterInt("BIG_MUMMY_DAMAGE", 300)
 constants.RegisterInt("PAPER_MUMMY_LIFE", 1)
 constants.RegisterInt("PAPER_MUMMY_DAMAGE", 400)
 
+constants.RegisterInt("CURSED_ALTAR_LIFE", 300)
+
 constants.RegisterInt("FIREBALL_EXPLOSION_DAMAGE", 200)
 constants.RegisterInt("FIREBALL_COST", 200)
 constants.RegisterInt("QUAKE_EXPLOSION_DAMAGE", 400)

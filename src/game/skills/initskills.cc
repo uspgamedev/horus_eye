@@ -31,6 +31,7 @@ void InitMummySkills() {
     container.Insert("paper_melee", PaperMeleeBuild());
     container.Insert("pharaoh_ranged", PharaohRangedBuild());
     container.Insert("pharaoh_summon", PharaohSummonBuild());
+    container.Insert("altar_summon", PharaohSummonBuild());
 }
 
 } // skills
