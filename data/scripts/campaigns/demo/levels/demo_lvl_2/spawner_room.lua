@@ -43,12 +43,13 @@ recipes = {
     params = {
       spritesheet = 'altar',
       life = constants.GetInt 'CURSED_ALTAR_LIFE',
-      radius = 1.2,
+      radius = 1.5,
       speed = 0,
       animations = 'altar',
       extra = function (wobj)
         wobj:caster():LearnAndEquipSkill("altar_summon", 0)
-        --context.AddCollisionObjectRect(wobj, 'Wall', 1, 1)
+        context.AddCollisionObjectRect(wobj, 'Wall', 2, 2)
+        wobj:body():main_collision():RemoveCollisionLogic('Wall')
       end,
       callback = function (wobj)
         print "IT DIED"

@@ -29,6 +29,8 @@ class Body : public Base {
     void ChangePosition(const ugdk::math::Vector2D& pos);
     void AddCollision(pyramidworks::collision::CollisionObject* collision);
 
+    pyramidworks::collision::CollisionObject* main_collision () const { return collisions_.front().get(); }
+
   private:
     std::list<std::unique_ptr<pyramidworks::collision::CollisionObject> > collisions_;
     
