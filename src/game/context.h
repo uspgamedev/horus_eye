@@ -19,6 +19,8 @@ sprite::WorldObject* WorldObjectByTag (const std::string& tag);
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
 void AddAIComponent(sprite::WorldObject* wobj, ai::AI* the_ai);
+void AddCollisionObjectRect(sprite::WorldObject* wobj, const std::string& colclass, double width,
+                            double height);
 void EnableDeathAnimation(sprite::WorldObject* wobj);
 
 /// Appends to the objects_colliding list all WorldObjects from the given collision class (classname) that are colliding with
