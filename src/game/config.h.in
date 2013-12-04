@@ -5,7 +5,7 @@
 
 #cmakedefine ISMAC
 #cmakedefine HORUSEYE_DEBUG_TOOLS
-#cmakedefine horus_eye_VERSION L"@horus_eye_VERSION@"
+#cmakedefine horus_eye_VERSION "@horus_eye_VERSION@"
 #cmakedefine horus_eye_DATA_PATH "@horus_eye_DATA_PATH@"
 
 #endif

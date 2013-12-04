@@ -43,12 +43,6 @@ using ugdk::ui::UIElement;
 using utils::Settings;
 using ugdk::resource::GetLanguageWord;
 
-static std::wstring convertFromString(const std::string& str) {
-    std::wstring str2(str.length(), L' '); // Make room for characters
-    std::copy(str.begin(), str.end(), str2.begin());
-    return str2;
-}
-
 namespace builder {
 
 void MenuFocus(Scene* scene){ 
@@ -141,7 +135,7 @@ Scene* CampaignMenu() {
             if(!campaign_module["playable"] || !campaign_module["playable"].value<bool>()) continue;
             if(!campaign_module["name"]) continue;
 
-            std::wstring name(convertFromString(campaign_module["name"].value<std::string>()));
+            std::string name(campaign_module["name"].value<std::string>());
 
             menu->AddObject(
                 new Button(
@@ -314,7 +308,7 @@ struct ConveninentSettingsData {
                 if(word)
                     img = word->CreateLabel();
                 else
-                    img = new ugdk::graphic::Label(convertFromString(this->setting_functions_[i].values[j]), 
+                    img = new ugdk::graphic::Label(this->setting_functions_[i].values[j],
                                                    TEXT_MANAGER()->GetFont("FontB"));
                 img->set_hotspot(Drawable::CENTER);
                 this->nodes_[i][j] = new Node(img);

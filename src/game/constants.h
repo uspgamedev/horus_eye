@@ -18,7 +18,7 @@ std::string data_location ();
 std::string binary_configuration_filename ();
 std::string ini_configuration_filename ();
 std::string background_music ();
-std::wstring version ();
+std::string version ();
 
 
 /*class Constants {

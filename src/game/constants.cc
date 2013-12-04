@@ -43,7 +43,7 @@ const static std::string DATA_LOCATION = horus_eye_DATA_PATH "/";
 const static std::string BINARY_CONFIGURATION_FILENAME = "settings.bin";
 const static std::string INI_CONFIGURATION_FILENAME = "settings.ini";
 const static std::string BACKGROUND_MUSIC = "musics/bgmusic.wav";
-const static std::wstring VERSION = horus_eye_VERSION;
+const static std::string VERSION = horus_eye_VERSION;
 
 std::string data_location () {
     return DATA_LOCATION;
@@ -57,7 +57,7 @@ std::string ini_configuration_filename () {
 std::string background_music () {
     return BACKGROUND_MUSIC;
 }
-std::wstring version () {
+std::string version () {
     return VERSION;
 }
 

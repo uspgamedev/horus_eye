@@ -20,6 +20,8 @@
 #include "game/components/caster.h"
 #include "game/constants.h"
 
+#include <string>
+
 #define LIFE_BAR_HEIGHT constants::GetDouble("LIFE_BAR_HEIGHT")
 #define MANA_BAR_HEIGHT constants::GetDouble("MANA_BAR_HEIGHT")
 
@@ -36,9 +38,7 @@ using component::Controller;
 namespace utils {
 
 static Drawable* ConvertNumberToText(int val, bool center = true) {
-    wchar_t str[15];
-    swprintf(str, 15, L"%d", val);
-    Drawable* result = new Label(str, TEXT_MANAGER()->current_font());
+    Drawable* result = new Label(std::to_string(val), TEXT_MANAGER()->current_font());
     if(center) result->set_hotspot(Drawable::CENTER);
     return result;
 }
@@ -150,7 +150,7 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
     
 #ifdef HORUSEYE_DEBUG_TOOLS
-    Drawable* fps_label = new Label(L"FPS: ", TEXT_MANAGER()->current_font());
+    Drawable* fps_label = new Label("FPS: ", TEXT_MANAGER()->current_font());
     node_->AddChild(new Node(fps_label));
     node_->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
     fps_meter_node_->geometry().set_offset(Vector2D(fps_label->width(), 0.0));

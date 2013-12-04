@@ -43,11 +43,6 @@ using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
 using ugdk::graphic::TextBox;
 
-namespace externals {
-// Convert string to wstring
-std::wstring str_to_wstr(const std::string& arg);
-}
-
 namespace utils {
 
 namespace {
@@ -163,8 +158,7 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
     utils::LoadLevel(current_campaign_, level_name, &current_level_);
     if(!current_level_) {
         ugdk::system::PushScene(new ImageScene(NULL, new ugdk::graphic::Label(
-            L"Error loading level '" + externals::str_to_wstr(level_name) 
-            + L"' from campaign '" + externals::str_to_wstr(current_campaign_) + L"'.",
+            "Error loading level '" + (level_name) + "' from campaign '" + (current_campaign_) + "'.",
             TEXT_MANAGER()->current_font()
         )));
         if(ugdk::input::manager()->keyboard().IsDown(ugdk::input::Keycode::ESCAPE))
