@@ -103,7 +103,7 @@ void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::grap
     shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
 
     // Draw the triangle !
-    glDrawArrays(GL_QUADS, 0, 4); // 12*3 indices starting at 0 -> 12 triangles
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); // 12*3 indices starting at 0 -> 12 triangles
 }
 
 } // namespace map

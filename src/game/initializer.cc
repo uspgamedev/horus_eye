@@ -290,16 +290,17 @@ void DrawTexture(ugdk::graphic::Texture* texture, const Geometry& geometry, cons
         vertex_data[0 * 2 + 0] = 0.0f; // near left
         vertex_data[0 * 2 + 1] = static_cast<GLfloat>(texture->height());
         
-        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(texture->width()); // near right
-        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(texture->height());
-        
-        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(texture->width()); // far right
-        vertex_data[2 * 2 + 1] = 0.0f;
+        vertex_data[1 * 2 + 0] = 0.0f; // far left
+        vertex_data[1 * 2 + 1] = 0.0f;
 
-        vertex_data[3 * 2 + 0] = 0.0f; // far left
+        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(texture->width()); // near right
+        vertex_data[2 * 2 + 1] = static_cast<GLfloat>(texture->height());
+        
+        vertex_data[3 * 2 + 0] = static_cast<GLfloat>(texture->width()); // far right
         vertex_data[3 * 2 + 1] = 0.0f;
+
     }
     shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
