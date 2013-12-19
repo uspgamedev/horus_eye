@@ -4,6 +4,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/action.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
@@ -33,7 +34,7 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     // Node [1], main image
     if (image) {
         scene_layers_[IMG] = new ugdk::graphic::Node(image);
-        ugdk::math::Vector2D offset = (ugdk::graphic::manager()->video_size() - image->size())* 0.5;
+        ugdk::math::Vector2D offset = (ugdk::graphic::manager()->canvas()->size() - image->size())* 0.5;
         scene_layers_[IMG]->geometry().set_offset(offset);
     }
     else scene_layers_[IMG] = NULL;
@@ -46,11 +47,11 @@ ImageScene::ImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawa
     event_handler().AddListener<MouseButtonReleasedEvent>([this](const MouseButtonReleasedEvent&) {
         this->Finish();
     });
-    set_render_function([this](const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) {
+    set_render_function([this](ugdk::graphic::Canvas& canvas) {
         if(scene_layers_[BG])
-            scene_layers_[BG]->Render(geometry, effect);
+            scene_layers_[BG]->Render(canvas);
         if(scene_layers_[IMG])
-            scene_layers_[IMG]->Render(geometry, effect);
+            scene_layers_[IMG]->Render(canvas);
     });
 }
 

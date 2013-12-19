@@ -43,15 +43,15 @@ void Room::Update(double dt) {
     flushObjectQueue();
 }
     
-void Room::Render(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
-    floor_->Render(geometry, effect);
-    layers_[BACKGROUND_LAYER]->Render(geometry, effect);
-    layers_[FOREGROUND_LAYER]->Render(geometry, effect);
+void Room::Render(ugdk::graphic::Canvas& canvas) const {
+    floor_->Render(canvas);
+    layers_[BACKGROUND_LAYER]->Render(canvas);
+    layers_[FOREGROUND_LAYER]->Render(canvas);
 }
     
-void Room::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
-    layers_[BACKGROUND_LAYER]->RenderLight(geometry, effect);
-    layers_[FOREGROUND_LAYER]->RenderLight(geometry, effect);
+void Room::RenderLight(ugdk::graphic::Canvas& canvas) const {
+    layers_[BACKGROUND_LAYER]->RenderLight(canvas);
+    layers_[FOREGROUND_LAYER]->RenderLight(canvas);
 }
 
 void Room::AddObject(sprite::WorldObject* obj) {

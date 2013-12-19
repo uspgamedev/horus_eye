@@ -4,6 +4,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
@@ -110,10 +111,10 @@ bool shadowcasting_actiavated = true;
 void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2, 
                        const math::Vector2D& p3, const math::Vector2D& p4,
                        const math::Vector2D& O,
-                       const Geometry& geometry, const VisualEffect& effect) {
+                       ugdk::graphic::Canvas& canvas) {
     //opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
     opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
-    shader_use.SendGeometry(geometry);
+    shader_use.SendGeometry(canvas.current_geometry());
     //shader_use.SendEffect(effect);
     //shader_use.SendTexture(0, graphic::manager()->white_texture());
 
@@ -155,7 +156,7 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
     glDrawArrays(GL_QUADS, 0, 4);
 }
 
-void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& effect, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
+void CreateAndDrawQuadrilateral(ugdk::graphic::Canvas& canvas, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
     using math::Vector2D;
     Vector2D wall_dir = (right_point - left_point).Normalize();
     Vector2D left_vector = left_point - from;
@@ -175,7 +176,7 @@ void CreateAndDrawQuadrilateral(const Geometry& geometry, const VisualEffect& ef
         right_point + right_vector  * near_coef_right, // near right
         right_point + right_vector  * far_coef_right, // far right
         from,
-        geometry, effect);
+        canvas);
 }
 
 bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, const Vector2D& point) {
@@ -183,14 +184,14 @@ bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, 
     return shape->Intersects(position, &c, point);
 }
 
-void DrawShadows(scene::World* world, sprite::WorldObject* hero, const Geometry& geometry, const VisualEffect& effect) {
+void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::Canvas& canvas) {
     auto& opaque_class = world->visibility_manager()->Find("Opaque");
     geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
     collision::CollisionObjectList walls;
     opaque_class.FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
-    Geometry offset_geometry = geometry * world->camera();
-    VisualEffect black_effect = effect * VisualEffect(Color(0.0, 0.0, 0.0, 0.5));
+    canvas.PushAndCompose(world->camera());
+    canvas.PushAndCompose(VisualEffect(Color(0.0, 0.0, 0.0, 0.5)));
 
     for(const collision::CollisionObject * obj : walls) {
         std::list<Vector2D> vertices;
@@ -219,20 +220,24 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, const Geometry&
         }
 
         // Choose the two points that have the widest angle.
-        CreateAndDrawQuadrilateral(offset_geometry, black_effect, hero->world_position(), extremes.front(), extremes.back());
+        CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
     }
+
+    canvas.PopGeometry();
+    canvas.PopVisualEffect();
 }
 
-void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
+void LightRendering(ugdk::graphic::Canvas& canvas) {
     if(scene::World* world = utils::LevelManager::reference()->current_level()) {
         if(shadowcasting_actiavated)
             if(sprite::WorldObject* hero = world->hero())
-                DrawShadows(world, hero, geometry, effect);
-        graphic::manager()->SaveBackbufferToTexture(shadow_texture_);
+                DrawShadows(world, hero, canvas);
+
+        canvas.SaveToTexture(shadow_texture_);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         if(light_system_activated)
-            world->RenderLight(geometry, effect);
+            world->RenderLight(canvas);
         else {
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
@@ -241,7 +246,7 @@ void LightRendering(const Geometry& geometry, const VisualEffect& effect) {
         
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         if(shadowcasting_actiavated)
-            DrawTexture(shadow_texture_, geometry, effect);
+            DrawTexture(shadow_texture_, canvas);
     }
 }
 
@@ -263,7 +268,7 @@ void ToggleLightsystem() {
 }
 
 ugdk::action::Scene* CreateHorusLightrenderingScene() {
-    auto screensize = graphic::manager()->video_size();
+    auto screensize = graphic::manager()->canvas()->size();
     shadow_texture_ = ugdk::graphic::Texture::CreateRawTexture(screensize.x, screensize.y);
     glBindTexture(GL_TEXTURE_2D, shadow_texture_->gltexture());
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
@@ -277,10 +282,10 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
 
-void DrawTexture(ugdk::graphic::Texture* texture, const Geometry& geometry, const VisualEffect& effect) {
+void DrawTexture(ugdk::graphic::Texture* texture, ugdk::graphic::Canvas& canvas) {
     opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
-    shader_use.SendGeometry(geometry);
-    shader_use.SendEffect(effect);
+    shader_use.SendGeometry(canvas.current_geometry());
+    shader_use.SendEffect(canvas.current_visualeffect());
     shader_use.SendTexture(0, texture);
     
     opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);

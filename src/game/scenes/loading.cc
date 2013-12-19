@@ -4,6 +4,7 @@
 #include <ugdk/action.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/drawable.h>
@@ -51,13 +52,13 @@ Loading::Loading() {
     Drawable* loading_image = ugdk::resource::GetLanguageWord("Loading")->CreateLabel();
     loading_image->set_hotspot(Drawable::BOTTOM_RIGHT);
 
-    Vector2D position = ugdk::graphic::manager()->video_size() - Vector2D(10.0, 10.0);
+    Vector2D position = ugdk::graphic::manager()->canvas()->size() - Vector2D(10.0, 10.0);
 
     loading_ = new ugdk::graphic::Node(loading_image);
     loading_->geometry().set_offset(position);
 
     set_visible(false);
-    set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), loading_, _1, _2));
+    set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), loading_, _1));
 
     this->StopsPreviousMusic(false);
 }

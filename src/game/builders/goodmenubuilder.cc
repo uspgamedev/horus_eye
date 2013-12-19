@@ -9,6 +9,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/drawable/label.h>
@@ -63,7 +64,7 @@ Scene* PauseMenu() {
     ugdk::action::Scene* pause_menu = new Scene();
     pause_menu->set_focus_callback(MenuFocus);
     pause_menu->set_defocus_callback(MenuDeFocus);
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
     Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
@@ -92,7 +93,7 @@ Scene* PauseMenu() {
     menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
     pause_menu->AddEntity(menu);
-    pause_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
+    pause_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
 
     //TODO: solid rectangle no longer exists
     //ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
@@ -106,7 +107,7 @@ Scene* CampaignMenu() {
     ugdk::action::Scene* mission_menu = new Scene();
     mission_menu->set_focus_callback(MenuFocus);
     mission_menu->set_defocus_callback(MenuDeFocus);
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
     Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
@@ -160,14 +161,14 @@ Scene* CampaignMenu() {
         fprintf(stderr, "NAO ABRUI A PASTA");
     }
 
-    menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->video_size().y - 100.0),
+    menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->canvas()->size().y - 100.0),
                                GetLanguageWord("Exit")->CreateLabel(),
                                [mission_menu](const Button*) { mission_menu->Finish(); }));
 
     menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
     mission_menu->AddEntity(menu);
-    mission_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
+    mission_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
 
     return mission_menu;
 }
@@ -177,7 +178,7 @@ Scene* MainMenu() {
     main_menu->set_focus_callback(MenuFocus);
     main_menu->set_defocus_callback(MenuDeFocus);
 
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
     ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/logo_560x334_black.png"));
@@ -193,7 +194,7 @@ Scene* MainMenu() {
     ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/developed_by_uspgamedev1.png"));
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     Node* developed_by_node = new Node(developed_by);
-    developed_by_node->geometry().set_offset(ugdk::graphic::manager()->video_size() + Vector2D(-15.0, 0.0));
+    developed_by_node->geometry().set_offset(ugdk::graphic::manager()->canvas()->size() + Vector2D(-15.0, 0.0));
 
     Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
     for(int i = 0; i < 2; ++i) {
@@ -238,7 +239,7 @@ Scene* MainMenu() {
     menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
     
     main_menu->AddEntity(menu);
-    main_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
+    main_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
 
     return main_menu;
 }
@@ -251,10 +252,10 @@ struct SettingsFunction {
 static void fillSettingsFunction(SettingsFunction* sf) {
     sf[0].name = "Resolution";
     sf[0].function = mem_fn(&Settings::set_resolution);
-    const Vector2D *resolutions = Settings::reference()->ResolutionList();
+    const ugdk::math::Integer2D* resolutions = Settings::reference()->ResolutionList();
     for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
         std::ostringstream stm;
-        stm << static_cast<int>(resolutions[i].x) << "x" << static_cast<int>(resolutions[i].y);
+        stm << resolutions[i].x << "x" << resolutions[i].y;
         sf[0].values.push_back(stm.str());
     }
 
@@ -297,7 +298,7 @@ struct ConveninentSettingsData {
         this->sprites_active_[3] = settings_->sound_effects();
         this->sprites_active_[4] = settings_->language();
 
-        double second_column_x = ugdk::graphic::manager()->video_size().x * 0.8;
+        double second_column_x = ugdk::graphic::manager()->canvas()->size().x * 0.8;
     
         for(int i = 0; i < 5; ++i) {
             size_t size = this->setting_functions_[i].values.size();
@@ -355,7 +356,7 @@ static void ApplySettings(const Button * source) {
 
 Scene* SettingsMenu() {
     ugdk::action::Scene* settings_menu = new Scene();
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->video_size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
     Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
@@ -390,7 +391,7 @@ Scene* SettingsMenu() {
     menu->AddCallback(ugdk::input::Keycode::LEFT  , bind(PressArrow, data, -1, _1));
 
     settings_menu->AddEntity(menu);
-    settings_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1, _2));
+    settings_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
     return settings_menu;
 }
 

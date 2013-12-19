@@ -9,9 +9,9 @@
 namespace renders {
 
 void DrawShape(const pyramidworks::geometry::GeometricShape*, const ugdk::math::Vector2D& position,
-               const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect);
+               ugdk::graphic::Canvas&);
 
-void DrawCollisionObject(const pyramidworks::collision::CollisionObject*, const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect);
+void DrawCollisionObject(const pyramidworks::collision::CollisionObject*, ugdk::graphic::Canvas&);
 
 } // namespace renders
 

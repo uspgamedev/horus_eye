@@ -6,6 +6,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/audio/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/drawable/label.h>
@@ -82,7 +83,7 @@ void LevelManager::ShowIntro() {
     ugdk::system::PushScene(loading_ = new Loading);
     level_list_iterator_ = 0;
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("Intro");
-    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->canvas()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     Scene *scroll = new ScrollingImageScene(NULL, textbox, 45);
     if(Settings::reference()->background_music())
@@ -92,7 +93,7 @@ void LevelManager::ShowIntro() {
 
 void LevelManager::ShowCredits() {
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
-    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->video_size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->canvas()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     Scene *scroll = new ScrollingImageScene(NULL, textbox, 55);
     if(Settings::reference()->background_music())

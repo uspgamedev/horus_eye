@@ -4,7 +4,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/node.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shader.h>
@@ -27,11 +27,11 @@ using math::Vector2D;
 namespace renders
 {
 
-void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
+void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
     opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().current_shader());
-    shader_use.SendGeometry(geometry);
-    shader_use.SendEffect(effect);
+    shader_use.SendGeometry(canvas.current_geometry());
+    shader_use.SendEffect(canvas.current_visualeffect());
     shader_use.SendTexture(0, graphic::manager()->white_texture());
 
     math::Vector2D top_left     = position + math::Vector2D(rect->width(), rect->height()) * 0.5;
@@ -60,11 +60,11 @@ void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, const 
     glDrawArrays(GL_QUADS, 0, 4);
 }
 
-void DrawCircle(const geometry::Circle* circle, const Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
+void DrawCircle(const geometry::Circle* circle, const Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
     opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().current_shader());
-    shader_use.SendGeometry(geometry);
-    shader_use.SendEffect(effect);
+    shader_use.SendGeometry(canvas.current_geometry());
+    shader_use.SendEffect(canvas.current_visualeffect());
     shader_use.SendTexture(0, graphic::manager()->white_texture());
     
     math::Vector2D origin = core::FromWorldCoordinates(position);
@@ -96,22 +96,23 @@ void DrawCircle(const geometry::Circle* circle, const Vector2D& position, const 
     glDrawArrays(GL_TRIANGLE_FAN, 0, 10);
 }
 
-void DrawShape(const geometry::GeometricShape* shape, const Vector2D& position, const Geometry& geometry, const VisualEffect& effect)
+void DrawShape(const geometry::GeometricShape* shape, const Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
     if(auto rect = dynamic_cast<const geometry::Rect*>(shape))
-        DrawRect(rect, position, geometry, effect);
+        DrawRect(rect, position, canvas);
     else if(auto circle = dynamic_cast<const geometry::Circle*>(shape))
-        DrawCircle(circle, position, geometry, effect);
+        DrawCircle(circle, position, canvas);
     else
         assert(false);
 }
 
-void DrawCollisionObject(const collision::CollisionObject* collobject, const Geometry& geometry, const VisualEffect& effect) {
+void DrawCollisionObject(const collision::CollisionObject* collobject, ugdk::graphic::Canvas& canvas) {
     std::size_t hashval = std::hash<std::string>()(collobject->collision_class());
-    DrawShape(collobject->shape(), 
-        collobject->absolute_position(), 
-        geometry, 
-        effect * VisualEffect(Color(static_cast<uint32>(hashval), 0.5)));
+    canvas.PushAndCompose(VisualEffect(Color(static_cast<uint32>(hashval), 0.5)));
+
+    DrawShape(collobject->shape(), collobject->absolute_position(), canvas);
+
+    canvas.PopVisualEffect();
 }
 
 }

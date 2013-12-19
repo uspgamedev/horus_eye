@@ -27,8 +27,8 @@ class Room {
     ~Room();
 
     void Update(double dt);
-    void Render(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
-    void RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
+    void Render(ugdk::graphic::Canvas& canvas) const;
+    void RenderLight(ugdk::graphic::Canvas& canvas) const;
 
     /** Adds the object to the room. 
     Objects are added only at the end of a room's Update, unless the room hasn't been added to a World. */

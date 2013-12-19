@@ -6,6 +6,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/defaultshaders.h>
@@ -77,11 +78,9 @@ GiantFloor::~GiantFloor() {
     delete uvbuffer_;
 }
 
-void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
-    Geometry final_geometry(geometry);
-    final_geometry.Compose(Geometry(-hotspot_));
-
-    const glm::mat4& mat = final_geometry.AsMat4();
+void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
+    canvas.PushAndCompose(Geometry(-hotspot_));
+    const glm::mat4& mat = canvas.current_geometry().AsMat4();
     /*
     glm::vec4 right = mat * glm::vec4(106, 52, 0, 1);
     if(mat[3].x > 1 || mat[3].y < -1 || 
@@ -95,7 +94,7 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
     // Send our transformation to the currently bound shader, 
     // in the "MVP" uniform
     shader_use.SendGeometry(mat);
-    shader_use.SendEffect(effect);
+    shader_use.SendEffect(canvas.current_visualeffect());
 
     // Bind our texture in Texture Unit 0
     shader_use.SendTexture(0, texture_);
@@ -108,6 +107,8 @@ void GiantFloor::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graph
 
     // Draw the triangle !
     glDrawArrays(GL_QUADS, 0, 4); // 12*3 indices starting at 0 -> 12 triangles
+
+    canvas.PopGeometry();
 }
 
 } // namespace map

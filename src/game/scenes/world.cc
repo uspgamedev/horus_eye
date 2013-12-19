@@ -8,6 +8,7 @@
 #include <ugdk/audio/music.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/time/module.h>
 #include <ugdk/input/events.h>
@@ -160,7 +161,7 @@ World::World(const ugdk::math::Integer2D& size)
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task(bind(FinishLevelTask, _1, &level_state_), 1.0));
     this->AddTask(ugdk::system::Task([this](double) {
-        Vector2D result = ugdk::graphic::manager()->video_size()*0.5;
+        Vector2D result = ugdk::graphic::manager()->canvas()->size()*0.5;
         if(hero_)
             result -= core::FromWorldCoordinates(hero_->world_position()) 
                                 * camera_.CalculateScale().x;
@@ -183,23 +184,25 @@ World::World(const ugdk::math::Integer2D& size)
     this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);
 #endif
 
-    set_render_function([this](const graphic::Geometry& geometry, const graphic::VisualEffect& effect) {
+    set_render_function([this](graphic::Canvas& canvas) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
-        graphic::Geometry camera_geometry = geometry * this->camera_;
+        canvas.PushAndCompose(this->camera_);
         if(render_sprites == 1)
             for(const map::Room* room : active_rooms_)
-                room->Render(camera_geometry, effect);
+                room->Render(canvas);
         else if(render_sprites == 2)
-            DrawTexture(ugdk::graphic::manager()->light_buffer(), geometry, effect);
+            DrawTexture(ugdk::graphic::manager()->light_buffer(), canvas);
 
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         if(render_collision)
             for(auto collobject : collision_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, camera_geometry, effect);
+                renders::DrawCollisionObject(collobject, canvas);
         if(render_visibility)
             for(auto collobject : visibility_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, camera_geometry, effect);
-        this->hud_->node()->Render(geometry, effect);
+                renders::DrawCollisionObject(collobject, canvas);
+        
+        canvas.PopGeometry();
+        this->hud_->node()->Render(canvas);
     });
 
     SetupCollisionManager();
@@ -255,10 +258,11 @@ void World::SetupCollisionManager() {
     this->AddTask(collision_manager_.GenerateHandleCollisionTask(0.75));
 }
     
-void World::RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
-    graphic::Geometry camera_geometry = geometry * camera_;
+void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
+    canvas.PushAndCompose(camera_);
     for(const map::Room* room : active_rooms_)
-        room->RenderLight(camera_geometry, effect);
+        room->RenderLight(canvas);
+    canvas.PopGeometry();
 }
 
 void World::AddRoom(map::Room* room) {

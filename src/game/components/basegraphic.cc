@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/light.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/time/timeaccumulator.h>
@@ -139,7 +140,8 @@ void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
     node_->set_drawable(drawable);
     using namespace ugdk::graphic;
     if(drawable)
-        drawable->set_draw_setup_function([this](const Drawable*, const Geometry& geo, const VisualEffect&) -> void {
+        drawable->set_draw_setup_function([this](const Drawable*, Canvas& canvas) -> void {
+            const Geometry& geo = canvas.current_geometry();
             glm::vec4 render_ogl = geo.AsMat4() * glm::vec4(render_offset_.x, render_offset_.y, 0.0, 0.0);
             Vector2D lightpos = (geo.offset() - Vector2D(render_ogl.x, render_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
             ugdk::graphic::opengl::ShaderProgram::Use shader(get_horus_light_shader());

@@ -6,6 +6,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
@@ -80,7 +81,8 @@ SpecialWall::SpecialWall(const ugdk::graphic::Texture* texture)
 
 SpecialWall::~SpecialWall() {}
 
-void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const {
+void SpecialWall::Draw(ugdk::graphic::Canvas& canvas) const {
+    const ugdk::graphic::Geometry& geometry = canvas.current_geometry();
     Geometry final_geometry(geometry);
     final_geometry.Compose(Geometry(-hotspot_, size_));
 
@@ -91,13 +93,13 @@ void SpecialWall::Draw(const ugdk::graphic::Geometry& geometry, const ugdk::grap
 
     Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
     shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
-    shader_use.SendUniform("PIXEL_SIZE", 1.0f/ugdk::graphic::manager()->video_size().x, 1.0f/ugdk::graphic::manager()->video_size().y);
+    shader_use.SendUniform("PIXEL_SIZE", 1.0f/canvas.size().x, 1.0f/canvas.size().y);
 
     shader_use.SendTexture(0, texture_);
     shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
     shader_use.SendGeometry(mat);
-    shader_use.SendEffect(effect);
+    shader_use.SendEffect(canvas.current_visualeffect());
 
     shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);

@@ -3,7 +3,7 @@
 
 #include <list>
 #include <string>
-#include <ugdk/math/vector2D.h>
+#include <ugdk/math/integer2D.h>
 #include <ugdk/structure/types.h>
 
 namespace utils {
@@ -47,12 +47,12 @@ class Settings {
     bool sound_effects()        const { return sound_effects_; }
     int language()              const { return language_; }
 
-    const ugdk::math::Vector2D& resolution_vector() const;
+    const ugdk::math::Integer2D& resolution_vector() const;
     const std::string& language_name() const;
 
 
     const static int NUM_RESOLUTIONS = 12;
-    static const ugdk::math::Vector2D* ResolutionList() { return resolutions_; }
+    static const ugdk::math::Integer2D* ResolutionList() { return resolutions_; }
     const static int NUM_LANGUAGES = 2;
     static const std::string* LanguageList() { return languages_; }
     static const std::string* LanguageNameList() { return languages_names_; }
@@ -62,7 +62,7 @@ class Settings {
     static Settings* reference_;
     Settings();
 
-    static ugdk::math::Vector2D resolutions_[NUM_RESOLUTIONS];
+    static ugdk::math::Integer2D resolutions_[NUM_RESOLUTIONS];
     static std::string languages_[NUM_LANGUAGES], languages_names_[NUM_LANGUAGES];
 
     int resolution_, language_;

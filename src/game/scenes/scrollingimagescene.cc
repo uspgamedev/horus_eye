@@ -1,5 +1,6 @@
 #include <ugdk/action.h>
 #include <ugdk/system/engine.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/graphic/node.h>
@@ -20,11 +21,11 @@ using ugdk::math::Vector2D;
 class ScrollingTask {
 public:
     ScrollingTask(double time, Node* target, Scene* scene) : time_(time), target_(target), scene_(scene) {
-        double delta_h = ugdk::graphic::manager()->video_size().y;
+        double delta_h = ugdk::graphic::manager()->canvas()->size().y;
         if(target->drawable()) delta_h += target->drawable()->height();
         movement_.y = -delta_h / time_;
 
-        Vector2D offset = target->geometry().offset() + Vector2D(0, ugdk::graphic::manager()->video_size().y);
+        Vector2D offset = target->geometry().offset() + Vector2D(0, ugdk::graphic::manager()->canvas()->size().y);
         target->geometry().set_offset(offset);
     }
 

@@ -3,6 +3,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/graphic/node.h>
@@ -27,8 +28,8 @@
 
 #define TOTEM_WIDTH constants::GetDouble("TOTEM_WIDTH")
 
-#define VIDEO_Y ugdk::graphic::manager()->video_size().y 
-#define VIDEO_X ugdk::graphic::manager()->video_size().x 
+#define VIDEO_Y ugdk::graphic::manager()->canvas()->size().y 
+#define VIDEO_X ugdk::graphic::manager()->canvas()->size().x 
 
 using namespace ugdk;
 using namespace ugdk::graphic;

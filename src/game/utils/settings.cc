@@ -143,8 +143,8 @@ class IniFileSource : public DataSource {
             }
         }
 
-        ugdk::math::Vector2D resolution((double) StringToInt(resolutionx), (double) StringToInt(resolutiony));
-        const ugdk::math::Vector2D* resolution_list = Settings::ResolutionList();
+        ugdk::math::Integer2D resolution(StringToInt(resolutionx), StringToInt(resolutiony));
+        const ugdk::math::Integer2D* resolution_list = Settings::ResolutionList();
         for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
             if(resolution.x == resolution_list[i].x && resolution.y == resolution_list[i].y) {
                 data.resolution = i;
@@ -158,9 +158,9 @@ class IniFileSource : public DataSource {
     virtual bool Write(const SettingsData &data) const {
         externals::CIniFile destination;
         externals::CIniSection* sect = destination.AddSection("Settings");
-        sect->AddKey("Fullscreen")->SetValue(   BoolToString(data.fullscreen));
-        sect->AddKey("SoundEffects")->SetValue( BoolToString(data.sound_effects));
-        sect->AddKey("Music")->SetValue(        BoolToString(data.background_music));
+        sect->AddKey("Fullscreen")->SetValue(   BoolToString(data.fullscreen != 0));
+        sect->AddKey("SoundEffects")->SetValue( BoolToString(data.sound_effects != 0));
+        sect->AddKey("Music")->SetValue(        BoolToString(data.background_music != 0));
         sect->AddKey("Language")->SetValue(     Settings::LanguageNameList()[data.language]);
         sect->AddKey("ResolutionX")->SetValue(  IntToString((int)(Settings::ResolutionList()[data.resolution].x)));
         sect->AddKey("ResolutionY")->SetValue(  IntToString((int)(Settings::ResolutionList()[data.resolution].y)));
@@ -201,21 +201,21 @@ class BinaryFileSource : public DataSource {
 
 Settings* Settings::reference_ = NULL;
 
-using ugdk::math::Vector2D;
+using ugdk::math::Integer2D;
 
-Vector2D Settings::resolutions_[] = {
-        Vector2D(800.0,600.0),
-        Vector2D(1024.0,768.0),
-        Vector2D(1280.0,720.0),
-        Vector2D(1280.0,800.0),
-        Vector2D(1280.0,960.0),
-        Vector2D(1280.0,1024.0),
-        Vector2D(1366.0,768.0),
-        Vector2D(1440.0,900.0),
-        Vector2D(1600.0,900.0),
-        Vector2D(1600.0,1080.0),
-        Vector2D(1920.0,1080.0),
-        Vector2D(1920.0,1200.0)
+Integer2D Settings::resolutions_[] = {
+        Integer2D( 800, 600),
+        Integer2D(1024, 768),
+        Integer2D(1280, 720),
+        Integer2D(1280, 800),
+        Integer2D(1280, 960),
+        Integer2D(1280,1024),
+        Integer2D(1366, 768),
+        Integer2D(1440, 900),
+        Integer2D(1600, 900),
+        Integer2D(1600,1080),
+        Integer2D(1920,1080),
+        Integer2D(1920,1200)
 };
 
 std::string Settings::languages_[] = {
@@ -272,7 +272,7 @@ bool Settings::WriteToDisk() {
     return false;
 }
 
-const Vector2D& Settings::resolution_vector() const {
+const Integer2D& Settings::resolution_vector() const {
     return resolutions_[resolution_];
 }
 

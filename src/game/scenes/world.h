@@ -54,7 +54,7 @@ class World : public ugdk::action::Scene {
     void Focus();
     void DeFocus();
 
-    void RenderLight(const ugdk::graphic::Geometry& geometry, const ugdk::graphic::VisualEffect& effect) const;
+    void RenderLight(ugdk::graphic::Canvas& canvas) const;
 
     void AddRoom(map::Room* room);
     void ChangeFocusedRoom(const std::string& name);

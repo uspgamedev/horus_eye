@@ -7,7 +7,10 @@
 #include <ugdk/audio/module.h>
 #include <ugdk/graphic/textmanager.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/desktop/module.h>
+#include <ugdk/desktop/window.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
 #include "initializer.h"
@@ -40,12 +43,10 @@ utils::LevelManager* level_manager() {
 void StartGame() {
     Settings* settings = Settings::reference();
 
-    ugdk::graphic::VideoSettings video_settings;
-    video_settings.resolution = settings->resolution_vector();
-    video_settings.fullscreen = settings->fullscreen();
-    video_settings.vsync = true; // TODO: configurable
-    video_settings.light_system = false;
-    ugdk::graphic::manager()->ChangeSettings(video_settings);
+    ugdk::desktop::manager()->primary_window()->ChangeSettings(
+        settings->resolution_vector(),
+        settings->fullscreen());
+    ugdk::graphic::manager()->canvas()->Resize(settings->resolution_vector());
 
     AddHorusShader();
     ugdk::system::PushScene(CreateHorusLightrenderingScene());
@@ -70,16 +71,17 @@ int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
 
     ugdk::system::Configuration engine_config;
-    engine_config.window_title      = "Horus Eye";
-    engine_config.window_resolution = settings->resolution_vector();
-    engine_config.fullscreen        = settings->fullscreen();
+    engine_config.canvas_size = settings->resolution_vector();
+    engine_config.windows_list[0].title      = "Horus Eye";
+    engine_config.windows_list[0].size       = settings->resolution_vector();
+    engine_config.windows_list[0].fullscreen = settings->fullscreen();
 
     engine_config.base_path = constants::data_location();
     if(!VerifyFolderExists(engine_config.base_path))
         ExitWithFatalError("Data folder '" + engine_config.base_path + "' specified by config.h could not be found.");
 
 #ifndef ISMAC
-    engine_config.window_icon = "images/eye.bmp";
+    engine_config.windows_list[0].icon = "images/eye.bmp";
 #else
     // On Mac OS X, the icon should be handled with a *.icns file inside the app
     engine_config.window_icon = "";

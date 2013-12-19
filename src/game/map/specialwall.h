@@ -11,7 +11,8 @@ class SpecialWall : public ugdk::graphic::Drawable {
     SpecialWall(const ugdk::graphic::Texture*);
     ~SpecialWall();
 
-    void Draw(const ugdk::graphic::Geometry&, const ugdk::graphic::VisualEffect&) const;
+    void Draw(ugdk::graphic::Canvas&) const override;
+
     const ugdk::math::Vector2D& size() const { return size_; }
 
   private:
