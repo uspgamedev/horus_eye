@@ -4,7 +4,7 @@ set (CMAKE_SWIG_OUTDIR "${CMAKE_BINARY_DIR}/generated")
 set (GENERATED_SRC "")
 
 # Does this work everywhere?
-find_package (SWIG REQUIRED)
+find_host_package (SWIG REQUIRED)
 
 macro (horus_add_scriptlang lang)
 
@@ -24,6 +24,7 @@ endmacro (horus_add_scriptlang lang)
 
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${SRC_DIR}/module")
 
+set(CMAKE_SWIG_FLAGS "-I${ugdk_SOURCE_DIR}/src")
 include (${CMAKE_CURRENT_LIST_DIR}/UseSWIG.cmake)
 
 # Is HORUS_MODULE_SRC defined?

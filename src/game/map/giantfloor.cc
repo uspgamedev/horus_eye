@@ -1,6 +1,3 @@
-#include <GL/glew.h>
-#define NO_SDL_GLEXT
-
 #include "game/map/giantfloor.h"
 
 #include <ugdk/system/engine.h>
@@ -20,6 +17,10 @@ using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
     
 ugdk::graphic::opengl::ShaderProgram* GiantFloor::continuous_light_shader_ = NULL;
+
+namespace {
+    ugdk::uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+}
 
 GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
     : size_(106 * size.x, 54 * size.y),
@@ -106,7 +107,7 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
     shader_use.SendVertexBuffer(uvbuffer_, opengl::TEXTURE, 0);
 
     // Draw the triangle !
-    glDrawArrays(GL_QUADS, 0, 4); // 12*3 indices starting at 0 -> 12 triangles
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
 
     canvas.PopGeometry();
 }

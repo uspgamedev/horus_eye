@@ -18,7 +18,10 @@ ENDIF ()
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 if (UNIX OR MINGW)
     # se for o g++ para *nix ou o MinGW para Windows:
-    add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -msse2 -std=gnu++0x)
+    add_definitions(-Wall -ansi -U_FORTIFY_SOURCE -std=gnu++0x)
+    if(NOT ANDROID)
+        add_definitions(-msse2)
+    endif()
 endif ()
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     add_definitions(
@@ -40,19 +43,27 @@ endif(MSVC)
 include_directories (${CMAKE_CURRENT_SOURCE_DIR})
 include_directories (${CMAKE_CURRENT_BINARY_DIR})
 
+# FIXME: seriously?
+include_directories(SYSTEM ${ugdk_SOURCE_DIR}/externals/glm-0.9.4.2)
+
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 # Find Lua and Python
 include_directories (${LUA_INCLUDE_DIR})
-include_directories (${PYTHON_INCLUDE_DIR})
+if(NOT ANDROID)
+    include_directories (${PYTHON_INCLUDE_DIR})
+endif()
 
 include (module/module_list.cmake)
-set (HORUS_LANGUAGES_LIST "lua;python")
+if(ANDROID)
+    set (HORUS_LANGUAGES_LIST "lua")
+else()
+    set (HORUS_LANGUAGES_LIST "lua;python")
+endif()
 set (GENERATED_PY_FILES)
 include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
 
-add_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
-target_link_libraries(horus_eye ${UGDK_EXTERNAL_LIBRARIES})
+add_ugdk_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 
 set(horus_eye_DATA_PATH "${CMAKE_SOURCE_DIR}/data")
 

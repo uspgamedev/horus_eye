@@ -36,6 +36,8 @@ bool VerifyFolderExists(const std::string& path) {
 
 namespace {
 
+uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+
 ugdk::graphic::opengl::ShaderProgram* horus_light_shader_ = NULL;
 void AddHorusLightShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
@@ -153,7 +155,8 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
 
     shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(&colorbuffer, opengl::TEXTURE, 0);
-    glDrawArrays(GL_QUADS, 0, 4);
+
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
 }
 
 void CreateAndDrawQuadrilateral(ugdk::graphic::Canvas& canvas, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
@@ -275,8 +278,8 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, shadow_texture_->width(),
-        shadow_texture_->height(), 0, GL_BGRA, GL_UNSIGNED_BYTE, 0);
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadow_texture_->width(),
+        shadow_texture_->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
 
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);

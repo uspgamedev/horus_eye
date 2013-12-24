@@ -39,7 +39,12 @@ using component::Controller;
 namespace utils {
 
 static Drawable* ConvertNumberToText(int val, bool center = true) {
-    Drawable* result = new Label(std::to_string(val), TEXT_MANAGER()->current_font());
+#ifdef ANDROID
+    std::string s = "DUMMY LOL";
+#else
+    std::string s = std::to_string(val);
+#endif
+    Drawable* result = new Label(s, TEXT_MANAGER()->current_font());
     if(center) result->set_hotspot(Drawable::CENTER);
     return result;
 }

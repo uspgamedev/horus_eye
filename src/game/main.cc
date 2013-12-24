@@ -1,4 +1,6 @@
+#ifndef ANDROID
 #include "Python.h"
+#endif
 
 #include <string>
 #include <ugdk/system/engine.h>
@@ -92,10 +94,12 @@ int main(int argc, char *argv[]) {
         ExitWithFatalError("Could not initialize UGDK.");
 
 #ifdef EMBBEDED_UGDK
+#ifndef ANDROID
     {
         PyObject *path = PySys_GetObject("path");
         PyList_Append(path, PyString_FromString(EMBBEDED_UGDK "/src/generated"));
     }
+#endif
 #endif
     
     {

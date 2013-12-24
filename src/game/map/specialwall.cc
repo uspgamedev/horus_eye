@@ -1,6 +1,3 @@
-#include <GL/glew.h>
-#define NO_SDL_GLEXT
-
 #include "game/map/specialwall.h"
 
 #include <ugdk/system/engine.h>

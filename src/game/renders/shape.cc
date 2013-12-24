@@ -27,6 +27,10 @@ using math::Vector2D;
 namespace renders
 {
 
+namespace {
+    uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+}
+
 void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
     opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().current_shader());
@@ -57,7 +61,7 @@ void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::
     }
     shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
-    glDrawArrays(GL_QUADS, 0, 4);
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
 }
 
 void DrawCircle(const geometry::Circle* circle, const Vector2D& position, ugdk::graphic::Canvas& canvas)
