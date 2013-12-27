@@ -12,6 +12,11 @@ IF (UNIVERSAL)
   SET (MACOSX_DEPLOYMENT_TARGET 10.5)
 ENDIF (UNIVERSAL)
 
+if((NOT ${CMAKE_CURRENT_SOURCE_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR}) AND (NOT EXISTS "${CMAKE_CURRENT_BINARY_DIR}/.gitignore"))
+    # Don't polute the git repository with the generated files for out-of-source builds
+    file(WRITE ${CMAKE_CURRENT_BINARY_DIR}/.gitignore "*")
+endif()
+
 IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mmacosx-version-min=10.5")
 ENDIF()

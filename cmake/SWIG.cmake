@@ -51,5 +51,5 @@ foreach(it ${HORUS_LANGUAGES_LIST})
 endforeach()
 
 set(MODULES_NAME HORUS)
-set(GENERATED_SRC ${GENERATED_SRC} modules.cc)
+set(GENERATED_SRC ${GENERATED_SRC} ${CMAKE_CURRENT_BINARY_DIR}/modules.cc)
 configure_file(${CMAKE_CURRENT_LIST_DIR}/modules.cc.in modules.cc)
