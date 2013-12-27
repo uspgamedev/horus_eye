@@ -43,20 +43,20 @@ void AddHorusLightShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
-    vertex_shader.AddCodeBlock("out vec2 UV;" "\n");
+    vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
     vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
-    fragment_shader.AddCodeBlock("in vec2 UV;" "\n"
-                                 "uniform sampler2D drawable_texture;" "\n"
-                                 "uniform vec4 effect_color;" "\n");
+    fragment_shader.AddCodeBlock("in highp vec2 UV;" "\n"
+                                 "uniform highp sampler2D drawable_texture;" "\n"
+                                 "uniform highp vec4 effect_color;" "\n");
 
-    fragment_shader.AddCodeBlock("uniform vec2 lightUV;" "\n"
-                                 "uniform sampler2D light_texture;" "\n");
+    fragment_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n"
+                                 "uniform highp sampler2D light_texture;" "\n");
 
-    fragment_shader.AddLineInMain("	vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
+    fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightUV).rgb, 1.0);" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
@@ -77,22 +77,22 @@ void AddShadowcastingShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
-    vertex_shader.AddCodeBlock("out vec2 P; " "\n");
-    vertex_shader.AddLineInMain("	vec4 position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
-    vertex_shader.AddLineInMain("	gl_Position = position;" "\n");
-    vertex_shader.AddLineInMain("	P = vertexPosition.xy;" "\n");
+    vertex_shader.AddCodeBlock("out highp vec2 P; " "\n");
+    vertex_shader.AddLineInMain("   highp vec4 position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
+    vertex_shader.AddLineInMain("   gl_Position = position;" "\n");
+    vertex_shader.AddLineInMain("   P = vertexPosition.xy;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
-    fragment_shader.AddCodeBlock("in vec2 P;" "\n");
-    fragment_shader.AddCodeBlock("uniform vec2 O;" "\n");
-    fragment_shader.AddCodeBlock("uniform vec2 A;" "\n");
-    fragment_shader.AddCodeBlock("uniform vec2 B;" "\n");
-    fragment_shader.AddLineInMain(" vec2 OP = P - O;" "\n");
-    fragment_shader.AddLineInMain(" vec2 AB = B - A;" "\n");
-    fragment_shader.AddLineInMain(" float angle = (O.y + OP.y * ((A.x - O.x) / OP.x) - A.y) / (AB.y - ((OP.y * AB.x) / OP.x));" "\n");
-    fragment_shader.AddLineInMain(" float alpha = 1.0 - abs(1.0 - 2 * angle);" "\n");
-    fragment_shader.AddLineInMain(" alpha = clamp(0.25 + 2 * alpha, 0.0, 1.0);" "\n");
+    fragment_shader.AddCodeBlock("in highp vec2 P;" "\n");
+    fragment_shader.AddCodeBlock("uniform highp vec2 O;" "\n");
+    fragment_shader.AddCodeBlock("uniform highp vec2 A;" "\n");
+    fragment_shader.AddCodeBlock("uniform highp vec2 B;" "\n");
+    fragment_shader.AddLineInMain(" highp vec2 OP = P - O;" "\n");
+    fragment_shader.AddLineInMain(" highp vec2 AB = B - A;" "\n");
+    fragment_shader.AddLineInMain(" highp float angle = (O.y + OP.y * ((A.x - O.x) / OP.x) - A.y) / (AB.y - ((OP.y * AB.x) / OP.x));" "\n");
+    fragment_shader.AddLineInMain(" highp float alpha = 1.0 - abs(1.0 - 2.0 * angle);" "\n");
+    fragment_shader.AddLineInMain(" alpha = clamp(0.25 + 2.0 * alpha, 0.0, 1.0);" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = vec4(alpha, alpha, alpha, 1.0);" "\n");
     fragment_shader.GenerateSource();
 

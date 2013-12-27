@@ -27,31 +27,31 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
-    vertex_shader.AddCodeBlock("out vec2 UV;" "\n");
-    vertex_shader.AddCodeBlock("out vec4 screenPos;" "\n");
+    vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
+    vertex_shader.AddCodeBlock("out highp vec4 screenPos;" "\n");
     vertex_shader.AddLineInMain("	gl_Position = screenPos = geometry_matrix * vec4(vertexPosition,0,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
-    fragment_shader.AddCodeBlock("in vec2 UV;" "\n"
-                                 "in vec4 screenPos;" "\n"
-                                 "uniform sampler2D drawable_texture;" "\n"
-                                 "uniform vec4 effect_color;" "\n");
+    fragment_shader.AddCodeBlock("in highp vec2 UV;" "\n"
+                                 "in highp vec4 screenPos;" "\n"
+                                 "uniform highp sampler2D drawable_texture;" "\n"
+                                 "uniform highp vec4 effect_color;" "\n");
 
-    fragment_shader.AddCodeBlock("uniform vec2 lightUV;" "\n"
-                                 "uniform vec2 PIXEL_SIZE;" "\n"
-                                 "uniform sampler2D light_texture;" "\n");
+    fragment_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n"
+                                 "uniform highp vec2 PIXEL_SIZE;" "\n"
+                                 "uniform highp sampler2D light_texture;" "\n");
     
-    fragment_shader.AddCodeBlock("float calculate_offset(float x) {" "\n"
-                                 "  return PIXEL_SIZE.y * 27.0 * min(x, 1-x) * 2;" "\n" // convert x from 0->0.5->1 to 0->1->0
+    fragment_shader.AddCodeBlock("highp float calculate_offset(highp float x) {" "\n"
+                                 "  return PIXEL_SIZE.y * 27.0 * min(x, 1.0-x) * 2.0;" "\n" // convert x from 0->0.5->1 to 0->1->0
                                                                                         // 27 is tile_height/2 (54/2)
                                  "}" "\n");
 
-    fragment_shader.AddLineInMain("	float screenPosLightX = screenPos.x * 0.5 + 0.5;" "\n");
-    fragment_shader.AddLineInMain("	vec2 lightPosition = vec2(screenPosLightX, lightUV.y - calculate_offset(UV.x));" "\n");
+    fragment_shader.AddLineInMain("	highp float screenPosLightX = screenPos.x * 0.5 + 0.5;" "\n");
+    fragment_shader.AddLineInMain("	highp vec2 lightPosition = vec2(screenPosLightX, lightUV.y - calculate_offset(UV.x));" "\n");
 
-    fragment_shader.AddLineInMain("	vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
+    fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightPosition).rgb, 1.0);" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
