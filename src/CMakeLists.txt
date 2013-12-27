@@ -65,7 +65,11 @@ include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
 
 add_ugdk_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 
-set(horus_eye_DATA_PATH "${CMAKE_SOURCE_DIR}/data")
+if(ANDROID)
+    set(horus_eye_DATA_PATH "/sdcard/horus_eye")
+else()
+    set(horus_eye_DATA_PATH "${CMAKE_SOURCE_DIR}/data")
+endif()
 
 # Copy the generated .py files to the data/scripts
 foreach(it ${GENERATED_PY_FILES} )
