@@ -76,7 +76,7 @@ static inline int StringToInt(const std::string& s) {
 
 
 void SettingsData::FillWithDefaultValues() {
-    resolution = 1;
+    resolution = 2;
     fullscreen = false;
     background_music = true;
     sound_effects = true;
