@@ -22,11 +22,11 @@ end
 --- Activates an event trigger.
 --  All callbacks registered under that trigger will be called.
 --  @param trigger The activated trigger.
-function Activate (trigger)
+function Activate (trigger, ...)
   local event_seq = events[trigger]
   if event_seq then
     for _,callback in ipairs(event_seq) do
-      callback()
+      callback(...)
     end
   end
 end
