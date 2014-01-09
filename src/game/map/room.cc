@@ -10,6 +10,8 @@
 #include "game/components/graphic.h"
 #include "game/components/body.h"
 
+#include <ugdk/debug/profiler.h>
+
 namespace map {
 
 using std::vector;
@@ -44,12 +46,16 @@ void Room::Update(double dt) {
 }
     
 void Room::Render(ugdk::graphic::Canvas& canvas) const {
+    ugdk::debug::ProfileSection section("Room '" + name_ + "'");
+
     floor_->Render(canvas);
     layers_[BACKGROUND_LAYER]->Render(canvas);
     layers_[FOREGROUND_LAYER]->Render(canvas);
 }
     
 void Room::RenderLight(ugdk::graphic::Canvas& canvas) const {
+    ugdk::debug::ProfileSection section("Room '" + name_ + "'");
+
     layers_[BACKGROUND_LAYER]->RenderLight(canvas);
     layers_[FOREGROUND_LAYER]->RenderLight(canvas);
 }

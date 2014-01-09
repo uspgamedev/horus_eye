@@ -62,6 +62,7 @@ void MainMenuCredits(Scene* menu, const Button * source) {
 
 Scene* PauseMenu() {
     ugdk::action::Scene* pause_menu = new Scene();
+    pause_menu->set_identifier("Pause Menu");
     pause_menu->set_focus_callback(MenuFocus);
     pause_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
@@ -105,6 +106,7 @@ Scene* PauseMenu() {
 
 Scene* CampaignMenu() {
     ugdk::action::Scene* mission_menu = new Scene();
+    mission_menu->set_identifier("Campaign Menu");
     mission_menu->set_focus_callback(MenuFocus);
     mission_menu->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
@@ -175,6 +177,7 @@ Scene* CampaignMenu() {
 
 Scene* MainMenu() {
     ugdk::action::Scene* main_menu = new Scene();
+    main_menu->set_identifier("Main Menu");
     main_menu->set_focus_callback(MenuFocus);
     main_menu->set_defocus_callback(MenuDeFocus);
 
@@ -356,6 +359,7 @@ static void ApplySettings(const Button * source) {
 
 Scene* SettingsMenu() {
     ugdk::action::Scene* settings_menu = new Scene();
+    settings_menu->set_identifier("Settings Menu");
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
