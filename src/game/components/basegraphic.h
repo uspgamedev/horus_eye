@@ -47,8 +47,8 @@ class BaseGraphic : public Base {
     void StartBlinking(int duration = -1);
     void StopBlinking();
 
-    void InsertIntoLayers(ugdk::graphic::Node** layers);
-    void RemoveFromLayers(ugdk::graphic::Node** layers);
+    virtual void Render(ugdk::graphic::Canvas&) const;
+    virtual void RenderLight(ugdk::graphic::Canvas&) const;
 
   protected:
     ugdk::graphic::Node* root_node_;

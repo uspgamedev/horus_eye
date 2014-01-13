@@ -29,7 +29,8 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
     // VERTEX
     vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
     vertex_shader.AddCodeBlock("out highp vec4 screenPos;" "\n");
-    vertex_shader.AddLineInMain("	gl_Position = screenPos = geometry_matrix * vec4(vertexPosition,0,1);" "\n");
+    vertex_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n");
+    vertex_shader.AddLineInMain("	gl_Position = screenPos = geometry_matrix * vec4(vertexPosition,lightUV.y,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 
@@ -53,6 +54,7 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
 
     fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightPosition).rgb, 1.0);" "\n");
+    fragment_shader.AddLineInMain("	if(color.a <= 0) { discard; }" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 

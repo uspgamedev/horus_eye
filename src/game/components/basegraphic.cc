@@ -62,7 +62,6 @@ BaseGraphic::~BaseGraphic() {
 void BaseGraphic::SetPosition(const ugdk::math::Vector2D& position) {
     Vector2D screen_position = core::FromWorldCoordinates(position);
     root_node_->geometry().set_offset(screen_position);
-    root_node_->set_zindex(screen_position.y);
 }
 
 void BaseGraphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
@@ -127,13 +126,13 @@ void BaseGraphic::StopBlinking() {
     is_blinking_ = false;
     node_->effect().set_visible(true);
 }
-
-void BaseGraphic::InsertIntoLayers(ugdk::graphic::Node** layers) {
-    layers[layer_]->AddChild(root_node_);
+    
+void BaseGraphic::Render(ugdk::graphic::Canvas& canvas) const {
+    root_node_->Render(canvas);
 }
 
-void BaseGraphic::RemoveFromLayers(ugdk::graphic::Node** layers) {
-    layers[layer_]->RemoveChild(root_node_);
+void BaseGraphic::RenderLight(ugdk::graphic::Canvas& canvas) const {
+    root_node_->RenderLight(canvas);
 }
     
 void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
@@ -144,6 +143,7 @@ void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
             const Geometry& geo = canvas.current_geometry();
             glm::vec4 render_ogl = geo.AsMat4() * glm::vec4(render_offset_.x, render_offset_.y, 0.0, 0.0);
             Vector2D lightpos = (geo.offset() - Vector2D(render_ogl.x, render_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
+
             ugdk::graphic::opengl::ShaderProgram::Use shader(get_horus_light_shader());
             shader.SendUniform("lightUV", lightpos.x, lightpos.y);
         });
