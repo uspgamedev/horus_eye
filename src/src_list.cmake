@@ -96,6 +96,8 @@ SET(GAME_SRCS
     game/map/specialwall.h 
     game/map/tile.cc 
     game/map/tile.h 
+    game/renders/profiler.cc 
+    game/renders/profiler.h 
     game/renders/shape.cc 
     game/renders/shape.h 
     game/resources/capacityblocks.h 

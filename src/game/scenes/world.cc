@@ -14,6 +14,7 @@
 #include <ugdk/input/events.h>
 #include <ugdk/input/module.h>
 #include <ugdk/structure/intervalkdtree.h>
+#include <ugdk/debug/profiler.h>
 
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
@@ -29,6 +30,7 @@
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
 #include "game/renders/shape.h"
+#include "game/renders/profiler.h"
 #include "game/initializer.h"
 
 namespace scene {
@@ -45,6 +47,7 @@ namespace {
 int render_sprites = 1; // 0 == nothing, 1 == sprites, 2 == lights
 bool render_collision = false;
 bool render_visibility = false;
+bool render_profiler = false;
 }
 
 void VerifyCheats(const input::KeyPressedEvent& ev) {
@@ -105,6 +108,10 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
     if(ev.keycode == input::Keycode::j)
         render_visibility = !render_visibility;
 
+    if(ev.scancode == input::Scancode::F9)
+        render_profiler = !render_profiler;
+
+
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
     /*if(!konami_used_) {
@@ -138,7 +145,7 @@ bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     }
     return false;
 }
-
+            
 World::World(const ugdk::math::Integer2D& size) 
   :   
     // World Layout
@@ -156,6 +163,9 @@ World::World(const ugdk::math::Integer2D& size)
     // Hero
     hero_(nullptr)
 {
+
+    set_identifier("World");
+
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
@@ -184,6 +194,8 @@ World::World(const ugdk::math::Integer2D& size)
     this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);
 #endif
 
+    //std::shared_ptr<graphic::TextBox> profiler_text(new graphic::TextBox);
+
     set_render_function([this](graphic::Canvas& canvas) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         canvas.PushAndCompose(this->camera_);
@@ -202,7 +214,14 @@ World::World(const ugdk::math::Integer2D& size)
                 renders::DrawCollisionObject(collobject, canvas);
         
         canvas.PopGeometry();
-        this->hud_->node()->Render(canvas);
+        {
+            ugdk::debug::ProfileSection section("Hud");
+            this->hud_->node()->Render(canvas);
+        }
+
+        const auto& datalist = ugdk::system::profile_data_list();
+        if(!datalist.empty() && render_profiler)
+            renders::DrawSectionData(canvas, datalist.back());
     });
 
     SetupCollisionManager();
