@@ -18,8 +18,6 @@ namespace map {
 using std::vector;
 using std::list;
 using sprite::WorldObject;
-using scene::BACKGROUND_LAYER;
-using scene::FOREGROUND_LAYER;
 using ugdk::graphic::Node;
 using ugdk::script::VirtualObj;
 
@@ -30,14 +28,10 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);
     floor_->geometry().set_offset(core::FromWorldCoordinates(position_));
-    layers_[BACKGROUND_LAYER] = new Node;
-    layers_[FOREGROUND_LAYER] = new Node;
 }
 
 Room::~Room() {
     delete floor_;
-    delete layers_[BACKGROUND_LAYER];
-    delete layers_[FOREGROUND_LAYER];
 }
 
 void Room::Update(double dt) {
