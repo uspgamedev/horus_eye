@@ -47,6 +47,7 @@ namespace {
 int render_sprites = 1; // 0 == nothing, 1 == sprites, 2 == lights
 bool render_collision = false;
 bool render_visibility = false;
+bool render_profiler = false;
 }
 
 void VerifyCheats(const input::KeyPressedEvent& ev) {
@@ -106,6 +107,10 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
     
     if(ev.keycode == input::Keycode::j)
         render_visibility = !render_visibility;
+
+    if(ev.scancode == input::Scancode::F9)
+        render_profiler = !render_profiler;
+
 
     // EASTER EGG/TODO: remove before any release!
     // Also erase musics/sf2Guile456.mid
@@ -215,7 +220,7 @@ World::World(const ugdk::math::Integer2D& size)
         }
 
         const auto& datalist = ugdk::system::profile_data_list();
-        if(!datalist.empty())
+        if(!datalist.empty() && render_profiler)
             renders::DrawSectionData(canvas, datalist.back());
     });
 
