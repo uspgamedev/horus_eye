@@ -98,7 +98,6 @@ class Room {
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
     ugdk::graphic::Node* floor_;
-    ugdk::graphic::Node *layers_[2];
     ugdk::script::VirtualObj recipes_;
 
     scene::World* level_;

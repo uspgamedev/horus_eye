@@ -10,6 +10,7 @@
 #include "game/components/graphic.h"
 #include "game/components/body.h"
 
+#include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 
 namespace map {
@@ -17,8 +18,6 @@ namespace map {
 using std::vector;
 using std::list;
 using sprite::WorldObject;
-using scene::BACKGROUND_LAYER;
-using scene::FOREGROUND_LAYER;
 using ugdk::graphic::Node;
 using ugdk::script::VirtualObj;
 
@@ -29,14 +28,10 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);
     floor_->geometry().set_offset(core::FromWorldCoordinates(position_));
-    layers_[BACKGROUND_LAYER] = new Node;
-    layers_[FOREGROUND_LAYER] = new Node;
 }
 
 Room::~Room() {
     delete floor_;
-    delete layers_[BACKGROUND_LAYER];
-    delete layers_[FOREGROUND_LAYER];
 }
 
 void Room::Update(double dt) {
@@ -49,15 +44,22 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
     ugdk::debug::ProfileSection section("Room '" + name_ + "'");
 
     floor_->Render(canvas);
-    layers_[BACKGROUND_LAYER]->Render(canvas);
-    layers_[FOREGROUND_LAYER]->Render(canvas);
+
+    glEnable(GL_DEPTH_TEST);
+
+    for(const auto& obj : objects_)
+        if(const auto& graphic = obj->graphic())
+            graphic->Render(canvas);
+    
+    glDisable(GL_DEPTH_TEST);
 }
     
 void Room::RenderLight(ugdk::graphic::Canvas& canvas) const {
     ugdk::debug::ProfileSection section("Room '" + name_ + "'");
 
-    layers_[BACKGROUND_LAYER]->RenderLight(canvas);
-    layers_[FOREGROUND_LAYER]->RenderLight(canvas);
+    for(const auto& obj : objects_)
+        if(const auto& graphic = obj->graphic())
+            graphic->RenderLight(canvas);
 }
 
 void Room::AddObject(sprite::WorldObject* obj) {
@@ -83,8 +85,6 @@ void Room::RemoveObject(sprite::WorldObject* obj) {
     objects_.remove(obj);
     if(!obj->tag().empty())
         RemoveTag(obj->tag());
-    if(obj->graphic())
-        obj->graphic()->RemoveFromLayers(layers_);
 }
 
 void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D& position, const std::string& tag, bool absolute) {
@@ -155,8 +155,6 @@ void Room::handleNewObject(sprite::WorldObject* obj) {
     obj->OnRoomAdd(this);
     if(!obj->tag().empty())
         tagged_[obj->tag()] = obj;
-    if(obj->graphic())
-        obj->graphic()->InsertIntoLayers(layers_);
     if(level_ && level_->IsRoomActive(this))
         if(auto b = obj->body())
             b->Activate(level_);
