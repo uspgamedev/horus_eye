@@ -34,12 +34,10 @@ class BaseGraphic : public Base {
     double alpha() const;
     void ChangeAlpha(double alpha);
 
+    bool visible() const;
     void set_visible(bool visible);
 
     virtual void Update(double dt);
-
-    void StartBlinking(int duration = -1);
-    void StopBlinking();
 
     virtual void Render(ugdk::graphic::Canvas&) const;
 
@@ -50,20 +48,8 @@ class BaseGraphic : public Base {
 
   private:
     void setup();
-    void adjustBlink();
-
-    bool is_blinking_;
 
     scene::GameLayer layer_;
-
-    /// Controls when to toggle the blink_ flag.
-    ugdk::time::TimeAccumulator *blink_time_;
-
-    /// Controls when to stop blinking.
-    ugdk::time::TimeAccumulator *blink_duration_;
-
-    /// When true, this component is on the invisible part of the blinking effect.
-    bool blink_;
 
     ugdk::math::Vector2D render_offset_;
 

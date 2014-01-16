@@ -26,27 +26,17 @@ using ugdk::graphic::Drawable;
 BaseGraphic::BaseGraphic()
     :   root_node_(new Node)
     ,   node_(new Node)
-    ,   is_blinking_(false)
     ,   layer_(scene::FOREGROUND_LAYER)
-    ,   blink_time_(new ugdk::time::TimeAccumulator(75))
-    ,   blink_duration_(new ugdk::time::TimeAccumulator(0))
-    ,   blink_(false)
 { setup(); }
 
 BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable)
     :   root_node_(new Node)
     ,   node_(new Node(drawable))
-    ,   is_blinking_(false)
     ,   layer_(scene::FOREGROUND_LAYER)
-    ,   blink_time_(new ugdk::time::TimeAccumulator(75))
-    ,   blink_duration_(new ugdk::time::TimeAccumulator(0))
-    ,   blink_(false)
 { setup(); }
 
 BaseGraphic::~BaseGraphic() {
     delete root_node_;
-    delete blink_time_;
-    delete blink_duration_;
 }
 
 void BaseGraphic::SetPosition(const ugdk::math::Vector2D& position) {
@@ -69,28 +59,17 @@ void BaseGraphic::ChangeAlpha(double alpha) {
     node_->effect().set_color(color);
 }
 
+bool BaseGraphic::visible() const {
+    return root_node_->effect().visible();
+}
+
 void BaseGraphic::set_visible(bool visible) {
     root_node_->effect().set_visible(visible);
 }
 
 void BaseGraphic::Update(double dt) {
-    adjustBlink();
 }
 
-void BaseGraphic::StartBlinking(int duration) {
-    is_blinking_ = true;
-    blink_time_->Restart();
-    if(duration <= 0)
-        blink_duration_->Pause();
-    else
-        blink_duration_->Restart(duration);
-}
-
-void BaseGraphic::StopBlinking() {
-    is_blinking_ = false;
-    node_->effect().set_visible(true);
-}
-    
 void BaseGraphic::Render(ugdk::graphic::Canvas& canvas) const {
     root_node_->Render(canvas);
 }
@@ -112,16 +91,6 @@ void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
 void BaseGraphic::setup() {
     root_node_->AddChild(node_);
     ChangeDrawable(node_->drawable());
-}
-
-void BaseGraphic::adjustBlink() {
-    if(is_blinking_ && !blink_duration_->IsPaused() && blink_duration_->Expired())
-        StopBlinking();
-    if (is_blinking_ && blink_time_->Expired()) {
-        blink_ = !blink_;
-        node_->effect().set_visible(blink_);
-        blink_time_->Restart();
-    }
 }
 
 }  // namespace component

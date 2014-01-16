@@ -25,9 +25,7 @@ class Damageable : public Base {
 
     virtual void TakeDamage(double life_points);
 
-    void Update(double dt) {
-        life_.Update(dt);
-    }
+    void Update(double dt);
 
     resource::Energy& life() { return life_; }
     void set_life(const resource::Energy &life) {
@@ -43,8 +41,13 @@ class Damageable : public Base {
         hit_sounds_.push_back(sound);
     }
 
+    /// True if this damageable is currently invincible for taking a hit.
+    bool IsMercyInvincible() const;
+    bool blinks() const { return blink_time_ != nullptr; }
+
   protected:
     void PlayHitSound() const;
+    void StopBlinking();
 
     /// The owner.
     sprite::WorldObject* owner_;
@@ -64,7 +67,8 @@ class Damageable : public Base {
     /// List of possible sound effects to play when hit.
     std::vector<std::string> hit_sounds_;
 
-    bool blinks_;
+    /// Controls when to toggle the blink_ flag. Also controls if it should blink at all.
+    ugdk::time::TimeAccumulator *blink_time_;
 
 };  // class Creature
 
