@@ -16,6 +16,7 @@
 #include <game/components/damageable.h>
 #include <game/components/basegraphic.h>
 #include <game/components/graphic.h>
+#include <game/components/light.h>
 #include <game/components/controller.h>
 #include <game/components/animation.h>
 #include <game/components/direction.h>
@@ -84,6 +85,7 @@ disable_disown(ugdk::graphic::Drawable* drawable)
 %include <game/components/direction.h>
 %include <game/components/damageable.h>
 %include <game/components/graphic.h>
+%include <game/components/light.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
 %include <game/components/caster.h>

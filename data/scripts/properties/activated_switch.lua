@@ -9,8 +9,8 @@ local Rect = pyramidworks_geometry.Rect
 function build (wobj)
   local graphic = component.Graphic("switch", "animations/switch.gdd")
   graphic:ChangeAnimation "SWITCH_ON"
-  graphic:ChangeLightRadius(3.0)
   wobj:AddComponent(graphic, "graphic", 100)
+  wobj:AddComponent(component.Light(3.0), "light", 101)
   return {
     collision = {
       class = "Wall",
