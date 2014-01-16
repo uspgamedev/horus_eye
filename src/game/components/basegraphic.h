@@ -21,7 +21,6 @@ class BaseGraphic : public Base {
 
     BaseGraphic();
     BaseGraphic(ugdk::graphic::Drawable* drawable);
-    BaseGraphic(ugdk::graphic::Drawable* drawable, double light_radius);
     virtual ~BaseGraphic();
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
@@ -31,11 +30,6 @@ class BaseGraphic : public Base {
     void SetPosition(const ugdk::math::Vector2D& position);
 
     void set_render_offset(const ugdk::math::Vector2D& render_offset);
-
-    double light_radius() const { return light_radius_; }
-    void ChangeLightRadius(double radius);
-
-    void ChangeLightColor(const ugdk::Color& color);
 
     double alpha() const;
     void ChangeAlpha(double alpha);
@@ -48,7 +42,6 @@ class BaseGraphic : public Base {
     void StopBlinking();
 
     virtual void Render(ugdk::graphic::Canvas&) const;
-    virtual void RenderLight(ugdk::graphic::Canvas&) const;
 
   protected:
     ugdk::graphic::Node* root_node_;
@@ -72,15 +65,10 @@ class BaseGraphic : public Base {
     /// When true, this component is on the invisible part of the blinking effect.
     bool blink_;
 
-    /// How much light this component emits.
-    double light_radius_;
-
-    ugdk::Color light_color_;
-
     ugdk::math::Vector2D render_offset_;
 
-};  // class Graphic
+};  // class BaseGraphic
 
 }  // namespace component
 
-#endif  // HORUSEYE_COMPONENT_GRAPHIC_H_
+#endif  // HORUSEYE_COMPONENT_BASEGRAPHIC_H_

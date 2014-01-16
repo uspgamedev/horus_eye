@@ -11,11 +11,12 @@
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/components/graphic.h"
+#include "game/components/light.h"
+#include "game/components/body.h"
 
 #include "game/components/damageable.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
-#include "game/components/body.h"
 
 
 namespace sprite {
@@ -81,6 +82,8 @@ void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
         b->ChangePosition(pos);
     if(auto g = graphic()) 
         g->SetPosition(world_position_);
+    if(auto l = light())
+        l->SetPosition(world_position_);
     if(current_room_) {
         map::Room* new_room = current_room_->level()->FindRoomFromPoint(world_position_);
         if(new_room && new_room != current_room_)
@@ -123,5 +126,6 @@ component::BaseGraphic* WorldObject::graphic() { return component<component::Bas
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Body* WorldObject::body() { return component<component::Body>(); }
+component::Light* WorldObject::light() { return component<component::Light>(); }
 
 }  // namespace sprite

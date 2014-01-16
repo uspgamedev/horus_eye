@@ -39,7 +39,7 @@ function build(wobj, params)
             end
             switch.activated = true
             switch.graphic:ChangeAnimation "SWITCH_START"
-            switch.graphic:ChangeLightRadius(3.0)
+            self:AddComponent(component.Light(3.0), "light", 101)
           end
         end
       }

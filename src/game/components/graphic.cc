@@ -10,26 +10,26 @@ namespace component {
 
 using ugdk::graphic::Sprite;
     
-Graphic::Graphic(const std::string& spritesheet_tag, const std::string& animation_set, double light_radius)
-    :   BaseGraphic(NULL, light_radius) {
+Graphic::Graphic(const std::string& spritesheet_tag, const std::string& animation_set)
+    :   BaseGraphic(nullptr) {
 
     isometric_animation_set_ = utils::IsometricAnimationSet::LoadFromResourceManager(animation_set);
     sprite_ = new Sprite(spritesheet_tag, isometric_animation_set_ ? (isometric_animation_set_->animation_set()) : NULL);
     ChangeDrawable(sprite_);
 }
 
-Graphic::Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* iso_animation_set, double light_radius)
-    :   BaseGraphic(NULL, light_radius),
-        sprite_(new Sprite(spritesheet_tag, iso_animation_set ? (iso_animation_set->animation_set()) : NULL)),
-        isometric_animation_set_(iso_animation_set) {
+Graphic::Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* iso_animation_set)
+    :   BaseGraphic(nullptr)
+    ,   sprite_(new Sprite(spritesheet_tag, iso_animation_set ? (iso_animation_set->animation_set()) : NULL))
+    ,   isometric_animation_set_(iso_animation_set) {
 
     ChangeDrawable(sprite_);
 }
     
-Graphic::Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::IsometricAnimationSet* iso_animation_set, double light_radius)
-    :   BaseGraphic(NULL, light_radius),
-        sprite_(new Sprite(spritesheet, iso_animation_set ? (iso_animation_set->animation_set()) : NULL)),
-        isometric_animation_set_(iso_animation_set) {
+Graphic::Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::IsometricAnimationSet* iso_animation_set)
+    :   BaseGraphic(nullptr)
+    ,   sprite_(new Sprite(spritesheet, iso_animation_set ? (iso_animation_set->animation_set()) : NULL))
+    ,   isometric_animation_set_(iso_animation_set) {
 
     ChangeDrawable(sprite_);
 }

@@ -43,7 +43,7 @@ function build(wobj, to_kill)
                 door:Die()
                 switch.activated = true
                 switch.graphic:ChangeAnimation "SWITCH_START"
-                self:graphic():ChangeLightRadius(3.0)
+                self:AddComponent(component.Light(3.0), "light", 101)
               end
             end
           end
