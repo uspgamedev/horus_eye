@@ -7,7 +7,7 @@ namespace core {
 
 using ugdk::math::Vector2D;
 
-static Vector2D tile_size(106, 52);
+static Vector2D tile_size(106, 54);
 
 Vector2D FromScreenLinearCoordinates(const Vector2D& screen_coords) {
     static Vector2D tx = Vector2D( 1.0 / tile_size.x, -1.0 / tile_size.x);
