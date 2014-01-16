@@ -18,9 +18,9 @@ class Graphic : public BaseGraphic {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
-    Graphic(const std::string& spritesheet_tag, const std::string& animation_set, double light_radius = 0.0);
-    Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* animation_set, double light_radius = 0.0);
-    Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::IsometricAnimationSet* animation_set, double light_radius = 0.0);
+    Graphic(const std::string& spritesheet_tag, const std::string& animation_set);
+    Graphic(const std::string& spritesheet_tag, utils::IsometricAnimationSet* animation_set);
+    Graphic(const ugdk::graphic::Spritesheet* spritesheet, utils::IsometricAnimationSet* animation_set);
     virtual ~Graphic();
 
     void Update(double);

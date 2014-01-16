@@ -16,7 +16,7 @@ class Light : public Base {
     static const char* DEFAULT_NAME() { return "light"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 2; }
 
-    Light(double light_radius);
+    Light(double light_radius, ugdk::Color color = ugdk::Color(1.0, 1.0, 1.0));
     ~Light();
 
     /**@arg position The graphic's position, in the game's coordinates.*/

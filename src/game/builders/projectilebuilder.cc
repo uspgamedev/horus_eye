@@ -15,6 +15,7 @@
 #include "game/components/graphic.h"
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
+#include "game/components/light.h"
 #include "game/components/statecontroller.h"
 #include "game/components/body.h"
 #include "game/scenes/world.h"
@@ -47,7 +48,8 @@ static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::
 
     IsometricAnimationSet* set = isometric_animation.empty() ? NULL : IsometricAnimationSet::LoadFromResourceManager(isometric_animation);
     WorldObject* wobj = new WorldObject(duration);
-    wobj->AddComponent(new component::Graphic(spritesheet, set, light_radius));
+    wobj->AddComponent(new component::Graphic(spritesheet, set));
+    wobj->AddComponent(new component::Light(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
 }
@@ -83,7 +85,7 @@ WorldObject* LightningBolt(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, "lightning_bolt", "animations/lightning.gdd", 1.0, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"));
     auto colobj = buildCollisionObject(wobj, 0.25);
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
-    wobj->graphic()->ChangeLightColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
+    wobj->light()->ChangeColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     colobj->AddCollisionLogic("Mummy", DamageCollision("LIGHTNING_DAMAGE"));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
@@ -95,7 +97,7 @@ WorldObject* Fireball(const Vector2D &dir) {
     WorldObject* wobj = buildProjectile(dir, "fireball", "animations/fireball.gdd", 1.0, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"));
     auto colobj = buildCollisionObject(wobj, 0.25);
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
-    wobj->graphic()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
+    wobj->light()->ChangeColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(wobj, utils::IDLE, Direction::FromWorldVector(dir)));
     colobj->AddCollisionLogic("Mummy", DieCollision(wobj));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));

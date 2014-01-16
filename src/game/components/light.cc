@@ -14,9 +14,10 @@ namespace component {
 
 using ugdk::math::Vector2D;
 
-Light::Light(double light_radius)
+Light::Light(double light_radius, ugdk::Color color)
     :   light_(nullptr)
     ,   radius_(light_radius)
+    ,   color_(color)
 {
     if(radius_ > 0)
         ChangeRadius(radius_);

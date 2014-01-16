@@ -24,34 +24,24 @@ using ugdk::graphic::Node;
 using ugdk::graphic::Drawable;
 
 BaseGraphic::BaseGraphic()
-  : root_node_(new Node),
-    node_(new Node),
-    is_blinking_(false),
-    layer_(scene::FOREGROUND_LAYER),
-    blink_time_(new ugdk::time::TimeAccumulator(75)),
-    blink_duration_(new ugdk::time::TimeAccumulator(0)),
-    blink_(false),
-    light_radius_(0.0) { setup(); }
+    :   root_node_(new Node)
+    ,   node_(new Node)
+    ,   is_blinking_(false)
+    ,   layer_(scene::FOREGROUND_LAYER)
+    ,   blink_time_(new ugdk::time::TimeAccumulator(75))
+    ,   blink_duration_(new ugdk::time::TimeAccumulator(0))
+    ,   blink_(false)
+{ setup(); }
 
 BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable)
-  : root_node_(new Node),
-    node_(new Node(drawable)),
-    is_blinking_(false),
-    layer_(scene::FOREGROUND_LAYER),
-    blink_time_(new ugdk::time::TimeAccumulator(75)),
-    blink_duration_(new ugdk::time::TimeAccumulator(0)),
-    blink_(false),
-    light_radius_(0.0) { setup(); }
-
-BaseGraphic::BaseGraphic(ugdk::graphic::Drawable* drawable, double light_radius)
-  : root_node_(new Node),
-    node_(new Node(drawable)),
-    is_blinking_(false),
-    layer_(scene::FOREGROUND_LAYER),
-    blink_time_(new ugdk::time::TimeAccumulator(75)),
-    blink_duration_(new ugdk::time::TimeAccumulator(0)),
-    blink_(false),
-    light_radius_(light_radius) { setup(); }
+    :   root_node_(new Node)
+    ,   node_(new Node(drawable))
+    ,   is_blinking_(false)
+    ,   layer_(scene::FOREGROUND_LAYER)
+    ,   blink_time_(new ugdk::time::TimeAccumulator(75))
+    ,   blink_duration_(new ugdk::time::TimeAccumulator(0))
+    ,   blink_(false)
+{ setup(); }
 
 BaseGraphic::~BaseGraphic() {
     delete root_node_;
@@ -67,32 +57,6 @@ void BaseGraphic::SetPosition(const ugdk::math::Vector2D& position) {
 void BaseGraphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
     render_offset_ = render_offset;
     node_->geometry().set_offset(render_offset_);
-}
-
-void BaseGraphic::ChangeLightRadius(double radius) {
-    light_radius_ = radius;
-    
-    if(light_radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
-        if(root_node_->light() == NULL) {
-            root_node_->set_light(new ugdk::graphic::Light);
-            root_node_->light()->set_color(light_color_);
-        }
-
-        Vector2D dimension = core::ConvertLightRadius(light_radius_);
-        root_node_->light()->set_dimension(dimension * LIGHT_COEFFICIENT);
-
-    } else {
-        if(root_node_->light()) {
-            delete root_node_->light();
-            root_node_->set_light(NULL);
-        }
-    }
-}
-
-void BaseGraphic::ChangeLightColor(const ugdk::Color& color) {
-    light_color_ = color;
-    if(root_node_->light())
-        root_node_->light()->set_color(light_color_);
 }
 
 double BaseGraphic::alpha() const {
@@ -131,10 +95,6 @@ void BaseGraphic::Render(ugdk::graphic::Canvas& canvas) const {
     root_node_->Render(canvas);
 }
 
-void BaseGraphic::RenderLight(ugdk::graphic::Canvas& canvas) const {
-    root_node_->RenderLight(canvas);
-}
-    
 void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
     node_->set_drawable(drawable);
     using namespace ugdk::graphic;
@@ -151,8 +111,6 @@ void BaseGraphic::ChangeDrawable(ugdk::graphic::Drawable* drawable) {
     
 void BaseGraphic::setup() {
     root_node_->AddChild(node_);
-    if(light_radius_ > 0)
-        ChangeLightRadius(light_radius_);
     ChangeDrawable(node_->drawable());
 }
 

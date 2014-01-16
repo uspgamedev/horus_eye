@@ -8,6 +8,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
+#include "game/components/light.h"
 #include "game/components/body.h"
 
 #include <ugdk/internal/opengl.h>
@@ -58,8 +59,8 @@ void Room::RenderLight(ugdk::graphic::Canvas& canvas) const {
     ugdk::debug::ProfileSection section("Room '" + name_ + "'");
 
     for(const auto& obj : objects_)
-        if(const auto& graphic = obj->graphic())
-            graphic->RenderLight(canvas);
+        if(const auto& graphic = obj->light())
+            graphic->Render(canvas);
 }
 
 void Room::AddObject(sprite::WorldObject* obj) {

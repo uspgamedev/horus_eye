@@ -11,6 +11,7 @@
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
 #include "game/components/body.h"
+#include "game/components/light.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/isometricanimationset.h"
@@ -41,9 +42,8 @@ static WorldObject* baseExplosion(const std::string& spritesheet, const std::str
 WorldObject* FireballExplosion() {
     utils::ImageFactory factory;
     WorldObject *wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
-    
-    wobj->component<component::BaseGraphic>()->ChangeLightRadius(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"));
-    wobj->component<component::BaseGraphic>()->ChangeLightColor(ugdk::Color(1.0, 0.521568, 0.082352));
+
+    wobj->AddComponent(new component::Light(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 
     CollisionObject* col = new CollisionObject(wobj, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
     wobj->AddComponent(new Body(col, NULL));
