@@ -94,5 +94,9 @@ Graphic* Graphic::Create(Animator* animator) {
     if(!animator) return new Graphic(nullptr, nullptr);
     return new Graphic(animator->sprite(), animator);
 }
+    
+Graphic* Graphic::Create(const std::string& spritesheet_name, const std::string& animation_set) {
+    return Create(new Animator(spritesheet_name, animation_set));
+}
 
 }  // namespace component

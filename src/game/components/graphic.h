@@ -26,6 +26,7 @@ class Graphic : public Base {
 
     static Graphic* Create(const std::shared_ptr<ugdk::graphic::Drawable>& drawable = nullptr);
     static Graphic* Create(Animator* animator);
+    static Graphic* Create(const std::string& spritesheet_name, const std::string& animation_set);
 
     ~Graphic();
 

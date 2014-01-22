@@ -1,13 +1,5 @@
 #include "projectilebuilder.h"
 
-#include <cmath>
-#include <ugdk/system/engine.h>
-#include <ugdk/resource/module.h>
-#include <ugdk/structure/types.h>
-#include <pyramidworks/geometry/circle.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionmanager.h>
-
 #include "game/builders/collision.h"
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
@@ -23,14 +15,25 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/structure/types.h>
+#include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <cmath>
+
 namespace builder {
 namespace ProjectileBuilder {
 
-using component::Direction;
+using ugdk::graphic::Drawable;
+using ugdk::graphic::Sprite;
 using ugdk::math::Vector2D;
+using pyramidworks::collision::CollisionObject;
+using component::Direction;
 using utils::IsometricAnimationSet;
 using sprite::WorldObject;
-using pyramidworks::collision::CollisionObject;
 using function::Carrier;
 
 static CollisionObject* buildCollisionObject(WorldObject* wobj, double radius) {
@@ -48,7 +51,10 @@ static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::
                                     double light_radius, double speed, double duration) {
 
     WorldObject* wobj = new WorldObject(duration);
-    wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheet, isometric_animation)));
+    if (isometric_animation.empty())
+        wobj->AddComponent(component::Graphic::Create(std::shared_ptr<Drawable>(new Sprite(spritesheet))));
+    else
+        wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheet, isometric_animation)));
     wobj->AddComponent(new component::Light(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
