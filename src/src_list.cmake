@@ -52,9 +52,9 @@ SET(GAME_SRCS
     game/components.h 
     game/components/animation.cc 
     game/components/animation.h 
+    game/components/animator.cc 
+    game/components/animator.h 
     game/components/base.h 
-    game/components/basegraphic.cc 
-    game/components/basegraphic.h 
     game/components/body.cc 
     game/components/body.h 
     game/components/caster.cc 

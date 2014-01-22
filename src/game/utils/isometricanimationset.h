@@ -31,8 +31,10 @@ class IsometricAnimationSet {
     
     ugdk::action::SpriteAnimationTable* animation_set() { return animation_set_; }
 
+    // For GenericContainer.
     static IsometricAnimationSet* LoadFromFile(const std::string& name);
-    static IsometricAnimationSet* LoadFromResourceManager(const std::string& name);
+
+    static IsometricAnimationSet& LoadFromResourceManager(const std::string& name);
 
   private:
     typedef std::map<component::Direction, int> AnimationDirectionCache;

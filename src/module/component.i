@@ -14,7 +14,7 @@
 #include <game/resources/energy.h>
 #include <game/components/base.h>
 #include <game/components/damageable.h>
-#include <game/components/basegraphic.h>
+#include <game/components/animator.h>
 #include <game/components/graphic.h>
 #include <game/components/light.h>
 #include <game/components/controller.h>
@@ -77,14 +77,16 @@ disable_disown(component::Base* component)
 %ignore component::Direction::operator const bool;
 
 %include <game/components/base.h>
+%include <game/components/direction.h>
+%include <game/components/animator.h>
 
 enable_disown(ugdk::graphic::Drawable* drawable)
-%include <game/components/basegraphic.h>
+enable_disown(Animator* animator)
+%include <game/components/graphic.h>
+disable_disown(Animator* animator)
 disable_disown(ugdk::graphic::Drawable* drawable)
 
-%include <game/components/direction.h>
 %include <game/components/damageable.h>
-%include <game/components/graphic.h>
 %include <game/components/light.h>
 %include <game/components/controller.h>
 %include <game/components/animation.h>
@@ -101,7 +103,7 @@ namespace component {
     export_class(Base)
     export_class(Direction)
     export_class(Damageable)
-    export_class(BaseGraphic)
+    export_class(Animator)
     export_class(Graphic)
     export_class(Controller)
     export_class(Animation)

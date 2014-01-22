@@ -122,7 +122,7 @@ void WorldObject::RemoveComponent(const std::string& name) {
 }
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
-component::BaseGraphic* WorldObject::graphic() { return component<component::BaseGraphic>(); }
+component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Body* WorldObject::body() { return component<component::Body>(); }

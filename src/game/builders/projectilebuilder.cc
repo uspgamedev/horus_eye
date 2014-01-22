@@ -12,6 +12,7 @@
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
 #include "game/components/animation.h"
+#include "game/components/animator.h"
 #include "game/components/graphic.h"
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
@@ -46,9 +47,8 @@ void PrepareProjectile(sprite::WorldObject* wobj, const ugdk::math::Vector2D &di
 static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 
                                     double light_radius, double speed, double duration) {
 
-    IsometricAnimationSet* set = isometric_animation.empty() ? NULL : IsometricAnimationSet::LoadFromResourceManager(isometric_animation);
     WorldObject* wobj = new WorldObject(duration);
-    wobj->AddComponent(new component::Graphic(spritesheet, set));
+    wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheet, isometric_animation)));
     wobj->AddComponent(new component::Light(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;

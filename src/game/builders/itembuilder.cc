@@ -55,7 +55,7 @@ CollisionLogic UseCollision(WorldObject* owner, ItemEvent event) {
 
 class ItemLogic : public component::Base {
   public:
-    ItemLogic(component::BaseGraphic* g, ugdk::graphic::Drawable* image) : graphic_(g), total_time_(0) {
+    ItemLogic(component::Graphic* g, ugdk::graphic::Drawable* image) : graphic_(g), total_time_(0) {
     }
     void Update(double delta_t) {
         total_time_ += delta_t;
@@ -63,13 +63,13 @@ class ItemLogic : public component::Base {
         graphic_->set_render_offset(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
     }
   private:
-    component::BaseGraphic* graphic_;
+    component::Graphic* graphic_;
     double total_time_;
 };
 
 WorldObject* buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, const std::string& target_class = "Hero") {
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::BaseGraphic);
+    wobj->AddComponent(component::Graphic::Create(nullptr));
     wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
     image->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
 

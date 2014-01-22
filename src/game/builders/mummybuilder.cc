@@ -10,10 +10,12 @@
 #include "game/ai/ai.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
+#include "game/components/animator.h"
 #include "game/components/graphic.h"
 #include "game/components/caster.h"
 #include "game/components/walker.h"
 #include "game/components/body.h"
+
 #include "game/scenes/world.h"
 #include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
@@ -32,8 +34,6 @@ using ugdk::math::Vector2D;
 using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
-
-static utils::IsometricAnimationSet* ANIMATIONS = NULL;
 
 CollisionLogic AntiStackCollision(Walker* data_) {
     return [data_](const CollisionObject* obj) {
@@ -69,14 +69,10 @@ static WorldObject* build_mummy_wobj(const std::string& spritesheetname, double 
 
 void PrepareBasicMummy(WorldObject* wobj, const std::string& spritesheetname,
                        double life, double radius, double speed, bool standing) {
-    if(ANIMATIONS == NULL) {
-        ANIMATIONS = new utils::IsometricAnimationSet(
-            ugdk::resource::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
-    }
+
     std::string aiscript = "basicmummy";
 
-
-    wobj->AddComponent(new component::Graphic(spritesheetname, ANIMATIONS));
+    wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/creature.gdd")));
     wobj->AddComponent(new component::Animation(wobj, utils::SPAWNING, Direction()));
 
     wobj->AddComponent(new component::Damageable(wobj, 300));

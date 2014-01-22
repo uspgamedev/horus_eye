@@ -9,7 +9,7 @@ class Animation;
 class Damageable;
 class Caster;
 class Graphic;
-class BaseGraphic;
+class Animator;
 class Light;
 class Body;
 

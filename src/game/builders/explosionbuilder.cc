@@ -12,6 +12,7 @@
 #include "game/components/graphic.h"
 #include "game/components/body.h"
 #include "game/components/light.h"
+#include "game/components/animator.h"
 #include "game/scenes/world.h"
 #include "game/utils/imagefactory.h"
 #include "game/utils/isometricanimationset.h"
@@ -28,12 +29,11 @@ using sprite::WorldObject;
 static WorldObject* baseExplosion(const std::string& spritesheet, const std::string& anim) {
     WorldObject *wobj = new WorldObject;
 
-    utils::IsometricAnimationSet* set = utils::IsometricAnimationSet::LoadFromResourceManager("animations/explosion.gdd");
-    component::Graphic* graphic = new component::Graphic(spritesheet, set);
-    graphic->ChangeAnimation(anim);
-    graphic->AddTickFunction(bind(&WorldObject::Remove, wobj));
+    auto animator = new component::Animator(spritesheet, "animations/explosion.gdd");
+    animator->ChangeAnimation(anim);
+    animator->AddTickFunction(bind(&WorldObject::Remove, wobj));
 
-    wobj->AddComponent(graphic);
+    wobj->AddComponent(component::Graphic::Create(animator));
 
 
     return wobj;
