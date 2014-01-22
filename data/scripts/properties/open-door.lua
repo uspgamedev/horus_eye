@@ -15,24 +15,24 @@ function build (wobj, params)
   local open_event = params and params.open_event
   local close_event = params and params.close_event
 
-  local graphic_comp = component.Graphic("closed-door", "animations/closed-door.gdd")
+  local graphic_comp = component.Graphic_Create("closed-door", "animations/closed-door.gdd")
   wobj:AddComponent(graphic_comp, "graphic", 100)
-  graphic_comp:ChangeAnimation("STANDING_"..dir)
+  graphic_comp:animator():ChangeAnimation("STANDING_"..dir)
 
   local observer = proxy "Observer"
-  graphic_comp:animation_player():AddObserver(observer)
+  graphic_comp:animator():animation_player():AddObserver(observer)
   observer.state = 'down'
   function observer:Tick ()
     if self.state == 'up'  then
       self.state = 'closing'
-      graphic_comp:ChangeAnimation("SPAWNING_"..dir)
+      graphic_comp:animator():ChangeAnimation("SPAWNING_"..dir)
       if close_event then close_event() end
     elseif self.state == 'opening' then
       self.state = 'up'
-      graphic_comp:ChangeAnimation("NONE")
+      graphic_comp:animator():ChangeAnimation("NONE")
     elseif self.state == 'closing' then
       self.state = 'down'
-      graphic_comp:ChangeAnimation("STANDING_"..dir)
+      graphic_comp:animator():ChangeAnimation("STANDING_"..dir)
     end
   end
 
@@ -44,11 +44,11 @@ function build (wobj, params)
         Creature = function (self, creature)
           if observer.state == 'down' then
             observer.state = 'opening'
-            graphic_comp:ChangeAnimation("DYING_"..dir)
+            graphic_comp:animator():ChangeAnimation("DYING_"..dir)
             if open_event then open_event() end
           elseif observer.state == 'closing' then
             observer.state = 'up'
-            graphic_comp:ChangeAnimation("NONE")
+            graphic_comp:animator():ChangeAnimation("NONE")
           end
         end
       }

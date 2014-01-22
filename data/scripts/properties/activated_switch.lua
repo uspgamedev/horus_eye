@@ -7,8 +7,8 @@ local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  local graphic = component.Graphic("switch", "animations/switch.gdd")
-  graphic:ChangeAnimation "SWITCH_ON"
+  local graphic = component.Graphic_Create("switch", "animations/switch.gdd")
+  graphic:animator():ChangeAnimation "SWITCH_ON"
   wobj:AddComponent(graphic, "graphic", 100)
   wobj:AddComponent(component.Light(3.0), "light", 101)
   return {

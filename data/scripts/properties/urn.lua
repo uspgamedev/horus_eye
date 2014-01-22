@@ -12,10 +12,9 @@ local Circle = pyramidworks_geometry.Circle
 local vec2 = ugdk_math.Vector2D
 
 function build (wobj, params)
-  local graphic_comp = component.Graphic("vase", "animations/urn.gdd")
   params = params or {}
-  graphic_comp:ChangeAnimation "STANDING"
-  wobj:AddComponent(graphic_comp, "graphic", 100)
+  wobj:AddComponent(component.Graphic_Create("vase", "animations/urn.gdd"), "graphic", 100)
+  wobj:graphic():animator():ChangeAnimation "STANDING"
   return {
     collision = {
       class = "Wall",
