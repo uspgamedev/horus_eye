@@ -53,6 +53,8 @@ class Graphic : public Base {
 
     void Render(ugdk::graphic::Canvas&) const;
     
+    virtual void OnAdd(sprite::WorldObject*);
+    
     Animator* animator() { return animator_; }
 
   private:

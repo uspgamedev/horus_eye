@@ -10,6 +10,7 @@
 
 #include "game/core/coordinates.h"
 #include "game/components/animator.h"
+#include "game/sprites/worldobject.h"
 #include "game/initializer.h"
 
 #define LIGHT_COEFFICIENT 0.75
@@ -84,6 +85,10 @@ void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
         drawable_->Draw(canvas);
         canvas.PopGeometry();
     }
+}
+    
+void Graphic::OnAdd(sprite::WorldObject* wobj) {
+    SetPosition(wobj->world_position());
 }
     
 Graphic* Graphic::Create(const std::shared_ptr<ugdk::graphic::Drawable>& drawable) {

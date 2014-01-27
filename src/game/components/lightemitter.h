@@ -30,6 +30,8 @@ class LightEmitter : public Base {
     virtual void Update(double dt);
 
     void Render(ugdk::graphic::Canvas&) const;
+    
+    virtual void OnAdd(sprite::WorldObject*);
 
   private:
     ugdk::graphic::Light* light_;

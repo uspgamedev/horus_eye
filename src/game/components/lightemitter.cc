@@ -4,6 +4,7 @@
 #include "game/core/coordinates.h"
 #include "game/initializer.h"
 #include "game/scenes/world.h"
+#include "game/sprites/worldobject.h"
 
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
@@ -60,5 +61,10 @@ void LightEmitter::Update(double dt) {}
 void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
     light_->Draw(canvas.current_geometry() * ugdk::graphic::Geometry(position_));
 }
+    
+void LightEmitter::OnAdd(sprite::WorldObject* wobj) {
+    SetPosition(wobj->world_position());
+}
+
 
 }  // namespace component

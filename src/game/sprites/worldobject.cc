@@ -112,6 +112,7 @@ void WorldObject::AddComponent(component::Base* component, const std::string& na
     ComponentsByOrder::iterator it;
     for(it = components_order_.begin(); it != components_order_.end() && it->order <= newcomp.order; ++it) continue;
     components_[name] = components_order_.insert(it, newcomp);
+    component->OnAdd(this);
 }
 
 void WorldObject::RemoveComponent(const std::string& name) {
