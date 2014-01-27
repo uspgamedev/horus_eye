@@ -10,7 +10,7 @@ class Damageable;
 class Caster;
 class Graphic;
 class Animator;
-class Light;
+class LightEmitter;
 class Body;
 
 class Controller;

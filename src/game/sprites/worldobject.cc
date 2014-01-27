@@ -11,7 +11,7 @@
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/components/graphic.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/components/body.h"
 
 #include "game/components/damageable.h"
@@ -126,6 +126,6 @@ component::Graphic* WorldObject::graphic() { return component<component::Graphic
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Body* WorldObject::body() { return component<component::Body>(); }
-component::Light* WorldObject::light() { return component<component::Light>(); }
+component::LightEmitter* WorldObject::light() { return component<component::LightEmitter>(); }
 
 }  // namespace sprite

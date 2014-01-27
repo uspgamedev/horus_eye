@@ -11,13 +11,13 @@
 
 namespace component {
 
-class Light : public Base {
+class LightEmitter : public Base {
   public:
     static const char* DEFAULT_NAME() { return "light"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 2; }
 
-    Light(double light_radius, ugdk::Color color = ugdk::Color(1.0, 1.0, 1.0));
-    ~Light();
+    LightEmitter(double light_radius, ugdk::Color color = ugdk::Color(1.0, 1.0, 1.0));
+    ~LightEmitter();
 
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::math::Vector2D& position);
@@ -43,7 +43,7 @@ class Light : public Base {
     /// The light's position, in screen's coordinates.
     ugdk::math::Vector2D position_;
 
-};  // class Light
+};  // class LightEmitter
 
 }  // namespace component
 

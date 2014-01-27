@@ -71,7 +71,7 @@ class WorldObject : public ::ugdk::action::Entity {
     component::Controller* controller();
     component::Caster* caster();
     component::Body* body();
-    component::Light* light();
+    component::LightEmitter* light();
 
     /// Gets a component with the requested type with the given name.
     /**

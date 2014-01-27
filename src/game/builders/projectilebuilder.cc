@@ -8,7 +8,7 @@
 #include "game/components/graphic.h"
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/components/statecontroller.h"
 #include "game/components/body.h"
 #include "game/scenes/world.h"
@@ -55,7 +55,7 @@ static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::
         wobj->AddComponent(component::Graphic::Create(std::shared_ptr<Drawable>(new Sprite(spritesheet))));
     else
         wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheet, isometric_animation)));
-    wobj->AddComponent(new component::Light(light_radius));
+    wobj->AddComponent(new component::LightEmitter(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
 }

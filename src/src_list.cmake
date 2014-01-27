@@ -68,8 +68,8 @@ SET(GAME_SRCS
     game/components/direction.h 
     game/components/graphic.cc 
     game/components/graphic.h 
-    game/components/light.cc 
-    game/components/light.h 
+    game/components/lightemitter.cc 
+    game/components/lightemitter.h 
     game/components/logic/follower.cc 
     game/components/logic/follower.h 
     game/components/orders.h 
