@@ -278,6 +278,7 @@ void World::SetupCollisionManager() {
 }
     
 void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
+    ugdk::debug::ProfileSection section("World::RenderLight");
     canvas.PushAndCompose(camera_);
     for(const map::Room* room : active_rooms_)
         room->RenderLight(canvas);
