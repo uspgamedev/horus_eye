@@ -10,6 +10,8 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/textbox.h>
+#include <ugdk/graphic/textmanager.h>
 #include <ugdk/time/module.h>
 #include <ugdk/input/events.h>
 #include <ugdk/input/module.h>
@@ -48,6 +50,7 @@ int render_sprites = 1; // 0 == nothing, 1 == sprites, 2 == lights
 bool render_collision = false;
 bool render_visibility = false;
 bool render_profiler = false;
+std::shared_ptr<graphic::TextBox> profiler_text(nullptr);
 }
 
 void VerifyCheats(const input::KeyPressedEvent& ev) {
@@ -110,6 +113,15 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
 
     if(ev.scancode == input::Scancode::F9)
         render_profiler = !render_profiler;
+    
+    if (ev.scancode == input::Scancode::F10) {
+        const auto& datalist = ugdk::system::profile_data_list();
+        if (!datalist.empty()) {
+            std::stringstream msg;
+            renders::SectionDataToString(msg, "", datalist.back());
+            profiler_text->ChangeMessage(msg.str());
+        }
+    }
 
 
     // EASTER EGG/TODO: remove before any release!
@@ -194,7 +206,11 @@ World::World(const ugdk::math::Integer2D& size)
     this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);
 #endif
 
-    //std::shared_ptr<graphic::TextBox> profiler_text(new graphic::TextBox);
+    if (!profiler_text)
+        profiler_text.reset(new graphic::TextBox(
+            "Press F10 to fetch profiler data.",
+            graphic::manager()->canvas()->size().x,
+            TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
@@ -219,9 +235,8 @@ World::World(const ugdk::math::Integer2D& size)
             this->hud_->node()->Render(canvas);
         }
 
-        const auto& datalist = ugdk::system::profile_data_list();
-        if(!datalist.empty() && render_profiler)
-            renders::DrawSectionData(canvas, datalist.back());
+        if (render_profiler)
+            profiler_text->Draw(canvas);
     });
 
     SetupCollisionManager();
