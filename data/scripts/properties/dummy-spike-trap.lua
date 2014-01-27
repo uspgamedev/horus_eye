@@ -10,8 +10,8 @@ local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  local graphic_comp = component.Graphic("dummy-spike-trap", "animations/spike-trap.gdd")
-  graphic_comp:ChangeAnimation "STANDING"
+  local graphic_comp = component.Graphic_Create("dummy-spike-trap", "animations/spike-trap.gdd")
+  graphic_comp:animator():ChangeAnimation "STANDING"
   wobj:AddComponent(graphic_comp, "graphic", 100)
   return {
     collision = {

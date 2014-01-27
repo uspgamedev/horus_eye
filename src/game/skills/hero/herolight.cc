@@ -12,7 +12,7 @@
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
 #include "game/components/graphic.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/skills/combatart.h"
 #include "game/constants.h"
 
@@ -29,8 +29,9 @@ static bool VisibilityCheck(const component::Caster* caster) {
 
 static void HeroLightUse(component::Caster* caster){
     sprite::WorldObject *light = new sprite::WorldObject(15.0);
-    light->AddComponent(new component::BaseGraphic(new ugdk::graphic::Sprite("light")));
-    light->AddComponent(new component::Light(4.0));
+
+    light->AddComponent(component::Graphic::Create(std::shared_ptr<graphic::Drawable>(new ugdk::graphic::Sprite("light"))));
+    light->AddComponent(new component::LightEmitter(4.0));
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 

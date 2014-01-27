@@ -1,9 +1,10 @@
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 
 #include "game/constants.h"
 #include "game/core/coordinates.h"
 #include "game/initializer.h"
 #include "game/scenes/world.h"
+#include "game/sprites/worldobject.h"
 
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
@@ -14,7 +15,7 @@ namespace component {
 
 using ugdk::math::Vector2D;
 
-Light::Light(double light_radius, ugdk::Color color)
+LightEmitter::LightEmitter(double light_radius, ugdk::Color color)
     :   light_(nullptr)
     ,   radius_(light_radius)
     ,   color_(color)
@@ -23,15 +24,15 @@ Light::Light(double light_radius, ugdk::Color color)
         ChangeRadius(radius_);
 }
 
-Light::~Light() {
+LightEmitter::~LightEmitter() {
     delete light_;
 }
 
-void Light::SetPosition(const ugdk::math::Vector2D& position) {
+void LightEmitter::SetPosition(const ugdk::math::Vector2D& position) {
     position_ = core::FromWorldCoordinates(position);
 }
 
-void Light::ChangeRadius(double radius) {
+void LightEmitter::ChangeRadius(double radius) {
     radius_ = radius;
     
     if(radius_ > constants::GetDouble("LIGHT_RADIUS_THRESHOLD")) {
@@ -49,16 +50,21 @@ void Light::ChangeRadius(double radius) {
     }
 }
 
-void Light::ChangeColor(const ugdk::Color& color) {
+void LightEmitter::ChangeColor(const ugdk::Color& color) {
     color_ = color;
     if(light_)
         light_->set_color(color_);
 }
 
-void Light::Update(double dt) {}
+void LightEmitter::Update(double dt) {}
 
-void Light::Render(ugdk::graphic::Canvas& canvas) const {
+void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
     light_->Draw(canvas.current_geometry() * ugdk::graphic::Geometry(position_));
 }
+    
+void LightEmitter::OnAdd(sprite::WorldObject* wobj) {
+    SetPosition(wobj->world_position());
+}
+
 
 }  // namespace component

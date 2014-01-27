@@ -11,6 +11,7 @@
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/texture.h>
+#include <ugdk/debug/profiler.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
@@ -190,6 +191,8 @@ bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, 
 }
 
 void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::Canvas& canvas) {
+    ugdk::debug::ProfileSection section("DrawShadows");
+
     auto& opaque_class = world->visibility_manager()->Find("Opaque");
     geometry::Rect screen_rect(20.0, 20.0); // TODO: Get size from screen size
     collision::CollisionObjectList walls;

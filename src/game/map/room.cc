@@ -8,7 +8,7 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/components/body.h"
 
 #include <ugdk/internal/opengl.h>

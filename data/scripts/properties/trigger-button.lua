@@ -12,8 +12,8 @@ local Rect      = pyramidworks_geometry.Rect
 
 local function make_button ()
   local button = proxy "Observer"
-  button.graphic = component.Graphic("button", "animations/button.gdd")
-  button.graphic:ChangeAnimation "OFF"
+  button.graphic = component.Graphic_Create("button", "animations/button.gdd")
+  button.graphic:animator():ChangeAnimation "OFF"
   button.graphic:set_layer(component.BACKGROUND_LAYER)
   button.activated = false
   return button
@@ -34,7 +34,7 @@ function build(wobj, params)
             for _,trigger in pairs(params) do
               event.Activate(trigger)
             end
-            button.graphic:ChangeAnimation "ON"
+            button.graphic:animator():ChangeAnimation "ON"
           end
         end
       }

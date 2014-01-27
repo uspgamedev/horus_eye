@@ -11,7 +11,7 @@
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/components/graphic.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/components/body.h"
 
 #include "game/components/damageable.h"
@@ -112,6 +112,7 @@ void WorldObject::AddComponent(component::Base* component, const std::string& na
     ComponentsByOrder::iterator it;
     for(it = components_order_.begin(); it != components_order_.end() && it->order <= newcomp.order; ++it) continue;
     components_[name] = components_order_.insert(it, newcomp);
+    component->OnAdd(this);
 }
 
 void WorldObject::RemoveComponent(const std::string& name) {
@@ -122,10 +123,10 @@ void WorldObject::RemoveComponent(const std::string& name) {
 }
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
-component::BaseGraphic* WorldObject::graphic() { return component<component::BaseGraphic>(); }
+component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Body* WorldObject::body() { return component<component::Body>(); }
-component::Light* WorldObject::light() { return component<component::Light>(); }
+component::LightEmitter* WorldObject::light() { return component<component::LightEmitter>(); }
 
 }  // namespace sprite

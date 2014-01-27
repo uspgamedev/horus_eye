@@ -7,8 +7,9 @@
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
+#include "game/components/animator.h"
 #include "game/components/caster.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/components/playercontroller.h"
 #include "game/components/walker.h"
 #include "game/components/body.h"
@@ -36,10 +37,8 @@ using component::Walker;
 using component::Body;
 using skills::usearguments::Aim;
 
-static utils::IsometricAnimationSet* ANIMATIONS = NULL;
-
 static void HeroDeathEvent(sprite::WorldObject* wobj) {
-    WORLD()->SetHero(NULL);
+    WORLD()->SetHero(nullptr);
     WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
 }
 
@@ -54,15 +53,10 @@ void SetupCollision(sprite::WorldObject* obj) {
     col->AddCollisionLogic("Wall", obj->component<Walker>()->CreateRectCollision());
     col->AddCollisionLogic("Mummy", MummySlowCollision(obj->component<component::Walker>()));
 
-    obj->AddComponent(new Body(col, NULL));
+    obj->AddComponent(new Body(col, nullptr));
 }
 
 sprite::WorldObject* Kha() {
-    if(ANIMATIONS == NULL) {
-        ANIMATIONS = new utils::IsometricAnimationSet(
-            ugdk::resource::GetSpriteAnimationTableFromFile("animations/creature.gdd"));
-    }
-
     component::PlayerController* player_controller;
     Energy life = Energy(constants::GetDouble("HERO_MAX_LIFE"));
     Energy mana = Energy(constants::GetInt("HERO_MAX_MANA_BLOCKS") * constants::GetDouble("HERO_MANA_PER_BLOCK"),
@@ -73,9 +67,9 @@ sprite::WorldObject* Kha() {
     hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
-    hero_wobj->AddComponent(new component::Graphic("hero", ANIMATIONS));
+    hero_wobj->AddComponent(component::Graphic::Create(new component::Animator("hero", "animations/creature.gdd")));
     hero_wobj->AddComponent(new component::Animation(hero_wobj));
-    hero_wobj->AddComponent(new component::Light(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
+    hero_wobj->AddComponent(new component::LightEmitter(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
 
     hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));

@@ -156,11 +156,17 @@ Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
     mummy_counter_text_holder_->set_drawable(ConvertNumberToText(previous_mummy_counter_value_));
     
 #ifdef HORUSEYE_DEBUG_TOOLS
+
+    Node* fps_node = new Node;
+
     Drawable* fps_label = new Label("FPS: ", TEXT_MANAGER()->current_font());
-    node_->AddChild(new Node(fps_label));
-    node_->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
+    fps_node->AddChild(new Node(fps_label));
+    fps_node->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
     fps_meter_node_->geometry().set_offset(Vector2D(fps_label->width(), 0.0));
     previous_fps_ = 0;
+
+    fps_node->geometry().set_offset(Vector2D(VIDEO_X - fps_label->width() * 3, 0));
+    node_->AddChild(fps_node);
 #endif
 }
 

@@ -9,8 +9,8 @@ class Animation;
 class Damageable;
 class Caster;
 class Graphic;
-class BaseGraphic;
-class Light;
+class Animator;
+class LightEmitter;
 class Body;
 
 class Controller;

@@ -67,11 +67,11 @@ class WorldObject : public ::ugdk::action::Entity {
     }
 
     component::Damageable* damageable();
-    component::BaseGraphic* graphic();
+    component::Graphic* graphic();
     component::Controller* controller();
     component::Caster* caster();
     component::Body* body();
-    component::Light* light();
+    component::LightEmitter* light();
 
     /// Gets a component with the requested type with the given name.
     /**

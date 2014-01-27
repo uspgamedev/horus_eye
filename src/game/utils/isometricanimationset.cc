@@ -47,14 +47,16 @@ std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES = ANIMATIONTYPE_NAMES_CR
 IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set)
     :   animation_set_(animation_set) {
         
-    for(auto names = ANIMATIONTYPE_NAMES.begin(); names != ANIMATIONTYPE_NAMES.end(); ++names) {
-        for(auto dir = DIRECTION_VALUES.begin(); dir != DIRECTION_VALUES.end(); ++dir) {
+    assert(animation_set);
+
+    for(const auto& names : ANIMATIONTYPE_NAMES) {
+        for(const auto& dir : DIRECTION_VALUES) {
             std::stringstream composed_name;
-            composed_name << names->second<< dir->second;
+            composed_name << names.second << dir.second;
 
             int index = animation_set->MakeIndex(composed_name.str());
             if(index != -1)
-                animation_cache_[names->first][dir->first] = index;
+                animation_cache_[names.first][dir.first] = index;
         }
     }
 }
@@ -69,11 +71,14 @@ IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& na
     ugdk::action::SpriteAnimationTable* set = ugdk::resource::GetSpriteAnimationTableFromFile(name);
     if(set)
         return new IsometricAnimationSet(set);
-    return NULL;
+    return nullptr;
 }
 
-IsometricAnimationSet* IsometricAnimationSet::LoadFromResourceManager(const std::string& name) {
-    return ugdk::resource::manager()->get_container<IsometricAnimationSet*>()->Load(name, name);
+IsometricAnimationSet& IsometricAnimationSet::LoadFromResourceManager(const std::string& name) {
+    auto container = ugdk::resource::manager()->get_container<IsometricAnimationSet*>();
+    auto result = container->Load(name, name);
+    assert(result);
+    return *result;
 }
     
 int IsometricAnimationSet::getAnimationFromCache(const AnimationDirectionCache& map, const component::Direction& dir) const {

@@ -14,7 +14,7 @@
 #include "game/core/coordinates.h"
 #include "game/components/damageable.h"
 #include "game/components/body.h"
-#include "game/components/basegraphic.h"
+#include "game/components/graphic.h"
 #include "game/map/specialwall.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
@@ -40,7 +40,7 @@ using sprite::WorldObject;
 
 WorldObject* Door(const std::vector<std::string>& arguments) {
     WorldObject* wobj = new WorldObject;
-    wobj->AddComponent(new component::BaseGraphic(new Sprite("stairs")));
+    wobj->AddComponent(component::Graphic::Create(std::shared_ptr<ugdk::graphic::Drawable>(new Sprite("stairs"))));
 
     CollisionObject* col = new CollisionObject(wobj, "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
@@ -54,7 +54,7 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     if(texture) {
         Drawable* drawable = new map::SpecialWall(texture);
         drawable->set_hotspot(Vector2D(53, 156));
-        wobj->AddComponent(new component::BaseGraphic(drawable));
+        wobj->AddComponent(component::Graphic::Create(std::shared_ptr<ugdk::graphic::Drawable>(drawable)));
     }
     wobj->set_identifier("Wall");
 

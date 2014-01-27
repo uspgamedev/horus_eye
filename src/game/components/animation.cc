@@ -5,6 +5,7 @@
 #include <ugdk/time/timeaccumulator.h>
 
 #include "game/components/graphic.h"
+#include "game/components/animator.h"
 
 using ugdk::math::Vector2D;
 
@@ -34,17 +35,18 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 utils::AnimtionType Animation::default_animation_ = utils::IDLE;
 
 Animation::Animation(sprite::WorldObject* wobj)
-    :   owner_(wobj),
-        current_animation_(utils::IDLE) {
-
-    wobj->component<component::Graphic>()->AddObserver(this);
+    :   owner_(wobj)
+    ,   current_animation_(utils::IDLE)
+{
+    wobj->graphic()->animator()->AddObserver(this);
 }
 
 Animation::Animation(sprite::WorldObject* owner, utils::AnimtionType type, const Direction& dir)
-    :   owner_(owner), 
-        current_direction_(dir),
-        current_animation_(type) {
-    owner->component<component::Graphic>()->AddObserver(this);
+    :   owner_(owner)
+    ,   current_direction_(dir)
+    ,   current_animation_(type)
+{
+    owner->graphic()->animator()->AddObserver(this);
     updateGraphic();
 }
 
@@ -95,7 +97,7 @@ void Animation::executeCallback() {
 }
     
 bool Animation::updateGraphic() {
-    return owner_->component<component::Graphic>()->ChangeAnimation(current_animation_, current_direction_);
+    return owner_->graphic()->animator()->ChangeAnimation(current_animation_, current_direction_);
 }
 
 }  // namespace component

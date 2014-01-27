@@ -1,35 +1,39 @@
 #include "projectilebuilder.h"
 
-#include <cmath>
-#include <ugdk/system/engine.h>
-#include <ugdk/resource/module.h>
-#include <ugdk/structure/types.h>
-#include <pyramidworks/geometry/circle.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionmanager.h>
-
 #include "game/builders/collision.h"
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
 #include "game/components/animation.h"
+#include "game/components/animator.h"
 #include "game/components/graphic.h"
 #include "game/components/damageable.h"
 #include "game/components/walker.h"
-#include "game/components/light.h"
+#include "game/components/lightemitter.h"
 #include "game/components/statecontroller.h"
 #include "game/components/body.h"
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
+#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/structure/types.h>
+#include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <cmath>
+
 namespace builder {
 namespace ProjectileBuilder {
 
-using component::Direction;
+using ugdk::graphic::Drawable;
+using ugdk::graphic::Sprite;
 using ugdk::math::Vector2D;
+using pyramidworks::collision::CollisionObject;
+using component::Direction;
 using utils::IsometricAnimationSet;
 using sprite::WorldObject;
-using pyramidworks::collision::CollisionObject;
 using function::Carrier;
 
 static CollisionObject* buildCollisionObject(WorldObject* wobj, double radius) {
@@ -46,10 +50,12 @@ void PrepareProjectile(sprite::WorldObject* wobj, const ugdk::math::Vector2D &di
 static WorldObject* buildProjectile(const ugdk::math::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 
                                     double light_radius, double speed, double duration) {
 
-    IsometricAnimationSet* set = isometric_animation.empty() ? NULL : IsometricAnimationSet::LoadFromResourceManager(isometric_animation);
     WorldObject* wobj = new WorldObject(duration);
-    wobj->AddComponent(new component::Graphic(spritesheet, set));
-    wobj->AddComponent(new component::Light(light_radius));
+    if (isometric_animation.empty())
+        wobj->AddComponent(component::Graphic::Create(std::shared_ptr<Drawable>(new Sprite(spritesheet))));
+    else
+        wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheet, isometric_animation)));
+    wobj->AddComponent(new component::LightEmitter(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
 }
