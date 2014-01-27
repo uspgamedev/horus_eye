@@ -43,7 +43,9 @@ function build(wobj, to_kill)
                 door:Die()
                 switch.activated = true
                 switch.graphic:animator():ChangeAnimation "SWITCH_START"
-                self:AddComponent(component.Light(3.0), "light", 101)
+                if not self:HasComponent "light" then
+                  self:AddComponent(component.LightEmitter(3.0), "light", 101)
+                end
               end
             end
           end

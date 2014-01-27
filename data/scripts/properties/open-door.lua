@@ -20,7 +20,7 @@ function build (wobj, params)
   graphic_comp:animator():ChangeAnimation("STANDING_"..dir)
 
   local observer = proxy "Observer"
-  graphic_comp:animator():animation_player():AddObserver(observer)
+  graphic_comp:animator():AddObserver(observer)
   observer.state = 'down'
   function observer:Tick ()
     if self.state == 'up'  then

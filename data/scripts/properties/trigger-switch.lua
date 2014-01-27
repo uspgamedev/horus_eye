@@ -39,7 +39,7 @@ function build(wobj, params)
             end
             switch.activated = true
             switch.graphic:animator():ChangeAnimation "SWITCH_START"
-            self:AddComponent(component.Light(3.0), "light", 101)
+            self:AddComponent(component.LightEmitter(3.0), "light", 101)
           end
         end
       }
