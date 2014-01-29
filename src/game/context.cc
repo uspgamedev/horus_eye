@@ -9,6 +9,7 @@
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
 #include "game/builders/aibuilder.h"
+#include "game/sprites/objecthandle.h"
 #include "game/map/room.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
@@ -75,11 +76,13 @@ void AddAIComponent(WorldObject* wobj, ai::AI* the_ai) {
     wobj->AddComponent(the_ai);
 }
 
-void EnableDeathAnimation (WorldObject* wobj) {
-    wobj->set_start_to_die_callback([](WorldObject* wobj) -> void {
+void EnableDeathAnimation(const sprite::ObjectHandle& handle) {
+    if (!handle.attached()) return;
+
+    handle->set_start_to_die_callback([](WorldObject* wobj) -> void {
         wobj->component<Animation>()->ChangeAnimation(utils::DEATH);
     });
-    wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
+    handle->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
 }
 
 static void findCollisions(CollisionClass &colclass, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {

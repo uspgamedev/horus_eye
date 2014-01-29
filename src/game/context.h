@@ -19,7 +19,7 @@ sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag);
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
 void AddAIComponent(sprite::WorldObject* wobj, ai::AI* the_ai);
-void EnableDeathAnimation(sprite::WorldObject* wobj);
+void EnableDeathAnimation(const sprite::ObjectHandle& handle);
 
 /// Appends to the objects_colliding list all WorldObjects from the given collision class (classname) that are colliding with
 /// the given GeometricShape.
