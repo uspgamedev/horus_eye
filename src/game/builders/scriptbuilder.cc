@@ -10,6 +10,7 @@
 #include "game/components/damageable.h"
 #include "game/components/body.h"
 #include "game/sprites/worldobject.h"
+#include "game/sprites/objecthandle.h"
 #include "game/scenes/world.h"
 
 namespace builder {
@@ -124,8 +125,8 @@ sprite::WObjPtr Script(const std::string& script_name, const ugdk::script::Virtu
     wobj->set_identifier(script_name);
 
     VirtualObj v_wobj(script_generator["build"].wrapper());
-    v_wobj.set_value<sprite::WObjPtr*>(&wobj); // assuming it doesn't disown
-    
+    v_wobj.set_value<sprite::ObjectHandle*>(new sprite::ObjectHandle(wobj), true);
+
     VirtualObj::List args(1, v_wobj);
     if(params)
         args.push_back(params);

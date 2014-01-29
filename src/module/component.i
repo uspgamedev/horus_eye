@@ -13,6 +13,7 @@
 #include <ugdk/action/scene.h>
 #include <game/sprites/effect.h>
 #include <game/sprites/worldobject.h>
+#include <game/sprites/objecthandle.h>
 #include <game/resources/energy.h>
 #include <game/components/base.h>
 #include <game/components/damageable.h>
@@ -55,6 +56,7 @@ enable_disown(component::Base* component)
 %include <game/utils/isometricanimationset.h>
 %include <game/sprites/effect.h>
 %include <game/sprites/worldobject.h>
+%include <game/sprites/objecthandle.h>
 
 %template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
 %template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
@@ -109,6 +111,7 @@ namespace sprite {
 
     export_class(WObjPtr)
     export_class(WObjWeakPtr)
+    export_class(ObjectHandle)
 }
 namespace component {
     export_class(Base)

@@ -34,9 +34,6 @@ Room::Room(const std::string& name, const ugdk::math::Integer2D& _size,
 }
 
 Room::~Room() {
-    for(const auto& obj : objects_)
-        if(obj->graphic())
-            obj->graphic()->RemoveFromLayers(layers_);
     delete floor_;
 }
 

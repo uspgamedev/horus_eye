@@ -8,6 +8,7 @@ namespace sprite {
 class Effect;
 class ItemEvent;
 class WorldObject;
+class ObjectHandle;
 
 typedef std::shared_ptr<WorldObject> WObjPtr;
 typedef std::weak_ptr<WorldObject> WObjWeakPtr;
