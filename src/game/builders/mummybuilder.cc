@@ -68,7 +68,7 @@ void PrepareBasicMummy(const WObjPtr& wobj, const std::string& spritesheetname,
     std::string aiscript = "basicmummy";
 
     wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/creature.gdd")));
-    wobj->AddComponent(new component::Animation(wobj.get(), utils::SPAWNING, Direction()));
+    wobj->AddComponent(new component::Animation(utils::SPAWNING, Direction()));
 
     wobj->AddComponent(new component::Damageable(wobj.get(), 300));
     wobj->damageable()->life() = Energy(life);

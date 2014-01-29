@@ -89,25 +89,25 @@ sprite::WObjPtr MummyProjectile(const ugdk::math::Vector2D &dir, double damage) 
 
 sprite::WObjPtr LightningBolt(const Vector2D &dir) {
     sprite::WObjPtr wobj = buildProjectile(dir, "lightning_bolt", "animations/lightning.gdd", 1.0, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"));
-    auto colobj = buildCollisionObject(wobj, 0.25);
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
     wobj->light()->ChangeColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
-    wobj->AddComponent(new component::Animation(wobj.get(), utils::IDLE, Direction::FromWorldVector(dir)));
-    colobj->AddCollisionLogic("Mummy", DamageCollision("LIGHTNING_DAMAGE"));
+    wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
+    auto colobj = buildCollisionObject(wobj, 0.25);
+    colobj->AddCollisionLogic("Mummy", DamageCollision("LIGHTNING_DAMAGE"));
     wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 
 sprite::WObjPtr Fireball(const Vector2D &dir) {
     sprite::WObjPtr wobj = buildProjectile(dir, "fireball", "animations/fireball.gdd", 1.0, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"));
-    auto colobj = buildCollisionObject(wobj, 0.25);
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0));
     wobj->light()->ChangeColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
-    wobj->AddComponent(new component::Animation(wobj.get(), utils::IDLE, Direction::FromWorldVector(dir)));
-    colobj->AddCollisionLogic("Mummy", DieCollision(wobj));
+    wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
     wobj->AddDeathEvent(Carrier(builder::ExplosionBuilder::FireballExplosion()));
+    auto colobj = buildCollisionObject(wobj, 0.25);
+    colobj->AddCollisionLogic("Mummy", DieCollision(wobj));
     wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
