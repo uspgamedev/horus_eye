@@ -3,6 +3,7 @@ require "ugdk.math"
 require "builder"
 require "context"
 require "constants"
+require "event"
 
 local Vector2D = ugdk_math.Vector2D
 
@@ -20,10 +21,7 @@ function build (wobj, params)
     on_die_callbacks = {
       function (self)
         for _,trigger in ipairs(params.triggers) do
-          local triggerobj = self:current_room():WorldObjectByTag(trigger)
-          if triggerobj and triggerobj:damageable() then
-            triggerobj:damageable():TakeDamage(1)
-          end
+          event.Activate(trigger)
         end
       end
     }
