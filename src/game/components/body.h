@@ -1,16 +1,18 @@
 #ifndef HORUSEYE_COMPONENT_BODY_H_
 #define HORUSEYE_COMPONENT_BODY_H_
 
-#include <list>
-#include <memory>
 #include "game/components/base.h"
-
-#include <ugdk/math/vector2D.h>
-#include <pyramidworks/collision.h>
 
 #include "game/sprites.h"
 #include "game/scenes.h"
 #include "game/components/orders.h"
+
+#include <ugdk/system/compatibility.h>
+#include <ugdk/math/vector2D.h>
+#include <pyramidworks/collision.h>
+
+#include <list>
+#include <memory>
 
 namespace component {
 
@@ -22,7 +24,8 @@ class Body : public Base {
     Body(pyramidworks::collision::CollisionObject* collision, pyramidworks::collision::CollisionObject* visibility);
     ~Body();
 
-    void Update(double dt) {}
+    void Update(double) override {}
+    void OnAdd(sprite::WorldObject*) override;
     
     void Activate(scene::World*);
     void Deactivate();
@@ -30,6 +33,8 @@ class Body : public Base {
     void AddCollision(pyramidworks::collision::CollisionObject* collision);
 
   private:
+    sprite::WorldObject* owner_;
+
     std::list<std::unique_ptr<pyramidworks::collision::CollisionObject> > collisions_;
     
     std::unique_ptr<pyramidworks::collision::CollisionObject> visibility_;

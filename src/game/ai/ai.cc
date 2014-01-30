@@ -7,8 +7,11 @@
 
 namespace ai {
 
-AI::AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name) 
-    : owner_(owner), name_(name), root_(NULL), state_(CREATED) {
+AI::AI(ugdk::script::LangWrapper* script_wrapper, const std::string& name) 
+    :   name_(name)
+    ,   root_(nullptr)
+    ,   state_(CREATED) 
+{
     data_ = new AIData(script_wrapper);
 }
 
@@ -40,6 +43,10 @@ void AI::Update(double dt) {
     }
     aim_destination_ = data_->aim_destination();
     dir_ = component::Direction::FromWorldVector(data_->direction());
+}
+
+void AI::OnAdd(sprite::WorldObject* owner) {
+    owner_ = owner;
 }
 
 void AI::Finish(){

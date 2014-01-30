@@ -4,6 +4,7 @@
 #include "game/scenes.h"
 #include "game/sprites.h"
 #include "game/map.h"
+#include "game/sprites/objecthandle.h"
 
 #include <ugdk/graphic.h>
 #include <ugdk/script/virtualobj.h>
@@ -59,7 +60,7 @@ class Room {
     void DefineLevel(scene::World*);
 
     /// Gets an object based on it's tag.
-    sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag) const;
+    sprite::ObjectHandle WorldObjectByTag(const std::string& tag) const;
     void RemoveTag(const std::string& tag);
 
     /// Sets the VirtualObj from where recipes are acquired.
@@ -92,7 +93,7 @@ class Room {
     void flushObjectQueue();
     void handleNewObject(const sprite::WObjPtr&);
 
-    typedef std::unordered_map<std::string, sprite::WObjWeakPtr> TagTable;
+    typedef std::unordered_map<std::string, sprite::ObjectHandle> TagTable;
 
     std::string name_;
     std::list<std::string> neighborhood_;

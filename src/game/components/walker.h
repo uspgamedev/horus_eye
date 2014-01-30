@@ -3,15 +3,15 @@
 
 #include "game/components/base.h"
 
-#include <ugdk/math/vector2D.h>
-#include <ugdk/util/uncopyable.h>
-#include <pyramidworks/collision.h>
-
 #include "game/sprites.h"
 
 #include "game/components/direction.h"
 #include "game/components/orders.h"
 
+#include <ugdk/system/compatibility.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/util/uncopyable.h>
+#include <pyramidworks/collision.h>
 
 namespace component {
     
@@ -20,10 +20,11 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     static const char* DEFAULT_NAME() { return "walker"; }
     static int DEFAULT_ORDER() { return orders::LOGIC; }
 
-    Walker(sprite::WorldObject* owner, double original_speed);
+    Walker(double original_speed);
     ~Walker();
     
-    void Update(double dt);
+    void Update(double dt) override;
+    void OnAdd(sprite::WorldObject*) override;
 
     pyramidworks::collision::CollisionLogic CreateRectCollision();
 

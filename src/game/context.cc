@@ -30,13 +30,13 @@ using scene::World;
 using builder::ScriptBuilder::Script;
 using component::Animation;
 
-sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag) {
+sprite::ObjectHandle WorldObjectByTag(const std::string& tag) {
     World *world = WORLD();
     assert(world);
     size_t slashpos = tag.find_first_of('/');
     if(slashpos == std::string::npos) {
         fprintf(stderr, "Tag '%s' is not of the format 'X/Y'\n", tag.c_str());
-        return sprite::WObjWeakPtr();
+        return sprite::ObjectHandle();
     }
     std::string room_name = tag.substr(0, slashpos),
         obj_tag = tag.substr(slashpos);
@@ -45,18 +45,18 @@ sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag) {
     if(room)
         return room->WorldObjectByTag(obj_tag);
     else
-        return sprite::WObjWeakPtr();
+        return sprite::ObjectHandle();
 }
 
-static void _internal_AddDamageableComponent(const sprite::WObjPtr& obj, double life) {
-    component::Damageable* damageable = new component::Damageable(obj.get());
+static void _internal_AddDamageableComponent(const sprite::ObjectHandle& obj, double life) {
+    component::Damageable* damageable = new component::Damageable;
     damageable->life() = resource::Energy(life);
     obj->AddComponent(damageable);
 }
 
 void AddDamageableComponent(const std::string& tag, double life) {
-    sprite::WObjPtr obj = WorldObjectByTag(tag).lock();
-    if(!obj) {
+    sprite::ObjectHandle obj = WorldObjectByTag(tag);
+    if(!obj.attached()) {
         fprintf(stderr, "No object with tag '%s' found.\n", tag.c_str());
         return;
     }
@@ -64,15 +64,15 @@ void AddDamageableComponent(const std::string& tag, double life) {
 }
 
 void AddDamageableComponent(const map::Room* room, const std::string& tag, double life) {
-    sprite::WObjPtr obj = room->WorldObjectByTag(tag).lock();
-    if(!obj) {
+    sprite::ObjectHandle obj = room->WorldObjectByTag(tag);
+    if(!obj.attached()) {
         fprintf(stderr, "No object with tag '%s' in room '%s' found.\n", tag.c_str(), room->name().c_str());
         return;
     }
     _internal_AddDamageableComponent(obj, life);
 }
 
-void AddAIComponent(WorldObject* wobj, ai::AI* the_ai) {
+void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai) {
     wobj->AddComponent(the_ai);
 }
 
@@ -107,9 +107,9 @@ void GetCollidingVisibilityObjects(const string& classname, const GeometricShape
     findCollisions(colclass, shape, pos, objects_colliding);
 }
 
-sprite::WObjWeakPtr hero() {
+sprite::ObjectHandle hero() {
     World *world = WORLD();
-    if (!world) return sprite::WObjWeakPtr();
+    if (!world) return sprite::ObjectHandle();
     return world->hero();
 }
 

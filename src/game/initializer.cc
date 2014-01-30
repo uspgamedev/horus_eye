@@ -228,7 +228,8 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
         }
 
         // Choose the two points that have the widest angle.
-        CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
+        if (!extremes.empty())
+            CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
     }
 
     canvas.PopGeometry();

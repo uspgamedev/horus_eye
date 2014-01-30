@@ -2,17 +2,29 @@
 
 #include <pyramidworks/collision/collisionobject.h>
 #include "game/scenes/world.h"
+#include "game/sprites/worldobject.h"
 
 namespace component {
 
-Body::Body(pyramidworks::collision::CollisionObject* collision, pyramidworks::collision::CollisionObject* visibility)
-  : visibility_(visibility)
+using pyramidworks::collision::CollisionObject;
+
+Body::Body(CollisionObject* collision, CollisionObject* visibility)
+    :   owner_(nullptr)
+    ,   visibility_(visibility)
 {
     if(collision)
         collisions_.emplace_back(collision);
 }
 
 Body::~Body() {}
+    
+void Body::OnAdd(sprite::WorldObject* owner) {
+    owner_ = owner;
+    for (const auto& col : collisions_)
+        col->set_owner(owner_);
+    if (visibility_)
+        visibility_->set_owner(owner_);
+}
     
 void Body::Activate(scene::World* world) {
     for(auto& collision : collisions_)
@@ -33,6 +45,7 @@ void Body::ChangePosition(const ugdk::math::Vector2D& pos) {
 }
     
 void Body::AddCollision(pyramidworks::collision::CollisionObject* collision) {
+    collision->set_owner(owner_);
     collisions_.emplace_back(collision);
 }
 

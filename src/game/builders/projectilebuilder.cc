@@ -1,5 +1,6 @@
 #include "projectilebuilder.h"
 
+#include "game/sprites/objecthandle.h"
 #include "game/builders/collision.h"
 #include "game/builders/explosionbuilder.h"
 #include "game/builders/functions/carrier.h"
@@ -42,9 +43,9 @@ static CollisionObject* buildCollisionObject(const sprite::WObjPtr& wobj, double
     return col;
 }
 
-void PrepareProjectile(const sprite::WObjPtr& wobj, const ugdk::math::Vector2D &dir, double speed) {
+void PrepareProjectile(const sprite::ObjectHandle& wobj, const ugdk::math::Vector2D &dir, double speed) {
     wobj->AddComponent(new component::StateController(Direction::FromWorldVector(dir), dir));
-    wobj->AddComponent(new component::Walker(wobj.get(), speed));
+    wobj->AddComponent(new component::Walker(speed));
 }
 
 static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 

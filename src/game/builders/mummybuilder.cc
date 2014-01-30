@@ -21,6 +21,7 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 #include "game/resources/energy.h"
+#include "game/sprites/objecthandle.h"
 
 namespace builder {
 namespace MummyBuilder {
@@ -62,7 +63,7 @@ static sprite::WObjPtr build_mummy_wobj(const std::string& spritesheetname, doub
     return wobj;
 }
 
-void PrepareBasicMummy(const WObjPtr& wobj, const std::string& spritesheetname,
+void PrepareBasicMummy(const sprite::ObjectHandle& wobj, const std::string& spritesheetname,
                        double life, double radius, double speed, bool standing) {
 
     std::string aiscript = "basicmummy";
@@ -70,7 +71,7 @@ void PrepareBasicMummy(const WObjPtr& wobj, const std::string& spritesheetname,
     wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/creature.gdd")));
     wobj->AddComponent(new component::Animation(utils::SPAWNING, Direction()));
 
-    wobj->AddComponent(new component::Damageable(wobj.get(), 300));
+    wobj->AddComponent(new component::Damageable(300));
     wobj->damageable()->life() = Energy(life);
     for(int i = 1; i <= 4; ++i) {
         char buffer[255];
@@ -80,7 +81,7 @@ void PrepareBasicMummy(const WObjPtr& wobj, const std::string& spritesheetname,
 
     wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
 
-    ai::AI* mummyAI = AIBuilder::AIScript(wobj.get(), aiscript);
+    ai::AI* mummyAI = AIBuilder::AIScript(aiscript);
     if(mummyAI) {
         mummyAI->set_standing(standing);
         wobj->AddComponent( mummyAI );
@@ -89,13 +90,13 @@ void PrepareBasicMummy(const WObjPtr& wobj, const std::string& spritesheetname,
     }
 
     resource::Energy mana;
-    wobj->AddComponent(new Caster(wobj.get(), mana));
+    wobj->AddComponent(new Caster(wobj, mana));
 
-    CollisionObject* col = new CollisionObject(wobj.get(), "Mummy", new pyramidworks::geometry::Circle(radius));
-    wobj->AddComponent(new component::Body(col, NULL));
-
-    Walker* walker = new Walker(wobj.get(), speed);
+    Walker* walker = new Walker(speed);
     wobj->AddComponent(walker);
+
+    CollisionObject* col = new CollisionObject(nullptr, "Mummy", new pyramidworks::geometry::Circle(radius));
+    wobj->AddComponent(new component::Body(col, nullptr));
     col->AddCollisionLogic("Mummy", AntiStackCollision(walker));
     col->AddCollisionLogic("Wall", walker->CreateRectCollision());
 

@@ -9,16 +9,17 @@
 #include <pyramidworks/geometry.h>
 
 #include "game/sprites/worldobject.h"
+#include "game/sprites/objecthandle.h"
 #include "game/map.h"
 #include "game/ai.h"
 
 namespace context {
     
-sprite::WObjWeakPtr WorldObjectByTag (const std::string& tag);
+sprite::ObjectHandle WorldObjectByTag (const std::string& tag);
 
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
-void AddAIComponent(sprite::WorldObject* wobj, ai::AI* the_ai);
+void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai);
 void EnableDeathAnimation(const sprite::ObjectHandle& handle);
 
 /// Appends to the objects_colliding list all WorldObjects from the given collision class (classname) that are colliding with
@@ -33,7 +34,7 @@ void GetCollidingVisibilityObjects(const std::string& classname,
 								   const ugdk::math::Vector2D& pos,
                                    std::vector<sprite::WorldObject*> &objects_colliding);
 
-sprite::WObjWeakPtr hero();
+sprite::ObjectHandle hero();
 
 } // namespace context
 

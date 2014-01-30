@@ -3,12 +3,6 @@
 
 #include "game/components/base.h"
 
-#include <map>
-#include <vector>
-#include <cstdlib>
-
-#include <ugdk/util/idgenerator.h>
-
 #include "game/sprites.h"
 #include "game/skills.h"
 
@@ -19,6 +13,13 @@
 #include "game/resources/capacityblocks.h"
 #include "game/skills/usearguments.h"
 
+#include <ugdk/system/compatibility.h>
+#include <ugdk/util/idgenerator.h>
+
+#include <map>
+#include <vector>
+#include <cstdlib>
+
 namespace component {
 
 class Caster : public Base {
@@ -26,21 +27,21 @@ class Caster : public Base {
     static const char* DEFAULT_NAME() { return "caster"; }
     static int DEFAULT_ORDER() { return orders::LOGIC; }
 
-    Caster(sprite::WorldObject* owner, const resource::Energy& mana, int block_count,
-        const skills::usearguments::Aim& aim);
+    Caster(const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim);
 
     /// Easy constructor. Default block_count and aim.
     /**
      * Default block_count: 1
      * Default aim: from owner position, to owner's controller aim_destination
      */
-    Caster(sprite::WorldObject* owner, const resource::Energy& mana);
+    Caster(const sprite::ObjectHandle& handle, const resource::Energy& mana);
 
     ~Caster();
 
     // METHODS
 
-    void Update(double dt);
+    void Update(double dt) override;
+    void OnAdd(sprite::WorldObject*) override;
 
     bool CastSkill(Controller::SkillSlot slot);
 

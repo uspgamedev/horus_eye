@@ -2,12 +2,13 @@
 #define HORUSEYE_GAME_BUILDERS_PROJECTILEBUILDER_H_
 
 #include <ugdk/math/vector2D.h>
+#include "game/sprites.h"
 #include "game/sprites/worldobject.h"
 
 namespace builder {
 namespace ProjectileBuilder {
 
-    void PrepareProjectile(const sprite::WObjPtr&, const ugdk::math::Vector2D &dir, double speed);
+void PrepareProjectile(const sprite::ObjectHandle&, const ugdk::math::Vector2D &dir, double speed);
 
 sprite::WObjPtr MagicMissile(const ugdk::math::Vector2D &dir);
 sprite::WObjPtr MagicBall(const ugdk::math::Vector2D &dir);

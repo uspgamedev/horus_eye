@@ -7,6 +7,7 @@
 #include "game/core/coordinates.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
+#include "game/sprites/objecthandle.h"
 #include "game/components/graphic.h"
 #include "game/components/lightemitter.h"
 #include "game/components/body.h"
@@ -107,9 +108,9 @@ void Room::DefineLevel(scene::World* level) {
     level_ = level;
 }
 
-sprite::WObjWeakPtr Room::WorldObjectByTag (const std::string& tag) const {
+sprite::ObjectHandle Room::WorldObjectByTag(const std::string& tag) const {
     TagTable::const_iterator match = tagged_.find(tag);
-    if (match == tagged_.end()) return sprite::WObjWeakPtr();
+    if (match == tagged_.end()) return sprite::ObjectHandle();
     return match->second;
 }
     

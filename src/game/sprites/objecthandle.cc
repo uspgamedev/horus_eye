@@ -13,6 +13,8 @@ ObjectHandle::ObjectHandle(const ObjectHandle& r) : pointer_(r.pointer_) {}
 
 ObjectHandle::ObjectHandle(const WObjPtr& r) : pointer_(r) {}
 
+ObjectHandle::ObjectHandle(const WObjWeakPtr& r) : pointer_(r) {}
+
 ObjectHandle ObjectHandle::operator = (const WObjPtr& r) {
     pointer_ = r;
     return *this;

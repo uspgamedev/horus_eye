@@ -26,11 +26,11 @@ using sprite::WorldObject;
 
 namespace component {
 
-Walker::Walker(WorldObject* owner, double original_speed)
-    :   owner_(owner),
-        last_dt_(0.0),
-        current_speed_(original_speed),
-        original_speed_(original_speed) {}
+Walker::Walker(double original_speed)
+    :   owner_(nullptr)
+    ,   last_dt_(0.0)
+    ,   current_speed_(original_speed)
+    ,   original_speed_(original_speed) {}
 
 Walker::~Walker() {}
 
@@ -63,6 +63,10 @@ void Walker::Update(double dt) {
         }
     }
     current_speed_ = original_speed_;
+}
+    
+void Walker::OnAdd(sprite::WorldObject* owner) {
+    owner_ = owner;
 }
 
 pyramidworks::collision::CollisionLogic Walker::CreateRectCollision() {

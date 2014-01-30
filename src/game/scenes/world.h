@@ -66,7 +66,7 @@ class World : public ugdk::action::Scene {
     //getters
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::graphic::Geometry& camera() const { return camera_; }
-    sprite::WObjWeakPtr hero() const { return hero_; }
+    sprite::WObjWeakPtr hero() const { return hero_;  }
     //const std::set<map::Room*>& active_rooms() const { return active_rooms_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }

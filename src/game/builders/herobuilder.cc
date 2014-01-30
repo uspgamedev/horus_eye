@@ -75,7 +75,7 @@ sprite::WObjPtr Kha() {
     hero_wobj->AddComponent(new component::LightEmitter(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
 
-    hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
+    hero_wobj->AddComponent(new component::Damageable(1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
     for(int i = 1; i <= 4; ++i) {
@@ -87,10 +87,9 @@ sprite::WObjPtr Kha() {
 
     hero_wobj->AddComponent(new component::Condition(hero_wobj));
     hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
-    hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),
-    		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
+    hero_wobj->AddComponent(new Caster(mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"), Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     
-    Walker* walker = new Walker(hero_wobj, constants::GetDouble("HERO_SPEED"));
+    Walker* walker = new Walker(constants::GetDouble("HERO_SPEED"));
     hero_wobj->AddComponent(walker);
 
     component::Caster* caster = hero_wobj->caster();

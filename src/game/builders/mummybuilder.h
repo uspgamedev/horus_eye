@@ -10,7 +10,7 @@ namespace builder {
 
 namespace MummyBuilder {
 
-void PrepareBasicMummy(const sprite::WObjPtr& wobj, const std::string& spritesheetname,
+void PrepareBasicMummy(const sprite::ObjectHandle& handle, const std::string& spritesheetname,
                        double life, double radius, double speed, bool standing);
 
 sprite::WObjPtr WalkingMummy(const std::vector<std::string>& arguments);

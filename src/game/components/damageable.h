@@ -3,12 +3,14 @@
 
 #include "game/components/base.h"
 
-#include <vector>
-#include <string>
-#include <ugdk/time.h>
-
 #include "game/sprites.h"
 #include "game/resources/energy.h"
+
+#include <ugdk/time.h>
+#include <ugdk/system/compatibility.h>
+
+#include <vector>
+#include <string>
 
 namespace component {
 
@@ -17,15 +19,13 @@ class Damageable : public Base {
     static const char* DEFAULT_NAME() { return "damageable"; }
     static int DEFAULT_ORDER() { return 0; }
 
-    Damageable(sprite::WorldObject* owner, int invulnerability_time = 0, bool blinks = false);
+    Damageable(int invulnerability_time = 0, bool blinks = false);
     virtual ~Damageable();
-
-          sprite::WorldObject* owner()       { return owner_; }
-    const sprite::WorldObject* owner() const { return owner_; }
 
     virtual void TakeDamage(double life_points);
 
-    void Update(double dt);
+    void Update(double dt) override;
+    void OnAdd(sprite::WorldObject*) override;
 
     resource::Energy& life() { return life_; }
     void set_life(const resource::Energy &life) {

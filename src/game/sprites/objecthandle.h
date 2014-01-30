@@ -12,6 +12,7 @@ class ObjectHandle {
     ObjectHandle();
     ObjectHandle(const ObjectHandle&);
     ObjectHandle(const WObjPtr& r);
+    ObjectHandle(const WObjWeakPtr& r);
 
     ObjectHandle operator=(const WObjPtr& r);
 

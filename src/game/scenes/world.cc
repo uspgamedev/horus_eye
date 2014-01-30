@@ -274,7 +274,7 @@ void World::DeFocus() {
 void World::SetHero(const sprite::WObjPtr& hero) {
     hero_ = hero;
 }
-
+    
 void World::QueueRoomChange(const sprite::WObjPtr& wobj, map::Room* next_room) {
     queued_moves_.emplace(wobj, next_room);
 }
