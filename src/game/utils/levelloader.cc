@@ -23,6 +23,7 @@ Vector2D VobjsToVector2D(VirtualObj x, VirtualObj y) {
 
 void LoadLevel(const std::string& campaign, const std::string& name, scene::World** world_ptr) {
     *world_ptr = nullptr;
+    SCRIPT_MANAGER()->LoadModule("event") ["ClearAll"] ();
     VirtualObj level_data = SCRIPT_MANAGER()->LoadModule("campaigns." + campaign + ".levels." + name);
     if(!level_data) return;
 

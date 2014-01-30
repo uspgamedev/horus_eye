@@ -19,6 +19,11 @@ function Clear (trigger)
   events[trigger] = nil
 end
 
+--- Clears all triggers and associated events.
+function ClearAll ()
+  events = {}
+end
+
 --- Activates an event trigger.
 --  All callbacks registered under that trigger will be called.
 --  @param trigger The activated trigger.
