@@ -11,10 +11,10 @@ void ConditionModule::Start() {
 }
 
 AIModule::Status ConditionModule::Update(double dt, AIData* data) {
-	bool ok = eval_func_(this, dt, data);
-	if (child_ && ok)
-		return child_->Update(dt, data);
-	return AIModule::DORMANT;
+    bool ok = eval_func_(this, dt, data);
+    if (child_ && ok)
+        return child_->Update(dt, data);
+    return AIModule::DORMANT;
 }
 
 void ConditionModule::Finish() {

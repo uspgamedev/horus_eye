@@ -110,7 +110,7 @@ printf("SWIG_Lua_class_set %p(%s) '%s' %p(%s)\n",
   return 0;
 }
 
-static void ExportMetamethods (lua_State *L) {
+inline void ExportMetamethods (lua_State *L) {
     lua_getfield(L, LUA_GLOBALSINDEX, "HORUS_proxymethods");
     if (lua_istable(L,-1)) // someone already made it
         return;

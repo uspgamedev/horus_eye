@@ -23,7 +23,7 @@ local function dual_spawner(offset)
 end
 
 neighborhood = {
-  "divergence", "explo_room", "assault_room"
+  "divergence", "explo_room", "assault_room", "spawner_room"
 }
 
 width = 17
@@ -53,12 +53,16 @@ recipes = {
   ["horizontal-mummy-spawn"] = dual_spawner(vec2(4, 0)),
   ["vertical-mummy-spawn"] = dual_spawner(vec2(0, 4)),
   ["mummy"] = {
-    property = "event_mummy",
+    property = 'custom-monster',
     params = {
       spritesheet = "mummy_basic",
       life = constants.GetInt "MUMMY_LIFE",
       radius = constants.GetDouble "MUMMY_RADIUS",
-      speed = constants.GetDouble "MUMMY_SPEED"
+      speed = constants.GetDouble "MUMMY_SPEED",
+      extra = function (wobj)
+        wobj:caster():power():Set(constants.GetInt "MUMMY_DAMAGE")
+        wobj:caster():LearnAndEquipSkill("mummy_melee", 0)
+      end
     }
   },
   ["open-door"] = {
@@ -77,4 +81,7 @@ function setup (room)
   room:MakeRecipe("open-door", vec2(0, 7))
   room:MakeRecipe("open-door", vec2(0, 8))
   room:MakeRecipe("open-door", vec2(0, 9))
+  room:MakeRecipe("open-door", vec2(16, 7))
+  room:MakeRecipe("open-door", vec2(16, 8))
+  room:MakeRecipe("open-door", vec2(16, 9))
 end

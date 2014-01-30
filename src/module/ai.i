@@ -19,6 +19,7 @@
 #include <game/ai/logicmodule.h>
 #include <game/ai/randommodule.h>
 #include <game/ai/sequencemodule.h>
+#include <game/ai/delaymodule.h>
 
 #include <game/ai/blocks/followtarget.h>
 #include <game/ai/blocks/randommovement.h>
@@ -54,6 +55,7 @@ enable_disown(ai::AIModule* child)
 %include <game/ai/conditionmodule.h>
 %include <game/ai/randommodule.h>
 %include <game/ai/sequencemodule.h>
+%include <game/ai/delaymodule.h>
 //enable_disown(ai::LogicBlock* logic)
 %include <game/ai/logicmodule.h>
 //disable_disown(ai::LogicBlock* logic)
@@ -75,13 +77,13 @@ namespace ai {
     export_class(LogicModule)
     export_class(RandomModule)
     export_class(SequenceModule)
-
-namespace blocks {
-    export_class(FollowTarget)
-    export_class(RandomMovement)
-    export_class(TargetDetector)
-    export_class(UseWeapon)
-}
+    export_class(DelayModule)
+    namespace blocks {
+        export_class(FollowTarget)
+        export_class(RandomMovement)
+        export_class(TargetDetector)
+        export_class(UseWeapon)
+    }
 }
 
 confirm_exports(ai)

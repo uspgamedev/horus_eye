@@ -11,7 +11,8 @@ namespace builder {
 namespace MummyBuilder {
 
 void PrepareBasicMummy(sprite::WorldObject* wobj, const std::string& spritesheetname,
-                       double life, double radius, double speed, bool standing);
+                       double life, double radius, double speed, bool standing,
+                       const std::string& animation_descriptor = "creature");
 
 sprite::WorldObject *WalkingMummy(const std::vector<std::string>& arguments);
 sprite::WorldObject *StandingMummy(const std::vector<std::string>& arguments);
