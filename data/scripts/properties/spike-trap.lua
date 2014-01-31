@@ -13,7 +13,7 @@ function build (wobj)
   local graph_comp = component.Graphic_Create("dummy-spike-trap", "animations/spike-trap.gdd")
   wobj:AddComponent(graph_comp, "graphic", 100)
   wobj:set_timed_life(1)
-  local anim_comp = component.Animation(wobj, component.SPAWNING, component.Direction())
+  local anim_comp = component.Animation(component.SPAWNING, component.Direction())
   wobj:AddComponent(anim_comp, "animation", 101)
   context.EnableDeathAnimation(wobj)
   return {

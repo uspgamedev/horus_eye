@@ -20,7 +20,7 @@ function build (wobj, params)
     dir = ugdk_math.Vector2D(0,0)
   end
   builder.PrepareProjectile(wobj, dir, 8)
-  --local anim_comp = component.Animation(wobj, component.SPAWNING, component.Direction())
+  --local anim_comp = component.Animation(component.SPAWNING, component.Direction())
   --wobj:AddComponent(anim_comp, "animation", 101)
   --context.EnableDeathAnimation(wobj)
   return {
