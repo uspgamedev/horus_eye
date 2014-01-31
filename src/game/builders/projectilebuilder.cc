@@ -52,6 +52,7 @@ static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, const st
                                     double light_radius, double speed, double duration) {
 
     sprite::WObjPtr wobj = WorldObject::Create(duration);
+    wobj->set_identifier("Projectile");
     if (isometric_animation.empty())
         wobj->AddComponent(component::Graphic::Create(std::shared_ptr<Drawable>(new Sprite(spritesheet))));
     else

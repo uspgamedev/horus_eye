@@ -20,8 +20,6 @@
 
 %import(module="component") <game/sprites.h>
 %import(module="component") <game/sprites/worldobject.h>
-%template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
-%template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
 
 %include <game/map.h>    
 %include <game/map/room.h>

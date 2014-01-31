@@ -28,13 +28,12 @@ using sprite::WorldObject;
 
 static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::string& anim) {
     sprite::WObjPtr wobj = WorldObject::Create();
+    wobj->set_identifier("Explosion");
 
     auto animator = new component::Animator(spritesheet, "animations/explosion.gdd");
     animator->ChangeAnimation(anim);
-    animator->AddTickFunction(bind(&WorldObject::Remove, wobj));
-
+    animator->AddTickFunction(bind(&WorldObject::Remove, wobj.get()));
     wobj->AddComponent(component::Graphic::Create(animator));
-
 
     return wobj;
 }
@@ -45,8 +44,8 @@ sprite::WObjPtr FireballExplosion() {
 
     wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 
-    CollisionObject* col = new CollisionObject(wobj.get(), "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
-    wobj->AddComponent(new Body(col, NULL));
+    CollisionObject* col = new CollisionObject(nullptr, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
+    wobj->AddComponent(new Body(col, nullptr));
     col->AddCollisionLogic("Creature", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
 
     return wobj;

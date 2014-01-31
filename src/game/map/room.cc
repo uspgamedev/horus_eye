@@ -137,7 +137,11 @@ void Room::updateObjects(double delta_t) {
 }
 
 void Room::deleteToBeRemovedObjects() {
-    objects_.remove_if(std::mem_fn(&sprite::WorldObject::to_be_removed));
+    objects_.remove_if([](const WObjPtr& x) -> bool {
+        if (x->to_be_removed() && x.use_count() > 1)
+            printf("!!Danger!! To be removed WObj %p with refcount (%d). Identifier: %s\n", x.get(), x.use_count(), x->identifier().c_str());
+        return x->to_be_removed();
+    });
 }
 
 void Room::flushObjectQueue() {

@@ -34,7 +34,7 @@ class Room {
 
     /** Adds the object to the room. 
     Objects are added only at the end of a room's Update, unless the room hasn't been added to a World. */
-    void AddObject(const sprite::WObjPtr&);
+    void AddObject(const sprite::WObjPtr& obj);
 
     /** Adds the object to the room, in the given position.
     @param obj The object to be added.
