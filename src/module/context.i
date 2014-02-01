@@ -1,8 +1,8 @@
 
 %module context
 
-%include <module/export.swig>
-%include <module/ownership.swig>
+%include <module/util_ugdk.swig>
+
 %include "std_string.i"
 %include "std_map.i"
 %include "std_vector.i"
