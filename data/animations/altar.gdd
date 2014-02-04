@@ -1,0 +1,103 @@
+
+# Altar animation descriptor file.
+
+$TAKING_DAMAGE
+@fps 20
+%number 0
++frame [number 0] [position 5 -12]
++frame [number 0] [position 1 -8]
++frame [number 0] [position -10 -5]
+
+$DYING
+%number 0
++frame [number 0] [alpha .7] [position 5 -12]
++frame [number 0] [alpha .4] [position 1- 8]
++frame [number 0] [alpha .1] [position -10 -5]
+
+$SPAWNING
+%number 0
+@fps 30
++frame [number 0] [alpha 0.0] [position 0 -100]
++frame [number 0] [alpha 0.1] [position 0 -90]
++frame [number 0] [alpha 0.2] [position 0 -80]
++frame [number 0] [alpha 0.3] [position 0 -70]
++frame [number 0] [alpha 0.4] [position 0 -60]
++frame [number 0] [alpha 0.5] [position 0 -50]
++frame [number 0] [alpha 0.6] [position 0 -40]
++frame [number 0] [alpha 0.7] [position 0 -30]
++frame [number 0] [alpha 0.8] [position 0 -20]
++frame [number 0] [alpha 0.9] [position 0 -10]
++frame [number 0] [alpha 1.0] [position 0 0]
+
+$STANDING_UP
+%number 0
+
+$STANDING_UP_RIGHT
+%number 0
+
+$STANDING_UP_LEFT
+%number 0
+
+$STANDING_RIGHT
+%number 0
+
+$STANDING_LEFT
+%number 0
+
+$STANDING_DOWN_RIGHT
+%number 0
+
+$STANDING_DOWN_LEFT
+%number 0
+
+$STANDING_DOWN
+%number 0
+
+$WALKING_UP
+%number 0
+
+$WALKING_UP_RIGHT
+%number 0
+
+$WALKING_UP_LEFT
+%number 0
+
+$WALKING_RIGHT
+%number 0
+
+$WALKING_LEFT
+%number 0
+
+$WALKING_DOWN_RIGHT
+%number 0
+
+$WALKING_DOWN_LEFT
+%number 0
+
+$WALKING_DOWN
+%number 0
+
+$ATTACKING_UP
+%number 0
+
+$ATTACKING_UP_RIGHT
+%number 0
+
+$ATTACKING_UP_LEFT
+%number 0
+
+$ATTACKING_RIGHT
+%number 0
+
+$ATTACKING_LEFT
+%number 0
+
+$ATTACKING_DOWN_RIGHT
+%number 0
+
+$ATTACKING_DOWN_LEFT
+%number 0
+
+$ATTACKING_DOWN
+%number 0
+

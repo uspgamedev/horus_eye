@@ -6,6 +6,7 @@
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/geometry/rect.h>
 #include "game/scenes/world.h"
 #include "game/builders/scriptbuilder.h"
 #include "game/builders/aibuilder.h"
@@ -13,6 +14,7 @@
 #include "game/map/room.h"
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
+#include "game/components/body.h"
 #include "game/ai/ai.h"
 
 namespace context {
@@ -25,6 +27,7 @@ using pyramidworks::collision::CollisionManager;
 using pyramidworks::collision::CollisionObjectList;
 using pyramidworks::collision::CollisionClass;
 using pyramidworks::geometry::GeometricShape;
+using pyramidworks::geometry::Rect;
 using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
@@ -66,7 +69,11 @@ void AddDamageableComponent(const std::string& tag, double life) {
 void AddDamageableComponent(const map::Room* room, const std::string& tag, double life) {
     sprite::ObjectHandle obj = room->WorldObjectByTag(tag);
     if(!obj.attached()) {
-        fprintf(stderr, "No object with tag '%s' in room '%s' found.\n", tag.c_str(), room->name().c_str());
+        fprintf(
+            stderr,
+            "No object with tag '%s' in room '%s' found.\n",
+            tag.c_str(), room->name().c_str()
+        );
         return;
     }
     _internal_AddDamageableComponent(obj, life);
@@ -74,6 +81,12 @@ void AddDamageableComponent(const map::Room* room, const std::string& tag, doubl
 
 void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai) {
     wobj->AddComponent(the_ai);
+}
+
+
+void AddCollisionObjectRect(WorldObject* wobj, const string& colclass, double width,
+                            double height) {
+    wobj->body()->AddCollision(new CollisionObject(wobj, colclass, new Rect(width, height)));
 }
 
 void EnableDeathAnimation(const sprite::ObjectHandle& handle) {

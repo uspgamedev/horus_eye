@@ -23,11 +23,15 @@
 #include "game/resources/energy.h"
 #include "game/sprites/objecthandle.h"
 
+#include <unordered_map>
+
 namespace builder {
 namespace MummyBuilder {
 
 using namespace sprite;
 using namespace component;
+using std::string;
+using std::unordered_map;
 using component::Animation;
 using component::Walker;
 using resource::Energy;
@@ -64,11 +68,12 @@ static sprite::WObjPtr build_mummy_wobj(const std::string& spritesheetname, doub
 }
 
 void PrepareBasicMummy(const sprite::ObjectHandle& wobj, const std::string& spritesheetname,
-                       double life, double radius, double speed, bool standing) {
+                       double life, double radius, double speed, bool standing,
+                       const string& animation_descriptor) {
 
     std::string aiscript = "basicmummy";
 
-    wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/creature.gdd")));
+    wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/"+animation_descriptor+".gdd")));
     wobj->AddComponent(new component::Animation(utils::SPAWNING, Direction()));
 
     wobj->AddComponent(new component::Damageable(300));
