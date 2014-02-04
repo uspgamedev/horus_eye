@@ -21,7 +21,6 @@ function build (wobj, params)
       function (self)
         for _,trigger in ipairs(params.triggers) do
           local triggerobj = self:current_room():WorldObjectByTag(trigger)
-          print(triggerobj)
           if triggerobj and triggerobj:damageable() then
             triggerobj:damageable():TakeDamage(1)
           end

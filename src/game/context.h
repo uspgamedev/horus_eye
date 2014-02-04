@@ -20,7 +20,7 @@ sprite::ObjectHandle WorldObjectByTag (const std::string& tag);
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
 void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai);
-void AddCollisionObjectRect(sprite::WorldObject* wobj, const std::string& colclass, double width,
+void AddCollisionObjectRect(const sprite::ObjectHandle& handle, const std::string& colclass, double width,
                             double height);
 void EnableDeathAnimation(const sprite::ObjectHandle& handle);
 
@@ -28,7 +28,6 @@ void EnableDeathAnimation(const sprite::ObjectHandle& handle);
 /// the given GeometricShape.
 void GetCollidingObjects(const std::string& classname,
                          const pyramidworks::geometry::GeometricShape& shape, 
-						             const ugdk::math::Vector2D& pos,
 						 const ugdk::math::Vector2D& pos,
                          std::vector<sprite::WorldObject*> &objects_colliding);
 

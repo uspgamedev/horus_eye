@@ -84,9 +84,9 @@ void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai) {
 }
 
 
-void AddCollisionObjectRect(WorldObject* wobj, const string& colclass, double width,
+void AddCollisionObjectRect(const sprite::ObjectHandle& handle, const string& colclass, double width,
                             double height) {
-    wobj->body()->AddCollision(new CollisionObject(wobj, colclass, new Rect(width, height)));
+    handle->body()->AddCollision(new CollisionObject(nullptr, colclass, new Rect(width, height)));
 }
 
 void EnableDeathAnimation(const sprite::ObjectHandle& handle) {
