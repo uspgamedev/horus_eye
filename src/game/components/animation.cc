@@ -34,25 +34,26 @@ direction_mapping_[7] = Animation_::DOWN | Animation_::RIGHT;
 
 utils::AnimtionType Animation::default_animation_ = utils::IDLE;
 
-Animation::Animation(sprite::WorldObject* wobj)
-    :   owner_(wobj)
+Animation::Animation()
+    :   owner_(nullptr)
     ,   current_animation_(utils::IDLE)
-{
-    wobj->graphic()->animator()->AddObserver(this);
-}
+{}
 
-Animation::Animation(sprite::WorldObject* owner, utils::AnimtionType type, const Direction& dir)
-    :   owner_(owner)
+Animation::Animation(utils::AnimtionType type, const Direction& dir)
+    :   owner_(nullptr)
     ,   current_direction_(dir)
     ,   current_animation_(type)
-{
-    owner->graphic()->animator()->AddObserver(this);
-    updateGraphic();
-}
+{}
 
 Animation::~Animation() {}
 
 void Animation::Update(double dt) {}
+    
+void Animation::OnAdd(sprite::WorldObject* wobj) {
+    owner_ = wobj;
+    owner_->graphic()->animator()->AddObserver(this);
+    updateGraphic();
+}
 
 void Animation::Tick() {
     executeCallback();

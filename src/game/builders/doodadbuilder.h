@@ -9,11 +9,11 @@
 namespace builder {
 namespace DoodadBuilder {
 
-sprite::WorldObject* Door(const std::vector<std::string>& arguments);
-sprite::WorldObject* Wall(const std::vector<std::string>& arguments);
-sprite::WorldObject* InvisibleWall(const std::vector<std::string>& arguments);
-sprite::WorldObject* BurntWall(const std::vector<std::string>& arguments);
-sprite::WorldObject* Entry(const std::vector<std::string>& arguments);
+sprite::WObjPtr Door(const std::vector<std::string>& arguments);
+sprite::WObjPtr Wall(const std::vector<std::string>& arguments);
+sprite::WObjPtr InvisibleWall(const std::vector<std::string>& arguments);
+sprite::WObjPtr BurntWall(const std::vector<std::string>& arguments);
+sprite::WObjPtr Entry(const std::vector<std::string>& arguments);
 
 } // namespace DoodadBuilder
 } // namespace builder

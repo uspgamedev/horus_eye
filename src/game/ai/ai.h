@@ -1,11 +1,13 @@
 #ifndef HORUSEYE_GAME_AI_AI_H_
 #define HORUSEYE_GAME_AI_AI_H_
 
-#include <string>
-#include <ugdk/script.h>
 #include "game/ai.h"
 #include "game/components/controller.h"
 
+#include <ugdk/script.h>
+#include <ugdk/system/compatibility.h>
+
+#include <string>
 
 namespace ai {
 
@@ -16,12 +18,14 @@ class AI : public component::Controller {
     // States in which an AI can be, generally.
     enum State { CREATED, RUNNING, FINISHED };
 
-    AI(sprite::WorldObject *owner, ugdk::script::LangWrapper* script_wrapper, const std::string& name);
+    AI(ugdk::script::LangWrapper* script_wrapper, const std::string& name);
     ~AI();
 
     void Start();
-    void Update(double dt);
     void Finish();
+    
+    void Update(double dt) override;
+    void OnAdd(sprite::WorldObject*) override;
 
     void set_root(AIModule* root);
 

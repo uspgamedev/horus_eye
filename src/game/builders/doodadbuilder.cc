@@ -1,3 +1,5 @@
+#include "doodadbuilder.h"
+
 #include <cmath>
 #include <functional>
 #include <ugdk/system/engine.h>
@@ -7,8 +9,6 @@
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/rect.h>
-
-#include "doodadbuilder.h"
 
 #include "game/builders/collision.h"
 #include "game/core/coordinates.h"
@@ -38,19 +38,19 @@ using pyramidworks::geometry::Rect;
 using component::Body;
 using sprite::WorldObject;
 
-WorldObject* Door(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = new WorldObject;
+sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr wobj = WorldObject::Create();
     wobj->AddComponent(component::Graphic::Create(std::shared_ptr<ugdk::graphic::Drawable>(new Sprite("stairs"))));
 
-    CollisionObject* col = new CollisionObject(wobj, "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
+    CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
     wobj->AddComponent(new Body(col, NULL));
 
     return wobj;
 }
 
-static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
-    WorldObject* wobj = new WorldObject;
+static sprite::WObjPtr buildWall(ugdk::graphic::Texture* texture) {
+    sprite::WObjPtr wobj = WorldObject::Create();
     if(texture) {
         Drawable* drawable = new map::SpecialWall(texture);
         drawable->set_hotspot(Vector2D(53, 156));
@@ -58,7 +58,7 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     }
     wobj->set_identifier("Wall");
 
-    CollisionObject* col = new CollisionObject(wobj, "Wall", new pyramidworks::geometry::Rect(1.0, 1.0));
+    CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new pyramidworks::geometry::Rect(1.0, 1.0));
     
     //CollisionObject* vis = new CollisionObject(WORLD()->visibility_manager(), wobj);
     //vis->InitializeCollisionClass("Opaque");
@@ -71,19 +71,19 @@ static WorldObject* buildWall(ugdk::graphic::Texture* texture) {
     return wobj;
 }
 
-WorldObject* Wall(const std::vector<std::string>& arguments) {
+sprite::WObjPtr Wall(const std::vector<std::string>& arguments) {
     return buildWall(ugdk::resource::GetTextureFromFile("images/wall-simple.png"));
 }
 
-WorldObject* InvisibleWall(const std::vector<std::string>& arguments) {
+sprite::WObjPtr InvisibleWall(const std::vector<std::string>& arguments) {
     return buildWall(ugdk::resource::GetTextureFromFile("images/wall-shortened.png"));
 }
 
-WorldObject* BurntWall(const std::vector<std::string>& arguments) {
+sprite::WObjPtr BurntWall(const std::vector<std::string>& arguments) {
     return buildWall(ugdk::resource::GetTextureFromFile("images/wall-burnt.png"));
 }
 
-WorldObject* Entry(const std::vector<std::string>& arguments) {
+sprite::WObjPtr Entry(const std::vector<std::string>& arguments) {
     return buildWall(ugdk::resource::GetTextureFromFile("images/door.png"));
 }
 

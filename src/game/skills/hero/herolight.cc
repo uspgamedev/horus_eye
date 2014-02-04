@@ -28,7 +28,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 }
 
 static void HeroLightUse(component::Caster* caster){
-    sprite::WorldObject *light = new sprite::WorldObject(15.0);
+    sprite::WObjPtr light = sprite::WorldObject::Create(15.0);
 
     light->AddComponent(component::Graphic::Create(std::shared_ptr<graphic::Drawable>(new ugdk::graphic::Sprite("light"))));
     light->AddComponent(new component::LightEmitter(4.0));

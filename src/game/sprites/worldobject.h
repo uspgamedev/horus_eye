@@ -5,6 +5,7 @@
 #include <list>
 #include <functional>
 #include <unordered_map>
+#include <memory>
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/action/entity.h>
@@ -22,13 +23,10 @@
 
 namespace sprite {
 
-class WorldObject : public ::ugdk::action::Entity {
+class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_from_this<WorldObject> {
   public:
-
-    typedef std::function<void (WorldObject*)> WorldObjectEvent;
-
     /** @param duration Sets timed life to the given value, if positive. */
-    WorldObject(double duration = -1.0);
+    static WObjPtr Create(double duration = -1.0);
     ~WorldObject();
 
     // The BIG Awesome update method. TODO explain better
@@ -62,7 +60,7 @@ class WorldObject : public ::ugdk::action::Entity {
         on_start_to_die_callback_ = on_death_start_callback;
     }
 
-    void AddDeathEvent(const WorldObjectEvent& on_death_end_callback) {
+    void AddDeathEvent(std::function<void(WorldObject*)> on_death_end_callback) {
         on_die_callbacks_.push_back(on_death_end_callback);
     }
 
@@ -145,14 +143,15 @@ class WorldObject : public ::ugdk::action::Entity {
     map::Room* current_room() const { return current_room_; }
 
   private:
+    WorldObject(double duration);
     
     /// Internal identifier. Debugging purposes.
     std::string identifier_;
 
     // TODO: make this somethintg
     std::function<void (WorldObject*, map::Room*)>  on_room_add_callback_;
-    WorldObjectEvent                                on_start_to_die_callback_;
-    std::list<WorldObjectEvent>                     on_die_callbacks_;
+    std::function<void (WorldObject*)>              on_start_to_die_callback_;
+    std::list< std::function<void(WorldObject*)> >  on_die_callbacks_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;

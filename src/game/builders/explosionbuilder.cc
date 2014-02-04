@@ -26,27 +26,26 @@ using pyramidworks::collision::CollisionObject;
 using component::Body;
 using sprite::WorldObject;
 
-static WorldObject* baseExplosion(const std::string& spritesheet, const std::string& anim) {
-    WorldObject *wobj = new WorldObject;
+static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::string& anim) {
+    sprite::WObjPtr wobj = WorldObject::Create();
+    wobj->set_identifier("Explosion");
 
     auto animator = new component::Animator(spritesheet, "animations/explosion.gdd");
     animator->ChangeAnimation(anim);
-    animator->AddTickFunction(bind(&WorldObject::Remove, wobj));
-
+    animator->AddTickFunction(bind(&WorldObject::Remove, wobj.get()));
     wobj->AddComponent(component::Graphic::Create(animator));
-
 
     return wobj;
 }
 
-WorldObject* FireballExplosion() {
+sprite::WObjPtr FireballExplosion() {
     utils::ImageFactory factory;
-    WorldObject *wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
+    sprite::WObjPtr wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
 
     wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 
-    CollisionObject* col = new CollisionObject(wobj, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
-    wobj->AddComponent(new Body(col, NULL));
+    CollisionObject* col = new CollisionObject(nullptr, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
+    wobj->AddComponent(new Body(col, nullptr));
     col->AddCollisionLogic("Creature", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
 
     return wobj;

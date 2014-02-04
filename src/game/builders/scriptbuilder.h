@@ -9,7 +9,7 @@
 namespace builder {
 namespace ScriptBuilder {
 
-sprite::WorldObject* Script(const std::string& script_name, const ugdk::script::VirtualObj& params);
+sprite::WObjPtr Script(const std::string& script_name, const ugdk::script::VirtualObj& params);
 
 } // namespace ScriptBuilder
 } // namespace builder

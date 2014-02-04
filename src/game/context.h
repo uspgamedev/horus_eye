@@ -9,25 +9,26 @@
 #include <pyramidworks/geometry.h>
 
 #include "game/sprites/worldobject.h"
+#include "game/sprites/objecthandle.h"
 #include "game/map.h"
 #include "game/ai.h"
 
 namespace context {
     
-sprite::WorldObject* WorldObjectByTag (const std::string& tag);
+sprite::ObjectHandle WorldObjectByTag (const std::string& tag);
 
 void AddDamageableComponent(const std::string& tag, double life);
 void AddDamageableComponent(const map::Room*, const std::string& tag, double life);
-void AddAIComponent(sprite::WorldObject* wobj, ai::AI* the_ai);
-void AddCollisionObjectRect(sprite::WorldObject* wobj, const std::string& colclass, double width,
+void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai);
+void AddCollisionObjectRect(const sprite::ObjectHandle& handle, const std::string& colclass, double width,
                             double height);
-void EnableDeathAnimation(sprite::WorldObject* wobj);
+void EnableDeathAnimation(const sprite::ObjectHandle& handle);
 
 /// Appends to the objects_colliding list all WorldObjects from the given collision class (classname) that are colliding with
 /// the given GeometricShape.
 void GetCollidingObjects(const std::string& classname,
                          const pyramidworks::geometry::GeometricShape& shape, 
-                         const ugdk::math::Vector2D& pos,
+						 const ugdk::math::Vector2D& pos,
                          std::vector<sprite::WorldObject*> &objects_colliding);
 
 void GetCollidingVisibilityObjects(const std::string& classname,
@@ -35,7 +36,7 @@ void GetCollidingVisibilityObjects(const std::string& classname,
                                    const ugdk::math::Vector2D& pos,
                                    std::vector<sprite::WorldObject*> &objects_colliding);
 
-sprite::WorldObject* hero();
+sprite::ObjectHandle hero();
 
 } // namespace context
 

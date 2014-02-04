@@ -1,7 +1,8 @@
 
 %module constants
 
-%include <module/export.swig>
+%include <module/util_ugdk.swig>
+
 %include "std_string.i"
 
 %{

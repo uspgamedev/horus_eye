@@ -4,25 +4,35 @@
 #include <ugdk/resource/module.h>
 
 #include "game/sprites/worldobject.h"
+#include "game/sprites/objecthandle.h"
 #include "game/skills/skill.h"
 #include "game/components/animation.h"
 
 using sprite::WorldObject;
 using skills::Skill;
 
-#define ID_GENERATOR_INVALID_ID -1
-#define MAX_ID 16
+const static int ID_GENERATOR_INVALID_ID = -1;
+const static int MAX_ID = 16;
 
 namespace component {
 
-Caster::Caster(WorldObject* owner, const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim)
-    : owner_(owner), mana_(mana), mana_blocks_(mana_, block_count),
-      aim_(aim), skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID), power_(100) {}
+Caster::Caster(const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim)
+    :   owner_(nullptr)
+    ,   mana_(mana)
+    ,   mana_blocks_(mana_, block_count)
+    ,   aim_(aim)
+    ,   skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID)
+    ,   power_(100)
+{}
 
-Caster::Caster(sprite::WorldObject* owner, const resource::Energy& mana)
-    : owner_(owner), mana_(mana), mana_blocks_(mana_, 1),
-      aim_(owner->world_position(), owner->controller()->aim_destination()), 
-      skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID), power_(100) {}
+Caster::Caster(const sprite::ObjectHandle& handle, const resource::Energy& mana)
+    :   owner_(nullptr)
+    ,   mana_(mana)
+    ,   mana_blocks_(mana_, 1)
+    ,   aim_(handle->world_position(), handle->controller()->aim_destination())
+    ,   skill_id_generator_(0, MAX_ID, ID_GENERATOR_INVALID_ID)
+    ,   power_(100)
+{}
 
 Caster::~Caster() {}
 
@@ -34,15 +44,19 @@ void Caster::Update(double dt) {
     
     Controller* controller = owner_->controller();
     if(!controller) return;
-    for(std::map<Controller::SkillSlot, const skills::Skill*>::iterator it = active_skills_.begin(); it != active_skills_.end(); ++it) {
-        if(it->second && controller->IsUsingSkillSlot(it->first) && it->second->IsValidUse(this)) {
-            if(CastSkill(it->first)) {
+    for(const auto& slot : active_skills_) {
+        if(slot.second && controller->IsUsingSkillSlot(slot.first) && slot.second->IsValidUse(this)) {
+            if(this->CastSkill(slot.first)) {
                 owner_->component<Animation>()->ChangeAnimation(utils::ATTACK, 
                     Direction::FromWorldVector(aim_.destination_ - aim_.origin_));
                 break;
             }
         }
     }
+}
+    
+void Caster::OnAdd(sprite::WorldObject* owner) {
+    owner_ = owner;
 }
 
 bool Caster::CastSkill(Controller::SkillSlot slot) {
@@ -55,8 +69,8 @@ bool Caster::CastSkill(Controller::SkillSlot slot) {
 }
 
 const skills::Skill* Caster::SkillAt(Controller::SkillSlot slot) const {
-    std::map<Controller::SkillSlot, const skills::Skill*>::const_iterator it = active_skills_.find(slot);
-    return (it != active_skills_.end()) ? it->second : NULL;
+    auto it = active_skills_.find(slot);
+    return (it != active_skills_.end()) ? it->second : nullptr;
 }
 
 int Caster::LearnSkill(const skills::Skill* skill) {
@@ -78,8 +92,7 @@ void Caster::UnlearnSkill(int id) {
     int err = skill_id_generator_.ReleaseID(id);
     if(err != ID_GENERATOR_INVALID_ID) {
         unequipSkill(skills_[id]);
-        delete skills_[id];
-        skills_[id] = NULL;
+        skills_[id] = nullptr;
     }
 }
 
@@ -89,11 +102,9 @@ void Caster::EquipSkill(int id, Controller::SkillSlot skill_slot) {
 }
     
 void Caster::unequipSkill(const skills::Skill* skill) {
-    std::map<Controller::SkillSlot, const skills::Skill*>::iterator sk;
-    for(sk = active_skills_.begin(); sk != active_skills_.end(); ++sk) {
-        if(sk->second == skill)
-            sk->second = NULL;
-    }
+    for(auto& slot : active_skills_)
+        if(slot.second == skill)
+            slot.second = nullptr;
 }
 
 }  // namespace sprite

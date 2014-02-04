@@ -7,6 +7,7 @@
 #include "game/core/coordinates.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
+#include "game/sprites/objecthandle.h"
 #include "game/components/graphic.h"
 #include "game/components/lightemitter.h"
 #include "game/components/body.h"
@@ -14,11 +15,13 @@
 #include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 
+#include <algorithm>
+
 namespace map {
 
 using std::vector;
 using std::list;
-using sprite::WorldObject;
+using sprite::WObjPtr;
 using ugdk::graphic::Node;
 using ugdk::script::VirtualObj;
 
@@ -63,14 +66,14 @@ void Room::RenderLight(ugdk::graphic::Canvas& canvas) const {
             graphic->Render(canvas);
 }
 
-void Room::AddObject(sprite::WorldObject* obj) {
+void Room::AddObject(const sprite::WObjPtr& obj) {
     if(!level_)
         handleNewObject(obj);
     else
         queued_objects_.push(obj);
 }
 
-void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& position, bool absolute) {
+void Room::AddObject(const sprite::WObjPtr& obj, const ugdk::math::Vector2D& position, bool absolute) {
     if(absolute == POSITION_ABSOLUTE)
         obj->set_world_position(position);
     else
@@ -78,11 +81,11 @@ void Room::AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& posit
     AddObject(obj);
 }
 
-void Room::ForceAddObject(sprite::WorldObject* obj) {
+void Room::ForceAddObject(const sprite::WObjPtr& obj) {
     handleNewObject(obj);
 }
 
-void Room::RemoveObject(sprite::WorldObject* obj) {
+void Room::RemoveObject(const sprite::WObjPtr& obj) {
     objects_.remove(obj);
     if(!obj->tag().empty())
         RemoveTag(obj->tag());
@@ -94,7 +97,7 @@ void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D
         fprintf(stderr, "Warning: Could not find recipe '%s' in room '%s'.\n", recipe_name.c_str(), name_.c_str());
         return;
     }
-    WorldObject* wobj = builder::ScriptBuilder::Script(recipe["property"].value<std::string>(), recipe["params"]);
+    WObjPtr wobj = WObjPtr(builder::ScriptBuilder::Script(recipe["property"].value<std::string>(), recipe["params"]));
     if(wobj) {
         wobj->set_tag(tag);
         AddObject(wobj, position, absolute);
@@ -105,43 +108,40 @@ void Room::DefineLevel(scene::World* level) {
     level_ = level;
 }
 
-WorldObject* Room::WorldObjectByTag (const std::string& tag) const {
+sprite::ObjectHandle Room::WorldObjectByTag(const std::string& tag) const {
     TagTable::const_iterator match = tagged_.find(tag);
-    if (match == tagged_.end()) return NULL;
+    if (match == tagged_.end()) return sprite::ObjectHandle();
     return match->second;
 }
     
 void Room::RemoveTag(const std::string& tag) {
-    tagged_[tag] = NULL;
+    tagged_.erase(tag);
 }
     
 void Room::Activate() {
     assert(level_);
-    for(WorldObject* wobj : objects_)
+    for(const auto& wobj : objects_)
         if(auto b = wobj->body())
             b->Activate(level_);
 }
 
 void Room::Deactivate() {
-    for(WorldObject* wobj : objects_)
+    for(const auto& wobj : objects_)
         if(auto b = wobj->body())
             b->Deactivate();
 }
 
 void Room::updateObjects(double delta_t) {
-    for(std::list<sprite::WorldObject*>::iterator it = objects_.begin(); it != objects_.end(); ++it)
-        (*it)->Update(delta_t);
-}
-
-static bool worldobjectIsToBeRemoved (const sprite::WorldObject* value) {
-    bool is_dead = value->to_be_removed();
-    if (is_dead)
-        delete value;
-    return is_dead;
+    for(const auto& wobj : objects_)
+        wobj->Update(delta_t);
 }
 
 void Room::deleteToBeRemovedObjects() {
-    objects_.remove_if(worldobjectIsToBeRemoved);
+    objects_.remove_if([](const WObjPtr& x) -> bool {
+        if (x->to_be_removed() && x.use_count() > 1)
+            printf("!!Danger!! To be removed WObj %p with refcount (%d). Identifier: %s\n", x.get(), x.use_count(), x->identifier().c_str());
+        return x->to_be_removed();
+    });
 }
 
 void Room::flushObjectQueue() {
@@ -151,7 +151,7 @@ void Room::flushObjectQueue() {
     }
 }
 
-void Room::handleNewObject(sprite::WorldObject* obj) {
+void Room::handleNewObject(const sprite::WObjPtr& obj) {
     objects_.push_back(obj);
     obj->OnRoomAdd(this);
     if(!obj->tag().empty())

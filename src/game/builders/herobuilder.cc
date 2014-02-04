@@ -3,6 +3,7 @@
 #include <ugdk/resource/module.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
 
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
@@ -56,23 +57,25 @@ void SetupCollision(sprite::WorldObject* obj) {
     obj->AddComponent(new Body(col, nullptr));
 }
 
-sprite::WorldObject* Kha() {
+sprite::WObjPtr Kha() {
     component::PlayerController* player_controller;
     Energy life = Energy(constants::GetDouble("HERO_MAX_LIFE"));
     Energy mana = Energy(constants::GetInt("HERO_MAX_MANA_BLOCKS") * constants::GetDouble("HERO_MANA_PER_BLOCK"),
                          constants::GetDouble("HERO_MANA_REGEN_BASE"),
                          constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
-    WorldObject* hero_wobj = new WorldObject;
+    sprite::WObjPtr hero = WorldObject::Create();
+    sprite::WorldObject* hero_wobj = hero.get();
+
     hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(component::Graphic::Create(new component::Animator("hero", "animations/creature.gdd")));
-    hero_wobj->AddComponent(new component::Animation(hero_wobj));
+    hero_wobj->AddComponent(new component::Animation);
     hero_wobj->AddComponent(new component::LightEmitter(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
 
-    hero_wobj->AddComponent(new component::Damageable(hero_wobj, 1000, true));
+    hero_wobj->AddComponent(new component::Damageable(1000, true));
     hero_wobj->damageable()->life() = life;
     hero_wobj->damageable()->set_super_armor(true);
     for(int i = 1; i <= 4; ++i) {
@@ -84,10 +87,9 @@ sprite::WorldObject* Kha() {
 
     hero_wobj->AddComponent(new component::Condition(hero_wobj));
     hero_wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
-    hero_wobj->AddComponent(new Caster(hero_wobj, mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"),
-    		Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
+    hero_wobj->AddComponent(new Caster(mana, constants::GetInt("HERO_MAX_MANA_BLOCKS"), Aim(hero_wobj->world_position(), hero_wobj->controller()->aim_destination())));
     
-    Walker* walker = new Walker(hero_wobj, constants::GetDouble("HERO_SPEED"));
+    Walker* walker = new Walker(constants::GetDouble("HERO_SPEED"));
     hero_wobj->AddComponent(walker);
 
     component::Caster* caster = hero_wobj->caster();
@@ -97,10 +99,9 @@ sprite::WorldObject* Kha() {
  
     caster->LearnAndEquipSkill("magic_missile", component::Controller::PRIMARY);
 
-    int id;
-
     // No weapons for now.
 
+    int id;
     player_controller->AddSkill(id = caster->LearnSkill("fireball"));
     player_controller->AddSkill(caster->LearnSkill("lightning"));
     player_controller->AddSkill(caster->LearnSkill("light"));
@@ -110,7 +111,7 @@ sprite::WorldObject* Kha() {
 
     SetupCollision(hero_wobj);
 
-    return hero_wobj;
+    return hero;
 }
 
 } // namespace HeroBuilder

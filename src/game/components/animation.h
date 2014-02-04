@@ -1,19 +1,20 @@
 #ifndef HORUSEYE_COMPONENT_ANIMATION_H_
 #define HORUSEYE_COMPONENT_ANIMATION_H_
 
-#include <map>
-#include <functional>
-
-#include <ugdk/action.h>
-#include <ugdk/graphic.h>
-#include <ugdk/action/observer.h>
-#include <ugdk/math/vector2D.h>
-
 #include "game/components/base.h"
 #include "game/components/direction.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/components/orders.h"
+
+#include <ugdk/action.h>
+#include <ugdk/graphic.h>
+#include <ugdk/action/observer.h>
+#include <ugdk/math/vector2D.h>
+#include <ugdk/system/compatibility.h>
+
+#include <map>
+#include <functional>
 
 namespace component {
 
@@ -23,11 +24,12 @@ class Animation : public Base, private ugdk::action::Observer {
     static const char* DEFAULT_NAME() { return "animation"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 
-    Animation(sprite::WorldObject*);
-    Animation(sprite::WorldObject*, utils::AnimtionType type, const Direction& dir);
+    Animation();
+    Animation(utils::AnimtionType type, const Direction& dir);
     virtual ~Animation();
 
-    void Update(double dt);
+    void Update(double dt) override;
+    void OnAdd(sprite::WorldObject*) override;
 
     /// Changes the direction, no callbacks happens.
     void ChangeDirection(const Direction& dir);

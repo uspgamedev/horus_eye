@@ -33,11 +33,16 @@ bool WorldObject::OrderedComponent::operator == (const component::Base* base) co
 
 WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
 
+WObjPtr WorldObject::Create(double duration) {
+    return WObjPtr(new WorldObject(duration));
+}
+
 WorldObject::WorldObject(double duration)
-    :   identifier_("Generic World Object"),
-        current_room_(NULL),
-        timed_life_(NULL),
-        dead_(false) {
+    :   identifier_("Generic World Object")
+    ,   current_room_(nullptr)
+    ,   timed_life_(nullptr)
+    ,   dead_(false)
+{
     if(duration > 0.0)
         this->set_timed_life(duration);
 }
@@ -87,7 +92,7 @@ void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
     if(current_room_) {
         map::Room* new_room = current_room_->level()->FindRoomFromPoint(world_position_);
         if(new_room && new_room != current_room_)
-            current_room_->level()->QueueRoomChange(this, new_room);
+            current_room_->level()->QueueRoomChange(shared_from_this(), new_room);
     }
 }
 

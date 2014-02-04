@@ -1,7 +1,6 @@
 %module core
 
-%include <module/export.swig>
-%include <module/ownership.swig>
+%include <module/util_ugdk.swig>
 
 %{
 

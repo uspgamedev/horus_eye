@@ -195,7 +195,7 @@ void Hud::Update(double delta_t) {
     }
 #endif
 
-    sprite::WorldObject* hero = world->hero();
+    sprite::WObjPtr hero = world->hero().lock();
     life_bar_->effect().set_visible(hero && hero->damageable());
     mana_bar_->effect().set_visible(hero && hero->caster());
     if(hero) {

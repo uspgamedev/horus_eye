@@ -6,7 +6,7 @@
 namespace builder {
 namespace ExplosionBuilder {
 
-sprite::WorldObject* FireballExplosion();
+sprite::WObjPtr FireballExplosion();
 
 }
 }

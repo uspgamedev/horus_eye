@@ -15,6 +15,6 @@ function build (wobj, params)
   for _,v in ipairs(params.points) do
     args:push_back(v:get_x()..' '..v:get_y())
   end
-  local spawnerAI = builder.AIScript(wobj, args)
+  local spawnerAI = builder.AIScript(args)
   context.AddAIComponent(wobj, spawnerAI)
 end

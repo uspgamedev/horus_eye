@@ -9,7 +9,7 @@ namespace builder {
 
 typedef std::vector<std::string> ArgumentList;
 
-sprite::WorldObject* WorldObjectFromTypename(const std::string& type, const ArgumentList& arguments);
+sprite::WObjPtr WorldObjectFromTypename(const std::string& type, const ArgumentList& arguments);
 
 bool HasFactoryMethod(const std::string& type);
 

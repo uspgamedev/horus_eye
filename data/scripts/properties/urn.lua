@@ -6,6 +6,7 @@ require "ugdk.math"
 require "component"
 require "context"
 require "builder"
+require "map"
 
 local Sprite = ugdk_drawable.Sprite
 local Circle = pyramidworks_geometry.Circle

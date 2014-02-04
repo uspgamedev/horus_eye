@@ -228,7 +228,8 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
         }
 
         // Choose the two points that have the widest angle.
-        CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
+        if (!extremes.empty())
+            CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
     }
 
     canvas.PopGeometry();
@@ -238,8 +239,8 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
 void LightRendering(ugdk::graphic::Canvas& canvas) {
     if(scene::World* world = utils::LevelManager::reference()->current_level()) {
         if(shadowcasting_actiavated)
-            if(sprite::WorldObject* hero = world->hero())
-                DrawShadows(world, hero, canvas);
+            if(sprite::WObjPtr hero = world->hero().lock())
+                DrawShadows(world, hero.get(), canvas);
 
         canvas.SaveToTexture(shadow_texture_);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);

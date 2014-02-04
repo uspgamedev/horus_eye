@@ -7,12 +7,12 @@
 
 namespace builder {
 
-pyramidworks::collision::CollisionLogic DieCollision(sprite::WorldObject* owner);
+pyramidworks::collision::CollisionLogic DieCollision(const sprite::WObjWeakPtr& owner);
 pyramidworks::collision::CollisionLogic DamageCollision(double damage);
 pyramidworks::collision::CollisionLogic DamageCollision(const std::string& constant_name);
-pyramidworks::collision::CollisionLogic DamageAndDieCollision(sprite::WorldObject* owner, double damage);
-pyramidworks::collision::CollisionLogic DamageAndDieCollision(sprite::WorldObject* owner, const std::string& constant_name);
-pyramidworks::collision::CollisionLogic BounceCollision(sprite::WorldObject* owner);
+pyramidworks::collision::CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& owner, double damage);
+pyramidworks::collision::CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& owner, const std::string& constant_name);
+pyramidworks::collision::CollisionLogic BounceCollision(const sprite::WObjWeakPtr& owner);
 
 } // namespace builder
 

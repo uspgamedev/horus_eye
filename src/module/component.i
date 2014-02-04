@@ -1,16 +1,18 @@
 
 %module component
 
-%include <module/export.swig>
-%include <module/ownership.swig>
-%include <module/proxy.swig>
+%include <module/util_ugdk.swig>
+
 %include "std_string.i"
 %include "std_map.i"
+%include "memory.i"
 
 %{
 
+#include <ugdk/action/scene.h>
 #include <game/sprites/effect.h>
 #include <game/sprites/worldobject.h>
+#include <game/sprites/objecthandle.h>
 #include <game/resources/energy.h>
 #include <game/components/base.h>
 #include <game/components/damageable.h>
@@ -32,6 +34,7 @@
 
 proxy_class(ugdk::action::Observer)
 
+%import(module="ugdk_action") <ugdk/action.h>
 %import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="ugdk_action") <ugdk/action/observer.h>
 %import(module="ugdk_action") <ugdk/action/animationplayer.h>
@@ -52,6 +55,10 @@ enable_disown(component::Base* component)
 %include <game/utils/isometricanimationset.h>
 %include <game/sprites/effect.h>
 %include <game/sprites/worldobject.h>
+%include <game/sprites/objecthandle.h>
+
+%template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
+%template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
 
 disable_disown(pyramidworks::collision::CollisionObject* col)
 disable_disown(component::Base* component)
@@ -100,8 +107,11 @@ disable_disown(ugdk::graphic::Drawable* drawable)
 namespace sprite {
     export_class(WorldObject)
     export_class(Effect)
-}
 
+    export_class(WObjPtr)
+    export_class(WObjWeakPtr)
+    export_class(ObjectHandle)
+}
 namespace component {
     export_class(Base)
     export_class(Direction)
@@ -115,6 +125,4 @@ namespace component {
     export_class(Body)
     export_class(Condition)
 }
-
 confirm_exports(component)
-

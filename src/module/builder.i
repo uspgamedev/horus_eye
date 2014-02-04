@@ -1,8 +1,8 @@
 
 %module builder
 
-%include <module/export.swig>
-%include <module/ownership.swig>
+%include <module/util_ugdk.swig>
+
 %include "std_string.i"
 %include "std_vector.i"
 
@@ -21,6 +21,7 @@
 %}
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
+%import(module="component") <game/sprites.h>
 %import(module="component") <game/components/base.h>
 %import(module="component") <game/components/controller.h>
 %import(module="component") <game/sprites/worldobject.h>

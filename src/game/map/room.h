@@ -1,20 +1,22 @@
 #ifndef HORUSEYE_GAME_MAP_ROOM_H_
 #define HORUSEYE_GAME_MAP_ROOM_H_
 
-#include <list>
-#include <vector>
-#include <string>
-#include <queue>
-#include <unordered_map>
+#include "game/scenes.h"
+#include "game/sprites.h"
+#include "game/map.h"
+#include "game/sprites/objecthandle.h"
 
 #include <ugdk/graphic.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/math/integer2D.h>
 #include <ugdk/math/vector2D.h>
 
-#include "game/scenes.h"
-#include "game/sprites.h"
-#include "game/map.h"
+#include <list>
+#include <string>
+#include <queue>
+#include <unordered_map>
+#include <memory>
+
 
 namespace map {
 
@@ -32,19 +34,19 @@ class Room {
 
     /** Adds the object to the room. 
     Objects are added only at the end of a room's Update, unless the room hasn't been added to a World. */
-    void AddObject(sprite::WorldObject*);
+    void AddObject(const sprite::WObjPtr& obj);
 
     /** Adds the object to the room, in the given position.
     @param obj The object to be added.
     @param position The position to place the object in.
     @param absolute Whether the position is relative to the room's position in the World, or absolute. Defaults to relative.
     @see AddObject */
-    void AddObject(sprite::WorldObject* obj, const ugdk::math::Vector2D& position, bool absolute = POSITION_RELATIVE);
+    void AddObject(const sprite::WObjPtr& obj, const ugdk::math::Vector2D& position, bool absolute = POSITION_RELATIVE);
 
-    void ForceAddObject(sprite::WorldObject* obj);
+    void ForceAddObject(const sprite::WObjPtr& obj);
 
     /** Queues the object to be removed from this room at the end of the room's Update. */
-    void RemoveObject(sprite::WorldObject* obj);
+    void RemoveObject(const sprite::WObjPtr& obj);
 
     /// Creates an object following a stored recipe with the given name.
     /** Logs an error when the given recipe is not found. */
@@ -58,7 +60,7 @@ class Room {
     void DefineLevel(scene::World*);
 
     /// Gets an object based on it's tag.
-    sprite::WorldObject* WorldObjectByTag (const std::string& tag) const;
+    sprite::ObjectHandle WorldObjectByTag(const std::string& tag) const;
     void RemoveTag(const std::string& tag);
 
     /// Sets the VirtualObj from where recipes are acquired.
@@ -81,7 +83,7 @@ class Room {
     ugdk::graphic::Node* floor() const { return floor_; }
     scene::World* level() const { return level_; }
 
-    typedef std::list<sprite::WorldObject*>::const_iterator WObjListConstIterator;
+    typedef std::list< std::shared_ptr<sprite::WorldObject> > ::const_iterator WObjListConstIterator;
     WObjListConstIterator begin() const { return objects_.begin(); } 
     WObjListConstIterator end() const { return objects_.end(); }
 
@@ -89,9 +91,9 @@ class Room {
     void updateObjects(double delta_t);
     void deleteToBeRemovedObjects();
     void flushObjectQueue();
-    void handleNewObject(sprite::WorldObject*);
+    void handleNewObject(const sprite::WObjPtr&);
 
-    typedef std::unordered_map<std::string, sprite::WorldObject*> TagTable;
+    typedef std::unordered_map<std::string, sprite::ObjectHandle> TagTable;
 
     std::string name_;
     std::list<std::string> neighborhood_;
@@ -101,8 +103,8 @@ class Room {
     ugdk::script::VirtualObj recipes_;
 
     scene::World* level_;
-    std::list<sprite::WorldObject*> objects_;
-    std::queue<sprite::WorldObject*> queued_objects_;
+    std::list<sprite::WObjPtr> objects_;
+    std::queue<sprite::WObjPtr> queued_objects_;
 };
 
 } // namespace map

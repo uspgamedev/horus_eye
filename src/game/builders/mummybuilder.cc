@@ -21,6 +21,7 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 #include "game/resources/energy.h"
+#include "game/sprites/objecthandle.h"
 
 #include <unordered_map>
 
@@ -41,19 +42,15 @@ using pyramidworks::collision::CollisionLogic;
 
 CollisionLogic AntiStackCollision(Walker* data_) {
     return [data_](const CollisionObject* obj) {
-        sprite::WorldObject *wobj = dynamic_cast<sprite::WorldObject *>(obj->owner());
+        sprite::WorldObject* wobj = dynamic_cast<sprite::WorldObject*>(obj->owner());
         Vector2D deviation = (data_->owner()->world_position() - wobj->world_position()).Normalize() * 0.9;
         data_->set_offset_direction(deviation);
     };
 }
 
-static void MummyRoomAdd(sprite::WorldObject* wobj, map::Room* world) {
-    //world->IncreaseNumberOfEnemies();
-}
-
 static void MummyDeath(sprite::WorldObject* wobj) {
     int potion = rand() % 100;
-    WorldObject* potion_obj = NULL;
+    WObjPtr potion_obj;
     if (potion < 20) {
         std::vector<std::string> blank;
         if(potion < 10)
@@ -62,25 +59,24 @@ static void MummyDeath(sprite::WorldObject* wobj) {
             potion_obj = builder::ItemBuilder::ManaPotion(blank);
     }
     if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position(), map::POSITION_ABSOLUTE);
-    //WORLD()->DecreaseEnemyCount();
 }
 
-static WorldObject* build_mummy_wobj(const std::string& spritesheetname, double life, double radius, double speed, bool standing) {
-    WorldObject* wobj = new WorldObject;
+static sprite::WObjPtr build_mummy_wobj(const std::string& spritesheetname, double life, double radius, double speed, bool standing) {
+    sprite::WObjPtr wobj = WorldObject::Create();
     PrepareBasicMummy(wobj, spritesheetname, life, radius, speed, standing);
     return wobj;
 }
 
-void PrepareBasicMummy(WorldObject* wobj, const string& spritesheetname,
+void PrepareBasicMummy(const sprite::ObjectHandle& wobj, const std::string& spritesheetname,
                        double life, double radius, double speed, bool standing,
                        const string& animation_descriptor) {
 
     std::string aiscript = "basicmummy";
 
     wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/"+animation_descriptor+".gdd")));
-    wobj->AddComponent(new component::Animation(wobj, utils::SPAWNING, Direction()));
+    wobj->AddComponent(new component::Animation(utils::SPAWNING, Direction()));
 
-    wobj->AddComponent(new component::Damageable(wobj, 300));
+    wobj->AddComponent(new component::Damageable(300));
     wobj->damageable()->life() = Energy(life);
     for(int i = 1; i <= 4; ++i) {
         char buffer[255];
@@ -90,7 +86,7 @@ void PrepareBasicMummy(WorldObject* wobj, const string& spritesheetname,
 
     wobj->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
 
-    ai::AI* mummyAI = AIBuilder::AIScript(wobj, aiscript);
+    ai::AI* mummyAI = AIBuilder::AIScript(aiscript);
     if(mummyAI) {
         mummyAI->set_standing(standing);
         wobj->AddComponent( mummyAI );
@@ -101,49 +97,48 @@ void PrepareBasicMummy(WorldObject* wobj, const string& spritesheetname,
     resource::Energy mana;
     wobj->AddComponent(new Caster(wobj, mana));
 
-    CollisionObject* col = new CollisionObject(wobj, "Mummy", new pyramidworks::geometry::Circle(radius));
-    wobj->AddComponent(new component::Body(col, NULL));
-
-    Walker* walker = new Walker(wobj, speed);
+    Walker* walker = new Walker(speed);
     wobj->AddComponent(walker);
+
+    CollisionObject* col = new CollisionObject(nullptr, "Mummy", new pyramidworks::geometry::Circle(radius));
+    wobj->AddComponent(new component::Body(col, nullptr));
     col->AddCollisionLogic("Mummy", AntiStackCollision(walker));
     col->AddCollisionLogic("Wall", walker->CreateRectCollision());
 
     wobj->set_identifier("Mummy");
     wobj->set_start_to_die_callback(MummyDeath);
-    wobj->set_room_add_callback(MummyRoomAdd);
 }
 
-sprite::WorldObject* StandingMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("MUMMY_LIFE"), 
+sprite::WObjPtr StandingMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy_basic", constants::GetInt("MUMMY_LIFE"), 
         constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
     wobj->caster()->power().Set(constants::GetInt("MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
     return wobj;
 }
 
-sprite::WorldObject* WalkingMummy(const std::vector<std::string>& arguments) {
-    sprite::WorldObject* obj = StandingMummy(arguments);
+sprite::WObjPtr WalkingMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr obj = StandingMummy(arguments);
     obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject* StandingRangedMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_ranged", constants::GetInt("RANGED_MUMMY_LIFE"), 
+sprite::WObjPtr StandingRangedMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy_ranged", constants::GetInt("RANGED_MUMMY_LIFE"), 
         constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
     wobj->caster()->power().Set(constants::GetInt("RANGED_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_ranged", Controller::PRIMARY);
     return wobj;
 }
 
-sprite::WorldObject* WalkingRangedMummy(const std::vector<std::string>& arguments) {
-    sprite::WorldObject* obj = StandingRangedMummy(arguments);
+sprite::WObjPtr WalkingRangedMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr obj = StandingRangedMummy(arguments);
     obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_big", constants::GetInt("BIG_MUMMY_LIFE"), 
+sprite::WObjPtr StandingBigMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy_big", constants::GetInt("BIG_MUMMY_LIFE"), 
         constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"), true);
     // TODO: different GDD
     wobj->damageable()->set_super_armor(true);
@@ -152,14 +147,14 @@ sprite::WorldObject* StandingBigMummy(const std::vector<std::string>& arguments)
     return wobj;
 }
 
-sprite::WorldObject * WalkingBigMummy(const std::vector<std::string>& arguments) {
-    sprite::WorldObject* obj = StandingBigMummy(arguments);
+sprite::WObjPtr WalkingBigMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr obj = StandingBigMummy(arguments);
     obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
+sprite::WObjPtr StandingPaperMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
         constants::GetDouble("PAPER_MUMMY_RADIUS"), constants::GetDouble("PAPER_MUMMY_SPEED"),
         true);
     wobj->graphic()->ChangeAlpha(0.5);
@@ -168,14 +163,14 @@ sprite::WorldObject *StandingPaperMummy(const std::vector<std::string>& argument
     return wobj;
 }
 
-sprite::WorldObject *WalkingPaperMummy(const std::vector<std::string>& arguments) {
-    sprite::WorldObject* obj = StandingPaperMummy(arguments);
+sprite::WObjPtr WalkingPaperMummy(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr obj = StandingPaperMummy(arguments);
     obj->component<ai::AI>()->set_standing(false);
     return obj;
 }
 
-sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments) {
-    WorldObject* wobj = build_mummy_wobj("pharaoh", constants::GetInt("PHARAOH_LIFE"), 
+sprite::WObjPtr StandingPharaoh(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr wobj = build_mummy_wobj("pharaoh", constants::GetInt("PHARAOH_LIFE"), 
         constants::GetDouble("PHARAOH_RADIUS"), constants::GetDouble("PHARAOH_SPEED"), true);
     wobj->damageable()->set_super_armor(true);
 
@@ -188,8 +183,8 @@ sprite::WorldObject * StandingPharaoh(const std::vector<std::string>& arguments)
     return wobj;
 }
 
-sprite::WorldObject * WalkingPharaoh(const std::vector<std::string>& arguments) {
-    sprite::WorldObject* obj = StandingPharaoh(arguments);
+sprite::WObjPtr WalkingPharaoh(const std::vector<std::string>& arguments) {
+    sprite::WObjPtr obj = StandingPharaoh(arguments);
     obj->component<ai::AI>()->set_standing(false);
     return obj;
 }

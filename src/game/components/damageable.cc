@@ -19,8 +19,8 @@ namespace component {
 
 static const int BLINKING_INTERVAL = 75;
 
-Damageable::Damageable(sprite::WorldObject* owner, int invulnerability_time, bool blinks)
-    :   owner_(owner)
+Damageable::Damageable(int invulnerability_time, bool blinks)
+    :   owner_(nullptr)
     ,   super_armor_(false)
     ,   invulnerability_time_(invulnerability_time)
     ,   hit_duration_(new ugdk::time::TimeAccumulator(0))
@@ -72,6 +72,10 @@ void Damageable::Update(double dt) {
     if(hit_duration_->Expired())
         if(auto g = owner_->graphic())
             g->set_visible(true);
+}
+    
+void Damageable::OnAdd(sprite::WorldObject* wobj) {
+    owner_ = wobj;
 }
     
 bool Damageable::IsMercyInvincible() const {
