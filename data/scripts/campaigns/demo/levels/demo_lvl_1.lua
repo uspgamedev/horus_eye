@@ -207,5 +207,3 @@ exit = {
    end
 }
 
-table.foreach(firstblood.recipes.door.params, print)
-
