@@ -42,12 +42,7 @@ CollisionLogic ScriptCollision(VirtualObj logic, WorldObject* owner) {
     return [logic, owner](const CollisionObject* obj) {
         WorldObject *another = dynamic_cast<WorldObject*>(obj->owner());
         assert(logic.valid());
-        assert(logic.wrapper());
-        VirtualObj  self (logic.wrapper()),
-                    target (logic.wrapper());
-        self.set_value<WorldObject*>(owner);
-        target.set_value<WorldObject*>(another);
-        logic((self, target));
+        logic(owner, another);
     };
 }
 
@@ -80,16 +75,12 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
 }
 
 static void ApplyDescriptor(WorldObject* wobj, const VirtualObj& descriptor) {
-    CollisionObject *collision = NULL, *visibility = NULL;
+    CollisionObject *collision = nullptr, *visibility = nullptr;
 
     if(descriptor["on_die_callbacks"]) {
         VirtualObj::List callbacks = descriptor["on_die_callbacks"].value<VirtualObj::List>();
         for (auto callback_function : callbacks) {
-          wobj->AddDeathEvent([callback_function](WorldObject* obj) -> void {
-              VirtualObj arg = VirtualObj(callback_function.wrapper());
-              arg.set_value<WorldObject*>(obj);
-              callback_function(VirtualObj::List(1, arg));
-          });
+            wobj->AddDeathEvent(callback_function.AsFunction<void(WorldObject*)>());
         }
     }
 
@@ -108,17 +99,17 @@ sprite::WObjPtr Script(const std::string& script_name, const ugdk::script::Virtu
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("properties." + script_name);
     if(!script_generator) {
         fprintf(stderr, "Unable to load 'properties.%s'.\n", script_name.c_str());
-        return NULL;
+        return nullptr;
     }
 
     if(params && script_generator.wrapper() != params.wrapper()) {
         fprintf(stderr, "Received params are incompatible with script 'properties.%s'.\n", script_name.c_str());
-        return NULL;
+        return nullptr;
     }
 
     if(!script_generator["build"]) {
         fprintf(stderr, "Function 'build' not found in 'properties.%s'.\n", script_name.c_str());
-        return NULL;
+        return nullptr;
     }
     
     sprite::WObjPtr wobj = WorldObject::Create();
@@ -127,13 +118,7 @@ sprite::WObjPtr Script(const std::string& script_name, const ugdk::script::Virtu
     VirtualObj v_wobj(script_generator["build"].wrapper());
     v_wobj.set_value<sprite::ObjectHandle*>(new sprite::ObjectHandle(wobj), true);
 
-    VirtualObj::List args(1, v_wobj);
-    if(params)
-        args.push_back(params);
-    else // If we don't have params, place an empty vobj of the correct language there.
-        args.emplace_back(v_wobj.wrapper());
-
-    VirtualObj build_result = script_generator["build"](args);
+    VirtualObj build_result = script_generator["build"](v_wobj, (params.valid() ? params : VirtualObj(v_wobj.wrapper())));
     if(build_result)
         ApplyDescriptor(wobj.get(), build_result);
 

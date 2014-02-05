@@ -18,17 +18,7 @@ public:
         (proxy_ | "Start")();
     }
 	virtual AIModule::Status Update(double dt, AIData* data) {
-        ugdk::script::VirtualObj::List args;
-        ugdk::script::VirtualObj vdt = ugdk::script::VirtualObj(proxy_.wrapper());
-        vdt.set_value(dt);
-        args.push_back(vdt);
-
-        ugdk::script::VirtualObj vdata = ugdk::script::VirtualObj(proxy_.wrapper());
-        vdata.set_value<AIData*>(data);
-        vdata.value<AIData*>(true); /*POG: set_value is giving ownership to the script... IT MUST NOT. */
-        args.push_back(vdata);
-
-        ugdk::script::VirtualObj stat = ( proxy_ | "Update" )(args);
+        ugdk::script::VirtualObj stat = ( proxy_ | "Update" )(dt, data);
         return static_cast<AIModule::Status>( stat.value<int>() );
     }
 	virtual void Finish() {

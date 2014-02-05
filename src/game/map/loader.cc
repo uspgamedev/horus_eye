@@ -255,12 +255,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     
     VirtualObj setup = room_data["setup"];
     if (setup) {
-        VirtualObj room_vobj(setup.wrapper());
-        room_vobj.set_value<Room*>(room);
-
-        VirtualObj::List args;
-        args.push_back(room_vobj);
-        setup(args);
+        setup(room);
     }
 
     return room;

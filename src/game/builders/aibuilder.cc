@@ -38,7 +38,7 @@ AI* AIScript(const vector<string>& arguments) {
         obj.set_value<string>(*it);
         args.push_back(obj);
     }
-    VirtualObj script_data = script_generator["generate"](args);
+    VirtualObj script_data = script_generator["generate"].Call(args);
 
     return aiobj;
 }

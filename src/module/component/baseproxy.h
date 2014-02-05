@@ -15,11 +15,7 @@ public:
         ugdk::script::BaseProxy<BaseProxy>(proxy) {}
 
     virtual void Update(double dt) {
-        ugdk::script::VirtualObj vdt(proxy_.wrapper());
-        vdt.set_value<double>(dt);
-
-        ugdk::script::VirtualObj::List args(1, vdt);
-        ( proxy_ | "Update" )(args);
+        ( proxy_ | "Update" )(dt);
     }
 
 };
