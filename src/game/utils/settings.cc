@@ -81,6 +81,7 @@ void SettingsData::FillWithDefaultValues() {
     background_music = true;
     sound_effects = true;
     language = 0;
+    vsync = true;
 }
 
 bool SettingsData::ValidateData() const {
@@ -124,11 +125,13 @@ class IniFileSource : public DataSource {
         std::string language =      section->GetKeyValue("Language");
         std::string resolutionx =   section->GetKeyValue("ResolutionX");
         std::string resolutiony =   section->GetKeyValue("ResolutionY");
+        std::string vsync =         section->GetKeyValue("VSync");
 
         data.FillWithDefaultValues();
 
         strcpy(data.control, "HORUSCONFIGV1");
         data.fullscreen =       StringToBool(fullscreen, false);
+        data.vsync =            StringToBool(vsync, true);
         data.sound_effects =    StringToBool(soundeffect, true);
         data.background_music = StringToBool(music, true);
 
@@ -159,6 +162,7 @@ class IniFileSource : public DataSource {
         externals::CIniFile destination;
         externals::CIniSection* sect = destination.AddSection("Settings");
         sect->AddKey("Fullscreen")->SetValue(   BoolToString(data.fullscreen != 0));
+        sect->AddKey("VSync")->SetValue(        BoolToString(data.vsync != 0));
         sect->AddKey("SoundEffects")->SetValue( BoolToString(data.sound_effects != 0));
         sect->AddKey("Music")->SetValue(        BoolToString(data.background_music != 0));
         sect->AddKey("Language")->SetValue(     Settings::LanguageNameList()[data.language]);
@@ -244,6 +248,7 @@ Settings::Settings() {
     background_music_ = data.background_music;
     sound_effects_ = data.sound_effects;
     language_ = data.language;
+    vsync_ = data.vsync;
 }
 
 bool Settings::ReadFromDisk(SettingsData &data) {
@@ -263,6 +268,7 @@ bool Settings::WriteToDisk() {
     data.background_music = background_music_;
     data.sound_effects = sound_effects_;
     data.language = language_;
+    data.vsync = vsync_;
 
     std::list<DataSource*>::iterator it;
     for(it = sources_.begin(); it != sources_.end(); ++it) {

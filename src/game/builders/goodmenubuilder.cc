@@ -282,12 +282,18 @@ static void fillSettingsFunction(SettingsFunction* sf) {
     const std::string *language_name = Settings::reference()->LanguageNameList();
     sf[4].values.push_back(language_name[0]);
     sf[4].values.push_back(language_name[1]);
+    
+    sf[5].name = "VSync";
+    sf[5].function = mem_fn(&Settings::set_vsync);
+    sf[5].values.push_back("Off");
+    sf[5].values.push_back("On");
 }
 
 struct ConveninentSettingsData {
-    Node **nodes_[5];
-    int sprites_active_[5];
-    SettingsFunction setting_functions_[5];
+    const static int NUM_SETTINGS = 6;
+    Node **nodes_[NUM_SETTINGS];
+    int sprites_active_[NUM_SETTINGS];
+    SettingsFunction setting_functions_[NUM_SETTINGS];
     std::map<const UIElement*, int> indices_;
 
     ConveninentSettingsData(Node* node) {
@@ -300,10 +306,11 @@ struct ConveninentSettingsData {
         this->sprites_active_[2] = settings_->background_music();
         this->sprites_active_[3] = settings_->sound_effects();
         this->sprites_active_[4] = settings_->language();
+        this->sprites_active_[5] = settings_->vsync();
 
         double second_column_x = ugdk::graphic::manager()->canvas()->size().x * 0.8;
     
-        for(int i = 0; i < 5; ++i) {
+        for (int i = 0; i < NUM_SETTINGS; ++i) {
             size_t size = this->setting_functions_[i].values.size();
             this->nodes_[i] = new Node*[size];
             for(size_t j = 0; j < size; ++j) {
@@ -323,7 +330,7 @@ struct ConveninentSettingsData {
         }
     }
     ~ConveninentSettingsData() {
-        for(int i = 0; i < 5; ++i)
+        for (int i = 0; i < NUM_SETTINGS; ++i)
             delete nodes_[i];
     }
 };
@@ -373,7 +380,7 @@ Scene* SettingsMenu() {
     std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(menu->node()));
     double left_column = target.x * 0.15;
 
-    for (int i = 0; i < 5; ++i) {
+    for (int i = 0; i < ConveninentSettingsData::NUM_SETTINGS; ++i) {
         Drawable* img = ugdk::resource::GetLanguageWord(data->setting_functions_[i].name)->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (i + 1));
         Button* uie = new Button(pos, img, bind(ElementPress, data, _1));
@@ -382,11 +389,11 @@ Scene* SettingsMenu() {
     }
 
     {   Drawable* img = ugdk::resource::GetLanguageWord("Apply")->CreateLabel();
-        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 7);
+        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (ConveninentSettingsData::NUM_SETTINGS + 2));
         menu->AddObject(new Button(pos, img, ApplySettings)); }
 
     {   Drawable* img = ugdk::resource::GetLanguageWord("Exit")->CreateLabel();
-        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * 8);
+        ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (ConveninentSettingsData::NUM_SETTINGS + 3));
         menu->AddObject(new Button(pos, img, [settings_menu](const Button*) { settings_menu->Finish(); })); }
 
     menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);

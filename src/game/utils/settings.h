@@ -15,6 +15,7 @@ typedef struct {
     ugdk::uint8 background_music;
     ugdk::uint8 sound_effects;
     ugdk::uint8 language;
+    ugdk::uint8 vsync;
 
     void FillWithDefaultValues();
     bool ValidateData() const;
@@ -39,6 +40,7 @@ class Settings {
     void set_background_music(int background_music) { background_music_ = background_music != 0; }
     void set_sound_effects(int sound_effects)       { sound_effects_ = sound_effects != 0; }
     void set_language(int language)                 { language_ = language; }
+    void set_vsync(int vsync)                        { vsync_ = vsync != 0;  }
 
     // Getters
     int resolution()            const { return resolution_; }
@@ -46,10 +48,10 @@ class Settings {
     bool background_music()     const { return background_music_; }
     bool sound_effects()        const { return sound_effects_; }
     int language()              const { return language_; }
+    bool vsync()                const { return vsync_; }
 
     const ugdk::math::Integer2D& resolution_vector() const;
     const std::string& language_name() const;
-
 
     const static int NUM_RESOLUTIONS = 12;
     static const ugdk::math::Integer2D* ResolutionList() { return resolutions_; }
@@ -66,7 +68,7 @@ class Settings {
     static std::string languages_[NUM_LANGUAGES], languages_names_[NUM_LANGUAGES];
 
     int resolution_, language_;
-    bool fullscreen_, background_music_, sound_effects_;
+    bool fullscreen_, background_music_, sound_effects_, vsync_;
     std::string configuration_folder_path_;
     std::list<DataSource*> sources_;
 

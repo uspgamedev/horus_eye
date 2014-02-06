@@ -85,6 +85,7 @@
 [Music]{FontA}:Music
 [Sound Effects]{FontA}:Sound Effects
 [Language]{FontA}:Language
+[VSync]{FontA}:VSync
 [Apply]{FontA}:Apply
 [On]{FontB}:On
 [Off]{FontB}:Off

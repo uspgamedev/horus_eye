@@ -85,6 +85,7 @@
 [Music]{FontA}:Música
 [Sound Effects]{FontA}:Efeitos Sonoros
 [Language]{FontA}:Idioma
+[VSync]{FontA}:Sincronia Vertical
 [Apply]{FontA}:Aplicar
 
 [On]{FontB}:Ligado
