@@ -190,12 +190,15 @@ World::World(const ugdk::math::Integer2D& size)
     this->AddTask(ugdk::system::Task([this](double) {
         while(!queued_moves_.empty()) {
             auto p = this->queued_moves_.front();
-            p.first->current_room()->RemoveObject(p.first);
-            p.second->ForceAddObject(p.first);
             this->queued_moves_.pop();
 
-            if(p.first == this->hero_)
-                ChangeFocusedRoom(p.second);
+            if (auto wobj = p.first.lock()) {
+                wobj->current_room()->RemoveObject(wobj);
+                p.second->ForceAddObject(wobj);
+
+                if (wobj == this->hero_)
+                    ChangeFocusedRoom(p.second);
+            } 
         }
     }, 0.6));
 
@@ -275,7 +278,7 @@ void World::SetHero(const sprite::WObjPtr& hero) {
     hero_ = hero;
 }
     
-void World::QueueRoomChange(const sprite::WObjPtr& wobj, map::Room* next_room) {
+void World::QueueRoomChange(const sprite::WObjWeakPtr& wobj, map::Room* next_room) {
     queued_moves_.emplace(wobj, next_room);
 }
 

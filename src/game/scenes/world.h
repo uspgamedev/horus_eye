@@ -40,7 +40,7 @@ class World : public ugdk::action::Scene {
         hero_initial_room_ = room; hero_initial_position_ = pos;
     }
     void SetHero(const sprite::WObjPtr& hero);
-    void QueueRoomChange(const sprite::WObjPtr&, map::Room* next_room);
+    void QueueRoomChange(const sprite::WObjWeakPtr&, map::Room* next_room);
 
     void FinishLevel(utils::LevelManager::LevelState state) {
         level_state_ = state;
@@ -89,7 +89,7 @@ class World : public ugdk::action::Scene {
     utils::LevelManager::LevelState level_state_;
     pyramidworks::collision::CollisionManager collision_manager_;
     pyramidworks::collision::CollisionManager visibility_manager_;
-    std::queue<std::pair<sprite::WObjPtr, map::Room*> > queued_moves_;
+    std::queue<std::pair<sprite::WObjWeakPtr, map::Room*> > queued_moves_;
 
     // Graphic
     utils::Hud *hud_;
