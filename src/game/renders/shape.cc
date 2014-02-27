@@ -7,6 +7,7 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
+#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/texture.h>
@@ -33,7 +34,7 @@ namespace {
 
 void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
-    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().current_shader());
+    opengl::ShaderUse shader_use(graphic::manager()->shaders().current_shader());
     shader_use.SendGeometry(canvas.current_geometry());
     shader_use.SendEffect(canvas.current_visualeffect());
     shader_use.SendTexture(0, graphic::manager()->white_texture());
@@ -66,7 +67,7 @@ void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::
 
 void DrawCircle(const geometry::Circle* circle, const Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
-    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().current_shader());
+    opengl::ShaderUse shader_use(graphic::manager()->shaders().current_shader());
     shader_use.SendGeometry(canvas.current_geometry());
     shader_use.SendEffect(canvas.current_visualeffect());
     shader_use.SendTexture(0, graphic::manager()->white_texture());

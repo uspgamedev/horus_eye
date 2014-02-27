@@ -8,6 +8,7 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
+#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/texture.h>
@@ -43,6 +44,7 @@ ugdk::graphic::opengl::ShaderProgram* horus_light_shader_ = NULL;
 void AddHorusLightShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
+
     // VERTEX
     vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
     vertex_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n");
@@ -60,7 +62,7 @@ void AddHorusLightShader() {
 
     fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightUV).rgb, 1.0);" "\n");
-    fragment_shader.AddLineInMain("	if(color.a <= 0) { discard; }" "\n");
+    fragment_shader.AddLineInMain("	if(color.a <= 0.0) { discard; }" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 
@@ -117,8 +119,8 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
                        const math::Vector2D& p3, const math::Vector2D& p4,
                        const math::Vector2D& O,
                        ugdk::graphic::Canvas& canvas) {
-    //opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
-    opengl::ShaderProgram::Use shader_use(horus_shadowcasting_shader_);
+    //opengl::ShaderUse shader_use(horus_shadowcasting_shader_);
+    opengl::ShaderUse shader_use(horus_shadowcasting_shader_);
     shader_use.SendGeometry(canvas.current_geometry());
     //shader_use.SendEffect(effect);
     //shader_use.SendTexture(0, graphic::manager()->white_texture());
@@ -292,7 +294,7 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
 }
 
 void DrawTexture(ugdk::graphic::Texture* texture, ugdk::graphic::Canvas& canvas) {
-    opengl::ShaderProgram::Use shader_use(graphic::manager()->shaders().GetSpecificShader(0));
+    opengl::ShaderUse shader_use(graphic::manager()->shaders().GetSpecificShader(0));
     shader_use.SendGeometry(canvas.current_geometry());
     shader_use.SendEffect(canvas.current_visualeffect());
     shader_use.SendTexture(0, texture);

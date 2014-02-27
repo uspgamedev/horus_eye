@@ -4,6 +4,8 @@
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/math/integer2D.h>
 
+#include <ugdk/graphic/primitive.h>
+
 namespace map {
 
 class SpecialWall : public ugdk::graphic::Drawable {
@@ -19,7 +21,7 @@ class SpecialWall : public ugdk::graphic::Drawable {
     static ugdk::graphic::opengl::ShaderProgram* wall_light_shader_;
 
     ugdk::math::Vector2D size_;
-    const ugdk::graphic::Texture* texture_;
+    ugdk::graphic::Primitive primitive_;
 };
 } // namespace map
 

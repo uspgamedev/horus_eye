@@ -5,6 +5,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
+#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/defaultshaders.h>
 
@@ -88,7 +89,7 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
         right.x < -1 || right.y > 1)
         return;*/
     // Use our shader
-    opengl::ShaderProgram::Use shader_use(continuous_light_shader_);
+    opengl::ShaderUse shader_use(continuous_light_shader_);
 
     shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), continuous_light_shader_->UniformLocation("light_texture"));
 

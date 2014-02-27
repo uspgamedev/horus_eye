@@ -6,6 +6,7 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
+#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/math/vector2D.h>
 
 #include "game/core/coordinates.h"
@@ -78,7 +79,7 @@ void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
         Vector2D lightpos = (geo.offset() - Vector2D(render_ogl.x, render_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
 
         {
-            ugdk::graphic::opengl::ShaderProgram::Use shader(get_horus_light_shader());
+            ugdk::graphic::opengl::ShaderUse shader(get_horus_light_shader());
             shader.SendUniform("lightUV", lightpos.x, lightpos.y);
         }
 

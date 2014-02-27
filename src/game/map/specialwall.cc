@@ -6,7 +6,9 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
+#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
+#include <ugdk/graphic/opengl/vertexdata_rectangle.h>
 #include <ugdk/graphic/defaultshaders.h>
 #include <ugdk/graphic/texture.h>
 
@@ -54,7 +56,7 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
 
     fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightPosition).rgb, 1.0);" "\n");
-    fragment_shader.AddLineInMain("	if(color.a <= 0) { discard; }" "\n");
+    fragment_shader.AddLineInMain("	if(color.a <= 0.0) { discard; }" "\n");
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 
@@ -71,7 +73,8 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
 
 SpecialWall::SpecialWall(const ugdk::graphic::Texture* texture)
     : size_(texture->width(), texture->height())
-    , texture_(texture) {
+    , primitive_(texture, std::make_shared<opengl::VertexDataRectangle>())
+{
     
     if(!wall_light_shader_) {
         wall_light_shader_ = createWallShader();
@@ -85,26 +88,18 @@ void SpecialWall::Draw(ugdk::graphic::Canvas& canvas) const {
     Geometry final_geometry(geometry);
     final_geometry.Compose(Geometry(-hotspot_, size_));
 
-    const glm::mat4& mat = final_geometry.AsMat4();
-
     // Use our shader
-    opengl::ShaderProgram::Use shader_use(wall_light_shader_);
+    opengl::ShaderUse shader_use(wall_light_shader_);
 
     Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
     shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
     shader_use.SendUniform("PIXEL_SIZE", 1.0f/canvas.size().x, 1.0f/canvas.size().y);
-
-    shader_use.SendTexture(0, texture_);
     shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
-    shader_use.SendGeometry(mat);
+    shader_use.SendGeometry(final_geometry);
     shader_use.SendEffect(canvas.current_visualeffect());
 
-    shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::VERTEX, 0);
-    shader_use.SendVertexBuffer(VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
-
-    // Draw the triangle !
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4); // 12*3 indices starting at 0 -> 12 triangles
+    primitive_.Draw(shader_use);
 }
 
 } // namespace map
