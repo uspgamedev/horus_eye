@@ -90,14 +90,19 @@ void SpecialWall::Draw(ugdk::graphic::Canvas& canvas) const {
 
     // Use our shader
     opengl::ShaderUse shader_use(wall_light_shader_);
+    
+    // 
+    shader_use.SendGeometry(final_geometry);
+    shader_use.SendEffect(canvas.current_visualeffect());
 
-    Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
-    shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
+    // static data
     shader_use.SendUniform("PIXEL_SIZE", 1.0f/canvas.size().x, 1.0f/canvas.size().y);
     shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
-    shader_use.SendGeometry(final_geometry);
-    shader_use.SendEffect(canvas.current_visualeffect());
+    // per object data
+    Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
+    shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
+
 
     primitive_.Draw(shader_use);
 }
