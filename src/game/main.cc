@@ -7,7 +7,7 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/resource/genericcontainer.h>
 #include <ugdk/audio/module.h>
-#include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>

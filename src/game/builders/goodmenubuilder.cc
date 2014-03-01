@@ -7,12 +7,12 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/input/module.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/graphic/drawable/label.h>
+#include <ugdk/graphic/text/label.h>
 #include <ugdk/ui/menu.h>
 #include <ugdk/ui/button.h>
 #include <ugdk/structure/intervalkdtree.h>

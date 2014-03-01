@@ -8,9 +8,9 @@
 #include <ugdk/audio/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/textmanager.h>
-#include <ugdk/graphic/drawable/label.h>
-#include <ugdk/graphic/drawable/textbox.h>
+#include <ugdk/graphic/text/textmanager.h>
+#include <ugdk/graphic/text/label.h>
+#include <ugdk/graphic/text/textbox.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/input/module.h>
 #include <ugdk/action/scene.h>

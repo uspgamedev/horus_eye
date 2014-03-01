@@ -10,8 +10,8 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/textbox.h>
-#include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/text/textbox.h>
+#include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/time/module.h>
 #include <ugdk/input/events.h>
 #include <ugdk/input/module.h>

@@ -2,13 +2,13 @@
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/system/engine.h>
-#include <ugdk/graphic/textmanager.h>
+#include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/drawable/label.h>
+#include <ugdk/graphic/text/label.h>
 #include <ugdk/time/module.h>
 
 #include "game/config.h"
