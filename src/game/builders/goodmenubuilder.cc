@@ -13,11 +13,11 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/text/label.h>
-#include <ugdk/ui/menu.h>
-#include <ugdk/ui/button.h>
 #include <ugdk/structure/intervalkdtree.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
+#include <pyramidworks/ui/menu.h>
+#include <pyramidworks/ui/button.h>
 
 #include "game/constants.h"
 #include "game/scenes/world.h"
@@ -38,9 +38,9 @@ using ugdk::action::Scene;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
 using ugdk::graphic::Label;
-using ugdk::ui::Menu;
-using ugdk::ui::Button;
-using ugdk::ui::UIElement;
+using pyramidworks::ui::Menu;
+using pyramidworks::ui::Button;
+using pyramidworks::ui::UIElement;
 using utils::Settings;
 using ugdk::resource::GetLanguageWord;
 
@@ -91,8 +91,8 @@ Scene* PauseMenu() {
     }));
 
     pause_menu->StopsPreviousMusic(false);
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
     pause_menu->AddEntity(menu);
     pause_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
 
@@ -167,8 +167,8 @@ Scene* CampaignMenu() {
                                GetLanguageWord("Exit")->CreateLabel(),
                                [mission_menu](const Button*) { mission_menu->Finish(); }));
 
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
     mission_menu->AddEntity(menu);
     mission_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
 
@@ -238,8 +238,8 @@ Scene* MainMenu() {
     menu->AddObject(new Button(credits_position,  credits_text,  [](const Button*) { utils::LevelManager::reference()->ShowCredits(); }));
     menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
 
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
     
     main_menu->AddEntity(menu);
     main_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
@@ -396,8 +396,8 @@ Scene* SettingsMenu() {
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (ConveninentSettingsData::NUM_SETTINGS + 3));
         menu->AddObject(new Button(pos, img, [settings_menu](const Button*) { settings_menu->Finish(); })); }
 
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
     menu->AddCallback(ugdk::input::Keycode::RIGHT , bind(PressArrow, data, +1, _1));
     menu->AddCallback(ugdk::input::Keycode::LEFT  , bind(PressArrow, data, -1, _1));
 
