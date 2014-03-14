@@ -13,6 +13,7 @@
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/visualeffect.h>
+#include <ugdk/graphic/primitivecontroller.h>
 
 #include <string>
 #include <memory>
@@ -24,13 +25,13 @@ class Graphic : public Base {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
-    static Graphic* Create(const std::shared_ptr<ugdk::graphic::Drawable>& drawable = nullptr);
+    static Graphic* Create(const std::shared_ptr<ugdk::graphic::Primitive>& primitive = nullptr);
     static Graphic* Create(Animator* animator);
     static Graphic* Create(const std::string& spritesheet_name, const std::string& animation_set);
 
     ~Graphic();
 
-    void set_drawable(const std::shared_ptr<ugdk::graphic::Drawable>& drawable);
+    void set_primitive(const std::shared_ptr<ugdk::graphic::Primitive>& primitive);
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
@@ -58,9 +59,10 @@ class Graphic : public Base {
     Animator* animator() { return animator_; }
 
   private:
-    Graphic(const std::shared_ptr<ugdk::graphic::Drawable>& drawable, Animator* animator);
+    Graphic(const std::shared_ptr<ugdk::graphic::Primitive>& primitive, Animator* animator);
 
-    std::shared_ptr<ugdk::graphic::Drawable> drawable_;
+    std::shared_ptr<ugdk::graphic::Primitive> primitive_;
+    std::shared_ptr<ugdk::graphic::PrimitiveControllerPosition> primitive_controller_;
     Animator* animator_;
 
     scene::GameLayer layer_;

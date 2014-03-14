@@ -1,6 +1,6 @@
 #include "game/components/animator.h"
 
-#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/sprite.h>
 #include <ugdk/action/animationplayer.h>
 #include <ugdk/action/spritetypes.h>
 #include "game/utils/isometricanimationset.h"
@@ -18,7 +18,7 @@ namespace {
 Animator::Animator(const std::string& spritesheet_tag, const std::string& animation_set) 
     :   isometric_animation_set_(utils::IsometricAnimationSet::LoadFromResourceManager(animation_set))
 {
-    sprite_.reset(new Sprite(spritesheet_tag, isometric_animation_set_.animation_set()));
+    sprite_.reset(Sprite::Create(spritesheet_tag, isometric_animation_set_.animation_set()));
 }
 
 Animator::Animator(const ugdk::graphic::Spritesheet* spritesheet, const std::string& animation_set)

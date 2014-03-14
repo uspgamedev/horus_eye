@@ -4,7 +4,7 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/math/vector2D.h>
@@ -22,18 +22,18 @@ using ugdk::math::Vector2D;
 using ugdk::graphic::Node;
 using ugdk::graphic::Drawable;
 
-Graphic::Graphic(const std::shared_ptr<ugdk::graphic::Drawable>& drawable, Animator* animator)
-    :   drawable_(drawable)
-    ,   animator_(animator)
-    ,   layer_(scene::FOREGROUND_LAYER)
+Graphic::Graphic(const std::shared_ptr<ugdk::graphic::Primitive>& primitive, Animator* animator)
+: primitive_(primitive)
+, animator_(animator)
+, layer_(scene::FOREGROUND_LAYER)
 {}
 
 Graphic::~Graphic() {
     delete animator_;
 }
     
-void Graphic::set_drawable(const std::shared_ptr<ugdk::graphic::Drawable>& drawable) {
-    drawable_ = drawable;
+void Graphic::set_primitive(const std::shared_ptr<ugdk::graphic::Primitive>& primitive) {
+    primitive_ = primitive;
 }
 
 
@@ -71,7 +71,7 @@ void Graphic::Update(double dt) {
 }
 
 void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
-    if(drawable_) {
+    if (primitive_) {
         canvas.PushAndCompose(final_position_);
 
         const ugdk::graphic::Geometry& geo = canvas.current_geometry();
@@ -83,7 +83,7 @@ void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
             shader.SendUniform("lightUV", lightpos.x, lightpos.y);
         }
 
-        drawable_->Draw(canvas);
+        primitive_->Draw(canvas);
         canvas.PopGeometry();
     }
 }
@@ -92,13 +92,13 @@ void Graphic::OnAdd(sprite::WorldObject* wobj) {
     SetPosition(wobj->world_position());
 }
     
-Graphic* Graphic::Create(const std::shared_ptr<ugdk::graphic::Drawable>& drawable) {
-    return new Graphic(drawable, nullptr);
+Graphic* Graphic::Create(const std::shared_ptr<ugdk::graphic::Primitive>& primitive) {
+    return new Graphic(primitive, nullptr);
 }
 
 Graphic* Graphic::Create(Animator* animator) {
     if(!animator) return new Graphic(nullptr, nullptr);
-    return new Graphic(animator->sprite(), animator);
+    return new Graphic(animator->sprite()->primitive(), animator);
 }
     
 Graphic* Graphic::Create(const std::string& spritesheet_name, const std::string& animation_set) {
