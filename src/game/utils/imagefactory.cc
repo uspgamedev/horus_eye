@@ -2,13 +2,12 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/spritesheet.h>
-#include <ugdk/graphic/drawable/sprite.h>
-#include <ugdk/graphic/drawable/texturedrectangle.h>
 #include "game/constants.h"
 
 using ugdk::math::Vector2D;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Spritesheet;
+using ugdk::graphic::Texture;
 
 namespace utils {
 
@@ -68,12 +67,12 @@ Spritesheet* ImageFactory::TileSwitchImage() {
     return ugdk::resource::GetSpritesheetFromTag("tile_switch");
 }
 
-Drawable* ImageFactory::LifePotionImage() {
-    return new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/life_potion2.png"));
+Texture* ImageFactory::LifePotionImage() {
+    return ugdk::resource::GetTextureFromFile("images/life_potion2.png");
 }
 
-Drawable* ImageFactory::ManaPotionImage() {
-    return new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/mana_potion.png"));
+Texture* ImageFactory::ManaPotionImage() {
+    return ugdk::resource::GetTextureFromFile("images/mana_potion.png");
 }
 
 }

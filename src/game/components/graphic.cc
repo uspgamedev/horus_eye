@@ -8,6 +8,7 @@
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/resource/module.h>
 
 #include "game/core/coordinates.h"
 #include "game/components/animator.h"
@@ -21,12 +22,18 @@ namespace component {
 using ugdk::math::Vector2D;
 using ugdk::graphic::Node;
 using ugdk::graphic::Drawable;
+using ugdk::graphic::Primitive;
 
 Graphic::Graphic(const std::shared_ptr<ugdk::graphic::Primitive>& primitive, Animator* animator)
 : primitive_(primitive)
 , animator_(animator)
 , layer_(scene::FOREGROUND_LAYER)
-{}
+{
+    if (animator_)
+        animator_->Configure(this);
+    if (!primitive_->shader_program())
+        primitive_->set_shader_program(get_horus_light_shader());
+}
 
 Graphic::~Graphic() {
     delete animator_;
@@ -67,7 +74,7 @@ void Graphic::set_visible(bool visible) {
 
 void Graphic::Update(double dt) {
     if(animator_)
-        animator_->sprite()->animation_player().Update(dt);
+        animator_->player()->Update(dt);
 }
 
 void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
@@ -79,11 +86,16 @@ void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
         Vector2D lightpos = (geo.offset() - Vector2D(render_ogl.x, render_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
 
         {
-            ugdk::graphic::opengl::ShaderUse shader(get_horus_light_shader());
+            ugdk::graphic::opengl::ShaderUse shader(primitive_->shader_program());
             shader.SendUniform("lightUV", lightpos.x, lightpos.y);
+
+            // TODO moar stuff?
+            shader.SendTexture(0, primitive_->texture());
+            shader.SendGeometry(geo);
+            shader.SendEffect(canvas.current_visualeffect());
+            primitive_->drawfunction()(*primitive_, shader);
         }
 
-        primitive_->Draw(canvas);
         canvas.PopGeometry();
     }
 }
@@ -96,13 +108,22 @@ Graphic* Graphic::Create(const std::shared_ptr<ugdk::graphic::Primitive>& primit
     return new Graphic(primitive, nullptr);
 }
 
-Graphic* Graphic::Create(Animator* animator) {
-    if(!animator) return new Graphic(nullptr, nullptr);
-    return new Graphic(animator->sprite()->primitive(), animator);
+Graphic* Graphic::Create(const ugdk::graphic::Spritesheet* spritesheet, Animator* animator) {
+    std::shared_ptr<Primitive> primitive(new Primitive(nullptr, ugdk::graphic::CreateSpriteCompatibleVertexData()));
+
+    std::unique_ptr<ugdk::graphic::Sprite> sprite_controller(new ugdk::graphic::Sprite(spritesheet)); 
+    sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame::DEFAULT()); // guarantee the primitive is in a valid frame.
+    primitive->set_controller(std::move(sprite_controller));
+
+    return new Graphic(primitive, animator);
 }
     
 Graphic* Graphic::Create(const std::string& spritesheet_name, const std::string& animation_set) {
-    return Create(new Animator(spritesheet_name, animation_set));
+    return Create(ugdk::resource::GetSpritesheetFromTag(spritesheet_name), new Animator(animation_set));
+}
+
+Graphic* Graphic::Create(const std::string& spritesheet_name) {
+    return Create(ugdk::resource::GetSpritesheetFromTag(spritesheet_name), nullptr);
 }
 
 }  // namespace component

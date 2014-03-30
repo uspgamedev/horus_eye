@@ -30,10 +30,11 @@ static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Explosion");
 
-    auto animator = new component::Animator(spritesheet, "animations/explosion.gdd");
+    auto graphic = component::Graphic::Create(spritesheet, "animations/explosion.gdd");
+    auto animator = graphic->animator();
     animator->ChangeAnimation(anim);
     animator->AddTickFunction(bind(&WorldObject::Remove, wobj.get()));
-    wobj->AddComponent(component::Graphic::Create(animator));
+    wobj->AddComponent(graphic);
 
     return wobj;
 }

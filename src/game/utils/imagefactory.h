@@ -24,8 +24,8 @@ class ImageFactory {
     ugdk::graphic::Spritesheet* LightningImage();
     ugdk::graphic::Spritesheet* LightImage();
     ugdk::graphic::Spritesheet* TileSwitchImage();
-    ugdk::graphic::Drawable* LifePotionImage();
-    ugdk::graphic::Drawable* ManaPotionImage();
+    ugdk::graphic::Texture* LifePotionImage();
+    ugdk::graphic::Texture* ManaPotionImage();
 };
 
 }

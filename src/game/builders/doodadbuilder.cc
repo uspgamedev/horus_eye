@@ -4,7 +4,7 @@
 #include <functional>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
@@ -40,7 +40,8 @@ using sprite::WorldObject;
 
 sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
     sprite::WObjPtr wobj = WorldObject::Create();
-    wobj->AddComponent(component::Graphic::Create(std::shared_ptr<ugdk::graphic::Drawable>(new Sprite("stairs"))));
+
+    wobj->AddComponent(component::Graphic::Create("stairs"));
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
@@ -52,9 +53,8 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
 static sprite::WObjPtr buildWall(ugdk::graphic::Texture* texture) {
     sprite::WObjPtr wobj = WorldObject::Create();
     if(texture) {
-        Drawable* drawable = new map::SpecialWall(texture);
-        drawable->set_hotspot(Vector2D(53, 156));
-        wobj->AddComponent(component::Graphic::Create(std::shared_ptr<ugdk::graphic::Drawable>(drawable)));
+        //drawable->set_hotspot(Vector2D(53, 156));
+        wobj->AddComponent(component::Graphic::Create(map::CreateSpecialWall(texture)));
     }
     wobj->set_identifier("Wall");
 

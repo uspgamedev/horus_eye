@@ -25,12 +25,16 @@ class Graphic : public Base {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
-    static Graphic* Create(const std::shared_ptr<ugdk::graphic::Primitive>& primitive = nullptr);
-    static Graphic* Create(Animator* animator);
+    static Graphic* Create(const std::shared_ptr<ugdk::graphic::Primitive>& primitive);
+    static Graphic* Create(const ugdk::graphic::Spritesheet*, Animator* animator);
     static Graphic* Create(const std::string& spritesheet_name, const std::string& animation_set);
+    static Graphic* Create(const std::string& spritesheet_name);
 
     ~Graphic();
 
+    std::shared_ptr<ugdk::graphic::Primitive> primitive() const {
+        return primitive_;
+    }
     void set_primitive(const std::shared_ptr<ugdk::graphic::Primitive>& primitive);
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
@@ -62,7 +66,6 @@ class Graphic : public Base {
     Graphic(const std::shared_ptr<ugdk::graphic::Primitive>& primitive, Animator* animator);
 
     std::shared_ptr<ugdk::graphic::Primitive> primitive_;
-    std::shared_ptr<ugdk::graphic::PrimitiveControllerPosition> primitive_controller_;
     Animator* animator_;
 
     scene::GameLayer layer_;

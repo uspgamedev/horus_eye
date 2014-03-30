@@ -1,7 +1,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/audio/module.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/system/engine.h>
 
@@ -30,7 +30,7 @@ static bool VisibilityCheck(const component::Caster* caster) {
 static void HeroLightUse(component::Caster* caster){
     sprite::WObjPtr light = sprite::WorldObject::Create(15.0);
 
-    light->AddComponent(component::Graphic::Create(std::shared_ptr<graphic::Drawable>(new ugdk::graphic::Sprite("light"))));
+    light->AddComponent(component::Graphic::Create("light"));
     light->AddComponent(new component::LightEmitter(4.0));
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);

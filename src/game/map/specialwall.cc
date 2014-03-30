@@ -4,6 +4,7 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
@@ -20,12 +21,12 @@ namespace map {
 using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
 using ugdk::graphic::opengl::VertexBuffer;
-    
-ugdk::graphic::opengl::ShaderProgram* SpecialWall::wall_light_shader_ = NULL;
 
-static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
-    using namespace ugdk::graphic;
+namespace {
+Vector2D wall_hotspot_(53, 156);
+opengl::ShaderProgram* wall_light_shader_ = nullptr;
 
+opengl::ShaderProgram* createWallShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
@@ -71,40 +72,28 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
     return shader;
 }
 
-SpecialWall::SpecialWall(const ugdk::graphic::Texture* texture)
-    : size_(texture->width(), texture->height())
-    , primitive_(texture, std::make_shared<opengl::VertexDataRectangle>())
-{
-    
-    if(!wall_light_shader_) {
-        wall_light_shader_ = createWallShader();
-    }
+void SpecialWallDrawFunction(const ugdk::graphic::Primitive& primitive, opengl::ShaderUse& shader_use) {
+
+    auto mgr = ugdk::graphic::manager();
+
+    shader_use.SendUniform("PIXEL_SIZE", 1.0f / mgr->canvas()->size().x, 1.0f / mgr->canvas()->size().y);
+    shader_use.SendTexture(1, mgr->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
+
+    opengl::RenderPrimitiveAsRectangle(primitive, shader_use);
+}
 }
 
-SpecialWall::~SpecialWall() {}
+std::shared_ptr<Primitive> CreateSpecialWall(const ugdk::graphic::Texture* texture) {
+    if(!wall_light_shader_) wall_light_shader_ = createWallShader();
 
-void SpecialWall::Draw(ugdk::graphic::Canvas& canvas) const {
-    const ugdk::graphic::Geometry& geometry = canvas.current_geometry();
-    Geometry final_geometry(geometry);
-    final_geometry.Compose(Geometry(-hotspot_, size_));
+    std::shared_ptr<Primitive> primitive(new Primitive(texture, std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false)));
+    primitive->set_shader_program(wall_light_shader_);
+    primitive->set_drawfunction(SpecialWallDrawFunction);
 
-    // Use our shader
-    opengl::ShaderUse shader_use(wall_light_shader_);
-    
-    // 
-    shader_use.SendGeometry(final_geometry);
-    shader_use.SendEffect(canvas.current_visualeffect());
+    opengl::PrepareVertexDataAsRectangle(*primitive->vertexdata(), Vector2D(texture->width(), texture->height()));
+    ApplyPositionOffset(*primitive->vertexdata(), -wall_hotspot_);
 
-    // static data
-    shader_use.SendUniform("PIXEL_SIZE", 1.0f/canvas.size().x, 1.0f/canvas.size().y);
-    shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
-
-    // per object data
-    Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
-    shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
-
-
-    primitive_.Draw(shader_use);
+    return primitive;
 }
 
 } // namespace map

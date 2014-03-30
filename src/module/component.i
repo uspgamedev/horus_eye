@@ -40,6 +40,7 @@ proxy_class(ugdk::action::Observer)
 %import(module="ugdk_action") <ugdk/action/animationplayer.h>
 %import(module="ugdk_action") <ugdk/action/spritetypes.h>
 %import(module="component") <game/sprites.h>
+%import(module="component") <game/components.h>
 
 proxy_class(component::Base)
 

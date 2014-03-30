@@ -4,9 +4,9 @@
 #include <functional>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic/opengl/vertexdata_rectangle.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
-
 
 #include "game/constants.h"
 #include "game/scenes/world.h"
@@ -34,6 +34,7 @@ using sprite::WObjPtr;
 using component::Caster;
 using sprite::Effect;
 using ugdk::action::Entity;
+using ugdk::graphic::opengl::CreateTexturedRectanglePrimitive;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
 
@@ -56,7 +57,7 @@ CollisionLogic UseCollision(WorldObject* owner, ItemEvent event) {
 
 class ItemLogic : public component::Base {
   public:
-    ItemLogic(component::Graphic* g, ugdk::graphic::Drawable* image) : graphic_(g), total_time_(0) {
+    ItemLogic(component::Graphic* g) : graphic_(g), total_time_(0) {
     }
     void Update(double delta_t) {
         total_time_ += delta_t;
@@ -68,11 +69,11 @@ class ItemLogic : public component::Base {
     double total_time_;
 };
 
-sprite::WObjPtr buildBaseItem(ugdk::graphic::Drawable* image, const ItemEvent& ev, const std::string& target_class = "Hero") {
+sprite::WObjPtr buildBaseItem(ugdk::graphic::Texture* texture, const ItemEvent& ev, const std::string& target_class = "Hero") {
     sprite::WObjPtr wobj = WorldObject::Create();
-    wobj->AddComponent(component::Graphic::Create(nullptr));
-    wobj->AddComponent(new ItemLogic(wobj->graphic(), image), "item", component::orders::LOGIC);
-    image->set_hotspot(ugdk::graphic::Drawable::BOTTOM);
+
+    wobj->AddComponent(component::Graphic::Create(CreateTexturedRectanglePrimitive(texture)));
+    wobj->AddComponent(new ItemLogic(wobj->graphic()), "item", component::orders::LOGIC);
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Item", new pyramidworks::geometry::Circle(0.15));
     col->AddCollisionLogic(target_class, UseCollision(wobj.get(), ev));

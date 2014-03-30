@@ -3,8 +3,9 @@
 
 #include "game/components/direction.h"
 #include "game/utils/isometricanimationset.h"
+#include "game/components.h"     
 
-#include <ugdk/graphic.h>
+#include <ugdk/action/spritetypes.h>
 #include <ugdk/action/observer.h>
 
 #include <functional>
@@ -14,8 +15,9 @@ namespace component {
 
 class Animator {
   public:
-    Animator(const std::string& spritesheet_tag, const std::string& animation_set);
-    Animator(const ugdk::graphic::Spritesheet* spritesheet, const std::string& animation_set);
+    Animator(const std::string& animation_set);
+
+    void Configure(Graphic*);
 
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
     bool ChangeAnimation(const std::string& animation_name);
@@ -23,12 +25,12 @@ class Animator {
     void AddObserver(ugdk::action::Observer* observer);
     void AddTickFunction(const std::function<void (void)>& tick);
     
-    const std::shared_ptr<ugdk::graphic::Sprite>& sprite() { return sprite_; }
+    const std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player() { return player_; }
 
   private:
     void operator=(const Animator&);
 
-    std::shared_ptr<ugdk::graphic::Sprite> sprite_;
+    std::shared_ptr<ugdk::action::SpriteAnimationPlayer> player_;
     utils::IsometricAnimationSet& isometric_animation_set_;
 
 };  // class Animator
