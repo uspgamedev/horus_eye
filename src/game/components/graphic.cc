@@ -7,6 +7,7 @@
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
+#include <ugdk/graphic/opengl/vertexdata_rectangle.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/resource/module.h>
 
@@ -109,11 +110,14 @@ Graphic* Graphic::Create(const std::shared_ptr<ugdk::graphic::Primitive>& primit
 }
 
 Graphic* Graphic::Create(const ugdk::graphic::Spritesheet* spritesheet, Animator* animator) {
-    std::shared_ptr<Primitive> primitive(new Primitive(nullptr, ugdk::graphic::CreateSpriteCompatibleVertexData()));
+    using namespace ugdk::graphic;
 
-    std::unique_ptr<ugdk::graphic::Sprite> sprite_controller(new ugdk::graphic::Sprite(spritesheet)); 
+    std::shared_ptr<Primitive> primitive(new Primitive(nullptr, CreateSpriteCompatibleVertexData()));
+    primitive->set_drawfunction(opengl::RenderPrimitiveAsRectangle);
+
+    Sprite* sprite_controller = new Sprite(spritesheet);
+    primitive->set_controller(std::unique_ptr<ugdk::graphic::Sprite>(sprite_controller));
     sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame::DEFAULT()); // guarantee the primitive is in a valid frame.
-    primitive->set_controller(std::move(sprite_controller));
 
     return new Graphic(primitive, animator);
 }
