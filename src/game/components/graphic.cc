@@ -93,7 +93,7 @@ void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
             // TODO moar stuff?
             shader.SendTexture(0, primitive_->texture());
             shader.SendGeometry(geo);
-            shader.SendEffect(canvas.current_visualeffect());
+            shader.SendEffect(canvas.current_visualeffect() * primitive_->visual_effect());
             primitive_->drawfunction()(*primitive_, shader);
         }
 

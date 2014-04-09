@@ -64,19 +64,38 @@ void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
 
+class AnimationPlayerHolder : public ugdk::action::Entity {
+public:
+    AnimationPlayerHolder() {}
+    ~AnimationPlayerHolder() {}
+
+    void Add(std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player) {
+        players_.push_back(player);
+    }
+
+    void Update(double dt) override {
+        for (auto& p : players_)
+            p->Update(dt);
+    }
+
+private:
+    std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
+};
+
 Menu* BaseBuildMenu(Scene* scene) {
     scene->set_focus_callback(MenuFocus);
     scene->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
+    auto holder = new AnimationPlayerHolder;
     Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
     for (int i = 0; i < 2; ++i) {
         auto sprite = mif.HorusEye();
-        //ugdk::action::SpriteAnimationPlayer* player = sprite.second.get();
-        //pause_menu->media_manager().AddPlayer(sprite.second);
         menu->SetOptionDrawable(sprite.first, i);
+        holder->Add(sprite.second);
     }
+    scene->AddEntity(holder);
 
     menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
