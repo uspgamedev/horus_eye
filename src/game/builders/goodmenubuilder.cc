@@ -82,14 +82,14 @@ private:
     std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
 };
 
-Menu* BaseBuildMenu(Scene* scene) {
+Menu* BaseBuildMenu(Scene* scene, Drawable::HookPoint hook = Drawable::CENTER) {
     scene->set_focus_callback(MenuFocus);
     scene->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
     auto holder = new AnimationPlayerHolder;
-    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
+    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), hook);
     for (int i = 0; i < 2; ++i) {
         auto sprite = mif.HorusEye();
         menu->SetOptionDrawable(sprite.first, i);
@@ -142,16 +142,15 @@ Scene* CampaignMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
 
     ugdk::action::Scene* mission_menu = new Scene();
-    Menu* menu = BaseBuildMenu(mission_menu);
     mission_menu->set_identifier("Campaign Menu");
+    Menu* menu = BaseBuildMenu(mission_menu, Drawable::LEFT);
 
     double y = 100.0;
 
-    //
     DIR *dir;
-    struct dirent *ent;
     if ((dir = opendir((constants::data_location() + "scripts/campaigns").c_str())) != NULL) {
         /* print all the files and directories within directory */
+        struct dirent *ent;
         while ((ent = readdir (dir)) != NULL) {
             if(ent->d_name[0] == '.') continue;
 
@@ -378,7 +377,7 @@ Scene* SettingsMenu() {
     settings_menu->set_identifier("Settings Menu");
 
     std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(menu->node()));
-    double left_column = target.x * 0.15;
+    double left_column = target.x * 0.20;
 
     for (int i = 0; i < ConveninentSettingsData::NUM_SETTINGS; ++i) {
         Drawable* img = ugdk::resource::GetLanguageWord(data->setting_functions_[i].name)->CreateLabel();
