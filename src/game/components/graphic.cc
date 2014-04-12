@@ -48,11 +48,18 @@ void Graphic::set_primitive(const std::shared_ptr<ugdk::graphic::Primitive>& pri
 void Graphic::SetPosition(const ugdk::math::Vector2D& position) {
     world_position_ = position;
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
+    if (auto controlller = dynamic_cast<ugdk::graphic::PrimitiveControllerPosition*>(primitive_->controller().get())) {
+        controlller->ChangePosition(final_position_);
+    }
+    
 }
 
 void Graphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
     render_offset_ = render_offset;
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
+    if (auto controlller = dynamic_cast<ugdk::graphic::PrimitiveControllerPosition*>(primitive_->controller().get())) {
+        controlller->ChangePosition(final_position_);
+    }
 }
 
 double Graphic::alpha() const {
@@ -80,11 +87,10 @@ void Graphic::Update(double dt) {
 
 void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
     if (primitive_) {
-        canvas.PushAndCompose(final_position_);
-
         const ugdk::graphic::Geometry& geo = canvas.current_geometry();
-        glm::vec4 render_ogl = geo.AsMat4() * glm::vec4(render_offset_.x, render_offset_.y, 0.0, 0.0);
-        Vector2D lightpos = (geo.offset() - Vector2D(render_ogl.x, render_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
+        glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(final_position_.x, final_position_.y, 0.0, 0.0);
+        glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(render_offset_.x, render_offset_.y, 0.0, 0.0);
+        Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
 
         {
             ugdk::graphic::opengl::ShaderUse shader(primitive_->shader_program());
@@ -96,8 +102,6 @@ void Graphic::Render(ugdk::graphic::Canvas& canvas) const {
             shader.SendEffect(canvas.current_visualeffect() * primitive_->visual_effect());
             primitive_->drawfunction()(*primitive_, shader);
         }
-
-        canvas.PopGeometry();
     }
 }
     

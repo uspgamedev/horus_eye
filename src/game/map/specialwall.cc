@@ -72,7 +72,7 @@ opengl::ShaderProgram* createWallShader() {
     return shader;
 }
 
-void SpecialWallDrawFunction(const ugdk::graphic::Primitive& primitive, opengl::ShaderUse& shader_use) {
+void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shader_use) {
 
     auto mgr = ugdk::graphic::manager();
 
@@ -81,13 +81,15 @@ void SpecialWallDrawFunction(const ugdk::graphic::Primitive& primitive, opengl::
 
     opengl::RenderPrimitiveAsRectangle(primitive, shader_use);
 }
+
 }
 
-std::shared_ptr<Primitive> CreateSpecialWall(const ugdk::graphic::Texture* texture) {
+std::shared_ptr<Primitive> CreateSpecialWall(const Texture* texture) {
     if(!wall_light_shader_) wall_light_shader_ = createWallShader();
 
     std::shared_ptr<Primitive> primitive(new Primitive(texture, std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false)));
     primitive->set_shader_program(wall_light_shader_);
+    primitive->set_controller(std::unique_ptr<PrimitiveController>(new Sprite(nullptr)));
     primitive->set_drawfunction(SpecialWallDrawFunction);
 
     opengl::PrepareVertexDataAsRectangle(*primitive->vertexdata(), Vector2D(texture->width(), texture->height()));

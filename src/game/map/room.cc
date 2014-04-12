@@ -51,9 +51,11 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
 
     glEnable(GL_DEPTH_TEST);
 
-    for(const auto& obj : objects_)
-        if(const auto& graphic = obj->graphic())
+    for (const auto& obj : objects_) {
+        if (const auto& graphic = obj->graphic()) {
             graphic->Render(canvas);
+        }
+    }
     
     glDisable(GL_DEPTH_TEST);
 }
