@@ -5,6 +5,8 @@
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
+#include <ugdk/graphic/spritesheet.h>
+#include <ugdk/graphic/textureatlas.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/vertexdata_rectangle.h>
@@ -116,7 +118,7 @@ Graphic* Graphic::Create(const std::shared_ptr<ugdk::graphic::Primitive>& primit
 Graphic* Graphic::Create(const ugdk::graphic::Spritesheet* spritesheet, Animator* animator) {
     using namespace ugdk::graphic;
 
-    std::shared_ptr<Primitive> primitive(new Primitive(nullptr, CreateSpriteCompatibleVertexData()));
+    std::shared_ptr<Primitive> primitive(new Primitive(spritesheet ? spritesheet->atlas().lock()->texture() : nullptr, CreateSpriteCompatibleVertexData()));
     primitive->set_drawfunction(opengl::RenderPrimitiveAsRectangle);
 
     Sprite* sprite_controller = new Sprite(spritesheet);
