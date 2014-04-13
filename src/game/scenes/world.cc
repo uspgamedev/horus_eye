@@ -303,6 +303,7 @@ void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
 void World::AddRoom(map::Room* room) {
     if(room && !room->name().empty()) {
         room->DefineLevel(this);
+        room->Sort();
         rooms_[room->name()] = room;
         rooms_by_location_.Insert(
             Box<2>(Vector2D(room->position()), Vector2D(room->position() + room->size())),
