@@ -72,7 +72,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
         if (const auto& graphic = obj->graphic()) {
             if (auto primitive = graphic->primitive().get()) {
                 if (primitive->shader_program() != current_shader) {
-                    shader_use.reset();
+                    shader_use = nullptr;
                     shader_use.reset(new opengl::ShaderUse(current_shader = primitive->shader_program()));
                     shader_use->SendGeometry(geo);
                     shader_changes++;
@@ -93,7 +93,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
             }
         }
     }
-    //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
+    printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
     
     glDisable(GL_DEPTH_TEST);
 }

@@ -50,12 +50,12 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
     return wobj;
 }
 
-static sprite::WObjPtr buildWall(ugdk::graphic::Texture* texture) {
+namespace {
+
+
+sprite::WObjPtr buildWall(int frame) {
     sprite::WObjPtr wobj = WorldObject::Create();
-    if(texture) {
-        //drawable->set_hotspot(Vector2D(53, 156));
-        wobj->AddComponent(component::Graphic::Create(map::CreateSpecialWall(texture)));
-    }
+    wobj->AddComponent(component::Graphic::Create(map::CreateSpecialWall(ugdk::resource::GetSpritesheetFromTag("wall"), frame)));
     wobj->set_identifier("Wall");
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new pyramidworks::geometry::Rect(1.0, 1.0));
@@ -71,20 +71,22 @@ static sprite::WObjPtr buildWall(ugdk::graphic::Texture* texture) {
     return wobj;
 }
 
+}
+
 sprite::WObjPtr Wall(const std::vector<std::string>& arguments) {
-    return buildWall(ugdk::resource::GetTextureFromFile("images/wall-simple.png"));
+    return buildWall(0);
 }
 
 sprite::WObjPtr InvisibleWall(const std::vector<std::string>& arguments) {
-    return buildWall(ugdk::resource::GetTextureFromFile("images/wall-shortened.png"));
+    return buildWall(1);
 }
 
 sprite::WObjPtr BurntWall(const std::vector<std::string>& arguments) {
-    return buildWall(ugdk::resource::GetTextureFromFile("images/wall-burnt.png"));
+    return buildWall(2);
 }
 
 sprite::WObjPtr Entry(const std::vector<std::string>& arguments) {
-    return buildWall(ugdk::resource::GetTextureFromFile("images/door.png"));
+    return buildWall(0);
 }
 
 } // namespace DoodadBuilder

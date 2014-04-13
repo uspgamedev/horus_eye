@@ -6,7 +6,7 @@
 
 namespace map {
 
-std::shared_ptr<ugdk::graphic::Primitive> CreateSpecialWall(const ugdk::graphic::Texture*);
+std::shared_ptr<ugdk::graphic::Primitive> CreateSpecialWall(const ugdk::graphic::Spritesheet*, int frame);
 
 } // namespace map
 
