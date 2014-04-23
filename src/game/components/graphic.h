@@ -12,6 +12,7 @@
 #include <ugdk/action/spritetypes.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/primitive.h>
 #include <ugdk/graphic/visualeffect.h>
 #include <ugdk/graphic/primitivecontroller.h>
 
@@ -25,17 +26,16 @@ class Graphic : public Base {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
-    static Graphic* Create(const std::shared_ptr<ugdk::graphic::Primitive>& primitive);
+    static Graphic* Create(const std::function<void (ugdk::graphic::Primitive&)>& primitive_prepare_function);
     static Graphic* Create(const ugdk::graphic::Spritesheet*, Animator* animator);
     static Graphic* Create(const std::string& spritesheet_name, const std::string& animation_set);
     static Graphic* Create(const std::string& spritesheet_name);
+    static Graphic* Create(const char* spritesheet_name);
 
     ~Graphic();
 
-    std::shared_ptr<ugdk::graphic::Primitive> primitive() const {
-        return primitive_;
-    }
-    void set_primitive(const std::shared_ptr<ugdk::graphic::Primitive>& primitive);
+    const ugdk::graphic::Primitive& primitive() const { return primitive_; }
+    ugdk::graphic::Primitive& primitive() { return primitive_; }
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
@@ -58,16 +58,14 @@ class Graphic : public Base {
 
     void Update(double dt);
 
-    void Render(ugdk::graphic::Canvas&) const;
-    
     virtual void OnAdd(sprite::WorldObject*);
     
     Animator* animator() { return animator_; }
 
   private:
-    Graphic(const std::shared_ptr<ugdk::graphic::Primitive>& primitive, Animator* animator);
+    Graphic(Animator* animator);
 
-    std::shared_ptr<ugdk::graphic::Primitive> primitive_;
+    ugdk::graphic::Primitive primitive_;
     Animator* animator_;
 
     scene::GameLayer layer_;

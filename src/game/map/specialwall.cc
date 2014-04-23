@@ -9,8 +9,7 @@
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
-#include <ugdk/graphic/opengl/vertexdata_rectangle.h>
+#include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
 #include <ugdk/graphic/texture.h>
 
@@ -21,7 +20,6 @@ namespace map {
 
 using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
-using ugdk::graphic::opengl::VertexBuffer;
 
 namespace {
 Vector2D wall_hotspot_(53, 156);
@@ -83,20 +81,20 @@ void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shad
     shader_use.SendUniform("PIXEL_SIZE", 1.0f / mgr->canvas()->size().x, 1.0f / mgr->canvas()->size().y);
     shader_use.SendTexture(1, mgr->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
 
-    opengl::RenderPrimitiveAsRectangle(primitive, shader_use);
+    ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, shader_use);
 }
 
 }
 
-std::shared_ptr<Primitive> CreateSpecialWall(const Spritesheet* spritesheet, int frame) {
+void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const Spritesheet* spritesheet, int frame) {
     if(!wall_light_shader_) wall_light_shader_ = createWallShader();
 
-
-    std::shared_ptr<Primitive> primitive(new Primitive(spritesheet->atlas().lock()->texture(), std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false)));
-    primitive->set_shader_program(wall_light_shader_);
+    primitive.set_vertexdata(std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false));
+    primitive.set_texture(spritesheet->atlas()->texture());
+    primitive.set_shader_program(wall_light_shader_);
 
     auto bound_piece = &spritesheet->frame(frame).piece;
-    primitive->set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
+    primitive.set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
         float left, right, temp;
         bound_piece->ConvertToAtlas(0.0f, 0.0f, &left, &temp);
         bound_piece->ConvertToAtlas(1.0f, 0.0f, &right, &temp);
@@ -104,12 +102,9 @@ std::shared_ptr<Primitive> CreateSpecialWall(const Spritesheet* spritesheet, int
         SpecialWallDrawFunction(primitive, shader_use);
     });
 
-    Sprite* sprite_controller = new Sprite(spritesheet);
-    primitive->set_controller(std::unique_ptr<ugdk::graphic::Sprite>(sprite_controller));
-    sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame(frame)); // guarantee the primitive is in a valid frame.
-
-    //ApplyPositionOffset(*primitive->vertexdata(), -wall_hotspot_);
-    return primitive;
+    PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(spritesheet);
+    primitive.set_controller(std::unique_ptr<ugdk::graphic::PrimitiveControllerSprite>(sprite_controller));
+    sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame(frame));
 }
 
 } // namespace map

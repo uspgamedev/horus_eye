@@ -4,7 +4,9 @@
 
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/action/animationplayer.h>
+#include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/action/spritetypes.h>
+#include <ugdk/graphic/primitivesetup.h>
 #include "game/utils/isometricanimationset.h"
 
 namespace component {
@@ -23,7 +25,7 @@ Animator::Animator(const std::string& animation_set)
 }
     
 void Animator::Configure(Graphic* graphic) {
-    player_ = ugdk::graphic::CreateSpriteAnimationPlayerForPrimitive(graphic->primitive(), isometric_animation_set_.animation_set());
+    player_ = ugdk::graphic::PrimitiveSetup::Sprite::CreateSpriteAnimationPlayer(graphic->primitive(), isometric_animation_set_.animation_set());
 }
 
 bool Animator::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {

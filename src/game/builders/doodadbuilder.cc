@@ -55,7 +55,9 @@ namespace {
 
 sprite::WObjPtr buildWall(int frame) {
     sprite::WObjPtr wobj = WorldObject::Create();
-    wobj->AddComponent(component::Graphic::Create(map::CreateSpecialWall(ugdk::resource::GetSpritesheetFromTag("wall"), frame)));
+    wobj->AddComponent(component::Graphic::Create([frame](ugdk::graphic::Primitive& p) {
+        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetSpritesheetFromTag("wall"), frame);
+    }));
     wobj->set_identifier("Wall");
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new pyramidworks::geometry::Rect(1.0, 1.0));

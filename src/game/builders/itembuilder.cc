@@ -4,7 +4,7 @@
 #include <functional>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
-#include <ugdk/graphic/opengl/vertexdata_rectangle.h>
+#include <ugdk/graphic/primitivesetup.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
 
@@ -34,7 +34,6 @@ using sprite::WObjPtr;
 using component::Caster;
 using sprite::Effect;
 using ugdk::action::Entity;
-using ugdk::graphic::opengl::CreateTexturedRectanglePrimitive;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
 
@@ -72,7 +71,9 @@ class ItemLogic : public component::Base {
 sprite::WObjPtr buildBaseItem(ugdk::graphic::Texture* texture, const ItemEvent& ev, const std::string& target_class = "Hero") {
     sprite::WObjPtr wobj = WorldObject::Create();
 
-    wobj->AddComponent(component::Graphic::Create(CreateTexturedRectanglePrimitive(texture)));
+    wobj->AddComponent(component::Graphic::Create([texture](ugdk::graphic::Primitive& p) {
+        ugdk::graphic::PrimitiveSetup::Rectangle::Prepare(p, texture);
+    }));
     wobj->AddComponent(new ItemLogic(wobj->graphic()), "item", component::orders::LOGIC);
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Item", new pyramidworks::geometry::Circle(0.15));
