@@ -18,8 +18,6 @@
 #include "game/sprites/worldobject.h"
 #include "game/initializer.h"
 
-#define LIGHT_COEFFICIENT 0.75
-
 namespace component {
 
 using ugdk::math::Vector2D;

@@ -93,7 +93,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
             primitive.drawfunction()(primitive, *shader_use);
         }
     }
-    printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
+    //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
     
     glDisable(GL_DEPTH_TEST);
 }
