@@ -37,16 +37,19 @@ else(GIT_FOUND)
     set(horus_eye_VERSION "Unknown version")
 endif(GIT_FOUND)
 
-MESSAGE("== Horus Eye -- ${horus_eye_VERSION} ==")
+MESSAGE("== Horus Eye ==")
 
-set(RESOURCES_VERSION 6)
-if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tar.gz)
-    message("Downloading resources file version ${RESOURCES_VERSION}...")
-    file(DOWNLOAD 
-        http://uspgamedev.org/downloads/projects/horus_eye/dev/resources-v${RESOURCES_VERSION}.tar.gz 
-        ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tar.gz)
-    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/resources-v${RESOURCES_VERSION}.tar.gz
-                  WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data")
+set(RESOURCES_VERSION switch-spritesheet)
+if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-${RESOURCES_VERSION}.tar.gz)
+    if(GIT_FOUND)
+        message("= Downloading resources file version '${RESOURCES_VERSION}'...")
+        execute_process(COMMAND ${GIT_EXECUTABLE} archive --remote=git://uspgamedev.org/horus-resources.git
+                            -o ${CMAKE_CURRENT_BINARY_DIR}/resources-${RESOURCES_VERSION}.tar.gz ${RESOURCES_VERSION} resources/ )
+        execute_process(COMMAND ${CMAKE_COMMAND} -E tar xf ${CMAKE_CURRENT_BINARY_DIR}/resources-${RESOURCES_VERSION}.tar.gz
+                        WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/data")
+    else(GIT_FOUND)
+        message("-- WARNING: Git not found, unable to download resources.")
+    endif(GIT_FOUND)    
 endif()
 
 # FindUGDK

@@ -1,5 +1,5 @@
 
 name = "Horus Eye 2.0 Beta"
-playable = true
+playable = false
 
 level_list = { "beta_level" }
