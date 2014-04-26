@@ -11,11 +11,18 @@
 #include "game/components/graphic.h"
 #include "game/components/lightemitter.h"
 #include "game/components/body.h"
+#include "game/initializer.h"
 
 #include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 
+#include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/primitive.h>
+#include <ugdk/graphic/opengl/shaderuse.h>
+#include <glm/glm.hpp>
+
 #include <algorithm>
+#include <memory>
 
 namespace map {
 
@@ -51,9 +58,42 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
 
     glEnable(GL_DEPTH_TEST);
 
-    for(const auto& obj : objects_)
-        if(const auto& graphic = obj->graphic())
-            graphic->Render(canvas);
+    using namespace ugdk::graphic;
+        
+    const Geometry& geo = canvas.current_geometry();
+
+    const opengl::ShaderProgram* current_shader = nullptr;
+    const Texture* current_texture = nullptr;
+    std::unique_ptr<opengl::ShaderUse> shader_use;
+
+    int shader_changes = 0;
+    int texture_changes = 0;
+    for (const auto& obj : objects_) {
+        if (const auto& graphic = obj->graphic()) {
+            const auto& primitive = graphic->primitive();
+
+            if (primitive.shader_program() != current_shader) {
+                shader_use = nullptr;
+                shader_use.reset(new opengl::ShaderUse(current_shader = primitive.shader_program()));
+                shader_use->SendGeometry(geo);
+                shader_changes++;
+            }
+
+            if (primitive.texture() != current_texture) {
+                shader_use->SendTexture(0, current_texture = primitive.texture());
+                texture_changes++;
+            }
+
+            glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
+            glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
+            Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
+            shader_use->SendUniform("lightUV", lightpos.x, lightpos.y);
+
+            shader_use->SendEffect(canvas.current_visualeffect() * primitive.visual_effect());
+            primitive.drawfunction()(primitive, *shader_use);
+        }
+    }
+    //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
     
     glDisable(GL_DEPTH_TEST);
 }
@@ -129,6 +169,17 @@ void Room::Deactivate() {
     for(const auto& wobj : objects_)
         if(auto b = wobj->body())
             b->Deactivate();
+}
+
+void Room::Sort() {
+    objects_.sort([](const WObjPtr& a, const WObjPtr& b) {
+        auto ag = a->graphic(), bg = b->graphic();
+        if (ag && bg)
+            return ag->primitive().texture() < bg->primitive().texture();
+        if (ag || bg)
+            return ag < bg;
+        return a.get() < b.get();
+    });
 }
 
 void Room::updateObjects(double delta_t) {

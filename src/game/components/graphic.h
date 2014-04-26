@@ -12,7 +12,9 @@
 #include <ugdk/action/spritetypes.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
+#include <ugdk/graphic/primitive.h>
 #include <ugdk/graphic/visualeffect.h>
+#include <ugdk/graphic/primitivecontroller.h>
 
 #include <string>
 #include <memory>
@@ -24,13 +26,16 @@ class Graphic : public Base {
     static const char* DEFAULT_NAME() { return "graphic"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
-    static Graphic* Create(const std::shared_ptr<ugdk::graphic::Drawable>& drawable = nullptr);
-    static Graphic* Create(Animator* animator);
+    static Graphic* Create(const std::function<void (ugdk::graphic::Primitive&)>& primitive_prepare_function);
+    static Graphic* Create(const ugdk::graphic::Spritesheet*, Animator* animator);
     static Graphic* Create(const std::string& spritesheet_name, const std::string& animation_set);
+    static Graphic* Create(const std::string& spritesheet_name);
+    static Graphic* Create(const char* spritesheet_name);
 
     ~Graphic();
 
-    void set_drawable(const std::shared_ptr<ugdk::graphic::Drawable>& drawable);
+    const ugdk::graphic::Primitive& primitive() const { return primitive_; }
+    ugdk::graphic::Primitive& primitive() { return primitive_; }
 
     void set_layer(scene::GameLayer layer) { layer_ = layer; }
     scene::GameLayer layer() const { return layer_; }
@@ -38,6 +43,8 @@ class Graphic : public Base {
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::math::Vector2D& position);
 
+    const ugdk::math::Vector2D& render_offset() const { return render_offset_; }
+    const ugdk::math::Vector2D& final_position() const { return final_position_; }
     void set_render_offset(const ugdk::math::Vector2D& render_offset);
 
           ugdk::graphic::VisualEffect& visual_effect()       { return visual_effect_; }
@@ -51,16 +58,14 @@ class Graphic : public Base {
 
     void Update(double dt);
 
-    void Render(ugdk::graphic::Canvas&) const;
-    
     virtual void OnAdd(sprite::WorldObject*);
     
     Animator* animator() { return animator_; }
 
   private:
-    Graphic(const std::shared_ptr<ugdk::graphic::Drawable>& drawable, Animator* animator);
+    Graphic(Animator* animator);
 
-    std::shared_ptr<ugdk::graphic::Drawable> drawable_;
+    ugdk::graphic::Primitive primitive_;
     Animator* animator_;
 
     scene::GameLayer layer_;

@@ -1,6 +1,12 @@
 #include "menuimagefactory.h"
 
-#include <ugdk/graphic/drawable/sprite.h>
+#include <ugdk/graphic/module.h>
+#include <ugdk/graphic/primitive.h>
+#include <ugdk/graphic/primitivesetup.h>
+#include <ugdk/graphic/sprite.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/graphic/sprite.h>
+#include <pyramidworks/ui/drawable.h>
 
 using ugdk::graphic::Sprite;
 
@@ -8,11 +14,23 @@ namespace utils {
 
 MenuImageFactory::MenuImageFactory() {}
 
-ugdk::graphic::Sprite* MenuImageFactory::HorusEye() {
-    Sprite* sprite = new Sprite("eye", "animations/menu.gdd");
-    sprite->animation_player().Select("SELECTION_EYE");
-    sprite->set_hotspot(ugdk::graphic::Drawable::CENTER);
-    return sprite;
+std::pair<
+    ugdk::graphic::Drawable*,
+    std::shared_ptr<ugdk::action::SpriteAnimationPlayer>
+> MenuImageFactory::HorusEye() {
+
+    auto primitive = std::make_shared<ugdk::graphic::Primitive>(nullptr, nullptr);
+    primitive->set_shader_program(ugdk::graphic::manager()->shaders().current_shader());
+    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(*primitive, ugdk::resource::GetSpritesheetFromTag("eye"));
+
+    auto player = ugdk::graphic::PrimitiveSetup::Sprite::CreateSpriteAnimationPlayer(*primitive, ugdk::resource::GetSpriteAnimationTableFromFile("animations/menu.gdd"));
+    player->Select("SELECTION_EYE");
+
+    auto d = new pyramidworks::ui::Drawable(primitive);
+    d->set_hotspot(ugdk::graphic::Drawable::CENTER);
+
+    return std::make_pair(d, player);
 }
+
 }
 

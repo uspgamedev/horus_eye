@@ -75,6 +75,7 @@ class Room {
 
     void Activate();
     void Deactivate();
+    void Sort();
 
     const std::string& name() const { return name_; }
     const std::list<std::string>& neighborhood() const { return neighborhood_; }

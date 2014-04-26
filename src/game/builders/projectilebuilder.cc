@@ -16,7 +16,6 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
-#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/structure/types.h>
@@ -54,9 +53,9 @@ static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, const st
     sprite::WObjPtr wobj = WorldObject::Create(duration);
     wobj->set_identifier("Projectile");
     if (isometric_animation.empty())
-        wobj->AddComponent(component::Graphic::Create(std::shared_ptr<Drawable>(new Sprite(spritesheet))));
+        wobj->AddComponent(component::Graphic::Create(spritesheet));
     else
-        wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheet, isometric_animation)));
+        wobj->AddComponent(component::Graphic::Create(spritesheet, isometric_animation));
     wobj->AddComponent(new component::LightEmitter(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;

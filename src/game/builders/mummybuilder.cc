@@ -73,7 +73,7 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj, const std::string& spri
 
     std::string aiscript = "basicmummy";
 
-    wobj->AddComponent(component::Graphic::Create(new component::Animator(spritesheetname, "animations/"+animation_descriptor+".gdd")));
+    wobj->AddComponent(component::Graphic::Create(spritesheetname, "animations/"+animation_descriptor+".gdd"));
     wobj->AddComponent(new component::Animation(utils::SPAWNING, Direction()));
 
     wobj->AddComponent(new component::Damageable(300));

@@ -4,11 +4,12 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/sprite.h>
+#include <ugdk/graphic/spritesheet.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
-#include <ugdk/graphic/opengl/vertexdata_rectangle.h>
+#include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
 #include <ugdk/graphic/texture.h>
 
@@ -19,13 +20,12 @@ namespace map {
 
 using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
-using ugdk::graphic::opengl::VertexBuffer;
-    
-ugdk::graphic::opengl::ShaderProgram* SpecialWall::wall_light_shader_ = NULL;
 
-static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
-    using namespace ugdk::graphic;
+namespace {
+Vector2D wall_hotspot_(53, 156);
+opengl::ShaderProgram* wall_light_shader_ = nullptr;
 
+opengl::ShaderProgram* createWallShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
@@ -40,13 +40,16 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
     fragment_shader.AddCodeBlock("in highp vec2 UV;" "\n"
                                  "in highp vec4 screenPos;" "\n"
                                  "uniform highp sampler2D drawable_texture;" "\n"
-                                 "uniform highp vec4 effect_color;" "\n");
+                                 "uniform highp vec4 effect_color;" "\n"
+                                 "uniform highp vec2 uv_minmax;" "\n"
+                                 );
 
     fragment_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n"
                                  "uniform highp vec2 PIXEL_SIZE;" "\n"
                                  "uniform highp sampler2D light_texture;" "\n");
     
-    fragment_shader.AddCodeBlock("highp float calculate_offset(highp float x) {" "\n"
+    fragment_shader.AddCodeBlock("highp float calculate_offset(highp float in_x) {" "\n"
+                                 "  highp float x = (in_x - uv_minmax.x) / (uv_minmax.y - uv_minmax.x);"
                                  "  return PIXEL_SIZE.y * 27.0 * min(x, 1.0-x) * 2.0;" "\n" // convert x from 0->0.5->1 to 0->1->0
                                                                                         // 27 is tile_height/2 (54/2)
                                  "}" "\n");
@@ -71,40 +74,38 @@ static ugdk::graphic::opengl::ShaderProgram* createWallShader() {
     return shader;
 }
 
-SpecialWall::SpecialWall(const ugdk::graphic::Texture* texture)
-    : size_(texture->width(), texture->height())
-    , primitive_(texture, std::make_shared<opengl::VertexDataRectangle>())
-{
-    
-    if(!wall_light_shader_) {
-        wall_light_shader_ = createWallShader();
-    }
+void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shader_use) {
+
+    auto mgr = ugdk::graphic::manager();
+
+    shader_use.SendUniform("PIXEL_SIZE", 1.0f / mgr->canvas()->size().x, 1.0f / mgr->canvas()->size().y);
+    shader_use.SendTexture(1, mgr->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
+
+    ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, shader_use);
 }
 
-SpecialWall::~SpecialWall() {}
+}
 
-void SpecialWall::Draw(ugdk::graphic::Canvas& canvas) const {
-    const ugdk::graphic::Geometry& geometry = canvas.current_geometry();
-    Geometry final_geometry(geometry);
-    final_geometry.Compose(Geometry(-hotspot_, size_));
+void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const Spritesheet* spritesheet, int frame) {
+    if(!wall_light_shader_) wall_light_shader_ = createWallShader();
 
-    // Use our shader
-    opengl::ShaderUse shader_use(wall_light_shader_);
-    
-    // 
-    shader_use.SendGeometry(final_geometry);
-    shader_use.SendEffect(canvas.current_visualeffect());
+    primitive.set_vertexdata(std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false));
+    primitive.set_texture(spritesheet->atlas()->texture());
+    primitive.set_shader_program(wall_light_shader_);
 
-    // static data
-    shader_use.SendUniform("PIXEL_SIZE", 1.0f/canvas.size().x, 1.0f/canvas.size().y);
-    shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), wall_light_shader_->UniformLocation("light_texture"));
+    auto bound_piece = &spritesheet->frame(frame).piece;
+    primitive.set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
+        float left, right, temp;
+        bound_piece->ConvertToAtlas(0.0f, 0.0f, &left, &temp);
+        bound_piece->ConvertToAtlas(1.0f, 0.0f, &right, &temp);
+        shader_use.SendUniform("uv_minmax", left, right);
+        SpecialWallDrawFunction(primitive, shader_use);
+    });
 
-    // per object data
-    Vector2D lightpos = geometry.offset() * 0.5 + Vector2D(0.5, 0.5);
-    shader_use.SendUniform("lightUV", lightpos.x, lightpos.y);
-
-
-    primitive_.Draw(shader_use);
+    PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(spritesheet);
+    primitive.set_controller(std::unique_ptr<ugdk::graphic::PrimitiveControllerSprite>(sprite_controller));
+    sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame(frame));
 }
 
 } // namespace map
+

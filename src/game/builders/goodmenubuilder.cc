@@ -3,6 +3,9 @@
 #include <ugdk/input/keycode.h>
 #include <ugdk/action.h>
 #include <ugdk/action/scene.h>
+#include <ugdk/action/mediaplayer.h>
+#include <ugdk/action/spritetypes.h>
+#include <ugdk/action/animationplayer.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/input/module.h>
@@ -11,7 +14,6 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/drawable/sprite.h>
 #include <ugdk/graphic/text/label.h>
 #include <ugdk/structure/intervalkdtree.h>
 #include <ugdk/script/scriptmanager.h>
@@ -46,12 +48,14 @@ using ugdk::resource::GetLanguageWord;
 
 namespace builder {
 
-void MenuFocus(Scene* scene){ 
+namespace {
+
+void MenuFocus(Scene* scene) {
     scene->set_active(true);
     scene->set_visible(true);
 }
 
-void MenuDeFocus(Scene* scene){ 
+void MenuDeFocus(Scene* scene) {
     scene->set_active(false);
     scene->set_visible(false);
 }
@@ -60,20 +64,56 @@ void MainMenuCredits(Scene* menu, const Button * source) {
     utils::LevelManager::reference()->ShowCredits();
 }
 
-Scene* PauseMenu() {
-    ugdk::action::Scene* pause_menu = new Scene();
-    pause_menu->set_identifier("Pause Menu");
-    pause_menu->set_focus_callback(MenuFocus);
-    pause_menu->set_defocus_callback(MenuDeFocus);
+class AnimationPlayerHolder : public ugdk::action::Entity {
+public:
+    AnimationPlayerHolder() {}
+    ~AnimationPlayerHolder() {}
+
+    void Add(std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player) {
+        players_.push_back(player);
+    }
+
+    void Update(double dt) override {
+        for (auto& p : players_)
+            p->Update(dt);
+    }
+
+private:
+    std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
+};
+
+Menu* BaseBuildMenu(Scene* scene, Drawable::HookPoint hook = Drawable::CENTER) {
+    scene->set_focus_callback(MenuFocus);
+    scene->set_defocus_callback(MenuDeFocus);
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
     utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
-    for(int i = 0; i < 2; ++i) {
-        ugdk::graphic::Sprite* sprite = mif.HorusEye();
-        pause_menu->media_manager().AddPlayer(&sprite->animation_player());
-        menu->SetOptionDrawable(sprite, i);
+    auto holder = new AnimationPlayerHolder;
+    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), hook);
+    for (int i = 0; i < 2; ++i) {
+        auto sprite = mif.HorusEye();
+        menu->SetOptionDrawable(sprite.first, i);
+        holder->Add(sprite.second);
     }
+    scene->AddEntity(holder);
+
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
+    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
+    scene->AddEntity(menu);
+
+    scene->StopsPreviousMusic(false);
+    scene->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
+    return menu;
+}
+
+}
+
+Scene* PauseMenu() {
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+
+    ugdk::action::Scene* pause_menu = new Scene();
+    Menu* menu = BaseBuildMenu(pause_menu);
+    pause_menu->set_identifier("Pause Menu");
 
     Drawable* cont_text = ugdk::resource::GetLanguageWord("Continue")->CreateLabel();
     Drawable* exit_text = ugdk::resource::GetLanguageWord("Return to Menu")->CreateLabel();
@@ -90,12 +130,6 @@ Scene* PauseMenu() {
         WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
     }));
 
-    pause_menu->StopsPreviousMusic(false);
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
-    pause_menu->AddEntity(menu);
-    pause_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
-
     //TODO: solid rectangle no longer exists
     //ugdk::graphic::SolidRectangle* bg = new ugdk::graphic::SolidRectangle(target);
     //bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
@@ -105,27 +139,18 @@ Scene* PauseMenu() {
 }
 
 Scene* CampaignMenu() {
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+
     ugdk::action::Scene* mission_menu = new Scene();
     mission_menu->set_identifier("Campaign Menu");
-    mission_menu->set_focus_callback(MenuFocus);
-    mission_menu->set_defocus_callback(MenuDeFocus);
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
-    utils::MenuImageFactory mif;
-
-    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
-    for(int i = 0; i < 2; ++i) {
-        ugdk::graphic::Sprite* sprite = mif.HorusEye();
-        mission_menu->media_manager().AddPlayer(&sprite->animation_player());
-        menu->SetOptionDrawable(sprite, i);
-    }
+    Menu* menu = BaseBuildMenu(mission_menu, Drawable::LEFT);
 
     double y = 100.0;
 
-    //
     DIR *dir;
-    struct dirent *ent;
     if ((dir = opendir((constants::data_location() + "scripts/campaigns").c_str())) != NULL) {
         /* print all the files and directories within directory */
+        struct dirent *ent;
         while ((ent = readdir (dir)) != NULL) {
             if(ent->d_name[0] == '.') continue;
 
@@ -167,22 +192,15 @@ Scene* CampaignMenu() {
                                GetLanguageWord("Exit")->CreateLabel(),
                                [mission_menu](const Button*) { mission_menu->Finish(); }));
 
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
-    mission_menu->AddEntity(menu);
-    mission_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
-
     return mission_menu;
 }
 
 Scene* MainMenu() {
-    ugdk::action::Scene* main_menu = new Scene();
-    main_menu->set_identifier("Main Menu");
-    main_menu->set_focus_callback(MenuFocus);
-    main_menu->set_defocus_callback(MenuDeFocus);
-
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
-    utils::MenuImageFactory mif;
+
+    ugdk::action::Scene* main_menu = new Scene();
+    Menu* menu = BaseBuildMenu(main_menu);
+    main_menu->set_identifier("Main Menu");
 
     ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/logo_560x334_black.png"));
     logo->set_hotspot(ugdk::graphic::Drawable::TOP);
@@ -198,13 +216,6 @@ Scene* MainMenu() {
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     Node* developed_by_node = new Node(developed_by);
     developed_by_node->geometry().set_offset(ugdk::graphic::manager()->canvas()->size() + Vector2D(-15.0, 0.0));
-
-    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::CENTER);
-    for(int i = 0; i < 2; ++i) {
-        ugdk::graphic::Sprite* sprite = mif.HorusEye();
-        main_menu->media_manager().AddPlayer(&sprite->animation_player());
-        menu->SetOptionDrawable(sprite, i);
-    }
 
     // The scene's drawables
     menu->node()->AddChild(logo_node);
@@ -237,12 +248,6 @@ Scene* MainMenu() {
     menu->AddObject(new Button(settings_position, settings_text, [](const Button*) { ugdk::system::PushScene(SettingsMenu()); }));
     menu->AddObject(new Button(credits_position,  credits_text,  [](const Button*) { utils::LevelManager::reference()->ShowCredits(); }));
     menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
-
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
-    
-    main_menu->AddEntity(menu);
-    main_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
 
     return main_menu;
 }
@@ -365,20 +370,14 @@ static void ApplySettings(const Button * source) {
 }
 
 Scene* SettingsMenu() {
-    ugdk::action::Scene* settings_menu = new Scene();
-    settings_menu->set_identifier("Settings Menu");
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
-    utils::MenuImageFactory mif;
 
-    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), ugdk::graphic::Drawable::LEFT);
-    for(int i = 0; i < 2; ++i) {
-        ugdk::graphic::Sprite* sprite = mif.HorusEye();
-        settings_menu->media_manager().AddPlayer(&sprite->animation_player());
-        menu->SetOptionDrawable(sprite, i);
-    }
+    ugdk::action::Scene* settings_menu = new Scene();
+    Menu* menu = BaseBuildMenu(settings_menu);
+    settings_menu->set_identifier("Settings Menu");
 
     std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(menu->node()));
-    double left_column = target.x * 0.15;
+    double left_column = target.x * 0.20;
 
     for (int i = 0; i < ConveninentSettingsData::NUM_SETTINGS; ++i) {
         Drawable* img = ugdk::resource::GetLanguageWord(data->setting_functions_[i].name)->CreateLabel();
@@ -396,13 +395,9 @@ Scene* SettingsMenu() {
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (ConveninentSettingsData::NUM_SETTINGS + 3));
         menu->AddObject(new Button(pos, img, [settings_menu](const Button*) { settings_menu->Finish(); })); }
 
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
     menu->AddCallback(ugdk::input::Keycode::RIGHT , bind(PressArrow, data, +1, _1));
     menu->AddCallback(ugdk::input::Keycode::LEFT  , bind(PressArrow, data, -1, _1));
 
-    settings_menu->AddEntity(menu);
-    settings_menu->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
     return settings_menu;
 }
 

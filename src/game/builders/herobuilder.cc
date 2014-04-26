@@ -70,7 +70,7 @@ sprite::WObjPtr Kha() {
     hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
-    hero_wobj->AddComponent(component::Graphic::Create(new component::Animator("hero", "animations/creature.gdd")));
+    hero_wobj->AddComponent(component::Graphic::Create("hero", "animations/creature.gdd"));
     hero_wobj->AddComponent(new component::Animation);
     hero_wobj->AddComponent(new component::LightEmitter(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
