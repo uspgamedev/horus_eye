@@ -28,6 +28,7 @@
 #include "game/utils/levelloader.h"
 #include "game/utils/settings.h"
 #include "game/map/tile.h"
+#include "game/initializer.h"
 
 #ifdef WIN32
 #include <windows.h>
@@ -56,31 +57,27 @@ LevelManager* LevelManager::reference() {
     return reference_;
 }
 
-LevelManager::LevelManager() {}
+LevelManager::LevelManager()
+: current_level_(nullptr)
+{}
 
 LevelManager::~LevelManager() {
     reference_ = nullptr;
 }
 
-void LevelManager::Initialize() {
-    restart_game_ = false;
+void LevelManager::InitializeCampaign(const std::string& name, const std::vector<std::string>& list) {
     current_level_ = nullptr;
+    loading_ = nullptr;
     level_list_iterator_ = 0;
 
-    menu_ = builder::MainMenu();
-    ugdk::system::PushScene(menu_);
-
-    loading_ = nullptr;
+    current_campaign_ = name;
+    level_list_ = list;
+    ShowIntro();
 }
 
 void LevelManager::ShowIntro() {
-
-    if(loading_) {
-        loading_->Finish();
-        loading_ = nullptr;
-    }
-
     ugdk::system::PushScene(loading_ = new Loading);
+
     level_list_iterator_ = 0;
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("Intro");
     TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->canvas()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
@@ -102,13 +99,13 @@ void LevelManager::ShowCredits() {
 }
 
 void LevelManager::ShowEnding() {
-    loading_->Finish();
-    loading_ = nullptr;
+    Finish();
     Drawable* message = new TexturedRectangle(ugdk::resource::GetTextureFromFile("images/you_win.png"));
     ugdk::system::PushScene(new ImageScene(NULL, message));
 }
 
 void LevelManager::ShowGameOver() {
+    Finish();
     Drawable* message = new TexturedRectangle(ugdk::resource::GetTextureFromFile("images/game_over.png"));
     ugdk::system::PushScene(new ImageScene(NULL, message));
 }
@@ -130,8 +127,7 @@ void LevelManager::FinishLevel(LevelState state) {
         ShowGameOver();
         // no break on purpose
     case FINISH_QUIT:
-        if(loading_) loading_->Finish();
-        loading_ = nullptr;
+        Finish();
         // no break on purpose
     case NOT_FINISHED:
         return;
@@ -151,8 +147,10 @@ void LevelManager::LoadNextLevel() {
 }
 
 void LevelManager::Finish() {
-    if (loading_)
-        delete loading_;
+    if (loading_) {
+        loading_->Finish();
+    }
+    loading_ = nullptr;
 }
 
 void LevelManager::loadSpecificLevel(const std::string& level_name) {

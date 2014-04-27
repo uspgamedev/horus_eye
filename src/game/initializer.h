@@ -4,6 +4,9 @@
 #include <string>
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
+    
+void QueueRestartGame();
+bool RestartGameQueued();
 
 void AddHorusShader();
 bool VerifyFolderExists(const std::string& path);

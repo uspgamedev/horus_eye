@@ -26,6 +26,18 @@ using namespace ugdk;
 using namespace ugdk::graphic;
 using namespace pyramidworks;
 
+namespace {
+    bool restart_game_ = false;
+
+}
+
+void QueueRestartGame() { 
+    restart_game_ = true;
+}
+bool RestartGameQueued() { 
+    return restart_game_;
+}
+
 bool VerifyFolderExists(const std::string& path) {
     struct stat st;
     int s;

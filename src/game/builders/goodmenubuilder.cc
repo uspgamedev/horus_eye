@@ -21,6 +21,7 @@
 #include <pyramidworks/ui/menu.h>
 #include <pyramidworks/ui/button.h>
 
+#include "game/initializer.h"
 #include "game/constants.h"
 #include "game/scenes/world.h"
 #include "game/utils/levelmanager.h"
@@ -177,8 +178,7 @@ Scene* CampaignMenu() {
                         for(const auto& level : campaign_module["level_list"].value<VirtualObj::Vector>())
                             list.push_back(level.value<std::string>());
 
-                        levelmanager->ChangeCampaign(campaign_module_name, list);
-                        levelmanager->ShowIntro();
+                        levelmanager->InitializeCampaign(campaign_module_name, list);
             }));
 
             y += 50.0;
@@ -365,7 +365,7 @@ static void PressArrow(std::shared_ptr<ConveninentSettingsData> data, int modifi
 
 static void ApplySettings(const Button * source) {
     Settings::reference()->WriteToDisk();
-    utils::LevelManager::reference()->QueueRestartGame();
+    QueueRestartGame();
     ugdk::system::Quit();
 }
 

@@ -2,45 +2,37 @@
 #include "Python.h"
 #endif
 
-#include <string>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/resource/genericcontainer.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/node.h>
 #include <ugdk/desktop/module.h>
 #include <ugdk/desktop/window.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/util/languagemanager.h>
-#include "initializer.h"
 
+#include "initializer.h"
 #include "constants.h"
-#include "utils/levelmanager.h"
 #include "utils/settings.h"
 #include "game/scenes/world.h"
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
+#include "game/builders/goodmenubuilder.h"
 
 #include <ugdk/script.h>
 #define MODULE_AUTO_LOAD(ACTION) ACTION(HORUS)
 
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
-#include <ugdk/script/languages/lua/luawrapper.h>
-#include <ugdk/script/languages/python/pythonwrapper.h>
+
+#include <string>
 
 #ifdef WIN32
 #include <windows.h>
 #endif
 
 using namespace utils;
-
-utils::LevelManager* level_manager() {
-    return utils::LevelManager::reference();
-}
 
 void StartGame() {
     Settings* settings = Settings::reference();
@@ -52,12 +44,13 @@ void StartGame() {
     ugdk::graphic::manager()->canvas()->Resize(settings->resolution_vector());
 
     AddHorusShader();
-    ugdk::system::PushScene(CreateHorusLightrenderingScene());
 
     if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
         fprintf(stderr, "Language Setup FAILURE!!\n\n");
     }
-    level_manager()->Initialize();
+
+    ugdk::system::PushScene(CreateHorusLightrenderingScene);
+    ugdk::system::PushScene(builder::MainMenu);
 }
 
 void ExitWithFatalError(const std::string& msg) {
@@ -110,8 +103,8 @@ int main(int argc, char *argv[]) {
     ugdk::system::language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     ugdk::system::language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 
-    ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);
     ugdk::resource::manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::resource::GenericContainer<utils::IsometricAnimationSet*>);
+    ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
 
@@ -122,13 +115,11 @@ int main(int argc, char *argv[]) {
         // Transfers control to the framework.
         ugdk::system::Run();
 
-        // Releases data persistant between levels.
-        level_manager()->Finish();
-
         // Releases all loaded textures, to avoid issues when changing resolution.
         //engine()->video_manager()->Release();
 
-    } while(level_manager()->RestartGameQueued());
+    } while(RestartGameQueued());
+
     ugdk::system::Release();
     return 0;
 }

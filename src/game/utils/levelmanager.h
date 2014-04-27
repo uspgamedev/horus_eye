@@ -18,7 +18,8 @@ class LevelManager {
   public:
     static LevelManager* reference();
     ~LevelManager();
-    void Initialize();
+
+    void InitializeCampaign(const std::string& name, const std::vector<std::string>& list);
 
     typedef enum {
         NOT_FINISHED,
@@ -44,14 +45,6 @@ class LevelManager {
     void LoadNextLevel();
     void Finish();
 
-    void QueueRestartGame() { restart_game_ = true; }
-    bool RestartGameQueued() const { return restart_game_; }
-
-    void ChangeCampaign(const std::string& name, const std::vector<std::string>& list) { 
-        current_campaign_ = name;
-        level_list_ = list;
-    }
-
     void InformLoadingDeleted() { loading_ = NULL; }
 
 #ifdef DEBUG
@@ -70,7 +63,6 @@ class LevelManager {
     std::string current_campaign_;
     std::vector<std::string> level_list_;
     unsigned int level_list_iterator_;
-    bool restart_game_;
 };
 
 }
