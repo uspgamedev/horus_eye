@@ -18,6 +18,8 @@ SET(GAME_SRCS
     game/ai/blocks/useweapon.h 
     game/ai/conditionmodule.cc 
     game/ai/conditionmodule.h 
+    game/ai/delaymodule.cc 
+    game/ai/delaymodule.h 
     game/ai/logicblock.h 
     game/ai/logicmodule.cc 
     game/ai/logicmodule.h 
@@ -25,8 +27,6 @@ SET(GAME_SRCS
     game/ai/randommodule.h 
     game/ai/sequencemodule.cc 
     game/ai/sequencemodule.h 
-    game/ai/delaymodule.cc 
-    game/ai/delaymodule.h 
     game/builders/aibuilder.cc 
     game/builders/aibuilder.h 
     game/builders/builder.cc 
@@ -51,6 +51,9 @@ SET(GAME_SRCS
     game/builders/projectilebuilder.h 
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
+    game/campaigns.h 
+    game/campaigns/campaigndescriptor.cc 
+    game/campaigns/campaigndescriptor.h 
     game/components.h 
     game/components/animation.cc 
     game/components/animation.h 

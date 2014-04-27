@@ -266,7 +266,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 Room* LoadRoom(const string& name, const string& campaign, const string& level,
                const ugdk::math::Integer2D& position) {
     VirtualObj room_data = SCRIPT_MANAGER()->LoadModule(
-        "campaigns." + campaign + ".levels." + level + "." + name
+        campaign + ".levels." + level + "." + name
     );
     return DoLoadRoom(name, room_data, position);
 }

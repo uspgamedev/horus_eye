@@ -1,8 +1,5 @@
 #include "game/utils/levelmanager.h"
 
-#include <fstream>
-#include <iostream>
-
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/audio/module.h>
@@ -14,6 +11,8 @@
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/input/module.h>
 #include <ugdk/action/scene.h>
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 
 #include "game/scenes/world.h"
 #include "game/scenes/imagescene.h"
@@ -29,6 +28,11 @@
 #include "game/utils/settings.h"
 #include "game/map/tile.h"
 #include "game/initializer.h"
+#include "game/campaigns/campaigndescriptor.h"
+
+#include <vector>
+#include <fstream>
+#include <iostream>
 
 #ifdef WIN32
 #include <windows.h>
@@ -65,13 +69,18 @@ LevelManager::~LevelManager() {
     reference_ = nullptr;
 }
 
-void LevelManager::InitializeCampaign(const std::string& name, const std::vector<std::string>& list) {
+void LevelManager::InitializeCampaign(const campaigns::CampaignDescriptor& descriptor) {
     current_level_ = nullptr;
     loading_ = nullptr;
     level_list_iterator_ = 0;
 
-    current_campaign_ = name;
-    level_list_ = list;
+    current_campaign_ = descriptor.script_path();
+
+    level_list_.clear();
+    for (const auto& level : SCRIPT_MANAGER()->LoadModule(descriptor.script_path() + ".descriptor")["level_list"].value<ugdk::script::VirtualObj::Vector>()) {
+        level_list_.push_back(level.value<std::string>());
+    }
+
     ShowIntro();
 }
 

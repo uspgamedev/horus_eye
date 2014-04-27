@@ -23,6 +23,7 @@
 
 #include "game/initializer.h"
 #include "game/constants.h"
+#include "game/campaigns/campaigndescriptor.h"
 #include "game/scenes/world.h"
 #include "game/utils/levelmanager.h"
 #include "game/utils/menuimagefactory.h"
@@ -148,44 +149,19 @@ Scene* CampaignMenu() {
 
     double y = 100.0;
 
-    DIR *dir;
-    if ((dir = opendir((constants::data_location() + "scripts/campaigns").c_str())) != NULL) {
-        /* print all the files and directories within directory */
-        struct dirent *ent;
-        while ((ent = readdir (dir)) != NULL) {
-            if(ent->d_name[0] == '.') continue;
+    for (const auto& campaign : campaigns::FindAllCampaignDescriptorsAt(constants::data_location() + "scripts/campaigns")) {
+        if (!campaign.playable()) continue;
 
-            using ugdk::script::VirtualObj;
-            
-            std::string campaign_module_name = std::string(ent->d_name);
+        menu->AddObject(
+            new Button(
+            Vector2D(200.0, y),
+            new Label(campaign.name(), TEXT_MANAGER()->GetFont("FontB")),
+            [campaign, mission_menu](const Button*) {
+                mission_menu->Finish();
+                utils::LevelManager::reference()->InitializeCampaign(campaign);
+        }));
 
-            VirtualObj campaign_module = SCRIPT_MANAGER()->LoadModule("campaigns." + campaign_module_name + ".descriptor");
-            if(!campaign_module) continue;
-            if(!campaign_module["playable"] || !campaign_module["playable"].value<bool>()) continue;
-            if(!campaign_module["name"]) continue;
-
-            std::string name(campaign_module["name"].value<std::string>());
-
-            menu->AddObject(
-                new Button(
-                    Vector2D(200.0, y),
-                    new Label(name, TEXT_MANAGER()->GetFont("FontB")),
-                    [campaign_module_name,campaign_module,mission_menu](const Button*) {
-                        mission_menu->Finish(); 
-                        utils::LevelManager* levelmanager = utils::LevelManager::reference();
-
-                        std::vector<std::string> list; 
-                        for(const auto& level : campaign_module["level_list"].value<VirtualObj::Vector>())
-                            list.push_back(level.value<std::string>());
-
-                        levelmanager->InitializeCampaign(campaign_module_name, list);
-            }));
-
-            y += 50.0;
-        }
-        closedir (dir);
-    } else {
-        fprintf(stderr, "NAO ABRUI A PASTA");
+        y += 50.0;
     }
 
     menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->canvas()->size().y - 100.0),

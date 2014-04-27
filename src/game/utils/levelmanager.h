@@ -4,6 +4,8 @@
 #include <vector>
 #include <string>
 #include <ugdk/action.h>
+
+#include "game/campaigns.h"
 #include "game/sprites.h"
 
 namespace scene {
@@ -19,7 +21,7 @@ class LevelManager {
     static LevelManager* reference();
     ~LevelManager();
 
-    void InitializeCampaign(const std::string& name, const std::vector<std::string>& list);
+    void InitializeCampaign(const campaigns::CampaignDescriptor&);
 
     typedef enum {
         NOT_FINISHED,
