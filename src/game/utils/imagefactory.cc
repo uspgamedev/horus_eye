@@ -7,7 +7,6 @@
 using ugdk::math::Vector2D;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Spritesheet;
-using ugdk::graphic::Texture;
 
 namespace utils {
 
@@ -67,11 +66,11 @@ Spritesheet* ImageFactory::TileSwitchImage() {
     return ugdk::resource::GetSpritesheetFromTag("tile_switch");
 }
 
-Texture* ImageFactory::LifePotionImage() {
+ugdk::internal::GLTexture* ImageFactory::LifePotionImage() {
     return ugdk::resource::GetTextureFromFile("images/life_potion2.png");
 }
 
-Texture* ImageFactory::ManaPotionImage() {
+ugdk::internal::GLTexture* ImageFactory::ManaPotionImage() {
     return ugdk::resource::GetTextureFromFile("images/mana_potion.png");
 }
 

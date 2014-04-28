@@ -41,7 +41,7 @@ Graphic::~Graphic() {
 void Graphic::SetPosition(const ugdk::math::Vector2D& position) {
     world_position_ = position;
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
-    if (auto controlller = dynamic_cast<ugdk::graphic::PrimitiveControllerPosition*>(primitive_.controller().get())) {
+    if (auto controlller = primitive_.controller().get()) {
         controlller->ChangePosition(final_position_);
     }
     
@@ -50,7 +50,7 @@ void Graphic::SetPosition(const ugdk::math::Vector2D& position) {
 void Graphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
     render_offset_ = render_offset;
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
-    if (auto controlller = dynamic_cast<ugdk::graphic::PrimitiveControllerPosition*>(primitive_.controller().get())) {
+    if (auto controlller = primitive_.controller().get()) {
         controlller->ChangePosition(final_position_);
     }
 }

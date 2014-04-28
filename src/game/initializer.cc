@@ -11,7 +11,7 @@
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
-#include <ugdk/graphic/texture.h>
+#include <ugdk/internal/gltexture.h>
 #include <ugdk/debug/profiler.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionobject.h>
@@ -122,7 +122,7 @@ void AddShadowcastingShader() {
     assert(status);
 }
 
-ugdk::graphic::Texture* shadow_texture_ = nullptr;
+ugdk::internal::GLTexture* shadow_texture_ = nullptr;
 
 bool light_system_activated = true;
 bool shadowcasting_actiavated = true;
@@ -292,8 +292,8 @@ void ToggleLightsystem() {
 
 ugdk::action::Scene* CreateHorusLightrenderingScene() {
     auto screensize = graphic::manager()->canvas()->size();
-    shadow_texture_ = ugdk::graphic::Texture::CreateRawTexture(screensize.x, screensize.y);
-    glBindTexture(GL_TEXTURE_2D, shadow_texture_->gltexture());
+    shadow_texture_ = ugdk::internal::GLTexture::CreateRawTexture(screensize.x, screensize.y);
+    glBindTexture(GL_TEXTURE_2D, shadow_texture_->id());
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
     glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
     glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -305,7 +305,7 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
 
-void DrawTexture(ugdk::graphic::Texture* texture, ugdk::graphic::Canvas& canvas) {
+void DrawTexture(ugdk::internal::GLTexture* texture, ugdk::graphic::Canvas& canvas) {
     opengl::ShaderUse shader_use(graphic::manager()->shaders().GetSpecificShader(0));
     shader_use.SendGeometry(canvas.current_geometry());
     shader_use.SendEffect(canvas.current_visualeffect());

@@ -4,6 +4,7 @@
 #include <string>
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
+#include <ugdk/internal.h>
     
 void QueueRestartGame();
 bool RestartGameQueued();
@@ -17,6 +18,6 @@ ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader();
 void ToggleShadowcasting();
 void ToggleLightsystem();
 
-void DrawTexture(ugdk::graphic::Texture* texture, ugdk::graphic::Canvas&);
+void DrawTexture(ugdk::internal::GLTexture* texture, ugdk::graphic::Canvas&);
 
 #endif

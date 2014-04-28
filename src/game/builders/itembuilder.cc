@@ -68,7 +68,7 @@ class ItemLogic : public component::Base {
     double total_time_;
 };
 
-sprite::WObjPtr buildBaseItem(ugdk::graphic::Texture* texture, const ItemEvent& ev, const std::string& target_class = "Hero") {
+sprite::WObjPtr buildBaseItem(ugdk::internal::GLTexture* texture, const ItemEvent& ev, const std::string& target_class = "Hero") {
     sprite::WObjPtr wobj = WorldObject::Create();
 
     wobj->AddComponent(component::Graphic::Create([texture](ugdk::graphic::Primitive& p) {

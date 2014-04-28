@@ -63,7 +63,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
     const Geometry& geo = canvas.current_geometry();
 
     const opengl::ShaderProgram* current_shader = nullptr;
-    const Texture* current_texture = nullptr;
+    const ugdk::internal::GLTexture* current_texture = nullptr;
     std::unique_ptr<opengl::ShaderUse> shader_use;
 
     int shader_changes = 0;

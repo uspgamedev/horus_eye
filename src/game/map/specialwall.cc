@@ -11,7 +11,6 @@
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
-#include <ugdk/graphic/texture.h>
 
 #include "game/core/coordinates.h"
 #include "game/constants.h"

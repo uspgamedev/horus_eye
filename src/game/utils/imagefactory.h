@@ -2,6 +2,7 @@
 #define HORUSEYE_GAME_UTILS_IMAGEFACTORY_H_
 
 #include <ugdk/graphic.h>
+#include <ugdk/internal.h>
 
 namespace utils {
 
@@ -24,8 +25,8 @@ class ImageFactory {
     ugdk::graphic::Spritesheet* LightningImage();
     ugdk::graphic::Spritesheet* LightImage();
     ugdk::graphic::Spritesheet* TileSwitchImage();
-    ugdk::graphic::Texture* LifePotionImage();
-    ugdk::graphic::Texture* ManaPotionImage();
+    ugdk::internal::GLTexture* LifePotionImage();
+    ugdk::internal::GLTexture* ManaPotionImage();
 };
 
 }

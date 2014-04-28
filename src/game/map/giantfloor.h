@@ -1,6 +1,7 @@
 #ifndef HORUSEYE_GAME_MAP_GIANTFLOOR_H_
 #define HORUSEYE_GAME_MAP_GIANTFLOOR_H_
 
+#include <ugdk/internal.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/math/integer2D.h>
 
@@ -18,7 +19,7 @@ class GiantFloor : public ugdk::graphic::Drawable {
     static ugdk::graphic::opengl::ShaderProgram* continuous_light_shader_;
 
     ugdk::math::Vector2D size_;
-    ugdk::graphic::Texture* texture_;
+    ugdk::internal::GLTexture* texture_;
     ugdk::graphic::opengl::VertexBuffer* vertexbuffer_;
     ugdk::graphic::opengl::VertexBuffer* uvbuffer_;
 };

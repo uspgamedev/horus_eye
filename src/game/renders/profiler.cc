@@ -9,7 +9,6 @@
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
-#include <ugdk/graphic/texture.h>
 #include <ugdk/debug/profiler.h>
 
 #include <sstream>

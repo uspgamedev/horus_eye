@@ -10,7 +10,6 @@
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
-#include <ugdk/graphic/texture.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
