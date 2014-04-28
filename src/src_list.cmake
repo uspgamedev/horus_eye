@@ -52,6 +52,8 @@ SET(GAME_SRCS
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
     game/campaigns.h 
+    game/campaigns/campaign.cc 
+    game/campaigns/campaign.h 
     game/campaigns/campaigndescriptor.cc 
     game/campaigns/campaigndescriptor.h 
     game/components.h 
