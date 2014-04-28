@@ -34,6 +34,7 @@
 #include "game/renders/shape.h"
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
+#include "game/builders/goodmenubuilder.h"
 
 namespace scene {
 
@@ -201,6 +202,11 @@ World::World(const ugdk::math::Integer2D& size)
             } 
         }
     }, 0.6));
+    
+    this->event_handler().AddListener<input::KeyPressedEvent>([](const input::KeyPressedEvent& key) {
+        if (key.scancode == ugdk::input::Scancode::ESCAPE)
+            ugdk::system::PushScene(builder::PauseMenu);
+    });
 
 #ifdef HORUSEYE_DEBUG_TOOLS
     this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);

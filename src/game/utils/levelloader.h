@@ -1,15 +1,13 @@
 #ifndef HORUSEYE_GAME_UTILS_LEVELLOADER_H_
 #define HORUSEYE_GAME_UTILS_LEVELLOADER_H_
 
+#include "game/scenes.h"
+#include <ugdk/script.h>
 #include <string>
-
-namespace scene {
-    class World;
-}
 
 namespace utils {
 
-void LoadLevel(const std::string& campaign, const std::string& level_name, scene::World** world);
+void LoadLevel(const ugdk::script::VirtualObj& level_data, const std::string& level_path, scene::World** world);
 
 }
 

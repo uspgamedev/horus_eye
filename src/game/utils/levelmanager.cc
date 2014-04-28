@@ -163,7 +163,8 @@ void LevelManager::Finish() {
 }
 
 void LevelManager::loadSpecificLevel(const std::string& level_name) {
-    utils::LoadLevel(current_campaign_, level_name, &current_level_);
+    std::string level_path = current_campaign_ + ".levels." + level_name;
+    utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path, &current_level_);
     if(!current_level_) {
         ugdk::system::PushScene(new ImageScene(NULL, new ugdk::graphic::Label(
             "Error loading level '" + (level_name) + "' from campaign '" + (current_campaign_) + "'.",
@@ -173,10 +174,6 @@ void LevelManager::loadSpecificLevel(const std::string& level_name) {
             loading_->Finish();
         return;
     }
-    current_level_->AddTask([](double) {
-        if(ugdk::input::manager()->keyboard().IsPressed(ugdk::input::Keycode::ESCAPE))
-            ugdk::system::PushScene(builder::PauseMenu());
-    });
     current_level_->SetHero(builder::HeroBuilder::Kha());
     ugdk::system::PushScene(current_level_);
     current_level_->Start();

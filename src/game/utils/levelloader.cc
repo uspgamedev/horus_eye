@@ -21,10 +21,9 @@ Vector2D VobjsToVector2D(VirtualObj x, VirtualObj y) {
     return Vector2D(x.value<double>(), y.value<double>());
 }
 
-void LoadLevel(const std::string& campaign, const std::string& name, scene::World** world_ptr) {
+void LoadLevel(const VirtualObj& level_data, const std::string& level_path, scene::World** world_ptr) {
     *world_ptr = nullptr;
     SCRIPT_MANAGER()->LoadModule("event") ["ClearAll"] ();
-    VirtualObj level_data = SCRIPT_MANAGER()->LoadModule(campaign + ".levels." + name);
     if(!level_data) return;
 
     if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["start_position"]) 
@@ -51,16 +50,16 @@ void LoadLevel(const std::string& campaign, const std::string& name, scene::Worl
         int x = room_data[0].value<int>();
         int y = room_data[1].value<int>();
         std::string room_name = room_data[2].value<std::string>();
-        map::Room *room = NULL;
-        if (level_data[room_name].valid())
-            room = map::LoadRoom(room_name, level_data[room_name], Integer2D(x, y));
-        else
-            room = map::LoadRoom(room_name, campaign, name, Integer2D(x, y));
-        
+
+        VirtualObj room_vobj = level_data[room_name].valid()
+            ? level_data[room_name]
+            : SCRIPT_MANAGER()->LoadModule(level_path + "." + room_name);
+
+        map::Room* room = map::LoadRoom(room_name, room_vobj, Integer2D(x, y));
         if(room) {
             world->AddRoom(room);
         } else {
-            printf("Room '%s' could not be loaded.\n", name.c_str());
+            printf("Room '%s' could not be loaded.\n", room_name.c_str());
         }
     }
 
