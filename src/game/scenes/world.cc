@@ -28,6 +28,7 @@
 #include "game/components/body.h"
 #include "game/core/coordinates.h"
 #include "game/map/room.h"
+#include "game/scenes/console.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/utils/levelmanager.h"
@@ -122,6 +123,10 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
             renders::SectionDataToString(msg, "", datalist.back());
             profiler_text->ChangeMessage(msg.str());
         }
+    }
+
+    if (ev.scancode == input::Scancode::GRAVE) {
+        ugdk::system::PushScene(new Console);
     }
 
 

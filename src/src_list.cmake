@@ -113,6 +113,8 @@ SET(GAME_SRCS
     game/resources/energy.h 
     game/resources/resource.h 
     game/scenes.h 
+    game/scenes/console.cc 
+    game/scenes/console.h 
     game/scenes/gamelayer.h 
     game/scenes/imagescene.cc 
     game/scenes/imagescene.h 
