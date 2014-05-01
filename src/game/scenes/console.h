@@ -3,6 +3,7 @@
 
 #include <ugdk/action/scene.h>
 #include <ugdk/graphic.h>
+#include <ugdk/system/compatibility.h>
 
 #include <memory>
 #include <vector>
