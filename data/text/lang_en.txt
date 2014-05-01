@@ -3,6 +3,7 @@
 [FontB]50:font/Filmcryptic.ttf
 [FontC]30:font/Filmcryptic.ttf
 [FontD]30:font/Filmcrypob.ttf
+[DejaVuMono]14:resources/fonts/DejaVuSansMono.ttf
 
 #WORDS
 // Main Menu

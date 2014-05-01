@@ -31,7 +31,7 @@ namespace {
 Console::Console()
 : node_(new Node) {
     double console_height = 300.0;
-    graphic::Font* font = TEXT_MANAGER()->current_font();
+    graphic::Font* font = TEXT_MANAGER()->GetFont("DejaVuMono");
 
     auto gmngr = graphic::manager();
     Node* bg = new Node(new TexturedRectangle(gmngr->white_texture(), math::Vector2D(gmngr->canvas()->size().x, console_height)));
