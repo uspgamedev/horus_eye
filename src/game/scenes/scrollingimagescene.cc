@@ -21,12 +21,19 @@ using ugdk::math::Vector2D;
 class ScrollingTask {
 public:
     ScrollingTask(double time, Node* target, Scene* scene) : time_(time), target_(target), scene_(scene) {
-        double delta_h = ugdk::graphic::manager()->canvas()->size().y;
-        if(target->drawable()) delta_h += target->drawable()->height();
-        movement_.y = -delta_h / time_;
 
-        Vector2D offset = target->geometry().offset() + Vector2D(0, ugdk::graphic::manager()->canvas()->size().y);
+        auto d = target->drawable();
+
+        Vector2D hotspot = d->hotspot();
+        hotspot.y = 0.0;
+        d->set_hotspot(hotspot);
+
+        Vector2D offset = target->geometry().offset();
+        offset.y = graphic::manager()->canvas()->size().y;
         target->geometry().set_offset(offset);
+
+        double delta_h = offset.y + d->height();
+        movement_.y = -delta_h / time_;
     }
 
     bool operator()(double dt) {
@@ -49,7 +56,7 @@ private:
 ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, double time) :
          ImageScene(background, image) {
 
-    if(scene_layers_[IMG]) {
+    if(scene_layers_[IMG] && scene_layers_[IMG]->drawable()) {
         AddTask(ScrollingTask(time, scene_layers_[IMG], this));
     }
 }
