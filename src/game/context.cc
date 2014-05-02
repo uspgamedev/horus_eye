@@ -8,6 +8,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/geometry/rect.h>
 #include "game/scenes/world.h"
+#include "game/scenes/console.h"
 #include "game/builders/scriptbuilder.h"
 #include "game/builders/aibuilder.h"
 #include "game/sprites/objecthandle.h"
@@ -124,6 +125,10 @@ sprite::ObjectHandle hero() {
     World *world = WORLD();
     if (!world) return sprite::ObjectHandle();
     return world->hero();
+}
+
+void ChangeConsoleLanguage(const std::string& lang) {
+    scene::Console::ChangeLanguage(lang);
 }
 
 } // namespace context

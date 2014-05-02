@@ -38,6 +38,8 @@ void GetCollidingVisibilityObjects(const std::string& classname,
 
 sprite::ObjectHandle hero();
 
+void ChangeConsoleLanguage(const std::string&);
+
 } // namespace context
 
 

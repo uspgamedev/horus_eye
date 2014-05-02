@@ -26,6 +26,7 @@ using namespace std::placeholders;
 
 namespace {
     std::size_t MAX_HISTORY_SIZE = 10;
+    std::string CONSOLE_LANGUAGE = "Lua";
 }
 
 Console::Console()
@@ -63,6 +64,12 @@ Console::Console()
 }
 
 Console::~Console() {}
+    
+void Console::ChangeLanguage(const std::string& lang) {
+    if (SCRIPT_MANAGER()->GetWrapper(lang)) {
+        CONSOLE_LANGUAGE = lang;
+    }
+}
 
 void Console::AddText(const std::string& line) {
     current_line_.push_back(line);
@@ -82,7 +89,7 @@ void Console::ExecuteCurrentLine() {
         line_to_execute << part;
     history_.push_back("> " + line_to_execute.str());
 
-    SCRIPT_MANAGER()->GetWrapper("Lua")->ExecuteCode(line_to_execute.str());
+    SCRIPT_MANAGER()->GetWrapper(CONSOLE_LANGUAGE)->ExecuteCode(line_to_execute.str());
 
     while (history_.size() > MAX_HISTORY_SIZE)
         history_.pop_front();
