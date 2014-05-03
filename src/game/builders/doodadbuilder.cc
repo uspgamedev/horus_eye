@@ -15,12 +15,13 @@
 #include "game/components/damageable.h"
 #include "game/components/body.h"
 #include "game/components/graphic.h"
+#include "game/components/orders.h"
 #include "game/map/specialwall.h"
+#include "game/map/room.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/imagefactory.h"
 #include "game/constants.h"
-#include "game/components/orders.h"
 
 namespace builder {
 namespace DoodadBuilder {
@@ -44,7 +45,9 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
     wobj->AddComponent(component::Graphic::Create("stairs"));
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
-    col->AddCollisionLogic("Hero", [](const CollisionObject*) { WORLD()->FinishLevel(utils::LevelManager::FINISH_WIN); });
+    col->AddCollisionLogic("Hero", [](const CollisionObject* obj) { 
+        dynamic_cast<WorldObject*>(obj->owner())->current_room()->level()->Finish();
+    });
     wobj->AddComponent(new Body(col, NULL));
 
     return wobj;

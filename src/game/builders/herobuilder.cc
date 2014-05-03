@@ -20,8 +20,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
-
-#include "game/utils/levelmanager.h"
+#include "game/map/room.h"
 #include "game/scenes/world.h"
 
 namespace builder {
@@ -39,8 +38,10 @@ using component::Body;
 using skills::usearguments::Aim;
 
 static void HeroDeathEvent(sprite::WorldObject* wobj) {
-    WORLD()->SetHero(nullptr);
-    WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
+    auto level = wobj->current_room()->level();
+    level->SetHero(nullptr);
+    level->Finish();
+    //WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
 }
 
 CollisionLogic MummySlowCollision(component::Walker* walker) {

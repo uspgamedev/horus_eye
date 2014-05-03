@@ -14,7 +14,6 @@
 #include <ugdk/input/module.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/langwrapper.h>
-#include "game/utils/levelmanager.h"
 
 #include <functional>
 

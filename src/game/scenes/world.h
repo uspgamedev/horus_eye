@@ -16,9 +16,9 @@
 
 #include "game/sprites.h"
 #include "game/map.h"
+#include "game/campaigns.h"
 #include "game/components.h"
 #include "game/scenes/gamelayer.h"
-#include "game/utils/levelmanager.h"
 #include "game/resources/resource.h"
 
 namespace utils {
@@ -28,7 +28,7 @@ using ugdk::math::Vector2D;
 
 namespace scene {
 
-#define WORLD() (utils::LevelManager::reference()->current_level() )
+//#define WORLD() (utils::LevelManager::reference()->current_level() )
 
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
@@ -42,11 +42,7 @@ class World : public ugdk::action::Scene {
     void SetHero(const sprite::WObjPtr& hero);
     void QueueRoomChange(const sprite::WObjWeakPtr&, map::Room* next_room);
 
-    void FinishLevel(utils::LevelManager::LevelState state) {
-        level_state_ = state;
-    }
-
-    void Start();
+    void Start(campaigns::Campaign*);
     void End();
 
     void Focus();
@@ -86,7 +82,7 @@ class World : public ugdk::action::Scene {
 
   private:
     // Game logic
-    utils::LevelManager::LevelState level_state_;
+    campaigns::Campaign* campaign_;
     pyramidworks::collision::CollisionManager collision_manager_;
     pyramidworks::collision::CollisionManager visibility_manager_;
     std::queue<std::pair<sprite::WObjWeakPtr, map::Room*> > queued_moves_;

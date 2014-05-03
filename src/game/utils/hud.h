@@ -20,6 +20,8 @@ class Hud: public ugdk::action::Entity {
     ugdk::graphic::Node* node() { return node_; }
 
   private:
+    scene::World* world_;
+
     ugdk::graphic::Node *node_, *weapon_icon_, *mummy_counter_text_holder_;
     int previous_mummy_counter_value_;
 

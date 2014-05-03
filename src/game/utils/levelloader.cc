@@ -55,7 +55,7 @@ void LoadLevel(const VirtualObj& level_data, const std::string& level_path, scen
             ? level_data[room_name]
             : SCRIPT_MANAGER()->LoadModule(level_path + "." + room_name);
 
-        map::Room* room = map::LoadRoom(room_name, room_vobj, Integer2D(x, y));
+        map::Room* room = map::LoadRoom(room_name, room_vobj, Integer2D(x, y), world->collision_manager());
         if(room) {
             world->AddRoom(room);
         } else {

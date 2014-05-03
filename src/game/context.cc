@@ -1,12 +1,6 @@
 #include "game/context.h"
 
-#include <cstdio>
-#include <vector>
-#include <ugdk/math/vector2D.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionclass.h>
-#include <pyramidworks/collision/collisionmanager.h>
-#include <pyramidworks/geometry/rect.h>
+#include "game/campaigns/campaign.h"
 #include "game/scenes/world.h"
 #include "game/scenes/console.h"
 #include "game/builders/scriptbuilder.h"
@@ -17,6 +11,15 @@
 #include "game/components/animation.h"
 #include "game/components/body.h"
 #include "game/ai/ai.h"
+
+#include <ugdk/math/vector2D.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionclass.h>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/geometry/rect.h>
+
+#include <cstdio>
+#include <vector>
 
 namespace context {
 
@@ -33,6 +36,13 @@ using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
 using component::Animation;
+
+namespace {
+    World* WORLD() {
+        auto current = campaigns::Campaign::CurrentCampaign();
+        return current ? current->current_level() : nullptr;
+    }
+}
 
 sprite::ObjectHandle WorldObjectByTag(const std::string& tag) {
     World *world = WORLD();

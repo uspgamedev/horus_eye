@@ -7,6 +7,7 @@
 
 #include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
+#include "game/map/room.h"
 #include "game/core/coordinates.h"
 #include "game/constants.h"
 
@@ -41,7 +42,7 @@ void PlayerController::Update(double dt) {
     const auto& keyboard = ugdk::input::manager()->keyboard();
     const auto& mouse = ugdk::input::manager()->mouse();
 
-    aim_destination_ = core::FromScreenCoordinates(mouse.position() + mouse_aim_offset_);
+    aim_destination_ = core::FromScreenCoordinates(owner_->current_room()->level(), mouse.position() + mouse_aim_offset_);
 
     Direction d;
     if(keyboard.IsDown(Scancode::W)) d |= Direction::Up();

@@ -34,10 +34,13 @@ Campaign* Campaign::CurrentCampaign() {
 
 Campaign::Campaign(const CampaignDescriptor& d)
 : current_level_(nullptr)
+, current_state_(State::INACTIVE)
 , descriptor_(d)
 , node_(new ugdk::graphic::Node)
 {
     set_visible(false);
+
+    implementation_ = SCRIPT_MANAGER()->LoadModule(descriptor_.script_path() + ".main")["new"]();
 
     auto loading_image = ugdk::resource::GetLanguageWord("Loading")->CreateLabel();
     loading_image->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
@@ -51,6 +54,20 @@ Campaign::~Campaign() {}
 void Campaign::Focus() {
     Scene::Focus();
     set_visible(true);
+            
+    switch (current_state_) {
+        case campaigns::Campaign::State::INACTIVE:
+            assert(current_campaign_ == nullptr);
+            current_campaign_ = this;
+            current_state_ = State::ACTIVE_NO_LEVEL;
+            (implementation_ | "on_start")(this);
+            break;
+        case campaigns::Campaign::State::ACTIVE_NO_LEVEL:
+            (implementation_ | "on_focus")(this);
+            break;
+        case campaigns::Campaign::State::ACTIVE_WITH_LEVEL:
+            break;
+    }
 }
 
 void Campaign::DeFocus() {
@@ -59,6 +76,13 @@ void Campaign::DeFocus() {
 }
 
 void Campaign::End() {
+    assert(current_campaign_ == this);
+    current_campaign_ = nullptr;
+}
+    
+void Campaign::InformLevelFinished() {
+    current_level_ = nullptr;
+    current_state_ = State::ACTIVE_NO_LEVEL;
 }
     
 void Campaign::LoadLevel(const std::string& level_name) {
@@ -75,9 +99,12 @@ void Campaign::LoadLevel(const std::string& level_name) {
             loading_->Finish();
         return;
     }*/
+
     current_level_->SetHero(builder::HeroBuilder::Kha());
+
+    current_state_ = State::ACTIVE_WITH_LEVEL;
     ugdk::system::PushScene(current_level_);
-    current_level_->Start();
+    current_level_->Start(this);
 }
 
 } // namespace campaigns

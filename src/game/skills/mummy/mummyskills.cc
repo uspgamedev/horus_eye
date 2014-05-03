@@ -17,14 +17,14 @@ using std::bind;
 using namespace std::placeholders;
 
 static void MummyMeleeUse(component::Caster* caster) {
-    scene::World *world = WORLD();
+    scene::World *world = caster->owner()->current_room()->level();
     sprite::WObjPtr hero = world->hero().lock();
     if(hero && hero->damageable())
         hero->damageable()->TakeDamage(caster->power().Get() * 1.0);
 }
 
 static void MummyPaperUse(component::Caster* caster) {
-    scene::World *world = WORLD();
+    scene::World *world = caster->owner()->current_room()->level();
     sprite::WObjPtr hero = world->hero().lock();
     if(hero && hero->damageable())
         hero->damageable()->TakeDamage(caster->power().Get() * 1.0);

@@ -8,6 +8,7 @@
 #include "game/sprites.h"
 #include "game/scenes.h"
 
+#include <ugdk/script/virtualobj.h>
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/system/compatibility.h>
@@ -20,6 +21,16 @@ class Campaign : public ugdk::action::Scene {
   public:
     static Campaign* CurrentCampaign();
 
+#ifndef SWIG
+    enum class State {
+        INACTIVE,
+        ACTIVE_NO_LEVEL,
+        ACTIVE_WITH_LEVEL,
+    };
+#else
+    struct State {};
+#endif
+
     Campaign(const CampaignDescriptor&);
     ~Campaign();
 
@@ -31,10 +42,13 @@ class Campaign : public ugdk::action::Scene {
     void DeFocus() override;
     void End() override;
 
+    void InformLevelFinished();
+
   private:
-    void loadSpecificLevel(const std::string& level_name);
 
     scene::World* current_level_;
+    State current_state_;
+    ugdk::script::VirtualObj implementation_;
     CampaignDescriptor descriptor_;
     std::unique_ptr<ugdk::graphic::Node> node_;
 };

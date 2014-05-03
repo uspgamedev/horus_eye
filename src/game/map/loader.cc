@@ -135,7 +135,8 @@ void AddVisionObstacles (Room* room, Map& map) {
     }
 }
 
-Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::math::Integer2D& position) {
+Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
+                 const ugdk::math::Integer2D& position, CollisionManager* collision_manager) {
 
     if(!room_data) return NULL;
 
@@ -147,7 +148,6 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     
     if(room_data["collision_classes"]) {
         VirtualObj::Vector collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
-        CollisionManager* collision_manager = WORLD()->collision_manager();
 
         for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
             VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
@@ -263,17 +263,9 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 
 } //namespace anon
 
-Room* LoadRoom(const string& name, const string& campaign, const string& level,
-               const ugdk::math::Integer2D& position) {
-    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule(
-        campaign + ".levels." + level + "." + name
-    );
-    return DoLoadRoom(name, room_data, position);
-}
-
 Room* LoadRoom(const string& name, const VirtualObj& room_script,
-               const ugdk::math::Integer2D& position) {
-    return DoLoadRoom(name, room_script, position);
+               const ugdk::math::Integer2D& position, CollisionManager* collision_manager) {
+    return DoLoadRoom(name, room_script, position, collision_manager);
 }
 
 } // namespace utils
