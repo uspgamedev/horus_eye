@@ -3,6 +3,7 @@ function new()
     level_list = { "levels.demo_lvl_1", "levels.demo_lvl_2" },
     on_start = function(self, campaign)
       print("SUP GALS")
+      context.ShowScrollingText "Intro"
       self.next_level = 1
     end,
     on_focus = function(self, campaign)

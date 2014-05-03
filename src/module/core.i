@@ -1,6 +1,7 @@
 %module core
 
 %include <module/util_ugdk.swig>
+%include "std_string.i"
 
 %{
 
