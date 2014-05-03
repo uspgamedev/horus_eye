@@ -11,8 +11,9 @@
 
 namespace map {
 
+bool IsValidRoomData(const ugdk::script::VirtualObj& room_data);
 Room* LoadRoom(const std::string& name, const ugdk::script::VirtualObj& room_script,
-               const ugdk::math::Integer2D& position, pyramidworks::collision::CollisionManager* collision_manager);
+               const ugdk::math::Integer2D& position);
 
 }
 

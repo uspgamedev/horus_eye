@@ -136,26 +136,14 @@ void AddVisionObstacles (Room* room, Map& map) {
 }
 
 Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
-                 const ugdk::math::Integer2D& position, CollisionManager* collision_manager) {
+                 const ugdk::math::Integer2D& position) {
 
-    if(!room_data) return NULL;
-
-    if(!room_data["width"] || !room_data["height"]) return NULL;
+    if (!IsValidRoomData(room_data)) return nullptr;
 
     int width = room_data["width"].value<int>();
     int height = room_data["height"].value<int>();
     std::list<ObjectDescriptor> objects;
     
-    if(room_data["collision_classes"]) {
-        VirtualObj::Vector collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
-
-        for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
-            VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
-            if (collclass.size() >= 2)
-                collision_manager->ChangeClassParent(collclass.front().value<string>(), collclass[1].value<string>());
-        }
-    }
-
     Room* room = new Room(name, Integer2D(width, height), position);
     Cell cell = { '.', false, false };
     auto map = Map(height, vector<Cell>(width, cell));
@@ -263,9 +251,14 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
 
 } //namespace anon
 
-Room* LoadRoom(const string& name, const VirtualObj& room_script,
-               const ugdk::math::Integer2D& position, CollisionManager* collision_manager) {
-    return DoLoadRoom(name, room_script, position, collision_manager);
+bool IsValidRoomData(const VirtualObj& room_data) {
+    if (!room_data) return false;
+    if (!room_data["width"] || !room_data["height"]) return false;
+    return true;
+}
+
+Room* LoadRoom(const string& name, const VirtualObj& room_script, const ugdk::math::Integer2D& position) {
+    return DoLoadRoom(name, room_script, position);
 }
 
 } // namespace utils
