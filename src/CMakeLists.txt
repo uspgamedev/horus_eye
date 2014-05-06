@@ -10,11 +10,6 @@ if (WIN32) # Adding the icon to the windows executable
 	set(GAME_SRCS ${GAME_SRCS} horus_eye.rc)
 endif()
 
-IF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    SET(GAME_SRCS ${GAME_SRCS} mac/SDLMain.h mac/SDLMain.m)
-    SET(ISMAC ON)
-ENDIF ()
-
 set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG")
 if (UNIX OR MINGW)
     # se for o g++ para *nix ou o MinGW para Windows:
