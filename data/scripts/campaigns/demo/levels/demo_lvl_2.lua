@@ -25,7 +25,28 @@ rooms = {
   {25, 20, "spawner_room"}
 }
 
-start_position = {"entrance", 2, roomsize / 2}
-
 width = 100
 height = 100
+
+function new()
+  local level = {}
+  
+  function level:Start(native, campaign)
+    local hero = builder.Kha()
+    hero:AddDeathEvent(campaign:create_hero_death_callback())
+    native:SetHero(hero)
+    
+    local initial_room = native:GetRoom "entrance"
+    initial_room:AddObject(hero, ugdk_math.Vector2D(2, roomsize / 2), true)
+    native:ChangeFocusedRoom(initial_room)
+    
+    -- Don't hold these shared_ptr in scripts...
+    hero = nil
+    collectgarbage()
+  end
+  
+  function level:End(native, campaign)
+  end
+  
+  return level
+end

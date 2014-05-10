@@ -97,8 +97,9 @@ int main(int argc, char *argv[]) {
 #endif
     
     {
-        SCRIPT_MANAGER()->GetWrapper("Lua")->
-            ExecuteCode("require 'core'; require 'map'; require 'context'; require 'component'");
+        auto wrapper = SCRIPT_MANAGER()->GetWrapper("Lua"); 
+        wrapper->ExecuteCode("require 'ugdk.action'");
+        wrapper->ExecuteCode("require 'core'; require 'map'; require 'context'; require 'component'");
         SCRIPT_MANAGER()->LoadModule("init_constants");
     }
     

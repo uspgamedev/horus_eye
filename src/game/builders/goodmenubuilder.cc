@@ -140,7 +140,9 @@ Scene* PauseMenu() {
     menu->AddObject(new Button(cont_position, cont_text, [pause_menu](const Button*) { pause_menu->Finish(); }));
     menu->AddObject(new Button(exit_position, exit_text, [pause_menu](const Button*) { 
         pause_menu->Finish();
-        //WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
+        auto current_campaign = campaigns::Campaign::CurrentCampaign();
+        current_campaign->current_level()->Finish();
+        current_campaign->Finish();
     }));
 
     //TODO: solid rectangle no longer exists

@@ -22,6 +22,7 @@
 #include "game/constants.h"
 #include "game/map/room.h"
 #include "game/scenes/world.h"
+#include "game/campaigns/campaign.h"
 
 namespace builder {
 namespace HeroBuilder {
@@ -36,13 +37,6 @@ using component::Caster;
 using component::Walker;
 using component::Body;
 using skills::usearguments::Aim;
-
-static void HeroDeathEvent(sprite::WorldObject* wobj) {
-    auto level = wobj->current_room()->level();
-    level->SetHero(nullptr);
-    level->Finish();
-    //WORLD()->FinishLevel(utils::LevelManager::FINISH_DIE);
-}
 
 CollisionLogic MummySlowCollision(component::Walker* walker) {
     return [walker](const CollisionObject*) {
@@ -68,7 +62,6 @@ sprite::WObjPtr Kha() {
     sprite::WObjPtr hero = WorldObject::Create();
     sprite::WorldObject* hero_wobj = hero.get();
 
-    hero_wobj->AddDeathEvent(HeroDeathEvent);
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(component::Graphic::Create("hero", "animations/creature.gdd"));

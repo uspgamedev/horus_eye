@@ -99,6 +99,9 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
             scale = scale * 1.0/1.4;
         modifier *= graphic::Geometry(math::Vector2D(), scale);
     }
+    
+    if (ev.keycode == input::Keycode::m)
+        hero->damageable()->TakeDamage(1000.0);
 
     if(ev.keycode == input::Keycode::l)
         ToggleLightsystem();
@@ -158,7 +161,7 @@ bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     return false;
 }
             
-World::World(const ugdk::math::Integer2D& size) 
+World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& vobj) 
   :   
     // World Layout
     size_(size),
@@ -168,6 +171,7 @@ World::World(const ugdk::math::Integer2D& size)
     campaign_(nullptr),
     collision_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
     visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
+    vobj_(vobj),
 
     // Graphic
     hud_(nullptr)
@@ -248,27 +252,19 @@ World::World(const ugdk::math::Integer2D& size)
 
 // Destrutor
 World::~World() {
+    RemoveAllEntities();
+    removeAllRooms();
 }
 
 void World::Start(campaigns::Campaign* campaign) {
     campaign_ = campaign;
-    ChangeFocusedRoom(hero_initial_room_);
-    if(hero_)
-        if(map::Room* initial_room = findRoom(hero_initial_room_))
-            initial_room->AddObject(hero_, hero_initial_position_, map::POSITION_ABSOLUTE);
+    (vobj_ | "Start")(this, campaign->implementation());
 }
 
 void World::End() {
     super::End();
-
     campaign_->InformLevelFinished();
-
-    this->RemoveEntity(hud_);
-    delete hud_;
-    hud_ = NULL;
-
-    RemoveAllEntities();
-    removeAllRooms();
+    (vobj_ | "End")(this, campaign_->implementation());
 }
 
 void World::Focus() {

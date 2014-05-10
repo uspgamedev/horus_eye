@@ -21,20 +21,11 @@ class Campaign : public ugdk::action::Scene {
   public:
     static Campaign* CurrentCampaign();
 
-#ifndef SWIG
-    enum class State {
-        INACTIVE,
-        ACTIVE_NO_LEVEL,
-        ACTIVE_WITH_LEVEL,
-    };
-#else
-    struct State {};
-#endif
-
     Campaign(const CampaignDescriptor&);
     ~Campaign();
 
     scene::World* current_level() const { return current_level_; }
+    ugdk::script::VirtualObj implementation() { return implementation_; }
 
     void LoadLevel(const std::string& levelname);
 
@@ -47,10 +38,8 @@ class Campaign : public ugdk::action::Scene {
   private:
 
     scene::World* current_level_;
-    State current_state_;
-    ugdk::script::VirtualObj implementation_;
     CampaignDescriptor descriptor_;
-    std::unique_ptr<ugdk::graphic::Node> node_;
+    ugdk::script::VirtualObj implementation_;
 };
 
 } // namespace campaigns
