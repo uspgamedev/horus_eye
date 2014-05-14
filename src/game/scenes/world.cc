@@ -22,6 +22,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/config.h"
+#include "game/campaigns/campaign.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
 #include "game/components/graphic.h"
@@ -31,7 +32,6 @@
 #include "game/scenes/console.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
-#include "game/utils/levelmanager.h"
 #include "game/renders/shape.h"
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
@@ -55,12 +55,11 @@ bool render_profiler = false;
 std::shared_ptr<graphic::TextBox> profiler_text(nullptr);
 }
 
-void VerifyCheats(const input::KeyPressedEvent& ev) {
-    LevelManager *level_manager = LevelManager::reference();
-    World* world = level_manager->current_level();
+void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
     sprite::WObjPtr hero = world->hero().lock();
 
     static uint32 last_level_warp = 0;
+    /*
     if(ugdk::time::manager()->TimeSince(last_level_warp) > 100) {
         if (ev.keycode == ugdk::input::Keycode::p) {
             level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
@@ -76,6 +75,7 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
             }
         }
     }
+    */
     if(hero) {
         if(ev.keycode == input::Keycode::h) {
             if(ev.modifiers & input::Keymod::SHIFT)
@@ -84,8 +84,10 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
             hero->caster()->mana().Fill();
         }
         if(ev.keycode == input::Keycode::t)
-            hero->set_world_position(core::FromScreenCoordinates(
-            input::manager()->mouse().position()));
+            hero->set_world_position(
+                core::FromScreenCoordinates(
+                    world, 
+                    input::manager()->mouse().position()));
     }
 
     ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
@@ -97,6 +99,9 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
             scale = scale * 1.0/1.4;
         modifier *= graphic::Geometry(math::Vector2D(), scale);
     }
+    
+    if (ev.keycode == input::Keycode::m)
+        hero->damageable()->TakeDamage(1000.0);
 
     if(ev.keycode == input::Keycode::l)
         ToggleLightsystem();
@@ -142,14 +147,6 @@ void VerifyCheats(const input::KeyPressedEvent& ev) {
     }*/
 }
 
-bool FinishLevelTask(double dt, const LevelManager::LevelState* state) {
-    if (*state != LevelManager::NOT_FINISHED) {
-        LevelManager::reference()->FinishLevel(*state);
-        return false;
-    }
-    return true;
-}
-
 bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     Vector2D  ap = core::FromWorldCoordinates(a->position()+a->size()/2.0),
               bp = core::FromWorldCoordinates(b->position()+b->size()/2.0);
@@ -164,16 +161,17 @@ bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     return false;
 }
             
-World::World(const ugdk::math::Integer2D& size) 
+World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& vobj) 
   :   
     // World Layout
     size_(size),
     rooms_by_location_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size)), 4),
 
     // Game logic
-    level_state_(LevelManager::NOT_FINISHED),
+    campaign_(nullptr),
     collision_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
     visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
+    vobj_(vobj),
 
     // Graphic
     hud_(nullptr)
@@ -184,7 +182,6 @@ World::World(const ugdk::math::Integer2D& size)
     hud_ = new utils::Hud(this);
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
-    this->AddTask(ugdk::system::Task(bind(FinishLevelTask, _1, &level_state_), 1.0));
     this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->canvas()->size()*0.5;
         if(hero_)
@@ -214,7 +211,7 @@ World::World(const ugdk::math::Integer2D& size)
     });
 
 #ifdef HORUSEYE_DEBUG_TOOLS
-    this->event_handler().AddListener<input::KeyPressedEvent>(VerifyCheats);
+    this->event_handler().AddListener<input::KeyPressedEvent>(bind(VerifyCheats, this, _1));
 #endif
 
     if (!profiler_text)
@@ -255,24 +252,19 @@ World::World(const ugdk::math::Integer2D& size)
 
 // Destrutor
 World::~World() {
+    RemoveAllEntities();
+    removeAllRooms();
 }
 
-void World::Start() {
-    ChangeFocusedRoom(hero_initial_room_);
-    if(hero_)
-        if(map::Room* initial_room = findRoom(hero_initial_room_))
-            initial_room->AddObject(hero_, hero_initial_position_, map::POSITION_ABSOLUTE);
+void World::Start(campaigns::Campaign* campaign) {
+    campaign_ = campaign;
+    (vobj_ | "Start")(this, campaign->implementation());
 }
 
 void World::End() {
     super::End();
-
-    this->RemoveEntity(hud_);
-    delete hud_;
-    hud_ = NULL;
-
-    RemoveAllEntities();
-    removeAllRooms();
+    campaign_->InformLevelFinished();
+    (vobj_ | "End")(this, campaign_->implementation());
 }
 
 void World::Focus() {

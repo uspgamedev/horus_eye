@@ -18,6 +18,8 @@
 #include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/geometry/rect.h>
 #include <pyramidworks/geometry/circle.h>
+
+#include "game/campaigns/campaign.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/core/coordinates.h"
@@ -52,7 +54,7 @@ namespace {
 
 uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
 
-ugdk::graphic::opengl::ShaderProgram* horus_light_shader_ = NULL;
+ugdk::graphic::opengl::ShaderProgram* horus_light_shader_ = nullptr;
 void AddHorusLightShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
@@ -89,7 +91,7 @@ void AddHorusLightShader() {
     ugdk::graphic::manager()->shaders().ReplaceShader((1 << 0) + (0 << 1), horus_light_shader_);
 }
 
-ugdk::graphic::opengl::ShaderProgram* horus_shadowcasting_shader_ = NULL;
+ugdk::graphic::opengl::ShaderProgram* horus_shadowcasting_shader_ = nullptr;
 void AddShadowcastingShader() {
     opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
@@ -251,7 +253,8 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
 }
 
 void LightRendering(ugdk::graphic::Canvas& canvas) {
-    if(scene::World* world = utils::LevelManager::reference()->current_level()) {
+    auto campaign = campaigns::Campaign::CurrentCampaign();
+    if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
         if(shadowcasting_actiavated)
             if(sprite::WObjPtr hero = world->hero().lock())
                 DrawShadows(world, hero.get(), canvas);

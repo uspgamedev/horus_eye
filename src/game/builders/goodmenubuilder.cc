@@ -6,10 +6,12 @@
 #include <ugdk/action/mediaplayer.h>
 #include <ugdk/action/spritetypes.h>
 #include <ugdk/action/animationplayer.h>
+#include <ugdk/audio/module.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/input/module.h>
 #include <ugdk/graphic/module.h>
+#include <ugdk/graphic/text/textbox.h>
 #include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/canvas.h>
@@ -23,9 +25,10 @@
 
 #include "game/initializer.h"
 #include "game/constants.h"
+#include "game/campaigns/campaign.h"
 #include "game/campaigns/campaigndescriptor.h"
 #include "game/scenes/world.h"
-#include "game/utils/levelmanager.h"
+#include "game/scenes/scrollingimagescene.h"
 #include "game/utils/menuimagefactory.h"
 #include "game/utils/settings.h"
 
@@ -62,8 +65,16 @@ void MenuDeFocus(Scene* scene) {
     scene->set_visible(false);
 }
 
-void MainMenuCredits(Scene* menu, const Button * source) {
-    utils::LevelManager::reference()->ShowCredits();
+void MainMenuCredits(const Button * source) {
+    using ugdk::graphic::TextBox;
+
+    ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->canvas()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    textbox->set_ident_style(TextBox::CENTER);
+    Scene *scroll = new scene::ScrollingImageScene(NULL, textbox, 55);
+    if (Settings::reference()->background_music())
+        scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
+    ugdk::system::PushScene(scroll);
 }
 
 class AnimationPlayerHolder : public ugdk::action::Entity {
@@ -129,7 +140,9 @@ Scene* PauseMenu() {
     menu->AddObject(new Button(cont_position, cont_text, [pause_menu](const Button*) { pause_menu->Finish(); }));
     menu->AddObject(new Button(exit_position, exit_text, [pause_menu](const Button*) { 
         pause_menu->Finish();
-        WORLD()->FinishLevel(utils::LevelManager::FINISH_QUIT);
+        auto current_campaign = campaigns::Campaign::CurrentCampaign();
+        current_campaign->current_level()->Finish();
+        current_campaign->Finish();
     }));
 
     //TODO: solid rectangle no longer exists
@@ -158,7 +171,7 @@ Scene* CampaignMenu() {
             new Label(campaign.name(), TEXT_MANAGER()->GetFont("FontB")),
             [campaign, mission_menu](const Button*) {
                 mission_menu->Finish();
-                utils::LevelManager::reference()->InitializeCampaign(campaign);
+                ugdk::system::PushScene(new campaigns::Campaign(campaign));
         }));
 
         y += 50.0;
@@ -222,7 +235,7 @@ Scene* MainMenu() {
 
     menu->AddObject(new Button(play_position,     play_text,     [](const Button*) { ugdk::system::PushScene(CampaignMenu()); }));
     menu->AddObject(new Button(settings_position, settings_text, [](const Button*) { ugdk::system::PushScene(SettingsMenu()); }));
-    menu->AddObject(new Button(credits_position,  credits_text,  [](const Button*) { utils::LevelManager::reference()->ShowCredits(); }));
+    menu->AddObject(new Button(credits_position,  credits_text,  MainMenuCredits));
     menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
 
     return main_menu;
@@ -342,7 +355,7 @@ static void PressArrow(std::shared_ptr<ConveninentSettingsData> data, int modifi
 static void ApplySettings(const Button * source) {
     Settings::reference()->WriteToDisk();
     QueueRestartGame();
-    ugdk::system::Quit();
+    ugdk::system::Suspend();
 }
 
 Scene* SettingsMenu() {

@@ -17,6 +17,7 @@
 #include <game/builders/mummybuilder.h>
 #include <game/builders/projectilebuilder.h>
 #include <game/builders/scriptbuilder.h>
+#include <game/builders/herobuilder.h>
 
 %}
 
@@ -39,5 +40,6 @@
 %include <game/builders/mummybuilder.h>
 %include <game/builders/projectilebuilder.h>
 %include <game/builders/scriptbuilder.h>
+%include <game/builders/herobuilder.h>
 
 confirm_exports(builder)

@@ -3,6 +3,7 @@
 
 namespace campaigns {
 
+class Campaign;
 class CampaignDescriptor;
 
 }  // namespace campaigns

@@ -77,7 +77,11 @@ static Node* CreateBarHolderOn(Node* container, TexturedRectangle* bar_image, Hu
 }
 
 // Aviso: maximo de 999 mumias no display de inimigos restantes!
-Hud::Hud(World* world) : node_(new Node), displayed_skill_(NULL) {
+Hud::Hud(World* world) 
+: world_(world)
+, node_(new Node)
+, displayed_skill_(nullptr)
+{
     // Criando sprites da life bar
     HudImageFactory img_fac;
 
@@ -176,8 +180,6 @@ Hud::~Hud() {
 }
 
 void Hud::Update(double delta_t) {
-    World* world = WORLD();
-
     int enemy_number = 0;//world->CountRemainingEnemies();
     if(previous_mummy_counter_value_ != enemy_number) {
         previous_mummy_counter_value_ = enemy_number;
@@ -195,7 +197,7 @@ void Hud::Update(double delta_t) {
     }
 #endif
 
-    sprite::WObjPtr hero = world->hero().lock();
+    sprite::WObjPtr hero = world_->hero().lock();
     life_bar_->effect().set_visible(hero && hero->damageable());
     mana_bar_->effect().set_visible(hero && hero->caster());
     if(hero) {

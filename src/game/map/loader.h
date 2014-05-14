@@ -1,15 +1,17 @@
 #ifndef HORUSEYE_GAME_MAP_LOADER_H_
 #define HORUSEYE_GAME_MAP_LOADER_H_
 
-#include <string>
-#include <ugdk/math/integer2D.h>
 #include "game/map.h"
+
+#include <ugdk/math/integer2D.h>
 #include <ugdk/script.h>
+#include <pyramidworks/collision.h>
+
+#include <string>
 
 namespace map {
 
-Room* LoadRoom(const std::string& name, const std::string& campaign, const std::string& level,
-               const ugdk::math::Integer2D& position);
+bool IsValidRoomData(const ugdk::script::VirtualObj& room_data);
 Room* LoadRoom(const std::string& name, const ugdk::script::VirtualObj& room_script,
                const ugdk::math::Integer2D& position);
 

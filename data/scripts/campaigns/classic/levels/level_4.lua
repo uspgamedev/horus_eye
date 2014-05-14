@@ -75,3 +75,12 @@ oldmatrix = stage.matrix
 stage.matrix = ""
 for line in oldmatrix:gmatch("[^\n]+") do stage.matrix = line .. "\n" .. stage.matrix end
 start_position[3] = height - start_position[3]
+
+function new()
+  local level = {}
+  function level:Start(native, campaign)
+    campaign:LevelStart(native, start_position)
+  end
+  function level:End(native, campaign) end
+  return level
+end

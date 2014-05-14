@@ -9,7 +9,6 @@
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/input/events.h>
-#include "game/utils/levelmanager.h"
 
 namespace scene {
 

@@ -52,6 +52,8 @@ SET(GAME_SRCS
     game/builders/scriptbuilder.cc 
     game/builders/scriptbuilder.h 
     game/campaigns.h 
+    game/campaigns/campaign.cc 
+    game/campaigns/campaign.h 
     game/campaigns/campaigndescriptor.cc 
     game/campaigns/campaigndescriptor.h 
     game/components.h 
@@ -87,6 +89,7 @@ SET(GAME_SRCS
     game/constants.h 
     game/context.cc 
     game/context.h 
+    game/contextscene.cc 
     game/core/coordinates.cc 
     game/core/coordinates.h 
     game/initializer.cc 
@@ -118,8 +121,6 @@ SET(GAME_SRCS
     game/scenes/gamelayer.h 
     game/scenes/imagescene.cc 
     game/scenes/imagescene.h 
-    game/scenes/loading.cc 
-    game/scenes/loading.h 
     game/scenes/scrollingimagescene.cc 
     game/scenes/scrollingimagescene.h 
     game/scenes/world.cc 
@@ -155,8 +156,6 @@ SET(GAME_SRCS
     game/utils/isometricanimationset.h 
     game/utils/levelloader.cc 
     game/utils/levelloader.h 
-    game/utils/levelmanager.cc 
-    game/utils/levelmanager.h 
     game/utils/menuimagefactory.cc 
     game/utils/menuimagefactory.h 
     game/utils/settings.cc 

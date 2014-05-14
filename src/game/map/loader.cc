@@ -2,10 +2,12 @@
 
 #include <vector>
 #include <list>
+#include <sstream>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/debug/log.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/rect.h>
@@ -135,27 +137,15 @@ void AddVisionObstacles (Room* room, Map& map) {
     }
 }
 
-Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::math::Integer2D& position) {
+Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
+                 const ugdk::math::Integer2D& position) {
 
-    if(!room_data) return NULL;
-
-    if(!room_data["width"] || !room_data["height"]) return NULL;
+    if (!IsValidRoomData(room_data)) return nullptr;
 
     int width = room_data["width"].value<int>();
     int height = room_data["height"].value<int>();
     std::list<ObjectDescriptor> objects;
     
-    if(room_data["collision_classes"]) {
-        VirtualObj::Vector collision_classes = room_data["collision_classes"].value<VirtualObj::Vector>();
-        CollisionManager* collision_manager = WORLD()->collision_manager();
-
-        for(VirtualObj::Vector::iterator it = collision_classes.begin(); it != collision_classes.end(); ++it) {
-            VirtualObj::Vector collclass = it->value<VirtualObj::Vector>();
-            if (collclass.size() >= 2)
-                collision_manager->ChangeClassParent(collclass.front().value<string>(), collclass[1].value<string>());
-        }
-    }
-
     Room* room = new Room(name, Integer2D(width, height), position);
     Cell cell = { '.', false, false };
     auto map = Map(height, vector<Cell>(width, cell));
@@ -207,25 +197,29 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 		// Field 3: type string
 		// Field 4: arguments list (optional)
 		// Field 5: tag (optional)
-        VirtualObj::Vector vobj_objects = room_data["objects"].value<VirtualObj::Vector>();
 
+        int count = 0;
         //ofr object in object list add object hzuzzah
-        for (VirtualObj::Vector::iterator it = vobj_objects.begin(); it != vobj_objects.end(); ++it ) {
-            VirtualObj::Vector object = it->value<VirtualObj::Vector>();
+        for (VirtualObj& it : room_data["objects"].value<VirtualObj::Vector>()) {
+            ++count;
+            VirtualObj::Vector&& object = it.value<VirtualObj::Vector>();
             if(object.size() < 3 ) {
-                printf("Warning: not enough arguments in an object in room '%s'\n", name.c_str());
+                printf("Room '%s', object %d has only %d arguments, expected at least 3.\n",
+                       name.c_str(), count, object.size());
                 continue;
             }
+
             ObjectDescriptor descriptor;
+
             descriptor.position = Vector2D(object[0].value<double>(), object[1].value<double>());
             descriptor.type = object[2].value<string>();
             if(object.size() >= 4) {
-                VirtualObj::Vector arguments_vobj = object[3].value<VirtualObj::Vector>();
-                for(VirtualObj::Vector::iterator it = arguments_vobj.begin(); it != arguments_vobj.end(); ++it)
-                    descriptor.arguments.push_back(it->value<std::string>());
+                for (VirtualObj& arg : object[3].value<VirtualObj::Vector>())
+                    descriptor.arguments.push_back(arg.value<std::string>());
             }
             if(object.size() >= 5)
                 descriptor.tag = object[4].value<string>();
+
             objects.push_back(descriptor);
         }
     }
@@ -233,18 +227,23 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     //=========================================
     //         CREATING OBJECTS
 
-    for(list<ObjectDescriptor>::const_iterator it = objects.begin(); it != objects.end(); ++it) {
-        sprite::WObjPtr obj = builder::WorldObjectFromTypename(it->type, it->arguments);
+    for(const ObjectDescriptor& it : objects) {
+        sprite::WObjPtr obj = builder::WorldObjectFromTypename(it.type, it.arguments);
         if(obj) {
-            if(!it->tag.empty())
-                obj->set_tag(it->tag);
-            room->AddObject(obj, it->position);
-        } else if(builder::HasFactoryMethod(it->type)) {
-            fprintf(stderr, "Warning: unable to create object of type '%s' at (%f;%f) with args {", 
-                it->type.c_str(), it->position.x, it->position.y);
-            for(ArgumentList::const_iterator arg = it->arguments.begin();arg != it->arguments.end(); ++arg)
-                fprintf(stderr, "'%s', ", arg->c_str());
-            fprintf(stderr, "}.\n");
+            if(!it.tag.empty())
+                obj->set_tag(it.tag);
+            room->AddObject(obj, it.position);
+
+        } else if(builder::HasFactoryMethod(it.type)) {
+            std::stringstream warning_msg;
+            warning_msg << "Unable to create object of type '" << it.type << "' at ("
+                << it.position.x << "," << it.position.y << ") with args{ ";
+
+            for (const auto& arg : it.arguments)
+                warning_msg << "'" << arg << "', ";
+
+            warning_msg << "}.\n";
+            ugdk::debug::Log(ugdk::debug::WARNING, warning_msg.str());
         }
     }
 
@@ -253,8 +252,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
     //=========================================
     //         RUNNING SETUP
     
-    VirtualObj setup = room_data["setup"];
-    if (setup) {
+    if (VirtualObj setup = room_data["setup"]) {
         setup(room);
     }
 
@@ -263,16 +261,13 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data, const ugdk::ma
 
 } //namespace anon
 
-Room* LoadRoom(const string& name, const string& campaign, const string& level,
-               const ugdk::math::Integer2D& position) {
-    VirtualObj room_data = SCRIPT_MANAGER()->LoadModule(
-        campaign + ".levels." + level + "." + name
-    );
-    return DoLoadRoom(name, room_data, position);
+bool IsValidRoomData(const VirtualObj& room_data) {
+    if (!room_data) return false;
+    if (!room_data["width"] || !room_data["height"]) return false;
+    return true;
 }
 
-Room* LoadRoom(const string& name, const VirtualObj& room_script,
-               const ugdk::math::Integer2D& position) {
+Room* LoadRoom(const string& name, const VirtualObj& room_script, const ugdk::math::Integer2D& position) {
     return DoLoadRoom(name, room_script, position);
 }
 
