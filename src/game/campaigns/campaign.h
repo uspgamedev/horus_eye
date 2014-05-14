@@ -27,7 +27,7 @@ class Campaign : public ugdk::action::Scene {
     scene::World* current_level() const { return current_level_; }
     ugdk::script::VirtualObj implementation() { return implementation_; }
 
-    void LoadLevel(const std::string& levelname);
+    bool LoadLevel(const std::string& levelname);
 
     void Focus() override;
     void DeFocus() override;

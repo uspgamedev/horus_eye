@@ -39,6 +39,8 @@ void GetCollidingVisibilityObjects(const std::string& classname,
 sprite::ObjectHandle hero();
 
 void ShowScrollingText(const std::string& tag);
+void ShowImageAsScene(const std::string& tag, bool is_filename = false);
+void ShowTextAsScene(const std::string& message);
 
 void ChangeConsoleLanguage(const std::string&);
 

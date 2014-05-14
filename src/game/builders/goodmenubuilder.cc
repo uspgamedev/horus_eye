@@ -355,7 +355,7 @@ static void PressArrow(std::shared_ptr<ConveninentSettingsData> data, int modifi
 static void ApplySettings(const Button * source) {
     Settings::reference()->WriteToDisk();
     QueueRestartGame();
-    ugdk::system::Quit();
+    ugdk::system::Suspend();
 }
 
 Scene* SettingsMenu() {

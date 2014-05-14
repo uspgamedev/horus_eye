@@ -3,6 +3,7 @@
 #include "game/utils/levelloader.h"
 #include "game/scenes/world.h"
 #include "game/builders/herobuilder.h"
+#include "game/context.h"
 
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/node.h>
@@ -66,23 +67,19 @@ void Campaign::InformLevelFinished() {
     current_level_ = nullptr;
 }
     
-void Campaign::LoadLevel(const std::string& level_name) {
+bool Campaign::LoadLevel(const std::string& level_name) {
     std::string level_path = descriptor_.script_path() + "." + level_name;
-    
     utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path, &current_level_);
 
-    /*if (!current_level_) {
-        ugdk::system::PushScene(new ImageScene(NULL, new ugdk::graphic::Label(
-            "Error loading level '" + (level_name)+"' from campaign '" + (current_campaign_)+"'.",
-            TEXT_MANAGER()->current_font()
-            )));
-        if (ugdk::input::manager()->keyboard().IsDown(ugdk::input::Keycode::ESCAPE))
-            loading_->Finish();
-        return;
-    }*/
-
-    ugdk::system::PushScene(current_level_);
-    current_level_->Start(this);
+    if (current_level_) {
+        ugdk::system::PushScene(current_level_);
+        current_level_->Start(this);
+        return true;
+    }
+    else {
+        context::ShowTextAsScene("Error loading level '" + (level_name)+ "' from campaign '" + descriptor_.name() +"'.");
+        return false;
+    }
 }
 
 } // namespace campaigns

@@ -18,19 +18,6 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/geometry/rect.h>
 
-// Just for the scrolling language text
-#include <ugdk/graphic/text/textbox.h>
-#include <ugdk/graphic/text/textmanager.h>
-#include <ugdk/system/engine.h>
-#include <ugdk/graphic/module.h>
-#include <ugdk/graphic/canvas.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/resource/module.h>
-#include <ugdk/util/languageword.h>
-#include "game/scenes/scrollingimagescene.h"
-#include "game/utils/settings.h"
-// HOLY CRAP
-
 #include <cstdio>
 #include <vector>
 
@@ -148,18 +135,6 @@ sprite::ObjectHandle hero() {
     World *world = WORLD();
     if (!world) return sprite::ObjectHandle();
     return world->hero();
-}
-
-void ShowScrollingText(const std::string& tag) {
-    using ugdk::graphic::TextBox;
-
-    ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord(tag);
-    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->canvas()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
-    textbox->set_ident_style(TextBox::CENTER);
-    ugdk::action::Scene *scroll = new scene::ScrollingImageScene(NULL, textbox, 55);
-    if (utils::Settings::reference()->background_music())
-        scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
-    ugdk::system::PushScene(scroll);
 }
 
 void ChangeConsoleLanguage(const std::string& lang) {
