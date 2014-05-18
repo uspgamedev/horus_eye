@@ -1,4 +1,8 @@
 function new(native)
+
+  require 'assetloader'
+  assetloader.LoadAssets()
+
   local campaign = {
     level_list = { "levels.demo_lvl_1", "levels.demo_lvl_2" },
   }
