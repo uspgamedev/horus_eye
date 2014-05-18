@@ -59,7 +59,7 @@ namespace {
 sprite::WObjPtr buildWall(int frame) {
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->AddComponent(component::Graphic::Create([frame](ugdk::graphic::Primitive& p) {
-        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetSpritesheetFromTag("wall"), frame);
+        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
     }));
     wobj->set_identifier("Wall");
 

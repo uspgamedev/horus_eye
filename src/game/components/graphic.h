@@ -27,7 +27,7 @@ class Graphic : public Base {
     static int DEFAULT_ORDER() { return orders::GRAPHIC; }
 
     static Graphic* Create(const std::function<void (ugdk::graphic::Primitive&)>& primitive_prepare_function);
-    static Graphic* Create(const ugdk::graphic::Spritesheet*, Animator* animator);
+    static Graphic* Create(const ugdk::graphic::TextureAtlas*, Animator* animator);
     static Graphic* Create(const std::string& spritesheet_name, const std::string& animation_set);
     static Graphic* Create(const std::string& spritesheet_name);
     static Graphic* Create(const char* spritesheet_name);

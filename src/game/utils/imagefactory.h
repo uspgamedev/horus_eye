@@ -11,20 +11,20 @@ class ImageFactory {
     ImageFactory() {}
     ~ImageFactory(){}
 
-    ugdk::graphic::Spritesheet* HeroImage();
-    ugdk::graphic::Spritesheet* MummyImage();
-    ugdk::graphic::Spritesheet* RangedMummyImage();
-    ugdk::graphic::Spritesheet* BigMummyImage();
-    ugdk::graphic::Spritesheet* PharaohImage();
-    ugdk::graphic::Spritesheet* MagicMissileImage();
-    ugdk::graphic::Spritesheet* FireballImage();
-    ugdk::graphic::Spritesheet* MummyProjectileImage();
-    ugdk::graphic::Spritesheet* DoorImage();
-    ugdk::graphic::Spritesheet* WallImage();
-    ugdk::graphic::Spritesheet* EntryImage();
-    ugdk::graphic::Spritesheet* LightningImage();
-    ugdk::graphic::Spritesheet* LightImage();
-    ugdk::graphic::Spritesheet* TileSwitchImage();
+    ugdk::graphic::TextureAtlas* HeroImage();
+    ugdk::graphic::TextureAtlas* MummyImage();
+    ugdk::graphic::TextureAtlas* RangedMummyImage();
+    ugdk::graphic::TextureAtlas* BigMummyImage();
+    ugdk::graphic::TextureAtlas* PharaohImage();
+    ugdk::graphic::TextureAtlas* MagicMissileImage();
+    ugdk::graphic::TextureAtlas* FireballImage();
+    ugdk::graphic::TextureAtlas* MummyProjectileImage();
+    ugdk::graphic::TextureAtlas* DoorImage();
+    ugdk::graphic::TextureAtlas* WallImage();
+    ugdk::graphic::TextureAtlas* EntryImage();
+    ugdk::graphic::TextureAtlas* LightningImage();
+    ugdk::graphic::TextureAtlas* LightImage();
+    ugdk::graphic::TextureAtlas* TileSwitchImage();
     ugdk::internal::GLTexture* LifePotionImage();
     ugdk::internal::GLTexture* ManaPotionImage();
 };

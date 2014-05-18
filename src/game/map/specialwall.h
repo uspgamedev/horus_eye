@@ -6,7 +6,7 @@
 
 namespace map {
 
-void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive&, const ugdk::graphic::Spritesheet*, int frame);
+void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive&, const ugdk::graphic::TextureAtlas*, int frame);
 
 } // namespace map
 

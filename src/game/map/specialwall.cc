@@ -5,7 +5,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
-#include <ugdk/graphic/spritesheet.h>
+#include <ugdk/graphic/textureatlas.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
@@ -85,23 +85,23 @@ void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shad
 
 }
 
-void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const Spritesheet* spritesheet, int frame) {
+void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const TextureAtlas* atlas, int frame) {
     if(!wall_light_shader_) wall_light_shader_ = createWallShader();
 
     primitive.set_vertexdata(std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false));
-    primitive.set_texture(spritesheet->atlas()->texture());
+    primitive.set_texture(atlas->texture());
     primitive.set_shader_program(wall_light_shader_);
 
-    auto bound_piece = &spritesheet->frame(frame).piece;
+    auto bound_piece = atlas->PieceAt(frame);
     primitive.set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
         float left, right, temp;
-        bound_piece->ConvertToAtlas(0.0f, 0.0f, &left, &temp);
-        bound_piece->ConvertToAtlas(1.0f, 0.0f, &right, &temp);
+        bound_piece.ConvertToAtlas(0.0f, 0.0f, &left, &temp);
+        bound_piece.ConvertToAtlas(1.0f, 0.0f, &right, &temp);
         shader_use.SendUniform("uv_minmax", left, right);
         SpecialWallDrawFunction(primitive, shader_use);
     });
 
-    PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(spritesheet);
+    PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(atlas);
     primitive.set_controller(std::unique_ptr<ugdk::graphic::PrimitiveControllerSprite>(sprite_controller));
     sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame(frame));
 }

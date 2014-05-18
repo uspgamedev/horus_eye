@@ -28,6 +28,8 @@
 
 #include <string>
 
+#include <ugdk/graphic/textureatlas.h>
+
 #ifdef WIN32
 #include <windows.h>
 #endif
@@ -110,6 +112,9 @@ int main(int argc, char *argv[]) {
     ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
+
+    auto a = ugdk::graphic::TextureAtlas::LoadFromFile("resources/images/switch-sheet");
+
 
     do {
         // Initializes game data

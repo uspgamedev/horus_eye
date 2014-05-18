@@ -1,69 +1,68 @@
 #include "imagefactory.h"
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/graphic/spritesheet.h>
 #include "game/constants.h"
 
 using ugdk::math::Vector2D;
 using ugdk::graphic::Drawable;
-using ugdk::graphic::Spritesheet;
+using ugdk::graphic::TextureAtlas;
 
 namespace utils {
 
-Spritesheet* ImageFactory::HeroImage() {
-    return ugdk::resource::GetSpritesheetFromTag("hero");
+TextureAtlas* ImageFactory::HeroImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("hero");
 }
 
-Spritesheet* ImageFactory::MummyImage(){
-    return ugdk::resource::GetSpritesheetFromTag("mummy_basic");
+TextureAtlas* ImageFactory::MummyImage(){
+    return ugdk::resource::GetTextureAtlasFromTag("mummy_basic");
 }
 
-Spritesheet* ImageFactory::BigMummyImage() {
-    return ugdk::resource::GetSpritesheetFromTag("mummy_big");
+TextureAtlas* ImageFactory::BigMummyImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("mummy_big");
 }
 
-Spritesheet* ImageFactory::PharaohImage(){
-    return ugdk::resource::GetSpritesheetFromTag("pharaoh");
+TextureAtlas* ImageFactory::PharaohImage(){
+    return ugdk::resource::GetTextureAtlasFromTag("pharaoh");
 }
 
-Spritesheet* ImageFactory::RangedMummyImage(){
-    return ugdk::resource::GetSpritesheetFromTag("mummy_ranged");
+TextureAtlas* ImageFactory::RangedMummyImage(){
+    return ugdk::resource::GetTextureAtlasFromTag("mummy_ranged");
 }
 
-Spritesheet* ImageFactory::MagicMissileImage() {
-    return ugdk::resource::GetSpritesheetFromTag("magic_missile");
+TextureAtlas* ImageFactory::MagicMissileImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("magic_missile");
 }
 
-Spritesheet* ImageFactory::FireballImage() {
-    return ugdk::resource::GetSpritesheetFromTag("fireball");
+TextureAtlas* ImageFactory::FireballImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("fireball");
 }
 
-Spritesheet* ImageFactory::MummyProjectileImage() {
-    return ugdk::resource::GetSpritesheetFromTag("mummy_projectile");
+TextureAtlas* ImageFactory::MummyProjectileImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("mummy_projectile");
 }
 
-Spritesheet* ImageFactory::DoorImage() {
-    return ugdk::resource::GetSpritesheetFromTag("stairs");
+TextureAtlas* ImageFactory::DoorImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("stairs");
 }
 
-Spritesheet* ImageFactory::WallImage() {
-    return ugdk::resource::GetSpritesheetFromTag("wall");
+TextureAtlas* ImageFactory::WallImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("wall");
 }
 
-Spritesheet* ImageFactory::EntryImage() {
-    return ugdk::resource::GetSpritesheetFromTag("door");
+TextureAtlas* ImageFactory::EntryImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("door");
 }
 
-Spritesheet* ImageFactory::LightningImage() {
-    return ugdk::resource::GetSpritesheetFromTag("lightning_bolt");
+TextureAtlas* ImageFactory::LightningImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("lightning_bolt");
 }
 
-Spritesheet* ImageFactory::LightImage() {
-    return ugdk::resource::GetSpritesheetFromTag("light");
+TextureAtlas* ImageFactory::LightImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("light");
 }
 
-Spritesheet* ImageFactory::TileSwitchImage() {
-    return ugdk::resource::GetSpritesheetFromTag("tile_switch");
+TextureAtlas* ImageFactory::TileSwitchImage() {
+    return ugdk::resource::GetTextureAtlasFromTag("tile_switch");
 }
 
 ugdk::internal::GLTexture* ImageFactory::LifePotionImage() {

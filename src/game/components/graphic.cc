@@ -5,7 +5,6 @@
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
-#include <ugdk/graphic/spritesheet.h>
 #include <ugdk/graphic/textureatlas.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
@@ -91,7 +90,7 @@ Graphic* Graphic::Create(const std::function<void(ugdk::graphic::Primitive&)>& p
     return g;
 }
 
-Graphic* Graphic::Create(const ugdk::graphic::Spritesheet* spritesheet, Animator* animator) {
+Graphic* Graphic::Create(const ugdk::graphic::TextureAtlas* spritesheet, Animator* animator) {
     using namespace ugdk::graphic;
     
     Graphic* g = new Graphic(animator);
@@ -106,7 +105,7 @@ Graphic* Graphic::Create(const ugdk::graphic::Spritesheet* spritesheet, Animator
 }
     
 Graphic* Graphic::Create(const std::string& spritesheet_name, const std::string& animation_set) {
-    return Create(ugdk::resource::GetSpritesheetFromTag(spritesheet_name), new Animator(animation_set));
+    return Create(ugdk::resource::GetTextureAtlasFromTag(spritesheet_name), new Animator(animation_set));
 }
 
 Graphic* Graphic::Create(const std::string& spritesheet_name) {
@@ -114,7 +113,7 @@ Graphic* Graphic::Create(const std::string& spritesheet_name) {
 }
     
 Graphic* Graphic::Create(const char* spritesheet_name) {
-    return Create(ugdk::resource::GetSpritesheetFromTag(spritesheet_name), nullptr);
+    return Create(ugdk::resource::GetTextureAtlasFromTag(spritesheet_name), nullptr);
 }
 
 }  // namespace component
