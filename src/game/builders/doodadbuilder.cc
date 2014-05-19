@@ -61,6 +61,7 @@ sprite::WObjPtr buildWall(int frame) {
     wobj->AddComponent(component::Graphic::Create([frame](ugdk::graphic::Primitive& p) {
         map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
     }));
+    wobj->graphic()->set_render_offset(-Vector2D(53, 156));
     wobj->set_identifier("Wall");
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new pyramidworks::geometry::Rect(1.0, 1.0));

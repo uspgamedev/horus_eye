@@ -15,6 +15,7 @@ local vec2 = ugdk_math.Vector2D
 function build (wobj, params)
   params = params or {}
   wobj:AddComponent(component.Graphic_Create("vase", "animations/urn.gdd"), "graphic", 100)
+  wobj:graphic():set_render_offset(-ugdk_math.Vector2D(53, 93))
   wobj:graphic():animator():ChangeAnimation "STANDING"
   return {
     collision = {

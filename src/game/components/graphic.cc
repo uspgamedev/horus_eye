@@ -37,23 +37,23 @@ Graphic::~Graphic() {
     delete animator_;
 }
     
-void Graphic::SetPosition(const ugdk::math::Vector2D& position) {
-    world_position_ = position;
+void Graphic::UpdateFinalPosition() {
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
     if (auto controlller = primitive_.controller().get()) {
         controlller->ChangePosition(final_position_);
     }
+}
     
+void Graphic::SetPosition(const ugdk::math::Vector2D& position) {
+    world_position_ = position;
+    UpdateFinalPosition();
 }
 
 void Graphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
     render_offset_ = render_offset;
-    final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
-    if (auto controlller = primitive_.controller().get()) {
-        controlller->ChangePosition(final_position_);
-    }
+    UpdateFinalPosition();
 }
-
+    
 double Graphic::alpha() const {
     return visual_effect_.color().a;
 }

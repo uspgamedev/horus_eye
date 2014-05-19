@@ -64,6 +64,7 @@ class Graphic : public Base {
 
   private:
     Graphic(Animator* animator);
+    void UpdateFinalPosition();
 
     ugdk::graphic::Primitive primitive_;
     Animator* animator_;

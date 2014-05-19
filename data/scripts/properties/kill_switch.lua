@@ -14,6 +14,7 @@ local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
   switch.graphic = component.Graphic_Create("switch", "animations/switch.gdd")
+  switch.graphic:set_render_offset(-ugdk_math.Vector2D(53, 93))
   switch.graphic:animator():ChangeAnimation "SWITCH_OFF"
   switch.graphic:animator():AddObserver(switch)
   function switch:Tick ()

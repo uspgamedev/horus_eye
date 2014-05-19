@@ -65,6 +65,7 @@ sprite::WObjPtr Kha() {
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");
     hero_wobj->AddComponent(component::Graphic::Create("hero", "animations/creature.gdd"));
+    hero_wobj->graphic()->set_render_offset(-Vector2D(55, 102));
     hero_wobj->AddComponent(new component::Animation);
     hero_wobj->AddComponent(new component::LightEmitter(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
     hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));

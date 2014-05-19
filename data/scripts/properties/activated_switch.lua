@@ -8,6 +8,7 @@ local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
   wobj:AddComponent(component.Graphic_Create("switch", "animations/switch.gdd"), "graphic", 100)
+  wobj:graphic():set_render_offset(-ugdk_math.Vector2D(53, 93))
   wobj:graphic():animator():ChangeAnimation "SWITCH_ON"
   wobj:AddComponent(component.LightEmitter(3.0), "light", 101)
   return {

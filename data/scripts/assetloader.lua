@@ -32,6 +32,7 @@ function assetloader.LoadAssets()
   context.LoadTextureAtlas("switch", "resources/images/switch-sheet")
   loadSingleFrameImage("dummy-spike-trap", "resources/images/spike-trap/dummy-spike-trap.png")
   loadSingleFrameImage("vase", "images/vase.png")
+  loadSingleFrameImage("closed-door", "images/closed-door.png")
   
   loadPlayerSheets()
 end
