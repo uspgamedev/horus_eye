@@ -97,7 +97,7 @@ Graphic* Graphic::Create(const ugdk::graphic::TextureAtlas* spritesheet, Animato
     if (spritesheet) {
         ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), spritesheet);
         dynamic_cast<PrimitiveControllerSprite*>(g->primitive().controller().get())
-            ->ChangeToFrame(ugdk::action::SpriteAnimationFrame::DEFAULT()); // guarantee the primitive is in a valid frame.
+            ->ChangeToAnimationFrame(ugdk::action::SpriteAnimationFrame::DEFAULT()); // guarantee the primitive is in a valid frame.
     }
     if (!g->primitive().shader_program())
         g->primitive().set_shader_program(get_horus_light_shader());

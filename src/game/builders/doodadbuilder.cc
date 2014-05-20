@@ -56,7 +56,7 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
 namespace {
 
 
-sprite::WObjPtr buildWall(int frame) {
+sprite::WObjPtr buildWall(const std::string& frame) {
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->AddComponent(component::Graphic::Create([frame](ugdk::graphic::Primitive& p) {
         map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
@@ -80,19 +80,19 @@ sprite::WObjPtr buildWall(int frame) {
 }
 
 sprite::WObjPtr Wall(const std::vector<std::string>& arguments) {
-    return buildWall(0);
+    return buildWall("wall-simple");
 }
 
 sprite::WObjPtr InvisibleWall(const std::vector<std::string>& arguments) {
-    return buildWall(1);
+    return buildWall("wall-shortened");
 }
 
 sprite::WObjPtr BurntWall(const std::vector<std::string>& arguments) {
-    return buildWall(2);
+    return buildWall("wall-burnt");
 }
 
 sprite::WObjPtr Entry(const std::vector<std::string>& arguments) {
-    return buildWall(0);
+    return buildWall("wall-simple");
 }
 
 } // namespace DoodadBuilder

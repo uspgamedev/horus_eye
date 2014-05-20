@@ -85,14 +85,14 @@ void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shad
 
 }
 
-void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const TextureAtlas* atlas, int frame) {
+void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const TextureAtlas* atlas, const std::string& frame_name) {
     if(!wall_light_shader_) wall_light_shader_ = createWallShader();
 
     primitive.set_vertexdata(std::make_shared<VertexData>(4, 2 * 2 * sizeof(GLfloat), false));
     primitive.set_texture(atlas->texture());
     primitive.set_shader_program(wall_light_shader_);
 
-    auto bound_piece = atlas->PieceAt(frame);
+    auto bound_piece = atlas->PieceAt(frame_name);
     primitive.set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
         float left, right, temp;
         bound_piece.ConvertToAtlas(0.0f, 0.0f, &left, &temp);
@@ -103,7 +103,7 @@ void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const Text
 
     PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(atlas);
     primitive.set_controller(std::unique_ptr<ugdk::graphic::PrimitiveControllerSprite>(sprite_controller));
-    sprite_controller->ChangeToFrame(ugdk::action::SpriteAnimationFrame(frame));
+    sprite_controller->ChangeToAtlasFrame(frame_name);
 }
 
 } // namespace map
