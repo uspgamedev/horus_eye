@@ -30,6 +30,8 @@ end
 function assetloader.LoadAssets()
   context.LoadTextureAtlas("wall", "resources/images/wall-sheet")
   context.LoadTextureAtlas("switch", "resources/images/switch-sheet")
+  context.LoadTextureAtlas("items", "resources/images/items-sheet")
+  context.LoadTextureAtlas("projectile", "resources/images/projectile-sheet")
   loadSingleFrameImage("dummy-spike-trap", "resources/images/spike-trap/dummy-spike-trap.png")
   loadSingleFrameImage("vase", "images/vase.png")
   loadSingleFrameImage("closed-door", "images/closed-door.png")
