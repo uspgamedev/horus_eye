@@ -9,6 +9,7 @@ local atlas_list = {
   items           = "resources/images/items-sheet",
   projectile      = "resources/images/projectile-sheet",
   scenery         = "resources/images/scenery-sheet",
+  effect          = "resources/images/effect-sheet",
   switch          = "resources/images/switch-sheet",
   wall            = "resources/images/wall-sheet",
   hero            = "resources/images/character/hero-sheet",

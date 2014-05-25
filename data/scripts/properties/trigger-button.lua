@@ -12,7 +12,8 @@ local Rect      = pyramidworks_geometry.Rect
 
 local function make_button ()
   local button = proxy "Observer"
-  button.graphic = component.Graphic_Create("button", "animations/button.gdd")
+  button.graphic = component.Graphic_Create("scenery", "resources/animations/button.json")
+  button.graphic:set_render_offset(-ugdk_math.Vector2D(53, 27))
   button.graphic:animator():ChangeAnimation "OFF"
   button.graphic:set_layer(component.BACKGROUND_LAYER)
   button.activated = false

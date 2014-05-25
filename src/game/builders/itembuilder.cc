@@ -19,7 +19,6 @@
 #include "game/components/condition.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/effect.h"
-#include "game/utils/imagefactory.h"
 
 #define INCREASE_SIGHT_TIME 3.00
 #define PI 3.141592654
@@ -45,7 +44,7 @@ namespace {
         void Update(double delta_t) {
             total_time_ += delta_t;
             if (total_time_ >= PERIOD) total_time_ -= PERIOD;
-            graphic_->set_render_offset(Vector2D(0.0, 10.0*cos(3.0*total_time_)));
+            graphic_->set_render_offset(Vector2D(-13.0, 6.0*cos(3.0*total_time_)-24.0));
         }
     private:
         component::Graphic* graphic_;
@@ -54,9 +53,7 @@ namespace {
 
     
     template <class T>
-    sprite::WObjPtr buildBaseItem(ugdk::internal::GLTexture* texture,
-                                  T&& ev,
-                                  const std::string& target_class = "Hero") {
+    sprite::WObjPtr buildBaseItem(T&& ev, const std::string& target_class = "Hero") {
         sprite::WObjPtr wobj = WorldObject::Create();
 
         wobj->AddComponent(component::Graphic::Create("items"));
@@ -79,9 +76,8 @@ namespace {
 //=======================================
 
 WObjPtr LifePotion(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     int recover_life = constants::GetInt("LIFEPOTION_RECOVER_LIFE");
-    WObjPtr wobj = buildBaseItem(factory.LifePotionImage(), [recover_life](sprite::WorldObject * wobj) {
+    WObjPtr wobj = buildBaseItem([recover_life](sprite::WorldObject * wobj) {
         resource::Energy& life = wobj->damageable()->life();
         if (life < life.max_value()) {
             life += recover_life;
@@ -94,9 +90,8 @@ WObjPtr LifePotion(const std::vector<std::string>& arguments) {
 }
 
 WObjPtr ManaPotion(const std::vector<std::string>& arguments) {
-    utils::ImageFactory factory;
     int recover_mana = constants::GetInt("MANAPOTION_RECOVER_MANA");
-    WObjPtr wobj = buildBaseItem(factory.ManaPotionImage(), [recover_mana](sprite::WorldObject * wobj) {
+    WObjPtr wobj = buildBaseItem([recover_mana](sprite::WorldObject * wobj) {
         Caster* caster = wobj->caster();
         if (caster && caster->mana() < caster->max_mana()) {
             caster->set_mana(caster->mana() + recover_mana);

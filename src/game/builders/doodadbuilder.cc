@@ -20,7 +20,6 @@
 #include "game/map/room.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/imagefactory.h"
 #include "game/constants.h"
 
 namespace builder {
@@ -45,6 +44,7 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
 
     auto graphic = component::Graphic::Create("scenery");
     graphic->ChangeToFrame("stairs");
+    graphic->set_render_offset(-Vector2D(76.5, 63.5));
     wobj->AddComponent(graphic);
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
