@@ -48,7 +48,10 @@ CollisionLogic AntiStackCollision(Walker* data_) {
     };
 }
 
-static void MummyDeath(sprite::WorldObject* wobj) {
+namespace {
+
+
+void MummyDeath(sprite::WorldObject* wobj) {
     int potion = rand() % 100;
     WObjPtr potion_obj;
     if (potion < 20) {
@@ -61,19 +64,32 @@ static void MummyDeath(sprite::WorldObject* wobj) {
     if(potion_obj) wobj->current_room()->AddObject(potion_obj, wobj->world_position(), map::POSITION_ABSOLUTE);
 }
 
-static sprite::WObjPtr build_mummy_wobj(const std::string& spritesheetname, double life, double radius, double speed, bool standing) {
+sprite::WObjPtr build_mummy_wobj(const std::string& spritesheetname,
+                                 double life,
+                                 double radius,
+                                 double speed,
+                                 bool standing)
+{
     sprite::WObjPtr wobj = WorldObject::Create();
-    PrepareBasicMummy(wobj, spritesheetname, life, radius, speed, standing);
+    PrepareBasicMummy(wobj, spritesheetname, life, radius, speed, standing, "resources/animations/creature.json");
     return wobj;
 }
 
-void PrepareBasicMummy(const sprite::ObjectHandle& wobj, const std::string& spritesheetname,
-                       double life, double radius, double speed, bool standing,
+}
+
+void PrepareBasicMummy(const sprite::ObjectHandle& wobj,
+                       const std::string& spritesheetname,
+                       double life,
+                       double radius,
+                       double speed,
+                       bool standing,
                        const string& animation_descriptor) {
 
     std::string aiscript = "basicmummy";
 
-    wobj->AddComponent(component::Graphic::Create(spritesheetname, "animations/"+animation_descriptor+".gdd"));
+    wobj->AddComponent(component::Graphic::Create(spritesheetname, animation_descriptor));
+    wobj->graphic()->set_render_offset(-Vector2D(55, 102));
+
     wobj->AddComponent(new component::Animation(utils::SPAWNING, Direction()));
 
     wobj->AddComponent(new component::Damageable(300));
@@ -110,8 +126,11 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj, const std::string& spri
 }
 
 sprite::WObjPtr StandingMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr wobj = build_mummy_wobj("mummy_basic", constants::GetInt("MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy-blue",
+                                            constants::GetInt("MUMMY_LIFE"), 
+                                            constants::GetDouble("MUMMY_RADIUS"),
+                                            constants::GetDouble("MUMMY_SPEED"),
+                                            true);
     wobj->caster()->power().Set(constants::GetInt("MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
     return wobj;
@@ -124,8 +143,11 @@ sprite::WObjPtr WalkingMummy(const std::vector<std::string>& arguments) {
 }
 
 sprite::WObjPtr StandingRangedMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr wobj = build_mummy_wobj("mummy_ranged", constants::GetInt("RANGED_MUMMY_LIFE"), 
-        constants::GetDouble("MUMMY_RADIUS"), constants::GetDouble("MUMMY_SPEED"), true);
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy-red",
+                                            constants::GetInt("RANGED_MUMMY_LIFE"),
+                                            constants::GetDouble("MUMMY_RADIUS"),
+                                            constants::GetDouble("MUMMY_SPEED"),
+                                            true);
     wobj->caster()->power().Set(constants::GetInt("RANGED_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_ranged", Controller::PRIMARY);
     return wobj;
@@ -138,9 +160,11 @@ sprite::WObjPtr WalkingRangedMummy(const std::vector<std::string>& arguments) {
 }
 
 sprite::WObjPtr StandingBigMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr wobj = build_mummy_wobj("mummy_big", constants::GetInt("BIG_MUMMY_LIFE"), 
-        constants::GetDouble("BIG_MUMMY_RADIUS"), constants::GetDouble("BIG_MUMMY_SPEED"), true);
-    // TODO: different GDD
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy-green",
+                                            constants::GetInt("BIG_MUMMY_LIFE"),
+                                            constants::GetDouble("BIG_MUMMY_RADIUS"),
+                                            constants::GetDouble("BIG_MUMMY_SPEED"),
+                                            true);
     wobj->damageable()->set_super_armor(true);
     wobj->caster()->power().Set(constants::GetInt("BIG_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_melee", Controller::PRIMARY);
@@ -154,9 +178,11 @@ sprite::WObjPtr WalkingBigMummy(const std::vector<std::string>& arguments) {
 }
 
 sprite::WObjPtr StandingPaperMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr wobj = build_mummy_wobj("mummy_basic", constants::GetInt("PAPER_MUMMY_LIFE"), 
-        constants::GetDouble("PAPER_MUMMY_RADIUS"), constants::GetDouble("PAPER_MUMMY_SPEED"),
-        true);
+    sprite::WObjPtr wobj = build_mummy_wobj("mummy-blue",
+                                            constants::GetInt("PAPER_MUMMY_LIFE"),
+                                            constants::GetDouble("PAPER_MUMMY_RADIUS"),
+                                            constants::GetDouble("PAPER_MUMMY_SPEED"),
+                                            true);
     wobj->graphic()->ChangeAlpha(0.5);
     wobj->caster()->power().Set(constants::GetInt("PAPER_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("paper_melee", Controller::PRIMARY);
@@ -170,8 +196,11 @@ sprite::WObjPtr WalkingPaperMummy(const std::vector<std::string>& arguments) {
 }
 
 sprite::WObjPtr StandingPharaoh(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr wobj = build_mummy_wobj("pharaoh", constants::GetInt("PHARAOH_LIFE"), 
-        constants::GetDouble("PHARAOH_RADIUS"), constants::GetDouble("PHARAOH_SPEED"), true);
+    sprite::WObjPtr wobj = build_mummy_wobj("pharaoh",
+                                            constants::GetInt("PHARAOH_LIFE"),
+                                            constants::GetDouble("PHARAOH_RADIUS"),
+                                            constants::GetDouble("PHARAOH_SPEED"),
+                                            true);
     wobj->damageable()->set_super_armor(true);
 
     component::Caster* caster = wobj->caster();

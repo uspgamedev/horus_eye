@@ -81,6 +81,12 @@ void Graphic::OnAdd(sprite::WorldObject* wobj) {
     SetPosition(wobj->world_position());
 }
     
+void Graphic::ChangeToFrame(const std::string& frame_name) {
+    auto controller = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(primitive_.controller().get());
+    if (controller)
+        controller->ChangeToAtlasFrame(frame_name);
+}
+    
 Graphic* Graphic::Create(const std::function<void(ugdk::graphic::Primitive&)>& primitive_prepare_function) {
     Graphic* g = new Graphic(nullptr);
     Primitive& gp = g->primitive();
@@ -96,8 +102,8 @@ Graphic* Graphic::Create(const ugdk::graphic::TextureAtlas* spritesheet, Animato
     Graphic* g = new Graphic(animator);
     if (spritesheet) {
         ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), spritesheet);
-        dynamic_cast<PrimitiveControllerSprite*>(g->primitive().controller().get())
-            ->ChangeToAnimationFrame(ugdk::action::SpriteAnimationFrame::DEFAULT()); // guarantee the primitive is in a valid frame.
+        ugdk::graphic::VertexDataManipulation::SetToRectangleAtOrigin(
+            *g->primitive().vertexdata(), Vector2D(1.0, 1.0));
     }
     if (!g->primitive().shader_program())
         g->primitive().set_shader_program(get_horus_light_shader());

@@ -8,15 +8,15 @@ require "context"
 require "builder"
 require "map"
 
+local graphics = require 'graphics'
+
 local Sprite = ugdk_drawable.Sprite
 local Circle = pyramidworks_geometry.Circle
 local vec2 = ugdk_math.Vector2D
 
 function build (wobj, params)
   params = params or {}
-  wobj:AddComponent(component.Graphic_Create("vase", "animations/urn.gdd"), "graphic", 100)
-  wobj:graphic():set_render_offset(-ugdk_math.Vector2D(53, 93))
-  wobj:graphic():animator():ChangeAnimation "STANDING"
+  wobj:AddComponent(graphics.urn(), "graphic", 100)
   return {
     collision = {
       class = "Wall",

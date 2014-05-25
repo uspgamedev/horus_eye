@@ -61,6 +61,7 @@ class Graphic : public Base {
     virtual void OnAdd(sprite::WorldObject*);
     
     Animator* animator() { return animator_; }
+    void ChangeToFrame(const std::string& frame_name);
 
   private:
     Graphic(Animator* animator);

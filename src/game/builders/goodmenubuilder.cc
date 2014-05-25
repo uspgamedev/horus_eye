@@ -20,6 +20,7 @@
 #include <ugdk/structure/intervalkdtree.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
+#include <ugdk/util/languageword.h>
 #include <pyramidworks/ui/menu.h>
 #include <pyramidworks/ui/button.h>
 

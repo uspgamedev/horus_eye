@@ -14,7 +14,7 @@ function build (wobj, params)
     params.radius,
     params.speed,
     true,
-    params.animations or 'creature'
+    params.animations or 'resources/animations/creature.json'
   )
   if params.extra then
     params.extra(wobj)

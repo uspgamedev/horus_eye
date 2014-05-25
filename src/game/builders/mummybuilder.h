@@ -12,7 +12,7 @@ namespace MummyBuilder {
 
 void PrepareBasicMummy(const sprite::ObjectHandle& handle, const std::string& spritesheetname,
                        double life, double radius, double speed, bool standing,
-                       const std::string& animation_descriptor = "creature");
+                       const std::string& animation_descriptor);
 
 sprite::WObjPtr WalkingMummy(const std::vector<std::string>& arguments);
 sprite::WObjPtr StandingMummy(const std::vector<std::string>& arguments);

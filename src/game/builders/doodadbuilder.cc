@@ -41,8 +41,11 @@ using sprite::WorldObject;
 
 sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
     sprite::WObjPtr wobj = WorldObject::Create();
+    wobj->set_identifier("Door");
 
-    wobj->AddComponent(component::Graphic::Create("stairs"));
+    auto graphic = component::Graphic::Create("scenery");
+    graphic->ChangeToFrame("stairs");
+    wobj->AddComponent(graphic);
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject* obj) { 
