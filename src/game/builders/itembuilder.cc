@@ -20,6 +20,8 @@
 #include "game/sprites/worldobject.h"
 #include "game/sprites/effect.h"
 
+#include "game/builders/scriptbuilder.h"
+
 #define INCREASE_SIGHT_TIME 3.00
 #define PI 3.141592654
 #define PERIOD (2.0*PI/3.0)
@@ -76,17 +78,7 @@ namespace {
 //=======================================
 
 WObjPtr LifePotion(const std::vector<std::string>& arguments) {
-    int recover_life = constants::GetInt("LIFEPOTION_RECOVER_LIFE");
-    WObjPtr wobj = buildBaseItem([recover_life](sprite::WorldObject * wobj) {
-        resource::Energy& life = wobj->damageable()->life();
-        if (life < life.max_value()) {
-            life += recover_life;
-            return true;
-        }
-        return false;
-    });
-    wobj->graphic()->ChangeToFrame("life_potion");
-    return wobj;
+    return ScriptBuilder::Script("potion-life", ugdk::script::VirtualObj());
 }
 
 WObjPtr ManaPotion(const std::vector<std::string>& arguments) {
