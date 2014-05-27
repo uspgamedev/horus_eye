@@ -33,6 +33,7 @@
 %}
 
 proxy_class(ugdk::action::Observer)
+proxy_class(component::Base)
 
 %import(module="ugdk_action") <ugdk/action.h>
 %import(module="ugdk_action") <ugdk/action/entity.h>
@@ -42,15 +43,12 @@ proxy_class(ugdk::action::Observer)
 %import(module="component") <game/sprites.h>
 %import(module="component") <game/components.h>
 
-proxy_class(component::Base)
-
 // sprite::WorldObject
 
 %ignore sprite::WorldObject::set_start_to_die_callback (std::function<void (WorldObject*)> on_death_start_callback);
 %ignore sprite::WorldObject::set_die_callback(std::function<void (WorldObject*)> on_death_end_callback);
 
-enable_disown(pyramidworks::collision::CollisionObject* col)
-enable_disown(component::Base* component)
+enable_disown(pyramidworks::collision::CollisionObject*)
 
 %include <game/scenes/gamelayer.h>
 %include <game/utils/isometricanimationset.h>
@@ -60,9 +58,6 @@ enable_disown(component::Base* component)
 
 %template(WObjPtr) std::shared_ptr<sprite::WorldObject>;
 %template(WObjWeakPtr) std::weak_ptr<sprite::WorldObject>;
-
-disable_disown(pyramidworks::collision::CollisionObject* col)
-disable_disown(component::Base* component)
 
 // resource::Energy and dependencies
 
@@ -104,6 +99,8 @@ disable_disown(ugdk::graphic::Drawable* drawable)
 %include <game/components/caster.h>
 %include <game/components/body.h>
 %include <game/components/condition.h>
+
+disable_disown(pyramidworks::collision::CollisionObject*)
 
 namespace sprite {
     export_class(WorldObject)
