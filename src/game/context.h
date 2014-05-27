@@ -4,6 +4,7 @@
 #include <string>
 #include <vector>
 
+#include <ugdk/action.h>
 #include <ugdk/math.h>
 #include <pyramidworks/geometry.h>
 
@@ -45,6 +46,8 @@ void ChangeConsoleLanguage(const std::string&);
 
 void LoadTextureAtlas(const std::string& tag, const std::string& filepath);
 void LoadTextureAtlas(const std::string& tag, ugdk::graphic::TextureAtlas* atlas);
+
+sprite::WorldObject* ToWorldObject(ugdk::action::Entity*);
 
 } // namespace context
 
