@@ -87,7 +87,7 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj,
 
     std::string aiscript = "basicmummy";
 
-    wobj->AddComponent(component::Graphic::Create(spritesheetname, animation_descriptor));
+    wobj->AddComponent(component::Graphic::CreateWithAnimationSet(spritesheetname, animation_descriptor));
     wobj->graphic()->set_render_offset(-Vector2D(60, 120));
 
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::Down()));

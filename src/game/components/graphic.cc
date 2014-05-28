@@ -86,40 +86,42 @@ void Graphic::ChangeToFrame(const std::string& frame_name) {
     if (controller)
         controller->ChangeToAtlasFrame(frame_name);
 }
+
+void Graphic::ChangeToFrame(std::size_t frame_number) {
+    auto controller = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(primitive_.controller().get());
+    if (controller)
+        controller->ChangeToAtlasFrame(frame_number);
+}
     
+namespace {
+    void SetDefaultShader(Graphic* g) {
+        if (!g->primitive().shader_program())
+            g->primitive().set_shader_program(get_horus_light_shader());
+    }
+}
+
 Graphic* Graphic::Create(const std::function<void(ugdk::graphic::Primitive&)>& primitive_prepare_function) {
     Graphic* g = new Graphic(nullptr);
     Primitive& gp = g->primitive();
     primitive_prepare_function(gp);
-    if (!gp.shader_program())
-        gp.set_shader_program(get_horus_light_shader());
+    SetDefaultShader(g);
     return g;
 }
 
-Graphic* Graphic::Create(const ugdk::graphic::TextureAtlas* spritesheet, Animator* animator) {
-    using namespace ugdk::graphic;
-    
-    Graphic* g = new Graphic(animator);
-    if (spritesheet) {
-        ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), spritesheet);
-        ugdk::graphic::VertexDataManipulation::SetToRectangleAtOrigin(
-            *g->primitive().vertexdata(), Vector2D(1.0, 1.0));
-    }
-    if (!g->primitive().shader_program())
-        g->primitive().set_shader_program(get_horus_light_shader());
+Graphic* Graphic::CreateWithAnimationSet(const std::string& spritesheet_name, const std::string& animation_set) {
+    Graphic* g = new Graphic(new Animator(animation_set));
+    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), ugdk::resource::GetTextureAtlasFromTag(spritesheet_name));
+    g->ChangeToFrame(0);
+    SetDefaultShader(g);
+    return g;
+}
+
+Graphic* Graphic::CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name) {
+    Graphic* g = new Graphic(nullptr);
+    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), ugdk::resource::GetTextureAtlasFromTag(spritesheet_name));
+    g->ChangeToFrame(frame_name);
+    SetDefaultShader(g);
     return g;
 }
     
-Graphic* Graphic::Create(const std::string& spritesheet_name, const std::string& animation_set) {
-    return Create(ugdk::resource::GetTextureAtlasFromTag(spritesheet_name), new Animator(animation_set));
-}
-
-Graphic* Graphic::Create(const std::string& spritesheet_name) {
-    return Create(spritesheet_name.c_str());
-}
-    
-Graphic* Graphic::Create(const char* spritesheet_name) {
-    return Create(ugdk::resource::GetTextureAtlasFromTag(spritesheet_name), nullptr);
-}
-
 }  // namespace component

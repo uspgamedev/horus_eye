@@ -39,8 +39,7 @@ local function AddItemLogic(wobj, callback)
 end
 
 function build (wobj, params)
-  local graphic_comp = component.Graphic_Create("items")
-  graphic_comp:ChangeToFrame "life_potion"
+  local graphic_comp = component.Graphic_CreateWithSingleFrame("items", "life_potion")
   graphic_comp:set_render_offset(-vec2(13, 24))
   wobj:AddComponent(graphic_comp, "graphic", 100)
 

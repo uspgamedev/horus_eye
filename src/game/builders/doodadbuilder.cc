@@ -42,8 +42,7 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Door");
 
-    auto graphic = component::Graphic::Create("scenery");
-    graphic->ChangeToFrame("stairs");
+    auto graphic = component::Graphic::CreateWithSingleFrame("scenery", "stairs");
     graphic->set_render_offset(-Vector2D(76.5, 63.5));
     wobj->AddComponent(graphic);
 

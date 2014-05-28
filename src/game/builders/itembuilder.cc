@@ -55,10 +55,10 @@ namespace {
 
     
     template <class T>
-    sprite::WObjPtr buildBaseItem(T&& ev, const std::string& target_class = "Hero") {
+    sprite::WObjPtr buildBaseItem(const std::string& frame_name, T&& ev, const std::string& target_class = "Hero") {
         sprite::WObjPtr wobj = WorldObject::Create();
 
-        wobj->AddComponent(component::Graphic::Create("items"));
+        wobj->AddComponent(component::Graphic::CreateWithSingleFrame("items", frame_name));
         wobj->AddComponent(new ItemLogic(wobj->graphic()), "item", component::orders::LOGIC);
 
         auto wobj_ptr = wobj.get();
@@ -83,7 +83,7 @@ WObjPtr LifePotion(const std::vector<std::string>& arguments) {
 
 WObjPtr ManaPotion(const std::vector<std::string>& arguments) {
     int recover_mana = constants::GetInt("MANAPOTION_RECOVER_MANA");
-    WObjPtr wobj = buildBaseItem([recover_mana](sprite::WorldObject * wobj) {
+    WObjPtr wobj = buildBaseItem("mana_potion", [recover_mana](sprite::WorldObject * wobj) {
         Caster* caster = wobj->caster();
         if (caster && caster->mana() < caster->max_mana()) {
             caster->set_mana(caster->mana() + recover_mana);
@@ -91,7 +91,6 @@ WObjPtr ManaPotion(const std::vector<std::string>& arguments) {
         }
         return false;
     });
-    wobj->graphic()->ChangeToFrame("mana_potion");
     return wobj;
 }
 

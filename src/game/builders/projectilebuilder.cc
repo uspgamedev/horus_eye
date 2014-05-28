@@ -48,46 +48,54 @@ void PrepareProjectile(const sprite::ObjectHandle& wobj, const ugdk::math::Vecto
     wobj->AddComponent(new component::Walker(speed));
 }
 
-static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, const std::string& spritesheet, const std::string& isometric_animation, 
+static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, component::Graphic* graphic, 
                                     double light_radius, double speed, double duration) {
 
     sprite::WObjPtr wobj = WorldObject::Create(duration);
     wobj->set_identifier("Projectile");
-    if (isometric_animation.empty())
-        wobj->AddComponent(component::Graphic::Create(spritesheet));
-    else
-        wobj->AddComponent(component::Graphic::Create(spritesheet, isometric_animation));
+    wobj->AddComponent(graphic);
     wobj->AddComponent(new component::LightEmitter(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
 }
 
 sprite::WObjPtr MagicMissile(const Vector2D &dir) {
-    sprite::WObjPtr wobj = buildProjectile(dir, "projectile", "", 1.0, constants::GetDouble("MAGICMISSILE_SPEED"), constants::GetDouble("MAGICMISSILE_DURATION"));
-    wobj->graphic()->ChangeToFrame("blue-ball");
-    auto colobj = buildCollisionObject(wobj, 0.15);
+    sprite::WObjPtr wobj = buildProjectile(dir,
+                                           component::Graphic::CreateWithSingleFrame("projectile", "blue-ball"),
+                                           1.0,
+                                           constants::GetDouble("MAGICMISSILE_SPEED"),
+                                           constants::GetDouble("MAGICMISSILE_DURATION"));
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(16.0, 16.0));
 
+    auto colobj = buildCollisionObject(wobj, 0.15);
     colobj->AddCollisionLogic("Mummy", DamageAndDieCollision(wobj, "MAGICMISSILE_DAMAGE"));
     wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 
 sprite::WObjPtr MagicBall(const Vector2D &dir) {
-    sprite::WObjPtr wobj = buildProjectile(dir, "projectile", "", 1.0, constants::GetDouble("MAGICBALL_SPEED"), constants::GetDouble("MAGICBALL_DURATION"));
-    wobj->graphic()->ChangeToFrame("blue-ball");
+    sprite::WObjPtr wobj = buildProjectile(dir,
+                                           component::Graphic::CreateWithSingleFrame("projectile", "blue-ball"),
+                                           1.0,
+                                           constants::GetDouble("MAGICBALL_SPEED"),
+                                           constants::GetDouble("MAGICBALL_DURATION"));
+    wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(16.0, 16.0));
+
     auto colobj = buildCollisionObject(wobj, 0.15);
     colobj->AddCollisionLogic("Mummy", DamageAndDieCollision(wobj, "MAGICBALL_DAMAGE"));
     colobj->AddCollisionLogic("Wall", BounceCollision(wobj));
-    wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(16.0, 16.0));
     wobj->AddComponent(new component::Body(colobj, NULL));
     return wobj;
 }
 /***/
 sprite::WObjPtr MummyProjectile(const ugdk::math::Vector2D &dir, double damage) {
-    sprite::WObjPtr wobj = buildProjectile(dir, "projectile", "", 0.75, constants::GetDouble("MUMMYPROJECTILE_SPEED"), constants::GetDouble("MUMMYPROJECTILE_DURATION"));
-    wobj->graphic()->ChangeToFrame("green-ball");
+    sprite::WObjPtr wobj = buildProjectile(dir,
+                                           component::Graphic::CreateWithSingleFrame("projectile", "green-ball"),
+                                           0.75,
+                                           constants::GetDouble("MUMMYPROJECTILE_SPEED"),
+                                           constants::GetDouble("MUMMYPROJECTILE_DURATION"));
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(16.0, 16.0));
+
     auto colobj = buildCollisionObject(wobj, 0.15);
     colobj->AddCollisionLogic("Hero", DamageAndDieCollision(wobj, damage));
     wobj->AddComponent(new component::Body(colobj, NULL));
@@ -95,11 +103,17 @@ sprite::WObjPtr MummyProjectile(const ugdk::math::Vector2D &dir, double damage) 
 }
 
 sprite::WObjPtr LightningBolt(const Vector2D &dir) {
-    sprite::WObjPtr wobj = buildProjectile(dir, "projectile", "resources/animations/lightningbolt.json", 1.0, constants::GetDouble("LIGHTNING_SPEED"), constants::GetDouble("LIGHTNING_DURATION"));
+    sprite::WObjPtr wobj = buildProjectile(dir,
+                                           component::Graphic::CreateWithAnimationSet("projectile", "resources/animations/lightningbolt.json"),
+                                           1.0,
+                                           constants::GetDouble("LIGHTNING_SPEED"),
+                                           constants::GetDouble("LIGHTNING_DURATION"));
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(32.0, 32.0));
+
     wobj->light()->ChangeColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
+
     auto colobj = buildCollisionObject(wobj, 0.25);
     colobj->AddCollisionLogic("Mummy", DamageCollision("LIGHTNING_DAMAGE"));
     wobj->AddComponent(new component::Body(colobj, NULL));
@@ -107,12 +121,18 @@ sprite::WObjPtr LightningBolt(const Vector2D &dir) {
 }
 
 sprite::WObjPtr Fireball(const Vector2D &dir) {
-    sprite::WObjPtr wobj = buildProjectile(dir, "projectile", "resources/animations/fireball.json", 1.0, constants::GetDouble("FIREBALL_SPEED"), constants::GetDouble("FIREBALL_DURATION"));
+    sprite::WObjPtr wobj = buildProjectile(dir,
+                                           component::Graphic::CreateWithAnimationSet("projectile", "resources/animations/fireball.json"),
+                                           1.0,
+                                           constants::GetDouble("FIREBALL_SPEED"),
+                                           constants::GetDouble("FIREBALL_DURATION"));
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(32.0, 32.0));
+
     wobj->light()->ChangeColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
     wobj->AddDeathEvent(Carrier(builder::ExplosionBuilder::FireballExplosion()));
+
     auto colobj = buildCollisionObject(wobj, 0.25);
     colobj->AddCollisionLogic("Mummy", DieCollision(wobj));
     wobj->AddComponent(new component::Body(colobj, NULL));

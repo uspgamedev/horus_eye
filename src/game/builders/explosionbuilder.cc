@@ -29,7 +29,7 @@ static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Explosion");
 
-    auto graphic = component::Graphic::Create(spritesheet, "resources/animations/explosion.json");
+    auto graphic = component::Graphic::CreateWithAnimationSet(spritesheet, "resources/animations/explosion.json");
     auto animator = graphic->animator();
     animator->ChangeAnimation(anim);
     animator->AddTickFunction(bind(&WorldObject::Remove, wobj.get()));
