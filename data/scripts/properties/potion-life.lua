@@ -30,7 +30,6 @@ local function AddItemLogic(wobj, callback)
   -- Collision logic
   local colobj = pyramidworks_collision.CollisionObject(nil, "Item", Circle(0.15))
   colobj:AddCollisionLogic("Hero", function(other)
-    print(other)
     local other_obj = context.ToWorldObject(other:owner())
     if callback(other_obj) then
       wobj:Die()

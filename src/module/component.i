@@ -63,14 +63,13 @@ enable_disown(pyramidworks::collision::CollisionObject*)
 
 %ignore resource::Resource::operator=;
 %ignore resource::Resource::operator resource_t;
-%ignore resource::ContainedResource;
 
 %include <game/resources/resource.h>
 %template(DoubleResource) resource::Resource<double>;
 %template(IntegerResource) resource::Resource<int>;
 
 %include <game/resources/containedresource.h>
-%template(NumericContainedResource) resource::ContainedResource<double>;
+%template(DoubleContainedResource) resource::ContainedResource<double>;
 
 %include <game/resources/energy.h>
 
