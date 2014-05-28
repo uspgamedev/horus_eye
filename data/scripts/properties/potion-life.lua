@@ -45,7 +45,7 @@ function build (wobj, params)
 
   AddItemLogic(wobj, function(other)
     local life = other:damageable():life()
-    if life:Get() < life:max_value() then
+    if not life:Full() then
       life:Increase(constants.GetInt("LIFEPOTION_RECOVER_LIFE"))
       return true
     end
