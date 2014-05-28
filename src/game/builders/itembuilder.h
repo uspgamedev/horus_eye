@@ -3,7 +3,6 @@
 
 #include <vector>
 #include <string>
-#include <ugdk/graphic.h>
 #include "game/sprites.h"
 
 namespace builder {

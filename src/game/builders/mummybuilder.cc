@@ -136,12 +136,6 @@ sprite::WObjPtr StandingMummy(const std::vector<std::string>& arguments) {
     return wobj;
 }
 
-sprite::WObjPtr WalkingMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr obj = StandingMummy(arguments);
-    obj->component<ai::AI>()->set_standing(false);
-    return obj;
-}
-
 sprite::WObjPtr StandingRangedMummy(const std::vector<std::string>& arguments) {
     sprite::WObjPtr wobj = build_mummy_wobj("mummy-red",
                                             constants::GetInt("RANGED_MUMMY_LIFE"),
@@ -151,12 +145,6 @@ sprite::WObjPtr StandingRangedMummy(const std::vector<std::string>& arguments) {
     wobj->caster()->power().Set(constants::GetInt("RANGED_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("mummy_ranged", Controller::PRIMARY);
     return wobj;
-}
-
-sprite::WObjPtr WalkingRangedMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr obj = StandingRangedMummy(arguments);
-    obj->component<ai::AI>()->set_standing(false);
-    return obj;
 }
 
 sprite::WObjPtr StandingBigMummy(const std::vector<std::string>& arguments) {
@@ -171,12 +159,6 @@ sprite::WObjPtr StandingBigMummy(const std::vector<std::string>& arguments) {
     return wobj;
 }
 
-sprite::WObjPtr WalkingBigMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr obj = StandingBigMummy(arguments);
-    obj->component<ai::AI>()->set_standing(false);
-    return obj;
-}
-
 sprite::WObjPtr StandingPaperMummy(const std::vector<std::string>& arguments) {
     sprite::WObjPtr wobj = build_mummy_wobj("mummy-blue",
                                             constants::GetInt("PAPER_MUMMY_LIFE"),
@@ -187,12 +169,6 @@ sprite::WObjPtr StandingPaperMummy(const std::vector<std::string>& arguments) {
     wobj->caster()->power().Set(constants::GetInt("PAPER_MUMMY_DAMAGE"));
     wobj->caster()->LearnAndEquipSkill("paper_melee", Controller::PRIMARY);
     return wobj;
-}
-
-sprite::WObjPtr WalkingPaperMummy(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr obj = StandingPaperMummy(arguments);
-    obj->component<ai::AI>()->set_standing(false);
-    return obj;
 }
 
 sprite::WObjPtr StandingPharaoh(const std::vector<std::string>& arguments) {
@@ -210,12 +186,6 @@ sprite::WObjPtr StandingPharaoh(const std::vector<std::string>& arguments) {
     caster->LearnAndEquipSkill("pharaoh_ranged", Controller::SECONDARY);
     caster->LearnAndEquipSkill("pharaoh_summon", Controller::SPECIAL1);
     return wobj;
-}
-
-sprite::WObjPtr WalkingPharaoh(const std::vector<std::string>& arguments) {
-    sprite::WObjPtr obj = StandingPharaoh(arguments);
-    obj->component<ai::AI>()->set_standing(false);
-    return obj;
 }
 
 } // namespace MummyBuilder
