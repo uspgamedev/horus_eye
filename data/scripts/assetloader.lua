@@ -20,6 +20,8 @@ local atlas_list = {
 }
 
 function assetloader.LoadAssets()
+  if assetloader.loaded then return end
+  assetloader.loaded = true
   for tag, file in pairs(atlas_list) do
     context.LoadTextureAtlas(tag, file)
   end
