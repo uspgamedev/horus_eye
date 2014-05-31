@@ -3,101 +3,100 @@
 
 $TAKING_DAMAGE
 @fps 20
-%number 0
-+frame [number 0] [position 5 -12]
-+frame [number 0] [position 1 -8]
-+frame [number 0] [position -10 -5]
++frame [name altar]
++frame [name altar] [position 5 -12]
++frame [name altar] [position 1 -8]
++frame [name altar] [position -10 -5]
 
 $DYING
-%number 0
-+frame [number 0] [alpha .7] [position 5 -12]
-+frame [number 0] [alpha .4] [position 1- 8]
-+frame [number 0] [alpha .1] [position -10 -5]
++frame [name altar]
++frame [name altar] [alpha .7] [position 5 -12]
++frame [name altar] [alpha .4] [position 1 -8]
++frame [name altar] [alpha .1] [position -10 -5]
 
 $SPAWNING
-%number 0
 @fps 30
-+frame [number 0] [alpha 0.0] [position 0 -100]
-+frame [number 0] [alpha 0.1] [position 0 -90]
-+frame [number 0] [alpha 0.2] [position 0 -80]
-+frame [number 0] [alpha 0.3] [position 0 -70]
-+frame [number 0] [alpha 0.4] [position 0 -60]
-+frame [number 0] [alpha 0.5] [position 0 -50]
-+frame [number 0] [alpha 0.6] [position 0 -40]
-+frame [number 0] [alpha 0.7] [position 0 -30]
-+frame [number 0] [alpha 0.8] [position 0 -20]
-+frame [number 0] [alpha 0.9] [position 0 -10]
-+frame [number 0] [alpha 1.0] [position 0 0]
++frame [name altar] [alpha 0.0] [position 0 -100]
++frame [name altar] [alpha 0.1] [position 0 -90]
++frame [name altar] [alpha 0.2] [position 0 -80]
++frame [name altar] [alpha 0.3] [position 0 -70]
++frame [name altar] [alpha 0.4] [position 0 -60]
++frame [name altar] [alpha 0.5] [position 0 -50]
++frame [name altar] [alpha 0.6] [position 0 -40]
++frame [name altar] [alpha 0.7] [position 0 -30]
++frame [name altar] [alpha 0.8] [position 0 -20]
++frame [name altar] [alpha 0.9] [position 0 -10]
++frame [name altar] [alpha 1.0] [position 0 0]
 
 $STANDING_UP
-%number 0
+%name altar
 
 $STANDING_UP_RIGHT
-%number 0
+%name altar
 
 $STANDING_UP_LEFT
-%number 0
+%name altar
 
 $STANDING_RIGHT
-%number 0
+%name altar
 
 $STANDING_LEFT
-%number 0
+%name altar
 
 $STANDING_DOWN_RIGHT
-%number 0
+%name altar
 
 $STANDING_DOWN_LEFT
-%number 0
+%name altar
 
 $STANDING_DOWN
-%number 0
+%name altar
 
 $WALKING_UP
-%number 0
+%name altar
 
 $WALKING_UP_RIGHT
-%number 0
+%name altar
 
 $WALKING_UP_LEFT
-%number 0
+%name altar
 
 $WALKING_RIGHT
-%number 0
+%name altar
 
 $WALKING_LEFT
-%number 0
+%name altar
 
 $WALKING_DOWN_RIGHT
-%number 0
+%name altar
 
 $WALKING_DOWN_LEFT
-%number 0
+%name altar
 
 $WALKING_DOWN
-%number 0
+%name altar
 
 $ATTACKING_UP
-%number 0
+%name altar
 
 $ATTACKING_UP_RIGHT
-%number 0
+%name altar
 
 $ATTACKING_UP_LEFT
-%number 0
+%name altar
 
 $ATTACKING_RIGHT
-%number 0
+%name altar
 
 $ATTACKING_LEFT
-%number 0
+%name altar
 
 $ATTACKING_DOWN_RIGHT
-%number 0
+%name altar
 
 $ATTACKING_DOWN_LEFT
-%number 0
+%name altar
 
 $ATTACKING_DOWN
-%number 0
+%name altar
 

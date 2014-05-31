@@ -7,13 +7,15 @@ require "component"
 require "context"
 require "map"
 
+local graphics = require 'graphics'
+
 local Sprite    = ugdk_drawable.Sprite
 local Rect      = pyramidworks_geometry.Rect
 
 local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
-  switch.graphic = component.Graphic_Create("switch", "animations/switch.gdd")
+  switch.graphic = graphics.switch()
   switch.graphic:animator():ChangeAnimation "SWITCH_OFF"
   switch.graphic:animator():AddObserver(switch)
   function switch:Tick ()

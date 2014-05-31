@@ -11,9 +11,9 @@ local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj, params)
-  local graph_comp = component.Graphic_Create("mummy_projectile", "animations/projectile.gdd")
+  local graph_comp = component.Graphic_CreateWithSingleFrame("projectile", "green-ball")
+  graph_comp:set_render_offset(ugdk_math.Vector2D(0, -58) - ugdk_math.Vector2D(16, 16))
   wobj:AddComponent(graph_comp, "graphic", 100)
-  graph_comp:set_render_offset(ugdk_math.Vector2D(0, -58))
   wobj:set_timed_life(1)
   local dir = params.dir
   if not dir then

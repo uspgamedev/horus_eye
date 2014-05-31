@@ -141,4 +141,8 @@ void ChangeConsoleLanguage(const std::string& lang) {
     scene::Console::ChangeLanguage(lang);
 }
 
+sprite::WorldObject* ToWorldObject(ugdk::action::Entity* entity) {
+    return dynamic_cast<sprite::WorldObject*>(entity);
+}
+
 } // namespace context

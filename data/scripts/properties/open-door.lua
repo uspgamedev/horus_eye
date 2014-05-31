@@ -7,6 +7,8 @@ require "ugdk.math"
 require "component"
 require "context"
 
+local graphics = require 'graphics'
+
 local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
@@ -15,7 +17,7 @@ function build (wobj, params)
   local open_event = params and params.open_event
   local close_event = params and params.close_event
 
-  local graphic_comp = component.Graphic_Create("closed-door", "animations/closed-door.gdd")
+  local graphic_comp = graphics.open_door()
   wobj:AddComponent(graphic_comp, "graphic", 100)
   graphic_comp:animator():ChangeAnimation("STANDING_"..dir)
 

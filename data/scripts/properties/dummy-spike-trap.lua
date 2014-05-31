@@ -6,13 +6,13 @@ require "ugdk.math"
 require "component"
 require "context"
 
+local graphics = require 'graphics'
+
 local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  local graphic_comp = component.Graphic_Create("dummy-spike-trap", "animations/spike-trap.gdd")
-  graphic_comp:animator():ChangeAnimation "STANDING"
-  wobj:AddComponent(graphic_comp, "graphic", 100)
+  wobj:AddComponent(graphics.dummy_spike_trap(), "graphic", 100)
   return {
     collision = {
       class = "Wall",

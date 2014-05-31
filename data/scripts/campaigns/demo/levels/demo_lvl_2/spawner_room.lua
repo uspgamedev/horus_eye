@@ -41,11 +41,11 @@ recipes = {
   ['cursed-altar'] = {
     property = 'custom-monster',
     params = {
-      spritesheet = 'altar',
+      spritesheet = 'scenery',
       life = constants.GetInt 'CURSED_ALTAR_LIFE',
       radius = 1.5,
       speed = 0,
-      animations = 'altar',
+      animations = 'resources/animations/altar.json',
       extra = function (wobj)
         wobj:caster():LearnAndEquipSkill("altar_summon", 0)
         context.AddCollisionObjectRect(wobj, 'Wall', 2, 2)

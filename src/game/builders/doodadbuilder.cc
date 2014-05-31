@@ -20,7 +20,6 @@
 #include "game/map/room.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/imagefactory.h"
 #include "game/constants.h"
 
 namespace builder {
@@ -41,8 +40,11 @@ using sprite::WorldObject;
 
 sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
     sprite::WObjPtr wobj = WorldObject::Create();
+    wobj->set_identifier("Door");
 
-    wobj->AddComponent(component::Graphic::Create("stairs"));
+    auto graphic = component::Graphic::CreateWithSingleFrame("scenery", "stairs");
+    graphic->set_render_offset(-Vector2D(76.5, 63.5));
+    wobj->AddComponent(graphic);
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new Rect(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject* obj) { 
@@ -56,11 +58,12 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
 namespace {
 
 
-sprite::WObjPtr buildWall(int frame) {
+sprite::WObjPtr buildWall(const std::string& frame) {
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->AddComponent(component::Graphic::Create([frame](ugdk::graphic::Primitive& p) {
-        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetSpritesheetFromTag("wall"), frame);
+        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
     }));
+    wobj->graphic()->set_render_offset(-Vector2D(53, 156));
     wobj->set_identifier("Wall");
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", new pyramidworks::geometry::Rect(1.0, 1.0));
@@ -79,19 +82,19 @@ sprite::WObjPtr buildWall(int frame) {
 }
 
 sprite::WObjPtr Wall(const std::vector<std::string>& arguments) {
-    return buildWall(0);
+    return buildWall("wall-simple");
 }
 
 sprite::WObjPtr InvisibleWall(const std::vector<std::string>& arguments) {
-    return buildWall(1);
+    return buildWall("wall-shortened");
 }
 
 sprite::WObjPtr BurntWall(const std::vector<std::string>& arguments) {
-    return buildWall(2);
+    return buildWall("wall-burnt");
 }
 
 sprite::WObjPtr Entry(const std::vector<std::string>& arguments) {
-    return buildWall(0);
+    return buildWall("wall-simple");
 }
 
 } // namespace DoodadBuilder

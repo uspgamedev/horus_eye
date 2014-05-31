@@ -14,7 +14,6 @@
 #include "game/components/lightemitter.h"
 #include "game/components/animator.h"
 #include "game/scenes/world.h"
-#include "game/utils/imagefactory.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
@@ -30,7 +29,7 @@ static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Explosion");
 
-    auto graphic = component::Graphic::Create(spritesheet, "animations/explosion.gdd");
+    auto graphic = component::Graphic::CreateWithAnimationSet(spritesheet, "resources/animations/explosion.json");
     auto animator = graphic->animator();
     animator->ChangeAnimation(anim);
     animator->AddTickFunction(bind(&WorldObject::Remove, wobj.get()));
@@ -40,8 +39,8 @@ static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::
 }
 
 sprite::WObjPtr FireballExplosion() {
-    utils::ImageFactory factory;
-    sprite::WObjPtr wobj = baseExplosion("fireball_explosion", "HERO_FIREBALL_WEAPON");
+    sprite::WObjPtr wobj = baseExplosion("effect", "HERO_FIREBALL_WEAPON");
+    wobj->graphic()->set_render_offset(-Vector2D(128, 64));
 
     wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 

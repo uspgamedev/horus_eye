@@ -63,13 +63,13 @@ static void PharaohSummonUse(component::Caster* caster) {
     map::Room* room = caster->owner()->current_room();
     int choice = rand()%100;
     if (choice < SUMMON_RANGED_CHANCE) {
-        room->AddObject(WalkingRangedMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
+        room->AddObject(StandingRangedMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
     else if (choice < SUMMON_RANGED_CHANCE + SUMMON_BIG_CHANCE) {
-        room->AddObject(WalkingBigMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
+        room->AddObject(StandingBigMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
     else {
-        room->AddObject(WalkingMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
+        room->AddObject(StandingMummy(std::vector<std::string>()), mummyPos, map::POSITION_ABSOLUTE);
     }
 }
 

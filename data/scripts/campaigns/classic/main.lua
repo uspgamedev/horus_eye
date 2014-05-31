@@ -2,6 +2,10 @@
 require 'builder'
 
 function new(native)
+
+  require 'assetloader'
+  assetloader.LoadAssets()
+
   local campaign = {
     level_list = {
       "level_1", 

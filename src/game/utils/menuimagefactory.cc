@@ -21,9 +21,10 @@ std::pair<
 
     auto primitive = std::make_shared<ugdk::graphic::Primitive>(nullptr, nullptr);
     primitive->set_shader_program(ugdk::graphic::manager()->shaders().current_shader());
-    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(*primitive, ugdk::resource::GetSpritesheetFromTag("eye"));
+    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(*primitive, ugdk::resource::GetTextureAtlasFromFile("resources/images/eye-sheet"));
 
-    auto player = ugdk::graphic::PrimitiveSetup::Sprite::CreateSpriteAnimationPlayer(*primitive, ugdk::resource::GetSpriteAnimationTableFromFile("animations/menu.gdd"));
+    auto player = ugdk::graphic::PrimitiveSetup::Sprite::CreateSpriteAnimationPlayer(
+        *primitive, ugdk::resource::GetSpriteAnimationTableFromFile("resources/animations/menu.json"));
     player->Select("SELECTION_EYE");
 
     auto d = new pyramidworks::ui::Drawable(primitive);

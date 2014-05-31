@@ -27,10 +27,10 @@ static bool VisibilityCheck(const component::Caster* caster) {
     return vs.IsVisible(caster->owner(), caster->aim().destination_);
 }
 
-static void HeroLightUse(component::Caster* caster){
+static void HeroLightUse(component::Caster* caster) {
     sprite::WObjPtr light = sprite::WorldObject::Create(15.0);
 
-    light->AddComponent(component::Graphic::Create("light"));
+    light->AddComponent(component::Graphic::CreateWithSingleFrame("projectile", "yellow-ball"));
     light->AddComponent(new component::LightEmitter(4.0));
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);

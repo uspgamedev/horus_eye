@@ -1,10 +1,10 @@
-
 #ifndef HORUSEYE_CONTEXT_H_
 #define HORUSEYE_CONTEXT_H_
 
 #include <string>
 #include <vector>
 
+#include <ugdk/action.h>
 #include <ugdk/math.h>
 #include <pyramidworks/geometry.h>
 
@@ -43,6 +43,11 @@ void ShowImageAsScene(const std::string& tag, bool is_filename = false);
 void ShowTextAsScene(const std::string& message);
 
 void ChangeConsoleLanguage(const std::string&);
+
+void LoadTextureAtlas(const std::string& tag, const std::string& filepath);
+void LoadTextureAtlas(const std::string& tag, ugdk::graphic::TextureAtlas* atlas);
+
+sprite::WorldObject* ToWorldObject(ugdk::action::Entity*);
 
 } // namespace context
 

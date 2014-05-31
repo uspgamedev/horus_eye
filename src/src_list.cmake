@@ -89,6 +89,7 @@ SET(GAME_SRCS
     game/constants.h 
     game/context.cc 
     game/context.h 
+    game/contextloader.cc 
     game/contextscene.cc 
     game/core/coordinates.cc 
     game/core/coordinates.h 
@@ -150,8 +151,6 @@ SET(GAME_SRCS
     game/utils/hud.h 
     game/utils/hudimagefactory.cc 
     game/utils/hudimagefactory.h 
-    game/utils/imagefactory.cc 
-    game/utils/imagefactory.h 
     game/utils/isometricanimationset.cc 
     game/utils/isometricanimationset.h 
     game/utils/levelloader.cc 

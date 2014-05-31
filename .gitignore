@@ -68,6 +68,6 @@ settings.ini
 /deploy/Horus Eye.dmg
 Thumbs.db
 doc/doxy/
-/resources-v*.tgz
-/resources-v*.tar.gz
+/resources-*.tgz
+/resources-*.tar.gz
 /build
