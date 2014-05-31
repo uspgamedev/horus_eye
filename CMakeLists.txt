@@ -39,7 +39,7 @@ endif(GIT_FOUND)
 
 MESSAGE("== Horus Eye ==")
 
-set(RESOURCES_VERSION master)
+set(RESOURCES_VERSION jsonmetadata)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-${RESOURCES_VERSION}.tar.gz)
     if(GIT_FOUND)
         message("= Downloading resources file version '${RESOURCES_VERSION}'...")
