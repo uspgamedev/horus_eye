@@ -8,17 +8,22 @@ require "event"
 local Vector2D = ugdk_math.Vector2D
 
 function build (wobj, params)
-  params.spritesheet = params.spritesheet or "mummy-blue"
-  params.life = params.life or constants.GetInt "MUMMY_LIFE"
-  params.radius = params.radius or constants.GetDouble "MUMMY_RADIUS"
-  params.speed = params.speed or constants.GetDouble "MUMMY_SPEED"
+  params.spritesheet = params.spritesheet 
+  params.life = params.life 
+  params.radius = params.radius or             
+  params.speed = params.speed 
+
   builder.PrepareBasicMummy(wobj,
-    params.spritesheet, params.life, params.radius, params.speed, true, 
+    params.spritesheet    or "mummy-blue",
+    params.life           or constants.GetInt "MUMMY_LIFE",
+    params.radius         or constants.GetDouble "MUMMY_RADIUS",
+    params.speed          or constants.GetDouble "MUMMY_SPEED",
+    true,
     "resources/animations/creature.json")
+
+  wobj:animation():ChangeAnimation(component.SPAWNING)
   wobj:caster():power():Set(constants.GetInt "MUMMY_DAMAGE")
-  -- FIXME GAMBS MAGIC NUMBER
-  -- Should be Controller.PRIMARY
-  wobj:caster():LearnAndEquipSkill("mummy_melee", 0)
+  wobj:caster():LearnAndEquipSkill("mummy_melee", component.Controller_PRIMARY)
   return {
     on_die_callbacks = {
       function (self)
@@ -29,4 +34,3 @@ function build (wobj, params)
     }
   }
 end
-

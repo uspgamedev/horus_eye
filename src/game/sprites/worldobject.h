@@ -66,6 +66,7 @@ class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_fro
 
     component::Damageable* damageable();
     component::Graphic* graphic();
+    component::Animation* animation();
     component::Controller* controller();
     component::Caster* caster();
     component::Body* body();

@@ -68,9 +68,10 @@ recipes = {
       radius = constants.GetDouble "PAPER_MUMMY_RADIUS",
       speed = constants.GetDouble "PAPER_MUMMY_SPEED",
       extra = function (wobj)
+        wobj:animation():ChangeAnimation(component.SPAWNING)
         wobj:graphic():ChangeAlpha(0.5)
         wobj:caster():power():Set(constants.GetInt "PAPER_MUMMY_DAMAGE")
-        wobj:caster():LearnAndEquipSkill('paper_melee', 0)
+        wobj:caster():LearnAndEquipSkill('paper_melee', component.Controller_PRIMARY)
       end
     }
   }

@@ -17,6 +17,7 @@
 #include "game/components/damageable.h"
 #include "game/components/controller.h"
 #include "game/components/caster.h"
+#include "game/components/animation.h"
 
 
 namespace sprite {
@@ -129,6 +130,7 @@ void WorldObject::RemoveComponent(const std::string& name) {
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
 component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
+component::Animation* WorldObject::animation() { return component<component::Animation>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }
 component::Body* WorldObject::body() { return component<component::Body>(); }

@@ -47,7 +47,7 @@ recipes = {
       speed = 0,
       animations = 'resources/animations/altar.json',
       extra = function (wobj)
-        wobj:caster():LearnAndEquipSkill("altar_summon", 0)
+        wobj:caster():LearnAndEquipSkill("altar_summon", component.Controller_PRIMARY)
         context.AddCollisionObjectRect(wobj, 'Wall', 2, 2)
         wobj:body():main_collision():RemoveCollisionLogic('Wall')
       end,
