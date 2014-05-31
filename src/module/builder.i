@@ -22,10 +22,7 @@
 %}
 
 %import(module="ugdk_action") <ugdk/action/entity.h>
-%import(module="component") <game/sprites.h>
-%import(module="component") <game/components/base.h>
-%import(module="component") <game/components/controller.h>
-%import(module="component") <game/sprites/worldobject.h>
+%import(module="component") "component.i"
 %import(module="ai") <game/ai/ai.h>
 
 %ignore builder::DoodadBuilder::Door(const std::vector<std::string>& arguments, scene::World* world);

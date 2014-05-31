@@ -15,10 +15,9 @@
 
 %import(module="ugdk_system") <ugdk/system/taskplayer.h>
 %import(module="ugdk_action") <ugdk/action/scene.h>
-%import(module="component") <game/sprites.h>
-%import(module="component") <game/components/base.h>
-%import(module="component") <game/components/controller.h>
-%import(module="component") <game/sprites/worldobject.h>
+%import(module="ugdk_action") <ugdk/action/entity.h>
+%import(module="ugdk_math") <ugdk/math/vector2D.h>
+%import(module="component") "component.i"
 
 %include <game/campaigns/campaigndescriptor.h>
 %include <game/campaigns/campaign.h>

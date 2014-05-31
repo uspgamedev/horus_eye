@@ -17,8 +17,8 @@
 
 %}
 
-%import(module="component") <game/sprites.h>
-%import(module="component") <game/sprites/worldobject.h>
+%import(module="ugdk_action") <ugdk/action/entity.h>
+%import(module="component") "component.i"
 
 %include <game/map.h>    
 %include <game/map/room.h>

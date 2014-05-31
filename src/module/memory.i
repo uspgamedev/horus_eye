@@ -116,4 +116,16 @@ class weak_ptr {
     template<class Y> friend class shared_ptr;
 };
 
+template<class T>
+class enable_shared_from_this {
+  public:
+    shared_ptr<T> shared_from_this();
+    shared_ptr<T const> shared_from_this() const;
+  protected:
+    enable_shared_from_this() throw();
+    enable_shared_from_this(const enable_shared_from_this&) throw();
+    //enable_shared_from_this& operator=(const enable_shared_from_this&) throw();
+    ~enable_shared_from_this() throw();
+};
+
 }

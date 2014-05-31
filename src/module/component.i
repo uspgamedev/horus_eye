@@ -48,6 +48,8 @@ proxy_class(component::Base)
 %ignore sprite::WorldObject::set_start_to_die_callback (std::function<void (WorldObject*)> on_death_start_callback);
 %ignore sprite::WorldObject::set_die_callback(std::function<void (WorldObject*)> on_death_end_callback);
 
+%template(WObjSharedFromThis) std::enable_shared_from_this<sprite::WorldObject>;
+
 enable_disown(pyramidworks::collision::CollisionObject*)
 
 %include <game/scenes/gamelayer.h>
