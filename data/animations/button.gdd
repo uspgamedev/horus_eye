@@ -1,8 +1,0 @@
-
-# Pre-activated
-$OFF
-%number 2
-
-# Post-activated
-$ON
-%number 0
