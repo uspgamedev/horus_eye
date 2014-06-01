@@ -125,7 +125,7 @@ void AddShadowcastingShader() {
 }
 
 ugdk::internal::GLTexture* shadow_texture_ = nullptr;
-
+GLuint shadow_framebuffer_ = 0;
 bool light_system_activated = true;
 bool shadowcasting_actiavated = true;
 
@@ -255,24 +255,38 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
 void LightRendering(ugdk::graphic::Canvas& canvas) {
     auto campaign = campaigns::Campaign::CurrentCampaign();
     if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
-        if(shadowcasting_actiavated)
-            if(sprite::WObjPtr hero = world->hero().lock())
+
+        //shadowcasting_actiavated = false;
+        //light_system_activated = false;
+
+        if (shadowcasting_actiavated) {
+            ugdk::debug::ProfileSection section("ShadowCasting");
+
+            glBindFramebuffer(GL_FRAMEBUFFER, shadow_framebuffer_);
+            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadow_texture_->id(), 0);
+
+            glClear(GL_COLOR_BUFFER_BIT);
+
+            if (sprite::WObjPtr hero = world->hero().lock())
                 DrawShadows(world, hero.get(), canvas);
 
-        canvas.SaveToTexture(shadow_texture_);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            glBindFramebuffer(GL_FRAMEBUFFER, graphic::manager()->light_framebuffer());
+        }
 
         if(light_system_activated)
             world->RenderLight(canvas);
         else {
+            ugdk::debug::ProfileSection section("Clearing Light");
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         }
         
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-        if(shadowcasting_actiavated)
+        if (shadowcasting_actiavated) {
+            ugdk::debug::ProfileSection section("DrawShadowTexture");
             DrawTexture(shadow_texture_, canvas);
+        }
     }
 }
 
@@ -304,6 +318,8 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadow_texture_->width(),
         shadow_texture_->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
+
+    glGenFramebuffers(1, &shadow_framebuffer_);
 
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
