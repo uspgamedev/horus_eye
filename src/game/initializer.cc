@@ -252,26 +252,28 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
     canvas.PopVisualEffect();
 }
 
+void ShadowCasting(ugdk::graphic::Canvas& canvas) {
+    if (!shadowcasting_actiavated) return;
+
+    auto campaign = campaigns::Campaign::CurrentCampaign();
+    if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
+        glBindFramebuffer(GL_FRAMEBUFFER, shadow_framebuffer_);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadow_texture_->id(), 0);
+
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        glBlendFunc(GL_ONE, GL_ONE);
+        if (sprite::WObjPtr hero = world->hero().lock())
+            DrawShadows(world, hero.get(), canvas);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        glBindFramebuffer(GL_FRAMEBUFFER, graphic::manager()->light_framebuffer());
+    }
+}
+
 void LightRendering(ugdk::graphic::Canvas& canvas) {
     auto campaign = campaigns::Campaign::CurrentCampaign();
     if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
-
-        //shadowcasting_actiavated = false;
-        //light_system_activated = false;
-
-        if (shadowcasting_actiavated) {
-            ugdk::debug::ProfileSection section("ShadowCasting");
-
-            glBindFramebuffer(GL_FRAMEBUFFER, shadow_framebuffer_);
-            glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadow_texture_->id(), 0);
-
-            glClear(GL_COLOR_BUFFER_BIT);
-
-            if (sprite::WObjPtr hero = world->hero().lock())
-                DrawShadows(world, hero.get(), canvas);
-
-            glBindFramebuffer(GL_FRAMEBUFFER, graphic::manager()->light_framebuffer());
-        }
 
         if(light_system_activated)
             world->RenderLight(canvas);
@@ -307,6 +309,19 @@ void ToggleLightsystem() {
     light_system_activated = !light_system_activated;
 }
 
+ugdk::action::Scene* CreateShadowCastingScene() {
+    glGenFramebuffers(1, &shadow_framebuffer_);
+
+    action::Scene* shadow_scene = new action::Scene;
+    shadow_scene->set_identifier("Shadow Casting Scene");
+    // This scene has no logic, so quit if you ask for it to be only scene.
+    shadow_scene->set_focus_callback([](action::Scene* scene) { scene->Finish(); });
+
+    shadow_scene->set_render_function(ShadowCasting);
+
+    return shadow_scene;
+}
+
 ugdk::action::Scene* CreateHorusLightrenderingScene() {
     auto screensize = graphic::manager()->canvas()->size();
     shadow_texture_ = ugdk::internal::GLTexture::CreateRawTexture(screensize.x, screensize.y);
@@ -318,8 +333,6 @@ ugdk::action::Scene* CreateHorusLightrenderingScene() {
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadow_texture_->width(),
         shadow_texture_->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
     glBindTexture(GL_TEXTURE_2D, 0);
-
-    glGenFramebuffers(1, &shadow_framebuffer_);
 
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
