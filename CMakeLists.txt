@@ -21,9 +21,21 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mmacosx-version-min=10.5")
 ENDIF()
 
+if(ANDROID)
+    if(${ANDROID_NATIVE_API_LEVEL} LESS 9)
+        message(FATAL_ERROR "ANDROID_NATIVE_API_LEVEL must be at least 9")
+    endif()
+else()
+    macro(find_host_package)
+        find_package(${ARGN})
+    endmacro(find_host_package)
+endif()
+
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 
-find_package(Git)
+MESSAGE("== Horus Eye ==")
+
+find_host_package(Git)
 if(GIT_FOUND)
     execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --always
                             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -36,8 +48,6 @@ if(GIT_FOUND)
 else(GIT_FOUND)
     set(horus_eye_VERSION "Unknown version")
 endif(GIT_FOUND)
-
-MESSAGE("== Horus Eye ==")
 
 set(RESOURCES_VERSION jsonmetadata)
 if(NOT EXISTS ${CMAKE_CURRENT_BINARY_DIR}/resources-${RESOURCES_VERSION}.tar.gz)

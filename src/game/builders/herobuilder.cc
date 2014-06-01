@@ -68,7 +68,7 @@ sprite::WObjPtr Kha() {
     hero_wobj->graphic()->set_render_offset(-Vector2D(55, 102));
     hero_wobj->AddComponent(new component::Animation(utils::IDLE, component::Direction::Down()));
     hero_wobj->AddComponent(new component::LightEmitter(constants::GetDouble("LIGHT_RADIUS_INITIAL")));
-    hero_wobj->AddComponent(player_controller = new component::PlayerController(hero_wobj));
+    hero_wobj->AddComponent(player_controller = new component::PlayerController);
 
     hero_wobj->AddComponent(new component::Damageable(1000, true));
     hero_wobj->damageable()->life() = life;

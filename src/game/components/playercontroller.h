@@ -9,10 +9,14 @@ namespace component {
 class PlayerController : public Controller { 
   typedef Controller super;
   public:
-    PlayerController(sprite::WorldObject* owner); 
-    ~PlayerController() {}
+    PlayerController(); 
+    ~PlayerController();
 
     void Update(double dt);
+    
+    void OnAdd(sprite::WorldObject* owner) {
+        owner_ = owner;
+    }
 
     void AddSkill(int id);
     void RemoveSkill(int id);
@@ -28,6 +32,8 @@ class PlayerController : public Controller {
     ugdk::math::Vector2D mouse_aim_offset_;
     std::list<int> known_skills_;
     std::list<int>::const_iterator selected_skill_;
+    bool is_attacking_;
+    ugdk::uint32 click_start_;
 
 };  // class PlayerController
 
