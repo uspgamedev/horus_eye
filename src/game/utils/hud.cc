@@ -22,6 +22,7 @@
 #include "game/constants.h"
 
 #include <string>
+#include <sstream>
 
 #define LIFE_BAR_HEIGHT constants::GetDouble("LIFE_BAR_HEIGHT")
 #define MANA_BAR_HEIGHT constants::GetDouble("MANA_BAR_HEIGHT")
@@ -40,7 +41,9 @@ namespace utils {
 
 static Drawable* ConvertNumberToText(int val, bool center = true) {
 #ifdef ANDROID
-    std::string s = "DUMMY LOL";
+    std::ostringstream convert;
+    convert << val;
+    std::string s = convert.str();
 #else
     std::string s = std::to_string(val);
 #endif

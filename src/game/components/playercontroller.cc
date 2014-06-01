@@ -58,7 +58,7 @@ void PlayerController::Update(double dt) {
 
     auto time_since = ugdk::time::manager()->TimeSince(click_start_);
     const static uint32 NO_MOVE_TIME = 125;
-    const static uint32 TAPDETECTION_TIME = 300;
+    const static uint32 TAPDETECTION_TIME = 500;
 
     if (mouse.IsDown(MouseButton::LEFT) && time_since >= NO_MOVE_TIME) {
         math::Vector2D mouse_vector = (mouse.position() - ugdk::desktop::manager()->primary_window()->size() * 0.5);

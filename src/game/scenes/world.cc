@@ -121,13 +121,15 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
     if(ev.scancode == input::Scancode::F9)
         render_profiler = !render_profiler;
     
-    if (ev.scancode == input::Scancode::F10) {
+    if (ev.scancode == input::Scancode::F10 || ev.scancode == input::Scancode::MENU) {
         const auto& datalist = ugdk::system::profile_data_list();
         if (!datalist.empty()) {
             std::stringstream msg;
             renders::SectionDataToString(msg, "", datalist.back());
             profiler_text->ChangeMessage(msg.str());
         }
+        if (ev.scancode == input::Scancode::MENU)
+            render_profiler = true;
     }
 
     if (ev.scancode == input::Scancode::GRAVE) {
