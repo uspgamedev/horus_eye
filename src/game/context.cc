@@ -12,13 +12,13 @@
 #include "game/components/body.h"
 #include "game/ai/ai.h"
 
+#include <ugdk/debug/log.h>
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/geometry/rect.h>
 
-#include <cstdio>
 #include <vector>
 
 namespace context {
@@ -49,7 +49,8 @@ sprite::ObjectHandle WorldObjectByTag(const std::string& tag) {
     assert(world);
     size_t slashpos = tag.find_first_of('/');
     if(slashpos == std::string::npos) {
-        fprintf(stderr, "Tag '%s' is not of the format 'X/Y'\n", tag.c_str());
+        ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                         "Tag '", tag, "' is not of the format 'X/Y'");
         return sprite::ObjectHandle();
     }
     std::string room_name = tag.substr(0, slashpos),
@@ -71,7 +72,8 @@ static void _internal_AddDamageableComponent(const sprite::ObjectHandle& obj, do
 void AddDamageableComponent(const std::string& tag, double life) {
     sprite::ObjectHandle obj = WorldObjectByTag(tag);
     if(!obj.attached()) {
-        fprintf(stderr, "No object with tag '%s' found.\n", tag.c_str());
+        ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                         "No object with tag '", tag, "' found");
         return;
     }
     _internal_AddDamageableComponent(obj, life);
@@ -80,11 +82,8 @@ void AddDamageableComponent(const std::string& tag, double life) {
 void AddDamageableComponent(const map::Room* room, const std::string& tag, double life) {
     sprite::ObjectHandle obj = room->WorldObjectByTag(tag);
     if(!obj.attached()) {
-        fprintf(
-            stderr,
-            "No object with tag '%s' in room '%s' found.\n",
-            tag.c_str(), room->name().c_str()
-        );
+        ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                         "No object with tag '", tag, "' in room '", room->name(), "' found");
         return;
     }
     _internal_AddDamageableComponent(obj, life);

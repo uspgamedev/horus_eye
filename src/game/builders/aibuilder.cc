@@ -1,9 +1,10 @@
-#include <ugdk/script/scriptmanager.h>
-#include <ugdk/script/virtualobj.h>
-
 #include "game/builders/aibuilder.h"
 
 #include "game/ai/ai.h"
+
+#include <ugdk/debug/log.h>
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
 
 
 namespace builder {
@@ -16,12 +17,14 @@ using ugdk::script::VirtualObj;
 
 /** arguments[0] is the script name. */
 AI* AIScript(const vector<string>& arguments) {
-    if (arguments.empty()) return NULL;
+    if (arguments.empty()) return nullptr;
+    
     VirtualObj script_generator = SCRIPT_MANAGER()->LoadModule("ais." + arguments[0]);
-    if(!script_generator) return NULL;
-    if(!script_generator["generate"]) {
-        fprintf(stderr, "Function 'generate' not found in 'ais.%s'.\n", arguments[0].c_str());
-        return NULL;
+    if (!script_generator) return nullptr;
+    if (!script_generator["generate"]) {
+        ugdk::debug::Log(ugdk::debug::LogLevel::WARNING, "Horus Eye",
+                         "Function 'generate' not found in 'ais.", arguments[0], "'");
+        return nullptr;
     }
 
     AI* aiobj = new AI(script_generator.wrapper(), arguments[0]);

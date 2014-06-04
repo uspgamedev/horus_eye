@@ -49,7 +49,7 @@ void StartGame() {
     AddHorusShader();
 
     if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
-        fprintf(stderr, "Language Setup FAILURE!!\n\n");
+        ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
 
     ugdk::system::PushScene(CreateHorusLightrenderingScene);

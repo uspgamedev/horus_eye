@@ -1,8 +1,8 @@
-#include <unordered_map>
 #include "constants.h"
 #include "game/config.h"
 
-#include <cstdio>
+#include <ugdk/debug/log.h>
+#include <unordered_map>
 
 namespace constants {
 
@@ -25,17 +25,20 @@ void RegisterString(const string& key, const std::string& value) {
 
 int GetInt(const string& key) {
     if (int_db_.count(key)) return int_db_[key];
-    fprintf(stderr, "ERROR: Constants GetInt \"%s\" not found.\n", key.c_str());
+    ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                     "Constants GetInt '", key, "' not found.");
     return 0;
 }
 double GetDouble(const string& key) {
     if (double_db_.count(key)) return double_db_[key];
-    fprintf(stderr, "ERROR: Constants GetDouble \"%s\" not found.\n", key.c_str());
+    ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                     "Constants GetDouble '", key, "' not found.");
     return 0.0;
 }
 string GetStr(const string& key) {
     if (str_db_.count(key)) return str_db_[key];
-    fprintf(stderr, "ERROR: Constants GetStr \"%s\" not found.\n", key.c_str());
+    ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                     "Constants GetStr '", key, "' not found.");
     return "";
 }
 

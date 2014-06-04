@@ -5,6 +5,7 @@
 #include "game/sprites/worldobject.h"
 #include "game/utils/settings.h"
 
+#include <ugdk/debug/log.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/audio/module.h>
 #include <ugdk/time/timeaccumulator.h>
@@ -34,10 +35,10 @@ Damageable::~Damageable() {
 
 void Damageable::TakeDamage(double life_points) {
     if(IsMercyInvincible()) return;
-    #ifdef DEBUG
-        fprintf(stderr, "Damage to %s [%p]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), this,
-            life_points, (double) life_, (double) life_ - life_points);
-    #endif
+    //#ifdef DEBUG
+    //    fprintf(stderr, "Damage to %s [%p]. DMG: %.2f; Life: %.2f -> %.2f\n", owner_->identifier().c_str(), this,
+    //        life_points, (double) life_, (double) life_ - life_points);
+    //#endif
     PlayHitSound();
     life_ -= life_points;
     component::Animation* animation = owner_->component<component::Animation>();
@@ -46,9 +47,6 @@ void Damageable::TakeDamage(double life_points) {
             if (animation)
                 animation->ChangeAnimation(utils::DEATH);
             owner_->Die();
-            #ifdef DEBUG
-                fprintf(stderr, "\tTriggering death animation.\n");
-            #endif
         }
     } else if(!super_armor_ && animation) {
         animation->ChangeAnimation(utils::TAKING_HIT);
@@ -60,7 +58,8 @@ void Damageable::TakeDamage(double life_points) {
     // Start blinking!
     if(invulnerability_time_ > 0 && blink_time_)
         blink_time_->Restart();
-}
+}
+
 void Damageable::Update(double dt) {
     life_.Update(dt);
 

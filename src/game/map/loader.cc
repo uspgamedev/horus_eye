@@ -1,8 +1,5 @@
 #include "game/map/loader.h"
 
-#include <vector>
-#include <list>
-#include <sstream>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/math/vector2D.h>
@@ -21,6 +18,10 @@
 #include "game/map/giantfloor.h"
 #include "game/scenes/world.h"
 #include "game/core/coordinates.h"
+
+#include <vector>
+#include <list>
+#include <sstream>
 
 namespace map {
 
@@ -204,8 +205,8 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
             ++count;
             VirtualObj::Vector&& object = it.value<VirtualObj::Vector>();
             if(object.size() < 3 ) {
-                printf("Room '%s', object %d has only %d arguments, expected at least 3.\n",
-                       name.c_str(), count, object.size());
+                ugdk::debug::Log(ugdk::debug::LogLevel::WARNING, "Horus Eye",
+                                 "Room '", name, "' object ", count, " has only ", object.size(), " arguments, expected at least 3");
                 continue;
             }
 
@@ -243,7 +244,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
                 warning_msg << "'" << arg << "', ";
 
             warning_msg << "}.\n";
-            ugdk::debug::Log(ugdk::debug::WARNING, warning_msg.str());
+            ugdk::debug::Log(ugdk::debug::WARNING, "Horus Eye", warning_msg.str());
         }
     }
 

@@ -1,15 +1,16 @@
 #include "levelloader.h"
 
-#include <ugdk/system/engine.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/script/virtualobj.h>
-#include <ugdk/script/scriptmanager.h>
-
 #include "game/builders/herobuilder.h"
 #include "game/scenes/world.h"
 #include "game/map/loader.h"
 #include "game/map/room.h"
 #include "game/utils/settings.h"
+
+#include <ugdk/debug/log.h>
+#include <ugdk/system/engine.h>
+#include <ugdk/audio/module.h>
+#include <ugdk/script/virtualobj.h>
+#include <ugdk/script/scriptmanager.h>
 
 namespace utils {
 
@@ -67,7 +68,8 @@ void LoadLevel(const VirtualObj& level_data, const std::string& level_path, scen
         if(room) {
             world->AddRoom(room);
         } else {
-            printf("Room '%s' could not be loaded.\n", room_name.c_str());
+            ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye",
+                             "Room '", room_name, "' could not be loaded");
         }
     }
 
