@@ -1,4 +1,6 @@
-#ifndef ANDROID
+#include <ugdk/system/config.h>
+
+#ifdef UGDK_PYTHON_ENABLED
 #include "Python.h"
 #endif
 
@@ -25,11 +27,12 @@
 
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
+#include <ugdk/debug/log.h>
 
 #include <string>
-
-#ifdef WIN32
-#include <windows.h>
+#include "SDL.h"
+#ifdef main
+#undef main
 #endif
 
 using namespace utils;
@@ -41,7 +44,7 @@ void StartGame() {
         settings->resolution_vector(),
         settings->fullscreen(),
         settings->vsync());
-    ugdk::graphic::manager()->canvas()->Resize(settings->resolution_vector());
+    ugdk::graphic::manager()->canvas()->Resize(ugdk::desktop::manager()->primary_window()->size());
 
     AddHorusShader();
 
@@ -54,11 +57,9 @@ void StartGame() {
 }
 
 void ExitWithFatalError(const std::string& msg) {
-#ifdef _WIN32
-    MessageBox(HWND_DESKTOP, msg.c_str(), "Fatal Error", MB_OK | MB_ICONERROR);
-#else
-    fprintf(stderr, "Fatal Error: %s\n", msg.c_str());
-#endif
+    if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", msg.c_str(), NULL) < 0) {
+        ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", msg);
+    }
     assert(false);
     exit(EXIT_FAILURE);
 }
@@ -87,13 +88,11 @@ int main(int argc, char *argv[]) {
     if(!ugdk::system::Initialize(engine_config))
         ExitWithFatalError("Could not initialize UGDK.");
 
-#ifdef EMBBEDED_UGDK
-#ifndef ANDROID
+#if defined(EMBBEDED_UGDK) && defined(UGDK_PYTHON_ENABLED)
     {
         PyObject *path = PySys_GetObject("path");
         PyList_Append(path, PyString_FromString(EMBBEDED_UGDK "/src/generated"));
     }
-#endif
 #endif
     
     {
