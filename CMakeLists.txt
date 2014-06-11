@@ -94,3 +94,6 @@ else(NOT HORUSEYE_INTERNAL_UGDK)
 endif(NOT HORUSEYE_INTERNAL_UGDK)
 
 add_subdirectory(src) # The game binary.
+
+add_ugdk_android_project(horus_eye "Horus Eye" "org.uspgamedev.horuseye")
+
