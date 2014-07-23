@@ -5,6 +5,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
@@ -124,8 +125,7 @@ void AddShadowcastingShader() {
     assert(status);
 }
 
-ugdk::internal::GLTexture* shadow_texture_ = nullptr;
-GLuint shadow_framebuffer_ = 0;
+std::shared_ptr<ugdk::graphic::Framebuffer> shadow_framebuffer_ = nullptr;
 bool light_system_activated = true;
 bool shadowcasting_actiavated = true;
 
@@ -257,17 +257,16 @@ void ShadowCasting(ugdk::graphic::Canvas& canvas) {
 
     auto campaign = campaigns::Campaign::CurrentCampaign();
     if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
-        glBindFramebuffer(GL_FRAMEBUFFER, shadow_framebuffer_);
-        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, shadow_texture_->id(), 0);
-
-        glClear(GL_COLOR_BUFFER_BIT);
+        shadow_framebuffer_->Bind();
+        shadow_framebuffer_->Clear();
 
         glBlendFunc(GL_ONE, GL_ONE);
         if (sprite::WObjPtr hero = world->hero().lock())
             DrawShadows(world, hero.get(), canvas);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-        glBindFramebuffer(GL_FRAMEBUFFER, graphic::manager()->light_framebuffer());
+        shadow_framebuffer_->Unbind();
+        graphic::manager()->light_buffer()->Bind();
     }
 }
 
@@ -287,7 +286,7 @@ void LightRendering(ugdk::graphic::Canvas& canvas) {
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         if (shadowcasting_actiavated) {
             ugdk::debug::ProfileSection section("DrawShadowTexture");
-            DrawTexture(shadow_texture_, canvas);
+            DrawTexture(shadow_framebuffer_->texture(), canvas);
         }
     }
 }
@@ -310,7 +309,7 @@ void ToggleLightsystem() {
 }
 
 ugdk::action::Scene* CreateShadowCastingScene() {
-    glGenFramebuffers(1, &shadow_framebuffer_);
+    shadow_framebuffer_ = graphic::Framebuffer::Create(graphic::manager()->canvas()->size());
 
     action::Scene* shadow_scene = new action::Scene;
     shadow_scene->set_identifier("Shadow Casting Scene");
@@ -323,17 +322,6 @@ ugdk::action::Scene* CreateShadowCastingScene() {
 }
 
 ugdk::action::Scene* CreateHorusLightrenderingScene() {
-    auto screensize = graphic::manager()->canvas()->size();
-    shadow_texture_ = ugdk::internal::GLTexture::CreateRawTexture(screensize.x, screensize.y);
-    glBindTexture(GL_TEXTURE_2D, shadow_texture_->id());
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadow_texture_->width(),
-        shadow_texture_->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
-
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
 

@@ -4,6 +4,7 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
@@ -91,7 +92,9 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
     // Use our shader
     opengl::ShaderUse shader_use(continuous_light_shader_);
 
-    shader_use.SendTexture(1, ugdk::graphic::manager()->light_buffer(), continuous_light_shader_->UniformLocation("light_texture"));
+    shader_use.SendTexture(1,
+                           ugdk::graphic::manager()->light_buffer()->texture(),
+                           continuous_light_shader_->UniformLocation("light_texture"));
 
     // Send our transformation to the currently bound shader, 
     // in the "MVP" uniform
