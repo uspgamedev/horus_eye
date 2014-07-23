@@ -48,7 +48,7 @@ using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
 
 namespace {
-int render_sprites = 1; // 0 == nothing, 1 == sprites, 2 == lights
+bool render_sprites = true;
 bool render_collision = false;
 bool render_visibility = false;
 bool render_profiler = false;
@@ -110,7 +110,7 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
         ToggleShadowcasting();
     
     if(ev.keycode == input::Keycode::i)
-        render_sprites = (render_sprites + 1) % 3;
+        render_sprites = !render_sprites;
     
     if(ev.keycode == input::Keycode::u)
         render_collision = !render_collision;
@@ -225,11 +225,9 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     set_render_function([this](graphic::Canvas& canvas) {
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         canvas.PushAndCompose(this->camera_);
-        if(render_sprites == 1)
+        if(render_sprites)
             for(const map::Room* room : active_rooms_)
                 room->Render(canvas);
-        else if(render_sprites == 2)
-            DrawTexture(ugdk::graphic::manager()->light_buffer(), canvas);
 
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         if(render_collision)

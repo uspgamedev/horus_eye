@@ -5,6 +5,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
@@ -124,8 +125,7 @@ void AddShadowcastingShader() {
     assert(status);
 }
 
-ugdk::internal::GLTexture* shadow_texture_ = nullptr;
-
+std::shared_ptr<ugdk::graphic::Framebuffer> shadow_framebuffer_ = nullptr;
 bool light_system_activated = true;
 bool shadowcasting_actiavated = true;
 
@@ -252,27 +252,42 @@ void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::
     canvas.PopVisualEffect();
 }
 
+void ShadowCasting(ugdk::graphic::Canvas& canvas) {
+    if (!shadowcasting_actiavated) return;
+
+    auto campaign = campaigns::Campaign::CurrentCampaign();
+    if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
+        shadow_framebuffer_->Bind();
+        shadow_framebuffer_->Clear();
+
+        glBlendFunc(GL_ONE, GL_ONE);
+        if (sprite::WObjPtr hero = world->hero().lock())
+            DrawShadows(world, hero.get(), canvas);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+        shadow_framebuffer_->Unbind();
+        graphic::manager()->light_buffer()->Bind();
+    }
+}
+
 void LightRendering(ugdk::graphic::Canvas& canvas) {
     auto campaign = campaigns::Campaign::CurrentCampaign();
     if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
-        if(shadowcasting_actiavated)
-            if(sprite::WObjPtr hero = world->hero().lock())
-                DrawShadows(world, hero.get(), canvas);
-
-        canvas.SaveToTexture(shadow_texture_);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
         if(light_system_activated)
             world->RenderLight(canvas);
         else {
+            ugdk::debug::ProfileSection section("Clearing Light");
             glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+            glClear(GL_COLOR_BUFFER_BIT);
             glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
         }
         
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-        if(shadowcasting_actiavated)
-            DrawTexture(shadow_texture_, canvas);
+        if (shadowcasting_actiavated) {
+            ugdk::debug::ProfileSection section("DrawShadowTexture");
+            DrawTexture(shadow_framebuffer_->texture(), canvas);
+        }
     }
 }
 
@@ -293,18 +308,20 @@ void ToggleLightsystem() {
     light_system_activated = !light_system_activated;
 }
 
-ugdk::action::Scene* CreateHorusLightrenderingScene() {
-    auto screensize = graphic::manager()->canvas()->size();
-    shadow_texture_ = ugdk::internal::GLTexture::CreateRawTexture(screensize.x, screensize.y);
-    glBindTexture(GL_TEXTURE_2D, shadow_texture_->id());
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR );
-    glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR );
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, shadow_texture_->width(),
-        shadow_texture_->height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, 0);
-    glBindTexture(GL_TEXTURE_2D, 0);
+ugdk::action::Scene* CreateShadowCastingScene() {
+    shadow_framebuffer_ = graphic::Framebuffer::Create(graphic::manager()->canvas()->size());
 
+    action::Scene* shadow_scene = new action::Scene;
+    shadow_scene->set_identifier("Shadow Casting Scene");
+    // This scene has no logic, so quit if you ask for it to be only scene.
+    shadow_scene->set_focus_callback([](action::Scene* scene) { scene->Finish(); });
+
+    shadow_scene->set_render_function(ShadowCasting);
+
+    return shadow_scene;
+}
+
+ugdk::action::Scene* CreateHorusLightrenderingScene() {
     return ugdk::graphic::CreateLightrenderingScene(LightRendering);
 }
 

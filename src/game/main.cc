@@ -52,6 +52,7 @@ void StartGame() {
         ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
 
+    ugdk::system::PushScene(CreateShadowCastingScene);
     ugdk::system::PushScene(CreateHorusLightrenderingScene);
     ugdk::system::PushScene(builder::MainMenu);
 }
