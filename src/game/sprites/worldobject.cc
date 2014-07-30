@@ -22,6 +22,10 @@
 
 namespace sprite {
 
+namespace {
+    ugdk::uint32 ID_GENERATOR_ = 0;
+}
+
 using namespace ugdk;
 using namespace scene;
 using namespace utils;
@@ -39,7 +43,8 @@ WObjPtr WorldObject::Create(double duration) {
 }
 
 WorldObject::WorldObject(double duration)
-    :   identifier_("Generic World Object")
+    :   id_(ID_GENERATOR_++)
+    ,   identifier_("Generic World Object")
     ,   current_room_(nullptr)
     ,   timed_life_(nullptr)
     ,   dead_(false)

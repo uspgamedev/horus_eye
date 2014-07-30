@@ -39,6 +39,9 @@ class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_fro
     const std::string& identifier() const { return identifier_; }
     void set_identifier(const std::string& identifier) { identifier_ = identifier; }
 
+    /// Unique numeric identifier. This ID is guaranteed to be unique through the application's lifetime.
+    ugdk::uint32 id() const { return id_; }
+
     /// 
     const std::string& tag() const { return tag_; }
     void set_tag(const std::string& tag) { tag_ = tag; }
@@ -145,6 +148,9 @@ class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_fro
 
   private:
     WorldObject(double duration);
+
+    /// Unique numeric identifier.
+    ugdk::uint32 id_;
     
     /// Internal identifier. Debugging purposes.
     std::string identifier_;
