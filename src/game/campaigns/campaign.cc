@@ -15,6 +15,8 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/opengl/Exception.h>
 
+#include "game/network/client/remotelevel.h"
+
 using namespace ugdk;
 using namespace ugdk::action;
 using namespace scene;
@@ -28,6 +30,7 @@ namespace campaigns {
 
 namespace {
     Campaign* current_campaign_ = nullptr;
+    network::RemoteLevel* THE_REMOTE_LEVEL_ = nullptr;
 }
 
 Campaign* Campaign::CurrentCampaign() {
@@ -41,12 +44,14 @@ Campaign::Campaign(const CampaignDescriptor& d)
     if (current_campaign_ != nullptr)
         throw love::Exception("Creating a new Campaign while another exists.");
     current_campaign_ = this;
+    THE_REMOTE_LEVEL_ = new network::RemoteLevel;
 
     implementation_ = SCRIPT_MANAGER()->LoadModule(descriptor_.script_path() + ".main")["new"](this);
 }
 
 Campaign::~Campaign() {
     current_campaign_ = nullptr;
+    delete THE_REMOTE_LEVEL_;
 }
 
 void Campaign::Focus() {
@@ -73,6 +78,7 @@ bool Campaign::LoadLevel(const std::string& level_name) {
 
     if (current_level_) {
         ugdk::system::PushScene(current_level_);
+        ugdk::system::PushScene(THE_REMOTE_LEVEL_);
         current_level_->Start(this);
         return true;
     }

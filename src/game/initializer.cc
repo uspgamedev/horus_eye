@@ -126,8 +126,8 @@ void AddShadowcastingShader() {
 }
 
 std::shared_ptr<ugdk::graphic::Framebuffer> shadow_framebuffer_ = nullptr;
-bool light_system_activated = true;
-bool shadowcasting_actiavated = true;
+bool light_system_activated = false;
+bool shadowcasting_actiavated = false;
 
 void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2, 
                        const math::Vector2D& p3, const math::Vector2D& p4,

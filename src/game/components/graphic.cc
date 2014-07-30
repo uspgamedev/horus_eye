@@ -17,6 +17,8 @@
 #include "game/sprites/worldobject.h"
 #include "game/initializer.h"
 
+#include "game/network/client/remotelevel.h"
+
 namespace component {
 
 using ugdk::math::Vector2D;
@@ -31,10 +33,12 @@ Graphic::Graphic(Animator* animator)
 {
     if (animator_)
         animator_->Configure(this);
+    network::RemoteLevel::reference()->AddGraphic(this);
 }
 
 Graphic::~Graphic() {
     delete animator_;
+    network::RemoteLevel::reference()->RemoveGraphic(this);
 }
     
 void Graphic::UpdateFinalPosition() {

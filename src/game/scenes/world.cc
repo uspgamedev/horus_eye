@@ -223,6 +223,8 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
+        return;
+
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         canvas.PushAndCompose(this->camera_);
         if(render_sprites)
