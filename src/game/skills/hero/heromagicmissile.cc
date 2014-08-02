@@ -13,7 +13,7 @@ namespace skills {
 using ugdk::math::Vector2D;
 
 static void HeroMagicMissileUse(component::Caster* caster) {
-    Vector2D versor = (caster->aim().destination_ - caster->aim().origin_).Normalize(),
+    Vector2D versor = caster->aim().direction(),
              pos = caster->aim().origin_;
 
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::MagicMissile(versor), pos, map::POSITION_ABSOLUTE);

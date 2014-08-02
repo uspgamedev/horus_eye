@@ -27,6 +27,10 @@ class Aim {
     const Position& origin_;
     const Position& destination_;
 
+    ugdk::math::Vector2D direction() const {
+        return (destination_ - origin_).Normalize();
+    }
+
   private:
     void operator=(Aim&); // can't copy with =
 };
