@@ -139,24 +139,18 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
     //shader_use.SendEffect(effect);
     //shader_use.SendTexture(0, graphic::manager()->white_texture());
 
-    math::Vector2D p1s = core::FromWorldCoordinates(p1),
-                   p2s = core::FromWorldCoordinates(p2),
-                   p3s = core::FromWorldCoordinates(p3),
-                   p4s = core::FromWorldCoordinates(p4),
-                   Os = core::FromWorldCoordinates(O);
-
     opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
         opengl::VertexBuffer::Mapper mapper(vertexbuffer);
         GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        vertex_data[0 * 2 + 0] = static_cast<GLfloat>(p1s.x); // far left
-        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(p1s.y);
-        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(p2s.x); // near left
-        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(p2s.y);
-        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(p3s.x); // near right
-        vertex_data[2 * 2 + 1] = static_cast<GLfloat>(p3s.y);
-        vertex_data[3 * 2 + 0] = static_cast<GLfloat>(p4s.x); // far right
-        vertex_data[3 * 2 + 1] = static_cast<GLfloat>(p4s.y);
+        vertex_data[0 * 2 + 0] = static_cast<GLfloat>(p1.x); // far left
+        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(p1.y);
+        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(p2.x); // near left
+        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(p2.y);
+        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(p3.x); // near right
+        vertex_data[2 * 2 + 1] = static_cast<GLfloat>(p3.y);
+        vertex_data[3 * 2 + 0] = static_cast<GLfloat>(p4.x); // far right
+        vertex_data[3 * 2 + 1] = static_cast<GLfloat>(p4.y);
     }
     opengl::VertexArray colorbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
@@ -168,9 +162,9 @@ void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
             vertex_data[i] = 1.0f;
     }
 
-    shader_use.SendUniform("O", float(Os.x),  float(Os.y));
-    shader_use.SendUniform("A", float(p2s.x), float(p2s.y));
-    shader_use.SendUniform("B", float(p3s.x), float(p3s.y));
+    shader_use.SendUniform("O", float(O.x),  float(O.y));
+    shader_use.SendUniform("A", float(p2.x), float(p2.y));
+    shader_use.SendUniform("B", float(p3.x), float(p3.y));
 
     shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
     shader_use.SendVertexBuffer(&colorbuffer, opengl::TEXTURE, 0);
@@ -274,6 +268,7 @@ void LightRendering(ugdk::graphic::Canvas& canvas) {
     auto campaign = campaigns::Campaign::CurrentCampaign();
     if (scene::World* world = campaign ? campaign->current_level() : nullptr) {
 
+        puts("lights");
         if(light_system_activated)
             world->RenderLight(canvas);
         else {

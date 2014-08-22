@@ -9,7 +9,7 @@
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
 
-#define LIGHT_COEFFICIENT 0.75
+#define LIGHT_COEFFICIENT 7.5
 
 namespace component {
 
@@ -29,7 +29,7 @@ LightEmitter::~LightEmitter() {
 }
 
 void LightEmitter::SetPosition(const ugdk::math::Vector2D& position) {
-    position_ = core::FromWorldCoordinates(position);
+    position_ = position;
 }
 
 void LightEmitter::ChangeRadius(double radius) {
@@ -41,7 +41,7 @@ void LightEmitter::ChangeRadius(double radius) {
             light_->set_color(color_);
         }
 
-        Vector2D dimension = core::ConvertLightRadius(radius_);
+        Vector2D dimension(radius_, radius_);
         light_->set_dimension(dimension * LIGHT_COEFFICIENT);
 
     } else {
@@ -59,7 +59,8 @@ void LightEmitter::ChangeColor(const ugdk::Color& color) {
 void LightEmitter::Update(double dt) {}
 
 void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
-    light_->Draw(canvas.current_geometry() * ugdk::graphic::Geometry(position_));
+    light_->Draw(ugdk::graphic::Geometry(Vector2D(), Vector2D(1.0 / canvas.size().x, 1.0 / canvas.size().y)) *
+                 ugdk::graphic::Geometry(position_));
 }
     
 void LightEmitter::OnAdd(sprite::WorldObject* wobj) {

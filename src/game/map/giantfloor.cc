@@ -5,6 +5,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/framebuffer.h>
+#include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
@@ -18,19 +19,50 @@ namespace map {
 using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
     
-ugdk::graphic::opengl::ShaderProgram* GiantFloor::continuous_light_shader_ = NULL;
-
 namespace {
     ugdk::uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+
+    ugdk::graphic::opengl::ShaderProgram* continuous_light_shader_ = nullptr;
+    void AddHorusLightShader() {
+        if (continuous_light_shader_) return;
+
+        opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
+
+        // VERTEX
+        vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
+        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
+        vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
+        vertex_shader.GenerateSource();
+
+        // FRAGMENT
+        fragment_shader.AddCodeBlock("in highp vec2 UV;" "\n"
+                                     "uniform highp sampler2D drawable_texture;" "\n"
+                                     "uniform highp vec4 effect_color;" "\n"
+                                     "uniform highp vec2 CANVAS_SIZE;" "\n"
+                                     "uniform highp sampler2D light_texture;" "\n");
+
+        fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
+        fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, vec2(UV.x / CANVAS_SIZE.x, UV.y / CANVAS_SIZE.y)).rgb, 1.0);" "\n");
+        fragment_shader.AddLineInMain(" gl_FragColor = vec4(UV.x / 8, UV.y / 8, 0, 1);" "\n");
+        fragment_shader.GenerateSource();
+
+
+        continuous_light_shader_ = new opengl::ShaderProgram;
+
+        continuous_light_shader_->AttachShader(vertex_shader);
+        continuous_light_shader_->AttachShader(fragment_shader);
+
+        bool status = continuous_light_shader_->SetupProgram();
+        assert(status);
+    }
+
 }
 
 GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
-    : size_(106 * size.x, 54 * size.y),
-      texture_(ugdk::resource::GetTextureFromFile("images/ground_texture.png")) {
-    
-    if(!continuous_light_shader_) {
-        continuous_light_shader_ = ugdk::graphic::CreateShader(true, false);
-    }
+    : size_(106 * size.x, 54 * size.y)
+    , texture_(ugdk::resource::GetTextureFromFile("images/ground_texture.png"))
+{    
+    AddHorusLightShader();
 
     GLfloat vertex_data[] = { 
          53.0f,  0.0f, 
@@ -91,6 +123,8 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
         return;*/
     // Use our shader
     opengl::ShaderUse shader_use(continuous_light_shader_);
+
+    shader_use.SendUniform("CANVAS_SIZE", canvas.size().x, canvas.size().y);
 
     shader_use.SendTexture(1,
                            ugdk::graphic::manager()->light_buffer()->texture(),

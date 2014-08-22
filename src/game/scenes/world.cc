@@ -10,6 +10,8 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/framebuffer.h>
+#include <ugdk/graphic/drawable/functions.h>
 #include <ugdk/graphic/text/textbox.h>
 #include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/time/module.h>
@@ -223,6 +225,10 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
+        ugdk::graphic::DrawSquare(canvas.current_geometry() * ugdk::graphic::Geometry(Vector2D(100, 20), Vector2D(800, 800)),
+                                  canvas.current_visualeffect(),
+                                  ugdk::graphic::manager()->light_buffer()->texture());
+        
         ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         canvas.PushAndCompose(this->camera_);
         if(render_sprites)
@@ -297,10 +303,10 @@ void World::SetupCollisionManager() {
     
 void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
     ugdk::debug::ProfileSection section("World::RenderLight");
-    canvas.PushAndCompose(camera_);
+    //canvas.PushAndCompose(camera_);
     for(const map::Room* room : active_rooms_)
         room->RenderLight(canvas);
-    canvas.PopGeometry();
+    //canvas.PopGeometry();
 }
 
 void World::AddRoom(map::Room* room) {

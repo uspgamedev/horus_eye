@@ -16,8 +16,6 @@ class GiantFloor : public ugdk::graphic::Drawable {
     const ugdk::math::Vector2D& size() const { return size_; }
 
   private:
-    static ugdk::graphic::opengl::ShaderProgram* continuous_light_shader_;
-
     ugdk::math::Vector2D size_;
     ugdk::internal::GLTexture* texture_;
     ugdk::graphic::opengl::VertexBuffer* vertexbuffer_;
