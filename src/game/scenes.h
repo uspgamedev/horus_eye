@@ -6,6 +6,7 @@ namespace scene {
 class ImageScene;
 class Loading;
 class Menu;
+class LightRendering;
 class PauseScene;
 class ScrollingImageScene;
 class World;

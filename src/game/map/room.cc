@@ -5,6 +5,7 @@
 
 #include "game/builders/scriptbuilder.h"
 #include "game/core/coordinates.h"
+#include "game/scenes/lightrendering.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/objecthandle.h"
@@ -62,6 +63,8 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
         
     const Geometry& geo = canvas.current_geometry();
 
+    auto light_rendering = this->level()->light_rendering();
+
     const opengl::ShaderProgram* current_shader = nullptr;
     const ugdk::internal::GLTexture* current_texture = nullptr;
     std::unique_ptr<opengl::ShaderUse> shader_use;
@@ -76,6 +79,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
                 shader_use = nullptr;
                 shader_use.reset(new opengl::ShaderUse(current_shader = primitive.shader_program()));
                 shader_use->SendGeometry(geo);
+                shader_use->SendTexture(1, light_rendering->light_texture(), "light_texture");
                 shader_changes++;
             }
 

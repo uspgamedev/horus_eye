@@ -4,6 +4,7 @@
 #include <ugdk/action/scene.h>
 
 #include <ugdk/graphic.h>
+#include <ugdk/internal.h>
 #include "game/scenes.h"
 
 #include <memory>

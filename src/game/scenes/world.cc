@@ -32,6 +32,7 @@
 #include "game/core/coordinates.h"
 #include "game/map/room.h"
 #include "game/scenes/console.h"
+#include "game/scenes/lightrendering.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/renders/shape.h"
@@ -106,10 +107,10 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
         hero->damageable()->TakeDamage(1000.0);
 
     if(ev.keycode == input::Keycode::l)
-        ToggleLightsystem();
+        world->light_rendering()->ToggleLightsystem();
     
     if(ev.keycode == input::Keycode::k)
-        ToggleShadowcasting();
+        world->light_rendering()->ToggleShadowcasting();
     
     if(ev.keycode == input::Keycode::i)
         render_sprites = !render_sprites;
@@ -227,9 +228,9 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     set_render_function([this](graphic::Canvas& canvas) {
         ugdk::graphic::DrawSquare(canvas.current_geometry() * ugdk::graphic::Geometry(Vector2D(100, 20), Vector2D(800, 800)),
                                   canvas.current_visualeffect(),
-                                  ugdk::graphic::manager()->light_buffer()->texture());
+                                  light_rendering_->light_texture());
         
-        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+        /*ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         canvas.PushAndCompose(this->camera_);
         if(render_sprites)
             for(const map::Room* room : active_rooms_)
@@ -243,7 +244,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             for(auto collobject : visibility_manager_.active_objects())
                 renders::DrawCollisionObject(collobject, canvas);
         
-        canvas.PopGeometry();
+        canvas.PopGeometry();                    */
         {
             ugdk::debug::ProfileSection section("Hud");
             this->hud_->node()->Render(canvas);
@@ -271,6 +272,10 @@ void World::End() {
     super::End();
     campaign_->InformLevelFinished();
     (vobj_ | "End")(this, campaign_->implementation());
+}
+
+ugdk::action::Scene* World::CreateLightRenderingScene() {
+    return nullptr;
 }
 
 void World::Focus() {

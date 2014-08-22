@@ -122,6 +122,8 @@ SET(GAME_SRCS
     game/scenes/gamelayer.h 
     game/scenes/imagescene.cc 
     game/scenes/imagescene.h 
+    game/scenes/lightrendering.cc 
+    game/scenes/lightrendering.h 
     game/scenes/scrollingimagescene.cc 
     game/scenes/scrollingimagescene.h 
     game/scenes/world.cc 
