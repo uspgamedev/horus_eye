@@ -157,7 +157,7 @@ namespace {
                 vertices.emplace_back(top_left.x, bottom_right.y);
 
             } else {
-                puts("PAREDE COM SHAPE QUE N√O … RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
+                puts("PAREDE COM SHAPE QUE N√ÉO √â RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
             }
 
             std::list<Vector2D> extremes;
