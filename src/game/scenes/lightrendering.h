@@ -3,7 +3,7 @@
 
 #include <ugdk/action/scene.h>
 
-#include <ugdk/graphic.h>
+#include <ugdk/graphic/rendertexture.h>
 #include <ugdk/internal.h>
 #include "game/scenes.h"
 
@@ -23,11 +23,11 @@ class LightRendering : public ugdk::action::Scene {
     const ugdk::internal::GLTexture* light_texture() const;
 
   private:
-    void ShadowCasting(ugdk::graphic::Canvas& canvas);
-    void LightMerging(ugdk::graphic::Canvas& canvas);
+    void ShadowCasting();
+    void LightMerging();
 
-    std::shared_ptr<ugdk::graphic::Framebuffer> shadow_buffer_;
-    std::shared_ptr<ugdk::graphic::Framebuffer> light_buffer_;
+    ugdk::graphic::RenderTexture shadow_buffer_;
+    ugdk::graphic::RenderTexture light_buffer_;
     bool shadowcasting_actiavated_;
     bool lightsystem_activated_;
     World* world_;

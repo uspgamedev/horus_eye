@@ -4,7 +4,6 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/textureatlas.h>
 #include <ugdk/graphic/opengl/shader.h>
@@ -12,6 +11,7 @@
 #include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
+#include <ugdk/graphic/rendertarget.h>
 
 #include "game/core/coordinates.h"
 #include "game/constants.h"
@@ -78,8 +78,9 @@ void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shad
 
     auto mgr = ugdk::graphic::manager();
 
-    shader_use.SendUniform("PIXEL_SIZE", 1.0f / mgr->canvas()->size().x, 1.0f / mgr->canvas()->size().y);
-    shader_use.SendTexture(1, mgr->light_buffer()->texture(), wall_light_shader_->UniformLocation("light_texture"));
+    shader_use.SendUniform("PIXEL_SIZE", 1.0f / mgr->screen()->size().x, 1.0f / mgr->screen()->size().y);
+    //shader_use.SendTexture(1, mgr->light_buffer()->texture(), wall_light_shader_->UniformLocation("light_texture"));
+    // FIXME
 
     ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, shader_use);
 }

@@ -10,7 +10,6 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/drawable/functions.h>
 #include <ugdk/graphic/text/textbox.h>
 #include <ugdk/graphic/text/textmanager.h>
@@ -188,7 +187,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task([this](double) {
-        Vector2D result = ugdk::graphic::manager()->canvas()->size()*0.5;
+        Vector2D result = ugdk::graphic::manager()->screen()->size()*0.5;
         if(hero_)
             result -= core::FromWorldCoordinates(hero_->world_position()) 
                                 * camera_.CalculateScale().x;
@@ -222,7 +221,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     if (!profiler_text)
         profiler_text.reset(new graphic::TextBox(
             "Press F10 to fetch profiler data.",
-            graphic::manager()->canvas()->size().x,
+            graphic::manager()->screen()->size().x,
             TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
@@ -230,7 +229,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
                                   canvas.current_visualeffect(),
                                   light_rendering_->light_texture());
         
-        /*ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
         canvas.PushAndCompose(this->camera_);
         if(render_sprites)
             for(const map::Room* room : active_rooms_)
@@ -244,7 +243,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             for(auto collobject : visibility_manager_.active_objects())
                 renders::DrawCollisionObject(collobject, canvas);
         
-        canvas.PopGeometry();                    */
+        canvas.PopGeometry();
         {
             ugdk::debug::ProfileSection section("Hud");
             this->hud_->node()->Render(canvas);

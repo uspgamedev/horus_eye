@@ -187,7 +187,7 @@ Room* DoLoadRoom(const string& name, const VirtualObj& room_data,
             ++x;
         }
     }
-    room->floor()->set_drawable(new GiantFloor(room->size()));
+    room->floor()->set_drawable(new GiantFloor(room));
     
     //=========================================
     //         LOADING OBJECTS

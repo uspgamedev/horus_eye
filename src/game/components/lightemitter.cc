@@ -9,7 +9,7 @@
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
 
-#define LIGHT_COEFFICIENT 7.5
+#define LIGHT_COEFFICIENT 1.0
 
 namespace component {
 
@@ -59,8 +59,9 @@ void LightEmitter::ChangeColor(const ugdk::Color& color) {
 void LightEmitter::Update(double dt) {}
 
 void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
-    light_->Draw(ugdk::graphic::Geometry(Vector2D(), Vector2D(1.0 / canvas.size().x, 1.0 / canvas.size().y)) *
-                 ugdk::graphic::Geometry(position_));
+    canvas.PushAndCompose(ugdk::graphic::Geometry(position_));
+    light_->Draw(canvas.current_geometry());
+    canvas.PopGeometry();
 }
     
 void LightEmitter::OnAdd(sprite::WorldObject* wobj) {

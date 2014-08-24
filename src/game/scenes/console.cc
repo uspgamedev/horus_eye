@@ -2,7 +2,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/action.h>
-#include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable.h>
@@ -34,7 +34,7 @@ Console::Console()
     graphic::Font* font = TEXT_MANAGER()->GetFont("DejaVuMono");
 
     auto gmngr = graphic::manager();
-    Node* bg = new Node(new TexturedRectangle(gmngr->white_texture(), math::Vector2D(gmngr->canvas()->size().x, console_height)));
+    Node* bg = new Node(new TexturedRectangle(gmngr->white_texture(), math::Vector2D(gmngr->screen()->size().x, console_height)));
     bg->effect().set_color(Color(0x000000, 1.0));
     node_->AddChild(bg);
 
@@ -43,7 +43,7 @@ Console::Console()
     current_line_node->geometry().set_offset(math::Vector2D(0, console_height - 5.0));
     node_->AddChild(current_line_node);
     
-    Node* history_node = new Node(history_textbox_ = new TextBox("", gmngr->canvas()->size().x, font));
+    Node* history_node = new Node(history_textbox_ = new TextBox("", gmngr->screen()->size().x, font));
     history_node->geometry().set_offset(current_line_node->geometry().offset());
     node_->AddChild(history_node);
 

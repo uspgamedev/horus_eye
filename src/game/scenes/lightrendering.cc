@@ -4,7 +4,8 @@
 #include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/framebuffer.h>
+#include <ugdk/graphic/rendertarget.h>
+#include <ugdk/graphic/rendertexture.h>
 #include <ugdk/graphic/visualeffect.h>
 #include <ugdk/graphic/vertexdata.h>
 #include <ugdk/graphic/drawable/functions.h>
@@ -181,36 +182,37 @@ namespace {
 
 
 LightRendering::LightRendering(World* world)
-: shadow_buffer_(Framebuffer::Create(world->size()))
-, light_buffer_(Framebuffer::Create(world->size()))
-, shadowcasting_actiavated_(true)
+: shadow_buffer_(world->size())
+, light_buffer_(world->size())
+, shadowcasting_actiavated_(false)
 , lightsystem_activated_(true)
 , world_(world)
 {
     this->set_identifier("Light Rendering");
     this->set_focus_callback(std::mem_fn(&Scene::Finish));
 
+    //Geometry project_matrix(math::Vector2D(-1.0, 1.0), math::Vector2D(2.0/world->size().x, -2.0/world->size().y));
+    //shadow_buffer_.set_projection_matrix(project_matrix);
+    //light_buffer_.set_projection_matrix(project_matrix);
+
     if (!horus_shadowcasting_shader_)
         AddShadowcastingShader();
 
-    this->set_render_function([this](Canvas& canvas) {
+    this->set_render_function([this](Canvas&) {
         // Render the shadows.
 
         if (shadowcasting_actiavated_) {
-            ShadowCasting(canvas);
+            ShadowCasting();
         }
 
         // Lights are simply added together.
-        light_buffer_->Bind();
-
         if (lightsystem_activated_) {
-            light_buffer_->Clear(Color(0.0, 0.0, 0.0, 0.0));
-            LightMerging(canvas);
-        } else {
-            light_buffer_->Clear(Color(1.0, 1.0, 1.0, 1.0));
-        }
+            LightMerging();
 
-        light_buffer_->Unbind();
+        } else {
+            Canvas light_canvas(&light_buffer_);
+            light_canvas.Clear(Color(1.0, 1.0, 1.0, 1.0));
+        }
     });
 }
 
@@ -225,29 +227,40 @@ void LightRendering::ToggleLightsystem() {
 }
 
 const ugdk::internal::GLTexture* LightRendering::light_texture() const {
-    return light_buffer_->texture();
+    return light_buffer_.texture();
 }
 
-void LightRendering::ShadowCasting(ugdk::graphic::Canvas& canvas) {
-    shadow_buffer_->Bind();
-    shadow_buffer_->Clear();
+void LightRendering::ShadowCasting() {
+    Canvas canvas(&shadow_buffer_);
+    canvas.Clear(Color(0.0, 0.0, 0.0, 0.0));
 
     glBlendFunc(GL_ONE, GL_ONE);
     if (sprite::WObjPtr hero = world_->hero().lock())
         DrawShadows(world_, hero.get(), canvas);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    shadow_buffer_->Unbind();
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void LightRendering::LightMerging(ugdk::graphic::Canvas& canvas) {
+void LightRendering::LightMerging() {
+    Canvas canvas(&light_buffer_);
+    canvas.Clear(Color(.0, .0, .0, .0));
+
+    bool pop = false;
+    if(auto hero = world_->hero().lock()) {
+        canvas.PushAndCompose(Geometry(-hero->world_position()));
+        pop = true;
+    }
+
     glBlendFunc(GL_ONE, GL_ONE);
     world_->RenderLight(canvas);
+
+    if (pop)
+        canvas.PopGeometry();
     
     if (shadowcasting_actiavated_) {
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         ugdk::debug::ProfileSection section("DrawShadowTexture");
-        DrawSquare(Geometry(), VisualEffect(), shadow_buffer_->texture());
+        DrawSquare(canvas.current_geometry(), VisualEffect(), shadow_buffer_.texture());
     }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

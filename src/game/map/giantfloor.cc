@@ -4,7 +4,6 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shaderuse.h>
@@ -12,6 +11,10 @@
 #include <ugdk/graphic/defaultshaders.h>
 
 #include "game/core/coordinates.h"
+
+#include "game/map/room.h"
+#include "game/scenes/world.h"
+#include "game/scenes/lightrendering.h"
 #include "game/constants.h"
 
 namespace map {
@@ -43,7 +46,7 @@ namespace {
 
         fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
         fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, vec2(UV.x / CANVAS_SIZE.x, UV.y / CANVAS_SIZE.y)).rgb, 1.0);" "\n");
-        fragment_shader.AddLineInMain(" gl_FragColor = vec4(UV.x / 8, UV.y / 8, 0, 1);" "\n");
+        fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
         fragment_shader.GenerateSource();
 
 
@@ -58,10 +61,12 @@ namespace {
 
 }
 
-GiantFloor::GiantFloor(const ugdk::math::Integer2D& size)
-    : size_(106 * size.x, 54 * size.y)
+GiantFloor::GiantFloor(const Room* room)
+    : room_(room)
+    , size_(106 * room->size().x, 54 * room->size().y)
     , texture_(ugdk::resource::GetTextureFromFile("images/ground_texture.png"))
 {    
+    Vector2D size = room->size();
     AddHorusLightShader();
 
     GLfloat vertex_data[] = { 
@@ -114,6 +119,9 @@ GiantFloor::~GiantFloor() {
 }
 
 void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
+    if(!room_->level())
+        return;
+
     canvas.PushAndCompose(Geometry(-hotspot_));
     const glm::mat4& mat = canvas.current_geometry().AsMat4();
     /*
@@ -124,10 +132,11 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
     // Use our shader
     opengl::ShaderUse shader_use(continuous_light_shader_);
 
-    shader_use.SendUniform("CANVAS_SIZE", canvas.size().x, canvas.size().y);
+    auto world_size = room_->level()->size();
+    shader_use.SendUniform("CANVAS_SIZE", world_size.x, world_size.y);
 
     shader_use.SendTexture(1,
-                           ugdk::graphic::manager()->light_buffer()->texture(),
+                           room_->level()->light_rendering()->light_texture(),
                            continuous_light_shader_->UniformLocation("light_texture"));
 
     // Send our transformation to the currently bound shader, 

@@ -44,7 +44,7 @@ void StartGame() {
         settings->resolution_vector(),
         settings->fullscreen(),
         settings->vsync());
-    ugdk::graphic::manager()->canvas()->Resize(ugdk::desktop::manager()->primary_window()->size());
+    ugdk::graphic::manager()->ResizeScreen(ugdk::desktop::manager()->primary_window()->size());
 
     AddHorusShader();
 
