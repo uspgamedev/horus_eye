@@ -57,7 +57,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
 
     floor_->Render(canvas);
 
-    glEnable(GL_DEPTH_TEST);
+    //glEnable(GL_DEPTH_TEST);
 
     using namespace ugdk::graphic;
         
@@ -91,7 +91,7 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
             //glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
             //glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
             //Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
-            shader_use->SendUniform("lightUV", obj->world_position().x, obj->world_position().y);
+            shader_use->SendUniform("lightUV", obj->world_position().x / level()->size().x, obj->world_position().y / level()->size().y);
 
             shader_use->SendEffect(canvas.current_visualeffect() * primitive.visual_effect());
             primitive.drawfunction()(primitive, *shader_use);
