@@ -4,6 +4,7 @@
 #include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/rendertexture.h>
 #include <ugdk/graphic/visualeffect.h>
@@ -29,6 +30,7 @@ using namespace pyramidworks;
 
 namespace {
     uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+    double LIGHT_PRECISION = 32.0;
 
     ugdk::graphic::opengl::ShaderProgram* horus_shadowcasting_shader_ = nullptr;
     void AddShadowcastingShader() {
@@ -182,8 +184,8 @@ namespace {
 
 
 LightRendering::LightRendering(World* world)
-: shadow_buffer_(world->size())
-, light_buffer_(world->size())
+: shadow_buffer_(world->size() * LIGHT_PRECISION)
+, light_buffer_(world->size() * LIGHT_PRECISION)
 , shadowcasting_actiavated_(false)
 , lightsystem_activated_(true)
 , world_(world)
@@ -191,9 +193,11 @@ LightRendering::LightRendering(World* world)
     this->set_identifier("Light Rendering");
     this->set_focus_callback(std::mem_fn(&Scene::Finish));
 
-    //Geometry project_matrix(math::Vector2D(-1.0, 1.0), math::Vector2D(2.0/world->size().x, -2.0/world->size().y));
-    //shadow_buffer_.set_projection_matrix(project_matrix);
-    //light_buffer_.set_projection_matrix(project_matrix);
+    printf("Creating LightRendering. Size %d, %d\n", world->size().x, world->size().y);
+
+    Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0/world->size().x, 2.0/world->size().y));
+    shadow_buffer_.set_projection_matrix(project_matrix);
+    light_buffer_.set_projection_matrix(project_matrix);
 
     if (!horus_shadowcasting_shader_)
         AddShadowcastingShader();
@@ -243,24 +247,15 @@ void LightRendering::ShadowCasting() {
 
 void LightRendering::LightMerging() {
     Canvas canvas(&light_buffer_);
-    canvas.Clear(Color(.0, .0, .0, .0));
-
-    bool pop = false;
-    if(auto hero = world_->hero().lock()) {
-        canvas.PushAndCompose(Geometry(-hero->world_position()));
-        pop = true;
-    }
+    canvas.Clear(Color(.0, .0, .0, 1.0));
 
     glBlendFunc(GL_ONE, GL_ONE);
     world_->RenderLight(canvas);
-
-    if (pop)
-        canvas.PopGeometry();
     
     if (shadowcasting_actiavated_) {
         glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
         ugdk::debug::ProfileSection section("DrawShadowTexture");
-        DrawSquare(canvas.current_geometry(), VisualEffect(), shadow_buffer_.texture());
+        DrawSquare((Geometry(Vector2D(-1.0, -1.0), Vector2D(2.0, 2.0))), VisualEffect(), shadow_buffer_.texture());
     }
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

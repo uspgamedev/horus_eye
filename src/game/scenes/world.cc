@@ -225,7 +225,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
-        ugdk::graphic::DrawSquare(canvas.current_geometry() * ugdk::graphic::Geometry(Vector2D(100, 20), Vector2D(800, 800)),
+        ugdk::graphic::DrawSquare(canvas.current_geometry() * ugdk::graphic::Geometry(Vector2D(100, 10), size_ * 8.0),
                                   canvas.current_visualeffect(),
                                   light_rendering_->light_texture());
         
