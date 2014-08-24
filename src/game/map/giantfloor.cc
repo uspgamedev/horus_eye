@@ -39,7 +39,7 @@ namespace {
                                    );
         vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n"
                                     "	UV = vertexUV;" "\n"
-                                    "   lightUV = (ROOM_POSITION + vertexUV) / LEVEL_SIZE;"
+                                    "   lightUV = vec2(1, 1) - (ROOM_POSITION + vertexUV.yx) / LEVEL_SIZE;"
                                     );
         vertex_shader.GenerateSource();
 
