@@ -3,6 +3,7 @@
 
 #include <ugdk/internal.h>
 #include <ugdk/graphic/drawable.h>
+#include <ugdk/graphic/vertexdata.h>
 #include <ugdk/math/integer2D.h>
 
 #include "game/map.h"
@@ -20,9 +21,8 @@ class GiantFloor : public ugdk::graphic::Drawable {
   private:
     const Room* room_;
     ugdk::math::Vector2D size_;
+    ugdk::graphic::VertexData data_;
     ugdk::internal::GLTexture* texture_;
-    ugdk::graphic::opengl::VertexBuffer* vertexbuffer_;
-    ugdk::graphic::opengl::VertexBuffer* uvbuffer_;
 };
 } // namespace map
 

@@ -23,7 +23,9 @@ using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
     
 namespace {
-    ugdk::uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+    struct VertexXYUV {
+        GLfloat x, y, u, v;
+    };
 
     ugdk::graphic::opengl::ShaderProgram* continuous_light_shader_ = nullptr;
     void AddHorusLightShader() {
@@ -40,7 +42,7 @@ namespace {
                                    );
         vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1) + vec4(HOTSPOT,0,0);" "\n"
                                     "	UV = vertexUV;" "\n"
-                                    "   lightUV = vec2(1, 1) - (ROOM_POSITION + vertexUV.yx + (HOTSPOT + vec2(1,1)) * 0.5) / LEVEL_SIZE;"
+                                    "   lightUV = (ROOM_POSITION + vertexUV - (HOTSPOT + vec2(1,1)) * 0.5) / LEVEL_SIZE;"
                                     );
         vertex_shader.GenerateSource();
 
@@ -71,59 +73,42 @@ namespace {
 GiantFloor::GiantFloor(const Room* room)
     : room_(room)
     , size_(106 * room->size().x, 54 * room->size().y)
+    , data_(4, sizeof(VertexXYUV), false)
     , texture_(ugdk::resource::GetTextureFromFile("images/ground_texture.png"))
 {    
     Vector2D size = room->size();
     AddHorusLightShader();
-
-    GLfloat vertex_data[] = { 
-         53.0f,  0.0f, 
-        106.0f, 26.0f, 
-         53.0f, 52.0f,
-          0.0f, 26.0f 
-    };
-    vertex_data[0 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x - 0.5, size.y - 0.5)).x; // top
-    vertex_data[0 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x - 0.5, size.y - 0.5)).y;
-    vertex_data[1 * 2 + 0] = core::FromWorldCoordinates(Vector2D(size.x - 0.5,    0.0 - 0.5)).x; // right
-    vertex_data[1 * 2 + 1] = core::FromWorldCoordinates(Vector2D(size.x - 0.5,    0.0 - 0.5)).y;
-    vertex_data[2 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5,    0.0 - 0.5)).x; // bottom
-    vertex_data[2 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5,    0.0 - 0.5)).y;
-    vertex_data[3 * 2 + 0] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5, size.y - 0.5)).x; // left
-    vertex_data[3 * 2 + 1] = core::FromWorldCoordinates(Vector2D(   0.0 - 0.5, size.y - 0.5)).y;
-    GLfloat uv_data[] = {
-        0.0f, 0.0f,
-        1.0f, 0.0f,
-        1.0f, 1.0f,
-        0.0f, 1.0f
-    };
-    for(int i = 0; i < 4; ++i) {
-        uv_data[i * 2 + 0] *= size.y;
-        uv_data[i * 2 + 1] *= size.x;
-    }
-    vertexbuffer_ = opengl::VertexBuffer::Create(sizeof(vertex_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
     {
-        opengl::VertexBuffer::Bind bind(*vertexbuffer_);
-        opengl::VertexBuffer::Mapper mapper(*vertexbuffer_);
+        VertexData::Mapper mapper(data_);
 
-        GLfloat *indices = static_cast<GLfloat*>(mapper.get());
-        if (indices)
-            memcpy(indices, vertex_data, sizeof(vertex_data));
-    }
-    uvbuffer_ = opengl::VertexBuffer::Create(sizeof(uv_data), GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-    {
-        opengl::VertexBuffer::Bind bind(*uvbuffer_);
-        opengl::VertexBuffer::Mapper mapper(*uvbuffer_);
-
-        GLfloat *indices = static_cast<GLfloat*>(mapper.get());
-        if (indices)
-            memcpy(indices, uv_data, sizeof(uv_data));
+        {
+            VertexXYUV* p = mapper.Get<VertexXYUV>(0);
+            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({0.0 - 0.5, 0.0 - 0.5}));
+            p->u = 0;
+            p->v = 0;
+        }
+        {
+            VertexXYUV* p = mapper.Get<VertexXYUV>(1);
+            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({size.x - 0.5, 0.0 - 0.5}));
+            p->u = size.x;
+            p->v = 0;
+        }
+        {
+            VertexXYUV* p = mapper.Get<VertexXYUV>(2);
+            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({0.0 - 0.5, size.y - 0.5}));
+            p->u = 0;
+            p->v = size.y;
+        }
+        {
+            VertexXYUV* p = mapper.Get<VertexXYUV>(3);
+            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({size.x - 0.5, size.y - 0.5}));
+            p->u = size.x;
+            p->v = size.y;
+        }
     }
 }
 
-GiantFloor::~GiantFloor() {
-    delete vertexbuffer_;
-    delete uvbuffer_;
-}
+GiantFloor::~GiantFloor() {}
 
 void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
     if(!room_->level())
@@ -151,14 +136,9 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
     // Bind our texture in Texture Unit 0
     shader_use.SendTexture(0, texture_);
 
-    // 1rst attribute buffer : vertices
-    shader_use.SendVertexBuffer(vertexbuffer_, opengl::VERTEX, 0);
-
-    // 2nd attribute buffer : UVs
-    shader_use.SendVertexBuffer(uvbuffer_, opengl::TEXTURE, 0);
-
-    // Draw the triangle !
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
+    shader_use.SendVertexBuffer(data_.buffer().get(), opengl::VERTEX,                    0, 2, data_.vertex_size());
+    shader_use.SendVertexBuffer(data_.buffer().get(), opengl::TEXTURE, 2 * sizeof(GLfloat), 2, data_.vertex_size());
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 } // namespace map

@@ -33,10 +33,14 @@ using sprite::WObjPtr;
 using ugdk::graphic::Node;
 using ugdk::script::VirtualObj;
 
-Room::Room(const std::string& name, const ugdk::math::Integer2D& _size, 
-    const ugdk::math::Integer2D& _position)
-        : name_(name), size_(_size), position_(_position), level_(NULL) {
-
+Room::Room(const std::string& name,
+           const ugdk::math::Integer2D& _size,
+           const ugdk::math::Integer2D& _position)
+    : name_(name)
+    , size_(_size)
+    , position_(_position)
+    , level_(nullptr)
+{
     floor_ = new Node;
     floor_->set_zindex(-FLT_MAX);
     floor_->geometry().set_offset(core::FromWorldCoordinates(position_));
