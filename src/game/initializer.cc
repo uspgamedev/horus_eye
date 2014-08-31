@@ -48,13 +48,15 @@ void AddHorusLightShader() {
 
     // VERTEX
     vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
+    vertex_shader.AddCodeBlock("uniform highp float objectDepth;" "\n");
     vertex_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n");
-    vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,lightUV.y,1);" "\n");
+    vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,objectDepth,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
     fragment_shader.AddCodeBlock("in highp vec2 UV;" "\n"
+                                 "in highp float depthTransformed;" "\n"
                                  "uniform highp sampler2D drawable_texture;" "\n"
                                  "uniform highp vec4 effect_color;" "\n");
 

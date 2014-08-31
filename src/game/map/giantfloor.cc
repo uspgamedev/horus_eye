@@ -35,11 +35,12 @@ namespace {
         vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n"
                                    "out highp vec2 lightUV;" "\n"
                                    "uniform highp vec2 ROOM_POSITION;" "\n"
+                                   "uniform highp vec2 HOTSPOT;" "\n"
                                    "uniform highp vec2 LEVEL_SIZE;" "\n"
                                    );
-        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n"
+        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1) + vec4(HOTSPOT,0,0);" "\n"
                                     "	UV = vertexUV;" "\n"
-                                    "   lightUV = vec2(1, 1) - (ROOM_POSITION + vertexUV.yx) / LEVEL_SIZE;"
+                                    "   lightUV = vec2(1, 1) - (ROOM_POSITION + vertexUV.yx + (HOTSPOT + vec2(1,1)) * 0.5) / LEVEL_SIZE;"
                                     );
         vertex_shader.GenerateSource();
 
@@ -128,16 +129,13 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
     if(!room_->level())
         return;
 
-    canvas.PushAndCompose(Geometry(-hotspot_));
     const glm::mat4& mat = canvas.current_geometry().AsMat4();
-    /*
-    glm::vec4 right = mat * glm::vec4(106, 52, 0, 1);
-    if(mat[3].x > 1 || mat[3].y < -1 || 
-        right.x < -1 || right.y > 1)
-        return;*/
+    glm::vec4 transformed_hotspot = mat * glm::vec4(-hotspot_.x, -hotspot_.y, 0, 0);
+
     // Use our shader
     opengl::ShaderUse shader_use(continuous_light_shader_);
 
+    shader_use.SendUniform("HOTSPOT", transformed_hotspot.x, transformed_hotspot.y);
     shader_use.SendUniform("ROOM_POSITION", room_->position().x, room_->position().y);
     shader_use.SendUniform("LEVEL_SIZE", room_->level()->size().x, room_->level()->size().y);
 
@@ -161,8 +159,6 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
 
     // Draw the triangle !
     glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
-
-    canvas.PopGeometry();
 }
 
 } // namespace map
