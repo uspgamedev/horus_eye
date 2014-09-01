@@ -225,17 +225,18 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
-        ugdk::graphic::DrawSquare(canvas.current_geometry() * ugdk::graphic::Geometry(Vector2D(100, 10), size_ * 8.0),
-                                  canvas.current_visualeffect(),
-                                  light_rendering_->light_texture());
-        
-        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+
+        auto& shaders = ugdk::graphic::manager()->shaders();
+        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+        canvas.ChangeShaderProgram(shaders.current_shader());
         canvas.PushAndCompose(this->camera_);
         if(render_sprites)
             for(const map::Room* room : active_rooms_)
                 room->Render(canvas);
 
-        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
+        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
+        canvas.ChangeShaderProgram(shaders.current_shader());
+
         if(render_collision)
             for(auto collobject : collision_manager_.active_objects())
                 renders::DrawCollisionObject(collobject, canvas);
@@ -307,10 +308,8 @@ void World::SetupCollisionManager() {
     
 void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
     ugdk::debug::ProfileSection section("World::RenderLight");
-    //canvas.PushAndCompose(camera_);
     for(const map::Room* room : active_rooms_)
         room->RenderLight(canvas);
-    //canvas.PopGeometry();
 }
 
 void World::AddRoom(map::Room* room) {

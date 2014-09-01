@@ -11,8 +11,6 @@
 
 namespace component {
 
-using ugdk::graphic::Sprite;
-
 namespace {
     const ugdk::action::SpriteAnimationTable* IsometricToSet(utils::IsometricAnimationSet* iso_animation_set) {
         return iso_animation_set ? (iso_animation_set->animation_set()) : nullptr;

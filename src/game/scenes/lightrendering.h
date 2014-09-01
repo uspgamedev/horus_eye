@@ -24,7 +24,7 @@ class LightRendering : public ugdk::action::Scene {
 
   private:
     void ShadowCasting();
-    void LightMerging();
+    void ApplyShadowCasting(ugdk::graphic::Canvas& canvas);
 
     ugdk::graphic::RenderTexture shadow_buffer_;
     ugdk::graphic::RenderTexture light_buffer_;

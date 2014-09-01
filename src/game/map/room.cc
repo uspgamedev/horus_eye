@@ -1,10 +1,8 @@
 #include "game/map/room.h"
 
-#include <cfloat>
-#include <ugdk/graphic/node.h>
-
 #include "game/builders/scriptbuilder.h"
 #include "game/core/coordinates.h"
+#include "game/map/giantfloor.h"
 #include "game/scenes/lightrendering.h"
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
@@ -17,9 +15,10 @@
 #include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 
+#include <ugdk/graphic/module.h>
+#include <ugdk/graphic/textureunit.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/primitive.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <glm/glm.hpp>
 
 #include <algorithm>
@@ -41,13 +40,9 @@ Room::Room(const std::string& name,
     , position_(_position)
     , level_(nullptr)
 {
-    floor_ = new Node;
-    floor_->set_zindex(-FLT_MAX);
-    floor_->geometry().set_offset(core::FromWorldCoordinates(position_));
 }
 
 Room::~Room() {
-    delete floor_;
 }
 
 void Room::Update(double dt) {
@@ -57,21 +52,18 @@ void Room::Update(double dt) {
 }
     
 void Room::Render(ugdk::graphic::Canvas& canvas) const {
+    using namespace ugdk::graphic;
+
     ugdk::debug::ProfileSection section("Room '" + name_ + "'");
 
-    floor_->Render(canvas);
+    auto light_rendering = this->level()->light_rendering();
+    TextureUnit light_unit = manager()->ReserveTextureUnit(light_rendering->light_texture());
+
+    floor_->Draw(canvas, light_unit);
 
     glEnable(GL_DEPTH_TEST);
-
-    using namespace ugdk::graphic;
         
-    const Geometry& geo = canvas.current_geometry();
-
-    auto light_rendering = this->level()->light_rendering();
-
-    const opengl::ShaderProgram* current_shader = nullptr;
-    const ugdk::internal::GLTexture* current_texture = nullptr;
-    std::unique_ptr<opengl::ShaderUse> shader_use;
+    TextureUnit texture_unit = manager()->ReserveTextureUnit();
 
     int shader_changes = 0;
     int texture_changes = 0;
@@ -79,28 +71,29 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
         if (const auto& graphic = obj->graphic()) {
             const auto& primitive = graphic->primitive();
 
-            if (primitive.shader_program() != current_shader) {
-                shader_use = nullptr;
-                shader_use.reset(new opengl::ShaderUse(current_shader = primitive.shader_program()));
-                shader_use->SendGeometry(geo);
-                shader_use->SendTexture(1, light_rendering->light_texture(), "light_texture");
-                shader_use->SendUniform("LEVEL_SIZE", this->level()->size().x, this->level()->size().y);
+            if (primitive.shader_program() != canvas.shader_program()) {
+                canvas.ChangeShaderProgram(primitive.shader_program());
+                canvas.SendUniform("drawable_texture", texture_unit);
+                canvas.SendUniform("light_texture", light_unit);
+                canvas.SendUniform("LEVEL_SIZE", this->level()->size().x, this->level()->size().y);
                 shader_changes++;
             }
 
-            if (primitive.texture() != current_texture) {
-                shader_use->SendTexture(0, current_texture = primitive.texture());
+            if (primitive.texture() != texture_unit.texture()) {
+                texture_unit.BindTexture(primitive.texture());
                 texture_changes++;
             }
 
+            const Geometry& geo = canvas.current_geometry();
             glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
             glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
             Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
-            shader_use->SendUniform("objectDepth", lightpos.y);
-            shader_use->SendUniform("lightUV", obj->world_position().x / level()->size().x, obj->world_position().y / level()->size().y);
+            canvas.SendUniform("objectDepth", lightpos.y);
+            canvas.SendUniform("lightUV", obj->world_position().x / level()->size().x, obj->world_position().y / level()->size().y);
 
-            shader_use->SendEffect(canvas.current_visualeffect() * primitive.visual_effect());
-            primitive.drawfunction()(primitive, *shader_use);
+            canvas.PushAndCompose(primitive.visual_effect());
+            primitive.drawfunction()(primitive, canvas);
+            canvas.PopVisualEffect();
         }
     }
     //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
@@ -190,6 +183,10 @@ void Room::Sort() {
             return ag < bg;
         return a.get() < b.get();
     });
+}
+
+void Room::set_floor(std::unique_ptr<GiantFloor>&& floor) {
+    floor_ = std::move(floor);
 }
 
 void Room::updateObjects(double delta_t) {

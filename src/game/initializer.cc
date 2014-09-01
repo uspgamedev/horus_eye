@@ -7,7 +7,6 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/internal/gltexture.h>
@@ -86,32 +85,4 @@ ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader() { return horus_li
 
 void AddHorusShader() {
     AddHorusLightShader();
-}
-
-void DrawTexture(ugdk::internal::GLTexture* texture, ugdk::graphic::Canvas& canvas) {
-    opengl::ShaderUse shader_use(graphic::manager()->shaders().GetSpecificShader(0));
-    shader_use.SendGeometry(canvas.current_geometry());
-    shader_use.SendEffect(canvas.current_visualeffect());
-    shader_use.SendTexture(0, texture);
-    
-    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-    {
-        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
-        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        vertex_data[0 * 2 + 0] = 0.0f; // near left
-        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(texture->height());
-        
-        vertex_data[1 * 2 + 0] = 0.0f; // far left
-        vertex_data[1 * 2 + 1] = 0.0f;
-
-        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(texture->width()); // near right
-        vertex_data[2 * 2 + 1] = static_cast<GLfloat>(texture->height());
-        
-        vertex_data[3 * 2 + 0] = static_cast<GLfloat>(texture->width()); // far right
-        vertex_data[3 * 2 + 1] = 0.0f;
-
-    }
-    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
-    shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }

@@ -81,8 +81,10 @@ class Room {
     const std::list<std::string>& neighborhood() const { return neighborhood_; }
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::math::Integer2D& position() const { return position_; }
-    ugdk::graphic::Node* floor() const { return floor_; }
+    GiantFloor* floor() const { return floor_.get(); }
     scene::World* level() const { return level_; }
+
+    void set_floor(std::unique_ptr<GiantFloor>&& floor);
 
     typedef std::list< std::shared_ptr<sprite::WorldObject> > ::const_iterator WObjListConstIterator;
     WObjListConstIterator begin() const { return objects_.begin(); } 
@@ -100,7 +102,7 @@ class Room {
     std::list<std::string> neighborhood_;
     ugdk::math::Integer2D size_, position_;
     TagTable tagged_;
-    ugdk::graphic::Node* floor_;
+    std::unique_ptr<GiantFloor> floor_;
     ugdk::script::VirtualObj recipes_;
 
     scene::World* level_;

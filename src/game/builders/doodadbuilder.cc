@@ -31,7 +31,6 @@ using ugdk::action::SpriteAnimationTable;
 using ugdk::action::Entity;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
-using ugdk::graphic::Sprite;
 using ugdk::graphic::Node;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::geometry::Rect;

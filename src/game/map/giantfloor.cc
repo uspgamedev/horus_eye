@@ -6,7 +6,6 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/graphic/defaultshaders.h>
 
@@ -105,39 +104,36 @@ GiantFloor::GiantFloor(const Room* room)
             p->u = size.x;
             p->v = size.y;
         }
+
+        Vector2D room_pos = core::FromWorldCoordinates(room->position());
+        for (size_t i = 0; i < data_.num_vertices(); ++i) {
+            VertexXYUV* p = mapper.Get<VertexXYUV>(i);
+            p->x += room_pos.x;
+            p->y += room_pos.y;
+        }
+
     }
 }
 
 GiantFloor::~GiantFloor() {}
 
-void GiantFloor::Draw(ugdk::graphic::Canvas& canvas) const {
-    if(!room_->level())
-        return;
+void GiantFloor::Draw(ugdk::graphic::Canvas& canvas, const ugdk::graphic::TextureUnit& light_unit) const {
 
     const glm::mat4& mat = canvas.current_geometry().AsMat4();
     glm::vec4 transformed_hotspot = mat * glm::vec4(-hotspot_.x, -hotspot_.y, 0, 0);
 
     // Use our shader
-    opengl::ShaderUse shader_use(continuous_light_shader_);
+    canvas.ChangeShaderProgram(continuous_light_shader_);
+    canvas.SendUniform("HOTSPOT", transformed_hotspot.x, transformed_hotspot.y);
+    canvas.SendUniform("ROOM_POSITION", room_->position().x, room_->position().y);
+    canvas.SendUniform("LEVEL_SIZE", room_->level()->size().x, room_->level()->size().y);
 
-    shader_use.SendUniform("HOTSPOT", transformed_hotspot.x, transformed_hotspot.y);
-    shader_use.SendUniform("ROOM_POSITION", room_->position().x, room_->position().y);
-    shader_use.SendUniform("LEVEL_SIZE", room_->level()->size().x, room_->level()->size().y);
+    auto unit = ugdk::graphic::manager()->ReserveTextureUnit(texture_);
+    canvas.SendUniform("drawable_texture", unit);
+    canvas.SendUniform("light_texture", light_unit);
 
-    shader_use.SendTexture(1,
-                           room_->level()->light_rendering()->light_texture(),
-                           continuous_light_shader_->UniformLocation("light_texture"));
-
-    // Send our transformation to the currently bound shader, 
-    // in the "MVP" uniform
-    shader_use.SendGeometry(mat);
-    shader_use.SendEffect(canvas.current_visualeffect());
-
-    // Bind our texture in Texture Unit 0
-    shader_use.SendTexture(0, texture_);
-
-    shader_use.SendVertexBuffer(data_.buffer().get(), opengl::VERTEX,                    0, 2, data_.vertex_size());
-    shader_use.SendVertexBuffer(data_.buffer().get(), opengl::TEXTURE, 2 * sizeof(GLfloat), 2, data_.vertex_size());
+    canvas.SendVertexData(data_, ugdk::graphic::VertexType::VERTEX, 0, 2);
+    canvas.SendVertexData(data_, ugdk::graphic::VertexType::TEXTURE, 2 * sizeof(GLfloat), 2);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 

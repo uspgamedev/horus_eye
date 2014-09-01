@@ -10,7 +10,6 @@
 #include <ugdk/graphic/visualeffect.h>
 #include <ugdk/graphic/vertexdata.h>
 #include <ugdk/graphic/drawable/functions.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
@@ -22,15 +21,34 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 
+
+// debug
+#include <ugdk/input/module.h>
+
 namespace scene {
 
 using namespace ugdk;
 using namespace ugdk::graphic;
 using namespace pyramidworks;
+using ugdk::math::Vector2D;
 
 namespace {
     uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
     double LIGHT_PRECISION = 32.0;
+
+    struct VertexXYUV {
+        float x, y, u, v;
+        void set_xy(const math::Vector2D& v) {
+            x = static_cast<float>(v.x);
+            y = static_cast<float>(v.y);
+        }
+        void set_xyuv(float _x, float _y, float _u, float _v) {
+            x = _x;
+            y = _y;
+            u = _u;
+            v = _v;
+        }
+    };
 
     ugdk::graphic::opengl::ShaderProgram* horus_shadowcasting_shader_ = nullptr;
     void AddShadowcastingShader() {
@@ -53,6 +71,7 @@ namespace {
         fragment_shader.AddLineInMain(" highp float angle = (O.y + OP.y * ((A.x - O.x) / OP.x) - A.y) / (AB.y - ((OP.y * AB.x) / OP.x));" "\n");
         fragment_shader.AddLineInMain(" highp float alpha = 1.0 - abs(1.0 - 2.0 * angle);" "\n");
         fragment_shader.AddLineInMain(" alpha = clamp(0.25 + 2.0 * alpha, 0.0, 1.0);" "\n");
+        fragment_shader.AddLineInMain(" alpha = 1.0;" "\n");
         fragment_shader.AddLineInMain(" gl_FragColor = vec4(alpha, alpha, alpha, 1.0);" "\n");
         fragment_shader.GenerateSource();
 
@@ -69,41 +88,40 @@ namespace {
     void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
                            const math::Vector2D& p3, const math::Vector2D& p4,
                            const math::Vector2D& O,
-                           ugdk::graphic::Canvas& canvas) {
-        opengl::ShaderUse shader_use(horus_shadowcasting_shader_);
-        shader_use.SendGeometry(canvas.current_geometry());
-
-        opengl::VertexArray vertexbuffer(sizeof(GLfloat)* 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+                           ugdk::graphic::Canvas& canvas)
+    {
+        VertexData data(4, sizeof(VertexXYUV), false, true);
         {
-            opengl::VertexBuffer::Mapper mapper(vertexbuffer);
-            GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-            vertex_data[0 * 2 + 0] = static_cast<GLfloat>(p1.x); // far left
-            vertex_data[0 * 2 + 1] = static_cast<GLfloat>(p1.y);
-            vertex_data[1 * 2 + 0] = static_cast<GLfloat>(p2.x); // near left
-            vertex_data[1 * 2 + 1] = static_cast<GLfloat>(p2.y);
-            vertex_data[2 * 2 + 0] = static_cast<GLfloat>(p3.x); // near right
-            vertex_data[2 * 2 + 1] = static_cast<GLfloat>(p3.y);
-            vertex_data[3 * 2 + 0] = static_cast<GLfloat>(p4.x); // far right
-            vertex_data[3 * 2 + 1] = static_cast<GLfloat>(p4.y);
+            VertexData::Mapper mapper(data);
+            {
+                auto p = mapper.Get<VertexXYUV>(0);
+                p->set_xy(p1);
+                p->u = p->v = 0.0f;
+            }
+            {
+                auto p = mapper.Get<VertexXYUV>(1);
+                p->set_xy(p2);
+                p->u = p->v = 0.0f;
+            }
+            {
+                auto p = mapper.Get<VertexXYUV>(2);
+                p->set_xy(p3);
+                p->u = p->v = 1.0f;
+            }
+            {
+                auto p = mapper.Get<VertexXYUV>(3);
+                p->set_xy(p4);
+                p->u = p->v = 1.0f;
+            }
         }
-        opengl::VertexArray colorbuffer(sizeof(GLfloat)* 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-        {
-            opengl::VertexBuffer::Mapper mapper(colorbuffer);
-            GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-            for (int i = 0; i < 4; ++i)
-                vertex_data[i] = 0.0f;
-            for (int i = 4; i < 8; ++i)
-                vertex_data[i] = 1.0f;
-        }
 
-        shader_use.SendUniform("O", float(O.x), float(O.y));
-        shader_use.SendUniform("A", float(p2.x), float(p2.y));
-        shader_use.SendUniform("B", float(p3.x), float(p3.y));
+        canvas.SendUniform("O", float(O.x), float(O.y));
+        canvas.SendUniform("A", float(p2.x), float(p2.y));
+        canvas.SendUniform("B", float(p3.x), float(p3.y));
 
-        shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
-        shader_use.SendVertexBuffer(&colorbuffer, opengl::TEXTURE, 0);
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
+        canvas.SendVertexData(data, VertexType::VERTEX, 0);
+        canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float)* 2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
 
     void CreateAndDrawQuadrilateral(ugdk::graphic::Canvas& canvas, const math::Vector2D& from, const math::Vector2D& left_point, const math::Vector2D& right_point) {
@@ -142,17 +160,14 @@ namespace {
         collision::CollisionObjectList walls;
         opaque_class.FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
-        canvas.PushAndCompose(world->camera());
         canvas.PushAndCompose(VisualEffect(Color(0.0, 0.0, 0.0, 0.5)));
 
         for (const collision::CollisionObject * obj : walls) {
             std::list<Vector2D> vertices;
             if (const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
-                // OH YEAHHHHHH
-                math::Vector2D top_left = obj->absolute_position()
-                    + math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
-                math::Vector2D bottom_right = obj->absolute_position()
-                    - math::Vector2D(wall_rect->width(), wall_rect->height()) * 0.5;
+                Vector2D wall_size(wall_rect->width(), wall_rect->height());
+                Vector2D top_left = obj->absolute_position() - wall_size * 0.5;
+                Vector2D bottom_right = obj->absolute_position() + wall_size * 0.5;
 
                 vertices.emplace_back(top_left.x, top_left.y);
                 vertices.emplace_back(bottom_right.x, top_left.y);
@@ -176,8 +191,23 @@ namespace {
                 CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
         }
 
-        canvas.PopGeometry();
         canvas.PopVisualEffect();
+    }
+
+    void DrawBuffer(Canvas& canvas, ugdk::graphic::RenderTexture& buffer) {
+        VertexData data(4, sizeof(VertexXYUV), false, true);
+        {
+            VertexData::Mapper mapper(data);
+            mapper.Get<VertexXYUV>(0)->set_xyuv(0.0f, 0.0f, 0.0f, 0.0f);
+            mapper.Get<VertexXYUV>(1)->set_xyuv(buffer.size().x, 0.0f, 1.0f, 0.0f);
+            mapper.Get<VertexXYUV>(2)->set_xyuv(0.0f, buffer.size().y, 0.0f, 1.0f);
+            mapper.Get<VertexXYUV>(3)->set_xyuv(buffer.size().x, buffer.size().y, 1.0f, 1.0f);
+        }
+        TextureUnit unit = graphic::manager()->ReserveTextureUnit(buffer.texture());
+        canvas.SendUniform("drawable_texture", unit);
+        canvas.SendVertexData(data, VertexType::VERTEX, 0);
+        canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float)* 2);
+        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
 
 }
@@ -186,7 +216,7 @@ namespace {
 LightRendering::LightRendering(World* world)
 : shadow_buffer_(world->size() * LIGHT_PRECISION)
 , light_buffer_(world->size() * LIGHT_PRECISION)
-, shadowcasting_actiavated_(false)
+, shadowcasting_actiavated_(true)
 , lightsystem_activated_(true)
 , world_(world)
 {
@@ -202,20 +232,35 @@ LightRendering::LightRendering(World* world)
     if (!horus_shadowcasting_shader_)
         AddShadowcastingShader();
 
-    this->set_render_function([this](Canvas&) {
+    this->set_render_function([this](Canvas& canvas) {
         // Render the shadows.
 
-        if (shadowcasting_actiavated_) {
+        //if (shadowcasting_actiavated_) {
             ShadowCasting();
-        }
+            if (input::manager()->keyboard().IsDown(input::Keycode::n))
+                DrawBuffer(canvas, shadow_buffer_);
+        //}
 
         // Lights are simply added together.
         if (lightsystem_activated_) {
-            LightMerging();
+            Canvas light_canvas(&light_buffer_);
+            light_canvas.Clear(Color(.0, .0, .0, 1.0));
+
+            glBlendFunc(GL_ONE, GL_ONE);
+            world_->RenderLight(light_canvas);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            if (shadowcasting_actiavated_)
+                ApplyShadowCasting(light_canvas);
 
         } else {
             Canvas light_canvas(&light_buffer_);
             light_canvas.Clear(Color(1.0, 1.0, 1.0, 1.0));
+        }
+
+        if (input::manager()->keyboard().IsDown(input::Keycode::b)) {
+            canvas.PushAndCompose(Color(1, 0, 0, 0.5));
+            DrawBuffer(canvas, light_buffer_);
+            canvas.PopVisualEffect();
         }
     });
 }
@@ -237,6 +282,7 @@ const ugdk::internal::GLTexture* LightRendering::light_texture() const {
 void LightRendering::ShadowCasting() {
     Canvas canvas(&shadow_buffer_);
     canvas.Clear(Color(0.0, 0.0, 0.0, 0.0));
+    canvas.ChangeShaderProgram(horus_shadowcasting_shader_);
 
     glBlendFunc(GL_ONE, GL_ONE);
     if (sprite::WObjPtr hero = world_->hero().lock())
@@ -245,19 +291,11 @@ void LightRendering::ShadowCasting() {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
-void LightRendering::LightMerging() {
-    Canvas canvas(&light_buffer_);
-    canvas.Clear(Color(.0, .0, .0, 1.0));
-
-    glBlendFunc(GL_ONE, GL_ONE);
-    world_->RenderLight(canvas);
-    
-    if (shadowcasting_actiavated_) {
-        glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
-        ugdk::debug::ProfileSection section("DrawShadowTexture");
-        DrawSquare((Geometry(Vector2D(-1.0, -1.0), Vector2D(2.0, 2.0))), VisualEffect(), shadow_buffer_.texture());
-    }
-
+void LightRendering::ApplyShadowCasting(Canvas& canvas) {
+    glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
+    ugdk::debug::ProfileSection section("DrawShadowTexture");
+    canvas.ChangeShaderProgram(graphic::manager()->shaders().GetSpecificShader(0));
+    DrawBuffer(canvas, shadow_buffer_);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
     

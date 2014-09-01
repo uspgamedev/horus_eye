@@ -8,7 +8,6 @@
 #include <ugdk/graphic/textureatlas.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
 #include <ugdk/graphic/rendertarget.h>
@@ -72,8 +71,8 @@ opengl::ShaderProgram* createWallShader() {
     return shader;
 }
 
-void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shader_use) {
-    ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, shader_use);
+void SpecialWallDrawFunction(const Primitive& primitive, Canvas& canvas) {
+    ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, canvas);
 }
 
 }
@@ -86,12 +85,12 @@ void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const Text
     primitive.set_shader_program(wall_light_shader_);
 
     auto bound_piece = atlas->PieceAt(frame_name);
-    primitive.set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
+    primitive.set_drawfunction([bound_piece](const Primitive& primitive, Canvas& canvas) {
         float left, right, temp;
         bound_piece.ConvertToAtlas(0.0f, 0.0f, &left, &temp);
         bound_piece.ConvertToAtlas(1.0f, 0.0f, &right, &temp);
-        shader_use.SendUniform("uv_minmax", left, right);
-        SpecialWallDrawFunction(primitive, shader_use);
+        canvas.SendUniform("uv_minmax", left, right);
+        SpecialWallDrawFunction(primitive, canvas);
     });
 
     PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(atlas);

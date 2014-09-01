@@ -14,6 +14,4 @@ bool VerifyFolderExists(const std::string& path);
 
 ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader();
 
-void DrawTexture(ugdk::internal::GLTexture* texture, ugdk::graphic::Canvas&);
-
 #endif

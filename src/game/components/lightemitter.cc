@@ -60,10 +60,7 @@ void LightEmitter::Update(double dt) {}
 
 void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
     canvas.PushAndCompose(ugdk::graphic::Geometry(position_));
-//    printf("position %f %f -- offset %f %f\n",
-//           position_.x, position_.y,
-//           canvas.current_geometry().offset().x, canvas.current_geometry().offset().y);
-    light_->Draw(canvas.current_geometry());
+    light_->Draw(canvas);
     canvas.PopGeometry();
 }
     
