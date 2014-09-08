@@ -33,20 +33,28 @@ using namespace pyramidworks;
 using ugdk::math::Vector2D;
 
 namespace {
-    uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
-    double LIGHT_PRECISION = 32.0;
+    double LIGHT_PRECISION = 64.0;
+
+    struct VertexXY {
+        glm::vec2 position;
+        void set_xy(const math::Vector2D& v) {
+            position.x = static_cast<float>(v.x);
+            position.y = static_cast<float>(v.y);
+        }
+    };
 
     struct VertexXYUV {
-        float x, y, u, v;
+        glm::vec2 position;
+        glm::vec2 texture;
         void set_xy(const math::Vector2D& v) {
-            x = static_cast<float>(v.x);
-            y = static_cast<float>(v.y);
+            position.x = static_cast<float>(v.x);
+            position.y = static_cast<float>(v.y);
         }
         void set_xyuv(float _x, float _y, float _u, float _v) {
-            x = _x;
-            y = _y;
-            u = _u;
-            v = _v;
+            position.x = _x;
+            position.y = _y;
+            texture.x = _u;
+            texture.y = _v;
         }
     };
 
@@ -85,42 +93,26 @@ namespace {
     }
 
 
-    void DrawQuadrilateral(const math::Vector2D& p1, const math::Vector2D& p2,
-                           const math::Vector2D& p3, const math::Vector2D& p4,
+    void DrawQuadrilateral(const math::Vector2D& far_left, const math::Vector2D& near_left,
+                           const math::Vector2D& near_right, const math::Vector2D& far_right,
                            const math::Vector2D& O,
                            ugdk::graphic::Canvas& canvas)
     {
-        VertexData data(4, sizeof(VertexXYUV), false, true);
+        VertexData data(4, sizeof(VertexXY), false, true);
         {
             VertexData::Mapper mapper(data);
-            {
-                auto p = mapper.Get<VertexXYUV>(0);
-                p->set_xy(p1);
-                p->u = p->v = 0.0f;
-            }
-            {
-                auto p = mapper.Get<VertexXYUV>(1);
-                p->set_xy(p2);
-                p->u = p->v = 0.0f;
-            }
-            {
-                auto p = mapper.Get<VertexXYUV>(2);
-                p->set_xy(p3);
-                p->u = p->v = 1.0f;
-            }
-            {
-                auto p = mapper.Get<VertexXYUV>(3);
-                p->set_xy(p4);
-                p->u = p->v = 1.0f;
-            }
+            mapper.Get<VertexXY>(0)->set_xy(far_left);
+            mapper.Get<VertexXY>(1)->set_xy(far_right);
+            mapper.Get<VertexXY>(2)->set_xy(near_left);
+            mapper.Get<VertexXY>(3)->set_xy(near_right);
         }
 
         canvas.SendUniform("O", float(O.x), float(O.y));
-        canvas.SendUniform("A", float(p2.x), float(p2.y));
-        canvas.SendUniform("B", float(p3.x), float(p3.y));
+        canvas.SendUniform("A", float(near_left.x), float(near_left.y));
+        canvas.SendUniform("B", float(near_right.x), float(near_right.y));
 
         canvas.SendVertexData(data, VertexType::VERTEX, 0);
-        canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float)* 2);
+        manager()->DisableVertexType(VertexType::TEXTURE);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
 
@@ -205,8 +197,8 @@ namespace {
         }
         TextureUnit unit = graphic::manager()->ReserveTextureUnit(buffer.texture());
         canvas.SendUniform("drawable_texture", unit);
-        canvas.SendVertexData(data, VertexType::VERTEX, 0);
-        canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float)* 2);
+        canvas.SendVertexData(data, VertexType::VERTEX, offsetof(VertexXYUV, position));
+        canvas.SendVertexData(data, VertexType::TEXTURE, offsetof(VertexXYUV, texture));
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
     }
 
@@ -295,7 +287,21 @@ void LightRendering::ApplyShadowCasting(Canvas& canvas) {
     glBlendFunc(GL_ZERO, GL_ONE_MINUS_SRC_COLOR);
     ugdk::debug::ProfileSection section("DrawShadowTexture");
     canvas.ChangeShaderProgram(graphic::manager()->shaders().GetSpecificShader(0));
-    DrawBuffer(canvas, shadow_buffer_);
+
+    VertexData data(4, sizeof(VertexXYUV), false, true);
+    {
+        VertexData::Mapper mapper(data);
+        mapper.Get<VertexXYUV>(0)->set_xyuv(0.0f, 0.0f, 0.0f, 0.0f);
+        mapper.Get<VertexXYUV>(1)->set_xyuv(world_->size().x, 0.0f, 1.0f, 0.0f);
+        mapper.Get<VertexXYUV>(2)->set_xyuv(0.0f, world_->size().y, 0.0f, 1.0f);
+        mapper.Get<VertexXYUV>(3)->set_xyuv(world_->size().x, world_->size().y, 1.0f, 1.0f);
+    }
+    TextureUnit unit = graphic::manager()->ReserveTextureUnit(shadow_buffer_.texture());
+    canvas.SendUniform("drawable_texture", unit);
+    canvas.SendVertexData(data, VertexType::VERTEX, offsetof(VertexXYUV, position));
+    canvas.SendVertexData(data, VertexType::TEXTURE, offsetof(VertexXYUV, texture));
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
     
