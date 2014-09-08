@@ -21,7 +21,7 @@
 
 %}
 
-%import(module="ugdk_action") <ugdk/action/entity.h>
+%import(module="pyramidworks_collision") <pyramidworks/collision/collisiondata.h>
 %import(module="component") "component.i"
 %import(module="ai") <game/ai/ai.h>
 
