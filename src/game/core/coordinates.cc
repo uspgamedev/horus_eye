@@ -29,11 +29,5 @@ Vector2D FromScreenCoordinates(scene::World* world, const Vector2D& screen_coord
     const ugdk::graphic::Geometry& camera = world->camera();
     return FromScreenLinearCoordinates((screen_coords - camera.offset()) / camera.CalculateScale().x);
 }
-
-Vector2D ConvertLightRadius(double radius) {
-    static double tranformation_length = tile_size.Length() / 2.0;
-    Vector2D ellipse_coords = Vector2D(2, 1) * radius * tranformation_length;
-    return ellipse_coords;
-}
     
 } // namespace core

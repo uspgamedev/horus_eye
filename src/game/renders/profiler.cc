@@ -2,7 +2,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/text/label.h>
 #include <ugdk/graphic/text/textbox.h>
@@ -28,7 +28,7 @@ void SectionDataToString(std::stringstream& out, const std::string& indent, cons
 
 void DrawSectionData(ugdk::graphic::Canvas& canvas, const std::shared_ptr<const ugdk::debug::SectionData>& data) {
 
-    double screen_width = graphic::manager()->canvas()->size().x;
+    double screen_width = graphic::manager()->screen()->size().x;
 
     std::stringstream msg;
     SectionDataToString(msg, "", data);

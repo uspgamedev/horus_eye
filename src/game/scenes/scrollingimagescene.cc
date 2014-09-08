@@ -1,6 +1,6 @@
 #include <ugdk/action.h>
 #include <ugdk/system/engine.h>
-#include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/drawable.h>
 #include <ugdk/graphic/node.h>
@@ -29,7 +29,7 @@ public:
         d->set_hotspot(hotspot);
 
         Vector2D offset = target->geometry().offset();
-        offset.y = graphic::manager()->canvas()->size().y;
+        offset.y = graphic::manager()->screen()->size().y;
         target->geometry().set_offset(offset);
 
         double delta_h = offset.y + d->height();

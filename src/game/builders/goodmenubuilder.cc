@@ -15,6 +15,7 @@
 #include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/text/label.h>
 #include <ugdk/structure/intervalkdtree.h>
@@ -70,7 +71,7 @@ void MainMenuCredits(const Button * source) {
     using ugdk::graphic::TextBox;
 
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
-    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->canvas()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->screen()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     Scene *scroll = new scene::ScrollingImageScene(NULL, textbox, 55);
     if (Settings::reference()->background_music())
@@ -99,7 +100,7 @@ private:
 Menu* BaseBuildMenu(Scene* scene, Drawable::HookPoint hook = Drawable::CENTER) {
     scene->set_focus_callback(MenuFocus);
     scene->set_defocus_callback(MenuDeFocus);
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
     utils::MenuImageFactory mif;
 
     auto holder = new AnimationPlayerHolder;
@@ -123,7 +124,7 @@ Menu* BaseBuildMenu(Scene* scene, Drawable::HookPoint hook = Drawable::CENTER) {
 }
 
 Scene* PauseMenu() {
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
     ugdk::action::Scene* pause_menu = new Scene();
     Menu* menu = BaseBuildMenu(pause_menu);
@@ -155,7 +156,7 @@ Scene* PauseMenu() {
 }
 
 Scene* CampaignMenu() {
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
     ugdk::action::Scene* mission_menu = new Scene();
     mission_menu->set_identifier("Campaign Menu");
@@ -178,7 +179,7 @@ Scene* CampaignMenu() {
         y += 50.0;
     }
 
-    menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->canvas()->size().y - 100.0),
+    menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->screen()->size().y - 100.0),
                                GetLanguageWord("Exit")->CreateLabel(),
                                [mission_menu](const Button*) { mission_menu->Finish(); }));
 
@@ -186,7 +187,7 @@ Scene* CampaignMenu() {
 }
 
 Scene* MainMenu() {
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
     ugdk::action::Scene* main_menu = new Scene();
     Menu* menu = BaseBuildMenu(main_menu);
@@ -205,7 +206,7 @@ Scene* MainMenu() {
     ugdk::graphic::Drawable *developed_by = new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/developed_by_uspgamedev1.png"));
     developed_by->set_hotspot(ugdk::graphic::Drawable::BOTTOM_RIGHT);
     Node* developed_by_node = new Node(developed_by);
-    developed_by_node->geometry().set_offset(ugdk::graphic::manager()->canvas()->size() + Vector2D(-15.0, 0.0));
+    developed_by_node->geometry().set_offset(ugdk::graphic::manager()->screen()->size() + Vector2D(-15.0, 0.0));
 
     // The scene's drawables
     menu->node()->AddChild(logo_node);
@@ -303,7 +304,7 @@ struct ConveninentSettingsData {
         this->sprites_active_[4] = settings_->language();
         this->sprites_active_[5] = settings_->vsync();
 
-        double second_column_x = ugdk::graphic::manager()->canvas()->size().x * 0.8;
+        double second_column_x = ugdk::graphic::manager()->screen()->size().x * 0.8;
     
         for (int i = 0; i < NUM_SETTINGS; ++i) {
             size_t size = this->setting_functions_[i].values.size();
@@ -360,7 +361,7 @@ static void ApplySettings(const Button * source) {
 }
 
 Scene* SettingsMenu() {
-    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->canvas()->size();
+    ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
     ugdk::action::Scene* settings_menu = new Scene();
     Menu* menu = BaseBuildMenu(settings_menu);

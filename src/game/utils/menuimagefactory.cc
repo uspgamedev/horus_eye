@@ -8,8 +8,6 @@
 #include <ugdk/graphic/sprite.h>
 #include <pyramidworks/ui/drawable.h>
 
-using ugdk::graphic::Sprite;
-
 namespace utils {
 
 MenuImageFactory::MenuImageFactory() {}

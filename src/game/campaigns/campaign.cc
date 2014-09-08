@@ -1,6 +1,7 @@
 #include "game/campaigns/campaign.h"
 
 #include "game/utils/levelloader.h"
+#include "game/scenes/lightrendering.h"
 #include "game/scenes/world.h"
 #include "game/builders/herobuilder.h"
 #include "game/context.h"
@@ -72,6 +73,10 @@ bool Campaign::LoadLevel(const std::string& level_name) {
     utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path, &current_level_);
 
     if (current_level_) {
+        auto lr = new scene::LightRendering(current_level_);
+        current_level_->set_light_rendering(lr);
+
+        ugdk::system::PushScene(lr);
         ugdk::system::PushScene(current_level_);
         current_level_->Start(this);
         return true;

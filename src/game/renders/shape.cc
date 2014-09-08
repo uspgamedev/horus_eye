@@ -5,9 +5,9 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/vertexdata.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <pyramidworks/collision/collisionmanager.h>
@@ -28,75 +28,73 @@ namespace renders
 {
 
 namespace {
-    uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
+    struct VertexXYUV {
+        float x, y, u, v;
+        void set_xy(const math::Vector2D& v) {
+            x = static_cast<float>(v.x);
+            y = static_cast<float>(v.y);
+        }
+    };
 }
 
 void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
-    opengl::ShaderUse shader_use(graphic::manager()->shaders().current_shader());
-    shader_use.SendGeometry(canvas.current_geometry());
-    shader_use.SendEffect(canvas.current_visualeffect());
-    shader_use.SendTexture(0, graphic::manager()->white_texture());
+    TextureUnit unit(graphic::manager()->ReserveTextureUnit(graphic::manager()->white_texture()));
+    canvas.SendUniform("drawable_texture", unit);
 
     math::Vector2D top_left     = position + math::Vector2D(rect->width(), rect->height()) * 0.5;
     math::Vector2D bottom_right = position - math::Vector2D(rect->width(), rect->height()) * 0.5;
 
-    math::Vector2D p1s = core::FromWorldCoordinates(math::Vector2D(    top_left.x,     top_left.y)),  // top left
-                   p2s = core::FromWorldCoordinates(math::Vector2D(bottom_right.x,     top_left.y)), // bottom left
-                   p3s = core::FromWorldCoordinates(math::Vector2D(bottom_right.x, bottom_right.y)), // bottom right
-                   p4s = core::FromWorldCoordinates(math::Vector2D(    top_left.x, bottom_right.y)); // top right
+    math::Vector2D ps[] = {
+        core::FromWorldCoordinates(math::Vector2D(top_left.x, top_left.y)), // top left
+        core::FromWorldCoordinates(math::Vector2D(top_left.x, bottom_right.y)), // top right
+        core::FromWorldCoordinates(math::Vector2D(bottom_right.x, top_left.y)), // bottom left
+        core::FromWorldCoordinates(math::Vector2D(bottom_right.x, bottom_right.y)), // bottom right
+    };
+    std::tuple<float, float> uv[] = {
+        std::make_tuple(0.0f, 0.0f),
+        std::make_tuple(1.0f, 0.0f),
+        std::make_tuple(0.0f, 1.0f),
+        std::make_tuple(1.0f, 1.0f)
+    };
 
-    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 4, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
+    VertexData data(4, sizeof(VertexXYUV), false, true);
     {
-        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
-        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        vertex_data[0 * 2 + 0] = static_cast<GLfloat>(p1s.x); // far left
-        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(p1s.y);
-        vertex_data[1 * 2 + 0] = static_cast<GLfloat>(p2s.x); // near left
-        vertex_data[1 * 2 + 1] = static_cast<GLfloat>(p2s.y);
-        vertex_data[2 * 2 + 0] = static_cast<GLfloat>(p3s.x); // near right
-        vertex_data[2 * 2 + 1] = static_cast<GLfloat>(p3s.y);
-        vertex_data[3 * 2 + 0] = static_cast<GLfloat>(p4s.x); // far right
-        vertex_data[3 * 2 + 1] = static_cast<GLfloat>(p4s.y);
+        VertexData::Mapper mapper(data);
+        for (size_t i = 0; i < data.num_vertices(); ++i) {
+            auto p = mapper.Get<VertexXYUV>(i);
+            p->set_xy(ps[i]);
+            std::tie(p->u, p->v) = uv[i];
+        }
     }
-    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
-    shader_use.SendVertexBuffer(opengl::VertexBuffer::CreateDefault(), opengl::TEXTURE, 0);
-    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_SHORT, quad_to_triangles_indices);
+    canvas.SendVertexData(data, VertexType::VERTEX, 0);
+    canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float) * 2);
+    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 
 void DrawCircle(const geometry::Circle* circle, const Vector2D& position, ugdk::graphic::Canvas& canvas)
 {
-    opengl::ShaderUse shader_use(graphic::manager()->shaders().current_shader());
-    shader_use.SendGeometry(canvas.current_geometry());
-    shader_use.SendEffect(canvas.current_visualeffect());
-    shader_use.SendTexture(0, graphic::manager()->white_texture());
+    TextureUnit unit(graphic::manager()->ReserveTextureUnit(graphic::manager()->white_texture()));
+    canvas.SendUniform("drawable_texture", unit);
     
     math::Vector2D origin = core::FromWorldCoordinates(position);
-    
-    opengl::VertexArray vertexbuffer(sizeof(GLfloat) * 2 * 10, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-    {
-        opengl::VertexBuffer::Mapper mapper(vertexbuffer);
-        GLfloat *vertex_data = static_cast<GLfloat*>(mapper.get());
-        vertex_data[0 * 2 + 0] = static_cast<GLfloat>(origin.x);
-        vertex_data[0 * 2 + 1] = static_cast<GLfloat>(origin.y);
 
-        for(int i = 0; i < 9; ++i) {
-            math::Vector2D p = core::FromWorldCoordinates(
-                position + Vector2D(circle->radius(), 0.0).Rotate(i/4.0 * PI));
-            vertex_data[(i+1) * 2 + 0] = static_cast<GLfloat>(p.x); // near left
-            vertex_data[(i+1) * 2 + 1] = static_cast<GLfloat>(p.y);
+    VertexData data(10, sizeof(VertexXYUV), false, true);
+    {
+        VertexData::Mapper mapper(data);
+        {
+            auto p = mapper.Get<VertexXYUV>(0);
+            p->set_xy(origin);
+            p->u = p->v = 0.0f;
+        }
+        for (size_t i = 1; i < data.num_vertices(); ++i) {
+            auto p = mapper.Get<VertexXYUV>(i);
+            p->set_xy(core::FromWorldCoordinates(position + Vector2D(circle->radius(), 0.0).Rotate((i - 1) / 4.0 * PI)));
+            p->u = p->v = 1.0f;
         }
     }
-    opengl::VertexArray uvbuffer(sizeof(GLfloat) * 2 * 10, GL_ARRAY_BUFFER, GL_STATIC_DRAW);
-    {
-        opengl::VertexBuffer::Mapper mapper(uvbuffer);
-        GLfloat *uv_data = static_cast<GLfloat*>(mapper.get());
-        uv_data[0 * 2 + 0] = uv_data[0 * 2 + 1] = 0.0f;
-        for(int i = 1; i < 10; ++i)
-            uv_data[i * 2 + 0] = uv_data[i * 2 + 1] = 1.0f;
-    }
-    shader_use.SendVertexBuffer(&vertexbuffer, opengl::VERTEX, 0);
-    shader_use.SendVertexBuffer(&uvbuffer, opengl::TEXTURE, 0);
+    canvas.SendVertexData(data, VertexType::VERTEX, 0);
+    canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float)* 2);
     glDrawArrays(GL_TRIANGLE_FAN, 0, 10);
 }
 

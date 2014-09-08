@@ -10,4 +10,4 @@ void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive&, const ugdk::graphic:
 
 } // namespace map
 
-#endif /* HORUSEYE_GAME_MAP_GIANTFLOOR_H_ */
+#endif /* HORUSEYE_GAME_MAP_SPECIALWALL_H_ */

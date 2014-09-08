@@ -6,8 +6,6 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/textureatlas.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/resource/module.h>

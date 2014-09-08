@@ -10,6 +10,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
+#include <ugdk/graphic/drawable/functions.h>
 #include <ugdk/graphic/text/textbox.h>
 #include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/time/module.h>
@@ -30,6 +31,7 @@
 #include "game/core/coordinates.h"
 #include "game/map/room.h"
 #include "game/scenes/console.h"
+#include "game/scenes/lightrendering.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/renders/shape.h"
@@ -104,10 +106,10 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
         hero->damageable()->TakeDamage(1000.0);
 
     if(ev.keycode == input::Keycode::l)
-        ToggleLightsystem();
+        world->light_rendering()->ToggleLightsystem();
     
     if(ev.keycode == input::Keycode::k)
-        ToggleShadowcasting();
+        world->light_rendering()->ToggleShadowcasting();
     
     if(ev.keycode == input::Keycode::i)
         render_sprites = !render_sprites;
@@ -185,7 +187,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     this->AddEntity(hud_);
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task([this](double) {
-        Vector2D result = ugdk::graphic::manager()->canvas()->size()*0.5;
+        Vector2D result = ugdk::graphic::manager()->screen()->size()*0.5;
         if(hero_)
             result -= core::FromWorldCoordinates(hero_->world_position()) 
                                 * camera_.CalculateScale().x;
@@ -219,17 +221,22 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     if (!profiler_text)
         profiler_text.reset(new graphic::TextBox(
             "Press F10 to fetch profiler data.",
-            graphic::manager()->canvas()->size().x,
+            graphic::manager()->screen()->size().x,
             TEXT_MANAGER()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
-        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+
+        auto& shaders = ugdk::graphic::manager()->shaders();
+        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
+        canvas.ChangeShaderProgram(shaders.current_shader());
         canvas.PushAndCompose(this->camera_);
         if(render_sprites)
             for(const map::Room* room : active_rooms_)
                 room->Render(canvas);
 
-        ugdk::graphic::manager()->shaders().ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
+        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
+        canvas.ChangeShaderProgram(shaders.current_shader());
+
         if(render_collision)
             for(auto collobject : collision_manager_.active_objects())
                 renders::DrawCollisionObject(collobject, canvas);
@@ -267,6 +274,10 @@ void World::End() {
     (vobj_ | "End")(this, campaign_->implementation());
 }
 
+ugdk::action::Scene* World::CreateLightRenderingScene() {
+    return nullptr;
+}
+
 void World::Focus() {
     Scene::Focus();
     this->set_active(true);
@@ -297,10 +308,8 @@ void World::SetupCollisionManager() {
     
 void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
     ugdk::debug::ProfileSection section("World::RenderLight");
-    canvas.PushAndCompose(camera_);
     for(const map::Room* room : active_rooms_)
         room->RenderLight(canvas);
-    canvas.PopGeometry();
 }
 
 void World::AddRoom(map::Room* room) {

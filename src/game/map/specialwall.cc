@@ -4,14 +4,13 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/framebuffer.h>
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/textureatlas.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shaderuse.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
+#include <ugdk/graphic/rendertarget.h>
 
 #include "game/core/coordinates.h"
 #include "game/constants.h"
@@ -30,32 +29,30 @@ opengl::ShaderProgram* createWallShader() {
 
     // VERTEX
     vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
-    vertex_shader.AddCodeBlock("out highp vec4 screenPos;" "\n");
-    vertex_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n");
-    vertex_shader.AddLineInMain("	gl_Position = screenPos = geometry_matrix * vec4(vertexPosition,lightUV.y,1);" "\n");
+    vertex_shader.AddCodeBlock("uniform highp float objectDepth;" "\n");
+    vertex_shader.AddLineInMain("	gl_Position = geometry_matrix * vec4(vertexPosition,objectDepth,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 
     // FRAGMENT
     fragment_shader.AddCodeBlock("in highp vec2 UV;" "\n"
-                                 "in highp vec4 screenPos;" "\n"
                                  "uniform highp sampler2D drawable_texture;" "\n"
                                  "uniform highp vec4 effect_color;" "\n"
-                                 "uniform highp vec2 uv_minmax;" "\n"
-                                 );
 
-    fragment_shader.AddCodeBlock("uniform highp vec2 lightUV;" "\n"
-                                 "uniform highp vec2 PIXEL_SIZE;" "\n"
+                                 "uniform highp vec2 uv_minmax;" "\n"
+                                 "uniform highp vec2 lightUV;" "\n"
+                                 "uniform highp vec2 LEVEL_SIZE;" "\n"
                                  "uniform highp sampler2D light_texture;" "\n");
     
-    fragment_shader.AddCodeBlock("highp float calculate_offset(highp float in_x) {" "\n"
-                                 "  highp float x = (in_x - uv_minmax.x) / (uv_minmax.y - uv_minmax.x);"
-                                 "  return PIXEL_SIZE.y * 27.0 * min(x, 1.0-x) * 2.0;" "\n" // convert x from 0->0.5->1 to 0->1->0
-                                                                                        // 27 is tile_height/2 (54/2)
-                                 "}" "\n");
-
-    fragment_shader.AddLineInMain("	highp float screenPosLightX = screenPos.x * 0.5 + 0.5;" "\n");
-    fragment_shader.AddLineInMain("	highp vec2 lightPosition = vec2(screenPosLightX, lightUV.y - calculate_offset(UV.x));" "\n");
+    // x = 0.0 -> left corner of the image, maps to bottom-left in-game -> lightUV.x    , lightUV.y + 1
+    // x = 0.5 -> bottom-center of the image, maps to top-left in-game  -> lightUV.x    , lightUV.y
+    // x = 1.0 -> right corner of the image, maps to top-right in-game  -> lightUV.x + 1, lightUV.y
+    fragment_shader.AddLineInMain(
+                            "   highp float xPos = (UV.x - uv_minmax.x) / (uv_minmax.y - uv_minmax.x);" "\n"
+                            "	highp vec2 lightPosition = vec2("
+                            "       lightUV.x + max(0, xPos * 2 - 1) / LEVEL_SIZE.x," "\n"
+                            "       lightUV.y + max(0, 1 - xPos * 2) / LEVEL_SIZE.y" "\n"
+                            "   );" "\n");
 
     fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
     fragment_shader.AddLineInMain("	color *= vec4(texture2D(light_texture, lightPosition).rgb, 1.0);" "\n");
@@ -74,14 +71,8 @@ opengl::ShaderProgram* createWallShader() {
     return shader;
 }
 
-void SpecialWallDrawFunction(const Primitive& primitive, opengl::ShaderUse& shader_use) {
-
-    auto mgr = ugdk::graphic::manager();
-
-    shader_use.SendUniform("PIXEL_SIZE", 1.0f / mgr->canvas()->size().x, 1.0f / mgr->canvas()->size().y);
-    shader_use.SendTexture(1, mgr->light_buffer()->texture(), wall_light_shader_->UniformLocation("light_texture"));
-
-    ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, shader_use);
+void SpecialWallDrawFunction(const Primitive& primitive, Canvas& canvas) {
+    ugdk::graphic::PrimitiveSetup::Sprite::Render(primitive, canvas);
 }
 
 }
@@ -94,12 +85,12 @@ void PreparePrimitiveSpecialWall(ugdk::graphic::Primitive& primitive, const Text
     primitive.set_shader_program(wall_light_shader_);
 
     auto bound_piece = atlas->PieceAt(frame_name);
-    primitive.set_drawfunction([bound_piece](const Primitive& primitive, opengl::ShaderUse& shader_use) {
+    primitive.set_drawfunction([bound_piece](const Primitive& primitive, Canvas& canvas) {
         float left, right, temp;
         bound_piece.ConvertToAtlas(0.0f, 0.0f, &left, &temp);
         bound_piece.ConvertToAtlas(1.0f, 0.0f, &right, &temp);
-        shader_use.SendUniform("uv_minmax", left, right);
-        SpecialWallDrawFunction(primitive, shader_use);
+        canvas.SendUniform("uv_minmax", left, right);
+        SpecialWallDrawFunction(primitive, canvas);
     });
 
     PrimitiveControllerSprite* sprite_controller = new PrimitiveControllerSprite(atlas);

@@ -6,6 +6,7 @@
 namespace map {
 
 class Room;
+class GiantFloor;
 class Tile;
 typedef std::vector<Tile*> TileRow;
 typedef std::vector<TileRow> GameMap;

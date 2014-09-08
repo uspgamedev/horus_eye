@@ -22,8 +22,6 @@ ugdk::math::Vector2D FromWorldCoordinates(const ugdk::math::Vector2D& screen_coo
 // Funcao que transforma PONTOS de coordenadas de tela para de mundo
 ugdk::math::Vector2D FromScreenCoordinates(scene::World*, const ugdk::math::Vector2D& screen_coords);
 
-ugdk::math::Vector2D ConvertLightRadius(double radius);
-
 } // namespace core
 
 #endif  // HORUSEYE_GAME_CORE_COORDINATES_H_

@@ -44,16 +44,13 @@ void StartGame() {
         settings->resolution_vector(),
         settings->fullscreen(),
         settings->vsync());
-    ugdk::graphic::manager()->canvas()->Resize(ugdk::desktop::manager()->primary_window()->size());
+    ugdk::graphic::manager()->ResizeScreen(ugdk::desktop::manager()->primary_window()->size());
 
     AddHorusShader();
 
     if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
         ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
-
-    ugdk::system::PushScene(CreateShadowCastingScene);
-    ugdk::system::PushScene(CreateHorusLightrenderingScene);
     ugdk::system::PushScene(builder::MainMenu);
 }
 
