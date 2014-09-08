@@ -1,6 +1,7 @@
 #include "game/builders/collision.h"
 
 #include <cmath>
+#include <pyramidworks/collision/collisiondata.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include "game/constants.h"
 #include "game/components/damageable.h"
@@ -12,7 +13,6 @@
 namespace builder {
 
 using ugdk::math::Vector2D;
-using ugdk::action::Entity;
 using pyramidworks::collision::CollisionLogic;
 using pyramidworks::collision::CollisionObject;
 using sprite::WorldObject;
@@ -26,7 +26,7 @@ CollisionLogic DieCollision(const sprite::WObjWeakPtr& owner) {
 
 CollisionLogic DamageCollision(double damage) {
     return [damage](const CollisionObject* obj) {
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->data());
         if(wobj && wobj->damageable()) 
             wobj->damageable()->TakeDamage(damage);
     };
@@ -39,7 +39,7 @@ CollisionLogic DamageCollision(const std::string& constant_name) {
 CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& ownerweak, double damage) {
     return [ownerweak,damage](const CollisionObject* obj) {
         auto owner = ownerweak.lock();
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->owner());
+        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->data());
         if(wobj && owner && !owner->dead() && wobj->damageable()) {
             wobj->damageable()->TakeDamage(damage);
             owner->Die();
@@ -56,7 +56,7 @@ pyramidworks::collision::CollisionLogic BounceCollision(const sprite::WObjWeakPt
         auto owner = ownerweak.lock();
         if(!owner) return;
         component::StateController* controller = owner->component<component::StateController>();
-        WorldObject* wall = dynamic_cast<WorldObject*>(obj->owner());
+        WorldObject* wall = dynamic_cast<WorldObject*>(obj->data());
         if(!controller || !wall) return;
         ugdk::math::Vector2D projectile_position = owner->world_position();
         ugdk::math::Vector2D wall_position = wall->world_position();

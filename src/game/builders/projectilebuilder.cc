@@ -16,9 +16,10 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 
-#include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/structure/types.h>
+#include <ugdk/system/compatibility.h>
+#include <ugdk/system/engine.h>
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionmanager.h>
@@ -37,7 +38,7 @@ using sprite::WorldObject;
 using function::Carrier;
 
 static CollisionObject* buildCollisionObject(const sprite::WObjPtr& wobj, double radius) {
-    CollisionObject* col = new CollisionObject(wobj.get(), "Projectile", new pyramidworks::geometry::Circle(radius));
+    CollisionObject* col = new CollisionObject(wobj.get(), "Projectile", ugdk::MakeUnique<pyramidworks::geometry::Circle>(radius));
     col->AddCollisionLogic("Wall", DieCollision(wobj));
     return col;
 }

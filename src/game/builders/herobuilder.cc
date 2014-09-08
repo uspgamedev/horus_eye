@@ -1,10 +1,5 @@
 #include "herobuilder.h"
 
-#include <ugdk/resource/module.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/geometry/circle.h>
-#include <pyramidworks/geometry/rect.h>
-
 #include "game/components/damageable.h"
 #include "game/components/animation.h"
 #include "game/components/graphic.h"
@@ -23,6 +18,12 @@
 #include "game/map/room.h"
 #include "game/scenes/world.h"
 #include "game/campaigns/campaign.h"
+
+#include <ugdk/resource/module.h>
+#include <ugdk/system/compatibility.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/circle.h>
+#include <pyramidworks/geometry/rect.h>
 
 namespace builder {
 namespace HeroBuilder {
@@ -45,7 +46,7 @@ CollisionLogic MummySlowCollision(component::Walker* walker) {
 }
 
 void SetupCollision(sprite::WorldObject* obj) {
-    CollisionObject* col = new CollisionObject(obj, "Hero", new pyramidworks::geometry::Circle(0.3));
+    CollisionObject* col = new CollisionObject(obj, "Hero", ugdk::MakeUnique<pyramidworks::geometry::Circle>(0.3));
     col->AddCollisionLogic("Wall", obj->component<Walker>()->CreateRectCollision());
     col->AddCollisionLogic("Mummy", MummySlowCollision(obj->component<component::Walker>()));
 

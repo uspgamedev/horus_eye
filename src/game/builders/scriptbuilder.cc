@@ -3,6 +3,7 @@
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
 #include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/geometricshape.h>
 
 #include "scriptbuilder.h"
 
@@ -40,7 +41,7 @@ bool check_for_fields(const VirtualObj& logic, const std::string& f1 = std::stri
 CollisionLogic ScriptCollision(VirtualObj logic, WorldObject* owner) {
     assert(logic);
     return [logic, owner](const CollisionObject* obj) {
-        WorldObject *another = dynamic_cast<WorldObject*>(obj->owner());
+        WorldObject *another = dynamic_cast<WorldObject*>(obj->data());
         assert(logic.valid());
         logic(owner, another);
     };
@@ -53,13 +54,13 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
     }
 
     using pyramidworks::geometry::GeometricShape;
-    GeometricShape* shape = coldata["shape"].value<GeometricShape*>(true);
+    std::unique_ptr<GeometricShape> shape(coldata["shape"].value<GeometricShape*>(true));
     if(!shape) {
         fprintf(stdout, "Warning: field 'shape' has invalid value.");
         return NULL;
     }
 
-    CollisionObject* colobj = new CollisionObject(wobj, coldata["class"].value<std::string>(), shape);
+    CollisionObject* colobj = new CollisionObject(wobj, coldata["class"].value<std::string>(), std::move(shape));
 
     if(coldata["known_collision"]) {
         VirtualObj::Map custom_collisions = coldata["known_collision"].value<VirtualObj::Map>();

@@ -47,7 +47,7 @@ void ChangeConsoleLanguage(const std::string&);
 void LoadTextureAtlas(const std::string& tag, const std::string& filepath);
 void LoadTextureAtlas(const std::string& tag, ugdk::graphic::TextureAtlas* atlas);
 
-sprite::WorldObject* ToWorldObject(ugdk::action::Entity*);
+sprite::WorldObject* ToWorldObject(pyramidworks::collision::CollisionData*);
 
 } // namespace context
 

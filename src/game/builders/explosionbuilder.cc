@@ -1,11 +1,5 @@
 #include "explosionbuilder.h"
 
-#include <functional>
-#include <ugdk/action/animationplayer.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/collision/collisionmanager.h>
-#include <pyramidworks/geometry/circle.h>
-
 #include "game/builders/collision.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/damageable.h"
@@ -16,6 +10,14 @@
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
+
+#include <ugdk/system/compatibility.h>
+#include <ugdk/action/animationplayer.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/collision/collisionmanager.h>
+#include <pyramidworks/geometry/circle.h>
+
+#include <functional>
 
 namespace builder {
 namespace ExplosionBuilder {
@@ -44,7 +46,7 @@ sprite::WObjPtr FireballExplosion() {
 
     wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
 
-    CollisionObject* col = new CollisionObject(nullptr, "Explosion", new pyramidworks::geometry::Circle(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
+    CollisionObject* col = new CollisionObject(nullptr, "Explosion", ugdk::MakeUnique<pyramidworks::geometry::Circle>(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
     wobj->AddComponent(new Body(col, nullptr));
     col->AddCollisionLogic("Creature", builder::DamageCollision(constants::GetInt("FIREBALL_EXPLOSION_DAMAGE")));
 

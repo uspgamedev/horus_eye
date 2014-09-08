@@ -39,10 +39,11 @@ WObjPtr WorldObject::Create(double duration) {
 }
 
 WorldObject::WorldObject(double duration)
-    :   identifier_("Generic World Object")
-    ,   current_room_(nullptr)
-    ,   timed_life_(nullptr)
-    ,   dead_(false)
+    : identifier_("Generic World Object")
+    , current_room_(nullptr)
+    , timed_life_(nullptr)
+    , dead_(false)
+    , to_be_removed_(false)
 {
     if(duration > 0.0)
         this->set_timed_life(duration);

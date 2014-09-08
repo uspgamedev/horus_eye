@@ -1,10 +1,5 @@
 #include "mummybuilder.h"
 
-#include <ugdk/resource/module.h>
-#include <ugdk/graphic/node.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/geometry/circle.h>
-
 #include "game/builders/itembuilder.h"
 #include "game/builders/aibuilder.h"
 #include "game/ai/ai.h"
@@ -23,6 +18,12 @@
 #include "game/resources/energy.h"
 #include "game/sprites/objecthandle.h"
 
+#include <ugdk/resource/module.h>
+#include <ugdk/system/compatibility.h>
+#include <ugdk/graphic/node.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/circle.h>
+
 #include <unordered_map>
 
 namespace builder {
@@ -36,13 +37,12 @@ using component::Animation;
 using component::Walker;
 using resource::Energy;
 using ugdk::math::Vector2D;
-using ugdk::action::Entity;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::collision::CollisionLogic;
 
 CollisionLogic AntiStackCollision(Walker* data_) {
     return [data_](const CollisionObject* obj) {
-        sprite::WorldObject* wobj = dynamic_cast<sprite::WorldObject*>(obj->owner());
+        sprite::WorldObject* wobj = dynamic_cast<sprite::WorldObject*>(obj->data());
         Vector2D deviation = (data_->owner()->world_position() - wobj->world_position()).Normalize() * 0.9;
         data_->set_offset_direction(deviation);
     };
@@ -116,7 +116,7 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj,
     Walker* walker = new Walker(speed);
     wobj->AddComponent(walker);
 
-    CollisionObject* col = new CollisionObject(nullptr, "Mummy", new pyramidworks::geometry::Circle(radius));
+    CollisionObject* col = new CollisionObject(nullptr, "Mummy", ugdk::MakeUnique<pyramidworks::geometry::Circle>(radius));
     wobj->AddComponent(new component::Body(col, nullptr));
     col->AddCollisionLogic("Mummy", AntiStackCollision(walker));
     col->AddCollisionLogic("Wall", walker->CreateRectCollision());

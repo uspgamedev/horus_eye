@@ -1,5 +1,6 @@
 #include "game/map/loader.h"
 
+#include <ugdk/system/compatibility.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/math/vector2D.h>
@@ -97,7 +98,7 @@ bool BlocksVision (char obj) {
 void AddObstacle (Room* room, double x, double y, double width, double height) {
     sprite::WObjPtr wobj = WorldObject::Create();
     
-    CollisionObject* vis = new CollisionObject(wobj.get(), "Opaque", new pyramidworks::geometry::Rect(width, height));
+    CollisionObject* vis = new CollisionObject(wobj.get(), "Opaque", ugdk::MakeUnique<pyramidworks::geometry::Rect>(width, height));
     
     wobj->AddComponent(new Body(nullptr, vis));
     room->AddObject(wobj, Vector2D(x, y));

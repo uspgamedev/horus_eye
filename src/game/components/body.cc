@@ -21,9 +21,9 @@ Body::~Body() {}
 void Body::OnAdd(sprite::WorldObject* owner) {
     owner_ = owner;
     for (const auto& col : collisions_)
-        col->set_owner(owner_);
+        col->set_data(owner_);
     if (visibility_)
-        visibility_->set_owner(owner_);
+        visibility_->set_data(owner_);
 }
     
 void Body::Activate(scene::World* world) {
@@ -45,7 +45,7 @@ void Body::ChangePosition(const ugdk::math::Vector2D& pos) {
 }
     
 void Body::AddCollision(pyramidworks::collision::CollisionObject* collision) {
-    collision->set_owner(owner_);
+    collision->set_data(owner_);
     collisions_.emplace_back(collision);
 }
 

@@ -1,7 +1,6 @@
 #ifndef HORUSEYE_GAME_UTILS_HUD_H_
 #define HORUSEYE_GAME_UTILS_HUD_H_
 
-#include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
 #include "game/scenes/world.h"
 #include "game/config.h"
@@ -11,7 +10,7 @@ class Skill;
 } // skills
 
 namespace utils {
-class Hud: public ugdk::action::Entity {
+class Hud {
   public:
     Hud(scene::World*);
     virtual ~Hud();

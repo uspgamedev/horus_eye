@@ -8,11 +8,11 @@
 #include <memory>
 
 #include <ugdk/math/vector2D.h>
-#include <ugdk/action/entity.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
 #include <pyramidworks/collision.h>
 #include <pyramidworks/geometry.h>
+#include <pyramidworks/collision/collisiondata.h>
 
 #include "game/scenes.h"
 #include "game/components.h"
@@ -23,7 +23,7 @@
 
 namespace sprite {
 
-class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_from_this<WorldObject> {
+class WorldObject : public ::pyramidworks::collision::CollisionData, public std::enable_shared_from_this<WorldObject> {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
     static WObjPtr Create(double duration = -1.0);
@@ -47,6 +47,7 @@ class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_fro
     void set_world_position(const ugdk::math::Vector2D& pos);
 
     bool dead() const { return dead_; }
+    bool to_be_removed() const { return to_be_removed_; }
 
     void set_timed_life(double);
 
@@ -168,6 +169,9 @@ class WorldObject : public ::ugdk::action::Entity, public std::enable_shared_fro
 
     /// Is this object dead?
     bool dead_;
+
+    /// Should this object memory be freed when the frame ends?
+    bool to_be_removed_;
 
     struct OrderedComponent {
         component::Base* component;

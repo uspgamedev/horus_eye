@@ -1,5 +1,6 @@
 #include "lightrendering.h"
 
+#include <ugdk/action/events.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
@@ -192,7 +193,9 @@ LightRendering::LightRendering(World* world)
 , world_(world)
 {
     this->set_identifier("Light Rendering");
-    this->set_focus_callback(std::mem_fn(&Scene::Finish));
+    this->event_handler().AddListener<action::SceneFocusEvent>([this](const action::SceneFocusEvent& ev) {
+        ev.scene->Finish();
+    });
 
     Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0/world->size().x, 2.0/world->size().y));
     shadow_buffer_.set_projection_matrix(project_matrix);

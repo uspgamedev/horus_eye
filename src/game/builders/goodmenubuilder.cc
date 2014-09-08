@@ -2,6 +2,7 @@
 
 #include <ugdk/input/keycode.h>
 #include <ugdk/action.h>
+#include <ugdk/action/events.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/mediaplayer.h>
 #include <ugdk/action/spritetypes.h>
@@ -57,14 +58,14 @@ namespace builder {
 
 namespace {
 
-void MenuFocus(Scene* scene) {
-    scene->set_active(true);
-    scene->set_visible(true);
+void MenuFocus(const ugdk::action::SceneFocusEvent& ev) {
+    ev.scene->set_active(true);
+    ev.scene->set_visible(true);
 }
 
-void MenuDeFocus(Scene* scene) {
-    scene->set_active(false);
-    scene->set_visible(false);
+void MenuDeFocus(const ugdk::action::SceneDefocusEvent& ev) {
+    ev.scene->set_active(false);
+    ev.scene->set_visible(false);
 }
 
 void MainMenuCredits(const Button * source) {
@@ -79,45 +80,42 @@ void MainMenuCredits(const Button * source) {
     ugdk::system::PushScene(scroll);
 }
 
-class AnimationPlayerHolder : public ugdk::action::Entity {
-public:
-    AnimationPlayerHolder() {}
+class AnimationPlayerHolder : public ugdk::system::Task {
+  public:
+    AnimationPlayerHolder() : Task([this](double dt) {
+        for (auto& p : players_)
+            p->Update(dt);
+    }) {}
     ~AnimationPlayerHolder() {}
 
     void Add(std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player) {
         players_.push_back(player);
     }
 
-    void Update(double dt) override {
-        for (auto& p : players_)
-            p->Update(dt);
-    }
-
-private:
+  private:
     std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
 };
 
-Menu* BaseBuildMenu(Scene* scene, Drawable::HookPoint hook = Drawable::CENTER) {
-    scene->set_focus_callback(MenuFocus);
-    scene->set_defocus_callback(MenuDeFocus);
+Menu* BaseBuildMenu(Drawable::HookPoint hook = Drawable::CENTER) {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
     utils::MenuImageFactory mif;
 
     auto holder = new AnimationPlayerHolder;
     Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), hook);
+    menu->event_handler().AddListener(MenuFocus);
+    menu->event_handler().AddListener(MenuDeFocus);
+
     for (int i = 0; i < 2; ++i) {
         auto sprite = mif.HorusEye();
         menu->SetOptionDrawable(sprite.first, i);
         holder->Add(sprite.second);
     }
-    scene->AddEntity(holder);
+    menu->AddTask(*holder);
 
     menu->AddCallback(ugdk::input::Keycode::ESCAPE, pyramidworks::ui::Menu::FINISH_MENU);
     menu->AddCallback(ugdk::input::Keycode::RETURN, pyramidworks::ui::Menu::INTERACT_MENU);
-    scene->AddEntity(menu);
 
-    scene->StopsPreviousMusic(false);
-    scene->set_render_function(std::bind(std::mem_fn(&ugdk::graphic::Node::Render), menu->node(), _1));
+    menu->StopsPreviousMusic(false);
     return menu;
 }
 
@@ -126,9 +124,8 @@ Menu* BaseBuildMenu(Scene* scene, Drawable::HookPoint hook = Drawable::CENTER) {
 Scene* PauseMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    ugdk::action::Scene* pause_menu = new Scene();
-    Menu* menu = BaseBuildMenu(pause_menu);
-    pause_menu->set_identifier("Pause Menu");
+    Menu* menu = BaseBuildMenu();
+    menu->set_identifier("Pause Menu");
 
     Drawable* cont_text = ugdk::resource::GetLanguageWord("Continue")->CreateLabel();
     Drawable* exit_text = ugdk::resource::GetLanguageWord("Return to Menu")->CreateLabel();
@@ -139,9 +136,9 @@ Scene* PauseMenu() {
     ugdk::math::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    menu->AddObject(new Button(cont_position, cont_text, [pause_menu](const Button*) { pause_menu->Finish(); }));
-    menu->AddObject(new Button(exit_position, exit_text, [pause_menu](const Button*) { 
-        pause_menu->Finish();
+    menu->AddObject(new Button(cont_position, cont_text, [menu](const Button*) { menu->Finish(); }));
+    menu->AddObject(new Button(exit_position, exit_text, [menu](const Button*) {
+        menu->Finish();
         auto current_campaign = campaigns::Campaign::CurrentCampaign();
         current_campaign->current_level()->Finish();
         current_campaign->Finish();
@@ -152,15 +149,14 @@ Scene* PauseMenu() {
     //bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     //pause_menu->interface_node()->set_drawable(bg);
 
-    return pause_menu;
+    return menu;
 }
 
 Scene* CampaignMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    ugdk::action::Scene* mission_menu = new Scene();
-    mission_menu->set_identifier("Campaign Menu");
-    Menu* menu = BaseBuildMenu(mission_menu, Drawable::LEFT);
+    Menu* menu = BaseBuildMenu(Drawable::LEFT);
+    menu->set_identifier("Campaign Menu");
 
     double y = 100.0;
 
@@ -171,8 +167,8 @@ Scene* CampaignMenu() {
             new Button(
             Vector2D(200.0, y),
             new Label(campaign.name(), TEXT_MANAGER()->GetFont("FontB")),
-            [campaign, mission_menu](const Button*) {
-                mission_menu->Finish();
+            [campaign, menu](const Button*) {
+                menu->Finish();
                 ugdk::system::PushScene(new campaigns::Campaign(campaign));
         }));
 
@@ -181,17 +177,16 @@ Scene* CampaignMenu() {
 
     menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->screen()->size().y - 100.0),
                                GetLanguageWord("Exit")->CreateLabel(),
-                               [mission_menu](const Button*) { mission_menu->Finish(); }));
+                               [menu](const Button*) { menu->Finish(); }));
 
-    return mission_menu;
+    return menu;
 }
 
 Scene* MainMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    ugdk::action::Scene* main_menu = new Scene();
-    Menu* menu = BaseBuildMenu(main_menu);
-    main_menu->set_identifier("Main Menu");
+    Menu* menu = BaseBuildMenu();
+    menu->set_identifier("Main Menu");
 
     ugdk::graphic::Drawable *logo = new ugdk::graphic::TexturedRectangle(ugdk::resource::GetTextureFromFile("images/logo_560x334_black.png"));
     logo->set_hotspot(ugdk::graphic::Drawable::TOP);
@@ -238,9 +233,9 @@ Scene* MainMenu() {
     menu->AddObject(new Button(play_position,     play_text,     [](const Button*) { ugdk::system::PushScene(CampaignMenu()); }));
     menu->AddObject(new Button(settings_position, settings_text, [](const Button*) { ugdk::system::PushScene(SettingsMenu()); }));
     menu->AddObject(new Button(credits_position,  credits_text,  MainMenuCredits));
-    menu->AddObject(new Button(exit_position,     exit_text,     [main_menu](const Button*) { main_menu->Finish(); }));
+    menu->AddObject(new Button(exit_position,     exit_text,     [menu](const Button*) { menu->Finish(); }));
 
-    return main_menu;
+    return menu;
 }
 
 struct SettingsFunction {
@@ -363,9 +358,8 @@ static void ApplySettings(const Button * source) {
 Scene* SettingsMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    ugdk::action::Scene* settings_menu = new Scene();
-    Menu* menu = BaseBuildMenu(settings_menu);
-    settings_menu->set_identifier("Settings Menu");
+    Menu* menu = BaseBuildMenu();
+    menu->set_identifier("Settings Menu");
 
     std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(menu->node()));
     double left_column = target.x * 0.20;
@@ -384,12 +378,12 @@ Scene* SettingsMenu() {
 
     {   Drawable* img = ugdk::resource::GetLanguageWord("Exit")->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (ConveninentSettingsData::NUM_SETTINGS + 3));
-        menu->AddObject(new Button(pos, img, [settings_menu](const Button*) { settings_menu->Finish(); })); }
+        menu->AddObject(new Button(pos, img, [menu](const Button*) { menu->Finish(); })); }
 
     menu->AddCallback(ugdk::input::Keycode::RIGHT , bind(PressArrow, data, +1, _1));
     menu->AddCallback(ugdk::input::Keycode::LEFT  , bind(PressArrow, data, -1, _1));
 
-    return settings_menu;
+    return menu;
 }
 
 }

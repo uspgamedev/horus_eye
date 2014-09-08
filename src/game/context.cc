@@ -12,6 +12,7 @@
 #include "game/components/body.h"
 #include "game/ai/ai.h"
 
+#include <ugdk/system/compatibility.h>
 #include <ugdk/debug/log.h>
 #include <ugdk/math/vector2D.h>
 #include <pyramidworks/collision/collisionobject.h>
@@ -96,7 +97,7 @@ void AddAIComponent(const sprite::ObjectHandle& wobj, ai::AI* the_ai) {
 
 void AddCollisionObjectRect(const sprite::ObjectHandle& handle, const string& colclass, double width,
                             double height) {
-    handle->body()->AddCollision(new CollisionObject(nullptr, colclass, new Rect(width, height)));
+    handle->body()->AddCollision(new CollisionObject(nullptr, colclass, ugdk::MakeUnique<Rect>(width, height)));
 }
 
 void EnableDeathAnimation(const sprite::ObjectHandle& handle) {
@@ -112,7 +113,7 @@ static void findCollisions(CollisionClass &colclass, const GeometricShape& shape
     CollisionObjectList result;
     colclass.FindCollidingObjects(pos, shape, result);
     for(const CollisionObject * obj : result)
-        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->owner()))
+        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data()))
             objects_colliding.push_back(wobj);
 }
 
@@ -140,8 +141,8 @@ void ChangeConsoleLanguage(const std::string& lang) {
     scene::Console::ChangeLanguage(lang);
 }
 
-sprite::WorldObject* ToWorldObject(ugdk::action::Entity* entity) {
-    return dynamic_cast<sprite::WorldObject*>(entity);
+sprite::WorldObject* ToWorldObject(pyramidworks::collision::CollisionData* data) {
+    return dynamic_cast<sprite::WorldObject*>(data);
 }
 
 } // namespace context

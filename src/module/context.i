@@ -14,7 +14,6 @@
 
 %}
 
-%import(module="ugdk_action") <ugdk/action/entity.h>
 %import(module="ugdk_action") <ugdk/action/observer.h>
 %import(module="ugdk_math") <ugdk/math/vector2D.h>
 %import(module="pyramidworks_geometry") <pyramidworks/geometry.h>

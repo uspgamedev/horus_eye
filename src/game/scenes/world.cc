@@ -184,7 +184,9 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     set_identifier("World");
 
     hud_ = new utils::Hud(this);
-    this->AddEntity(hud_);
+    this->AddTask([this](double dt) {
+        hud_->Update(dt);
+    });
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->screen()->size()*0.5;
@@ -259,7 +261,6 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
 
 // Destrutor
 World::~World() {
-    RemoveAllEntities();
     removeAllRooms();
 }
 
