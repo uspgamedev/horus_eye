@@ -21,10 +21,6 @@
 #include "game/scenes/world.h"
 #include "game/sprites/worldobject.h"
 
-
-// debug
-#include <ugdk/input/module.h>
-
 namespace scene {
 
 using namespace ugdk;
@@ -185,23 +181,6 @@ namespace {
 
         canvas.PopVisualEffect();
     }
-
-    void DrawBuffer(Canvas& canvas, ugdk::graphic::RenderTexture& buffer) {
-        VertexData data(4, sizeof(VertexXYUV), false, true);
-        {
-            VertexData::Mapper mapper(data);
-            mapper.Get<VertexXYUV>(0)->set_xyuv(0.0f, 0.0f, 0.0f, 0.0f);
-            mapper.Get<VertexXYUV>(1)->set_xyuv(buffer.size().x, 0.0f, 1.0f, 0.0f);
-            mapper.Get<VertexXYUV>(2)->set_xyuv(0.0f, buffer.size().y, 0.0f, 1.0f);
-            mapper.Get<VertexXYUV>(3)->set_xyuv(buffer.size().x, buffer.size().y, 1.0f, 1.0f);
-        }
-        TextureUnit unit = graphic::manager()->ReserveTextureUnit(buffer.texture());
-        canvas.SendUniform("drawable_texture", unit);
-        canvas.SendVertexData(data, VertexType::VERTEX, offsetof(VertexXYUV, position));
-        canvas.SendVertexData(data, VertexType::TEXTURE, offsetof(VertexXYUV, texture));
-        glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    }
-
 }
 
 
@@ -215,8 +194,6 @@ LightRendering::LightRendering(World* world)
     this->set_identifier("Light Rendering");
     this->set_focus_callback(std::mem_fn(&Scene::Finish));
 
-    printf("Creating LightRendering. Size %d, %d\n", world->size().x, world->size().y);
-
     Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0/world->size().x, 2.0/world->size().y));
     shadow_buffer_.set_projection_matrix(project_matrix);
     light_buffer_.set_projection_matrix(project_matrix);
@@ -226,12 +203,9 @@ LightRendering::LightRendering(World* world)
 
     this->set_render_function([this](Canvas& canvas) {
         // Render the shadows.
-
-        //if (shadowcasting_actiavated_) {
+        if (shadowcasting_actiavated_) {
             ShadowCasting();
-            if (input::manager()->keyboard().IsDown(input::Keycode::n))
-                DrawBuffer(canvas, shadow_buffer_);
-        //}
+        }
 
         // Lights are simply added together.
         if (lightsystem_activated_) {
@@ -247,12 +221,6 @@ LightRendering::LightRendering(World* world)
         } else {
             Canvas light_canvas(&light_buffer_);
             light_canvas.Clear(Color(1.0, 1.0, 1.0, 1.0));
-        }
-
-        if (input::manager()->keyboard().IsDown(input::Keycode::b)) {
-            canvas.PushAndCompose(Color(1, 0, 0, 0.5));
-            DrawBuffer(canvas, light_buffer_);
-            canvas.PopVisualEffect();
         }
     });
 }
