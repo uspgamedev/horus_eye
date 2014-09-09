@@ -5,7 +5,7 @@
 
 %include "std_string.i"
 %include "std_map.i"
-%include "memory.i"
+%include "module/memory.i"
 
 %{
 
