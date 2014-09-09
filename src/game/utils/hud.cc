@@ -2,13 +2,13 @@
 
 #include <ugdk/math/vector2D.h>
 #include <ugdk/system/engine.h>
-#include <ugdk/graphic/text/textmanager.h>
+#include <ugdk/text/module.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/text/label.h>
+#include <ugdk/text/label.h>
 #include <ugdk/time/module.h>
 
 #include "game/config.h"
@@ -47,7 +47,7 @@ static Drawable* ConvertNumberToText(int val, bool center = true) {
 #else
     std::string s = std::to_string(val);
 #endif
-    Drawable* result = new Label(s, TEXT_MANAGER()->current_font());
+    Drawable* result = new text::Label(s, ugdk::text::manager()->current_font());
     if(center) result->set_hotspot(Drawable::CENTER);
     return result;
 }
@@ -166,7 +166,7 @@ Hud::Hud(World* world)
 
     Node* fps_node = new Node;
 
-    Drawable* fps_label = new Label("FPS: ", TEXT_MANAGER()->current_font());
+    Drawable* fps_label = new text::Label("FPS: ", ugdk::text::manager()->current_font());
     fps_node->AddChild(new Node(fps_label));
     fps_node->AddChild(fps_meter_node_ = new Node(ConvertNumberToText(0)));
     fps_meter_node_->geometry().set_offset(Vector2D(fps_label->width(), 0.0));

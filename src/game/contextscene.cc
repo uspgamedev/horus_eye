@@ -3,9 +3,9 @@
 #include "game/scenes/scrollingimagescene.h"
 #include "game/utils/settings.h"
 
-#include <ugdk/graphic/text/label.h>
-#include <ugdk/graphic/text/textbox.h>
-#include <ugdk/graphic/text/textmanager.h>
+#include <ugdk/text/label.h>
+#include <ugdk/text/textbox.h>
+#include <ugdk/text/module.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
@@ -20,11 +20,11 @@
 namespace context {
 
 using ugdk::math::Vector2D;
-using ugdk::graphic::TextBox;
+using ugdk::text::TextBox;
 
 void ShowScrollingText(const std::string& tag) {
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord(tag);
-    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->screen()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     ugdk::action::Scene *scroll = new scene::ScrollingImageScene(nullptr, textbox, 55);
     if (utils::Settings::reference()->background_music())
@@ -44,7 +44,7 @@ void ShowImageAsScene(const std::string& tag, bool is_filename) {
 }
 
 void ShowTextAsScene(const std::string& message) {
-    ugdk::action::Scene *scroll = new scene::ImageScene(nullptr, new ugdk::graphic::Label(message, TEXT_MANAGER()->GetFont("DejaVuMono")));
+    ugdk::action::Scene *scroll = new scene::ImageScene(nullptr, new ugdk::text::Label(message, ugdk::text::manager()->GetFont("DejaVuMono")));
     ugdk::system::PushScene(scroll);
 }
 

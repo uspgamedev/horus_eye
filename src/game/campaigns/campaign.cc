@@ -23,7 +23,6 @@ using namespace sprite;
 
 using ugdk::graphic::Drawable;
 using ugdk::graphic::TexturedRectangle;
-using ugdk::graphic::TextBox;
 
 namespace campaigns {
 

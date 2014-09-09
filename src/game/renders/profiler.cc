@@ -3,9 +3,9 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>
-#include <ugdk/graphic/text/textmanager.h>
-#include <ugdk/graphic/text/label.h>
-#include <ugdk/graphic/text/textbox.h>
+#include <ugdk/text/module.h>
+#include <ugdk/text/label.h>
+#include <ugdk/text/textbox.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
@@ -14,7 +14,7 @@
 #include <sstream>
 
 using namespace ugdk;
-using namespace ugdk::graphic;
+using namespace ugdk::text;
 using math::Vector2D;
 
 namespace renders
@@ -33,7 +33,7 @@ void DrawSectionData(ugdk::graphic::Canvas& canvas, const std::shared_ptr<const 
     std::stringstream msg;
     SectionDataToString(msg, "", data);
 
-    TextBox box(msg.str(), screen_width, TEXT_MANAGER()->current_font());
+    TextBox box(msg.str(), screen_width, ugdk::text::manager()->current_font());
 
     box.Draw(canvas);
 }

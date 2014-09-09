@@ -12,13 +12,13 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/input/module.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/text/textbox.h>
-#include <ugdk/graphic/text/textmanager.h>
 #include <ugdk/graphic/node.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/text/label.h>
+#include <ugdk/text/label.h>
+#include <ugdk/text/textbox.h>
+#include <ugdk/text/module.h>
 #include <ugdk/structure/intervalkdtree.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
@@ -47,7 +47,7 @@ using namespace std::placeholders;
 using ugdk::action::Scene;
 using ugdk::graphic::Drawable;
 using ugdk::graphic::Node;
-using ugdk::graphic::Label;
+using ugdk::text::Label;
 using pyramidworks::ui::Menu;
 using pyramidworks::ui::Button;
 using pyramidworks::ui::UIElement;
@@ -69,10 +69,10 @@ void MenuDeFocus(const ugdk::action::SceneDefocusEvent& ev) {
 }
 
 void MainMenuCredits(const Button * source) {
-    using ugdk::graphic::TextBox;
+    using ugdk::text::TextBox;
 
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
-    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->screen()->size().x, TEXT_MANAGER()->GetFont(langword->font()));
+    TextBox* textbox = new TextBox(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     Scene *scroll = new scene::ScrollingImageScene(NULL, textbox, 55);
     if (Settings::reference()->background_music())
@@ -166,7 +166,7 @@ Scene* CampaignMenu() {
         menu->AddObject(
             new Button(
             Vector2D(200.0, y),
-            new Label(campaign.name(), TEXT_MANAGER()->GetFont("FontB")),
+            new Label(campaign.name(), ugdk::text::manager()->GetFont("FontB")),
             [campaign, menu](const Button*) {
                 menu->Finish();
                 ugdk::system::PushScene(new campaigns::Campaign(campaign));
@@ -193,7 +193,7 @@ Scene* MainMenu() {
     Node* logo_node = new Node(logo);
     logo_node->geometry().set_offset(Vector2D(target.x * 0.5, 0.0));
 
-    ugdk::graphic::Drawable *version = new ugdk::graphic::Label(constants::version(), TEXT_MANAGER()->GetFont("FontD"));
+    ugdk::graphic::Drawable *version = new Label(constants::version(), ugdk::text::manager()->GetFont("FontD"));
     version->set_hotspot(ugdk::graphic::Drawable::BOTTOM_LEFT);
     Node* version_node = new Node(version);
     version_node->geometry().set_offset(Vector2D(10.0, target.y - 10.0));
@@ -310,8 +310,7 @@ struct ConveninentSettingsData {
                 if(word)
                     img = word->CreateLabel();
                 else
-                    img = new ugdk::graphic::Label(this->setting_functions_[i].values[j],
-                                                   TEXT_MANAGER()->GetFont("FontB"));
+                    img = new Label(this->setting_functions_[i].values[j], ugdk::text::manager()->GetFont("FontB"));
                 img->set_hotspot(Drawable::CENTER);
                 this->nodes_[i][j] = new Node(img);
                 this->nodes_[i][j]->geometry().set_offset(Vector2D(second_column_x, 70.0 * (i + 1)));

@@ -3,6 +3,7 @@
 
 #include <ugdk/action/scene.h>
 #include <ugdk/graphic.h>
+#include <ugdk/text.h>
 #include <ugdk/system/compatibility.h>
 
 #include <memory>
@@ -30,10 +31,10 @@ class Console : public ugdk::action::Scene {
     void UpdateCurrentLine();
 
     std::unique_ptr<ugdk::graphic::Node> node_;
-    ugdk::graphic::TextBox* history_textbox_;
+    ugdk::text::TextBox* history_textbox_;
     std::list<std::string> history_;
     std::list<std::string> current_line_;
-    ugdk::graphic::Label* current_line_label_;
+    ugdk::text::Label* current_line_label_;
 };
 
 } // namespace scene

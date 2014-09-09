@@ -10,9 +10,8 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/node.h>
-#include <ugdk/graphic/drawable/functions.h>
-#include <ugdk/graphic/text/textbox.h>
-#include <ugdk/graphic/text/textmanager.h>
+#include <ugdk/text/textbox.h>
+#include <ugdk/text/module.h>
 #include <ugdk/time/module.h>
 #include <ugdk/input/events.h>
 #include <ugdk/input/module.h>
@@ -54,7 +53,7 @@ bool render_sprites = true;
 bool render_collision = false;
 bool render_visibility = false;
 bool render_profiler = false;
-std::shared_ptr<graphic::TextBox> profiler_text(nullptr);
+std::shared_ptr<text::TextBox> profiler_text(nullptr);
 }
 
 void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
@@ -221,10 +220,10 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
 #endif
 
     if (!profiler_text)
-        profiler_text.reset(new graphic::TextBox(
+        profiler_text.reset(new text::TextBox(
             "Press F10 to fetch profiler data.",
             graphic::manager()->screen()->size().x,
-            TEXT_MANAGER()->current_font()));
+            ugdk::text::manager()->current_font()));
 
     set_render_function([this](graphic::Canvas& canvas) {
 

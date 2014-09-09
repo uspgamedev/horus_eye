@@ -10,7 +10,6 @@
 #include <ugdk/graphic/rendertexture.h>
 #include <ugdk/graphic/visualeffect.h>
 #include <ugdk/graphic/vertexdata.h>
-#include <ugdk/graphic/drawable/functions.h>
 #include <ugdk/graphic/opengl/shader.h>
 #include <ugdk/graphic/opengl/shaderprogram.h>
 #include <ugdk/graphic/opengl/vertexbuffer.h>
