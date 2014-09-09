@@ -13,6 +13,7 @@
 #include <game/map.h>
 #include <game/map/room.h>
 #include <game/map/tile.h>
+#include <game/map/giantfloor.h>
 #include <game/sprites/worldobject.h>
 
 %}
