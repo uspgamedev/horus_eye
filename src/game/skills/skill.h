@@ -5,7 +5,7 @@
 #include <functional>
 #include <string>
 
-#include <ugdk/graphic.h>
+#include <ugdk/ui.h>
 #include "game/components.h"
 
 namespace skills {
@@ -22,7 +22,7 @@ class Skill {
     virtual ~Skill() {}
 
     /// Returns the icon associated with this skill.
-    ugdk::graphic::Drawable* icon() const { return icon_; }
+    ugdk::ui::Drawable* icon() const { return icon_; }
 
     /// Uses the skill.
     virtual void Use(component::Caster* caster) const {
@@ -43,14 +43,14 @@ class Skill {
     /**
       @param icon The icon that is displayed on the user interface.
       */
-    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use) 
+    Skill(ugdk::ui::Drawable* icon, SkillUseFunction use) 
         : icon_(icon), use_(use) {}
     
-    Skill(ugdk::graphic::Drawable* icon, SkillUseFunction use, SkillValidFunction valid) 
+    Skill(ugdk::ui::Drawable* icon, SkillUseFunction use, SkillValidFunction valid) 
         : icon_(icon), use_(use), valid_(valid) {}
 
   private:
-    ugdk::graphic::Drawable* icon_;
+    ugdk::ui::Drawable* icon_;
     SkillUseFunction use_;
     SkillValidFunction valid_;
 };

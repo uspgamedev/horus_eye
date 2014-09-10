@@ -6,14 +6,14 @@
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/sprite.h>
-#include <pyramidworks/ui/drawable.h>
+#include <ugdk/ui/drawable/primitive.h>
 
 namespace utils {
 
 MenuImageFactory::MenuImageFactory() {}
 
 std::pair<
-    ugdk::graphic::Drawable*,
+    ugdk::ui::Drawable*,
     std::shared_ptr<ugdk::action::SpriteAnimationPlayer>
 > MenuImageFactory::HorusEye() {
 
@@ -25,8 +25,8 @@ std::pair<
         *primitive, ugdk::resource::GetSpriteAnimationTableFromFile("resources/animations/menu.json"));
     player->Select("SELECTION_EYE");
 
-    auto d = new pyramidworks::ui::Drawable(primitive);
-    d->set_hotspot(ugdk::graphic::Drawable::CENTER);
+    auto d = new ugdk::ui::DrawablePrimitive(primitive);
+    d->set_hotspot(ugdk::ui::HookPoint::CENTER);
 
     return std::make_pair(d, player);
 }

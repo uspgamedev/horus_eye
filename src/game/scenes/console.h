@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_SCENES_CONSOLE_H_
 
 #include <ugdk/action/scene.h>
-#include <ugdk/graphic.h>
+#include <ugdk/ui.h>
 #include <ugdk/text.h>
 #include <ugdk/system/compatibility.h>
 
@@ -30,7 +30,7 @@ class Console : public ugdk::action::Scene {
   protected:
     void UpdateCurrentLine();
 
-    std::unique_ptr<ugdk::graphic::Node> node_;
+    std::unique_ptr<ugdk::ui::Node> node_;
     ugdk::text::TextBox* history_textbox_;
     std::list<std::string> history_;
     std::list<std::string> current_line_;

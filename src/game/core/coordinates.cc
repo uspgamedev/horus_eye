@@ -1,6 +1,5 @@
 #include "game/core/coordinates.h"
 
-#include <ugdk/graphic/node.h>
 #include "game/scenes/world.h"
 
 namespace core {

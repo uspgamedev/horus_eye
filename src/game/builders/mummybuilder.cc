@@ -20,7 +20,6 @@
 
 #include <ugdk/resource/module.h>
 #include <ugdk/system/compatibility.h>
-#include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
 

@@ -86,11 +86,11 @@ enable_disown(pyramidworks::collision::CollisionObject*)
 %include <game/components/direction.h>
 %include <game/components/animator.h>
 
-enable_disown(ugdk::graphic::Drawable* drawable)
+enable_disown(ugdk::ui::Drawable* drawable)
 enable_disown(Animator* animator)
 %include <game/components/graphic.h>
 disable_disown(Animator* animator)
-disable_disown(ugdk::graphic::Drawable* drawable)
+disable_disown(ugdk::ui::Drawable* drawable)
 
 %include <game/components/damageable.h>
 %include <game/components/lightemitter.h>

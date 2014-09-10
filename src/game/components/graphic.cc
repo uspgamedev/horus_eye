@@ -1,7 +1,6 @@
 #include "game/components/graphic.h"
 
 #include <glm/glm.hpp>
-#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
@@ -18,8 +17,6 @@
 namespace component {
 
 using ugdk::math::Vector2D;
-using ugdk::graphic::Node;
-using ugdk::graphic::Drawable;
 using ugdk::graphic::Primitive;
 
 Graphic::Graphic(Animator* animator)

@@ -1,8 +1,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/audio/module.h>
-#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/sprite.h>
-#include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/ui/drawable/texturedrectangle.h>
 #include <ugdk/system/engine.h>
 
 #include "game/map/room.h"

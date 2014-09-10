@@ -7,10 +7,8 @@
 #include "game/context.h"
 
 #include <ugdk/resource/module.h>
-#include <ugdk/graphic/node.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/drawable.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/system/engine.h>
@@ -20,9 +18,6 @@ using namespace ugdk;
 using namespace ugdk::action;
 using namespace scene;
 using namespace sprite;
-
-using ugdk::graphic::Drawable;
-using ugdk::graphic::TexturedRectangle;
 
 namespace campaigns {
 

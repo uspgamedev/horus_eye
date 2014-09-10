@@ -29,7 +29,6 @@ namespace map {
 using std::vector;
 using std::list;
 using sprite::WObjPtr;
-using ugdk::graphic::Node;
 using ugdk::script::VirtualObj;
 
 Room::Room(const std::string& name,

@@ -1,7 +1,5 @@
 #include "worldobject.h"
 
-#include <cassert>
-#include <ugdk/graphic/node.h>
 #include <ugdk/time/timeaccumulator.h>
 #include <pyramidworks/collision/collisionobject.h>
 
@@ -19,6 +17,7 @@
 #include "game/components/caster.h"
 #include "game/components/animation.h"
 
+#include <cassert>
 
 namespace sprite {
 

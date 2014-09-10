@@ -29,7 +29,6 @@
 namespace builder {
 namespace ProjectileBuilder {
 
-using ugdk::graphic::Drawable;
 using ugdk::math::Vector2D;
 using pyramidworks::collision::CollisionObject;
 using component::Direction;

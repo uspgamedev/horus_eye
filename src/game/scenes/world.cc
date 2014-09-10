@@ -9,7 +9,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/node.h>
+#include <ugdk/ui/node.h>
 #include <ugdk/text/textbox.h>
 #include <ugdk/text/module.h>
 #include <ugdk/time/module.h>

@@ -13,7 +13,7 @@ class CombatArt : public Skill {
       @param use A function that is called when the skill is used.
       @param mana_cost The mana cost.
       */
-    CombatArt(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost)
+    CombatArt(ugdk::ui::Drawable* icon, SkillUseFunction use, double mana_cost)
       : Skill(icon, use), mana_cost_(mana_cost), range_(-1.0) {}
     
     /**
@@ -23,7 +23,7 @@ class CombatArt : public Skill {
       @param mana_cost The mana cost.
       @param range The maxium range.
       */
-    CombatArt(ugdk::graphic::Drawable* icon, SkillUseFunction use, 
+    CombatArt(ugdk::ui::Drawable* icon, SkillUseFunction use, 
               SkillValidFunction valid, double mana_cost, double range)
       : Skill(icon, use, valid), mana_cost_(mana_cost), range_(range) {}
 

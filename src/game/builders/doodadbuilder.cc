@@ -16,8 +16,6 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/sprite.h>
-#include <ugdk/graphic/drawable/texturedrectangle.h>
-#include <ugdk/graphic/node.h>
 #include <pyramidworks/collision/collisiondata.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/rect.h>
@@ -31,9 +29,6 @@ namespace DoodadBuilder {
 using std::bind;
 using namespace std::placeholders;
 using ugdk::action::SpriteAnimationTable;
-using ugdk::graphic::Drawable;
-using ugdk::graphic::TexturedRectangle;
-using ugdk::graphic::Node;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::geometry::Rect;
 using component::Body;

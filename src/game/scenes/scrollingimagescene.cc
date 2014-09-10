@@ -2,8 +2,8 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/drawable.h>
-#include <ugdk/graphic/node.h>
+#include <ugdk/ui/drawable.h>
+#include <ugdk/ui/node.h>
 
 #include "scrollingimagescene.h"
 
@@ -15,7 +15,7 @@ namespace scene {
 using namespace ugdk;
 using ugdk::system::Task;
 using ugdk::action::Scene;
-using ugdk::graphic::Node;
+using ugdk::ui::Node;
 using ugdk::math::Vector2D;
 
 class ScrollingTask {
@@ -53,11 +53,11 @@ private:
     Vector2D movement_;
 };
 
-ScrollingImageScene::ScrollingImageScene(ugdk::graphic::Drawable *background, ugdk::graphic::Drawable *image, double time) :
-         ImageScene(background, image) {
-
+ScrollingImageScene::ScrollingImageScene(std::unique_ptr<ugdk::ui::Drawable>&& background, std::unique_ptr<ugdk::ui::Drawable>&& image, double time)
+:  ImageScene(std::move(background), std::move(image))
+{
     if(scene_layers_[IMG] && scene_layers_[IMG]->drawable()) {
-        AddTask(ScrollingTask(time, scene_layers_[IMG], this));
+        AddTask(ScrollingTask(time, scene_layers_[IMG].get(), this));
     }
 }
 

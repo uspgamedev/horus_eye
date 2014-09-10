@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_UTILS_HUDIMAGEFACTORY_H_
 
 #include <ugdk/action/spritetypes.h>
-#include <ugdk/graphic.h>
+#include <ugdk/ui.h>
 #include <memory>
 
 namespace utils {
@@ -13,7 +13,7 @@ class MenuImageFactory {
     ~MenuImageFactory(){}
 
     std::pair<
-        ugdk::graphic::Drawable*,
+        ugdk::ui::Drawable*,
         std::shared_ptr<ugdk::action::SpriteAnimationPlayer>
     > HorusEye();
 };

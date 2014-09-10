@@ -2,7 +2,7 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/graphic/drawable/texturedrectangle.h>
+#include <ugdk/ui/drawable/texturedrectangle.h>
 
 using namespace ugdk;
 

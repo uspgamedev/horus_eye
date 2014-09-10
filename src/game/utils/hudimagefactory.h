@@ -1,9 +1,9 @@
 #ifndef HORUSEYE_GAME_UTILS_HUDIMAGEFACTORY_H_
 #define HORUSEYE_GAME_UTILS_HUDIMAGEFACTORY_H_
 
-#include <ugdk/graphic.h>
+#include <ugdk/ui.h>
 
-using ugdk::graphic::TexturedRectangle;
+using ugdk::ui::TexturedRectangle;
 
 namespace utils {
 

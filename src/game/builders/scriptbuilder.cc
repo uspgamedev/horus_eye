@@ -1,9 +1,3 @@
-#include <functional>
-#include <ugdk/graphic/node.h>
-#include <ugdk/script/scriptmanager.h>
-#include <ugdk/script/virtualobj.h>
-#include <pyramidworks/collision/collisionobject.h>
-#include <pyramidworks/geometry/geometricshape.h>
 
 #include "scriptbuilder.h"
 
@@ -13,6 +7,13 @@
 #include "game/sprites/worldobject.h"
 #include "game/sprites/objecthandle.h"
 #include "game/scenes/world.h"
+
+#include <ugdk/script/scriptmanager.h>
+#include <ugdk/script/virtualobj.h>
+#include <pyramidworks/collision/collisionobject.h>
+#include <pyramidworks/geometry/geometricshape.h>
+
+#include <functional>
 
 namespace builder {
 namespace ScriptBuilder {

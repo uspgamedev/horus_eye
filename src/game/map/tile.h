@@ -1,15 +1,12 @@
 #ifndef HORUSEYE_GAME_MAP_TILE_H_
 #define HORUSEYE_GAME_MAP_TILE_H_
 
-#include <vector>
 #include <ugdk/graphic.h>
 #include <ugdk/math.h>
 #include <ugdk/math/vector2D.h>
 #include "game/map.h"
 
-#ifndef NULL
-#define NULL 0
-#endif
+#include <vector>
 
 namespace map {
 
@@ -42,20 +39,12 @@ class Tile {
     virtual ~Tile () {}
 
     bool valid() const { return pos_.i >= 0 && pos_.j >= 0; }
-    bool visible() const { return visible_; }
-    bool checked() const { return checked_; }
     char object() const { return object_; }
     void set_object(char object) { object_ = object; }
     int i() const { return pos_.i; }
     int j() const { return pos_.j; }
     const TilePos& pos() const { return pos_; }
-    ugdk::graphic::Node* floor() { return floor_; }
     bool has_floor() const { return object_ != EMPTY; }
-
-    void set_visible(bool value) { visible_ = value; }
-
-    void Check() { checked_ = true; }
-    void Uncheck() { checked_ = false; }
 
     Tile* Up(GameMap &map) const {
         return SafeGetFromMap(map, pos_.i-1, pos_.j);
@@ -83,17 +72,16 @@ class Tile {
         case      RIGHT: return Right(map); break;
         case       LEFT: return  Left(map); break;
                 
-        case   UP_RIGHT: aux =   Up(map); return aux ? aux->Right(map) : NULL; break;
-        case    UP_LEFT: aux =   Up(map); return aux ? aux->Left(map)  : NULL; break;
-        case DOWN_RIGHT: aux = Down(map); return aux ? aux->Right(map) : NULL; break;
-        case  DOWN_LEFT: aux = Down(map); return aux ? aux->Left(map)  : NULL; break;
+        case   UP_RIGHT: aux =   Up(map); return aux ? aux->Right(map) : nullptr; break;
+        case    UP_LEFT: aux =   Up(map); return aux ? aux->Left(map)  : nullptr; break;
+        case DOWN_RIGHT: aux = Down(map); return aux ? aux->Right(map) : nullptr; break;
+        case  DOWN_LEFT: aux = Down(map); return aux ? aux->Left(map)  : nullptr; break;
 
         default:break;
         }
-        return NULL;
+        return nullptr;
     }
 
-    static void CleanVisibility(GameMap &map);
     static TilePos ToTilePos(ugdk::math::Vector2D pos);
     static ugdk::math::Vector2D FromTilePos(const TilePos pos);
     static Tile* GetFromMapPosition(GameMap &map, TilePos pos) {
@@ -105,15 +93,13 @@ class Tile {
 
     TilePos pos_;
     char    object_;
-    bool    visible_, checked_;
-    ugdk::graphic::Node* floor_;
 
 
     static Tile* SafeGetFromMap(GameMap &map, int i, int j) {
         if (i < 0 || i >= (int)map.size())
-            return NULL;
+            return nullptr;
         if (j < 0 || j >= (int)map[i].size())
-            return NULL;
+            return nullptr;
         return map[i][j];
     }
 

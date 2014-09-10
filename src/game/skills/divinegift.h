@@ -14,7 +14,7 @@ class DivineGift : public CombatArt {
       @param mana_cost The mana cost.
       @param block_cost The block cost.
       */
-    DivineGift(ugdk::graphic::Drawable* icon, SkillUseFunction use, double mana_cost, int block_cost)
+    DivineGift(ugdk::ui::Drawable* icon, SkillUseFunction use, double mana_cost, int block_cost)
       : CombatArt(icon, use, mana_cost),
         block_cost_(block_cost) {}
     
@@ -26,7 +26,7 @@ class DivineGift : public CombatArt {
       @param block_cost The block cost.
       @param range The maxium range.
       */
-    DivineGift(ugdk::graphic::Drawable* icon, SkillUseFunction use, SkillValidFunction valid, 
+    DivineGift(ugdk::ui::Drawable* icon, SkillUseFunction use, SkillValidFunction valid, 
         double mana_cost, int block_cost, double range)
       : CombatArt(icon, use, valid, mana_cost, range),
         block_cost_(block_cost) {}

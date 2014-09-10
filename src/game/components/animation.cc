@@ -1,6 +1,5 @@
 #include "game/components/animation.h"
 
-#include <ugdk/graphic/node.h>
 #include <ugdk/time/timeaccumulator.h>
 
 #include "game/components/graphic.h"
