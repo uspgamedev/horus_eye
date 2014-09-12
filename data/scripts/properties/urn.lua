@@ -1,5 +1,4 @@
 
-require "ugdk.drawable"
 require "ugdk.graphic"
 require "pyramidworks.geometry"
 require "ugdk.math"
@@ -10,7 +9,6 @@ require "map"
 
 local graphics = require 'graphics'
 
-local Sprite = ugdk_drawable.Sprite
 local Circle = pyramidworks_geometry.Circle
 local vec2 = ugdk_math.Vector2D
 

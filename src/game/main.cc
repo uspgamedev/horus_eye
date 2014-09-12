@@ -86,12 +86,18 @@ int main(int argc, char *argv[]) {
     if(!ugdk::system::Initialize(engine_config))
         ExitWithFatalError("Could not initialize UGDK.");
 
-#if defined(EMBBEDED_UGDK) && defined(UGDK_PYTHON_ENABLED)
+#ifdef UGDK_PYTHON_ENABLED
+#ifdef EMBBEDED_UGDK
     {
         PyObject *path = PySys_GetObject("path");
         PyList_Append(path, PyString_FromString(EMBBEDED_UGDK "/src/generated"));
     }
-#endif
+#endif // EMBBEDED_UGDK
+    {
+        auto wrapper = SCRIPT_MANAGER()->GetWrapper("Python");
+        wrapper->ExecuteCode("import ugdk_ui");
+    }
+#endif // UGDK_PYTHON_ENABLED
     
     {
         auto wrapper = SCRIPT_MANAGER()->GetWrapper("Lua"); 

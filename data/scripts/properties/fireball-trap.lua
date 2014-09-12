@@ -1,5 +1,4 @@
 
-require "ugdk.drawable"
 require "ugdk.graphic"
 require "pyramidworks.geometry"
 require "ugdk.math"
@@ -7,7 +6,6 @@ require "component"
 require "context"
 require "builder"
 
-local Sprite = ugdk_drawable.Sprite
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj, params)

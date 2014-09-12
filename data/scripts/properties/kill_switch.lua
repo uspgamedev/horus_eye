@@ -1,6 +1,5 @@
 
 require "ugdk.action"
-require "ugdk.drawable"
 require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
@@ -9,7 +8,6 @@ require "map"
 
 local graphics = require 'graphics'
 
-local Sprite    = ugdk_drawable.Sprite
 local Rect      = pyramidworks_geometry.Rect
 
 local function make_switch ()

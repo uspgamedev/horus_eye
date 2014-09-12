@@ -1,6 +1,5 @@
 from math import pi, log
 from random import random
-import ugdk_action #POG
 from ugdk_math import Vector2D
 from pyramidworks_geometry import Circle
 from component import WorldObject, Controller

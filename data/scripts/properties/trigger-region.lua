@@ -1,5 +1,4 @@
 
-require "ugdk.drawable"
 require "ugdk.action"
 require "ugdk.math"
 require "pyramidworks.geometry"
