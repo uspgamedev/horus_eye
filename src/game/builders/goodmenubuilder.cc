@@ -112,8 +112,8 @@ Menu* BaseBuildMenu(ugdk::ui::HookPoint hook = ugdk::ui::HookPoint::CENTER) {
     }
     menu->AddTask(*holder);
 
-    menu->AddCallback(ugdk::input::Keycode::ESCAPE, ugdk::ui::Menu::FINISH_MENU);
-    menu->AddCallback(ugdk::input::Keycode::RETURN, ugdk::ui::Menu::INTERACT_MENU);
+    menu->AddCallback(ugdk::input::Keycode::ESCAPE, std::mem_fn(&ugdk::ui::Menu::Finish));
+    menu->AddCallback(ugdk::input::Keycode::RETURN, std::mem_fn(&ugdk::ui::Menu::InteractWithFocused));
 
     menu->StopsPreviousMusic(false);
     return menu;
