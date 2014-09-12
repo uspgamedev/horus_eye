@@ -12,19 +12,19 @@ class HudImageFactory {
     HudImageFactory();
     ~HudImageFactory(){}
 
-    TexturedRectangle* LifeBarImage();
-    TexturedRectangle* ManaBarImage();
-    TexturedRectangle* TotemImage();
-    TexturedRectangle* TotemBottomImage();
-    TexturedRectangle* BackImage();
-    TexturedRectangle* MummyCounterImage();
-    TexturedRectangle* FireballIconImage();
-    TexturedRectangle* EarthquakeIconImage();
-    TexturedRectangle* LightningIconImage();
-    TexturedRectangle* EyeImage();
-    TexturedRectangle* LightIconImage();
-    TexturedRectangle* SandstormIconImage();
-    TexturedRectangle* MeteorIconImage();
+    static TexturedRectangle* LifeBarImage();
+    static TexturedRectangle* ManaBarImage();
+    static TexturedRectangle* TotemImage();
+    static TexturedRectangle* TotemBottomImage();
+    static TexturedRectangle* BackImage();
+    static TexturedRectangle* MummyCounterImage();
+    static TexturedRectangle* FireballIconImage();
+    static TexturedRectangle* EarthquakeIconImage();
+    static TexturedRectangle* LightningIconImage();
+    static TexturedRectangle* EyeImage();
+    static TexturedRectangle* LightIconImage();
+    static TexturedRectangle* SandstormIconImage();
+    static TexturedRectangle* MeteorIconImage();
 };
 
 }

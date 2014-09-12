@@ -42,16 +42,15 @@ static void MummyRangedUse(component::Caster* caster) {
 }
 
 Skill* MummyMeleeBuild() {
-    return new CombatArt(NULL, MummyMeleeUse, SkillValidFunction(), 0.0, 1.0);
+    return new CombatArt(MummyMeleeUse, SkillValidFunction(), DrawableFactory(), 0.0, 1.0);
 }
 
 Skill* MummyRangedBuild() {
-    return new CombatArt(NULL, MummyRangedUse, SkillValidFunction(), 0.0, 
-        constants::GetDouble("RANGED_MUMMY_RANGE"));
+    return new CombatArt(MummyRangedUse, SkillValidFunction(), DrawableFactory(), 0.0, constants::GetDouble("RANGED_MUMMY_RANGE"));
 }
 
 Skill* PaperMeleeBuild() {
-    return new CombatArt(NULL, MummyPaperUse, SkillValidFunction(), 0.0, 1.0);
+    return new CombatArt(MummyPaperUse, SkillValidFunction(), DrawableFactory(), 0.0, 1.0);
 }
 
-}
+} // namespace skills

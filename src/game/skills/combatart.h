@@ -9,24 +9,21 @@ namespace skills {
 class CombatArt : public Skill {
   public:
     /**
-      @param icon The icon that is displayed on the user interface.
-      @param use A function that is called when the skill is used.
-      @param mana_cost The mana cost.
+    @param use A function that is called when the skill is used.
+    @param valid A function whose return value is considered for IsValidUse
+    @param icon A functino that creates a new icon for the skill.
+    @param mana_cost The mana cost.
+    @param range The maxium range.
       */
-    CombatArt(ugdk::ui::Drawable* icon, SkillUseFunction use, double mana_cost)
-      : Skill(icon, use), mana_cost_(mana_cost), range_(-1.0) {}
+    CombatArt(SkillUseFunction use,
+              SkillValidFunction valid,
+              DrawableFactory icon_factory,
+              double mana_cost,
+              double range = -1.0)
+      : Skill(use, valid, icon_factory)
+      , mana_cost_(mana_cost)
+      , range_(range) {}
     
-    /**
-      @param icon The icon that is displayed on the user interface.
-      @param use A function that is called when the skill is used.
-      @param valid A function whose return value is considered for IsValidUse
-      @param mana_cost The mana cost.
-      @param range The maxium range.
-      */
-    CombatArt(ugdk::ui::Drawable* icon, SkillUseFunction use, 
-              SkillValidFunction valid, double mana_cost, double range)
-      : Skill(icon, use, valid), mana_cost_(mana_cost), range_(range) {}
-
     /// Uses the skill, decrementing the caster's mana.
     /** This Use decrements the caster's mana by the mana cost when called. */
     virtual void Use(component::Caster*) const;
@@ -42,6 +39,7 @@ class CombatArt : public Skill {
     /// @return The mana cost for this skill.
     double mana_cost() const { return mana_cost_; }
 
+    /// @return The maximum range that this skill can be cast at.
     double range() const { return range_; }
 
   private:

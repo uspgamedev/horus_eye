@@ -75,11 +75,11 @@ static void PharaohSummonUse(component::Caster* caster) {
 
 
 Skill* PharaohRangedBuild() {
-    return new CombatArt(NULL, PharaohRangedUse, RangedIsValid, 0.0, -1.0);
+    return new CombatArt(PharaohRangedUse, RangedIsValid, DrawableFactory(), 0.0, -1.0);
 }
 
 Skill* PharaohSummonBuild() {
-    return new CombatArt(NULL, PharaohSummonUse, constants::GetInt("PHARAOH_SUMMON_MANA_COST"));
+    return new CombatArt(PharaohSummonUse, SkillValidFunction(), DrawableFactory(), constants::GetInt("PHARAOH_SUMMON_MANA_COST"));
 }
 
 }

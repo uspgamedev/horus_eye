@@ -1,17 +1,18 @@
 #ifndef HORUSEYE_GAME_SKILLS_SKILL_H_
 #define HORUSEYE_GAME_SKILLS_SKILL_H_
 
-#include <cstdlib>
+#include "game/components.h"
+#include <ugdk/ui/drawable.h>
+
 #include <functional>
 #include <string>
-
-#include <ugdk/ui.h>
-#include "game/components.h"
+#include <memory>
 
 namespace skills {
 
-typedef std::function<void (component::Caster*)>       SkillUseFunction;
-typedef std::function<bool (const component::Caster*)> SkillValidFunction;
+using SkillUseFunction = std::function<void(component::Caster*)>;
+using SkillValidFunction = std::function<bool(const component::Caster*)>;
+using DrawableFactory = std::function<std::unique_ptr<ugdk::ui::Drawable>()>;
 
 /// An usable skill.
 /** Abstract class. Contains an icon.
@@ -22,7 +23,9 @@ class Skill {
     virtual ~Skill() {}
 
     /// Returns the icon associated with this skill.
-    ugdk::ui::Drawable* icon() const { return icon_; }
+    std::unique_ptr<ugdk::ui::Drawable> CreateIcon() const {
+        return icon_factory_ ? icon_factory_() : nullptr;
+    }
 
     /// Uses the skill.
     virtual void Use(component::Caster* caster) const {
@@ -37,22 +40,21 @@ class Skill {
         return !valid_ || valid_(caster);
     }
 
-    static Skill* LoadFromFile(const std::string& filepath) { return NULL; }
+    static Skill* LoadFromFile(const std::string& filepath) { return nullptr; }
 
   protected:
-    /**
-      @param icon The icon that is displayed on the user interface.
-      */
-    Skill(ugdk::ui::Drawable* icon, SkillUseFunction use) 
-        : icon_(icon), use_(use) {}
+    Skill(SkillUseFunction use)
+        : use_(use) {}
     
-    Skill(ugdk::ui::Drawable* icon, SkillUseFunction use, SkillValidFunction valid) 
-        : icon_(icon), use_(use), valid_(valid) {}
+    Skill(SkillUseFunction use, SkillValidFunction valid, DrawableFactory icon_factory)
+        : use_(use)
+        , valid_(valid)
+        , icon_factory_(icon_factory) {}
 
   private:
-    ugdk::ui::Drawable* icon_;
     SkillUseFunction use_;
     SkillValidFunction valid_;
+    DrawableFactory icon_factory_;
 };
 
 } // namespace skills

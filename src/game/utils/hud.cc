@@ -211,9 +211,9 @@ void Hud::Update(double delta_t) {
             if(displayed_skill_ != caster->SkillAt(Controller::SECONDARY)) {
                 displayed_skill_ = caster->SkillAt(Controller::SECONDARY);
                 
-                //weapon_icon_->set_drawable(displayed_skill_->icon()); FIXME
-                if(displayed_skill_->icon())
-                    displayed_skill_->icon()->set_hotspot(HookPoint::CENTER);
+                weapon_icon_->set_drawable(displayed_skill_->CreateIcon());
+                if (weapon_icon_->drawable())
+                    weapon_icon_->drawable()->set_hotspot(HookPoint::CENTER);
             }
             // Mana Bar
             mana_bar_->geometry().set_offset(Vector2D(0.0, 
