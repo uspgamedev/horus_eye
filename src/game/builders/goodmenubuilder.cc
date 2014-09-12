@@ -68,16 +68,20 @@ void MenuDeFocus(const ugdk::action::SceneDefocusEvent& ev) {
     ev.scene->set_visible(false);
 }
 
+void FinishOwner(const ugdk::ui::Button* button) {
+    button->owner()->Finish();
+}
+
 void MainMenuCredits(const Button * source) {
     using ugdk::text::TextBox;
 
     ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
     auto textbox = ugdk::MakeUnique<TextBox>(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
-    Scene *scroll = new scene::ScrollingImageScene(nullptr, std::move(textbox), 55);
+    auto scroll = ugdk::MakeUnique<scene::ScrollingImageScene>(nullptr, std::move(textbox), 55);
     if (Settings::reference()->background_music())
         scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
-    ugdk::system::PushScene(scroll);
+    ugdk::system::PushScene(std::move(scroll));
 }
 
 class AnimationPlayerHolder : public ugdk::system::Task {
@@ -96,12 +100,12 @@ class AnimationPlayerHolder : public ugdk::system::Task {
     std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
 };
 
-Menu* BaseBuildMenu(ugdk::ui::HookPoint hook = ugdk::ui::HookPoint::CENTER) {
+std::unique_ptr<Menu> BaseBuildMenu(ugdk::ui::HookPoint hook = ugdk::ui::HookPoint::CENTER) {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
     utils::MenuImageFactory mif;
 
     auto holder = new AnimationPlayerHolder;
-    Menu* menu = new Menu(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), hook);
+    auto menu = ugdk::MakeUnique<Menu>(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), hook);
     menu->event_handler().AddListener(MenuFocus);
     menu->event_handler().AddListener(MenuDeFocus);
 
@@ -116,15 +120,15 @@ Menu* BaseBuildMenu(ugdk::ui::HookPoint hook = ugdk::ui::HookPoint::CENTER) {
     menu->AddCallback(ugdk::input::Keycode::RETURN, std::mem_fn(&ugdk::ui::Menu::InteractWithFocused));
 
     menu->StopsPreviousMusic(false);
-    return menu;
+    return std::move(menu);
 }
 
 }
 
-Scene* PauseMenu() {
+std::unique_ptr<Scene> PauseMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    Menu* menu = BaseBuildMenu();
+    std::unique_ptr<Menu> menu = BaseBuildMenu();
     menu->set_identifier("Pause Menu");
 
     std::unique_ptr<Drawable> cont_text(ugdk::resource::GetLanguageWord("Continue")->CreateLabel());
@@ -136,9 +140,9 @@ Scene* PauseMenu() {
     ugdk::math::Vector2D exit_position = target * 0.5;
     exit_position.y += exit_text->size().y;
 
-    menu->AddObject(new Button(cont_position, std::move(cont_text), [menu](const Button*) { menu->Finish(); }));
-    menu->AddObject(new Button(exit_position, std::move(exit_text), [menu](const Button*) {
-        menu->Finish();
+    menu->AddObject(new Button(cont_position, std::move(cont_text), FinishOwner));
+    menu->AddObject(new Button(exit_position, std::move(exit_text), [](const Button* btn) {
+        btn->owner()->Finish();
         auto current_campaign = campaigns::Campaign::CurrentCampaign();
         current_campaign->current_level()->Finish();
         current_campaign->Finish();
@@ -149,27 +153,27 @@ Scene* PauseMenu() {
     //bg->set_color(ugdk::Color(0.5, 0.5, 0.5, 0.5));
     //pause_menu->interface_node()->set_drawable(bg);
 
-    return menu;
+    return std::move(menu);
 }
 
-Scene* CampaignMenu() {
+std::unique_ptr<Scene> CampaignMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    Menu* menu = BaseBuildMenu(ugdk::ui::HookPoint::LEFT);
+    std::unique_ptr<Menu> menu = BaseBuildMenu(ugdk::ui::HookPoint::LEFT);
     menu->set_identifier("Campaign Menu");
 
     double y = 100.0;
 
-    for (const auto& campaign : campaigns::FindAllCampaignDescriptorsAt(constants::data_location() + "scripts/campaigns")) {
-        if (!campaign.playable()) continue;
+    for (const campaigns::CampaignDescriptor& campaign_descriptor : campaigns::FindAllCampaignDescriptorsAt(constants::data_location() + "scripts/campaigns")) {
+        if (!campaign_descriptor.playable()) continue;
 
         menu->AddObject(
             new Button(
             Vector2D(200.0, y),
-            ugdk::MakeUnique<Label>(campaign.name(), ugdk::text::manager()->GetFont("FontB")),
-            [campaign, menu](const Button*) {
-                menu->Finish();
-                ugdk::system::PushScene(new campaigns::Campaign(campaign));
+            ugdk::MakeUnique<Label>(campaign_descriptor.name(), ugdk::text::manager()->GetFont("FontB")),
+            [campaign_descriptor](const Button* btn) {
+                btn->owner()->Finish();
+                ugdk::system::PushScene(ugdk::MakeUnique<campaigns::Campaign>(campaign_descriptor));
         }));
 
         y += 50.0;
@@ -177,15 +181,15 @@ Scene* CampaignMenu() {
 
     menu->AddObject(new Button(Vector2D(200.0, ugdk::graphic::manager()->screen()->size().y - 100.0),
                                std::unique_ptr<Drawable>(GetLanguageWord("Exit")->CreateLabel()),
-                               [menu](const Button*) { menu->Finish(); }));
+                               [&menu](const Button*) { menu->Finish(); }));
 
-    return menu;
+    return std::move(menu);
 }
 
-Scene* MainMenu() {
+std::unique_ptr<Scene> MainMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    Menu* menu = BaseBuildMenu();
+    std::unique_ptr<Menu> menu = BaseBuildMenu();
     menu->set_identifier("Main Menu");
 
     auto logo = ugdk::MakeUnique<ugdk::ui::TexturedRectangle>(ugdk::resource::GetTextureFromFile("images/logo_560x334_black.png"));
@@ -230,12 +234,12 @@ Scene* MainMenu() {
     exit_position.x = target.x * 0.5;
     exit_position.y = target.y * 0.5 + settings_text->size().y + credits_text->size().y + 100.0;
 
-    menu->AddObject(new Button(play_position,     std::unique_ptr<Drawable>(play_text),     [](const Button*) { ugdk::system::PushScene(CampaignMenu()); }));
-    menu->AddObject(new Button(settings_position, std::unique_ptr<Drawable>(settings_text), [](const Button*) { ugdk::system::PushScene(SettingsMenu()); }));
+    menu->AddObject(new Button(play_position,     std::unique_ptr<Drawable>(play_text),     [](const Button*) { ugdk::system::PushSceneFactory(CampaignMenu); }));
+    menu->AddObject(new Button(settings_position, std::unique_ptr<Drawable>(settings_text), [](const Button*) { ugdk::system::PushSceneFactory(SettingsMenu); }));
     menu->AddObject(new Button(credits_position,  std::unique_ptr<Drawable>(credits_text),  MainMenuCredits));
-    menu->AddObject(new Button(exit_position,     std::unique_ptr<Drawable>(exit_text),     [menu](const Button*) { menu->Finish(); }));
+    menu->AddObject(new Button(exit_position,     std::unique_ptr<Drawable>(exit_text),     FinishOwner));
 
-    return menu;
+    return std::move(menu);
 }
 
 struct SettingsFunction {
@@ -355,10 +359,10 @@ static void ApplySettings(const Button * source) {
     ugdk::system::Suspend();
 }
 
-Scene* SettingsMenu() {
+std::unique_ptr<Scene> SettingsMenu() {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
 
-    Menu* menu = BaseBuildMenu();
+    std::unique_ptr<Menu> menu = BaseBuildMenu();
     menu->set_identifier("Settings Menu");
 
     std::shared_ptr<ConveninentSettingsData> data(new ConveninentSettingsData(menu->node()));
@@ -378,12 +382,12 @@ Scene* SettingsMenu() {
 
     {   Drawable* img = ugdk::resource::GetLanguageWord("Exit")->CreateLabel();
         ugdk::math::Vector2D pos = ugdk::math::Vector2D(left_column, 70.0 * (ConveninentSettingsData::NUM_SETTINGS + 3));
-        menu->AddObject(new Button(pos, std::unique_ptr<Drawable>(img), [menu](const Button*) { menu->Finish(); })); }
+        menu->AddObject(new Button(pos, std::unique_ptr<Drawable>(img), FinishOwner)); }
 
     menu->AddCallback(ugdk::input::Keycode::RIGHT , bind(PressArrow, data, +1, _1));
     menu->AddCallback(ugdk::input::Keycode::LEFT  , bind(PressArrow, data, -1, _1));
 
-    return menu;
+    return std::move(menu);
 }
 
 }

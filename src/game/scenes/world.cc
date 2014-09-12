@@ -134,7 +134,7 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
     }
 
     if (ev.scancode == input::Scancode::GRAVE) {
-        ugdk::system::PushScene(new Console);
+        ugdk::system::PushSceneFactory(&ugdk::MakeUnique<Console>);
     }
 
 
@@ -212,7 +212,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     
     this->event_handler().AddListener<input::KeyPressedEvent>([](const input::KeyPressedEvent& key) {
         if (key.scancode == ugdk::input::Scancode::ESCAPE)
-            ugdk::system::PushScene(builder::PauseMenu);
+            ugdk::system::PushSceneFactory(builder::PauseMenu);
     });
 
 #ifdef HORUSEYE_DEBUG_TOOLS

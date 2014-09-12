@@ -2,12 +2,13 @@
 #define HORUSEYE_GAME_BUILDERS_MENUBUILDER_H_
 
 #include <ugdk/action.h>
+#include <memory>
 
 namespace builder {
 
-ugdk::action::Scene* PauseMenu();
-ugdk::action::Scene* MainMenu();
-ugdk::action::Scene* SettingsMenu();
+std::unique_ptr<ugdk::action::Scene> PauseMenu();
+std::unique_ptr<ugdk::action::Scene> MainMenu();
+std::unique_ptr<ugdk::action::Scene> SettingsMenu();
 
 }
 

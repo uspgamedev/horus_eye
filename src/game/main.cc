@@ -51,7 +51,7 @@ void StartGame() {
     if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
         ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
-    ugdk::system::PushScene(builder::MainMenu);
+    ugdk::system::PushSceneFactory(builder::MainMenu);
 }
 
 void ExitWithFatalError(const std::string& msg) {

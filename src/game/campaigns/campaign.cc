@@ -67,11 +67,11 @@ bool Campaign::LoadLevel(const std::string& level_name) {
     utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path, &current_level_);
 
     if (current_level_) {
-        auto lr = new scene::LightRendering(current_level_);
-        current_level_->set_light_rendering(lr);
+        auto lr = ugdk::MakeUnique<scene::LightRendering>(current_level_);
+        current_level_->set_light_rendering(lr.get());
 
-        ugdk::system::PushScene(lr);
-        ugdk::system::PushScene(current_level_);
+        ugdk::system::PushScene(std::move(lr));
+        ugdk::system::PushScene(std::unique_ptr<Scene>(current_level_));
         current_level_->Start(this);
         return true;
     }
