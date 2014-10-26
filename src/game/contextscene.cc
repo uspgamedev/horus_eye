@@ -12,7 +12,7 @@
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/audio/module.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/util/languageword.h>
+#include <ugdk/text/languageword.h>
 #include <ugdk/system/compatibility.h>
 
 #include <cstdio>
@@ -24,7 +24,7 @@ using ugdk::math::Vector2D;
 using ugdk::text::TextBox;
 
 void ShowScrollingText(const std::string& tag) {
-    ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord(tag);
+    ugdk::text::LanguageWord* langword = ugdk::resource::GetLanguageWord(tag);
     auto textbox = ugdk::MakeUnique<TextBox>(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     auto scroll = ugdk::MakeUnique<scene::ScrollingImageScene>(nullptr, std::move(textbox), 55);

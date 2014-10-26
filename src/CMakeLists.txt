@@ -57,6 +57,7 @@ else()
 endif()
 set (GENERATED_PY_FILES)
 include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
+include_directories("${ugdk_SOURCE_DIR}/src") # for SWIG
 
 add_ugdk_executable(horus_eye ${GAME_SRCS} ${GENERATED_SRC})
 

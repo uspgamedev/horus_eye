@@ -14,7 +14,7 @@ MenuImageFactory::MenuImageFactory() {}
 
 std::pair<
     ugdk::ui::Drawable*,
-    std::shared_ptr<ugdk::action::SpriteAnimationPlayer>
+    std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>
 > MenuImageFactory::HorusEye() {
 
     auto primitive = std::make_shared<ugdk::graphic::Primitive>(nullptr, nullptr);

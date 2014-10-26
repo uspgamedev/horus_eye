@@ -2,8 +2,7 @@
 #include "objecthandle.h"
 
 #include "game/sprites/worldobject.h"
-
-#include <ugdk/graphic/opengl/Exception.h> // TODO: This is SOOOOO wrong.
+#include "game/sprites/exceptions.h"
 
 namespace sprite {
 
@@ -26,8 +25,8 @@ bool ObjectHandle::attached() const {
 
 WorldObject* ObjectHandle::operator-> () const {
     WObjPtr ptr = pointer_.lock();
-    if (!ptr)
-        throw love::Exception("Attempting to operate on unattached ObjectHandle.");
+    if (!ptr) 
+        throw InvalidObject();
     return ptr.get();
 }
 

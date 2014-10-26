@@ -28,7 +28,6 @@ namespace DoodadBuilder {
 
 using std::bind;
 using namespace std::placeholders;
-using ugdk::action::SpriteAnimationTable;
 using pyramidworks::collision::CollisionObject;
 using pyramidworks::geometry::Rect;
 using component::Body;

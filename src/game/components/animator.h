@@ -5,7 +5,7 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/components.h"     
 
-#include <ugdk/action/spritetypes.h>
+#include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
 
 #include <functional>
@@ -25,12 +25,12 @@ class Animator {
     void AddObserver(ugdk::action::Observer* observer);
     void AddTickFunction(const std::function<void (void)>& tick);
     
-    const std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player() { return player_; }
+    const std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>& player() { return player_; }
 
   private:
     void operator=(const Animator&);
 
-    std::shared_ptr<ugdk::action::SpriteAnimationPlayer> player_;
+    std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer> player_;
     utils::IsometricAnimationSet& isometric_animation_set_;
 
 };  // class Animator

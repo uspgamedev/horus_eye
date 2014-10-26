@@ -5,6 +5,7 @@
 #include "game/scenes/world.h"
 #include "game/builders/herobuilder.h"
 #include "game/context.h"
+#include "game/campaigns/exceptions.h"
 
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
@@ -12,7 +13,6 @@
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/system/engine.h>
-#include <ugdk/graphic/opengl/Exception.h>
 
 using namespace ugdk;
 using namespace ugdk::action;
@@ -33,8 +33,8 @@ Campaign::Campaign(const CampaignDescriptor& d)
 : current_level_(nullptr)
 , descriptor_(d)
 {
-    if (current_campaign_ != nullptr)
-        throw love::Exception("Creating a new Campaign while another exists.");
+    if (current_campaign_)
+        throw AnotherCampaignExists();
     current_campaign_ = this;
 
     implementation_ = SCRIPT_MANAGER()->LoadModule(descriptor_.script_path() + ".main")["new"](this);

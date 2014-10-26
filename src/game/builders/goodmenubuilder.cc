@@ -5,7 +5,6 @@
 #include <ugdk/action/events.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/action/mediaplayer.h>
-#include <ugdk/action/spritetypes.h>
 #include <ugdk/action/animationplayer.h>
 #include <ugdk/audio/module.h>
 #include <ugdk/system/engine.h>
@@ -14,13 +13,14 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/rendertarget.h>
+#include <ugdk/graphic/spritetypes.h>
 #include <ugdk/text/label.h>
 #include <ugdk/text/textbox.h>
 #include <ugdk/text/module.h>
 #include <ugdk/structure/intervalkdtree.h>
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
-#include <ugdk/util/languageword.h>
+#include <ugdk/text/languageword.h>
 #include <ugdk/ui/menu.h>
 #include <ugdk/ui/button.h>
 #include <ugdk/ui/node.h>
@@ -75,7 +75,7 @@ void FinishOwner(const ugdk::ui::Button* button) {
 void MainMenuCredits(const Button * source) {
     using ugdk::text::TextBox;
 
-    ugdk::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
+    ugdk::text::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
     auto textbox = ugdk::MakeUnique<TextBox>(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
     auto scroll = ugdk::MakeUnique<scene::ScrollingImageScene>(nullptr, std::move(textbox), 55);
@@ -92,12 +92,12 @@ class AnimationPlayerHolder : public ugdk::system::Task {
     }) {}
     ~AnimationPlayerHolder() {}
 
-    void Add(std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player) {
+    void Add(std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>& player) {
         players_.push_back(player);
     }
 
   private:
-    std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
+    std::list< std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer> > players_;
 };
 
 std::unique_ptr<Menu> BaseBuildMenu(ugdk::ui::HookPoint hook = ugdk::ui::HookPoint::CENTER) {
@@ -309,7 +309,7 @@ struct ConveninentSettingsData {
             size_t size = this->setting_functions_[i].values.size();
             this->nodes_[i] = new std::shared_ptr<Node>[size];
             for(size_t j = 0; j < size; ++j) {
-                ugdk::LanguageWord* word = ugdk::resource::GetLanguageWord(this->setting_functions_[i].values[j]);
+                ugdk::text::LanguageWord* word = ugdk::resource::GetLanguageWord(this->setting_functions_[i].values[j]);
                 std::unique_ptr<Drawable> img;
                 if(word)
                     img.reset(word->CreateLabel());

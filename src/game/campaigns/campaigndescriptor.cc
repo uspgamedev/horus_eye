@@ -1,9 +1,10 @@
 #include "campaigndescriptor.h"
 
+#include "game/campaigns/exceptions.h"
+
 #include <ugdk/system/engine.h>
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/script/scriptmanager.h>
-#include <ugdk/graphic/opengl/Exception.h>
 
 #include <cassert>
 #include <dirent.h>
@@ -15,7 +16,7 @@ template<class T, class ...Args>
 struct RaiseExceptionIfMissingAux<T, Args...> {
     static void Check(const ugdk::script::VirtualObj& obj, T v, Args... args) {
         if (!obj[v])
-            throw love::Exception("Missing field '%s'", v);
+            throw campaigns::MissingDescriptorField(v);
         RaiseExceptionIfMissingAux<Args...>::Check(obj, std::forward<Args>(args)...);
     }
 };

@@ -9,7 +9,6 @@
 #include "game/scenes/gamelayer.h"
 
 #include <ugdk/structure/types.h>
-#include <ugdk/action/spritetypes.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/primitive.h>

@@ -12,7 +12,7 @@
 #include <ugdk/desktop/module.h>
 #include <ugdk/desktop/window.h>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/util/languagemanager.h>
+#include <ugdk/text/module.h>
 
 #include "initializer.h"
 #include "constants.h"
@@ -23,7 +23,6 @@
 #include "game/builders/goodmenubuilder.h"
 
 #include <ugdk/script.h>
-#define MODULE_AUTO_LOAD(ACTION) ACTION(HORUS)
 
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>
@@ -37,6 +36,8 @@
 
 using namespace utils;
 
+extern int HORUS_MODULES_HEARTBEAT;
+
 void StartGame() {
     Settings* settings = Settings::reference();
 
@@ -48,7 +49,7 @@ void StartGame() {
 
     AddHorusShader();
 
-    if(!ugdk::system::language_manager()->Setup(settings->language_name())) {
+    if(!ugdk::text::manager()->Setup(settings->language_name())) {
         ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
     ugdk::system::PushSceneFactory(builder::MainMenu);
@@ -64,6 +65,7 @@ void ExitWithFatalError(const std::string& msg) {
 
 int main(int argc, char *argv[]) {
     Settings* settings = Settings::reference();
+    HORUS_MODULES_HEARTBEAT = 1;
 
     ugdk::system::Configuration engine_config;
     engine_config.canvas_size = settings->resolution_vector();
@@ -106,8 +108,8 @@ int main(int argc, char *argv[]) {
         SCRIPT_MANAGER()->LoadModule("init_constants");
     }
     
-    ugdk::system::language_manager()->RegisterLanguage("en_US", "text/lang_en.txt");
-    ugdk::system::language_manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
+    ugdk::text::manager()->RegisterLanguage("en_US", "text/lang_en.txt");
+    ugdk::text::manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
 
     ugdk::resource::manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::resource::GenericContainer<utils::IsometricAnimationSet*>);
     ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);

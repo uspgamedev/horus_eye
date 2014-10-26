@@ -44,7 +44,7 @@ std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES_CREATOR() {
 std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES = ANIMATIONTYPE_NAMES_CREATOR();
 
 
-IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set)
+IsometricAnimationSet::IsometricAnimationSet(ugdk::graphic::SpriteAnimationTable* animation_set)
     :   animation_set_(animation_set) {
         
     assert(animation_set);
@@ -68,7 +68,7 @@ int IsometricAnimationSet::Get(AnimtionType type, const component::Direction& di
 }
     
 IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& name) {
-    ugdk::action::SpriteAnimationTable* set = ugdk::resource::GetSpriteAnimationTableFromFile(name);
+    auto set = ugdk::resource::GetSpriteAnimationTableFromFile(name);
     if(set)
         return new IsometricAnimationSet(set);
     return nullptr;

@@ -56,6 +56,7 @@ SET(GAME_SRCS
     game/campaigns/campaign.h 
     game/campaigns/campaigndescriptor.cc 
     game/campaigns/campaigndescriptor.h 
+    game/campaigns/exceptions.h 
     game/components.h 
     game/components/animation.cc 
     game/components/animation.h 
@@ -145,6 +146,7 @@ SET(GAME_SRCS
     game/skills/usearguments.h 
     game/sprites.h 
     game/sprites/effect.h 
+    game/sprites/exceptions.h 
     game/sprites/objecthandle.cc 
     game/sprites/objecthandle.h 
     game/sprites/worldobject.cc 
