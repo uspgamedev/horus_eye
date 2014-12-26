@@ -239,6 +239,10 @@ const GLTexture* LightRendering::light_texture() const {
     return light_buffer_.texture();
 }
 
+ugdk::math::Vector2D LightRendering::CalculateUV(const ugdk::math::Vector2D& pos) const {
+    return pos.Divided(world_->size());
+}
+
 void LightRendering::ShadowCasting() {
     Canvas canvas(&shadow_buffer_);
     canvas.Clear(Color(0.0, 0.0, 0.0, 0.0));

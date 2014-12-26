@@ -87,8 +87,9 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
             glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
             glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
             Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
+            Vector2D lightUV = light_rendering->CalculateUV(obj->world_position());
             canvas.SendUniform("objectDepth", lightpos.y);
-            canvas.SendUniform("lightUV", obj->world_position().x / level()->size().x, obj->world_position().y / level()->size().y);
+            canvas.SendUniform("lightUV", lightUV.x, lightUV.y);
 
             canvas.PushAndCompose(primitive.visual_effect());
             primitive.drawfunction()(primitive, canvas);

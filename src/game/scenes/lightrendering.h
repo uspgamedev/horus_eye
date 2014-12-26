@@ -21,6 +21,7 @@ class LightRendering : public ugdk::action::Scene {
     void ToggleLightsystem();
 
     const ugdk::graphic::GLTexture* light_texture() const;
+    ugdk::math::Vector2D CalculateUV(const ugdk::math::Vector2D&) const;
 
   private:
     void ShadowCasting();
