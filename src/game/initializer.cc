@@ -5,10 +5,8 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shader.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
-#include <ugdk/internal/gltexture.h>
+#include <ugdk/graphic/shaderprogram.h>
+#include <ugdk/graphic/shader.h>
    
 using namespace ugdk;
 using namespace ugdk::graphic;
@@ -39,9 +37,9 @@ namespace {
 
 uint16 quad_to_triangles_indices[] = { 0, 1, 2, 0, 2, 3 };
 
-ugdk::graphic::opengl::ShaderProgram* horus_light_shader_ = nullptr;
+ShaderProgram* horus_light_shader_ = nullptr;
 void AddHorusLightShader() {
-    opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
+    Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
 
     // VERTEX
@@ -67,7 +65,7 @@ void AddHorusLightShader() {
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 
-    horus_light_shader_ = new opengl::ShaderProgram;
+    horus_light_shader_ = new ShaderProgram;
 
     horus_light_shader_->AttachShader(vertex_shader);
     horus_light_shader_->AttachShader(fragment_shader);
@@ -80,7 +78,7 @@ void AddHorusLightShader() {
 
 } // namespace
 
-ugdk::graphic::opengl::ShaderProgram* get_horus_light_shader() { return horus_light_shader_; }
+ShaderProgram* get_horus_light_shader() { return horus_light_shader_; }
 
 void AddHorusShader() {
     AddHorusLightShader();

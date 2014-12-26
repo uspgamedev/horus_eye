@@ -4,9 +4,8 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/opengl/shader.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
+#include <ugdk/graphic/shader.h>
+#include <ugdk/graphic/shaderprogram.h>
 #include <ugdk/graphic/defaultshaders.h>
 
 #include "game/core/coordinates.h"
@@ -26,11 +25,11 @@ namespace {
         GLfloat x, y, u, v;
     };
 
-    ugdk::graphic::opengl::ShaderProgram* continuous_light_shader_ = nullptr;
+    ShaderProgram* continuous_light_shader_ = nullptr;
     void AddHorusLightShader() {
         if (continuous_light_shader_) return;
 
-        opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
+        Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
         // VERTEX
         vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n"
@@ -58,7 +57,7 @@ namespace {
         fragment_shader.GenerateSource();
 
 
-        continuous_light_shader_ = new opengl::ShaderProgram;
+        continuous_light_shader_ = new ShaderProgram;
 
         continuous_light_shader_->AttachShader(vertex_shader);
         continuous_light_shader_->AttachShader(fragment_shader);

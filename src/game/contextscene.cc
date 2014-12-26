@@ -34,7 +34,7 @@ void ShowScrollingText(const std::string& tag) {
 }
 
 void ShowImageAsScene(const std::string& tag, bool is_filename) {
-    ugdk::internal::GLTexture* texture;
+    ugdk::graphic::GLTexture* texture;
     if (is_filename)
         texture = ugdk::resource::GetTextureFromFile(tag);
     else

@@ -6,9 +6,6 @@
 #include <ugdk/text/module.h>
 #include <ugdk/text/label.h>
 #include <ugdk/text/textbox.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shader.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <ugdk/debug/profiler.h>
 
 #include <sstream>

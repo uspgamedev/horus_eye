@@ -17,7 +17,6 @@
 %import(module="ugdk_system") <ugdk/system/taskplayer.h>
 %import(module="ugdk_action") <ugdk/action/scene.h>
 %import(module="ugdk_math") <ugdk/math/vector2D.h>
-%import(module="ugdk_internal") <ugdk/internal.h>
 %import(module="component") "component.i"
 %import(module="core") "game/scenes.h"
 

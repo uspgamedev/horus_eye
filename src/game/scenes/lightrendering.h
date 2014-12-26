@@ -4,7 +4,7 @@
 #include <ugdk/action/scene.h>
 
 #include <ugdk/graphic/rendertexture.h>
-#include <ugdk/internal.h>
+#include <ugdk/graphic.h>
 #include "game/scenes.h"
 
 #include <memory>
@@ -20,7 +20,7 @@ class LightRendering : public ugdk::action::Scene {
     void ToggleShadowcasting();
     void ToggleLightsystem();
 
-    const ugdk::internal::GLTexture* light_texture() const;
+    const ugdk::graphic::GLTexture* light_texture() const;
 
   private:
     void ShadowCasting();

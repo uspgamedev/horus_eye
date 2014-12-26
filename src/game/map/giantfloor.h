@@ -1,7 +1,6 @@
 #ifndef HORUSEYE_GAME_MAP_GIANTFLOOR_H_
 #define HORUSEYE_GAME_MAP_GIANTFLOOR_H_
 
-#include <ugdk/internal.h>
 #include <ugdk/graphic.h>
 #include <ugdk/graphic/vertexdata.h>
 #include <ugdk/math/vector2D.h>
@@ -24,7 +23,7 @@ class GiantFloor {
     ugdk::math::Vector2D size_;
     ugdk::math::Vector2D hotspot_;
     ugdk::graphic::VertexData data_;
-    ugdk::internal::GLTexture* texture_;
+    ugdk::graphic::GLTexture* texture_;
 };
 } // namespace map
 

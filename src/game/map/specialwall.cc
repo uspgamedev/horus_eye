@@ -6,8 +6,8 @@
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/textureatlas.h>
-#include <ugdk/graphic/opengl/shader.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
+#include <ugdk/graphic/shader.h>
+#include <ugdk/graphic/shaderprogram.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/graphic/defaultshaders.h>
 #include <ugdk/graphic/rendertarget.h>
@@ -22,10 +22,10 @@ using ugdk::math::Vector2D;
 
 namespace {
 Vector2D wall_hotspot_(53, 156);
-opengl::ShaderProgram* wall_light_shader_ = nullptr;
+ShaderProgram* wall_light_shader_ = nullptr;
 
-opengl::ShaderProgram* createWallShader() {
-    opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
+ShaderProgram* createWallShader() {
+    Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
     // VERTEX
     vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
@@ -60,7 +60,7 @@ opengl::ShaderProgram* createWallShader() {
     fragment_shader.AddLineInMain(" gl_FragColor = color;" "\n");
     fragment_shader.GenerateSource();
 
-    opengl::ShaderProgram* shader = new opengl::ShaderProgram;
+    ShaderProgram* shader = new ShaderProgram;
 
     shader->AttachShader(vertex_shader);
     shader->AttachShader(fragment_shader);

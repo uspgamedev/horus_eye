@@ -6,9 +6,6 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/vertexdata.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/shader.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/collision/collisionclass.h>
@@ -68,7 +65,7 @@ void DrawRect(const geometry::Rect* rect, const math::Vector2D& position, ugdk::
     }
     canvas.SendVertexData(data, VertexType::VERTEX, 0);
     canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float) * 2);
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+    canvas.DrawArrays(DrawMode::TRIANGLE_STRIP(), 0, 4);
 }
 
 void DrawCircle(const geometry::Circle* circle, const Vector2D& position, ugdk::graphic::Canvas& canvas)
@@ -94,7 +91,7 @@ void DrawCircle(const geometry::Circle* circle, const Vector2D& position, ugdk::
     }
     canvas.SendVertexData(data, VertexType::VERTEX, 0);
     canvas.SendVertexData(data, VertexType::TEXTURE, sizeof(float)* 2);
-    glDrawArrays(GL_TRIANGLE_FAN, 0, 10);
+    canvas.DrawArrays(DrawMode::TRIANGLE_FAN(), 0, 10);
 }
 
 void DrawShape(const geometry::GeometricShape* shape, const Vector2D& position, ugdk::graphic::Canvas& canvas)

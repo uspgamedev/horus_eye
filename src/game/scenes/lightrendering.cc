@@ -2,7 +2,6 @@
 
 #include <ugdk/action/events.h>
 #include <ugdk/system/engine.h>
-#include <ugdk/internal/opengl.h>
 #include <ugdk/debug/profiler.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/module.h>
@@ -10,9 +9,8 @@
 #include <ugdk/graphic/rendertexture.h>
 #include <ugdk/graphic/visualeffect.h>
 #include <ugdk/graphic/vertexdata.h>
-#include <ugdk/graphic/opengl/shader.h>
-#include <ugdk/graphic/opengl/shaderprogram.h>
-#include <ugdk/graphic/opengl/vertexbuffer.h>
+#include <ugdk/graphic/shader.h>
+#include <ugdk/graphic/shaderprogram.h>
 #include <pyramidworks/collision/collisionclass.h>
 #include <pyramidworks/collision/collisionobject.h>
 #include <pyramidworks/geometry/circle.h>
@@ -54,9 +52,9 @@ namespace {
         }
     };
 
-    ugdk::graphic::opengl::ShaderProgram* horus_shadowcasting_shader_ = nullptr;
+    ShaderProgram* horus_shadowcasting_shader_ = nullptr;
     void AddShadowcastingShader() {
-        opengl::Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
+        Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
         // VERTEX
         vertex_shader.AddCodeBlock("out highp vec2 P; " "\n");
@@ -79,7 +77,7 @@ namespace {
         fragment_shader.AddLineInMain(" gl_FragColor = vec4(alpha, alpha, alpha, 1.0);" "\n");
         fragment_shader.GenerateSource();
 
-        horus_shadowcasting_shader_ = new opengl::ShaderProgram;
+        horus_shadowcasting_shader_ = new ShaderProgram;
 
         horus_shadowcasting_shader_->AttachShader(vertex_shader);
         horus_shadowcasting_shader_->AttachShader(fragment_shader);
@@ -237,7 +235,7 @@ void LightRendering::ToggleLightsystem() {
     lightsystem_activated_ = !lightsystem_activated_;
 }
 
-const ugdk::internal::GLTexture* LightRendering::light_texture() const {
+const GLTexture* LightRendering::light_texture() const {
     return light_buffer_.texture();
 }
 

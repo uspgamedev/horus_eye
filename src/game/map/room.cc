@@ -12,7 +12,7 @@
 #include "game/components/body.h"
 #include "game/initializer.h"
 
-#include <ugdk/internal/opengl.h>
+#include <ugdk/graphic/opengl.h>
 #include <ugdk/debug/profiler.h>
 
 #include <ugdk/graphic/module.h>
