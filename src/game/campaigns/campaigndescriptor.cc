@@ -36,7 +36,7 @@ namespace campaigns {
 
     namespace {
         std::string ConvertAbsolutePathToScriptPath(const std::string& path) {
-            auto scripts_dir = ugdk::system::ResolvePath("scripts/");
+            auto scripts_dir = ugdk::system::CurrentConfiguration().base_path + "scripts/";
             auto scripts_dir_loc = path.find(scripts_dir);
             assert(scripts_dir_loc != std::string::npos);
             return SCRIPT_MANAGER()->ConvertPathToDottedNotation(path.substr(scripts_dir_loc + scripts_dir.size()));
