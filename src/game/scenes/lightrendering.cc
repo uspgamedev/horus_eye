@@ -29,6 +29,22 @@ using ugdk::math::Vector2D;
 namespace {
     double LIGHT_PRECISION = 64.0;
 
+    class Line {
+      public:
+        Line(const math::Vector2D& p1, const math::Vector2D& p2)
+            : a_(p1.y - p2.y)
+            , b_(p2.x - p1.x)
+            , c_(p1.x * p2.y - p2.x * p1.y)
+        {}
+
+        bool IsAbove(const math::Vector2D& v) const {
+            return a_ * v.x + b_ * v.y + c_ >= 0.0;
+        }
+
+      private:
+        double a_, b_, c_;
+    };
+
     struct VertexXY {
         glm::vec2 position;
         void set_xy(const math::Vector2D& v) {
@@ -57,24 +73,12 @@ namespace {
         Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
         // VERTEX
-        vertex_shader.AddCodeBlock("out highp vec2 P; " "\n");
         vertex_shader.AddLineInMain("   highp vec4 position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
         vertex_shader.AddLineInMain("   gl_Position = position;" "\n");
-        vertex_shader.AddLineInMain("   P = vertexPosition.xy;" "\n");
         vertex_shader.GenerateSource();
 
         // FRAGMENT
-        fragment_shader.AddCodeBlock("in highp vec2 P;" "\n");
-        fragment_shader.AddCodeBlock("uniform highp vec2 O;" "\n");
-        fragment_shader.AddCodeBlock("uniform highp vec2 A;" "\n");
-        fragment_shader.AddCodeBlock("uniform highp vec2 B;" "\n");
-        fragment_shader.AddLineInMain(" highp vec2 OP = P - O;" "\n");
-        fragment_shader.AddLineInMain(" highp vec2 AB = B - A;" "\n");
-        fragment_shader.AddLineInMain(" highp float angle = (O.y + OP.y * ((A.x - O.x) / OP.x) - A.y) / (AB.y - ((OP.y * AB.x) / OP.x));" "\n");
-        fragment_shader.AddLineInMain(" highp float alpha = 1.0 - abs(1.0 - 2.0 * angle);" "\n");
-        fragment_shader.AddLineInMain(" alpha = clamp(0.25 + 2.0 * alpha, 0.0, 1.0);" "\n");
-        fragment_shader.AddLineInMain(" alpha = 1.0;" "\n");
-        fragment_shader.AddLineInMain(" gl_FragColor = vec4(alpha, alpha, alpha, 1.0);" "\n");
+        fragment_shader.AddLineInMain(" gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);" "\n");
         fragment_shader.GenerateSource();
 
         horus_shadowcasting_shader_ = new ShaderProgram;
@@ -101,10 +105,6 @@ namespace {
             mapper.Get<VertexXY>(3)->set_xy(near_right);
         }
 
-        canvas.SendUniform("O", float(O.x), float(O.y));
-        canvas.SendUniform("A", float(near_left.x), float(near_left.y));
-        canvas.SendUniform("B", float(near_right.x), float(near_right.y));
-
         canvas.SendVertexData(data, VertexType::VERTEX, 0);
         manager()->DisableVertexType(VertexType::TEXTURE);
         glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -119,10 +119,10 @@ namespace {
         static const double near_distance = 0.02;
         static const double far_distance = 10.0;
 
-        double near_coef_left = near_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
-        double near_coef_right = near_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
-        double far_coef_left = far_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
-        double far_coef_right = far_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
+        double near_coef_left   =  near_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
+        double near_coef_right  =  near_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
+        double far_coef_left    =   far_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
+        double far_coef_right   =   far_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
 
         DrawQuadrilateral(
             left_point + left_vector   * far_coef_left, // far left
@@ -149,7 +149,8 @@ namespace {
         canvas.PushAndCompose(VisualEffect(Color(0.0, 0.0, 0.0, 0.5)));
 
         for (const collision::CollisionObject * obj : walls) {
-            std::list<Vector2D> vertices;
+            std::vector<Vector2D> vertices;
+            vertices.reserve(4);
             if (const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
                 Vector2D wall_size(wall_rect->width(), wall_rect->height());
                 Vector2D top_left = obj->absolute_position() - wall_size * 0.5;
@@ -164,17 +165,40 @@ namespace {
                 puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
             }
 
-            std::list<Vector2D> extremes;
-            for (const Vector2D& vertex : vertices) {
+            std::list<int> extremes;
+            for (size_t i = 0; i < vertices.size(); ++i) {
+                const auto& vertex = vertices[i];
                 Vector2D dir = (vertex - hero->world_position()).Normalize();
                 if (!is_inside(obj->shape(), obj->absolute_position(), vertex + dir * 0.01)
                     && !is_inside(obj->shape(), obj->absolute_position(), vertex - dir * 0.01))
-                    extremes.push_back(vertex);
+                    extremes.push_back(static_cast<int>(i));
             }
 
             // Choose the two points that have the widest angle.
-            if (!extremes.empty())
-                CreateAndDrawQuadrilateral(canvas, hero->world_position(), extremes.front(), extremes.back());
+            if (!extremes.empty()) {
+                Line l(vertices[extremes.front()], vertices[extremes.back()]);
+                bool eyeRelative = l.IsAbove(hero->world_position());
+
+                int startV = extremes.front();
+                int endV = extremes.back();
+                int numV = static_cast<int>(vertices.size());
+
+                bool shouldInvert = false;
+
+                // Checking if we should invert startV and endV.
+                if (startV + 1 != endV) { // if there's a vertex in the middle to check, yay
+                    shouldInvert = l.IsAbove(vertices[startV + 1]) == eyeRelative;
+                } else {
+                    shouldInvert = l.IsAbove(vertices[(endV + 1) % numV]) != eyeRelative;
+                }
+                if (shouldInvert) {
+                    startV = endV;
+                    endV = extremes.front() + numV;
+                }
+                for (int i = startV; i < endV; ++i) {
+                    CreateAndDrawQuadrilateral(canvas, hero->world_position(), vertices[i % numV], vertices[(i + 1) % numV]);
+                }
+            }
         }
 
         canvas.PopVisualEffect();
