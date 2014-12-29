@@ -54,9 +54,8 @@ class Graphic : public Base {
     bool visible() const;
     void set_visible(bool visible);
 
-    void Update(double dt);
-
-    virtual void OnAdd(sprite::WorldObject*);
+    void Update(double dt) override;
+    virtual void OnAdd(sprite::WorldObject*) override;
     
     Animator* animator() { return animator_.get(); }
     void ChangeToFrame(const std::string& frame_name);

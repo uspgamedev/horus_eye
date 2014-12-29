@@ -67,6 +67,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
 
     component::Damageable* damageable();
     component::Graphic* graphic();
+    component::Animator* animator();
     component::Animation* animation();
     component::Controller* controller();
     component::Caster* caster();

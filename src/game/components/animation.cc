@@ -1,9 +1,7 @@
 #include "game/components/animation.h"
 
-#include <ugdk/time/timeaccumulator.h>
-
-#include "game/components/graphic.h"
 #include "game/components/animator.h"
+#include "game/sprites/worldobject.h"
 
 using ugdk::math::Vector2D;
 
@@ -49,7 +47,7 @@ void Animation::Update(double dt) {}
     
 void Animation::OnAdd(sprite::WorldObject* wobj) {
     owner_ = wobj;
-    owner_->graphic()->animator()->AddObserver(this);
+    owner_->animator()->AddObserver(this);
     updateGraphic();
 }
 
@@ -96,7 +94,7 @@ void Animation::executeCallback() {
 }
     
 bool Animation::updateGraphic() {
-    return owner_->graphic()->animator()->ChangeAnimation(current_animation_, current_direction_);
+    return owner_->animator()->ChangeAnimation(current_animation_, current_direction_);
 }
 
 }  // namespace component

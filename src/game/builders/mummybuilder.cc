@@ -17,6 +17,7 @@
 #include "game/constants.h"
 #include "game/resources/energy.h"
 #include "game/sprites/objecthandle.h"
+#include "game/sprites/worldobject.h"
 
 #include <ugdk/resource/module.h>
 #include <ugdk/system/compatibility.h>
