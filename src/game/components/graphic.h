@@ -58,7 +58,7 @@ class Graphic : public Base {
 
     virtual void OnAdd(sprite::WorldObject*);
     
-    Animator* animator() { return animator_; }
+    Animator* animator() { return animator_.get(); }
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);
 
@@ -67,7 +67,7 @@ class Graphic : public Base {
     void UpdateFinalPosition();
 
     ugdk::graphic::Primitive primitive_;
-    Animator* animator_;
+    std::unique_ptr<Animator> animator_;
 
     scene::GameLayer layer_;
 

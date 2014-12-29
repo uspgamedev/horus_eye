@@ -28,9 +28,7 @@ Graphic::Graphic(Animator* animator)
         animator_->Configure(this);
 }
 
-Graphic::~Graphic() {
-    delete animator_;
-}
+Graphic::~Graphic() {}
     
 void Graphic::UpdateFinalPosition() {
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
