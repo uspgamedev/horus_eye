@@ -20,10 +20,16 @@ namespace {
 Animator::Animator(const std::string& animation_set) 
     :   isometric_animation_set_(utils::IsometricAnimationSet::LoadFromResourceManager(animation_set))
 {
+    player_.reset(new ugdk::graphic::SpriteAnimationPlayer(isometric_animation_set_.animation_set()));
 }
     
 void Animator::Configure(Graphic* graphic) {
-    player_ = ugdk::graphic::PrimitiveSetup::Sprite::CreateSpriteAnimationPlayer(graphic->primitive(), isometric_animation_set_.animation_set());
+    auto p = &graphic->primitive();
+    player_->set_frame_change_callback([p](const ugdk::graphic::SpriteAnimationFrame& frame) {
+        if (auto sprite = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(p->controller().get())) {
+            sprite->ChangeToAnimationFrame(frame);
+        }
+    });
 }
 
 bool Animator::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {
