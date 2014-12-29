@@ -116,8 +116,8 @@ namespace {
         Vector2D left_vector = left_point - from;
         Vector2D right_vector = right_point - from;
 
-        static const double near_distance = 0.02;
-        static const double far_distance = 10.0;
+        static const double near_distance = 0.0;
+        static const double far_distance = 15.0;
 
         double near_coef_left   =  near_distance / (left_vector - left_vector*wall_dir*wall_dir).length();
         double near_coef_right  =  near_distance / (right_vector - right_vector*wall_dir*wall_dir).length();
