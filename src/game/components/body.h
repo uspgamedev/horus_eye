@@ -25,7 +25,7 @@ class Body : public Base {
     ~Body();
 
     void Update(double) override {}
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
     
     void Activate(scene::World*);
     void Deactivate();
@@ -35,7 +35,7 @@ class Body : public Base {
     pyramidworks::collision::CollisionObject* main_collision () const { return collisions_.front().get(); }
 
   private:
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     std::list<std::unique_ptr<pyramidworks::collision::CollisionObject> > collisions_;
     

@@ -29,12 +29,12 @@ void EnableDeathAnimation(const sprite::ObjectHandle& handle);
 void GetCollidingObjects(const std::string& classname,
                          const pyramidworks::geometry::GeometricShape& shape, 
 						 const ugdk::math::Vector2D& pos,
-                         std::vector<sprite::WorldObject*> &objects_colliding);
+                         std::vector<sprite::WObjRawPtr> &objects_colliding);
 
 void GetCollidingVisibilityObjects(const std::string& classname,
                                    const pyramidworks::geometry::GeometricShape& shape, 
                                    const ugdk::math::Vector2D& pos,
-                                   std::vector<sprite::WorldObject*> &objects_colliding);
+                                   std::vector<sprite::WObjRawPtr> &objects_colliding);
 
 sprite::ObjectHandle hero();
 
@@ -47,7 +47,7 @@ void ChangeConsoleLanguage(const std::string&);
 void LoadTextureAtlas(const std::string& tag, const std::string& filepath);
 void LoadTextureAtlas(const std::string& tag, ugdk::graphic::TextureAtlas* atlas);
 
-sprite::WorldObject* ToWorldObject(pyramidworks::collision::CollisionData*);
+sprite::WObjRawPtr ToWorldObject(pyramidworks::collision::CollisionData*);
 
 } // namespace context
 

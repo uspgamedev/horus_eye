@@ -16,7 +16,7 @@ class Condition : public Base {
     static const char* DEFAULT_NAME() { return "condition"; }
     static int DEFAULT_ORDER() { return orders::LOGIC; }
 
-    Condition(sprite::WorldObject* owner);
+    Condition(sprite::WObjRawPtr owner);
     ~Condition();
     
     void Update(double dt);
@@ -24,11 +24,11 @@ class Condition : public Base {
     bool AddEffect(const std::shared_ptr<sprite::Effect>& new_effect);
     int CountEffectsByName(const std::string&) const;
 
-    sprite::WorldObject* owner() { return owner_; }
+    sprite::WObjRawPtr owner() { return owner_; }
 
   protected:
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     // The conditions currently affecting this creature.
     std::list< std::shared_ptr<sprite::Effect> > effects_;

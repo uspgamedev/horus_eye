@@ -55,7 +55,7 @@ class Graphic : public Base {
     void set_visible(bool visible);
 
     void Update(double dt) override;
-    virtual void OnAdd(sprite::WorldObject*) override;
+    virtual void OnAdd(sprite::WObjRawPtr) override;
     
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);

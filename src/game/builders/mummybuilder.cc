@@ -42,7 +42,7 @@ using pyramidworks::collision::CollisionLogic;
 
 CollisionLogic AntiStackCollision(Walker* data_) {
     return [data_](const CollisionObject* obj) {
-        sprite::WorldObject* wobj = dynamic_cast<sprite::WorldObject*>(obj->data());
+        sprite::WObjRawPtr wobj = dynamic_cast<sprite::WObjRawPtr>(obj->data());
         Vector2D deviation = (data_->owner()->world_position() - wobj->world_position()).Normalize() * 0.9;
         data_->set_offset_direction(deviation);
     };
@@ -51,7 +51,7 @@ CollisionLogic AntiStackCollision(Walker* data_) {
 namespace {
 
 
-void MummyDeath(sprite::WorldObject* wobj) {
+void MummyDeath(sprite::WObjRawPtr wobj) {
     int potion = rand() % 100;
     WObjPtr potion_obj;
     if (potion < 20) {

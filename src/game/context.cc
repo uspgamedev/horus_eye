@@ -33,7 +33,6 @@ using pyramidworks::collision::CollisionObjectList;
 using pyramidworks::collision::CollisionClass;
 using pyramidworks::geometry::GeometricShape;
 using pyramidworks::geometry::Rect;
-using sprite::WorldObject;
 using scene::World;
 using builder::ScriptBuilder::Script;
 using component::Animation;
@@ -103,28 +102,28 @@ void AddCollisionObjectRect(const sprite::ObjectHandle& handle, const string& co
 void EnableDeathAnimation(const sprite::ObjectHandle& handle) {
     if (!handle.attached()) return;
 
-    handle->set_start_to_die_callback([](WorldObject* wobj) -> void {
+    handle->set_start_to_die_callback([](sprite::WObjRawPtr wobj) -> void {
         wobj->component<Animation>()->ChangeAnimation(utils::DEATH);
     });
-    handle->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&WorldObject::Remove));
+    handle->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&sprite::WorldObject::Remove));
 }
 
-static void findCollisions(CollisionClass &colclass, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
+static void findCollisions(CollisionClass &colclass, const GeometricShape& shape, const Vector2D& pos, vector<sprite::WObjRawPtr>& objects_colliding) {
     CollisionObjectList result;
     colclass.FindCollidingObjects(pos, shape, result);
     for(const CollisionObject * obj : result)
-        if(WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data()))
+        if(sprite::WorldObject* wobj = dynamic_cast<sprite::WorldObject*>(obj->data()))
             objects_colliding.push_back(wobj);
 }
 
-void GetCollidingObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*> &objects_colliding) {
+void GetCollidingObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<sprite::WObjRawPtr> &objects_colliding) {
     World *world = WORLD();
     if (!world) return;
     CollisionClass &colclass = world->collision_manager()->Find(classname);
     findCollisions(colclass, shape, pos, objects_colliding);
 }
 
-void GetCollidingVisibilityObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<WorldObject*>& objects_colliding) {
+void GetCollidingVisibilityObjects(const string& classname, const GeometricShape& shape, const Vector2D& pos, vector<sprite::WObjRawPtr>& objects_colliding) {
     World *world = WORLD();
     if (!world) return;
     CollisionClass &colclass = world->visibility_manager()->Find(classname);
@@ -141,7 +140,7 @@ void ChangeConsoleLanguage(const std::string& lang) {
     scene::Console::ChangeLanguage(lang);
 }
 
-sprite::WorldObject* ToWorldObject(pyramidworks::collision::CollisionData* data) {
+sprite::WObjRawPtr ToWorldObject(pyramidworks::collision::CollisionData* data) {
     return dynamic_cast<sprite::WorldObject*>(data);
 }
 

@@ -45,7 +45,7 @@ CollisionLogic MummySlowCollision(component::Walker* walker) {
     };
 }
 
-void SetupCollision(sprite::WorldObject* obj) {
+void SetupCollision(sprite::WObjRawPtr obj) {
     CollisionObject* col = new CollisionObject(obj, "Hero", ugdk::MakeUnique<pyramidworks::geometry::Circle>(0.3));
     col->AddCollisionLogic("Wall", obj->component<Walker>()->CreateRectCollision());
     col->AddCollisionLogic("Mummy", MummySlowCollision(obj->component<component::Walker>()));
@@ -61,7 +61,7 @@ sprite::WObjPtr Kha() {
                          constants::GetInt("HERO_BASE_MANA_REGEN_RATIO"));
 
     sprite::WObjPtr hero = WorldObject::Create();
-    sprite::WorldObject* hero_wobj = hero.get();
+    sprite::WObjRawPtr hero_wobj = hero.get();
 
     hero_wobj->set_identifier("Hero");
     hero_wobj->set_tag("hero");

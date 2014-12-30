@@ -31,15 +31,15 @@ public:
     const std::string& identifier() const { return identifier_; }
     void set_identifier(const std::string& identifier) { identifier_ = identifier; }
 
-    sprite::WorldObject* target();
-    const std::vector<sprite::WorldObject*>& possible_targets() { return possible_targets_; }
+    sprite::WObjRawPtr target();
+    const std::vector<sprite::WObjRawPtr>& possible_targets() { return possible_targets_; }
 
 protected:
     std::string target_classname_;
     pyramidworks::geometry::GeometricShape* area_;
     std::string identifier_;
 
-    std::vector<sprite::WorldObject*> possible_targets_;
+    std::vector<sprite::WObjRawPtr> possible_targets_;
 };
 
 }

@@ -26,7 +26,7 @@ CollisionLogic DieCollision(const sprite::WObjWeakPtr& owner) {
 
 CollisionLogic DamageCollision(double damage) {
     return [damage](const CollisionObject* obj) {
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->data());
+        WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data());
         if(wobj && wobj->damageable()) 
             wobj->damageable()->TakeDamage(damage);
     };
@@ -39,7 +39,7 @@ CollisionLogic DamageCollision(const std::string& constant_name) {
 CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& ownerweak, double damage) {
     return [ownerweak,damage](const CollisionObject* obj) {
         auto owner = ownerweak.lock();
-        WorldObject *wobj = dynamic_cast<WorldObject *>(obj->data());
+        WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data());
         if(wobj && owner && !owner->dead() && wobj->damageable()) {
             wobj->damageable()->TakeDamage(damage);
             owner->Die();

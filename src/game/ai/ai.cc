@@ -45,7 +45,7 @@ void AI::Update(double dt) {
     dir_ = component::Direction::FromWorldVector(data_->direction());
 }
 
-void AI::OnAdd(sprite::WorldObject* owner) {
+void AI::OnAdd(sprite::WObjRawPtr owner) {
     owner_ = owner;
 }
 

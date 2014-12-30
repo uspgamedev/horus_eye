@@ -25,7 +25,7 @@ class Animator : public Base {
     void Configure(Graphic*);
 
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
     bool ChangeAnimation(const std::string& animation_name);

@@ -27,14 +27,14 @@ TargetDetector::~TargetDetector() {
 void TargetDetector::Start() {
 }
 
-static bool CompareWObjDist(WorldObject* owner, WorldObject* first, WorldObject* second) {
+static bool CompareWObjDist(sprite::WObjRawPtr owner, sprite::WObjRawPtr first, sprite::WObjRawPtr second) {
     double dist1 = (owner->world_position() - first->world_position()).LengthSquared();
     double dist2 = (owner->world_position() - second->world_position()).LengthSquared();
     return dist1 < dist2;
 }
 
 AIModule::Status TargetDetector::Update(double dt, AIData* data) {
-	WorldObject* owner = parent_->base()->owner();
+    sprite::WObjRawPtr owner = parent_->base()->owner();
 	
     if (area_ == NULL || target_classname_.size() <= 0 || identifier_.size() <= 0) {
         return AIModule::DORMANT;
@@ -46,11 +46,11 @@ AIModule::Status TargetDetector::Update(double dt, AIData* data) {
     //possible_targets_.sort(comp);
     std::sort(possible_targets_.begin(), possible_targets_.end(), comp);
 
-    WorldObject* closest_target = target();
+    sprite::WObjRawPtr closest_target = target();
     if (closest_target) {
         ugdk::script::VirtualObj vtarget (data->script_wrapper());
-        vtarget.set_value<WorldObject*>(closest_target);
-        vtarget.value<WorldObject*>(true); /*POG: set_value is giving ownership to the script... IT MUST NOT. */
+        vtarget.set_value<sprite::WObjRawPtr>(closest_target);
+        vtarget.value<sprite::WObjRawPtr>(true); /*POG: set_value is giving ownership to the script... IT MUST NOT. */
         data->SetSharedData(identifier_+"_target", vtarget);
     }
     else {
@@ -68,7 +68,7 @@ void TargetDetector::set_area(pyramidworks::geometry::GeometricShape* area) {
     area_ = area;
 }
 
-sprite::WorldObject* TargetDetector::target() {
+sprite::WObjRawPtr TargetDetector::target() {
     if (possible_targets_.empty())  return NULL;
     return possible_targets_.front();
 }

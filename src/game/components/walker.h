@@ -24,11 +24,11 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     ~Walker();
     
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
     pyramidworks::collision::CollisionLogic CreateRectCollision();
 
-    sprite::WorldObject* owner() { return owner_; }
+    sprite::WObjRawPtr owner() { return owner_; }
     double original_speed() const { return original_speed_; }
     double current_speed() const { return current_speed_; }
     void set_current_speed(double speed) { current_speed_ = speed; }
@@ -41,7 +41,7 @@ class Walker : public Base, public ugdk::util::Uncopyable {
     void collideWithRect(const pyramidworks::collision::CollisionObject*);
 
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
     
     /// The last position this creature was that is guaranteed to not colide with any walls.
     ugdk::math::Vector2D last_stable_position_;

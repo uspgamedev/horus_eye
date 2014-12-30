@@ -12,6 +12,7 @@ class ObjectHandle;
 
 typedef std::shared_ptr<WorldObject> WObjPtr;
 typedef std::weak_ptr<WorldObject> WObjWeakPtr;
+typedef WorldObject* WObjRawPtr;
 
 }  // namespace sprite
 

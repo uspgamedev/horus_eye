@@ -13,15 +13,15 @@ class Effect {
     
     enum Phase { PHASE_IDLE, PHASE_ACTIVE, PHASE_FINISHED };
     
-    WorldObject* owner() { return owner_; }
+    WObjRawPtr owner() { return owner_; }
     Phase phase() const { return phase_; }
     virtual const std::string& name() const = 0;
 
     virtual void Update(double delta_t) = 0;
 
-    virtual bool CanAffect(WorldObject* obj) const = 0;
+    virtual bool CanAffect(WObjRawPtr obj) const = 0;
 
-    void StartEffect(WorldObject *wobj) {
+    void StartEffect(WObjRawPtr wobj) {
         owner_ = wobj;
         phase_ = PHASE_ACTIVE;
         onStart();
@@ -39,7 +39,7 @@ class Effect {
     virtual void onEnd() {}
 
   private:
-  	WorldObject* owner_;
+  	WObjRawPtr owner_;
     Phase phase_;
 };
 

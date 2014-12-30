@@ -65,7 +65,7 @@ void Walker::Update(double dt) {
     current_speed_ = original_speed_;
 }
     
-void Walker::OnAdd(sprite::WorldObject* owner) {
+void Walker::OnAdd(sprite::WObjRawPtr owner) {
     owner_ = owner;
 }
 

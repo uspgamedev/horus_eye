@@ -12,15 +12,15 @@ class Follower : public Base {
     static const char* DEFAULT_NAME() { return "follower"; }
     static int DEFAULT_ORDER() { return 0; }
 
-    Follower(sprite::WorldObject* owner, sprite::WorldObject* target)
+    Follower(sprite::WObjRawPtr owner, sprite::WObjRawPtr target)
         : owner_(owner), target_(target) {}
     ~Follower() {}
 
     void Update(double dt);
 
   protected:
-    sprite::WorldObject* owner_;
-    sprite::WorldObject* target_;
+    sprite::WObjRawPtr owner_;
+    sprite::WObjRawPtr target_;
 
 };  // class Follower
 

@@ -31,7 +31,7 @@ class LightEmitter : public Base {
 
     void Render(ugdk::graphic::Canvas&) const;
     
-    virtual void OnAdd(sprite::WorldObject*);
+    virtual void OnAdd(sprite::WObjRawPtr);
 
   private:
     ugdk::graphic::Light* light_;

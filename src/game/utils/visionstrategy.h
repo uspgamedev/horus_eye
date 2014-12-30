@@ -11,11 +11,11 @@ namespace utils {
 
 class VisionStrategy {
   public:
-    std::queue<Vector2D> Calculate(sprite::WorldObject* who);
+    std::queue<Vector2D> Calculate(sprite::WObjRawPtr who);
 
     bool IsVisible(const ugdk::math::Vector2D& from, const ugdk::math::Vector2D& target);
-    bool IsVisible(sprite::WorldObject* from, const ugdk::math::Vector2D& target);
-    bool IsVisible(sprite::WorldObject* from);
+    bool IsVisible(sprite::WObjRawPtr from, const ugdk::math::Vector2D& target);
+    bool IsVisible(sprite::WObjRawPtr from);
 
     bool IsLightVisible(Vector2D position1, Vector2D position2 = Vector2D(-1,-1));
 };

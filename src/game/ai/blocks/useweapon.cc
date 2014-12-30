@@ -14,7 +14,7 @@ void UseWeapon::Start() {
 }
 
 AIModule::Status UseWeapon::Update(double dt, AIData* data) {
-	sprite::WorldObject* owner = parent_->base()->owner();
+	sprite::WObjRawPtr owner = parent_->base()->owner();
 
     if (!owner->component<component::Animation>()->CanInterrupt(utils::ATTACK) ) return AIModule::DORMANT;
     if (owner->dead()) return AIModule::DORMANT;

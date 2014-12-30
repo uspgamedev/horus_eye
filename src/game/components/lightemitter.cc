@@ -64,7 +64,7 @@ void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
     canvas.PopGeometry();
 }
     
-void LightEmitter::OnAdd(sprite::WorldObject* wobj) {
+void LightEmitter::OnAdd(sprite::WObjRawPtr wobj) {
     SetPosition(wobj->world_position());
 }
 

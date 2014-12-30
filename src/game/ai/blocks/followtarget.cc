@@ -14,7 +14,7 @@ void FollowTarget::Start() {
 }
 
 AIModule::Status FollowTarget::Update(double dt, AIData* data) {
-	sprite::WorldObject* owner = parent_->base()->owner();
+	sprite::WObjRawPtr owner = parent_->base()->owner();
 	
     //if (!owner->component<component::Animation>()->CanInterrupt() ) return AIModule::DORMANT;
     if (owner->dead()) return AIModule::DORMANT;
@@ -23,10 +23,10 @@ AIModule::Status FollowTarget::Update(double dt, AIData* data) {
         return AIModule::DORMANT;
     }
 
-    sprite::WorldObject* target = NULL;
+    sprite::WObjRawPtr target = NULL;
     ugdk::script::VirtualObj vtarget = data->GetSharedData(detector_identifier_+"_target");
     if (vtarget) {
-        target = vtarget.value<sprite::WorldObject*>(true);
+        target = vtarget.value<sprite::WObjRawPtr>(true);
     }
 
 	if (target != NULL && vision_strategy_.IsVisible(owner, target->world_position())) {

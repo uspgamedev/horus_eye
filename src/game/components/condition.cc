@@ -8,7 +8,7 @@ using std::list;
 using std::shared_ptr;
 using sprite::Effect;
 
-Condition::Condition(sprite::WorldObject* owner)
+Condition::Condition(sprite::WObjRawPtr owner)
     : owner_(owner) {}
 
 Condition::~Condition() {

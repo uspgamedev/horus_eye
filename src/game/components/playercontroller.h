@@ -14,7 +14,7 @@ class PlayerController : public Controller {
 
     void Update(double dt);
     
-    void OnAdd(sprite::WorldObject* owner) {
+    void OnAdd(sprite::WObjRawPtr owner) {
         owner_ = owner;
     }
 
@@ -26,7 +26,7 @@ class PlayerController : public Controller {
 
   protected:
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     ugdk::math::Vector2D current_direction_;
     ugdk::math::Vector2D mouse_aim_offset_;

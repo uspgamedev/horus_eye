@@ -86,7 +86,7 @@ class Room {
 
     void set_floor(std::unique_ptr<GiantFloor>&& floor);
 
-    typedef std::list< std::shared_ptr<sprite::WorldObject> > ::const_iterator WObjListConstIterator;
+    typedef std::list< sprite::WObjPtr > ::const_iterator WObjListConstIterator;
     WObjListConstIterator begin() const { return objects_.begin(); } 
     WObjListConstIterator end() const { return objects_.end(); }
 

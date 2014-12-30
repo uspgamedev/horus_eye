@@ -8,7 +8,6 @@
 #include "game/skills/skill.h"
 #include "game/components/animation.h"
 
-using sprite::WorldObject;
 using skills::Skill;
 
 const static int ID_GENERATOR_INVALID_ID = -1;
@@ -55,7 +54,7 @@ void Caster::Update(double dt) {
     }
 }
     
-void Caster::OnAdd(sprite::WorldObject* owner) {
+void Caster::OnAdd(sprite::WObjRawPtr owner) {
     owner_ = owner;
 }
 

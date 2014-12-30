@@ -18,7 +18,7 @@ Body::Body(CollisionObject* collision, CollisionObject* visibility)
 
 Body::~Body() {}
     
-void Body::OnAdd(sprite::WorldObject* owner) {
+void Body::OnAdd(sprite::WObjRawPtr owner) {
     owner_ = owner;
     for (const auto& col : collisions_)
         col->set_data(owner_);

@@ -20,7 +20,7 @@ class ObjectHandle {
 
     WorldObject* operator-> () const;
   private:
-    std::weak_ptr<WorldObject> pointer_;
+    WObjWeakPtr pointer_;
 
 };  // class ObjectHandle
 

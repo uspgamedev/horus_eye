@@ -19,7 +19,7 @@ void RandomMovement::Start() {
 }
 
 AIModule::Status RandomMovement::Update(double dt, AIData* data) {
-    sprite::WorldObject* owner = parent_->base()->owner();
+    sprite::WObjRawPtr owner = parent_->base()->owner();
     
     time_left_ -= dt;
     auto animation = owner->component<component::Animation>();

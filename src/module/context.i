@@ -20,10 +20,10 @@
 
 %newobject context::BuildWorldObject(const std::string& scriptname);
 
-enable_disown(sprite::WorldObject* new_obj)
+enable_disown(sprite::WObjRawPtr new_obj)
 enable_disown(ugdk::graphic::TextureAtlas* atlas)
 %include <game/context.h>
-disable_disown(sprite::WorldObject* new_obj)
+disable_disown(sprite::WObjRawPtr new_obj)
 disable_disown(ugdk::graphic::TextureAtlas* atlas)
 
 confirm_exports(context)

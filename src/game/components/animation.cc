@@ -45,7 +45,7 @@ Animation::~Animation() {}
 
 void Animation::Update(double dt) {}
     
-void Animation::OnAdd(sprite::WorldObject* wobj) {
+void Animation::OnAdd(sprite::WObjRawPtr wobj) {
     owner_ = wobj;
     owner_->animator()->AddObserver(this);
     updateGraphic();

@@ -73,7 +73,7 @@ void Damageable::Update(double dt) {
             g->set_visible(true);
 }
     
-void Damageable::OnAdd(sprite::WorldObject* wobj) {
+void Damageable::OnAdd(sprite::WObjRawPtr wobj) {
     owner_ = wobj;
 }
     

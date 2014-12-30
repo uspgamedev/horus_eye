@@ -32,7 +32,7 @@ void Animator::Update(double dt) {
     player_->Update(dt);
 }
 
-void Animator::OnAdd(sprite::WorldObject* wobj) {
+void Animator::OnAdd(sprite::WObjRawPtr wobj) {
     if (auto graphic = wobj->graphic())
         Configure(graphic);
 }

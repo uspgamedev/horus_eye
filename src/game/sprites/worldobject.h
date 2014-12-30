@@ -51,15 +51,15 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
 
     void OnRoomAdd(map::Room*);
     
-    void set_room_add_callback(std::function<void (WorldObject*, map::Room*)> on_room_add_callback) {
+    void set_room_add_callback(std::function<void(WObjRawPtr, map::Room*)> on_room_add_callback) {
         on_room_add_callback_ = on_room_add_callback;
     }
 
-    void set_start_to_die_callback(std::function<void (WorldObject*)> on_death_start_callback) {
+    void set_start_to_die_callback(std::function<void(WObjRawPtr)> on_death_start_callback) {
         on_start_to_die_callback_ = on_death_start_callback;
     }
 
-    void AddDeathEvent(std::function<void(WorldObject*)> on_death_end_callback) {
+    void AddDeathEvent(std::function<void(WObjRawPtr)> on_death_end_callback) {
         on_die_callbacks_.push_back(on_death_end_callback);
     }
 
@@ -153,9 +153,9 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     std::string tag_;
 
     // TODO: make this somethintg
-    std::function<void (WorldObject*, map::Room*)>  on_room_add_callback_;
-    std::function<void (WorldObject*)>              on_start_to_die_callback_;
-    std::list< std::function<void(WorldObject*)> >  on_die_callbacks_;
+    std::function<void(WObjRawPtr, map::Room*)>  on_room_add_callback_;
+    std::function<void(WObjRawPtr)>              on_start_to_die_callback_;
+    std::list< std::function<void(WObjRawPtr)> >  on_die_callbacks_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;

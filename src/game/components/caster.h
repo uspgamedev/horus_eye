@@ -41,7 +41,7 @@ class Caster : public Base {
     // METHODS
 
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
     bool CastSkill(Controller::SkillSlot slot);
 
@@ -65,7 +65,7 @@ class Caster : public Base {
     double FullMana() { return mana_blocks_.TotalCapcity(); }
 
     // GETTERS
-    sprite::WorldObject* owner() const { return owner_; }
+    sprite::WObjRawPtr owner() const { return owner_; }
 
           resource::Energy& mana()       { return mana_; }
     const resource::Energy& mana() const { return mana_; }
@@ -92,7 +92,7 @@ class Caster : public Base {
 
   private:
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     /// The known skills.
     std::vector<const skills::Skill*> skills_;

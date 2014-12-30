@@ -25,7 +25,7 @@ class Damageable : public Base {
     virtual void TakeDamage(double life_points);
 
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
     resource::Energy& life() { return life_; }
     void set_life(const resource::Energy &life) {
@@ -50,7 +50,7 @@ class Damageable : public Base {
     void StopBlinking();
 
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     /// The life part of the component. An energy manages reneration.
     resource::Energy life_;

@@ -12,7 +12,7 @@ class Base {
     virtual void Update(double dt) = 0;
 
     /// Called when the component is added to an object.
-    virtual void OnAdd(sprite::WorldObject*) {}
+    virtual void OnAdd(sprite::WObjRawPtr) {}
 
   protected:
     Base() {}

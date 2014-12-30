@@ -15,13 +15,13 @@ class TimedLife : public Base {
     ~TimedLife();
     
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
-    sprite::WorldObject* owner() { return owner_; }
+    sprite::WObjRawPtr owner() { return owner_; }
 
   protected:
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     /// How long this component has gone by.
     double time_elapsed_;

@@ -20,7 +20,7 @@ namespace component {
 
 class Animation : public Base, private ugdk::action::Observer {
   public:
-    typedef std::function<void (sprite::WorldObject*)> AnimationCallback;
+    typedef std::function<void (sprite::WObjRawPtr)> AnimationCallback;
     static const char* DEFAULT_NAME() { return "animation"; }
     static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 
@@ -29,7 +29,7 @@ class Animation : public Base, private ugdk::action::Observer {
     virtual ~Animation();
 
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
     /// Changes the direction, no callbacks happens.
     void ChangeDirection(const Direction& dir);
@@ -57,7 +57,7 @@ class Animation : public Base, private ugdk::action::Observer {
     bool updateGraphic();
     static utils::AnimtionType default_animation_;
 
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
 
     Direction current_direction_;
 

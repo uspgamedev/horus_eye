@@ -19,7 +19,7 @@ void TimedLife::Update(double dt) {
         owner_->Die();
 }
     
-void TimedLife::OnAdd(sprite::WorldObject* owner) {
+void TimedLife::OnAdd(sprite::WObjRawPtr owner) {
     owner_ = owner;
 }
 

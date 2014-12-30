@@ -15,7 +15,7 @@ class Carrier {
     Carrier(std::list<sprite::WObjPtr>& list) : drop_list_(list) {}
     Carrier(const sprite::WObjPtr& drop) : drop_list_(1, drop) {}
 
-    void operator()(sprite::WorldObject *wobj);
+    void operator()(sprite::WObjRawPtr wobj);
 };
 
 } // namespace function

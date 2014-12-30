@@ -63,7 +63,7 @@ void Graphic::set_visible(bool visible) {
 
 void Graphic::Update(double dt) {}
 
-void Graphic::OnAdd(sprite::WorldObject* wobj) {
+void Graphic::OnAdd(sprite::WObjRawPtr wobj) {
     SetPosition(wobj->world_position());
     if (auto animator = wobj->animator())
         animator->Configure(this);

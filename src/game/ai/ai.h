@@ -25,12 +25,12 @@ class AI : public component::Controller {
     void Finish();
     
     void Update(double dt) override;
-    void OnAdd(sprite::WorldObject*) override;
+    void OnAdd(sprite::WObjRawPtr) override;
 
     void set_root(AIModule* root);
 
-          sprite::WorldObject* owner()       { return owner_; }
-    const sprite::WorldObject* owner() const { return owner_; }
+          sprite::WObjRawPtr owner()       { return owner_; }
+    const sprite::WObjRawPtr owner() const { return owner_; }
     const std::string& name() const { return name_; }
     State state() const { return state_; }
     
@@ -43,7 +43,7 @@ class AI : public component::Controller {
 
   protected:
     /// The owner.
-    sprite::WorldObject* owner_;
+    sprite::WObjRawPtr owner_;
     
     std::string name_;
     AIModule* root_;

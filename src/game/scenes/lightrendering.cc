@@ -138,7 +138,7 @@ namespace {
         return shape->Intersects(position, &c, point);
     }
 
-    void DrawShadows(scene::World* world, sprite::WorldObject* hero, ugdk::graphic::Canvas& canvas) {
+    void DrawShadows(scene::World* world, sprite::WObjRawPtr hero, ugdk::graphic::Canvas& canvas) {
         ugdk::debug::ProfileSection section("DrawShadows");
 
         auto& opaque_class = world->visibility_manager()->Find("Opaque");

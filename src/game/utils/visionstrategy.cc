@@ -40,12 +40,12 @@ bool VisionStrategy::IsVisible(const ugdk::math::Vector2D& from, const ugdk::mat
     ConvexPolygon ray(points);
 
     // TODO: add support to UGDK to a simple "CHECK IF EXISTS"
-    std::vector<WorldObject*> objects;
+    std::vector<sprite::WObjRawPtr> objects;
     context::GetCollidingVisibilityObjects("Opaque", ray, from, objects);
     return objects.empty();
 }
     
-bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
+bool VisionStrategy::IsVisible(sprite::WObjRawPtr from) {
     WObjPtr hero = from->current_room()->level()->hero().lock();
     if(hero)
         return IsVisible(from, hero->world_position());
@@ -53,7 +53,7 @@ bool VisionStrategy::IsVisible(sprite::WorldObject* from) {
         return IsVisible(from, from->world_position());
 }
 
-bool VisionStrategy::IsVisible(sprite::WorldObject* from, const ugdk::math::Vector2D& position2) {
+bool VisionStrategy::IsVisible(sprite::WObjRawPtr from, const ugdk::math::Vector2D& position2) {
     return IsVisible(from->world_position(), position2);
 }
 
@@ -111,7 +111,7 @@ bool VisionStrategy::IsLightVisible(Vector2D position1, Vector2D position2) {
     return true;
 }
 
-queue<Vector2D> VisionStrategy::Calculate(sprite::WorldObject* who) {
+queue<Vector2D> VisionStrategy::Calculate(sprite::WObjRawPtr who) {
     auto hero = who->current_room()->level()->hero().lock();
 
     queue<Vector2D> resp;
