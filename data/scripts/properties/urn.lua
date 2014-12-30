@@ -14,7 +14,9 @@ local vec2 = ugdk_math.Vector2D
 
 function build (wobj, params)
   params = params or {}
-  wobj:AddComponent(graphics.urn(), "graphic", 100)
+  local graphic, animator = graphics.urn()
+  wobj:AddComponent(graphic, "graphic", 100)
+  wobj:AddComponent(animator, "animator", 102)
   return {
     collision = {
       class = "Wall",

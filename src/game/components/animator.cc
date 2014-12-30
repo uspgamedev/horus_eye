@@ -28,7 +28,9 @@ void Animator::Configure(Graphic* graphic) {
     player_->Refresh();
 }
 
-void Animator::Update(double dt) {}
+void Animator::Update(double dt) {
+    player_->Update(dt);
+}
 
 void Animator::OnAdd(sprite::WorldObject* wobj) {
     if (auto graphic = wobj->graphic())

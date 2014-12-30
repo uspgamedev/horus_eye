@@ -31,11 +31,12 @@ static sprite::WObjPtr baseExplosion(const std::string& spritesheet, const std::
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Explosion");
 
-    auto graphic = component::Graphic::CreateWithAnimationSet(spritesheet, "resources/animations/explosion.json");
-    auto animator = graphic->animator();
+    wobj->AddComponent(component::Graphic::CreateWithSpritesheet(spritesheet));
+
+    auto animator = new component::Animator("resources/animations/explosion.json");
     animator->ChangeAnimation(anim);
     animator->AddTickFunction(bind(&WorldObject::Remove, wobj.get()));
-    wobj->AddComponent(graphic);
+    wobj->AddComponent(animator);
 
     return wobj;
 }

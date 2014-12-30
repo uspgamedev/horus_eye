@@ -7,8 +7,11 @@ local graphics = require 'graphics'
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  wobj:AddComponent(graphics.switch(), "graphic", 100)
-  wobj:graphic():animator():ChangeAnimation "SWITCH_ON"
+  local graphic, animator = graphics.switch()
+  animator:ChangeAnimation "SWITCH_ON"
+  
+  wobj:AddComponent(graphic, "graphic", 100)
+  wobj:AddComponent(animator, "animator", 102)
   wobj:AddComponent(component.LightEmitter(3.0), "light", 101)
   return {
     collision = {

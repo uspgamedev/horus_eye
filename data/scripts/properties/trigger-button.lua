@@ -10,10 +10,13 @@ local Rect      = pyramidworks_geometry.Rect
 
 local function make_button ()
   local button = proxy "Observer"
-  button.graphic = component.Graphic_CreateWithAnimationSet("scenery", "resources/animations/button.json")
+  button.graphic = component.Graphic_CreateWithSpritesheet("scenery")
   button.graphic:set_render_offset(-ugdk_math.Vector2D(53, 27))
-  button.graphic:animator():ChangeAnimation "OFF"
   button.graphic:set_layer(component.BACKGROUND_LAYER)
+
+  button.animator = component.Animator "resources/animations/button.json"
+  button.animator:ChangeAnimation "OFF"
+
   button.activated = false
   return button
 end
@@ -21,6 +24,7 @@ end
 function build(wobj, params)
   local button = make_button()
   wobj:AddComponent(button.graphic, "graphic", 100)
+  wobj:AddComponent(button.animator, "animator", 102)
   
   return {
     collision = {
@@ -33,7 +37,7 @@ function build(wobj, params)
             for _,trigger in pairs(params) do
               event.Activate(trigger)
             end
-            button.graphic:animator():ChangeAnimation "ON"
+            button.animator:ChangeAnimation "ON"
           end
         end
       }

@@ -10,7 +10,9 @@ local graphics = require 'graphics'
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  wobj:AddComponent(graphics.spike_trap(), "graphic", 100)
+  local graphic, animator = graphics.spike_trap()
+  wobj:AddComponent(graphic, "graphic", 100)
+  wobj:AddComponent(animator, "animator", 102)
   wobj:set_timed_life(1)
   local anim_comp = component.Animation(component.SPAWNING, component.Direction())
   wobj:AddComponent(anim_comp, "animation", 101)
