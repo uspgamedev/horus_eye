@@ -8,23 +8,29 @@ require "component"
 local graphics = {}
 
 function graphics.urn()
-  local graphic = component.Graphic_CreateWithAnimationSet("scenery", "resources/animations/urn.json")
+  local graphic = component.Graphic_CreateWithSpritesheet("scenery")
   graphic:set_render_offset(-ugdk_math.Vector2D(53, 93))
-  graphic:animator():ChangeAnimation "STANDING"
-  return graphic
+
+  local animator = component.Animator "resources/animations/urn.json"
+  animator:ChangeAnimation "STANDING"
+  return graphic, animator
 end
 
 function graphics.switch()
-  local graphic = component.Graphic_CreateWithAnimationSet("switch", "resources/animations/switch.json")
+  local graphic = component.Graphic_CreateWithSpritesheet("switch")
   graphic:set_render_offset(-ugdk_math.Vector2D(53, 93))
-  graphic:animator():ChangeAnimation "SWITCH_OFF"
-  return graphic
+
+  local animator = component.Animator "resources/animations/switch.json"
+  animator:ChangeAnimation "SWITCH_OFF"
+  return graphic, animator
 end
 
 function graphics.spike_trap()
-  local graphic = component.Graphic_CreateWithAnimationSet("scenery", "resources/animations/spike-trap.json")
+  local graphic = component.Graphic_CreateWithSpritesheet("scenery")
   graphic:set_render_offset(-ugdk_math.Vector2D(53, 135))
-  return graphic
+
+  local animator = component.Animator "resources/animations/spike-trap.json"
+  return graphic, animator
 end
 
 function graphics.dummy_spike_trap()
@@ -34,15 +40,19 @@ function graphics.dummy_spike_trap()
 end
 
 function graphics.closed_door()
-  local graphic = component.Graphic_CreateWithAnimationSet("scenery", "resources/animations/closed-door.json")
+  local graphic = component.Graphic_CreateWithSpritesheet("scenery")
   graphic:set_render_offset(-ugdk_math.Vector2D(53, 156))
-  return graphic
+
+  local animator = component.Animator "resources/animations/closed-door.json"
+  return graphic, animator
 end
 
 function graphics.open_door()
-  local graphic = component.Graphic_CreateWithAnimationSet("scenery", "resources/animations/closed-door.json")
+  local graphic = component.Graphic_CreateWithSpritesheet("scenery")
   graphic:set_render_offset(-ugdk_math.Vector2D(53, 156))
-  return graphic
+
+  local animator = component.Animator "resources/animations/closed-door.json"
+  return graphic, animator
 end
 
 return graphics

@@ -1,6 +1,7 @@
 #include "game/components/animator.h"
 
 #include "game/components/graphic.h"
+#include "game/sprites/worldobject.h"
 
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/action/animationplayer.h>
@@ -11,12 +12,6 @@
 
 namespace component {
 
-namespace {
-    const ugdk::graphic::SpriteAnimationTable* IsometricToSet(utils::IsometricAnimationSet* iso_animation_set) {
-        return iso_animation_set ? (iso_animation_set->animation_set()) : nullptr;
-    }
-}
-    
 Animator::Animator(const std::string& animation_set) 
     :   isometric_animation_set_(utils::IsometricAnimationSet::LoadFromResourceManager(animation_set))
 {
@@ -30,6 +25,16 @@ void Animator::Configure(Graphic* graphic) {
             sprite->ChangeToAnimationFrame(frame);
         }
     });
+    player_->Refresh();
+}
+
+void Animator::Update(double dt) {
+    player_->Update(dt);
+}
+
+void Animator::OnAdd(sprite::WorldObject* wobj) {
+    if (auto graphic = wobj->graphic())
+        Configure(graphic);
 }
 
 bool Animator::ChangeAnimation(utils::AnimtionType type, const Direction& dir) {

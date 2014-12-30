@@ -16,6 +16,7 @@
 #include "game/components/controller.h"
 #include "game/components/caster.h"
 #include "game/components/animation.h"
+#include "game/components/animator.h"
 
 #include <cassert>
 
@@ -130,6 +131,7 @@ void WorldObject::RemoveComponent(const std::string& name) {
 
 component::Damageable* WorldObject::damageable() { return component<component::Damageable>(); }
 component::Graphic* WorldObject::graphic() { return component<component::Graphic>(); }
+component::Animator* WorldObject::animator() { return component<component::Animator>(); }
 component::Animation* WorldObject::animation() { return component<component::Animation>(); }
 component::Controller* WorldObject::controller() { return component<component::Controller>(); }
 component::Caster* WorldObject::caster() { return component<component::Caster>(); }

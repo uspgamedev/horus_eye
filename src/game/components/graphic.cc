@@ -19,14 +19,10 @@ namespace component {
 using ugdk::math::Vector2D;
 using ugdk::graphic::Primitive;
 
-Graphic::Graphic(Animator* animator)
+Graphic::Graphic()
 : primitive_(nullptr, nullptr)
-, animator_(animator)
 , layer_(scene::FOREGROUND_LAYER)
-{
-    if (animator_)
-        animator_->Configure(this);
-}
+{}
 
 Graphic::~Graphic() {}
     
@@ -65,13 +61,12 @@ void Graphic::set_visible(bool visible) {
     visual_effect_.set_visible(visible);
 }
 
-void Graphic::Update(double dt) {
-    if(animator_)
-        animator_->player()->Update(dt);
-}
+void Graphic::Update(double dt) {}
 
 void Graphic::OnAdd(sprite::WorldObject* wobj) {
     SetPosition(wobj->world_position());
+    if (auto animator = wobj->animator())
+        animator->Configure(this);
 }
     
 void Graphic::ChangeToFrame(const std::string& frame_name) {
@@ -94,15 +89,15 @@ namespace {
 }
 
 Graphic* Graphic::Create(const std::function<void(ugdk::graphic::Primitive&)>& primitive_prepare_function) {
-    Graphic* g = new Graphic(nullptr);
+    Graphic* g = new Graphic;
     Primitive& gp = g->primitive();
     primitive_prepare_function(gp);
     SetDefaultShader(g);
     return g;
 }
 
-Graphic* Graphic::CreateWithAnimationSet(const std::string& spritesheet_name, const std::string& animation_set) {
-    Graphic* g = new Graphic(new Animator(animation_set));
+Graphic* Graphic::CreateWithSpritesheet(const std::string& spritesheet_name) {
+    Graphic* g = new Graphic;
     ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), ugdk::resource::GetTextureAtlasFromTag(spritesheet_name));
     g->ChangeToFrame(0);
     SetDefaultShader(g);
@@ -110,10 +105,8 @@ Graphic* Graphic::CreateWithAnimationSet(const std::string& spritesheet_name, co
 }
 
 Graphic* Graphic::CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name) {
-    Graphic* g = new Graphic(nullptr);
-    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), ugdk::resource::GetTextureAtlasFromTag(spritesheet_name));
+    Graphic* g = Graphic::CreateWithSpritesheet(spritesheet_name);
     g->ChangeToFrame(frame_name);
-    SetDefaultShader(g);
     return g;
 }
     

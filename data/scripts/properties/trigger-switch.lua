@@ -12,12 +12,12 @@ local Rect      = pyramidworks_geometry.Rect
 local function make_switch ()
   local switch = proxy "Observer"
   switch.activated = false
-  switch.graphic = graphics.switch()
-  switch.graphic:animator():ChangeAnimation "SWITCH_OFF"
-  switch.graphic:animator():AddObserver(switch)
+  switch.graphic, switch.animator = graphics.switch()
+  switch.animator:ChangeAnimation "SWITCH_OFF"
+  switch.animator:AddObserver(switch)
   function switch:Tick ()
     if self.activated then
-      self.graphic:animator():ChangeAnimation "SWITCH_ON"
+      self.animator:ChangeAnimation "SWITCH_ON"
     end
   end
   return switch
@@ -26,6 +26,7 @@ end
 function build(wobj, params)
   local switch = make_switch()
   wobj:AddComponent(switch.graphic, "graphic", 100)
+  wobj:AddComponent(switch.animator, "animator", 102)
   
   return {
     collision = {
@@ -38,7 +39,7 @@ function build(wobj, params)
               event.Activate(trigger)
             end
             switch.activated = true
-            switch.graphic:animator():ChangeAnimation "SWITCH_START"
+            switch.animator:ChangeAnimation "SWITCH_START"
             self:AddComponent(component.LightEmitter(3.0), "light", 101)
           end
         end

@@ -17,6 +17,7 @@
 #include "game/constants.h"
 #include "game/resources/energy.h"
 #include "game/sprites/objecthandle.h"
+#include "game/sprites/worldobject.h"
 
 #include <ugdk/resource/module.h>
 #include <ugdk/system/compatibility.h>
@@ -86,8 +87,9 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj,
 
     std::string aiscript = "basicmummy";
 
-    wobj->AddComponent(component::Graphic::CreateWithAnimationSet(spritesheetname, animation_descriptor));
+    wobj->AddComponent(component::Graphic::CreateWithSpritesheet(spritesheetname));
     wobj->graphic()->set_render_offset(-Vector2D(60, 120));
+    wobj->AddComponent(new component::Animator(animation_descriptor));
 
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::Down()));
 

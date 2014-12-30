@@ -11,7 +11,10 @@ local Rect = pyramidworks_geometry.Rect
 
 function build (wobj, params)
   local dir = params.dir or "Left"
-  wobj:AddComponent(graphics.closed_door(), "graphic", 100)
+  
+  local graphic, animator = graphics.closed_door()
+  wobj:AddComponent(graphic, "graphic", 100)
+  wobj:AddComponent(animator, "animator", 102)
   
   local anim_comp = component.Animation()
   wobj:AddComponent(anim_comp, "animation", 101)

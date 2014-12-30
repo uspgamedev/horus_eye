@@ -27,7 +27,7 @@ class Graphic : public Base {
 
     static Graphic* Create(const std::function<void (ugdk::graphic::Primitive&)>& primitive_prepare_function);
 
-    static Graphic* CreateWithAnimationSet(const std::string& spritesheet_name, const std::string& animation_set);
+    static Graphic* CreateWithSpritesheet(const std::string& spritesheet_name);
     static Graphic* CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name);
 
     ~Graphic();
@@ -54,20 +54,17 @@ class Graphic : public Base {
     bool visible() const;
     void set_visible(bool visible);
 
-    void Update(double dt);
-
-    virtual void OnAdd(sprite::WorldObject*);
+    void Update(double dt) override;
+    virtual void OnAdd(sprite::WorldObject*) override;
     
-    Animator* animator() { return animator_.get(); }
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);
 
   private:
-    Graphic(Animator* animator);
+    Graphic();
     void UpdateFinalPosition();
 
     ugdk::graphic::Primitive primitive_;
-    std::unique_ptr<Animator> animator_;
 
     scene::GameLayer layer_;
 

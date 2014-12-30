@@ -1,9 +1,12 @@
 #ifndef HORUSEYE_COMPONENT_ANIMATOR_H_
 #define HORUSEYE_COMPONENT_ANIMATOR_H_
 
+#include "game/components/base.h"
 #include "game/components/direction.h"
+#include "game/components/orders.h"
 #include "game/utils/isometricanimationset.h"
-#include "game/components.h"     
+
+#include "game/components.h"
 
 #include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
@@ -13,11 +16,16 @@
 
 namespace component {
 
-class Animator {
+class Animator : public Base {
   public:
+    static const char* DEFAULT_NAME() { return "animator"; }
+    static int DEFAULT_ORDER() { return orders::GRAPHIC + 2; }
     Animator(const std::string& animation_set);
 
     void Configure(Graphic*);
+
+    void Update(double dt) override;
+    void OnAdd(sprite::WorldObject*) override;
 
     bool ChangeAnimation(utils::AnimtionType type, const Direction& dir);
     bool ChangeAnimation(const std::string& animation_name);

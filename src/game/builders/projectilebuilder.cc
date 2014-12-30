@@ -47,12 +47,16 @@ void PrepareProjectile(const sprite::ObjectHandle& wobj, const ugdk::math::Vecto
     wobj->AddComponent(new component::Walker(speed));
 }
 
-static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, component::Graphic* graphic, 
-                                    double light_radius, double speed, double duration) {
+static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir,
+                                       component::Graphic* graphic, 
+                                       component::Animator* animator,
+                                       double light_radius, double speed, double duration) {
 
     sprite::WObjPtr wobj = WorldObject::Create(duration);
     wobj->set_identifier("Projectile");
     wobj->AddComponent(graphic);
+    if (animator)
+        wobj->AddComponent(animator);
     wobj->AddComponent(new component::LightEmitter(light_radius));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
@@ -61,6 +65,7 @@ static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir, componen
 sprite::WObjPtr MagicMissile(const Vector2D &dir) {
     sprite::WObjPtr wobj = buildProjectile(dir,
                                            component::Graphic::CreateWithSingleFrame("projectile", "blue-ball"),
+                                           nullptr,
                                            1.0,
                                            constants::GetDouble("MAGICMISSILE_SPEED"),
                                            constants::GetDouble("MAGICMISSILE_DURATION"));
@@ -75,6 +80,7 @@ sprite::WObjPtr MagicMissile(const Vector2D &dir) {
 sprite::WObjPtr MagicBall(const Vector2D &dir) {
     sprite::WObjPtr wobj = buildProjectile(dir,
                                            component::Graphic::CreateWithSingleFrame("projectile", "blue-ball"),
+                                           nullptr,
                                            1.0,
                                            constants::GetDouble("MAGICBALL_SPEED"),
                                            constants::GetDouble("MAGICBALL_DURATION"));
@@ -90,6 +96,7 @@ sprite::WObjPtr MagicBall(const Vector2D &dir) {
 sprite::WObjPtr MummyProjectile(const ugdk::math::Vector2D &dir, double damage) {
     sprite::WObjPtr wobj = buildProjectile(dir,
                                            component::Graphic::CreateWithSingleFrame("projectile", "green-ball"),
+                                           nullptr,
                                            0.75,
                                            constants::GetDouble("MUMMYPROJECTILE_SPEED"),
                                            constants::GetDouble("MUMMYPROJECTILE_DURATION"));
@@ -103,7 +110,8 @@ sprite::WObjPtr MummyProjectile(const ugdk::math::Vector2D &dir, double damage) 
 
 sprite::WObjPtr LightningBolt(const Vector2D &dir) {
     sprite::WObjPtr wobj = buildProjectile(dir,
-                                           component::Graphic::CreateWithAnimationSet("projectile", "resources/animations/lightningbolt.json"),
+                                           component::Graphic::CreateWithSpritesheet("projectile"),
+                                           new component::Animator("resources/animations/lightningbolt.json"),
                                            1.0,
                                            constants::GetDouble("LIGHTNING_SPEED"),
                                            constants::GetDouble("LIGHTNING_DURATION"));
@@ -121,7 +129,8 @@ sprite::WObjPtr LightningBolt(const Vector2D &dir) {
 
 sprite::WObjPtr Fireball(const Vector2D &dir) {
     sprite::WObjPtr wobj = buildProjectile(dir,
-                                           component::Graphic::CreateWithAnimationSet("projectile", "resources/animations/fireball.json"),
+                                           component::Graphic::CreateWithSpritesheet("projectile"),
+                                           new component::Animator("resources/animations/fireball.json"),
                                            1.0,
                                            constants::GetDouble("FIREBALL_SPEED"),
                                            constants::GetDouble("FIREBALL_DURATION"));

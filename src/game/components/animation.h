@@ -3,15 +3,15 @@
 
 #include "game/components/base.h"
 #include "game/components/direction.h"
-#include "game/sprites/worldobject.h"
-#include "game/utils/isometricanimationset.h"
 #include "game/components/orders.h"
+
+// For utils::AnimtionType
+#include "game/utils/isometricanimationset.h"
 
 #include <ugdk/action.h>
 #include <ugdk/graphic.h>
 #include <ugdk/action/observer.h>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/system/compatibility.h>
 
 #include <map>
 #include <functional>
