@@ -34,23 +34,18 @@ bool WorldObject::OrderedComponent::operator == (const component::Base* base) co
 
 WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
 
-WObjPtr WorldObject::Create(double duration) {
-    return WObjPtr(new WorldObject(duration));
+WObjPtr WorldObject::Create() {
+    return WObjPtr(new WorldObject);
 }
 
-WorldObject::WorldObject(double duration)
+WorldObject::WorldObject()
     : identifier_("Generic World Object")
     , current_room_(nullptr)
-    , timed_life_(nullptr)
     , dead_(false)
     , to_be_removed_(false)
-{
-    if(duration > 0.0)
-        this->set_timed_life(duration);
-}
+{}
 
 WorldObject::~WorldObject() {
-    delete timed_life_;
     for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
         delete it->component;
 }
@@ -76,9 +71,6 @@ void WorldObject::Die() {
 }
 
 void WorldObject::Update(double dt) {
-    if(timed_life_ && timed_life_->Expired())
-        Die();
-
     for(const auto& it : components_order_)
         it.component->Update(dt);
 }
@@ -96,12 +88,6 @@ void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
         if(new_room && new_room != current_room_)
             current_room_->level()->QueueRoomChange(shared_from_this(), new_room);
     }
-}
-
-void WorldObject::set_timed_life(double duration) {
-    #define SECONDS_TO_MILISECONDS(sec) (int)((sec) * 1000)
-    delete timed_life_;
-    timed_life_ = (new ugdk::time::TimeAccumulator(SECONDS_TO_MILISECONDS(duration)));
 }
 
 void WorldObject::OnRoomAdd(map::Room* room) {

@@ -84,6 +84,8 @@ SET(GAME_SRCS
     game/components/playercontroller.cc 
     game/components/playercontroller.h 
     game/components/statecontroller.h 
+    game/components/timedlife.cc 
+    game/components/timedlife.h 
     game/components/walker.cc 
     game/components/walker.h 
     game/constants.cc 

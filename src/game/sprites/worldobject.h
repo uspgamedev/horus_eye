@@ -26,7 +26,7 @@ namespace sprite {
 class WorldObject : public ::pyramidworks::collision::CollisionData, public std::enable_shared_from_this<WorldObject> {
   public:
     /** @param duration Sets timed life to the given value, if positive. */
-    static WObjPtr Create(double duration = -1.0);
+    static WObjPtr Create();
     ~WorldObject();
 
     // The BIG Awesome update method. TODO explain better
@@ -48,8 +48,6 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
 
     bool dead() const { return dead_; }
     bool to_be_removed() const { return to_be_removed_; }
-
-    void set_timed_life(double);
 
     void OnRoomAdd(map::Room*);
     
@@ -146,10 +144,13 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     map::Room* current_room() const { return current_room_; }
 
   private:
-    WorldObject(double duration);
+    WorldObject();
     
     /// Internal identifier. Debugging purposes.
     std::string identifier_;
+
+    /// A tag used for searching for the object.
+    std::string tag_;
 
     // TODO: make this somethintg
     std::function<void (WorldObject*, map::Room*)>  on_room_add_callback_;
@@ -159,14 +160,8 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;
 
-    /// A tag used for searching for the object.
-    std::string tag_;
-
     /// The room this object is currently in. (In practice, the room it was created in.)
     map::Room* current_room_;
-
-    // 
-    ugdk::time::TimeAccumulator* timed_life_;
 
     /// Is this object dead?
     bool dead_;

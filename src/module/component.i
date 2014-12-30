@@ -25,6 +25,7 @@
 #include <game/components/caster.h>
 #include <game/components/body.h>
 #include <game/components/condition.h>
+#include <game/components/timedlife.h>
 
 #include <ugdk/script/baseproxy.h>
 #include <module/component/baseproxy.h>
@@ -93,6 +94,7 @@ enable_disown(pyramidworks::collision::CollisionObject*)
 %include <game/components/caster.h>
 %include <game/components/body.h>
 %include <game/components/condition.h>
+%include <game/components/timedlife.h>
 
 disable_disown(pyramidworks::collision::CollisionObject*)
 
@@ -116,5 +118,6 @@ namespace component {
     export_class(Caster)
     export_class(Body)
     export_class(Condition)
+	export_class(TimedLife)
 }
 confirm_exports(component)

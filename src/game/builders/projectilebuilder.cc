@@ -12,6 +12,7 @@
 #include "game/components/lightemitter.h"
 #include "game/components/statecontroller.h"
 #include "game/components/body.h"
+#include "game/components/timedlife.h"
 #include "game/scenes/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
@@ -52,12 +53,14 @@ static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir,
                                        component::Animator* animator,
                                        double light_radius, double speed, double duration) {
 
-    sprite::WObjPtr wobj = WorldObject::Create(duration);
+    sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Projectile");
     wobj->AddComponent(graphic);
     if (animator)
         wobj->AddComponent(animator);
     wobj->AddComponent(new component::LightEmitter(light_radius));
+    if (duration > 0.0)
+        wobj->AddComponent(new component::TimedLife(duration));
     PrepareProjectile(wobj, dir, speed);
     return wobj;
 }

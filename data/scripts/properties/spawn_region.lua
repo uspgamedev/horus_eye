@@ -29,7 +29,7 @@ function build (wobj, params)
             activated = true
             print(self:identifier() .. " Activated!")
             if params.delay then
-              self:set_timed_life(tonumber(params.delay))
+              self:AddComponent(component.TimedLife(tonumber(params.delay)), "timedlife", 0)
             else
               self:Die()
             end

@@ -2,12 +2,13 @@
 require "ugdk.math"
 require "builder"
 require "context"
+require "component"
 require "map"
 
 local Vector2D = ugdk_math.Vector2D
 
 function build (wobj, params)
-  wobj:set_timed_life(tonumber(params.time))
+  wobj:AddComponent(component.TimedLife(tonumber(params.time)), "timedlife", 0)
   return {
     on_die_callbacks = {
       function (obj)

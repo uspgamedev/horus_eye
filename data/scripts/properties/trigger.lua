@@ -6,7 +6,7 @@ require "event"
 function build (wobj, params)
   local activates = params.activates or "UNKNOWN_TRIGGER" 
   if params.delay then
-    wobj:set_timed_life(tonumber(params.delay))
+    wobj:AddComponent(component.TimedLife(tonumber(params.delay)), "timedlife", 0)
   end
   return {
     on_die_callbacks = {

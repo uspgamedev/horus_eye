@@ -12,7 +12,7 @@ function build (wobj, params)
   local graph_comp = component.Graphic_CreateWithSingleFrame("projectile", "green-ball")
   graph_comp:set_render_offset(ugdk_math.Vector2D(0, -58) - ugdk_math.Vector2D(16, 16))
   wobj:AddComponent(graph_comp, "graphic", 100)
-  wobj:set_timed_life(1)
+  wobj:AddComponent(component.TimedLife(1), "timedlife", 0)
   local dir = params.dir
   if not dir then
     dir = ugdk_math.Vector2D(0,0)

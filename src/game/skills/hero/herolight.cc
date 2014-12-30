@@ -11,6 +11,7 @@
 #include "game/utils/settings.h"
 #include "game/components/caster.h"
 #include "game/components/graphic.h"
+#include "game/components/timedlife.h"
 #include "game/components/lightemitter.h"
 #include "game/skills/combatart.h"
 #include "game/constants.h"
@@ -27,10 +28,11 @@ static bool VisibilityCheck(const component::Caster* caster) {
 }
 
 static void HeroLightUse(component::Caster* caster) {
-    sprite::WObjPtr light = sprite::WorldObject::Create(15.0);
+    sprite::WObjPtr light = sprite::WorldObject::Create();
 
     light->AddComponent(component::Graphic::CreateWithSingleFrame("projectile", "yellow-ball"));
     light->AddComponent(new component::LightEmitter(4.0));
+    light->AddComponent(new component::TimedLife(15.0));
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 

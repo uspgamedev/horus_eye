@@ -31,8 +31,6 @@ using ugdk::math::Vector2D;
 
 namespace scene {
 
-//#define WORLD() (utils::LevelManager::reference()->current_level() )
-
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
@@ -69,7 +67,6 @@ class World : public ugdk::action::Scene {
     const ugdk::graphic::Geometry& camera() const { return camera_; }
     sprite::WObjWeakPtr hero() const { return hero_;  }
     LightRendering* light_rendering() const { return light_rendering_; }
-    //const std::set<map::Room*>& active_rooms() const { return active_rooms_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
