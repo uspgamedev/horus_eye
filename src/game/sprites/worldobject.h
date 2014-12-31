@@ -74,7 +74,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     template<class T>
     T* component(const std::string& name) {
         ComponentsByName::const_iterator it = components_.find(name);
-        return (it != components_.end()) ? dynamic_cast<T*>(it->second->component.get()) : nullptr;
+        return (it != components_.end()) ? dynamic_cast<T*>(it->second->get()) : nullptr;
     }
     
     /// Const version of the component getter.
@@ -82,7 +82,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     template<class T>
     const T* component(const std::string& name) const {
         ComponentsByName::const_iterator it = components_.find(name);
-        return (it != components_.end()) ? dynamic_cast<const T*>(it->second->component.get()) : nullptr;
+        return (it != components_.end()) ? dynamic_cast<const T*>(it->second->get()) : nullptr;
     }
 
     /** Convinent version where the component name comes from the default value of the given type. 
@@ -139,14 +139,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     /// Should this object memory be freed when the frame ends?
     bool to_be_removed_;
 
-    struct OrderedComponent {
-        std::unique_ptr<component::Base> component;
-        int order;
-
-        OrderedComponent(component::Base*, int);
-        bool operator == (const component::Base*) const;
-    };
-    typedef std::list<OrderedComponent> ComponentsByOrder;
+    typedef std::list<std::unique_ptr<component::Base>> ComponentsByOrder;
     typedef std::unordered_map<std::string, ComponentsByOrder::iterator> ComponentsByName;
 
     ComponentsByName components_;

@@ -28,14 +28,6 @@ using namespace utils;
 using std::string;
 using std::list;
 
-bool WorldObject::OrderedComponent::operator == (const component::Base* base) const {
-    return component.get() == base;
-}
-
-WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order)
-    : component(base), order(_order)
-{}
-
 WObjPtr WorldObject::Create() {
     return WObjPtr(new WorldObject);
 }
@@ -54,14 +46,14 @@ void WorldObject::Remove() {
     if (!tag_.empty() && current_room_)
         current_room_->RemoveTag(tag_);
     for (const auto& comp : components_order_)
-        comp.component->OnObjectRemoved();
+        comp->OnObjectRemoved();
     for (const auto& callback : on_remove_callbacks_)
         callback(this);
 }
 
 void WorldObject::Update(double dt) {
-    for(const auto& it : components_order_)
-        it.component->Update(dt);
+    for(const auto& comp : components_order_)
+        comp->Update(dt);
 }
 
 void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
@@ -88,7 +80,6 @@ void WorldObject::OnRoomAdd(map::Room* room) {
 
 void WorldObject::AddComponent(component::Base* component) {
     assert(component != nullptr);
-    assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
 
     std::string name = component->component_name();
     ugdk::system::AssertCondition<ugdk::system::InvalidOperation>(
@@ -96,9 +87,9 @@ void WorldObject::AddComponent(component::Base* component) {
         ("Object already has component with name: " + name).c_str());
 
     ComponentsByOrder::iterator it;
-    for (it = components_order_.begin(); it != components_order_.end() && it->order <= component->order(); ++it)
+    for (it = components_order_.begin(); it != components_order_.end() && (*it)->order() <= component->order(); ++it)
         continue;
-    components_[name] = components_order_.emplace(it, component, component->order());
+    components_[name] = components_order_.emplace(it, component);
     component->OnAdd(this);
 }
 
