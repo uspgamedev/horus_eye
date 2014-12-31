@@ -1,12 +1,6 @@
 #ifndef HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 #define HORUSEYE_GAME_SPRITE_WORLDOBJECT_H_
 
-#include <string>
-#include <list>
-#include <functional>
-#include <unordered_map>
-#include <memory>
-
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic.h>
 #include <ugdk/time.h>
@@ -20,6 +14,13 @@
 #include "game/map.h"
 
 #include "game/scenes/gamelayer.h"
+
+#include <string>
+#include <list>
+#include <functional>
+#include <unordered_map>
+#include <memory>
+#include <forward_list>
 
 namespace sprite {
 
@@ -139,7 +140,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     /// Should this object memory be freed when the frame ends?
     bool to_be_removed_;
 
-    typedef std::list<std::unique_ptr<component::Base>> ComponentsByOrder;
+    typedef std::forward_list<std::unique_ptr<component::Base>> ComponentsByOrder;
     typedef std::unordered_map<std::string, ComponentsByOrder::iterator> ComponentsByName;
 
     ComponentsByName components_;

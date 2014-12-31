@@ -86,17 +86,26 @@ void WorldObject::AddComponent(component::Base* component) {
         components_.find(name) == components_.end(),
         ("Object already has component with name: " + name).c_str());
 
-    ComponentsByOrder::iterator it;
-    for (it = components_order_.begin(); it != components_order_.end() && (*it)->order() <= component->order(); ++it)
+    ComponentsByOrder::iterator previous, it;
+    for (previous = components_order_.before_begin(), it = components_order_.begin();
+         it != components_order_.end() && (*it)->order() <= component->order();
+         ++previous, ++it)
         continue;
-    components_[name] = components_order_.emplace(it, component);
+    components_[name] = components_order_.emplace_after(previous, component);
     component->OnAdd(this);
 }
 
 void WorldObject::RemoveComponent(const std::string& name) {
     ComponentsByName::const_iterator it = components_.find(name);
     if(it == components_.end()) return;
-    components_order_.erase(it->second);
+
+    ComponentsByOrder::iterator previous, target;
+    for (previous = components_order_.before_begin(), target = components_order_.begin();
+         target != components_order_.end() && target != it->second;
+         ++previous, ++it)
+         continue;
+
+    components_order_.erase_after(previous);
     components_.erase(it);
 }
 
