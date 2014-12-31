@@ -13,13 +13,14 @@ namespace component {
     
 class Condition : public Base { 
   public:
-    static const char* DEFAULT_NAME() { return "condition"; }
-    static int DEFAULT_ORDER() { return orders::LOGIC; }
-
     Condition(sprite::WObjRawPtr owner);
     ~Condition();
+
+    static std::string DEFAULT_NAME() { return "condition"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::LOGIC; }
     
-    void Update(double dt);
+    void Update(double dt) override;
 
     bool AddEffect(const std::shared_ptr<sprite::Effect>& new_effect);
     int CountEffectsByName(const std::string&) const;

@@ -23,8 +23,8 @@ end
 
 function build(wobj, params)
   local button = make_button()
-  wobj:AddComponent(button.graphic, "graphic", 100)
-  wobj:AddComponent(button.animator, "animator", 102)
+  wobj:AddComponent(button.graphic)
+  wobj:AddComponent(button.animator)
   
   return {
     collision = {

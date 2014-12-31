@@ -10,7 +10,7 @@ local graphics = require 'graphics'
 local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
-  wobj:AddComponent(graphics.dummy_spike_trap(), "graphic", 100)
+  wobj:AddComponent(graphics.dummy_spike_trap())
   return {
     collision = {
       class = "Wall",

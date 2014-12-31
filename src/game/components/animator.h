@@ -18,9 +18,11 @@ namespace component {
 
 class Animator : public Base {
   public:
-    static const char* DEFAULT_NAME() { return "animator"; }
-    static int DEFAULT_ORDER() { return orders::GRAPHIC + 2; }
     Animator(const std::string& animation_set);
+
+    static std::string DEFAULT_NAME() { return "animator"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::GRAPHIC + 2; }
 
     void Configure(Graphic*);
 

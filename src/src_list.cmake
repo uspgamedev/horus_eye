@@ -167,4 +167,7 @@ SET(GAME_SRCS
     game/utils/settings.h 
     game/utils/visionstrategy.cc 
     game/utils/visionstrategy.h 
+    module/ai/logicblockproxy.h 
+    module/component/baseproxy.h 
+    module/luaproxy_horus.h 
 )

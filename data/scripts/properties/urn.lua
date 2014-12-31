@@ -15,8 +15,8 @@ local vec2 = ugdk_math.Vector2D
 function build (wobj, params)
   params = params or {}
   local graphic, animator = graphics.urn()
-  wobj:AddComponent(graphic, "graphic", 100)
-  wobj:AddComponent(animator, "animator", 102)
+  wobj:AddComponent(graphic)
+  wobj:AddComponent(animator)
   wobj:AddOnRemoveCallback(function (self)
     local drops = params.drops or {}
     local offset = params.offset or vec2()

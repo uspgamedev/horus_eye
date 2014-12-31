@@ -25,8 +25,8 @@ end
 
 function build(wobj, params)
   local switch = make_switch()
-  wobj:AddComponent(switch.graphic, "graphic", 100)
-  wobj:AddComponent(switch.animator, "animator", 102)
+  wobj:AddComponent(switch.graphic)
+  wobj:AddComponent(switch.animator)
   
   return {
     collision = {
@@ -40,7 +40,7 @@ function build(wobj, params)
             end
             switch.activated = true
             switch.animator:ChangeAnimation "SWITCH_START"
-            self:AddComponent(component.LightEmitter(3.0), "light", 101)
+            self:AddComponent(component.LightEmitter(3.0))
           end
         end
       }

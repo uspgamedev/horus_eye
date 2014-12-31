@@ -17,11 +17,12 @@ namespace component {
     
 class Walker : public Base, public ugdk::util::Uncopyable { 
   public:
-    static const char* DEFAULT_NAME() { return "walker"; }
-    static int DEFAULT_ORDER() { return orders::LOGIC; }
-
     Walker(double original_speed);
     ~Walker();
+
+    static std::string DEFAULT_NAME() { return "walker"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::LOGIC; }
     
     void Update(double dt) override;
     void OnAdd(sprite::WObjRawPtr) override;

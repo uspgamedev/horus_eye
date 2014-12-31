@@ -101,32 +101,11 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
         return components_.find(name) != components_.end();
     }
     
-    /// Adds a component with the given name an order.
+    /// Adds a component to this object.
     /** 
     @param component The component to add.
-    @param name The name to store it with.
-    @param order The order where to place it with.
     */
-    void AddComponent(component::Base* component, const std::string& name, int order);
-
-    /** Convinent version of AddComponent that auto-completes the name and order from the default values of the component's type. 
-    @param T The type from where to extract the default name and order.
-    @param component The component to add.
-    */
-    template<class T>
-    void AddComponent(T* component) { 
-        AddComponent(component, T::DEFAULT_NAME(), T::DEFAULT_ORDER());
-    }
-    
-    /** Convinent version of AddComponent that auto-completes just the order from the default values of the component's type.
-    @param T The type from where to extract the default order.
-    @param component The component to add.
-    @param name The name to store it with.
-    */
-    template<class T>
-    void AddComponent(T* component, const std::string& name) { 
-        AddComponent(component, name, T::DEFAULT_ORDER());
-    }
+    void AddComponent(component::Base* component);
 
     /// Removes the component with the given name.
     /** Does not delete the component. Does nothing if there's no component with such name.

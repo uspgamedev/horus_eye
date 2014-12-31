@@ -15,8 +15,10 @@ class Controller : public Base {
     enum SkillSlot {
         PRIMARY, SECONDARY, SPECIAL1, SPECIAL2, SPECIAL3, INVALID_SLOT
     };
-    static const char* DEFAULT_NAME() { return "controller"; }
-    static int DEFAULT_ORDER() { return orders::INPUT; }
+
+    static std::string DEFAULT_NAME() { return "controller"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::INPUT; }
 
     Controller() {}
     virtual ~Controller() {}

@@ -18,11 +18,12 @@ namespace component {
 
 class Body : public Base {
   public:
-    static const char* DEFAULT_NAME() { return "body"; }
-    static int DEFAULT_ORDER() { return orders::LOGIC; }
-
     Body(pyramidworks::collision::CollisionObject* collision, pyramidworks::collision::CollisionObject* visibility);
     ~Body();
+
+    static std::string DEFAULT_NAME() { return "body"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::LOGIC; }
 
     void Update(double) override {}
     void OnAdd(sprite::WObjRawPtr) override;

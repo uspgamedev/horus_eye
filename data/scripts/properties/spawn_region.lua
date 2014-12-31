@@ -18,7 +18,7 @@ function build (wobj, params)
   local activated = false
 
   wobj:set_identifier("Spawn Region #"..params.id)
-  wobj:AddComponent(component.Damageable(), "damageable", 0)
+  wobj:AddComponent(component.Damageable())
   wobj:AddOnRemoveCallback(function (self)
     local n = params.multiple and #params.multiple or 1
     for i=1,n do
@@ -42,7 +42,7 @@ function build (wobj, params)
             activated = true
             print(self:identifier() .. " Activated!")
             if params.delay then
-              self:AddComponent(component.TimedLife(tonumber(params.delay)), "timedlife", 0)
+              self:AddComponent(component.TimedLife(tonumber(params.delay)))
             else
               self:damageable():Die()
             end

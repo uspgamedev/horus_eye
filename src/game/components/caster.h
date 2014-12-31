@@ -24,9 +24,6 @@ namespace component {
 
 class Caster : public Base {
   public:
-    static const char* DEFAULT_NAME() { return "caster"; }
-    static int DEFAULT_ORDER() { return orders::LOGIC; }
-
     Caster(const resource::Energy& mana, int block_count, const skills::usearguments::Aim& aim);
 
     /// Easy constructor. Default block_count and aim.
@@ -37,6 +34,10 @@ class Caster : public Base {
     Caster(const sprite::ObjectHandle& handle, const resource::Energy& mana);
 
     ~Caster();
+
+    static std::string DEFAULT_NAME() { return "caster"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::LOGIC; }
 
     // METHODS
 

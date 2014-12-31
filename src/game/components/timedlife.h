@@ -8,11 +8,12 @@ namespace component {
     
 class TimedLife : public Base { 
   public:
-    static const char* DEFAULT_NAME() { return "timedlife"; }
-    static int DEFAULT_ORDER() { return orders::LOGIC; }
-
     TimedLife(double duration);
     ~TimedLife();
+
+    static std::string DEFAULT_NAME() { return "timedlife"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::LOGIC; }
     
     void Update(double dt) override;
     void OnAdd(sprite::WObjRawPtr) override;

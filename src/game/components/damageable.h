@@ -2,6 +2,7 @@
 #define HORUSEYE_COMPONENT_DAMAGEABLE_H_
 
 #include "game/components/base.h"
+#include "game/components/orders.h"
 
 #include "game/sprites.h"
 #include "game/resources/energy.h"
@@ -18,11 +19,12 @@ namespace component {
 
 class Damageable : public Base { 
   public:
-    static const char* DEFAULT_NAME() { return "damageable"; }
-    static int DEFAULT_ORDER() { return 0; }
-
     Damageable(int invulnerability_time = 0, bool blinks = false);
     virtual ~Damageable();
+
+    static std::string DEFAULT_NAME() { return "damageable"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::LOGIC; }
 
     virtual void TakeDamage(double life_points);
     void Die();

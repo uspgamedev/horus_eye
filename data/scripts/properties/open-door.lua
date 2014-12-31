@@ -16,8 +16,8 @@ function build (wobj, params)
   local close_event = params and params.close_event
 
   local graphic_comp, animator = graphics.open_door()
-  wobj:AddComponent(graphic_comp, "graphic", 100)
-  wobj:AddComponent(animator, "animator", 102)
+  wobj:AddComponent(graphic_comp)
+  wobj:AddComponent(animator)
 
   animator:ChangeAnimation("STANDING_"..dir)
 

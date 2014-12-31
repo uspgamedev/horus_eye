@@ -107,6 +107,11 @@ int main(int argc, char *argv[]) {
         wrapper->ExecuteCode("require 'core'; require 'map'; require 'context'; require 'component'");
         SCRIPT_MANAGER()->LoadModule("init_constants");
     }
+
+    {
+        auto lua = SCRIPT_MANAGER()->GetWrapper("Lua");
+
+    }
     
     ugdk::text::manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     ugdk::text::manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");

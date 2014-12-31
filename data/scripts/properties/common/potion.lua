@@ -15,6 +15,8 @@ local function AddItemLogic(wobj, callback)
   logic.total_time = 0.0
   logic.base_offset = wobj:graphic():render_offset()
 
+  logic.component_name = "item"
+
   function logic:Update(dt)
     self.total_time = self.total_time + dt
     if self.total_time >= logic.period then
@@ -23,17 +25,18 @@ local function AddItemLogic(wobj, callback)
     wobj:graphic():set_render_offset(self.base_offset + vec2(0.0, 0.5*math.cos(3.0*self.total_time)))
   end
 
-  wobj:AddComponent(logic, "item", 0)
+  wobj:AddComponent(logic)
 
   -- Collision logic
   local colobj = pyramidworks_collision.CollisionObject(nil, "Item", Circle(0.15))
   colobj:AddCollisionLogic("Hero", function(other)
     local other_obj = context.ToWorldObject(other:data())
     if callback(other_obj) then
+      print("comoassim", wobj)
       wobj:Remove()
     end
   end)
-  wobj:AddComponent(component.Body(colobj, nil), "body", 0)
+  wobj:AddComponent(component.Body(colobj, nil))
 end
 
 return {

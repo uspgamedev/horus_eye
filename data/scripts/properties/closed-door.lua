@@ -12,14 +12,14 @@ local Rect = pyramidworks_geometry.Rect
 function build (wobj, params)
   local dir = params.dir or "Left"
 
-  wobj:AddComponent(component.Damageable(), "damageable", 0)
+  wobj:AddComponent(component.Damageable())
   
   local graphic, animator = graphics.closed_door()
-  wobj:AddComponent(graphic, "graphic", 100)
-  wobj:AddComponent(animator, "animator", 102)
+  wobj:AddComponent(graphic)
+  wobj:AddComponent(animator)
   
   local anim_comp = component.Animation()
-  wobj:AddComponent(anim_comp, "animation", 101)
+  wobj:AddComponent(anim_comp)
   anim_comp:ChangeDirection(component["Direction_"..dir]())
   context.EnableDeathAnimation(wobj)
   return {

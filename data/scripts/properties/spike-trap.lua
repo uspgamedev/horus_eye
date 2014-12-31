@@ -11,11 +11,11 @@ local Rect = pyramidworks_geometry.Rect
 
 function build (wobj)
   local graphic, animator = graphics.spike_trap()
-  wobj:AddComponent(graphic, "graphic", 100)
-  wobj:AddComponent(animator, "animator", 102)
-  wobj:AddComponent(component.TimedLife(1), "timedlife", 0)
+  wobj:AddComponent(graphic)
+  wobj:AddComponent(animator)
+  wobj:AddComponent(component.TimedLife(1))
   local anim_comp = component.Animation(component.SPAWNING, component.Direction())
-  wobj:AddComponent(anim_comp, "animation", 101)
+  wobj:AddComponent(anim_comp)
   context.EnableDeathAnimation(wobj)
   return {
     collision = {

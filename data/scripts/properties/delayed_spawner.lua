@@ -8,7 +8,7 @@ require "map"
 local Vector2D = ugdk_math.Vector2D
 
 function build (wobj, params)
-  wobj:AddComponent(component.TimedLife(tonumber(params.time)), "timedlife", 0)
+  wobj:AddComponent(component.TimedLife(tonumber(params.time)))
   wobj:AddOnRemoveCallback(function (obj)
     obj:current_room():MakeRecipe(
       params.recipe,

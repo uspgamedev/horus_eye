@@ -10,9 +10,9 @@ function build (wobj)
   local graphic, animator = graphics.switch()
   animator:ChangeAnimation "SWITCH_ON"
   
-  wobj:AddComponent(graphic, "graphic", 100)
-  wobj:AddComponent(animator, "animator", 102)
-  wobj:AddComponent(component.LightEmitter(3.0), "light", 101)
+  wobj:AddComponent(graphic)
+  wobj:AddComponent(animator)
+  wobj:AddComponent(component.LightEmitter(3.0))
   return {
     collision = {
       class = "Wall",

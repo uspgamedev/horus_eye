@@ -22,15 +22,16 @@ namespace component {
 
 class Graphic : public Base {
   public:
-    static const char* DEFAULT_NAME() { return "graphic"; }
-    static int DEFAULT_ORDER() { return orders::GRAPHIC; }
-
     static Graphic* Create(const std::function<void (ugdk::graphic::Primitive&)>& primitive_prepare_function);
 
     static Graphic* CreateWithSpritesheet(const std::string& spritesheet_name);
     static Graphic* CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name);
 
     ~Graphic();
+
+    static std::string DEFAULT_NAME() { return "graphic"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::GRAPHIC; }
 
     const ugdk::graphic::Primitive& primitive() const { return primitive_; }
     ugdk::graphic::Primitive& primitive() { return primitive_; }

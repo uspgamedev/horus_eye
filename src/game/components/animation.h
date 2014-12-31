@@ -21,12 +21,14 @@ namespace component {
 class Animation : public Base, private ugdk::action::Observer {
   public:
     typedef std::function<void (sprite::WObjRawPtr)> AnimationCallback;
-    static const char* DEFAULT_NAME() { return "animation"; }
-    static int DEFAULT_ORDER() { return orders::GRAPHIC + 1; }
 
     Animation();
     Animation(utils::AnimtionType type, const Direction& dir);
     virtual ~Animation();
+
+    static std::string DEFAULT_NAME() { return "animation"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::GRAPHIC + 1; }
 
     void Update(double dt) override;
     void OnAdd(sprite::WObjRawPtr) override;

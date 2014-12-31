@@ -86,17 +86,19 @@ void WorldObject::OnRoomAdd(map::Room* room) {
         on_room_add_callback_(this, room);
 }
 
-void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {
-    ugdk::system::AssertCondition<ugdk::system::InvalidOperation>(
-        components_.find(name) == components_.end(),
-        ("Object already has component with name: " + name).c_str());
+void WorldObject::AddComponent(component::Base* component) {
     assert(component != nullptr);
     assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
 
+    std::string name = component->component_name();
+    ugdk::system::AssertCondition<ugdk::system::InvalidOperation>(
+        components_.find(name) == components_.end(),
+        ("Object already has component with name: " + name).c_str());
+
     ComponentsByOrder::iterator it;
-    for (it = components_order_.begin(); it != components_order_.end() && it->order <= order; ++it)
+    for (it = components_order_.begin(); it != components_order_.end() && it->order <= component->order(); ++it)
         continue;
-    components_[name] = components_order_.emplace(it, component, order);
+    components_[name] = components_order_.emplace(it, component, component->order());
     component->OnAdd(this);
 }
 

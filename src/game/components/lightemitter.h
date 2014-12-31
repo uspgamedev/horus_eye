@@ -13,11 +13,12 @@ namespace component {
 
 class LightEmitter : public Base {
   public:
-    static const char* DEFAULT_NAME() { return "light"; }
-    static int DEFAULT_ORDER() { return orders::GRAPHIC + 2; }
-
     LightEmitter(double light_radius, ugdk::Color color = ugdk::Color(1.0, 1.0, 1.0));
     ~LightEmitter();
+
+    static std::string DEFAULT_NAME() { return "light"; }
+    std::string component_name() const override { return DEFAULT_NAME(); }
+    int order() const override { return orders::GRAPHIC + 2; }
 
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::math::Vector2D& position);
