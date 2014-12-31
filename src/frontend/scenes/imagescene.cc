@@ -10,7 +10,8 @@
 #include <ugdk/ui/drawable.h>
 #include <ugdk/input/events.h>
 
-namespace scene {
+namespace frontend {
+namespace scenes {
 
 using ugdk::system::Task;
 using ugdk::input::KeyPressedEvent;
@@ -59,4 +60,5 @@ void ImageScene::End() {
     this->set_visible(false);
 }
 
-}
+} // namespace scenes
+} // namespace frontend

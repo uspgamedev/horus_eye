@@ -18,7 +18,8 @@
 
 #include <functional>
 
-namespace scene {
+namespace frontend {
+namespace scenes {
 
 using namespace ugdk;
 using namespace ugdk::ui;
@@ -126,4 +127,6 @@ void Console::UpdateCurrentLine() {
     current_line_label_->ChangeMessage(ss.str());
 }
 
-}
+} // namespace scenes
+} // namespace frontend
+

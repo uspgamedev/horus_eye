@@ -9,6 +9,12 @@ SET(GAME_SRCS
     frontend/nativebuilders/homescene.cc 
     frontend/nativebuilders/pausescene.cc 
     frontend/nativebuilders/settingsscene.cc 
+    frontend/scenes/console.cc 
+    frontend/scenes/console.h 
+    frontend/scenes/imagescene.cc 
+    frontend/scenes/imagescene.h 
+    frontend/scenes/scrollingimagescene.cc 
+    frontend/scenes/scrollingimagescene.h 
     game/ai.h 
     game/ai/ai.cc 
     game/ai/ai.h 
@@ -125,15 +131,9 @@ SET(GAME_SRCS
     game/resources/energy.h 
     game/resources/resource.h 
     game/scenes.h 
-    game/scenes/console.cc 
-    game/scenes/console.h 
     game/scenes/gamelayer.h 
-    game/scenes/imagescene.cc 
-    game/scenes/imagescene.h 
     game/scenes/lightrendering.cc 
     game/scenes/lightrendering.h 
-    game/scenes/scrollingimagescene.cc 
-    game/scenes/scrollingimagescene.h 
     game/scenes/world.cc 
     game/scenes/world.h 
     game/skills.h 

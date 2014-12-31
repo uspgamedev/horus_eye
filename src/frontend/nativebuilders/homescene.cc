@@ -1,9 +1,10 @@
 
 #include "commonmenu.h"
+
 #include "frontend/nativebuilders.h"
+#include "frontend/scenes/scrollingimagescene.h"
 
 #include "game/constants.h"
-#include "game/scenes/scrollingimagescene.h"
 #include "game/utils/settings.h"
 
 #include <ugdk/audio/module.h>
@@ -36,7 +37,7 @@ namespace {
         ugdk::text::LanguageWord* langword = ugdk::resource::GetLanguageWord("CreditsFile");
         auto textbox = ugdk::MakeUnique<TextBox>(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
         textbox->set_ident_style(TextBox::CENTER);
-        auto scroll = ugdk::MakeUnique<scene::ScrollingImageScene>(nullptr, std::move(textbox), 55);
+        auto scroll = ugdk::MakeUnique<scenes::ScrollingImageScene>(nullptr, std::move(textbox), 55);
         if (utils::Settings::reference()->background_music())
             scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
         ugdk::system::PushScene(std::move(scroll));

@@ -1,6 +1,6 @@
 #include "game/context.h"
 
-#include "game/scenes/scrollingimagescene.h"
+#include "frontend/scenes/scrollingimagescene.h"
 #include "game/utils/settings.h"
 
 #include <ugdk/text/label.h>
@@ -27,7 +27,7 @@ void ShowScrollingText(const std::string& tag) {
     ugdk::text::LanguageWord* langword = ugdk::resource::GetLanguageWord(tag);
     auto textbox = ugdk::MakeUnique<TextBox>(langword->text(), ugdk::graphic::manager()->screen()->size().x, ugdk::text::manager()->GetFont(langword->font()));
     textbox->set_ident_style(TextBox::CENTER);
-    auto scroll = ugdk::MakeUnique<scene::ScrollingImageScene>(nullptr, std::move(textbox), 55);
+    auto scroll = ugdk::MakeUnique<frontend::scenes::ScrollingImageScene>(nullptr, std::move(textbox), 55);
     if (utils::Settings::reference()->background_music())
         scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
     ugdk::system::PushScene(std::move(scroll));
@@ -40,12 +40,12 @@ void ShowImageAsScene(const std::string& tag, bool is_filename) {
     else
         texture = ugdk::resource::GetTextureFromTag(tag);
 
-    auto scroll = ugdk::MakeUnique<scene::ImageScene>(nullptr, ugdk::MakeUnique<ugdk::ui::TexturedRectangle>(texture));
+    auto scroll = ugdk::MakeUnique<frontend::scenes::ImageScene>(nullptr, ugdk::MakeUnique<ugdk::ui::TexturedRectangle>(texture));
     ugdk::system::PushScene(std::move(scroll));
 }
 
 void ShowTextAsScene(const std::string& message) {
-    auto scroll = ugdk::MakeUnique<scene::ImageScene>(nullptr, ugdk::MakeUnique<ugdk::text::Label>(message, ugdk::text::manager()->GetFont("DejaVuMono")));
+    auto scroll = ugdk::MakeUnique<frontend::scenes::ImageScene>(nullptr, ugdk::MakeUnique<ugdk::text::Label>(message, ugdk::text::manager()->GetFont("DejaVuMono")));
     ugdk::system::PushScene(std::move(scroll));
 }
 

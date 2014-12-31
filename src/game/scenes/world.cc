@@ -29,7 +29,6 @@
 #include "game/components/body.h"
 #include "game/core/coordinates.h"
 #include "game/map/room.h"
-#include "game/scenes/console.h"
 #include "game/scenes/lightrendering.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
@@ -38,6 +37,7 @@
 #include "game/initializer.h"
 
 #include "frontend/nativebuilders.h"
+#include "frontend/scenes/console.h"
 
 namespace scene {
 
@@ -135,7 +135,7 @@ void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
     }
 
     if (ev.scancode == input::Scancode::GRAVE) {
-        ugdk::system::PushSceneFactory(&ugdk::MakeUnique<Console>);
+        ugdk::system::PushSceneFactory(&ugdk::MakeUnique<frontend::scenes::Console>);
     }
 
 

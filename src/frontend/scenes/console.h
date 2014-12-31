@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_SCENES_CONSOLE_H_
-#define HORUSEYE_GAME_SCENES_CONSOLE_H_
+#ifndef HORUSEYE_FRONTEND_SCENES_CONSOLE_H_
+#define HORUSEYE_FRONTEND_SCENES_CONSOLE_H_
 
 #include <ugdk/action/scene.h>
 #include <ugdk/ui.h>
@@ -10,7 +10,8 @@
 #include <vector>
 #include <sstream>
 
-namespace scene {
+namespace frontend {
+namespace scenes {
 
 class Console : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
@@ -37,6 +38,7 @@ class Console : public ugdk::action::Scene {
     ugdk::text::Label* current_line_label_;
 };
 
-} // namespace scene
+} // namespace scenes
+} // namespace frontend
 
-#endif // HORUSEYE_GAME_SCENES_CONSOLE_H_
+#endif // HORUSEYE_FRONTEND_SCENES_CONSOLE_H_

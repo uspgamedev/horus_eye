@@ -2,7 +2,7 @@
 
 #include "game/campaigns/campaign.h"
 #include "game/scenes/world.h"
-#include "game/scenes/console.h"
+#include "frontend/scenes/console.h"
 #include "game/builders/scriptbuilder.h"
 #include "game/builders/aibuilder.h"
 #include "game/sprites/objecthandle.h"
@@ -134,7 +134,7 @@ sprite::ObjectHandle hero() {
 }
 
 void ChangeConsoleLanguage(const std::string& lang) {
-    scene::Console::ChangeLanguage(lang);
+    frontend::scenes::Console::ChangeLanguage(lang);
 }
 
 sprite::WObjRawPtr ToWorldObject(pyramidworks::collision::CollisionData* data) {
