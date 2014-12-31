@@ -6,7 +6,7 @@
 #include "game/campaigns/campaigndescriptor.h"
 #include "game/campaigns.h"
 #include "game/sprites.h"
-#include "game/scenes.h"
+#include "game/core.h"
 
 #include <ugdk/script/virtualobj.h>
 #include <ugdk/action.h>
@@ -24,7 +24,7 @@ class Campaign : public ugdk::action::Scene {
     Campaign(const CampaignDescriptor&);
     ~Campaign();
 
-    scene::World* current_level() const { return current_level_; }
+    core::World* current_level() const { return current_level_; }
     ugdk::script::VirtualObj implementation() { return implementation_; }
 
     bool LoadLevel(const std::string& levelname);
@@ -37,7 +37,7 @@ class Campaign : public ugdk::action::Scene {
 
   private:
 
-    scene::World* current_level_;
+    core::World* current_level_;
     CampaignDescriptor descriptor_;
     ugdk::script::VirtualObj implementation_;
 };

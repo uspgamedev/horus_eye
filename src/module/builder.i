@@ -25,7 +25,7 @@
 %import(module="component") "component.i"
 %import(module="ai") <game/ai/ai.h>
 
-%ignore builder::DoodadBuilder::Door(const std::vector<std::string>& arguments, scene::World* world);
+%ignore builder::DoodadBuilder::Door(const std::vector<std::string>& arguments, core::World* world);
 
 %template(StringList) std::vector<std::string>;
 

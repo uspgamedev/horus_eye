@@ -1,7 +1,7 @@
 #include "game/components/body.h"
 
 #include <pyramidworks/collision/collisionobject.h>
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 
 namespace component {
@@ -26,7 +26,7 @@ void Body::OnAdd(sprite::WObjRawPtr owner) {
         visibility_->set_data(owner_);
 }
     
-void Body::Activate(scene::World* world) {
+void Body::Activate(core::World* world) {
     for(auto& collision : collisions_)
         collision->StartColliding(world->collision_manager());
     if(visibility_) visibility_->StartColliding(world->visibility_manager());

@@ -1,8 +1,8 @@
 #include "game/campaigns/campaign.h"
 
 #include "game/utils/levelloader.h"
-#include "game/scenes/lightrendering.h"
-#include "game/scenes/world.h"
+#include "game/core/lightrendering.h"
+#include "game/core/world.h"
 #include "game/builders/herobuilder.h"
 #include "game/context.h"
 #include "game/campaigns/exceptions.h"
@@ -16,7 +16,6 @@
 
 using namespace ugdk;
 using namespace ugdk::action;
-using namespace scene;
 using namespace sprite;
 
 namespace campaigns {
@@ -67,7 +66,7 @@ bool Campaign::LoadLevel(const std::string& level_name) {
     current_level_ = utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path);
 
     if (current_level_) {
-        auto lr = ugdk::MakeUnique<scene::LightRendering>(current_level_);
+        auto lr = ugdk::MakeUnique<core::LightRendering>(current_level_);
         current_level_->set_light_rendering(lr.get());
 
         ugdk::system::PushScene(std::move(lr));

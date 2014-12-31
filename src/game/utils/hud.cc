@@ -12,7 +12,7 @@
 #include <ugdk/time/module.h>
 
 #include "game/config.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/utils/hudimagefactory.h"
 #include "game/skills/skill.h"
 #include "game/sprites/worldobject.h"
@@ -34,7 +34,7 @@
 
 using namespace ugdk;
 using namespace ugdk::ui;
-using scene::World;
+using core::World;
 using component::Controller;
 
 namespace utils {

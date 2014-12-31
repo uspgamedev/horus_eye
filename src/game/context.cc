@@ -1,7 +1,7 @@
 #include "game/context.h"
 
 #include "game/campaigns/campaign.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "frontend/scenes/console.h"
 #include "game/builders/scriptbuilder.h"
 #include "game/builders/aibuilder.h"
@@ -33,7 +33,7 @@ using pyramidworks::collision::CollisionObjectList;
 using pyramidworks::collision::CollisionClass;
 using pyramidworks::geometry::GeometricShape;
 using pyramidworks::geometry::Rect;
-using scene::World;
+using core::World;
 using builder::ScriptBuilder::Script;
 using component::Animation;
 

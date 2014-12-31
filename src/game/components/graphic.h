@@ -6,7 +6,7 @@
 #include "game/sprites.h"
 #include "game/components.h"
 #include "game/components/orders.h"
-#include "game/scenes/gamelayer.h"
+#include "game/core/gamelayer.h"
 
 #include <ugdk/structure/types.h>
 #include <ugdk/graphic.h>
@@ -36,8 +36,8 @@ class Graphic : public Base {
     const ugdk::graphic::Primitive& primitive() const { return primitive_; }
     ugdk::graphic::Primitive& primitive() { return primitive_; }
 
-    void set_layer(scene::GameLayer layer) { layer_ = layer; }
-    scene::GameLayer layer() const { return layer_; }
+    void set_layer(core::GameLayer layer) { layer_ = layer; }
+    core::GameLayer layer() const { return layer_; }
     
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::math::Vector2D& position);
@@ -68,7 +68,7 @@ class Graphic : public Base {
 
     ugdk::graphic::Primitive primitive_;
 
-    scene::GameLayer layer_;
+    core::GameLayer layer_;
 
     ugdk::math::Vector2D world_position_;
     ugdk::math::Vector2D render_offset_;

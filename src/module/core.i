@@ -8,8 +8,8 @@
 #include <ugdk/action/scene.h>
 #include <game/campaigns/campaigndescriptor.h>
 #include <game/campaigns/campaign.h>
-#include <game/scenes/lightrendering.h>
-#include <game/scenes/world.h>
+#include <game/core/lightrendering.h>
+#include <game/core/world.h>
 #include <game/core/coordinates.h>
 
 %}
@@ -18,18 +18,18 @@
 %import(module="ugdk_action") <ugdk/action/scene.h>
 %import(module="ugdk_math") <ugdk/math/vector2D.h>
 %import(module="component") "component.i"
-%import(module="core") "game/scenes.h"
+%import(module="core") "game/core.h"
 
 %include <game/campaigns/campaigndescriptor.h>
 %include <game/campaigns/campaign.h>
-%include <game/scenes/lightrendering.h>
-%include <game/scenes/world.h>
+%include <game/core/lightrendering.h>
+%include <game/core/world.h>
 %include <game/core/coordinates.h>
 
 namespace campaigns {
     export_class(Campaign)
 }
-namespace scene {
+namespace core {
     export_class(LightRendering)
     export_class(World)
 }

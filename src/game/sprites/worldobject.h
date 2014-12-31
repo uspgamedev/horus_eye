@@ -8,12 +8,12 @@
 #include <pyramidworks/geometry.h>
 #include <pyramidworks/collision/collisiondata.h>
 
-#include "game/scenes.h"
+#include "game/core.h"
 #include "game/components.h"
 #include "game/sprites.h"
 #include "game/map.h"
 
-#include "game/scenes/gamelayer.h"
+#include "game/core/gamelayer.h"
 
 #include <string>
 #include <list>

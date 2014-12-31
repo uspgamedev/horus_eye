@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_CORE_COORDINATES_H_
 
 #include <ugdk/math/vector2D.h>
-#include "game/scenes.h"
+#include "game/core.h"
 
 namespace core {
 
@@ -20,7 +20,7 @@ ugdk::math::Vector2D FromWorldLinearCoordinates(const ugdk::math::Vector2D& worl
 ugdk::math::Vector2D FromWorldCoordinates(const ugdk::math::Vector2D& screen_coords);
 
 // Funcao que transforma PONTOS de coordenadas de tela para de mundo
-ugdk::math::Vector2D FromScreenCoordinates(scene::World*, const ugdk::math::Vector2D& screen_coords);
+ugdk::math::Vector2D FromScreenCoordinates(core::World*, const ugdk::math::Vector2D& screen_coords);
 
 } // namespace core
 

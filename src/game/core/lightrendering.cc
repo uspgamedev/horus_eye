@@ -16,10 +16,10 @@
 #include <pyramidworks/geometry/circle.h>
 #include <pyramidworks/geometry/rect.h>
 
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 
-namespace scene {
+namespace core {
 
 using namespace ugdk;
 using namespace ugdk::graphic;
@@ -138,7 +138,7 @@ namespace {
         return shape->Intersects(position, &c, point);
     }
 
-    void DrawShadows(scene::World* world, sprite::WObjRawPtr hero, ugdk::graphic::Canvas& canvas) {
+    void DrawShadows(core::World* world, sprite::WObjRawPtr hero, ugdk::graphic::Canvas& canvas) {
         ugdk::debug::ProfileSection section("DrawShadows");
 
         auto& opaque_class = world->visibility_manager()->Find("Opaque");
@@ -301,4 +301,4 @@ void LightRendering::ApplyShadowCasting(Canvas& canvas) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
     
-} // namespace scene
+} // namespace core

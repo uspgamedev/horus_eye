@@ -21,7 +21,7 @@ using ugdk::graphic::Primitive;
 
 Graphic::Graphic()
 : primitive_(nullptr, nullptr)
-, layer_(scene::FOREGROUND_LAYER)
+, layer_(core::FOREGROUND_LAYER)
 {}
 
 Graphic::~Graphic() {}

@@ -6,14 +6,13 @@
 #include <pyramidworks/collision/collisionmanager.h>
 #include <pyramidworks/geometry/convexpolygon.h>
 
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/constants.h"
 #include "game/sprites/worldobject.h"
 #include "game/context.h"
 
-using namespace scene;
 using namespace utils;
 using namespace sprite;
 using namespace ugdk;

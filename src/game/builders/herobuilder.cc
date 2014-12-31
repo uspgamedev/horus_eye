@@ -16,7 +16,7 @@
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 #include "game/map/room.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/campaigns/campaign.h"
 
 #include <ugdk/resource/module.h>

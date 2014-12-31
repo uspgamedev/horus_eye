@@ -5,7 +5,7 @@
 
 #include "game/constants.h"
 #include "game/components/base.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/components/graphic.h"
@@ -23,7 +23,6 @@
 namespace sprite {
 
 using namespace ugdk;
-using namespace scene;
 using namespace utils;
 using std::string;
 using std::list;

@@ -1,16 +1,15 @@
-#ifndef HORUSEYE_GAME_SCENES_LIGHTRENDERING_H_
-#define HORUSEYE_GAME_SCENES_LIGHTRENDERING_H_
+#ifndef HORUSEYE_GAME_CORE_LIGHTRENDERING_H_
+#define HORUSEYE_GAME_CORE_LIGHTRENDERING_H_
 
 #include <ugdk/action/scene.h>
 
 #include <ugdk/graphic/rendertexture.h>
 #include <ugdk/graphic.h>
-#include "game/scenes.h"
+#include "game/core.h"
 
 #include <memory>
 
-
-namespace scene {
+namespace core {
 
 class LightRendering : public ugdk::action::Scene {
   public:
@@ -34,6 +33,6 @@ class LightRendering : public ugdk::action::Scene {
     World* world_;
 };
 
-} // namespace scene
+} // namespace core
 
-#endif // HORUSEYE_GAME_SCENES_LIGHTRENDERING_H_
+#endif // HORUSEYE_GAME_CORE_LIGHTRENDERING_H_

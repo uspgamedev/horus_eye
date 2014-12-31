@@ -6,7 +6,7 @@
 #include "game/components/body.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/objecthandle.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 
 #include <ugdk/script/scriptmanager.h>
 #include <ugdk/script/virtualobj.h>

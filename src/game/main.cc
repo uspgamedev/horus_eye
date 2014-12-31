@@ -17,7 +17,7 @@
 #include "initializer.h"
 #include "constants.h"
 #include "utils/settings.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 

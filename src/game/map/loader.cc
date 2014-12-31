@@ -16,7 +16,7 @@
 #include "game/map/tile.h"
 #include "game/map/room.h"
 #include "game/map/giantfloor.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/core/coordinates.h"
 
 #include <vector>

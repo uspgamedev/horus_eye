@@ -11,7 +11,7 @@
 #include "game/components/walker.h"
 #include "game/components/body.h"
 
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/map/room.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"

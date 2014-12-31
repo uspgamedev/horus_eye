@@ -105,8 +105,14 @@ SET(GAME_SRCS
     game/context.h 
     game/contextloader.cc 
     game/contextscene.cc 
+    game/core.h 
     game/core/coordinates.cc 
     game/core/coordinates.h 
+    game/core/gamelayer.h 
+    game/core/lightrendering.cc 
+    game/core/lightrendering.h 
+    game/core/world.cc 
+    game/core/world.h 
     game/initializer.cc 
     game/initializer.h 
     game/main.cc 
@@ -130,12 +136,6 @@ SET(GAME_SRCS
     game/resources/countableresource.h 
     game/resources/energy.h 
     game/resources/resource.h 
-    game/scenes.h 
-    game/scenes/gamelayer.h 
-    game/scenes/lightrendering.cc 
-    game/scenes/lightrendering.h 
-    game/scenes/world.cc 
-    game/scenes/world.h 
     game/skills.h 
     game/skills/combatart.cc 
     game/skills/combatart.h 

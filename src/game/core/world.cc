@@ -28,8 +28,8 @@
 #include "game/components/graphic.h"
 #include "game/components/body.h"
 #include "game/core/coordinates.h"
+#include "game/core/lightrendering.h"
 #include "game/map/room.h"
-#include "game/scenes/lightrendering.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
 #include "game/renders/shape.h"
@@ -39,7 +39,7 @@
 #include "frontend/nativebuilders.h"
 #include "frontend/scenes/console.h"
 
-namespace scene {
+namespace core {
 
 using namespace ugdk;
 using namespace sprite;
@@ -378,4 +378,4 @@ void World::removeAllRooms() {
     active_rooms_.clear();
 }
 
-} // namespace scene
+} // namespace core

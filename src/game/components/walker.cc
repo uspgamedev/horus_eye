@@ -12,7 +12,7 @@
 #include "game/components/body.h"
 #include "game/components/damageable.h"
 #include "game/sprites/worldobject.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/skills/skill.h"
 #include "game/map/tile.h"
 

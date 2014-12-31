@@ -3,7 +3,7 @@
 #include "frontend/nativebuilders.h"
 
 #include "game/campaigns/campaign.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>

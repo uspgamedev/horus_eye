@@ -18,7 +18,6 @@
 
 namespace skills {
 
-using namespace scene;
 using namespace ugdk;
 using namespace utils;
 

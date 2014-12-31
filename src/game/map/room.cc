@@ -3,8 +3,8 @@
 #include "game/builders/scriptbuilder.h"
 #include "game/core/coordinates.h"
 #include "game/map/giantfloor.h"
-#include "game/scenes/lightrendering.h"
-#include "game/scenes/world.h"
+#include "game/core/lightrendering.h"
+#include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/objecthandle.h"
 #include "game/components/graphic.h"
@@ -147,7 +147,7 @@ void Room::MakeRecipe(const std::string& recipe_name, const ugdk::math::Vector2D
     }
 }
 
-void Room::DefineLevel(scene::World* level) {
+void Room::DefineLevel(core::World* level) {
     level_ = level;
 }
 

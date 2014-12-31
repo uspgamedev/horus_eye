@@ -4,7 +4,7 @@
 #include "game/components/base.h"
 
 #include "game/sprites.h"
-#include "game/scenes.h"
+#include "game/core.h"
 #include "game/components/orders.h"
 
 #include <ugdk/system/compatibility.h>
@@ -28,7 +28,7 @@ class Body : public Base {
     void Update(double) override {}
     void OnAdd(sprite::WObjRawPtr) override;
     
-    void Activate(scene::World*);
+    void Activate(core::World*);
     void Deactivate();
     void ChangePosition(const ugdk::math::Vector2D& pos);
     void AddCollision(pyramidworks::collision::CollisionObject* collision);

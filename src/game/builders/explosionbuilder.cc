@@ -7,7 +7,7 @@
 #include "game/components/body.h"
 #include "game/components/lightemitter.h"
 #include "game/components/animator.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/utils/isometricanimationset.h"
 #include "game/constants.h"
 

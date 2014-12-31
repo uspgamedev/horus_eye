@@ -11,8 +11,8 @@
 #include "game/core/coordinates.h"
 
 #include "game/map/room.h"
-#include "game/scenes/world.h"
-#include "game/scenes/lightrendering.h"
+#include "game/core/world.h"
+#include "game/core/lightrendering.h"
 #include "game/constants.h"
 
 namespace map {

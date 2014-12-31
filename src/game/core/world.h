@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_SCENES_WORLD_H_
-#define HORUSEYE_GAME_SCENES_WORLD_H_
+#ifndef HORUSEYE_GAME_CORE_WORLD_H_
+#define HORUSEYE_GAME_CORE_WORLD_H_
 
 #include <ugdk/action/scene.h>
 #include <ugdk/graphic/geometry.h>
@@ -11,11 +11,11 @@
 #include <pyramidworks/collision/collisionmanager.h>
 
 #include "game/sprites.h"
-#include "game/scenes.h"
+#include "game/core.h"
 #include "game/map.h"
 #include "game/campaigns.h"
 #include "game/components.h"
-#include "game/scenes/gamelayer.h"
+#include "game/core/gamelayer.h"
 #include "game/resources/resource.h"
 
 #include <list>
@@ -29,7 +29,7 @@ class Hud;
 }
 using ugdk::math::Vector2D;
 
-namespace scene {
+namespace core {
 
 class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
@@ -103,6 +103,6 @@ class World : public ugdk::action::Scene {
 
 };  // class World
 
-}  // namespace scene
+}  // namespace core
 
-#endif  // HORUSEYE_GAME_SCENES_WORLD_H_
+#endif  // HORUSEYE_GAME_CORE_WORLD_H_

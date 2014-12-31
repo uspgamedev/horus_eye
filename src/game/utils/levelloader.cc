@@ -1,7 +1,7 @@
 #include "levelloader.h"
 
 #include "game/builders/herobuilder.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/map/loader.h"
 #include "game/map/room.h"
 #include "game/utils/settings.h"
@@ -32,7 +32,7 @@ void LoadCollisionClasses(const VirtualObj& classes_vector, pyramidworks::collis
     }
 }
 
-scene::World* LoadLevel(const VirtualObj& level_data, const std::string& level_path) {
+core::World* LoadLevel(const VirtualObj& level_data, const std::string& level_path) {
     SCRIPT_MANAGER()->LoadModule("event") ["ClearAll"] ();
     if(!level_data)
         return nullptr;
@@ -45,7 +45,7 @@ scene::World* LoadLevel(const VirtualObj& level_data, const std::string& level_p
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
 
-    scene::World* world = new scene::World(Integer2D(width, height), level_vobj);
+    core::World* world = new core::World(Integer2D(width, height), level_vobj);
 
     LoadCollisionClasses(level_data["collision_classes"], world->collision_manager());
 

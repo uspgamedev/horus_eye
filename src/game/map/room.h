@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_MAP_ROOM_H_
 #define HORUSEYE_GAME_MAP_ROOM_H_
 
-#include "game/scenes.h"
+#include "game/core.h"
 #include "game/sprites.h"
 #include "game/map.h"
 #include "game/sprites/objecthandle.h"
@@ -57,7 +57,7 @@ class Room {
     }
 
     /// Sets which level this room belongs to.
-    void DefineLevel(scene::World*);
+    void DefineLevel(core::World*);
 
     /// Gets an object based on it's tag.
     sprite::ObjectHandle WorldObjectByTag(const std::string& tag) const;
@@ -82,7 +82,7 @@ class Room {
     const ugdk::math::Integer2D& size() const { return size_; }
     const ugdk::math::Integer2D& position() const { return position_; }
     GiantFloor* floor() const { return floor_.get(); }
-    scene::World* level() const { return level_; }
+    core::World* level() const { return level_; }
 
     void set_floor(std::unique_ptr<GiantFloor>&& floor);
 
@@ -105,7 +105,7 @@ class Room {
     std::unique_ptr<GiantFloor> floor_;
     ugdk::script::VirtualObj recipes_;
 
-    scene::World* level_;
+    core::World* level_;
     std::list<sprite::WObjPtr> objects_;
     std::queue<sprite::WObjPtr> queued_objects_;
 };

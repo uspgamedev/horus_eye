@@ -1,6 +1,6 @@
 #include "game/core/coordinates.h"
 
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 
 namespace core {
 
@@ -24,7 +24,7 @@ Vector2D FromWorldCoordinates(const Vector2D& world_coords) {
     return FromWorldLinearCoordinates(world_coords);
 }
 
-Vector2D FromScreenCoordinates(scene::World* world, const Vector2D& screen_coords) {
+Vector2D FromScreenCoordinates(core::World* world, const Vector2D& screen_coords) {
     const ugdk::graphic::Geometry& camera = world->camera();
     return FromScreenLinearCoordinates((screen_coords - camera.offset()) / camera.CalculateScale().x);
 }

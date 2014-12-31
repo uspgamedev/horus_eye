@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_UTILS_HUD_H_
 
 #include <ugdk/ui.h>
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/config.h"
 
 namespace skills {
@@ -12,14 +12,14 @@ class Skill;
 namespace utils {
 class Hud {
   public:
-    Hud(scene::World*);
+    Hud(core::World*);
     virtual ~Hud();
     
     virtual void Update(double delta_t);
     ugdk::ui::Node* node() { return node_.get(); }
 
   private:
-    scene::World* world_;
+    core::World* world_;
 
     std::shared_ptr<ugdk::ui::Node> node_, weapon_icon_, mummy_counter_text_holder_;
     int previous_mummy_counter_value_;

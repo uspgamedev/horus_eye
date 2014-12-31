@@ -3,7 +3,7 @@
 #include "game/constants.h"
 #include "game/core/coordinates.h"
 #include "game/initializer.h"
-#include "game/scenes/world.h"
+#include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 
 #include <ugdk/graphic/light.h>
