@@ -72,6 +72,7 @@ void WorldObject::set_world_position(const ugdk::math::Vector2D& pos) {
         g->SetPosition(world_position_);
     if(auto l = light())
         l->SetPosition(world_position_);
+
     if(current_room_) {
         map::Room* new_room = current_room_->level()->FindRoomFromPoint(world_position_);
         if(new_room && new_room != current_room_)
@@ -86,8 +87,10 @@ void WorldObject::OnRoomAdd(map::Room* room) {
 }
 
 void WorldObject::AddComponent(component::Base* component, const std::string& name, int order) {
+    ugdk::system::AssertCondition<ugdk::system::InvalidOperation>(
+        components_.find(name) == components_.end(),
+        ("Object already has component with name: " + name).c_str());
     assert(component != nullptr);
-    assert(components_.find(name) == components_.end());
     assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
 
     ComponentsByOrder::iterator it;
