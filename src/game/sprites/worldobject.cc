@@ -29,10 +29,12 @@ using std::string;
 using std::list;
 
 bool WorldObject::OrderedComponent::operator == (const component::Base* base) const {
-    return component == base;
+    return component.get() == base;
 }
 
-WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order) : component(base), order(_order) {}
+WorldObject::OrderedComponent::OrderedComponent(component::Base* base, int _order)
+    : component(base), order(_order)
+{}
 
 WObjPtr WorldObject::Create() {
     return WObjPtr(new WorldObject);
@@ -46,8 +48,6 @@ WorldObject::WorldObject()
 {}
 
 WorldObject::~WorldObject() {
-    for(ComponentsByOrder::const_iterator it = components_order_.begin(); it != components_order_.end(); ++it)
-        delete it->component;
 }
 
 void WorldObject::Remove() {
@@ -101,10 +101,10 @@ void WorldObject::AddComponent(component::Base* component, const std::string& na
     assert(components_.find(name) == components_.end());
     assert(std::find(components_order_.begin(), components_order_.end(), component) == components_order_.end());
 
-    OrderedComponent newcomp(component, order);
     ComponentsByOrder::iterator it;
-    for(it = components_order_.begin(); it != components_order_.end() && it->order <= newcomp.order; ++it) continue;
-    components_[name] = components_order_.insert(it, newcomp);
+    for (it = components_order_.begin(); it != components_order_.end() && it->order <= order; ++it)
+        continue;
+    components_[name] = components_order_.emplace(it, component, order);
     component->OnAdd(this);
 }
 
