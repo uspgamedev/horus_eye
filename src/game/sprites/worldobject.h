@@ -54,7 +54,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     }
 
     void AddOnRemoveCallback(std::function<void(WObjRawPtr)> on_remove_callback) {
-        on_remove_callbacks_.push_back(on_remove_callback);
+        on_remove_callbacks_.push_front(on_remove_callback);
     }
 
     component::Damageable* damageable();
@@ -129,7 +129,7 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     std::function<void(WObjRawPtr, map::Room*)>  on_room_add_callback_;
 
     /// Functions that are called when this object is removed.
-    std::list< std::function<void(WObjRawPtr)> >  on_remove_callbacks_;
+    std::forward_list< std::function<void(WObjRawPtr)> >  on_remove_callbacks_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;
