@@ -1,6 +1,6 @@
 
-#include "common.h"
-#include "frontend/nativescenes.h"
+#include "commonmenu.h"
+#include "frontend/nativebuilders.h"
 
 #include "game/constants.h"
 #include "game/scenes/scrollingimagescene.h"
@@ -21,7 +21,7 @@
 #include <ugdk/ui/drawable/texturedrectangle.h>
 
 namespace frontend {
-namespace nativescenes {
+namespace nativebuilders {
 
 using ugdk::math::Vector2D;
 using ugdk::ui::Menu;
@@ -99,5 +99,5 @@ std::unique_ptr<ugdk::action::Scene> HomeScene() {
     return std::move(menu);
 }
 
-} // namespace nativescenes
+} // namespace nativebuilders
 } // namespace frontend

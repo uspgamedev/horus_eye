@@ -1,5 +1,5 @@
-#include "common.h"
-#include "frontend/nativescenes.h"
+#include "commonmenu.h"
+#include "frontend/nativebuilders.h"
 
 #include "game/initializer.h"
 #include "game/utils/settings.h"
@@ -20,7 +20,7 @@
 #include <sstream>
 
 namespace frontend {
-namespace nativescenes {
+namespace nativebuilders {
 
 using ugdk::ui::Menu;
 using ugdk::ui::Drawable;
@@ -183,5 +183,5 @@ std::unique_ptr<ugdk::action::Scene> SettingsScene() {
     return std::move(menu);
 }
 
-} // namespace nativescenes
+} // namespace nativebuilders
 } // namespace frontend

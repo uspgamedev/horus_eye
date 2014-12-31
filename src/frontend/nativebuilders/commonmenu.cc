@@ -1,4 +1,4 @@
-#include "common.h"
+#include "commonmenu.h"
 
 #include "game/utils/menuimagefactory.h"
 
@@ -15,7 +15,7 @@
 #include <ugdk/ui/menu.h>
 
 namespace frontend {
-namespace nativescenes {
+namespace nativebuilders {
 
 using ugdk::ui::Menu;
 using ugdk::ui::Button;
@@ -68,5 +68,5 @@ std::unique_ptr<Menu> BaseBuildMenu(ugdk::ui::HookPoint hook) {
     return std::move(menu);
 }
 
-} // namespace nativescenes
+} // namespace nativebuilders
 } // namespace frontend

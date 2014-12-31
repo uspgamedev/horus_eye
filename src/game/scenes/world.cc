@@ -37,7 +37,7 @@
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
 
-#include "frontend/nativescenes.h"
+#include "frontend/nativebuilders.h"
 
 namespace scene {
 
@@ -213,7 +213,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     
     this->event_handler().AddListener<input::KeyPressedEvent>([](const input::KeyPressedEvent& key) {
         if (key.scancode == ugdk::input::Scancode::ESCAPE)
-            ugdk::system::PushSceneFactory(frontend::nativescenes::PauseScene);
+            ugdk::system::PushSceneFactory(frontend::nativebuilders::PauseScene);
     });
 
 #ifdef HORUSEYE_DEBUG_TOOLS

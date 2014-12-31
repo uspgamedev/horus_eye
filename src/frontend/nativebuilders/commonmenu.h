@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_FRONTEND_NATIVESCENES_COMMON_H_
-#define HORUSEYE_FRONTEND_NATIVESCENES_COMMON_H_
+#ifndef HORUSEYE_FRONTEND_NATIVEBUILDERS_COMMONMENU_H_
+#define HORUSEYE_FRONTEND_NATIVEBUILDERS_COMMONMENU_H_
 
 #include <ugdk/action.h>
 #include <ugdk/action/events.h>
@@ -12,7 +12,7 @@
 #include <list>
 
 namespace frontend {
-namespace nativescenes {
+namespace nativebuilders {
 
 void MenuFocus(const ugdk::action::SceneFocusEvent& ev);
 
@@ -34,7 +34,7 @@ private:
 };
 
 
-} // namespace nativescenes
+} // namespace nativebuilders
 } // namespace frontend
 
-#endif // HORUSEYE_FRONTEND_NATIVESCENES_COMMON_H_
+#endif // HORUSEYE_FRONTEND_NATIVEBUILDERS_COMMONMENU_H_

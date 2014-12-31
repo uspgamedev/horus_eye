@@ -1,6 +1,6 @@
 
-#include "common.h"
-#include "frontend/nativescenes.h"
+#include "commonmenu.h"
+#include "frontend/nativebuilders.h"
 
 #include "game/campaigns/campaign.h"
 #include "game/scenes/world.h"
@@ -14,7 +14,7 @@
 #include <ugdk/text/languageword.h>
 
 namespace frontend {
-namespace nativescenes {
+namespace nativebuilders {
 
 using ugdk::ui::Menu;
 using ugdk::ui::Drawable;
@@ -46,5 +46,5 @@ std::unique_ptr<ugdk::action::Scene> PauseScene() {
     return std::move(menu);
 }
 
-} // namespace nativescenes
+} // namespace nativebuilders
 } // namespace frontend

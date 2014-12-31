@@ -21,7 +21,7 @@
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 
-#include "frontend/nativescenes.h"
+#include "frontend/nativebuilders.h"
 
 #include <ugdk/script.h>
 
@@ -53,7 +53,7 @@ void StartGame() {
     if(!ugdk::text::manager()->Setup(settings->language_name())) {
         ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
-    ugdk::system::PushSceneFactory(frontend::nativescenes::HomeScene);
+    ugdk::system::PushSceneFactory(frontend::nativebuilders::HomeScene);
 }
 
 void ExitWithFatalError(const std::string& msg) {
