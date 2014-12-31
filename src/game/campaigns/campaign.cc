@@ -64,7 +64,7 @@ void Campaign::InformLevelFinished() {
     
 bool Campaign::LoadLevel(const std::string& level_name) {
     std::string level_path = descriptor_.script_path() + "." + level_name;
-    utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path, &current_level_);
+    current_level_ = utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path);
 
     if (current_level_) {
         auto lr = ugdk::MakeUnique<scene::LightRendering>(current_level_);

@@ -32,20 +32,20 @@ void LoadCollisionClasses(const VirtualObj& classes_vector, pyramidworks::collis
     }
 }
 
-void LoadLevel(const VirtualObj& level_data, const std::string& level_path, scene::World** world_ptr) {
-    *world_ptr = nullptr;
+scene::World* LoadLevel(const VirtualObj& level_data, const std::string& level_path) {
     SCRIPT_MANAGER()->LoadModule("event") ["ClearAll"] ();
-    if(!level_data) return;
+    if(!level_data)
+        return nullptr;
 
     if(!level_data["width"] || !level_data["height"] || !level_data["rooms"] || !level_data["new"]) 
-        return;
+        return nullptr;
 
     auto level_vobj = level_data["new"]();
 
     int width = level_data["width"].value<int>();
     int height = level_data["height"].value<int>();
 
-    scene::World* world = *world_ptr = new scene::World(Integer2D(width, height), level_vobj);
+    scene::World* world = new scene::World(Integer2D(width, height), level_vobj);
 
     LoadCollisionClasses(level_data["collision_classes"], world->collision_manager());
 
@@ -75,6 +75,8 @@ void LoadLevel(const VirtualObj& level_data, const std::string& level_path, scen
 
     if(level_data["music"] && utils::Settings::reference()->background_music())
         world->set_background_music(ugdk::audio::manager()->LoadMusic(level_data["music"].value<std::string>()));
+
+    return world;
 }
 
 } // namespace utils

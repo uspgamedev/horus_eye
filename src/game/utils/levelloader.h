@@ -7,7 +7,7 @@
 
 namespace utils {
 
-void LoadLevel(const ugdk::script::VirtualObj& level_data, const std::string& level_path, scene::World** world);
+scene::World* LoadLevel(const ugdk::script::VirtualObj& level_data, const std::string& level_path);
 
 }
 
