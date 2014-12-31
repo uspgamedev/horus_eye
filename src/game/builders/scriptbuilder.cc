@@ -79,13 +79,6 @@ static CollisionObject* create_collision(WorldObject* wobj, VirtualObj coldata) 
 static void ApplyDescriptor(WorldObject* wobj, const VirtualObj& descriptor) {
     CollisionObject *collision = nullptr, *visibility = nullptr;
 
-    if(descriptor["on_die_callbacks"]) {
-        VirtualObj::List callbacks = descriptor["on_die_callbacks"].value<VirtualObj::List>();
-        for (auto callback_function : callbacks) {
-            wobj->AddDeathEvent(callback_function.AsFunction<void(WorldObject*)>());
-        }
-    }
-
     if(descriptor["collision"])
         collision = create_collision(wobj, descriptor["collision"]);
 

@@ -1,6 +1,7 @@
 #include "timedlife.h"
 
 #include "game/sprites/worldobject.h"
+#include "game/components/damageable.h"
 
 namespace component {
 
@@ -15,8 +16,12 @@ TimedLife::~TimedLife() {}
 
 void TimedLife::Update(double dt) {
     time_elapsed_ += dt;
-    if (time_elapsed_ >= duration_)
-        owner_->Die();
+    if (time_elapsed_ >= duration_) {
+        if (auto damageable = owner_->damageable())
+            damageable->Die();
+        else
+            owner_->Remove();
+    }
 }
     
 void TimedLife::OnAdd(sprite::WObjRawPtr owner) {

@@ -64,9 +64,10 @@ sprite::ObjectHandle WorldObjectByTag(const std::string& tag) {
 }
 
 static void _internal_AddDamageableComponent(const sprite::ObjectHandle& obj, double life) {
-    component::Damageable* damageable = new component::Damageable;
-    damageable->life() = resource::Energy(life);
-    obj->AddComponent(damageable);
+    if (!obj->damageable()) {
+        obj->AddComponent(new component::Damageable);
+    }
+    obj->damageable()->life() = resource::Energy(life);
 }
 
 void AddDamageableComponent(const std::string& tag, double life) {
@@ -101,10 +102,6 @@ void AddCollisionObjectRect(const sprite::ObjectHandle& handle, const string& co
 
 void EnableDeathAnimation(const sprite::ObjectHandle& handle) {
     if (!handle.attached()) return;
-
-    handle->set_start_to_die_callback([](sprite::WObjRawPtr wobj) -> void {
-        wobj->component<Animation>()->ChangeAnimation(utils::DEATH);
-    });
     handle->component<Animation>()->AddCallback(utils::DEATH, std::mem_fn(&sprite::WorldObject::Remove));
 }
 

@@ -85,7 +85,7 @@ function setup (self)
       counter = counter - 1
       if counter <= 0 then
         for i=1,3 do
-          self:WorldObjectByTag("THE-LOCKED-DOOR-"..i):Die()
+          self:WorldObjectByTag("THE-LOCKED-DOOR-"..i):damageable():Die()
         end
       end
     end

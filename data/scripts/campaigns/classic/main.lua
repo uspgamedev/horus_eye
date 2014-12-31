@@ -30,7 +30,7 @@ function new(native)
   function campaign:Focus(native)
   
     if self.hero_died then
-      -- Show 'You Died' image.
+      -- TODO: Show 'You Died' image.
       native:Finish()
   
     elseif not self.next_level then
@@ -53,7 +53,7 @@ function new(native)
   
   function campaign:LevelStart(level_native, start_data)
     local hero = builder.Kha()
-    hero:AddDeathEvent(self:create_hero_death_callback())
+    hero:AddOnRemoveCallback(self:create_hero_death_callback())
     level_native:SetHero(hero)
     
     local initial_room = level_native:GetRoom(start_data[1])

@@ -19,8 +19,8 @@ function build (wobj, params)
   if params.extra then
     params.extra(wobj)
   end
-  return {
-    on_die_callbacks = { params.callback }
-  }
+  if params.callback then
+    wobj:AddOnRemoveCallback(params.callback)
+  end
 end
 

@@ -68,6 +68,10 @@ void Graphic::OnAdd(sprite::WObjRawPtr wobj) {
     if (auto animator = wobj->animator())
         animator->Configure(this);
 }
+
+void Graphic::OnObjectRemoved() {
+    set_visible(false);
+}
     
 void Graphic::ChangeToFrame(const std::string& frame_name) {
     auto controller = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(primitive_.controller().get());

@@ -56,6 +56,7 @@ class Graphic : public Base {
 
     void Update(double dt) override;
     virtual void OnAdd(sprite::WObjRawPtr) override;
+    virtual void OnObjectRemoved() override;
     
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);

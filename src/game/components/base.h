@@ -14,6 +14,9 @@ class Base {
     /// Called when the component is added to an object.
     virtual void OnAdd(sprite::WObjRawPtr) {}
 
+    /// Called when the object is removed.
+    virtual void OnObjectRemoved() {}
+
   protected:
     Base() {}
 };

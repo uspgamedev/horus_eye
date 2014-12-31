@@ -8,12 +8,8 @@ function build (wobj, params)
   if params.delay then
     wobj:AddComponent(component.TimedLife(tonumber(params.delay)), "timedlife", 0)
   end
-  return {
-    on_die_callbacks = {
-      function (obj)
-        event.Activate(activates)
-      end
-    }
-  }
+  wobj:AddOnRemoveCallback(function (self)
+    event.Activate(activates)
+  end)
 end
 

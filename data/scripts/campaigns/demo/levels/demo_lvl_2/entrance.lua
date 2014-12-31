@@ -51,7 +51,7 @@ function setup (self)
       switch_counter = switch_counter - 1
       if switch_counter <= 0 then
         for i=1,2 do
-          self:WorldObjectByTag(DOOR(i)):Die()
+          self:WorldObjectByTag(DOOR(i)):damageable():Die()
         end
       end
     end

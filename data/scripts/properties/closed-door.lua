@@ -11,6 +11,8 @@ local Rect = pyramidworks_geometry.Rect
 
 function build (wobj, params)
   local dir = params.dir or "Left"
+
+  wobj:AddComponent(component.Damageable(), "damageable", 0)
   
   local graphic, animator = graphics.closed_door()
   wobj:AddComponent(graphic, "graphic", 100)

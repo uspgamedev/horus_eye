@@ -11,6 +11,8 @@
 
 #include <vector>
 #include <string>
+#include <functional>
+#include <forward_list>
 
 namespace component {
 
@@ -23,10 +25,12 @@ class Damageable : public Base {
     virtual ~Damageable();
 
     virtual void TakeDamage(double life_points);
+    void Die();
 
     void Update(double dt) override;
     void OnAdd(sprite::WObjRawPtr) override;
 
+    bool dead() const { return dead_; }
     resource::Energy& life() { return life_; }
     void set_life(const resource::Energy &life) {
         life_ = life;
@@ -39,6 +43,9 @@ class Damageable : public Base {
 
     void AddHitSound(const std::string& sound) {
         hit_sounds_.push_back(sound);
+    }
+    void AddOnDieCallback(std::function<void(sprite::WObjRawPtr)> on_die_callback) {
+        on_die_callbacks_.push_front(on_die_callback);
     }
 
     /// True if this damageable is currently invincible for taking a hit.
@@ -69,6 +76,12 @@ class Damageable : public Base {
 
     /// Controls when to toggle the blink_ flag. Also controls if it should blink at all.
     ugdk::time::TimeAccumulator *blink_time_;
+
+    /// Is the object already dead?
+    bool dead_;
+
+    /// Functions that are called when this object is killed.
+    std::forward_list< std::function<void(sprite::WObjRawPtr)> > on_die_callbacks_;
 
 };  // class Creature
 

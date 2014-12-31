@@ -1,6 +1,7 @@
 #include "damageable.h"
 
 #include "game/components/animation.h"
+#include "game/components/body.h"
 #include "game/components/graphic.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/settings.h"
@@ -21,11 +22,12 @@ namespace component {
 static const int BLINKING_INTERVAL = 75;
 
 Damageable::Damageable(int invulnerability_time, bool blinks)
-    :   owner_(nullptr)
-    ,   super_armor_(false)
-    ,   invulnerability_time_(invulnerability_time)
-    ,   hit_duration_(new ugdk::time::TimeAccumulator(0))
-    ,   blink_time_(blinks ? new ugdk::time::TimeAccumulator(BLINKING_INTERVAL) : nullptr)
+    : owner_(nullptr)
+    , super_armor_(false)
+    , invulnerability_time_(invulnerability_time)
+    , hit_duration_(new ugdk::time::TimeAccumulator(0))
+    , blink_time_(blinks ? new ugdk::time::TimeAccumulator(BLINKING_INTERVAL) : nullptr)
+    , dead_(false)
 {}
 
 Damageable::~Damageable() {
@@ -43,11 +45,7 @@ void Damageable::TakeDamage(double life_points) {
     life_ -= life_points;
     component::Animation* animation = owner_->component<component::Animation>();
     if(life_.Empty()) {
-        if (!owner_->dead()) {
-            if (animation)
-                animation->ChangeAnimation(utils::DEATH);
-            owner_->Die();
-        }
+        Die();
     } else if(!super_armor_ && animation) {
         animation->ChangeAnimation(utils::TAKING_HIT);
     }
@@ -58,6 +56,22 @@ void Damageable::TakeDamage(double life_points) {
     // Start blinking!
     if(invulnerability_time_ > 0 && blink_time_)
         blink_time_->Restart();
+}
+
+void Damageable::Die() {
+    if (dead_) return;
+    dead_ = true;
+    
+    if (auto animation = owner_->animation())
+        animation->ChangeAnimation(utils::DEATH);
+    else
+        owner_->Remove();
+
+    if (auto body = owner_->body())
+        body->Deactivate();
+
+    for (const auto& callback : on_die_callbacks_)
+        callback(owner_);
 }
 
 void Damageable::Update(double dt) {

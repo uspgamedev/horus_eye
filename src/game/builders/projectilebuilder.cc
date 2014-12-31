@@ -55,6 +55,7 @@ static sprite::WObjPtr buildProjectile(const ugdk::math::Vector2D &dir,
 
     sprite::WObjPtr wobj = WorldObject::Create();
     wobj->set_identifier("Projectile");
+    wobj->AddComponent(new component::Damageable());
     wobj->AddComponent(graphic);
     if (animator)
         wobj->AddComponent(animator);
@@ -122,7 +123,7 @@ sprite::WObjPtr LightningBolt(const Vector2D &dir) {
 
     wobj->light()->ChangeColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
-    wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
+    wobj->damageable()->AddOnDieCallback(std::mem_fn(&WorldObject::Remove));
 
     auto colobj = buildCollisionObject(wobj, 0.25);
     colobj->AddCollisionLogic("Mummy", DamageCollision("LIGHTNING_DAMAGE"));
@@ -141,8 +142,8 @@ sprite::WObjPtr Fireball(const Vector2D &dir) {
 
     wobj->light()->ChangeColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
-    wobj->set_start_to_die_callback(std::mem_fn(&WorldObject::Remove));
-    wobj->AddDeathEvent(Carrier(builder::ExplosionBuilder::FireballExplosion()));
+    wobj->damageable()->AddOnDieCallback(std::mem_fn(&WorldObject::Remove));
+    wobj->damageable()->AddOnDieCallback(Carrier(builder::ExplosionBuilder::FireballExplosion()));
 
     auto colobj = buildCollisionObject(wobj, 0.25);
     colobj->AddCollisionLogic("Mummy", DieCollision(wobj));

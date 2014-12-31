@@ -210,7 +210,7 @@ function new()
   
   function level:Start(native, campaign)
     local hero = builder.Kha()
-    hero:AddDeathEvent(campaign:create_hero_death_callback())
+    hero:AddOnRemoveCallback(campaign:create_hero_death_callback())
     native:SetHero(hero)
     
     local initial_room = native:GetRoom "entrance"

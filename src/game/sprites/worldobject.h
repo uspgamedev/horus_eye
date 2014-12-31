@@ -25,14 +25,12 @@ namespace sprite {
 
 class WorldObject : public ::pyramidworks::collision::CollisionData, public std::enable_shared_from_this<WorldObject> {
   public:
-    /** @param duration Sets timed life to the given value, if positive. */
     static WObjPtr Create();
     ~WorldObject();
 
     // The BIG Awesome update method. TODO explain better
     void Update(double dt);
 
-    void Die();
     void Remove();
 
     /// Identifier is the debuging name for the object.
@@ -46,7 +44,6 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
     const ugdk::math::Vector2D& world_position() const { return world_position_; }
     void set_world_position(const ugdk::math::Vector2D& pos);
 
-    bool dead() const { return dead_; }
     bool to_be_removed() const { return to_be_removed_; }
 
     void OnRoomAdd(map::Room*);
@@ -55,12 +52,8 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
         on_room_add_callback_ = on_room_add_callback;
     }
 
-    void set_start_to_die_callback(std::function<void(WObjRawPtr)> on_death_start_callback) {
-        on_start_to_die_callback_ = on_death_start_callback;
-    }
-
-    void AddDeathEvent(std::function<void(WObjRawPtr)> on_death_end_callback) {
-        on_die_callbacks_.push_back(on_death_end_callback);
+    void AddOnRemoveCallback(std::function<void(WObjRawPtr)> on_remove_callback) {
+        on_remove_callbacks_.push_back(on_remove_callback);
     }
 
     component::Damageable* damageable();
@@ -154,17 +147,15 @@ class WorldObject : public ::pyramidworks::collision::CollisionData, public std:
 
     // TODO: make this somethintg
     std::function<void(WObjRawPtr, map::Room*)>  on_room_add_callback_;
-    std::function<void(WObjRawPtr)>              on_start_to_die_callback_;
-    std::list< std::function<void(WObjRawPtr)> >  on_die_callbacks_;
+
+    /// Functions that are called when this object is removed.
+    std::list< std::function<void(WObjRawPtr)> >  on_remove_callbacks_;
 
     // The object's position in World's coordinate system. Should be handled by the set_world_position and world_position methods.
     ugdk::math::Vector2D world_position_;
 
     /// The room this object is currently in. (In practice, the room it was created in.)
     map::Room* current_room_;
-
-    /// Is this object dead?
-    bool dead_;
 
     /// Should this object memory be freed when the frame ends?
     bool to_be_removed_;

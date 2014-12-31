@@ -10,6 +10,7 @@
 #include "game/components/controller.h"
 #include "game/components/caster.h"
 #include "game/components/body.h"
+#include "game/components/damageable.h"
 #include "game/sprites/worldobject.h"
 #include "game/scenes/world.h"
 #include "game/skills/skill.h"
@@ -37,31 +38,34 @@ Walker::~Walker() {}
 // ============= other stuff
 
 void Walker::Update(double dt) {
-    if(!owner_->dead()) {
-        component::Controller* controller = owner_->controller();
-        component::Animation* animation = owner_->component<Animation>();
+    if (auto damageable = owner_->damageable())
+        if (damageable->dead())
+            return;
+    
+    component::Controller* controller = owner_->controller();
+    component::Animation* animation = owner_->component<Animation>();
 
-        if(!controller) return;
+    if(!controller) return;
 
-        const Direction& direction = controller->direction();
-        if(direction && animation && animation->CanInterrupt(utils::MOVEMENT)) {
-            animation->ChangeAnimation(utils::MOVEMENT, direction);
-        }
+    const Direction& direction = controller->direction();
+    if(direction && animation && animation->CanInterrupt(utils::MOVEMENT)) {
+        animation->ChangeAnimation(utils::MOVEMENT, direction);
+    }
 
-        if(!animation || animation->IsAnimation(utils::MOVEMENT)) {
-            if(!direction) {
-                if(animation) animation->FinishAnimation();
-            } else {
-                if(animation) animation->ChangeDirection(direction);
+    if(!animation || animation->IsAnimation(utils::MOVEMENT)) {
+        if(!direction) {
+            if(animation) animation->FinishAnimation();
+        } else {
+            if(animation) animation->ChangeDirection(direction);
 
-                walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
-                move(walking_direction_, dt);
+            walking_direction_ = (controller->direction_vector() + offset_direction_).Normalize();
+            move(walking_direction_, dt);
                 
-                offset_direction_.x = 0.0;
-                offset_direction_.y = 0.0;
-            }
+            offset_direction_.x = 0.0;
+            offset_direction_.y = 0.0;
         }
     }
+
     current_speed_ = original_speed_;
 }
     

@@ -90,9 +90,7 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj,
     wobj->AddComponent(component::Graphic::CreateWithSpritesheet(spritesheetname));
     wobj->graphic()->set_render_offset(-Vector2D(60, 120));
     wobj->AddComponent(new component::Animator(animation_descriptor));
-
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::Down()));
-
     wobj->AddComponent(new component::Damageable(300));
     wobj->damageable()->life() = Energy(life);
     for(int i = 1; i <= 4; ++i) {
@@ -123,7 +121,7 @@ void PrepareBasicMummy(const sprite::ObjectHandle& wobj,
     col->AddCollisionLogic("Wall", walker->CreateRectCollision());
 
     wobj->set_identifier("Mummy");
-    wobj->set_start_to_die_callback(MummyDeath);
+    wobj->damageable()->AddOnDieCallback(MummyDeath);
 }
 
 sprite::WObjPtr StandingMummy(const std::vector<std::string>& arguments) {

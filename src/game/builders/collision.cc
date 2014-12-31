@@ -20,7 +20,7 @@ using sprite::WorldObject;
 CollisionLogic DieCollision(const sprite::WObjWeakPtr& owner) {
     return [owner](const CollisionObject*) {
         if(auto o = owner.lock())
-            o->Die();
+            o->damageable()->Die();
     };
 }
 
@@ -40,9 +40,9 @@ CollisionLogic DamageAndDieCollision(const sprite::WObjWeakPtr& ownerweak, doubl
     return [ownerweak,damage](const CollisionObject* obj) {
         auto owner = ownerweak.lock();
         WorldObject* wobj = dynamic_cast<WorldObject*>(obj->data());
-        if(wobj && owner && !owner->dead() && wobj->damageable()) {
+        if(wobj && owner && !owner->damageable()->dead() && wobj->damageable()) {
             wobj->damageable()->TakeDamage(damage);
-            owner->Die();
+            owner->damageable()->Die();
         }
     };
 }

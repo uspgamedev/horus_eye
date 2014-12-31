@@ -18,6 +18,19 @@ function build (wobj, params)
   local activated = false
 
   wobj:set_identifier("Spawn Region #"..params.id)
+  wobj:AddComponent(component.Damageable(), "damageable", 0)
+  wobj:AddOnRemoveCallback(function (self)
+    local n = params.multiple and #params.multiple or 1
+    for i=1,n do
+      local offset = params.multiple and params.multiple[i] or ugdk_math.Vector2D()
+      self:current_room():MakeRecipe(
+        params.recipe,
+        self:world_position()+offset,
+        params.tag or "",
+        map.POSITION_ABSOLUTE
+      )
+    end
+  end)
   
   return {
     collision = {
@@ -31,26 +44,11 @@ function build (wobj, params)
             if params.delay then
               self:AddComponent(component.TimedLife(tonumber(params.delay)), "timedlife", 0)
             else
-              self:Die()
+              self:damageable():Die()
             end
           end
         end
       }
     },
-    on_die_callbacks = {
-      function (self)
-        local n = params.multiple and #params.multiple or 1
-        for i=1,n do
-          local offset =
-            params.multiple and params.multiple[i] or ugdk_math.Vector2D()
-          self:current_room():MakeRecipe(
-            params.recipe,
-            self:world_position()+offset,
-            params.tag or "",
-            map.POSITION_ABSOLUTE
-          )
-        end
-      end
-    }
   }
 end

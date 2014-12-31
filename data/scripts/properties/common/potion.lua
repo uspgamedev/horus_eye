@@ -30,7 +30,7 @@ local function AddItemLogic(wobj, callback)
   colobj:AddCollisionLogic("Hero", function(other)
     local other_obj = context.ToWorldObject(other:data())
     if callback(other_obj) then
-      wobj:Die()
+      wobj:Remove()
     end
   end)
   wobj:AddComponent(component.Body(colobj, nil), "body", 0)

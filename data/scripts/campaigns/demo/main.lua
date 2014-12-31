@@ -19,7 +19,7 @@ function new(native)
   function campaign:Focus(native)
   
     if self.hero_died then
-      -- Show 'You Died' image.
+      -- TODO: Show 'You Died' image.
       native:Finish()
   
     elseif not self.next_level then

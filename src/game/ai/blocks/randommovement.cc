@@ -1,11 +1,14 @@
-#include <cmath>
-#include <cstdlib>
-#include <ugdk/math/vector2D.h>
+
 #include "game/ai/blocks/randommovement.h"
+
 #include "game/ai/ai.h"
 #include "game/ai/aidata.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/animation.h"
+
+#include <ugdk/math/vector2D.h>
+#include <cmath>
+#include <cstdlib>
 
 #define PI 3.1415926535897931
 
@@ -24,7 +27,7 @@ AIModule::Status RandomMovement::Update(double dt, AIData* data) {
     time_left_ -= dt;
     auto animation = owner->component<component::Animation>();
     if (!animation->IsAnimation(utils::MOVEMENT) && !animation->CanInterrupt(utils::MOVEMENT) ) return AIModule::DORMANT;
-    if (owner->dead()) return AIModule::DORMANT;
+    //if (owner->damageable()->dead()) return AIModule::DORMANT;
 
     if (parent_->base()->standing())   return AIModule::DORMANT;
 

@@ -86,9 +86,9 @@ function setup (room)
     'OPEN-ESCAPE-DOOR',
     function ()
       for i=1,3 do
-        room:WorldObjectByTag('THE-DOOR-'..i):Die()
+        room:WorldObjectByTag('THE-DOOR-'..i):damageable():Die()
       end
-      room:WorldObjectByTag'THE-SPAWNER':Die()
+      room:WorldObjectByTag'THE-SPAWNER':Remove()
     end
   )
 end

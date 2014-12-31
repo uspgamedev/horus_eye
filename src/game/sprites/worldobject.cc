@@ -43,7 +43,6 @@ WObjPtr WorldObject::Create() {
 WorldObject::WorldObject()
     : identifier_("Generic World Object")
     , current_room_(nullptr)
-    , dead_(false)
     , to_be_removed_(false)
 {}
 
@@ -51,23 +50,13 @@ WorldObject::~WorldObject() {
 }
 
 void WorldObject::Remove() {
-    if(auto g = graphic())
-        g->set_visible(false);
-    dead_ = true;
-    if(!tag_.empty() && current_room_) current_room_->RemoveTag(tag_);
     to_be_removed_ = true;
-    for (const auto& callback : on_die_callbacks_)
+    if (!tag_.empty() && current_room_)
+        current_room_->RemoveTag(tag_);
+    for (const auto& comp : components_order_)
+        comp.component->OnObjectRemoved();
+    for (const auto& callback : on_remove_callbacks_)
         callback(this);
-}
-
-void WorldObject::Die() {
-    dead_ = true;
-    if(auto b = body())
-        b->Deactivate();
-    if(on_start_to_die_callback_)
-        on_start_to_die_callback_(this);
-    if(!HasComponent("animation"))
-        Remove();
 }
 
 void WorldObject::Update(double dt) {

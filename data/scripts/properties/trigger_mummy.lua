@@ -17,17 +17,13 @@ function build (wobj, params)
   -- FIXME GAMBS MAGIC NUMBER
   -- Should be Controller.PRIMARY
   wobj:caster():LearnAndEquipSkill("mummy_melee", 0)
-  return {
-    on_die_callbacks = {
-      function (self)
-        for _,trigger in ipairs(params.triggers) do
-          local triggerobj = self:current_room():WorldObjectByTag(trigger)
-          if triggerobj and triggerobj:damageable() then
-            triggerobj:damageable():TakeDamage(1)
-          end
-        end
+  wobj:AddOnRemoveCallback(function (self)
+    for _,trigger in ipairs(params.triggers) do
+      local triggerobj = self:current_room():WorldObjectByTag(trigger)
+      if triggerobj and triggerobj:damageable() then
+        triggerobj:damageable():TakeDamage(1)
       end
-    }
-  }
+    end
+  end)
 end
 

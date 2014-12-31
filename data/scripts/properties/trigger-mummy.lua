@@ -24,13 +24,9 @@ function build (wobj, params)
   wobj:animation():ChangeAnimation(component.SPAWNING)
   wobj:caster():power():Set(constants.GetInt "MUMMY_DAMAGE")
   wobj:caster():LearnAndEquipSkill("mummy_melee", component.Controller_PRIMARY)
-  return {
-    on_die_callbacks = {
-      function (self)
-        for _,trigger in ipairs(params.triggers) do
-          event.Activate(trigger)
-        end
-      end
-    }
-  }
+  wobj:AddOnRemoveCallback(function (self)
+    for _,trigger in ipairs(params.triggers) do
+      event.Activate(trigger)
+    end
+  end)
 end
