@@ -4,6 +4,8 @@
 #include "game/initializer.h"
 #include "game/utils/settings.h"
 
+#include <ugdk/desktop/module.h>
+#include <ugdk/desktop/window.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/input/keycode.h>
@@ -146,9 +148,21 @@ namespace {
     }
 
     void ApplySettings(const Button * source) {
-        utils::Settings::reference()->WriteToDisk();
-        QueueRestartGame();
-        ugdk::system::Suspend();
+        Settings* settings = Settings::reference();
+
+        settings->WriteToDisk();
+        ugdk::desktop::manager()->primary_window()->ChangeSettings(
+            settings->resolution_vector(),
+            settings->fullscreen(),
+            settings->vsync());
+        ugdk::graphic::manager()->ResizeScreen(ugdk::desktop::manager()->primary_window()->size());
+
+        if (ugdk::text::manager()->active_language() != settings->language_name())
+            ugdk::text::manager()->Setup(settings->language_name());
+
+        for (const auto& scene : ugdk::system::scene_list())
+            scene->Finish();
+        ugdk::system::PushSceneFactory(frontend::nativebuilders::HomeScene);
     }
 }
 

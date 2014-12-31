@@ -3,6 +3,7 @@ require "ugdk.action"
 require "ugdk.action"
 require "pyramidworks.geometry"
 require "component"
+require "core"
 require "context"
 require "map"
 

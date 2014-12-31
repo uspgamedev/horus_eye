@@ -40,20 +40,8 @@ using namespace utils;
 extern int HORUS_MODULES_HEARTBEAT;
 
 void StartGame() {
-    Settings* settings = Settings::reference();
 
-    ugdk::desktop::manager()->primary_window()->ChangeSettings(
-        settings->resolution_vector(),
-        settings->fullscreen(),
-        settings->vsync());
-    ugdk::graphic::manager()->ResizeScreen(ugdk::desktop::manager()->primary_window()->size());
-
-    AddHorusShader();
-
-    if(!ugdk::text::manager()->Setup(settings->language_name())) {
-        ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
-    }
-    ugdk::system::PushSceneFactory(frontend::nativebuilders::HomeScene);
+    
 }
 
 void ExitWithFatalError(const std::string& msg) {
@@ -111,24 +99,18 @@ int main(int argc, char *argv[]) {
     
     ugdk::text::manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     ugdk::text::manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
+    ugdk::text::manager()->Setup(settings->language_name());
 
     ugdk::resource::manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::resource::GenericContainer<utils::IsometricAnimationSet*>);
     ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);
     skills::InitHeroSkills();
     skills::InitMummySkills();
 
-    do {
-        // Initializes game data
-        StartGame();
+    AddHorusShader();
 
-        // Transfers control to the framework.
-        ugdk::system::Run();
+    ugdk::system::PushSceneFactory(frontend::nativebuilders::HomeScene);
 
-        // Releases all loaded textures, to avoid issues when changing resolution.
-        //engine()->video_manager()->Release();
-
-    } while(RestartGameQueued());
-
+    ugdk::system::Run();
     ugdk::system::Release();
     return 0;
 }
