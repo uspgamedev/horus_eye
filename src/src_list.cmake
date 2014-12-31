@@ -166,8 +166,6 @@ SET(GAME_SRCS
     game/utils/isometricanimationset.h 
     game/utils/levelloader.cc 
     game/utils/levelloader.h 
-    game/utils/menuimagefactory.cc 
-    game/utils/menuimagefactory.h 
     game/utils/settings.cc 
     game/utils/settings.h 
     game/utils/visionstrategy.cc 

@@ -1,7 +1,5 @@
 #include "commonmenu.h"
 
-#include "game/utils/menuimagefactory.h"
-
 #include <ugdk/action/animationplayer.h>
 #include <ugdk/action/scene.h>
 #include <ugdk/graphic/module.h>
@@ -14,12 +12,38 @@
 #include <ugdk/ui/drawable.h>
 #include <ugdk/ui/menu.h>
 
+#include <ugdk/graphic/primitive.h>
+#include <ugdk/graphic/primitivesetup.h>
+#include <ugdk/resource/module.h>
+#include <ugdk/ui/drawable/primitive.h>
+
 namespace frontend {
 namespace nativebuilders {
 
 using ugdk::ui::Menu;
 using ugdk::ui::Button;
 using ugdk::math::Vector2D;
+
+namespace {
+    std::pair<
+        ugdk::ui::Drawable*,
+        std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>
+    > CreateHorusEye() {
+
+        auto primitive = std::make_shared<ugdk::graphic::Primitive>(nullptr, nullptr);
+        primitive->set_shader_program(ugdk::graphic::manager()->shaders().current_shader());
+        ugdk::graphic::PrimitiveSetup::Sprite::Prepare(*primitive, ugdk::resource::GetTextureAtlasFromFile("resources/images/eye-sheet"));
+
+        auto player = ugdk::graphic::PrimitiveSetup::Sprite::CreateSpriteAnimationPlayer(
+            *primitive, ugdk::resource::GetSpriteAnimationTableFromFile("resources/animations/menu.json"));
+        player->Select("SELECTION_EYE");
+
+        auto d = new ugdk::ui::DrawablePrimitive(primitive);
+        d->set_hotspot(ugdk::ui::HookPoint::CENTER);
+
+        return std::make_pair(d, player);
+    }
+}
 
 void MenuFocus(const ugdk::action::SceneFocusEvent& ev) {
     ev.scene->set_active(true);
@@ -47,7 +71,6 @@ void AnimationPlayerHolder::Add(const std::shared_ptr<ugdk::graphic::SpriteAnima
 
 std::unique_ptr<Menu> BaseBuildMenu(ugdk::ui::HookPoint hook) {
     ugdk::math::Vector2D origin(0.0, 0.0), target = ugdk::graphic::manager()->screen()->size();
-    utils::MenuImageFactory mif;
 
     auto holder = new AnimationPlayerHolder;
     auto menu = ugdk::MakeUnique<Menu>(ugdk::structure::Box<2>(origin, target), Vector2D(0.0, 0.0), hook);
@@ -55,7 +78,7 @@ std::unique_ptr<Menu> BaseBuildMenu(ugdk::ui::HookPoint hook) {
     menu->event_handler().AddListener(MenuDeFocus);
 
     for (int i = 0; i < 2; ++i) {
-        auto sprite = mif.HorusEye();
+        auto sprite = CreateHorusEye();
         menu->SetOptionDrawable(std::unique_ptr<ugdk::ui::Drawable>(sprite.first), i);
         holder->Add(sprite.second);
     }
