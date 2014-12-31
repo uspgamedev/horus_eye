@@ -2,6 +2,13 @@ SET(GAME_SRCS
     externals/inifile.cc 
     externals/inifile.h 
     externals/windows/include/dirent.h 
+    frontend/nativescenes.h 
+    frontend/nativescenes/campaignselectionscene.cc 
+    frontend/nativescenes/common.cc 
+    frontend/nativescenes/common.h 
+    frontend/nativescenes/homescene.cc 
+    frontend/nativescenes/pausescene.cc 
+    frontend/nativescenes/settingsscene.cc 
     game/ai.h 
     game/ai/ai.cc 
     game/ai/ai.h 
@@ -39,8 +46,6 @@ SET(GAME_SRCS
     game/builders/explosionbuilder.h 
     game/builders/functions/carrier.cc 
     game/builders/functions/carrier.h 
-    game/builders/goodmenubuilder.cc 
-    game/builders/goodmenubuilder.h 
     game/builders/herobuilder.cc 
     game/builders/herobuilder.h 
     game/builders/itembuilder.cc 

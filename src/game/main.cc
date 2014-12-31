@@ -20,7 +20,8 @@
 #include "game/scenes/world.h"
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
-#include "game/builders/goodmenubuilder.h"
+
+#include "frontend/nativescenes.h"
 
 #include <ugdk/script.h>
 
@@ -52,7 +53,7 @@ void StartGame() {
     if(!ugdk::text::manager()->Setup(settings->language_name())) {
         ugdk::debug::Log(ugdk::debug::LogLevel::ERROR, "Horus Eye", "Language Setup FAILURE");
     }
-    ugdk::system::PushSceneFactory(builder::MainMenu);
+    ugdk::system::PushSceneFactory(frontend::nativescenes::HomeScene);
 }
 
 void ExitWithFatalError(const std::string& msg) {
@@ -106,11 +107,6 @@ int main(int argc, char *argv[]) {
         wrapper->ExecuteCode("require 'ugdk.action'");
         wrapper->ExecuteCode("require 'core'; require 'map'; require 'context'; require 'component'");
         SCRIPT_MANAGER()->LoadModule("init_constants");
-    }
-
-    {
-        auto lua = SCRIPT_MANAGER()->GetWrapper("Lua");
-
     }
     
     ugdk::text::manager()->RegisterLanguage("en_US", "text/lang_en.txt");

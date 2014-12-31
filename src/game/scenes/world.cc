@@ -36,7 +36,8 @@
 #include "game/renders/shape.h"
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
-#include "game/builders/goodmenubuilder.h"
+
+#include "frontend/nativescenes.h"
 
 namespace scene {
 
@@ -212,7 +213,7 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     
     this->event_handler().AddListener<input::KeyPressedEvent>([](const input::KeyPressedEvent& key) {
         if (key.scancode == ugdk::input::Scancode::ESCAPE)
-            ugdk::system::PushSceneFactory(builder::PauseMenu);
+            ugdk::system::PushSceneFactory(frontend::nativescenes::PauseScene);
     });
 
 #ifdef HORUSEYE_DEBUG_TOOLS
