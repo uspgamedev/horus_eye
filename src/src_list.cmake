@@ -2,6 +2,8 @@ SET(GAME_SRCS
     externals/inifile.cc 
     externals/inifile.h 
     externals/windows/include/dirent.h 
+    frontend/frontend.cc 
+    frontend/frontend.h 
     frontend/nativebuilders.h 
     frontend/nativebuilders/campaignselectionscene.cc 
     frontend/nativebuilders/commonmenu.cc 

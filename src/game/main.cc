@@ -21,7 +21,7 @@
 #include "game/skills/initskills.h"
 #include "game/utils/isometricanimationset.h"
 
-#include "frontend/nativebuilders.h"
+#include "frontend/frontend.h"
 
 #include <ugdk/script.h>
 
@@ -39,10 +39,6 @@ using namespace utils;
 
 extern int HORUS_MODULES_HEARTBEAT;
 
-void StartGame() {
-
-    
-}
 
 void ExitWithFatalError(const std::string& msg) {
     if (SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Fatal Error", msg.c_str(), NULL) < 0) {
@@ -108,7 +104,7 @@ int main(int argc, char *argv[]) {
 
     AddHorusShader();
 
-    ugdk::system::PushSceneFactory(frontend::nativebuilders::HomeScene);
+    frontend::Initialize();
 
     ugdk::system::Run();
     ugdk::system::Release();
