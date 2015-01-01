@@ -28,6 +28,7 @@ using namespace std::placeholders;
 namespace {
     std::size_t MAX_HISTORY_SIZE = 10;
     std::string CONSOLE_LANGUAGE = "Lua";
+    bool g_has_console_active_ = false;
 }
 
 Console::Console()
@@ -66,14 +67,21 @@ Console::Console()
     });
     
     set_render_function(std::bind(&Node::Render, node_.get(), _1));
+    g_has_console_active_ = true;
 }
 
-Console::~Console() {}
+Console::~Console() {
+    g_has_console_active_ = false;
+}
     
 void Console::ChangeLanguage(const std::string& lang) {
     if (SCRIPT_MANAGER()->GetWrapper(lang)) {
         CONSOLE_LANGUAGE = lang;
     }
+}
+
+bool Console::HasConsoleActive() {
+    return g_has_console_active_;
 }
 
 void Console::AddText(const std::string& line) {

@@ -2,7 +2,9 @@
 #include "frontend/frontend.h"
 
 #include "frontend/nativebuilders.h"
+#include "frontend/debugtools.h"
 #include "game/utils/settings.h"
+#include "game/config.h"
 
 #include <ugdk/action/scene.h>
 #include <ugdk/system/engine.h>
@@ -21,7 +23,11 @@ void PopuplateUGDKConfiguration(ugdk::system::Configuration& config) {
 void Initialize() {
     ugdk::text::manager()->RegisterLanguage("en_US", "text/lang_en.txt");
     ugdk::text::manager()->RegisterLanguage("pt_BR", "text/lang_pt_br.txt");
-    ugdk::text::manager()->Setup(utils::Settings::reference()->language_name());    
+    ugdk::text::manager()->Setup(utils::Settings::reference()->language_name());
+
+#ifdef HORUSEYE_DEBUG_TOOLS
+    ugdk::system::GlobalEventHandler().AddObjectListener(DebugToolsListener());
+#endif
 }
 
 void Start() {

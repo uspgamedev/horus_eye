@@ -20,6 +20,7 @@ class Console : public ugdk::action::Scene {
     ~Console();
 
     static void ChangeLanguage(const std::string&);
+    static bool HasConsoleActive();
 
     void AddText(const std::string&);
     void RemoveAddedText();

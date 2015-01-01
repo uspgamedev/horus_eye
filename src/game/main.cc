@@ -41,7 +41,8 @@ int main(int argc, char *argv[]) {
     HORUS_MODULES_HEARTBEAT = 1;
 
     ugdk::system::Configuration engine_config;
-    frontend::PopuplateUGDKConfiguration(engine_config);
+    frontend::PopuplateUGDKConfiguration(engine_config);
+
     engine_config.base_path = constants::data_location();
     if(!VerifyFolderExists(engine_config.base_path))
         ExitWithFatalError("Data folder '" + engine_config.base_path + "' specified by config.h could not be found.");

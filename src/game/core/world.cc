@@ -57,100 +57,6 @@ bool render_profiler = false;
 std::shared_ptr<text::TextBox> profiler_text(nullptr);
 }
 
-void VerifyCheats(World* world, const input::KeyPressedEvent& ev) {
-    sprite::WObjPtr hero = world->hero().lock();
-
-    static uint32 last_level_warp = 0;
-    /*
-    if(ugdk::time::manager()->TimeSince(last_level_warp) > 100) {
-        if (ev.keycode == ugdk::input::Keycode::p) {
-            level_manager->SetNextLevel(level_manager->GetNextLevelID() + 1);
-            world->FinishLevel(LevelManager::FINISH_WARP);
-            last_level_warp = ugdk::time::manager()->TimeElapsed();
-
-        } else if (ev.keycode == ugdk::input::Keycode::o) {
-            unsigned int cur_level = level_manager->GetNextLevelID();
-            if(cur_level > 0) {
-                level_manager->SetNextLevel(cur_level - 1);
-                world->FinishLevel(LevelManager::FINISH_WARP);
-                last_level_warp = ugdk::time::manager()->TimeElapsed();
-            }
-        }
-    }
-    */
-    if(hero) {
-        if(ev.keycode == input::Keycode::h) {
-            if(ev.modifiers & input::Keymod::SHIFT)
-            	hero->caster()->mana_blocks().Fill();
-            hero->damageable()->life().Fill();
-            hero->caster()->mana().Fill();
-        }
-        if(ev.keycode == input::Keycode::t)
-            hero->set_world_position(
-                core::FromScreenCoordinates(
-                    world, 
-                    input::manager()->mouse().position()));
-    }
-
-    ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
-    {
-        math::Vector2D scale(1.0);
-        if(ev.keycode == input::Keycode::NUMPAD_MULTIPLY)
-            scale = scale * 1.4/1.0;
-        if(ev.keycode == input::Keycode::NUMPAD_DIVIDE)
-            scale = scale * 1.0/1.4;
-        modifier *= graphic::Geometry(math::Vector2D(), scale);
-    }
-    
-    if (ev.keycode == input::Keycode::m)
-        hero->damageable()->TakeDamage(1000.0);
-
-    if(ev.keycode == input::Keycode::l)
-        world->light_rendering()->ToggleLightsystem();
-    
-    if(ev.keycode == input::Keycode::k)
-        world->light_rendering()->ToggleShadowcasting();
-    
-    if(ev.keycode == input::Keycode::i)
-        render_sprites = !render_sprites;
-    
-    if(ev.keycode == input::Keycode::u)
-        render_collision = !render_collision;
-    
-    if(ev.keycode == input::Keycode::j)
-        render_visibility = !render_visibility;
-
-    if(ev.scancode == input::Scancode::F9)
-        render_profiler = !render_profiler;
-    
-    if (ev.scancode == input::Scancode::F10 || ev.scancode == input::Scancode::MENU) {
-        const auto& datalist = ugdk::system::profile_data_list();
-        if (!datalist.empty()) {
-            std::stringstream msg;
-            renders::SectionDataToString(msg, "", datalist.back());
-            profiler_text->ChangeMessage(msg.str());
-        }
-        if (ev.scancode == input::Scancode::MENU)
-            render_profiler = true;
-    }
-
-    if (ev.scancode == input::Scancode::GRAVE) {
-        ugdk::system::PushSceneFactory(&ugdk::MakeUnique<frontend::scenes::Console>);
-    }
-
-
-    // EASTER EGG/TODO: remove before any release!
-    // Also erase musics/sf2Guile456.mid
-    /*if(!konami_used_) {
-        Key konami[10] = { K_UP, K_UP, K_DOWN, K_DOWN, K_LEFT, K_RIGHT, K_LEFT, K_RIGHT, K_b, K_a };
-        if(input->CheckSequence(konami, 10)) {
-            hero_->Invulnerable(85000);
-            ugdk::audio::manager()->LoadMusic("musics/sf2Guile456.mid")->Play();
-            konami_used_ = true;
-        }
-    }*/
-}
-
 bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     Vector2D  ap = core::FromWorldCoordinates(a->position()+a->size()/2.0),
               bp = core::FromWorldCoordinates(b->position()+b->size()/2.0);
@@ -215,10 +121,6 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
         if (key.scancode == ugdk::input::Scancode::ESCAPE)
             ugdk::system::PushSceneFactory(frontend::nativebuilders::PauseScene);
     });
-
-#ifdef HORUSEYE_DEBUG_TOOLS
-    this->event_handler().AddListener<input::KeyPressedEvent>(bind(VerifyCheats, this, _1));
-#endif
 
     if (!profiler_text)
         profiler_text.reset(new text::TextBox(
