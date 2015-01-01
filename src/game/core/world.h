@@ -46,7 +46,6 @@ class World : public ugdk::action::Scene {
 
     void Start(campaigns::Campaign*);
     void End();
-    ugdk::action::Scene* CreateLightRenderingScene();
 
     void Focus();
     void DeFocus();

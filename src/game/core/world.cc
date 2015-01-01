@@ -36,9 +36,6 @@
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
 
-#include "frontend/nativebuilders.h"
-#include "frontend/scenes/console.h"
-
 namespace core {
 
 using namespace ugdk;
@@ -117,11 +114,6 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
         }
     }, 0.6));
     
-    this->event_handler().AddListener<input::KeyPressedEvent>([](const input::KeyPressedEvent& key) {
-        if (key.scancode == ugdk::input::Scancode::ESCAPE)
-            ugdk::system::PushSceneFactory(frontend::nativebuilders::PauseScene);
-    });
-
     if (!profiler_text)
         profiler_text.reset(new text::TextBox(
             "Press F10 to fetch profiler data.",
@@ -175,10 +167,6 @@ void World::End() {
     super::End();
     campaign_->InformLevelFinished();
     (vobj_ | "End")(this, campaign_->implementation());
-}
-
-ugdk::action::Scene* World::CreateLightRenderingScene() {
-    return nullptr;
 }
 
 void World::Focus() {
