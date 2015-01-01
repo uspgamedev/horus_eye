@@ -100,14 +100,6 @@ void Room::Render(ugdk::graphic::Canvas& canvas) const {
     
     glDisable(GL_DEPTH_TEST);
 }
-    
-void Room::RenderLight(ugdk::graphic::Canvas& canvas) const {
-    ugdk::debug::ProfileSection section("Room '" + name_ + "'");
-
-    for(const auto& obj : objects_)
-        if(const auto& graphic = obj->light())
-            graphic->Render(canvas);
-}
 
 void Room::AddObject(const sprite::WObjPtr& obj) {
     if(!level_)

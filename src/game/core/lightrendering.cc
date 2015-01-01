@@ -17,7 +17,9 @@
 #include <pyramidworks/geometry/rect.h>
 
 #include "game/core/world.h"
+#include "game/map/room.h"
 #include "game/sprites/worldobject.h"
+#include "game/components/lightemitter.h"
 
 namespace core {
 
@@ -203,6 +205,20 @@ namespace {
 
         canvas.PopVisualEffect();
     }
+
+    void RenderRoomLight(const map::Room* room, ugdk::graphic::Canvas& canvas) {
+        ugdk::debug::ProfileSection section("Room '" + room->name() + "'");
+
+        for (const auto& obj : *room)
+            if (const auto& light_comp = obj->light())
+                light_comp->Render(canvas);
+    }
+
+    void RenderLight(core::World* world, ugdk::graphic::Canvas& canvas) {
+        ugdk::debug::ProfileSection section("World::RenderLight");
+        for (const map::Room* room : world->active_rooms())
+            RenderRoomLight(room, canvas);
+    }
 }
 
 
@@ -237,7 +253,8 @@ LightRendering::LightRendering(World* world)
             light_canvas.Clear(Color(.0, .0, .0, 1.0));
 
             glBlendFunc(GL_ONE, GL_ONE);
-            world_->RenderLight(light_canvas);
+            RenderLight(world_, light_canvas);
+
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             if (shadowcasting_actiavated_)
                 ApplyShadowCasting(light_canvas);

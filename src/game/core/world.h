@@ -50,8 +50,6 @@ class World : public ugdk::action::Scene {
     void Focus();
     void DeFocus();
 
-    void RenderLight(ugdk::graphic::Canvas& canvas) const;
-
     void AddRoom(map::Room* room);
     void ChangeFocusedRoom(const std::string& name);
     void ChangeFocusedRoom(map::Room*);
@@ -66,6 +64,7 @@ class World : public ugdk::action::Scene {
     const ugdk::graphic::Geometry& camera() const { return camera_; }
     sprite::WObjWeakPtr hero() const { return hero_;  }
     LightRendering* light_rendering() const { return light_rendering_; }
+    const std::vector<map::Room*>& active_rooms() const { return active_rooms_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }

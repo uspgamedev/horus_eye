@@ -30,7 +30,6 @@ class Room {
 
     void Update(double dt);
     void Render(ugdk::graphic::Canvas& canvas) const;
-    void RenderLight(ugdk::graphic::Canvas& canvas) const;
 
     /** Adds the object to the room. 
     Objects are added only at the end of a room's Update, unless the room hasn't been added to a World. */

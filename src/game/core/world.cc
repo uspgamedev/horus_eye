@@ -197,12 +197,6 @@ void World::SetupCollisionManager() {
     this->AddTask(collision_manager_.GenerateHandleCollisionTask(0.75));
 }
     
-void World::RenderLight(ugdk::graphic::Canvas& canvas) const {
-    ugdk::debug::ProfileSection section("World::RenderLight");
-    for(const map::Room* room : active_rooms_)
-        room->RenderLight(canvas);
-}
-
 void World::AddRoom(map::Room* room) {
     if(room && !room->name().empty()) {
         room->DefineLevel(this);
