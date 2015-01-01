@@ -31,16 +31,12 @@ using ugdk::math::Vector2D;
 
 namespace core {
 
-class World : public ugdk::action::Scene {
+class World final : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
     explicit World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj&);
-    virtual ~World();
+    ~World();
 
-    void set_light_rendering(LightRendering* lr) { light_rendering_ = lr; }
-    void set_hero_initial_data(const std::string& room, const ugdk::math::Vector2D& pos) { 
-        hero_initial_room_ = room; hero_initial_position_ = pos;
-    }
     void SetHero(const sprite::WObjPtr& hero);
     void QueueRoomChange(const sprite::WObjWeakPtr&, map::Room* next_room);
 
@@ -61,13 +57,16 @@ class World : public ugdk::action::Scene {
 
     //getters
     const ugdk::math::Integer2D& size() const { return size_; }
-    const ugdk::graphic::Geometry& camera() const { return camera_; }
     sprite::WObjWeakPtr hero() const { return hero_;  }
-    LightRendering* light_rendering() const { return light_rendering_; }
     const std::vector<map::Room*>& active_rooms() const { return active_rooms_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
+
+    // View
+    const ugdk::graphic::Geometry& camera() const { return camera_; }
+    void set_light_rendering(LightRendering* lr) { light_rendering_ = lr; }
+    LightRendering* light_rendering() const { return light_rendering_; }
 
   protected:
     void SetupCollisionManager();
@@ -87,17 +86,13 @@ class World : public ugdk::action::Scene {
     pyramidworks::collision::CollisionManager collision_manager_;
     pyramidworks::collision::CollisionManager visibility_manager_;
     std::queue<std::pair<sprite::WObjWeakPtr, map::Room*> > queued_moves_;
+    sprite::WObjPtr hero_;
     ugdk::script::VirtualObj vobj_;
-    LightRendering* light_rendering_;
 
     // Graphic
     utils::Hud *hud_;
+    LightRendering* light_rendering_;
     ugdk::graphic::Geometry camera_;
-
-    // Hero
-    sprite::WObjPtr hero_;
-    std::string hero_initial_room_;
-    ugdk::math::Vector2D hero_initial_position_;
 
 };  // class World
 
