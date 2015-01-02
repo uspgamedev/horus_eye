@@ -2,6 +2,7 @@
 #include "frontend/debugtools.h"
 
 #include "frontend/scenes/console.h"
+#include "frontend/scenes/campaigndisplay.h"
 
 #include "game/campaigns/campaign.h"
 #include "game/sprites/worldobject.h"
@@ -26,6 +27,8 @@ class DebugTools :
 {
     public:
     void Handle(const ugdk::input::KeyPressedEvent& ev) override {
+        auto campaign_display = scenes::CampaignDisplay::Current();
+
         auto current_campaign = campaigns::Campaign::CurrentCampaign();
         core::World* world = current_campaign ? current_campaign->current_level() : nullptr;
         sprite::WObjPtr hero = world ? world->hero().lock() : nullptr;
@@ -53,12 +56,14 @@ class DebugTools :
                     scale = scale * 1.0 / 1.4;
                 modifier *= graphic::Geometry(math::Vector2D(), scale);
             }
+        }
 
+        if (campaign_display && campaign_display->light_rendering()) {
             if (ev.keycode == input::Keycode::l)
-                world->light_rendering()->ToggleLightsystem();
+                campaign_display->light_rendering()->ToggleLightsystem();
 
             if (ev.keycode == input::Keycode::k)
-                world->light_rendering()->ToggleShadowcasting();
+                campaign_display->light_rendering()->ToggleShadowcasting();
         }
 
         /*

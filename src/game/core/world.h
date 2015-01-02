@@ -61,8 +61,6 @@ class World : public ugdk::system::TaskPlayer {
 
     // View
     const ugdk::graphic::Geometry& camera() const { return camera_; }
-    void set_light_rendering(LightRendering* lr) { light_rendering_ = lr; }
-    LightRendering* light_rendering() const { return light_rendering_; }
 
   protected:
     void SetupCollisionManager();
@@ -87,7 +85,6 @@ class World : public ugdk::system::TaskPlayer {
 
     // Graphic
     utils::Hud *hud_;
-    LightRendering* light_rendering_;
     ugdk::graphic::Geometry camera_;
 
 };  // class World

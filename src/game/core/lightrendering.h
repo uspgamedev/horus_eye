@@ -11,10 +11,12 @@
 
 namespace core {
 
-class LightRendering : public ugdk::action::Scene {
+class LightRendering {
   public:
     LightRendering(World*);
     ~LightRendering();
+
+    void UpdateBuffers();
 
     void ToggleShadowcasting();
     void ToggleLightsystem();

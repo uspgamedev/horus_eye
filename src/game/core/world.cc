@@ -9,6 +9,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/rendertarget.h>
 #include <ugdk/ui/node.h>
 #include <ugdk/text/textbox.h>
 #include <ugdk/text/module.h>
@@ -28,7 +29,6 @@
 #include "game/components/graphic.h"
 #include "game/components/body.h"
 #include "game/core/coordinates.h"
-#include "game/core/lightrendering.h"
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/hud.h"
@@ -133,7 +133,6 @@ void World::Start(campaigns::Campaign* campaign) {
 }
 
 void World::End() {
-    light_rendering_->Finish();
     campaign_->InformSceneFinished();
     (vobj_ | "End")(this, campaign_->implementation());
 }

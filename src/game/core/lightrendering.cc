@@ -229,10 +229,6 @@ LightRendering::LightRendering(World* world)
 , lightsystem_activated_(true)
 , world_(world)
 {
-    this->set_identifier("Light Rendering");
-    this->event_handler().AddListener<action::SceneFocusEvent>([this](const action::SceneFocusEvent& ev) {
-        ev.scene->Finish();
-    });
 
     Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0/world->size().x, 2.0/world->size().y));
     shadow_buffer_.set_projection_matrix(project_matrix);
@@ -240,33 +236,35 @@ LightRendering::LightRendering(World* world)
 
     if (!horus_shadowcasting_shader_)
         AddShadowcastingShader();
-
-    this->set_render_function([this](Canvas& canvas) {
-        // Render the shadows.
-        if (shadowcasting_actiavated_) {
-            ShadowCasting();
-        }
-
-        // Lights are simply added together.
-        if (lightsystem_activated_) {
-            Canvas light_canvas(&light_buffer_);
-            light_canvas.Clear(Color(.0, .0, .0, 1.0));
-
-            glBlendFunc(GL_ONE, GL_ONE);
-            RenderLight(world_, light_canvas);
-
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            if (shadowcasting_actiavated_)
-                ApplyShadowCasting(light_canvas);
-
-        } else {
-            Canvas light_canvas(&light_buffer_);
-            light_canvas.Clear(Color(1.0, 1.0, 1.0, 1.0));
-        }
-    });
 }
 
 LightRendering::~LightRendering() {}
+
+void LightRendering::UpdateBuffers() {
+    ugdk::debug::ProfileSection section("LightRendering::UpdateBuffers");
+
+    // Render the shadows.
+    if (shadowcasting_actiavated_) {
+        ShadowCasting();
+    }
+
+    // Lights are simply added together.
+    if (lightsystem_activated_) {
+        Canvas light_canvas(&light_buffer_);
+        light_canvas.Clear(Color(.0, .0, .0, 1.0));
+
+        glBlendFunc(GL_ONE, GL_ONE);
+        RenderLight(world_, light_canvas);
+
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        if (shadowcasting_actiavated_)
+            ApplyShadowCasting(light_canvas);
+
+    } else {
+        Canvas light_canvas(&light_buffer_);
+        light_canvas.Clear(Color(1.0, 1.0, 1.0, 1.0));
+    }
+}
 
 void LightRendering::ToggleShadowcasting() {
     shadowcasting_actiavated_ = !shadowcasting_actiavated_;

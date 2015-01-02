@@ -3,6 +3,9 @@
 #include "frontend/nativebuilders.h"
 #include "game/core/world.h"
 #include "game/core/lightrendering.h"
+#include "game/sprites/worldobject.h"
+#include "game/components/graphic.h"
+#include "game/map/giantfloor.h"
 #include "game/map/room.h"
 
 #include <functional>
@@ -15,6 +18,8 @@
 #include <ugdk/ui/node.h>
 #include <ugdk/ui/drawable.h>
 #include <ugdk/input/events.h>
+#include <ugdk/debug/profiler.h>
+#include <ugdk/graphic/opengl.h>
 
 namespace frontend {
 namespace scenes {
@@ -30,6 +35,56 @@ using namespace std::placeholders;
 namespace {
     bool render_sprites = true;
     CampaignDisplay* g_current_ = nullptr;
+
+    void RenderRoom(const map::Room* room, const core::LightRendering& light_rendering, ugdk::graphic::Canvas& canvas) {
+        using namespace ugdk::graphic;
+
+        ugdk::debug::ProfileSection section("Room '" + room->name() + "'");
+
+        TextureUnit light_unit = manager()->ReserveTextureUnit(light_rendering.light_texture());
+
+        room->floor()->Draw(canvas, light_unit);
+
+        glEnable(GL_DEPTH_TEST);
+
+        TextureUnit texture_unit = manager()->ReserveTextureUnit();
+
+        int shader_changes = 0;
+        int texture_changes = 0;
+        for (const auto& obj : *room) {
+            if (const auto& graphic = obj->graphic()) {
+                const auto& primitive = graphic->primitive();
+
+                if (primitive.shader_program() != canvas.shader_program()) {
+                    canvas.ChangeShaderProgram(primitive.shader_program());
+                    canvas.SendUniform("drawable_texture", texture_unit);
+                    canvas.SendUniform("light_texture", light_unit);
+                    canvas.SendUniform("LEVEL_SIZE", room->level()->size().x, room->level()->size().y);
+                    shader_changes++;
+                }
+
+                if (primitive.texture() != texture_unit.texture()) {
+                    texture_unit.BindTexture(primitive.texture());
+                    texture_changes++;
+                }
+
+                const Geometry& geo = canvas.current_geometry();
+                glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
+                glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
+                Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
+                Vector2D lightUV = light_rendering.CalculateUV(obj->world_position());
+                canvas.SendUniform("objectDepth", lightpos.y);
+                canvas.SendUniform("lightUV", lightUV.x, lightUV.y);
+
+                canvas.PushAndCompose(primitive.visual_effect());
+                primitive.drawfunction()(primitive, canvas);
+                canvas.PopVisualEffect();
+            }
+        }
+        //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
+
+        glDisable(GL_DEPTH_TEST);
+    }
 }
 
 CampaignDisplay* CampaignDisplay::Current() {
@@ -46,7 +101,7 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
         if (!world)
             return;
 
-        light_rendering_->Render(canvas);
+        light_rendering_->UpdateBuffers();
 
         auto& shaders = ugdk::graphic::manager()->shaders();
         shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
@@ -54,7 +109,7 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
         canvas.PushAndCompose(world->camera());
         if(render_sprites)
             for(const map::Room* room : world->active_rooms())
-                room->Render(canvas);
+                RenderRoom(room, *light_rendering_, canvas);
 
         shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         canvas.ChangeShaderProgram(shaders.current_shader());
@@ -104,7 +159,6 @@ void CampaignDisplay::Focus() {
 
 void CampaignDisplay::LevelLoaded() {
     light_rendering_ = ugdk::MakeUnique<core::LightRendering>(campaign_->current_level());
-    campaign_->current_level()->set_light_rendering(light_rendering_.get());
 }
 
 } // namespace scenes
