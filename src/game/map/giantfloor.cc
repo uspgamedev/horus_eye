@@ -12,7 +12,6 @@
 
 #include "game/map/room.h"
 #include "game/core/world.h"
-#include "game/core/lightrendering.h"
 #include "game/constants.h"
 
 namespace map {
@@ -35,12 +34,12 @@ namespace {
         vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n"
                                    "out highp vec2 lightUV;" "\n"
                                    "uniform highp vec2 ROOM_POSITION;" "\n"
-                                   "uniform highp vec2 HOTSPOT;" "\n"
+                                   "uniform highp vec2 OFFSET;" "\n"
                                    "uniform highp vec2 LEVEL_SIZE;" "\n"
                                    );
-        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition,0,1) + vec4(HOTSPOT,0,0);" "\n"
+        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition + OFFSET,0,1);" "\n"
                                     "	UV = vertexUV;" "\n"
-                                    "   lightUV = (ROOM_POSITION + vertexUV - (HOTSPOT + vec2(1,1)) * 0.5) / LEVEL_SIZE;"
+                                    "   lightUV = (ROOM_POSITION + vertexUV - (vec2(1,1)) * 0.5) / LEVEL_SIZE;"
                                     );
         vertex_shader.GenerateSource();
 
@@ -66,11 +65,17 @@ namespace {
         assert(status);
     }
 
+    void set_vector_fields(VertexXYUV* p, const ugdk::math::Vector2D& vec, double u, double v) {
+        p->x = static_cast<GLfloat>(vec.x);
+        p->y = static_cast<GLfloat>(vec.y);
+        p->u = static_cast<GLfloat>(u);
+        p->v = static_cast<GLfloat>(v);
+    }
+
 }
 
 GiantFloor::GiantFloor(const Room* room)
     : room_(room)
-    , size_(106 * room->size().x, 54 * room->size().y)
     , data_(4, sizeof(VertexXYUV), false)
     , texture_(ugdk::resource::GetTextureFromFile("images/ground_texture.png"))
 {    
@@ -79,38 +84,14 @@ GiantFloor::GiantFloor(const Room* room)
     {
         VertexData::Mapper mapper(data_);
 
-        {
-            VertexXYUV* p = mapper.Get<VertexXYUV>(0);
-            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({0.0 - 0.5, 0.0 - 0.5}));
-            p->u = 0;
-            p->v = 0;
-        }
-        {
-            VertexXYUV* p = mapper.Get<VertexXYUV>(1);
-            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({size.x - 0.5, 0.0 - 0.5}));
-            p->u = size.x;
-            p->v = 0;
-        }
-        {
-            VertexXYUV* p = mapper.Get<VertexXYUV>(2);
-            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({0.0 - 0.5, size.y - 0.5}));
-            p->u = 0;
-            p->v = size.y;
-        }
-        {
-            VertexXYUV* p = mapper.Get<VertexXYUV>(3);
-            std::tie(p->x, p->y) = static_cast<std::pair<double,double>>(core::FromWorldCoordinates({size.x - 0.5, size.y - 0.5}));
-            p->u = size.x;
-            p->v = size.y;
-        }
-
-        Vector2D room_pos = core::FromWorldCoordinates(room->position());
-        for (size_t i = 0; i < data_.num_vertices(); ++i) {
-            VertexXYUV* p = mapper.Get<VertexXYUV>(i);
-            p->x += room_pos.x;
-            p->y += room_pos.y;
-        }
-
+        set_vector_fields(mapper.Get<VertexXYUV>(0),
+                          core::FromWorldCoordinates({ 0.0 - 0.5, 0.0 - 0.5 }), 0.0, 0.0);
+        set_vector_fields(mapper.Get<VertexXYUV>(1),
+                          core::FromWorldCoordinates({ size.x - 0.5, 0.0 - 0.5 }), size.x, 0.0);      
+        set_vector_fields(mapper.Get<VertexXYUV>(2),
+                          core::FromWorldCoordinates({ 0.0 - 0.5, size.y - 0.5 }), 0.0, size.y);             
+        set_vector_fields(mapper.Get<VertexXYUV>(3),
+                          core::FromWorldCoordinates({ size.x - 0.5, size.y - 0.5 }), size.x, size.y);        
     }
 }
 
@@ -118,12 +99,9 @@ GiantFloor::~GiantFloor() {}
 
 void GiantFloor::Draw(ugdk::graphic::Canvas& canvas, const ugdk::graphic::TextureUnit& light_unit) const {
 
-    const glm::mat4& mat = canvas.current_geometry().AsMat4();
-    glm::vec4 transformed_hotspot = mat * glm::vec4(-hotspot_.x, -hotspot_.y, 0, 0);
-
     // Use our shader
     canvas.ChangeShaderProgram(continuous_light_shader_);
-    canvas.SendUniform("HOTSPOT", transformed_hotspot.x, transformed_hotspot.y);
+    canvas.SendUniform("OFFSET", core::FromWorldCoordinates(room_->position()));
     canvas.SendUniform("ROOM_POSITION", room_->position().x, room_->position().y);
     canvas.SendUniform("LEVEL_SIZE", room_->level()->size().x, room_->level()->size().y);
 

@@ -15,13 +15,10 @@ class GiantFloor {
     GiantFloor(const Room* room);
     ~GiantFloor();
 
-    void set_hotspot(const ugdk::math::Vector2D& hotspot) { hotspot_ = hotspot; }
     void Draw(ugdk::graphic::Canvas&, const ugdk::graphic::TextureUnit& light_unit) const;
 
   private:
     const Room* room_;
-    ugdk::math::Vector2D size_;
-    ugdk::math::Vector2D hotspot_;
     ugdk::graphic::VertexData data_;
     ugdk::graphic::GLTexture* texture_;
 };
