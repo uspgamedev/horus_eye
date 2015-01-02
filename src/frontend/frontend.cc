@@ -15,16 +15,6 @@
 
 namespace frontend {
 
-namespace {
-    void PauseGameOnEscape(const ugdk::input::KeyPressedEvent& key) {
-        if (key.scancode == ugdk::input::Scancode::ESCAPE) {
-            if (auto current_campaign = campaigns::Campaign::CurrentCampaign())
-                if (current_campaign->current_level() == &ugdk::system::CurrentScene())
-                    ugdk::system::PushSceneFactory(frontend::nativebuilders::PauseScene);
-        }
-    }
-}
-
 void PopuplateUGDKConfiguration(ugdk::system::Configuration& config) {
     auto settings = utils::Settings::reference();
     config.canvas_size = settings->resolution_vector();
@@ -41,7 +31,6 @@ void Initialize() {
 #ifdef HORUSEYE_DEBUG_TOOLS
     ugdk::system::GlobalEventHandler().AddObjectListener(DebugToolsListener());
 #endif
-    ugdk::system::GlobalEventHandler().AddListener(PauseGameOnEscape);
 }
 
 void Start() {

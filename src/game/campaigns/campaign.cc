@@ -7,6 +7,8 @@
 #include "game/context.h"
 #include "game/campaigns/exceptions.h"
 
+#include "communication/direct.h"
+
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
@@ -31,7 +33,6 @@ Campaign* Campaign::CurrentCampaign() {
 Campaign::Campaign(const CampaignDescriptor& d)
 : current_level_(nullptr)
 , descriptor_(d)
-, auto_started_(false)
 {
     if (current_campaign_)
         throw AnotherCampaignExists();
@@ -51,15 +52,7 @@ void Campaign::Start() {
 void Campaign::End() {
     (implementation_ | "End")(this);
 }
-
-void Campaign::Focus() {
-    Scene::Focus();
-    if (!auto_started_) {
-        auto_started_ = true;
-        Start();
-    }
-}
-    
+   
 void Campaign::InformSceneFinished() {
     current_level_ = nullptr;
     AddTask(ugdk::system::Task([this](double) {
@@ -73,16 +66,12 @@ bool Campaign::LoadLevel(const std::string& level_name) {
     current_level_ = utils::LoadLevel(SCRIPT_MANAGER()->LoadModule(level_path), level_path);
 
     if (current_level_) {
-        auto lr = ugdk::MakeUnique<core::LightRendering>(current_level_);
-        current_level_->set_light_rendering(lr.get());
-
-        ugdk::system::PushScene(std::move(lr));
-        ugdk::system::PushScene(std::unique_ptr<Scene>(current_level_));
         current_level_->Start(this);
+        communication::notify::CampaignLevelLoaded();
         return true;
     }
     else {
-        context::ShowTextAsScene("Error loading level '" + (level_name)+ "' from campaign '" + descriptor_.name() +"'.");
+        communication::notify::CampaignFailedToLoadLevel("Error loading level '" + (level_name)+"' from campaign '" + descriptor_.name() + "'.");
         return false;
     }
 }

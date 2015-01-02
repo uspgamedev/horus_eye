@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_CORE_WORLD_H_
 #define HORUSEYE_GAME_CORE_WORLD_H_
 
-#include <ugdk/action/scene.h>
+#include <ugdk/system/taskplayer.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/math/integer2D.h>
@@ -31,8 +31,7 @@ using ugdk::math::Vector2D;
 
 namespace core {
 
-class World : public ugdk::action::Scene {
-  typedef ugdk::action::Scene super;
+class World : public ugdk::system::TaskPlayer {
   public:
     explicit World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj&);
     ~World();
@@ -42,9 +41,6 @@ class World : public ugdk::action::Scene {
 
     void Start(campaigns::Campaign*);
     void End();
-
-    void Focus();
-    void DeFocus();
 
     void AddRoom(map::Room* room);
     void ChangeFocusedRoom(const std::string& name);

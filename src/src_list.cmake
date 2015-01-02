@@ -1,4 +1,6 @@
 SET(GAME_SRCS 
+    communication/direct.cc 
+    communication/direct.h 
     externals/inifile.cc 
     externals/inifile.h 
     externals/windows/include/dirent.h 
@@ -13,6 +15,8 @@ SET(GAME_SRCS
     frontend/nativebuilders/homescene.cc 
     frontend/nativebuilders/pausescene.cc 
     frontend/nativebuilders/settingsscene.cc 
+    frontend/scenes/campaigndisplay.cc 
+    frontend/scenes/campaigndisplay.h 
     frontend/scenes/console.cc 
     frontend/scenes/console.h 
     frontend/scenes/imagescene.cc 

@@ -38,9 +38,7 @@ std::unique_ptr<ugdk::action::Scene> PauseScene() {
     menu->AddObject(new Button(cont_position, std::move(cont_text), FinishOwner));
     menu->AddObject(new Button(exit_position, std::move(exit_text), [](const Button* btn) {
         btn->owner()->Finish();
-        auto current_campaign = campaigns::Campaign::CurrentCampaign();
-        current_campaign->Finish();
-        current_campaign->current_level()->Finish();        
+        campaigns::Campaign::CurrentCampaign()->End();
     }));
 
     return std::move(menu);

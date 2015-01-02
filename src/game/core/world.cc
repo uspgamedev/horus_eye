@@ -84,12 +84,11 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     hud_(nullptr)
 {
 
-    set_identifier("World");
-
     hud_ = new utils::Hud(this);
     this->AddTask([this](double dt) {
         hud_->Update(dt);
     });
+
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->screen()->size()*0.5;
@@ -120,36 +119,6 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
             graphic::manager()->screen()->size().x,
             ugdk::text::manager()->current_font()));
 
-    set_render_function([this](graphic::Canvas& canvas) {
-
-        auto& shaders = ugdk::graphic::manager()->shaders();
-        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
-        canvas.ChangeShaderProgram(shaders.current_shader());
-        canvas.PushAndCompose(this->camera_);
-        if(render_sprites)
-            for(const map::Room* room : active_rooms_)
-                room->Render(canvas);
-
-        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
-        canvas.ChangeShaderProgram(shaders.current_shader());
-
-        if(render_collision)
-            for(auto collobject : collision_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, canvas);
-        if(render_visibility)
-            for(auto collobject : visibility_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, canvas);
-        
-        canvas.PopGeometry();
-        {
-            ugdk::debug::ProfileSection section("Hud");
-            this->hud_->node()->Render(canvas);
-        }
-
-        if (render_profiler)
-            profiler_text->Draw(canvas);
-    });
-
     SetupCollisionManager();
 }
 
@@ -164,20 +133,9 @@ void World::Start(campaigns::Campaign* campaign) {
 }
 
 void World::End() {
-    super::End();
     light_rendering_->Finish();
     campaign_->InformSceneFinished();
     (vobj_ | "End")(this, campaign_->implementation());
-}
-
-void World::Focus() {
-    Scene::Focus();
-    this->set_active(true);
-}
-
-void World::DeFocus() {
-    Scene::DeFocus();
-    this->set_active(false);
 }
 
 void World::SetHero(const sprite::WObjPtr& hero) {
