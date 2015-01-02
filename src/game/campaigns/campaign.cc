@@ -62,7 +62,10 @@ void Campaign::Focus() {
     
 void Campaign::InformSceneFinished() {
     current_level_ = nullptr;
-    (implementation_ | "OnSceneFinished")(this);
+    AddTask(ugdk::system::Task([this](double) {
+        (implementation_ | "OnSceneFinished")(this);
+        return false;
+    }, 0.0));
 }
     
 bool Campaign::LoadLevel(const std::string& level_name) {
