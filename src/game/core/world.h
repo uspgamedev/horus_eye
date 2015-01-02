@@ -31,7 +31,7 @@ using ugdk::math::Vector2D;
 
 namespace core {
 
-class World final : public ugdk::action::Scene {
+class World : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
   public:
     explicit World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj&);

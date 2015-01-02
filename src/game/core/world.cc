@@ -165,7 +165,8 @@ void World::Start(campaigns::Campaign* campaign) {
 
 void World::End() {
     super::End();
-    campaign_->InformLevelFinished();
+    light_rendering_->Finish();
+    campaign_->InformSceneFinished();
     (vobj_ | "End")(this, campaign_->implementation());
 }
 

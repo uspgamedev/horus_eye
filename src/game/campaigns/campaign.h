@@ -29,17 +29,19 @@ class Campaign : public ugdk::action::Scene {
 
     bool LoadLevel(const std::string& levelname);
 
-    void Focus() override;
-    void DeFocus() override;
+    void Start();
     void End() override;
 
-    void InformLevelFinished();
+    void Focus() override;
+
+    void InformSceneFinished();
 
   private:
 
     core::World* current_level_;
     CampaignDescriptor descriptor_;
     ugdk::script::VirtualObj implementation_;
+    bool auto_started_;
 };
 
 } // namespace campaigns

@@ -31,6 +31,7 @@ Campaign* Campaign::CurrentCampaign() {
 Campaign::Campaign(const CampaignDescriptor& d)
 : current_level_(nullptr)
 , descriptor_(d)
+, auto_started_(false)
 {
     if (current_campaign_)
         throw AnotherCampaignExists();
@@ -43,22 +44,25 @@ Campaign::~Campaign() {
     current_campaign_ = nullptr;
 }
 
-void Campaign::Focus() {
-    Scene::Focus();
-    (implementation_ | "Focus")(this);
-}
-
-void Campaign::DeFocus() {
-    Scene::DeFocus();
-    (implementation_ | "DeFocus")(this);
+void Campaign::Start() {
+    (implementation_ | "Start")(this);
 }
 
 void Campaign::End() {
     (implementation_ | "End")(this);
 }
+
+void Campaign::Focus() {
+    Scene::Focus();
+    if (!auto_started_) {
+        auto_started_ = true;
+        Start();
+    }
+}
     
-void Campaign::InformLevelFinished() {
+void Campaign::InformSceneFinished() {
     current_level_ = nullptr;
+    (implementation_ | "OnSceneFinished")(this);
 }
     
 bool Campaign::LoadLevel(const std::string& level_name) {

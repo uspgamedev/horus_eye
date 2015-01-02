@@ -26,29 +26,27 @@ function new(native)
       level:Finish()
     end
   end
-  
-  function campaign:Focus(native)
-  
+
+  function campaign:Start(native)
+    self.next_level = 1
+    context.ShowScrollingText "Intro"
+  end
+
+  function campaign:OnSceneFinished(native)
     if self.hero_died then
       -- TODO: Show 'You Died' image.
       native:Finish()
-  
-    elseif not self.next_level then
-      self.next_level = 1
-      context.ShowScrollingText "Intro"
-      
+
     elseif self.level_list[self.next_level] then
       native:LoadLevel("levels." .. self.level_list[self.next_level])
       self.next_level = self.next_level + 1
-      
+
     else
+      -- YOU WIN!
       native:Finish()
-      
     end
-  
   end
-  
-  function campaign:DeFocus(native) end
+
   function campaign:End(native) end
   
   function campaign:LevelStart(level_native, start_data)
