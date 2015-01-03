@@ -8,6 +8,8 @@ SET(GAME_SRCS
     frontend/debugtools.h 
     frontend/frontend.cc 
     frontend/frontend.h 
+    frontend/hud.cc 
+    frontend/hud.h 
     frontend/nativebuilders.h 
     frontend/nativebuilders/campaignselectionscene.cc 
     frontend/nativebuilders/commonmenu.cc 
@@ -166,8 +168,6 @@ SET(GAME_SRCS
     game/sprites/objecthandle.h 
     game/sprites/worldobject.cc 
     game/sprites/worldobject.h 
-    game/utils/hud.cc 
-    game/utils/hud.h 
     game/utils/hudimagefactory.cc 
     game/utils/hudimagefactory.h 
     game/utils/isometricanimationset.cc 

@@ -4,7 +4,7 @@
 #include <ugdk/action/scene.h>
 
 #include "game/campaigns/campaign.h"
-#include "game/utils/hud.h"
+#include "frontend/hud.h"
 
 #include <memory>
 
@@ -28,7 +28,7 @@ class CampaignDisplay : public ugdk::action::Scene {
   private:
     std::unique_ptr<campaigns::Campaign> campaign_;
     std::unique_ptr<core::LightRendering> light_rendering_;
-    std::unique_ptr<utils::Hud> hud_;
+    std::unique_ptr<Hud> hud_;
     bool started_;
 };
 

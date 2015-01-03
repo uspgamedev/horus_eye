@@ -68,7 +68,7 @@ namespace {
                     canvas.ChangeShaderProgram(primitive.shader_program());
                     canvas.SendUniform("drawable_texture", texture_unit);
                     canvas.SendUniform("light_texture", light_unit);
-                    canvas.SendUniform("LEVEL_SIZE", room->level()->size().x, room->level()->size().y);
+                    canvas.SendUniform("LEVEL_SIZE", room->level()->size());
                     shader_changes++;
                 }
 
@@ -82,8 +82,8 @@ namespace {
                 glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
                 Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
                 Vector2D lightUV = light_rendering.CalculateUV(obj->world_position());
-                canvas.SendUniform("objectDepth", lightpos.y);
-                canvas.SendUniform("lightUV", lightUV.x, lightUV.y);
+                canvas.SendUniform("objectDepth", static_cast<float>(lightpos.y));
+                canvas.SendUniform("lightUV", lightUV);
 
                 canvas.PushAndCompose(primitive.visual_effect());
                 primitive.drawfunction()(primitive, canvas);
@@ -182,7 +182,7 @@ void CampaignDisplay::DeFocus() {
 
 void CampaignDisplay::LevelLoaded() {
     light_rendering_ = ugdk::MakeUnique<core::LightRendering>(campaign_->current_level());
-    hud_ = ugdk::MakeUnique<utils::Hud>(campaign_->current_level());
+    hud_ = ugdk::MakeUnique<Hud>(campaign_->current_level());
 }
 
 } // namespace scenes
