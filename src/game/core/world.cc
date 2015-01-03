@@ -44,14 +44,6 @@ using std::bind;
 using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
 
-namespace {
-bool render_sprites = true;
-bool render_collision = false;
-bool render_visibility = false;
-bool render_profiler = false;
-std::shared_ptr<text::TextBox> profiler_text(nullptr);
-}
-
 bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     Vector2D  ap = core::FromWorldCoordinates(a->position()+a->size()/2.0),
               bp = core::FromWorldCoordinates(b->position()+b->size()/2.0);
@@ -102,12 +94,6 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
         }
     }, 0.6));
     
-    if (!profiler_text)
-        profiler_text.reset(new text::TextBox(
-            "Press F10 to fetch profiler data.",
-            graphic::manager()->screen()->size().x,
-            ugdk::text::manager()->current_font()));
-
     SetupCollisionManager();
 }
 

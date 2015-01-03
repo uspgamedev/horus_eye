@@ -7,6 +7,7 @@
 #include "game/components/graphic.h"
 #include "game/map/giantfloor.h"
 #include "game/map/room.h"
+#include "game/renders/shape.h"
 
 #include <functional>
 
@@ -20,6 +21,9 @@
 #include <ugdk/input/events.h>
 #include <ugdk/debug/profiler.h>
 #include <ugdk/graphic/opengl.h>
+#include <ugdk/text/module.h>
+#include <ugdk/text/textbox.h>
+#include <pyramidworks/collision/collisionmanager.h>
 
 namespace frontend {
 namespace scenes {
@@ -34,6 +38,11 @@ using namespace std::placeholders;
 
 namespace {
     bool render_sprites = true;
+    bool render_collision = false;
+    bool render_visibility = false;
+    bool render_profiler = false;
+    std::shared_ptr<text::TextBox> profiler_text(nullptr);
+
     CampaignDisplay* g_current_ = nullptr;
 
     void RenderRoom(const map::Room* room, const core::LightRendering& light_rendering, ugdk::graphic::Canvas& canvas) {
@@ -113,24 +122,23 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
 
         shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
         canvas.ChangeShaderProgram(shaders.current_shader());
-
-        /*
+        
         if(render_collision)
-            for(auto collobject : collision_manager_.active_objects())
+            for(auto collobject : world->collision_manager()->active_objects())
                 renders::DrawCollisionObject(collobject, canvas);
-        if(render_visibility)
-            for(auto collobject : visibility_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, canvas);
-                */
 
+        if(render_visibility)
+            for(auto collobject : world->visibility_manager()->active_objects())
+                renders::DrawCollisionObject(collobject, canvas);
+                
         canvas.PopGeometry();
         {
             ugdk::debug::ProfileSection section("Hud");
             hud_->node()->Render(canvas);
         }
 
-        //if (render_profiler)
-        //    profiler_text->Draw(canvas);
+        if (render_profiler)
+            profiler_text->Draw(canvas);
     });
 
     AddTask([this](double dt) {
@@ -149,6 +157,12 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
                 ugdk::system::PushSceneFactory(frontend::nativebuilders::PauseScene);
         }
     });
+
+    if (!profiler_text)
+        profiler_text.reset(new text::TextBox(
+        "Press F10 to fetch profiler data.",
+        graphic::manager()->screen()->size().x,
+        ugdk::text::manager()->current_font()));
 }
 
 CampaignDisplay::~CampaignDisplay() {
