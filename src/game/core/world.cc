@@ -31,7 +31,6 @@
 #include "game/core/coordinates.h"
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/hud.h"
 #include "game/renders/shape.h"
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
@@ -40,7 +39,6 @@ namespace core {
 
 using namespace ugdk;
 using namespace sprite;
-using namespace utils;
 using ugdk::structure::Box;
 using std::bind;
 using namespace std::placeholders;
@@ -78,17 +76,8 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     campaign_(nullptr),
     collision_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
     visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
-    vobj_(vobj),
-
-    // Graphic
-    hud_(nullptr)
+    vobj_(vobj)
 {
-
-    hud_ = new utils::Hud(this);
-    this->AddTask([this](double dt) {
-        hud_->Update(dt);
-    });
-
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->screen()->size()*0.5;

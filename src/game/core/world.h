@@ -24,9 +24,6 @@
 #include <queue>
 #include <unordered_map>
 
-namespace utils {
-class Hud;
-}
 using ugdk::math::Vector2D;
 
 namespace core {
@@ -84,7 +81,6 @@ class World : public ugdk::system::TaskPlayer {
     ugdk::script::VirtualObj vobj_;
 
     // Graphic
-    utils::Hud *hud_;
     ugdk::graphic::Geometry camera_;
 
 };  // class World

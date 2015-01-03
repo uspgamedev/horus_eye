@@ -125,8 +125,8 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
 
         canvas.PopGeometry();
         {
-            //ugdk::debug::ProfileSection section("Hud");
-            //world->hud()->node()->Render(canvas);
+            ugdk::debug::ProfileSection section("Hud");
+            hud_->node()->Render(canvas);
         }
 
         //if (render_profiler)
@@ -137,6 +137,10 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
         campaign_->Update(dt);
         if (campaign_->current_level())
             campaign_->current_level()->Update(dt);
+    });
+    AddTask([this](double dt) {
+        if (hud_)
+            hud_->Update(dt);
     });
 
     event_handler().AddListener<ugdk::input::KeyPressedEvent>([this](const ugdk::input::KeyPressedEvent& key) {
@@ -152,13 +156,19 @@ CampaignDisplay::~CampaignDisplay() {
 }
 
 void CampaignDisplay::Focus() {
+    set_active(true);
     if (started_) return;
     started_ = true;
     campaign_->Start();
 }
 
+void CampaignDisplay::DeFocus() {
+    set_active(false);
+}
+
 void CampaignDisplay::LevelLoaded() {
     light_rendering_ = ugdk::MakeUnique<core::LightRendering>(campaign_->current_level());
+    hud_ = ugdk::MakeUnique<utils::Hud>(campaign_->current_level());
 }
 
 } // namespace scenes
