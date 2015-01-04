@@ -28,9 +28,7 @@ static void HeroLightningUse(component::Caster* caster) {
 }
 
 Skill* HeroLightningBuild() {
-    return new CombatArt(HeroLightningUse, SkillValidFunction(), [] {
-        return std::unique_ptr<ugdk::ui::Drawable>(utils::HudImageFactory::LightningIconImage());
-    }, constants::GetInt("LIGHTNING_COST"));
+    return new CombatArt(HeroLightningUse, SkillValidFunction(), "images/hud_magic_lightning.png", constants::GetInt("LIGHTNING_COST"));
 }
 
 } // namespace skills

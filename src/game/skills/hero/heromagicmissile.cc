@@ -23,7 +23,7 @@ static void HeroMagicMissileUse(component::Caster* caster) {
 }
 
 Skill* HeroMagicMissileBuild() {
-    return new CombatArt(HeroMagicMissileUse, SkillValidFunction(), DrawableFactory(), 0.0);
+    return new CombatArt(HeroMagicMissileUse, SkillValidFunction(), "", 0.0);
 }
 
 }

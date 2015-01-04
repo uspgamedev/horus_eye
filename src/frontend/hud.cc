@@ -3,6 +3,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/system/engine.h>
 #include <ugdk/text/module.h>
+#include <ugdk/resource/module.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/geometry.h>
@@ -188,7 +189,8 @@ void Hud::Update(double delta_t) {
             if(displayed_skill_ != caster->SkillAt(Controller::SECONDARY)) {
                 displayed_skill_ = caster->SkillAt(Controller::SECONDARY);
                 
-                weapon_icon_->set_drawable(displayed_skill_->CreateIcon());
+                auto texture = ugdk::resource::GetTextureFromFile(displayed_skill_->icon_path());
+                weapon_icon_->set_drawable(texture ? ugdk::MakeUnique<TexturedRectangle>(texture) : nullptr);
                 if (weapon_icon_->drawable())
                     weapon_icon_->drawable()->set_hotspot(HookPoint::CENTER);
             }

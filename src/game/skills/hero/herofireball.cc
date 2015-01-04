@@ -29,9 +29,7 @@ static void HeroFireballUse(component::Caster* caster) {
 }
 
 Skill* HeroFireballBuild() {
-    return new CombatArt(HeroFireballUse, SkillValidFunction(), [] {
-        return std::unique_ptr<ugdk::ui::Drawable>(utils::HudImageFactory::FireballIconImage());
-    }, constants::GetInt("FIREBALL_COST"));
+    return new CombatArt(HeroFireballUse, SkillValidFunction(), "images/hud_magic_fire.png", constants::GetInt("FIREBALL_COST"));
 }
 
 } // namespace skills

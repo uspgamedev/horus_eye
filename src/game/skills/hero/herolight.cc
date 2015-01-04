@@ -40,9 +40,7 @@ static void HeroLightUse(component::Caster* caster) {
 }
 
 Skill* HeroLightBuild() {
-    return new CombatArt(HeroLightUse, VisibilityCheck, [] {
-        return std::unique_ptr<ugdk::ui::Drawable>(utils::HudImageFactory::LightIconImage());
-    }, constants::GetInt("QUAKE_COST"), -1.0);
+    return new CombatArt(HeroLightUse, VisibilityCheck, "images/hud_magic_light.png", constants::GetInt("QUAKE_COST"), -1.0);
 }
 
 } // namespace skills

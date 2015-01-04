@@ -2,17 +2,14 @@
 #define HORUSEYE_GAME_SKILLS_SKILL_H_
 
 #include "game/components.h"
-#include <ugdk/ui/drawable.h>
 
 #include <functional>
 #include <string>
-#include <memory>
 
 namespace skills {
 
 using SkillUseFunction = std::function<void(component::Caster*)>;
 using SkillValidFunction = std::function<bool(const component::Caster*)>;
-using DrawableFactory = std::function<std::unique_ptr<ugdk::ui::Drawable>()>;
 
 /// An usable skill.
 /** Abstract class. Contains an icon.
@@ -23,8 +20,8 @@ class Skill {
     virtual ~Skill() {}
 
     /// Returns the icon associated with this skill.
-    std::unique_ptr<ugdk::ui::Drawable> CreateIcon() const {
-        return icon_factory_ ? icon_factory_() : nullptr;
+    const std::string& icon_path() const {
+        return icon_path_;
     }
 
     /// Uses the skill.
@@ -46,15 +43,15 @@ class Skill {
     Skill(SkillUseFunction use)
         : use_(use) {}
     
-    Skill(SkillUseFunction use, SkillValidFunction valid, DrawableFactory icon_factory)
+    Skill(SkillUseFunction use, SkillValidFunction valid, const std::string& icon_path)
         : use_(use)
         , valid_(valid)
-        , icon_factory_(icon_factory) {}
+        , icon_path_(icon_path) {}
 
   private:
     SkillUseFunction use_;
     SkillValidFunction valid_;
-    DrawableFactory icon_factory_;
+    std::string icon_path_;
 };
 
 } // namespace skills
