@@ -7,6 +7,7 @@ namespace communication {
 namespace notify {
     void CampaignLevelLoaded();
     void CampaignFailedToLoadLevel(const std::string&);
+    void PlaySound(const std::string&);
 }
 } // namespace communication
 

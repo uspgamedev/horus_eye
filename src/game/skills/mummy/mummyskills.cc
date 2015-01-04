@@ -8,8 +8,9 @@
 #include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/skills/combatart.h"
-#include "game/utils/settings.h"
 #include "game/constants.h"
+
+#include "communication/direct.h"
 
 namespace skills {
 
@@ -37,8 +38,7 @@ static void MummyRangedUse(component::Caster* caster) {
 
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::MummyProjectile(versor, caster->power().Get() * 1.0), pos, map::POSITION_ABSOLUTE);
     
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
+    communication::notify::PlaySound("samples/fire.wav");
 }
 
 Skill* MummyMeleeBuild() {

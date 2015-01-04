@@ -1,20 +1,15 @@
-#include <ugdk/math/vector2D.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/graphic/sprite.h>
-#include <ugdk/ui/drawable/texturedrectangle.h>
-#include <ugdk/system/engine.h>
 
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
 #include "game/utils/visionstrategy.h"
-#include "game/utils/hudimagefactory.h"
-#include "game/utils/settings.h"
 #include "game/components/caster.h"
 #include "game/components/graphic.h"
 #include "game/components/timedlife.h"
 #include "game/components/lightemitter.h"
 #include "game/skills/combatart.h"
 #include "game/constants.h"
+
+#include "communication/direct.h"
 
 namespace skills {
 
@@ -35,8 +30,7 @@ static void HeroLightUse(component::Caster* caster) {
 
     caster->owner()->current_room()->AddObject(light, caster->aim().destination_, map::POSITION_ABSOLUTE);
 
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
+    communication::notify::PlaySound("samples/fire.wav");
 }
 
 Skill* HeroLightBuild() {

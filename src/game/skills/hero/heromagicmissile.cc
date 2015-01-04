@@ -1,12 +1,10 @@
-#include <ugdk/math/vector2D.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/system/engine.h>
 
 #include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/components/caster.h"
-#include "game/utils/settings.h"
 #include "game/skills/combatart.h"
+
+#include "communication/direct.h"
 
 namespace skills {
 
@@ -18,8 +16,7 @@ static void HeroMagicMissileUse(component::Caster* caster) {
 
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::MagicMissile(versor), pos, map::POSITION_ABSOLUTE);
 
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
+    communication::notify::PlaySound("samples/fire.wav");
 }
 
 Skill* HeroMagicMissileBuild() {
