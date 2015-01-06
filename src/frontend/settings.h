@@ -66,7 +66,6 @@ class Settings {
 
     int resolution_, language_;
     bool fullscreen_, background_music_, sound_effects_, vsync_;
-    std::string configuration_folder_path_;
     std::list<std::string> sources_;
 
     void SetSettingsPath();

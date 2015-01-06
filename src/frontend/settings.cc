@@ -7,6 +7,7 @@
 #include <windows.h>
 #include <shlobj.h>
 #include <direct.h>
+#include <Shobjidl.h>
 #pragma comment(lib, "shell32.lib")
 #endif
 
@@ -41,6 +42,16 @@ static inline std::string &trim(std::string &s) {
 namespace frontend {
 
 namespace {
+
+#ifdef _WIN32
+    std::string utf8_encode(const std::wstring &wstr) {
+        if (wstr.empty()) return std::string();
+        int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
+        std::string strTo(size_needed, 0);
+        WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
+        return strTo;
+    }
+#endif
 
     static inline std::string &tolower(std::string &str) {
         std::transform(str.begin(), str.end(), str.begin(), ::tolower);
@@ -125,10 +136,10 @@ namespace {
     bool WriteDataToPath(const std::string& filepath, const SettingsData &data) {
         externals::CIniFile destination;
         externals::CIniSection* sect = destination.AddSection("Settings");
-        sect->AddKey("Fullscreen")->SetValue(BoolToString(data.fullscreen != 0));
-        sect->AddKey("VSync")->SetValue(BoolToString(data.vsync != 0));
-        sect->AddKey("SoundEffects")->SetValue(BoolToString(data.sound_effects != 0));
-        sect->AddKey("Music")->SetValue(BoolToString(data.background_music != 0));
+        sect->AddKey("Fullscreen")->SetValue(BoolToString(data.fullscreen));
+        sect->AddKey("VSync")->SetValue(BoolToString(data.vsync));
+        sect->AddKey("SoundEffects")->SetValue(BoolToString(data.sound_effects));
+        sect->AddKey("Music")->SetValue(BoolToString(data.background_music));
         sect->AddKey("Language")->SetValue(Settings::LanguageNameList()[data.language]);
         sect->AddKey("ResolutionX")->SetValue(IntToString((int)(Settings::ResolutionList()[data.resolution].x)));
         sect->AddKey("ResolutionY")->SetValue(IntToString((int)(Settings::ResolutionList()[data.resolution].y)));
@@ -177,9 +188,7 @@ std::string Settings::languages_names_[] = {
 
 Settings::Settings() {
     SetSettingsPath();
-
-    this->sources_.push_back(configuration_folder_path_);
-    this->sources_.push_back("");
+    this->sources_.push_back("horus_settings.ini");
 
     SettingsData data;
     if(!ReadFromDisk(data))
@@ -226,18 +235,21 @@ const std::string& Settings::language_name() const {
 }
 
 void Settings::SetSettingsPath() {
-#ifdef WIN32
-    CHAR my_documents[MAX_PATH];
-    HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, my_documents);
-    if (result == S_OK) {
-        configuration_folder_path_ = std::string(my_documents) + "/Horus Eye/";
-        if (GetFileAttributes(configuration_folder_path_.c_str()) == INVALID_FILE_ATTRIBUTES)
-            _mkdir(configuration_folder_path_.c_str());
+#ifdef _WIN32
+    PWSTR saved_games = nullptr;
+    if (SHGetKnownFolderPath(FOLDERID_SavedGames, KF_FLAG_CREATE, NULL, &saved_games) == S_OK) {
+        std::wstring saved_games_full(saved_games);
+        saved_games_full += L"/Horus Eye";
+        if (GetFileAttributesW(saved_games_full.c_str()) == INVALID_FILE_ATTRIBUTES)
+            _wmkdir(saved_games_full.c_str());
+        sources_.push_back(utf8_encode(saved_games_full + L"/game_settings.ini"));
     }
+    CoTaskMemFree(static_cast<LPVOID>(saved_games));
 #else
     char* home = getenv("HOME");
-    if(home) configuration_folder_path_ = std::string(home) + "/.config/horus_eye/";
-    else configuration_folder_path_ = "";
+    if(home) {
+        sources_.push_back(std::string(home) + "/.config/horus_eye/game_settings.ini");
+    }
 #endif
 }
 
