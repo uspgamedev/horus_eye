@@ -1,8 +1,8 @@
 #include "commonmenu.h"
+#include "frontend/settings.h"
 #include "frontend/nativebuilders.h"
 
 #include "game/initializer.h"
-#include "game/utils/settings.h"
 
 #include <ugdk/desktop/module.h>
 #include <ugdk/desktop/window.h>
@@ -31,14 +31,13 @@ using ugdk::ui::UIElement;
 using ugdk::ui::Node;
 using ugdk::text::Label;
 using ugdk::math::Vector2D;
-using utils::Settings;
 using namespace std::placeholders;
 
 namespace {
 
     struct SettingsFunction {
         std::string name;
-        std::function<void(utils::Settings*, int)> function;
+        std::function<void(Settings*, int)> function;
         std::vector<std::string> values;
     };
     void fillSettingsFunction(SettingsFunction* sf) {
@@ -128,13 +127,13 @@ namespace {
         if (data->indices_.find(source) == data->indices_.end()) return;
         int value = data->indices_[source];
         int max_val = (int)data->setting_functions_[value].values.size();
-        std::function<void(utils::Settings*, int)> settingsfunc = data->setting_functions_[value].function;
+        std::function<void(Settings*, int)> settingsfunc = data->setting_functions_[value].function;
 
         data->nodes_[value][data->sprites_active_[value]]->effect().set_visible(false);
         data->sprites_active_[value] = (data->sprites_active_[value] + modifier) % max_val;
         if (data->sprites_active_[value] < 0) data->sprites_active_[value] += max_val;
 
-        settingsfunc(utils::Settings::reference(), data->sprites_active_[value]);
+        settingsfunc(Settings::reference(), data->sprites_active_[value]);
 
         data->nodes_[value][data->sprites_active_[value]]->effect().set_visible(true);
     }

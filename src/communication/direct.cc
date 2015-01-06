@@ -2,7 +2,7 @@
 #include "communication/direct.h"
 
 #include "frontend/scenes/campaigndisplay.h"
-#include "game/utils/settings.h"
+#include "frontend/settings.h"
 
 #include <ugdk/audio/module.h>
 
@@ -18,7 +18,7 @@ namespace notify {
     }
 
     void PlaySound(const std::string& sfx) {
-        if (utils::Settings::reference()->sound_effects())
+        if (frontend::Settings::reference()->sound_effects())
             ugdk::audio::manager()->LoadSample(sfx)->Play();
     }
 
@@ -28,7 +28,7 @@ namespace notify {
             if (current_music) {
                 current_music->Stop();
             }
-        } else if (utils::Settings::reference()->background_music()) {
+        } else if (frontend::Settings::reference()->background_music()) {
             auto new_music = ugdk::audio::manager()->LoadMusic(sfx);
             if (new_music != current_music)
                 new_music->PlayForever();

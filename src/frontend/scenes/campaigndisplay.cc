@@ -1,7 +1,7 @@
 #include "campaigndisplay.h"
 
 #include "frontend/nativebuilders.h"
-#include "game/utils/settings.h"
+
 #include "game/core/world.h"
 #include "game/core/lightrendering.h"
 #include "game/sprites/worldobject.h"

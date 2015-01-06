@@ -25,6 +25,8 @@ SET(GAME_SRCS
     frontend/scenes/imagescene.h 
     frontend/scenes/scrollingimagescene.cc 
     frontend/scenes/scrollingimagescene.h 
+    frontend/settings.cc 
+    frontend/settings.h 
     game/ai.h 
     game/ai/ai.cc 
     game/ai/ai.h 
@@ -174,8 +176,6 @@ SET(GAME_SRCS
     game/utils/isometricanimationset.h 
     game/utils/levelloader.cc 
     game/utils/levelloader.h 
-    game/utils/settings.cc 
-    game/utils/settings.h 
     game/utils/visionstrategy.cc 
     game/utils/visionstrategy.h 
     module/ai/logicblockproxy.h 

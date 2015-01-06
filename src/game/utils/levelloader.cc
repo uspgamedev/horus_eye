@@ -4,7 +4,6 @@
 #include "game/core/world.h"
 #include "game/map/loader.h"
 #include "game/map/room.h"
-#include "game/utils/settings.h"
 
 #include <ugdk/debug/log.h>
 #include <ugdk/system/engine.h>
