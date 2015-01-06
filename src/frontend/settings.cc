@@ -40,38 +40,101 @@ static inline std::string &trim(std::string &s) {
 
 namespace frontend {
 
-static inline std::string &tolower(std::string &str) {
-    std::transform(str.begin(), str.end(), str.begin(), ::tolower);
-    return str;
-}
+namespace {
 
-static bool isStringTrue(std::string& str) {
-    return std::string("true").compare(tolower(trim(str))) == 0;
-}
-static bool isStringFalse(std::string& str) {
-    return std::string("false").compare(tolower(trim(str))) == 0;
-}
-static inline bool StringToBool(std::string& s, bool unknown = true) {
-    if(unknown)
-        return !isStringFalse(s);
-    else
-        return isStringTrue(s);
-}
-static inline std::string BoolToString(const bool& value) {
-    return value ? "true" : "false";
-}
-static inline std::string IntToString(const int& x) {
-    std::ostringstream o;
-    if (!(o << x))
-        return "";
-    return o.str();
-}
-static inline int StringToInt(const std::string& s) {
-    std::istringstream i(s);
-    int x;
-    if (!(i >> x))
-        return -1;
-    return x;
+    static inline std::string &tolower(std::string &str) {
+        std::transform(str.begin(), str.end(), str.begin(), ::tolower);
+        return str;
+    }
+
+    static bool isStringTrue(std::string& str) {
+        return std::string("true").compare(tolower(trim(str))) == 0;
+    }
+    static bool isStringFalse(std::string& str) {
+        return std::string("false").compare(tolower(trim(str))) == 0;
+    }
+    static inline bool StringToBool(std::string& s, bool unknown = true) {
+        if (unknown)
+            return !isStringFalse(s);
+        else
+            return isStringTrue(s);
+    }
+    static inline std::string BoolToString(const bool& value) {
+        return value ? "true" : "false";
+    }
+    static inline std::string IntToString(const int& x) {
+        std::ostringstream o;
+        if (!(o << x))
+            return "";
+        return o.str();
+    }
+    static inline int StringToInt(const std::string& s) {
+        std::istringstream i(s);
+        int x;
+        if (!(i >> x))
+            return -1;
+        return x;
+    }
+
+
+    bool ReadDataFromPath(const std::string& filepath, SettingsData &data) {
+        externals::CIniFile source;
+        if (!source.Load(filepath)) return false;
+
+        externals::CIniSection* section = source.GetSection("Settings");
+        if (!section) return false;
+
+        std::string fullscreen = section->GetKeyValue("Fullscreen");
+        std::string soundeffect = section->GetKeyValue("SoundEffects");
+        std::string music = section->GetKeyValue("Music");
+        std::string language = section->GetKeyValue("Language");
+        std::string resolutionx = section->GetKeyValue("ResolutionX");
+        std::string resolutiony = section->GetKeyValue("ResolutionY");
+        std::string vsync = section->GetKeyValue("VSync");
+
+        data.FillWithDefaultValues();
+
+        data.fullscreen = StringToBool(fullscreen, false);
+        data.vsync = StringToBool(vsync, true);
+        data.sound_effects = StringToBool(soundeffect, true);
+        data.background_music = StringToBool(music, true);
+
+        tolower(trim(language));
+        const std::string* languages = Settings::LanguageNameList();
+        for (int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
+            std::string name = std::string(languages[i]); // copy
+            tolower(trim(name));
+            if (name.compare(language) == 0) {
+                data.language = i;
+                break;
+            }
+        }
+
+        ugdk::math::Integer2D resolution(StringToInt(resolutionx), StringToInt(resolutiony));
+        const ugdk::math::Integer2D* resolution_list = Settings::ResolutionList();
+        for (int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
+            if (resolution.x == resolution_list[i].x && resolution.y == resolution_list[i].y) {
+                data.resolution = i;
+                break;
+            }
+        }
+
+        return true;
+    }
+
+    bool WriteDataToPath(const std::string& filepath, const SettingsData &data) {
+        externals::CIniFile destination;
+        externals::CIniSection* sect = destination.AddSection("Settings");
+        sect->AddKey("Fullscreen")->SetValue(BoolToString(data.fullscreen != 0));
+        sect->AddKey("VSync")->SetValue(BoolToString(data.vsync != 0));
+        sect->AddKey("SoundEffects")->SetValue(BoolToString(data.sound_effects != 0));
+        sect->AddKey("Music")->SetValue(BoolToString(data.background_music != 0));
+        sect->AddKey("Language")->SetValue(Settings::LanguageNameList()[data.language]);
+        sect->AddKey("ResolutionX")->SetValue(IntToString((int)(Settings::ResolutionList()[data.resolution].x)));
+        sect->AddKey("ResolutionY")->SetValue(IntToString((int)(Settings::ResolutionList()[data.resolution].y)));
+        return destination.Save(filepath);
+    }
+
 }
 
 
@@ -83,124 +146,6 @@ void SettingsData::FillWithDefaultValues() {
     language = 0;
     vsync = true;
 }
-
-bool SettingsData::ValidateData() const {
-    if((strncmp(control, "HORUSCONFIGV", 12) != 0) || (control[12] - '0' < 1)) {
-        // Invalid file or invalid version
-        return false;
-    }
-    return true;
-}
-
-class DataSource {
-  public:
-    DataSource(const std::string filename) : filename_(filename) {}
-    virtual ~DataSource() {}
-
-    virtual bool Read(       SettingsData &data) const = 0;
-    virtual bool Write(const SettingsData &data) const = 0;
-
-  private:
-    const std::string filename_;
-
-  protected:
-    const std::string& filename() const { return filename_; }
-};
-
-class IniFileSource : public DataSource {
-  public:
-    IniFileSource(const std::string& filepath)
-        : DataSource(filepath + constants::ini_configuration_filename()) {}
-
-    virtual bool Read(SettingsData &data) const {
-        externals::CIniFile source;
-        if(!source.Load(filename())) return false;
-
-        externals::CIniSection* section = source.GetSection("Settings");
-        if(section == NULL) return false;
-
-        std::string fullscreen =    section->GetKeyValue("Fullscreen");
-        std::string soundeffect =   section->GetKeyValue("SoundEffects");
-        std::string music =         section->GetKeyValue("Music");
-        std::string language =      section->GetKeyValue("Language");
-        std::string resolutionx =   section->GetKeyValue("ResolutionX");
-        std::string resolutiony =   section->GetKeyValue("ResolutionY");
-        std::string vsync =         section->GetKeyValue("VSync");
-
-        data.FillWithDefaultValues();
-
-        strcpy(data.control, "HORUSCONFIGV1");
-        data.fullscreen =       StringToBool(fullscreen, false);
-        data.vsync =            StringToBool(vsync, true);
-        data.sound_effects =    StringToBool(soundeffect, true);
-        data.background_music = StringToBool(music, true);
-
-        tolower(trim(language));
-        const std::string* languages = Settings::LanguageNameList();
-        for(int i = 0; i < Settings::NUM_LANGUAGES; ++i) {
-            std::string name = std::string(languages[i]); // copy
-            tolower(trim(name));
-            if(name.compare(language) == 0) {
-                data.language = i;
-                break;
-            }
-        }
-
-        ugdk::math::Integer2D resolution(StringToInt(resolutionx), StringToInt(resolutiony));
-        const ugdk::math::Integer2D* resolution_list = Settings::ResolutionList();
-        for(int i = 0; i < Settings::NUM_RESOLUTIONS; ++i) {
-            if(resolution.x == resolution_list[i].x && resolution.y == resolution_list[i].y) {
-                data.resolution = i;
-                break;
-            }
-        }
-
-        return true;
-    }
-
-    virtual bool Write(const SettingsData &data) const {
-        externals::CIniFile destination;
-        externals::CIniSection* sect = destination.AddSection("Settings");
-        sect->AddKey("Fullscreen")->SetValue(   BoolToString(data.fullscreen != 0));
-        sect->AddKey("VSync")->SetValue(        BoolToString(data.vsync != 0));
-        sect->AddKey("SoundEffects")->SetValue( BoolToString(data.sound_effects != 0));
-        sect->AddKey("Music")->SetValue(        BoolToString(data.background_music != 0));
-        sect->AddKey("Language")->SetValue(     Settings::LanguageNameList()[data.language]);
-        sect->AddKey("ResolutionX")->SetValue(  IntToString((int)(Settings::ResolutionList()[data.resolution].x)));
-        sect->AddKey("ResolutionY")->SetValue(  IntToString((int)(Settings::ResolutionList()[data.resolution].y)));
-        return destination.Save(filename());
-    }
-};
-
-class BinaryFileSource : public DataSource {
-  public:
-    BinaryFileSource(const std::string& filepath)
-        : DataSource(filepath + constants::binary_configuration_filename()) {}
-
-    virtual bool Read(SettingsData &data) const {
-        FILE *source = fopen(filename().c_str(),"rb");
-        if(source == NULL) return false;
-
-        // Reading the data from the file
-        fread(&data, sizeof(SettingsData), 1, source);
-
-        // Cleanup.
-        fclose(source);
-        return true;
-    }
-
-    virtual bool Write(const SettingsData &data) const {
-        // Opening the file.
-        FILE *destination = fopen(filename().c_str(), "wb");
-        if(destination == NULL) return false;
-
-        // Writing the data.
-        fwrite(&data, sizeof(SettingsData), 1, destination);
-
-        fclose(destination);
-        return true;
-    }
-};
 
 Settings* Settings::reference_ = nullptr;
 
@@ -233,10 +178,8 @@ std::string Settings::languages_names_[] = {
 Settings::Settings() {
     SetSettingsPath();
 
-    this->sources_.push_back(new IniFileSource(   configuration_folder_path_));
-    this->sources_.push_back(new BinaryFileSource(configuration_folder_path_));
-    this->sources_.push_back(new IniFileSource(   ""));
-    this->sources_.push_back(new BinaryFileSource(""));
+    this->sources_.push_back(configuration_folder_path_);
+    this->sources_.push_back("");
 
     SettingsData data;
     if(!ReadFromDisk(data))
@@ -251,9 +194,8 @@ Settings::Settings() {
 }
 
 bool Settings::ReadFromDisk(SettingsData &data) {
-    std::list<DataSource*>::iterator it;
-    for(it = sources_.begin(); it != sources_.end(); ++it) {
-        if((*it)->Read(data) && data.ValidateData())
+    for (const auto& path : sources_) {
+        if (ReadDataFromPath(path, data))
             return true;
     }
     return false;
@@ -261,7 +203,6 @@ bool Settings::ReadFromDisk(SettingsData &data) {
 
 bool Settings::WriteToDisk() {
     SettingsData data;
-    strcpy(data.control, "HORUSCONFIGV1");
     data.resolution = resolution_;
     data.fullscreen = fullscreen_;
     data.background_music = background_music_;
@@ -269,9 +210,8 @@ bool Settings::WriteToDisk() {
     data.language = language_;
     data.vsync = vsync_;
 
-    std::list<DataSource*>::iterator it;
-    for(it = sources_.begin(); it != sources_.end(); ++it) {
-        if((*it)->Write(data))
+    for (const auto& path : sources_) {
+        if (WriteDataToPath(path, data))
             return true;
     }
     return false;
@@ -289,9 +229,11 @@ void Settings::SetSettingsPath() {
 #ifdef WIN32
     CHAR my_documents[MAX_PATH];
     HRESULT result = SHGetFolderPath(NULL, CSIDL_PERSONAL, NULL, 0, my_documents);
-    configuration_folder_path_ = std::string(my_documents) + "/Horus Eye/";
-    if(GetFileAttributes(configuration_folder_path_.c_str()) == INVALID_FILE_ATTRIBUTES)
-        _mkdir(configuration_folder_path_.c_str());
+    if (result == S_OK) {
+        configuration_folder_path_ = std::string(my_documents) + "/Horus Eye/";
+        if (GetFileAttributes(configuration_folder_path_.c_str()) == INVALID_FILE_ATTRIBUTES)
+            _mkdir(configuration_folder_path_.c_str());
+    }
 #else
     char* home = getenv("HOME");
     if(home) configuration_folder_path_ = std::string(home) + "/.config/horus_eye/";

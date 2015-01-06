@@ -1,27 +1,24 @@
 #ifndef HORUSEYE_FRONTEND_SETTINGS_H_
 #define HORUSEYE_FRONTEND_SETTINGS_H_
 
-#include <list>
-#include <string>
 #include <ugdk/math/integer2D.h>
 #include <ugdk/structure/types.h>
+
+#include <list>
+#include <string>
 
 namespace frontend {
 
 typedef struct {
-    char control[14];
-    ugdk::uint8 resolution;
-    ugdk::uint8 fullscreen;
-    ugdk::uint8 background_music;
-    ugdk::uint8 sound_effects;
-    ugdk::uint8 language;
-    ugdk::uint8 vsync;
+    int resolution;
+    bool fullscreen;
+    bool background_music;
+    bool sound_effects;
+    int language;
+    bool vsync;
 
     void FillWithDefaultValues();
-    bool ValidateData() const;
 } SettingsData;
-
-class DataSource;
 
 class Settings {
   public:
@@ -70,7 +67,7 @@ class Settings {
     int resolution_, language_;
     bool fullscreen_, background_music_, sound_effects_, vsync_;
     std::string configuration_folder_path_;
-    std::list<DataSource*> sources_;
+    std::list<std::string> sources_;
 
     void SetSettingsPath();
 };
