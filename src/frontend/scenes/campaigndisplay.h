@@ -20,6 +20,7 @@ class CampaignDisplay : public ugdk::action::Scene {
 
     void Focus() override;
     void DeFocus() override;
+    void End() override;
 
     void LevelLoaded();
 

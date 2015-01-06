@@ -33,6 +33,7 @@ class World : public ugdk::system::TaskPlayer {
     explicit World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj&);
     ~World();
 
+    void set_background_music(const std::string& music) { background_music_ = music; }
     void SetHero(const sprite::WObjPtr& hero);
     void QueueRoomChange(const sprite::WObjWeakPtr&, map::Room* next_room);
 
@@ -52,6 +53,7 @@ class World : public ugdk::system::TaskPlayer {
     const ugdk::math::Integer2D& size() const { return size_; }
     sprite::WObjWeakPtr hero() const { return hero_;  }
     const std::vector<map::Room*>& active_rooms() const { return active_rooms_; }
+    const std::string& background_music() const { return background_music_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
@@ -79,6 +81,7 @@ class World : public ugdk::system::TaskPlayer {
     std::queue<std::pair<sprite::WObjWeakPtr, map::Room*> > queued_moves_;
     sprite::WObjPtr hero_;
     ugdk::script::VirtualObj vobj_;
+    std::string background_music_;
 
     // Graphic
     ugdk::graphic::Geometry camera_;

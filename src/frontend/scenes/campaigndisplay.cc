@@ -1,6 +1,7 @@
 #include "campaigndisplay.h"
 
 #include "frontend/nativebuilders.h"
+#include "game/utils/settings.h"
 #include "game/core/world.h"
 #include "game/core/lightrendering.h"
 #include "game/sprites/worldobject.h"
@@ -8,6 +9,7 @@
 #include "game/map/giantfloor.h"
 #include "game/map/room.h"
 #include "game/renders/shape.h"
+#include "communication/direct.h"
 
 #include <functional>
 
@@ -179,6 +181,10 @@ void CampaignDisplay::Focus() {
 
 void CampaignDisplay::DeFocus() {
     set_active(false);
+}
+
+void CampaignDisplay::End() {
+    communication::notify::ChangeMusic("");
 }
 
 void CampaignDisplay::LevelLoaded() {

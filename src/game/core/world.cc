@@ -35,6 +35,8 @@
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
 
+#include "communication/direct.h"
+
 namespace core {
 
 using namespace ugdk;
@@ -103,6 +105,7 @@ World::~World() {
 }
 
 void World::Start(campaigns::Campaign* campaign) {
+    communication::notify::ChangeMusic(background_music_);
     campaign_ = campaign;
     (vobj_ | "Start")(this, campaign->implementation());
 }

@@ -24,7 +24,7 @@ function new(native)
   function campaign:OnSceneFinished(native)
     if self.hero_died then
       -- TODO: Show 'You Died' image.
-      native:Finish()
+      native:End()
 
     elseif self.level_list[self.next_level] then
       native:LoadLevel(self.level_list[self.next_level])
@@ -32,7 +32,7 @@ function new(native)
 
     else
       -- YOU WIN!
-      native:Finish()
+      native:End()
     end
   end
 

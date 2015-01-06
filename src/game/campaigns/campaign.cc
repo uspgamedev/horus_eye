@@ -50,6 +50,7 @@ void Campaign::Start() {
 }
 
 void Campaign::End() {
+    communication::notify::ChangeMusic("");
     (implementation_ | "End")(this);
 }
    
