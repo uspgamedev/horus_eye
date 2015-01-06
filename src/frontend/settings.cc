@@ -19,8 +19,8 @@
 #include <string>
 #include <cstdlib>
 #include <sstream>
+#include <fstream>
 #include <externals/inifile.h>
-
 
 /* Util functions found at http://stackoverflow.com/q/217605 */
 // Requires <algorithm>, <functional>, <locale>, <cctype> and <string> in this order.
@@ -50,6 +50,13 @@ namespace {
         std::string strTo(size_needed, 0);
         WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), &strTo[0], size_needed, NULL, NULL);
         return strTo;
+    }
+    std::wstring utf8_decode(const std::string &str) {
+        if (str.empty()) return std::wstring();
+        int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+        std::wstring wstrTo(size_needed, 0);
+        MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
+        return wstrTo;
     }
 #endif
 
@@ -90,7 +97,17 @@ namespace {
 
     bool ReadDataFromPath(const std::string& filepath, SettingsData &data) {
         externals::CIniFile source;
-        if (!source.Load(filepath)) return false;
+        {
+            std::ifstream input;
+            #ifdef _WIN32
+            input.open(utf8_decode(filepath), std::ios::binary);
+            #else
+            input.open(filepath, std::ios::binary);
+            #endif
+            if (!input.is_open())
+                return false;
+            source.Load(input);
+        }
 
         externals::CIniSection* section = source.GetSection("Settings");
         if (!section) return false;
@@ -134,6 +151,17 @@ namespace {
     }
 
     bool WriteDataToPath(const std::string& filepath, const SettingsData &data) {
+        std::ofstream output;
+
+        #ifdef _WIN32
+        output.open(utf8_decode(filepath), std::ios::binary);
+        #else
+        output.open(filepath, std::ios::binary);
+        #endif
+
+        if (!output.is_open())
+            return false;
+
         externals::CIniFile destination;
         externals::CIniSection* sect = destination.AddSection("Settings");
         sect->AddKey("Fullscreen")->SetValue(BoolToString(data.fullscreen));
@@ -143,7 +171,9 @@ namespace {
         sect->AddKey("Language")->SetValue(Settings::LanguageNameList()[data.language]);
         sect->AddKey("ResolutionX")->SetValue(IntToString((int)(Settings::ResolutionList()[data.resolution].x)));
         sect->AddKey("ResolutionY")->SetValue(IntToString((int)(Settings::ResolutionList()[data.resolution].y)));
-        return destination.Save(filepath);
+
+        destination.Save(output);
+        return true;
     }
 
 }
