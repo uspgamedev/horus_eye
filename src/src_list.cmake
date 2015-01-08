@@ -8,8 +8,11 @@ SET(GAME_SRCS
     frontend/debugtools.h 
     frontend/frontend.cc 
     frontend/frontend.h 
-    frontend/hud.cc 
-    frontend/hud.h 
+    frontend/gameview.h 
+    frontend/gameview/campaigndisplay.cc 
+    frontend/gameview/campaigndisplay.h 
+    frontend/gameview/hud.cc 
+    frontend/gameview/hud.h 
     frontend/nativebuilders.h 
     frontend/nativebuilders/campaignselectionscene.cc 
     frontend/nativebuilders/commonmenu.cc 
@@ -17,8 +20,6 @@ SET(GAME_SRCS
     frontend/nativebuilders/homescene.cc 
     frontend/nativebuilders/pausescene.cc 
     frontend/nativebuilders/settingsscene.cc 
-    frontend/scenes/campaigndisplay.cc 
-    frontend/scenes/campaigndisplay.h 
     frontend/scenes/console.cc 
     frontend/scenes/console.h 
     frontend/scenes/imagescene.cc 

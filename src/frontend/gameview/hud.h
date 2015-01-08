@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_FRONTEND_HUD_H_
-#define HORUSEYE_FRONTEND_HUD_H_
+#ifndef HORUSEYE_FRONTEND_GAMEVIEW_HUD_H_
+#define HORUSEYE_FRONTEND_GAMEVIEW_HUD_H_
 
 #include <ugdk/ui.h>
 #include "game/config.h"
@@ -9,6 +9,8 @@
 #include <memory>
 
 namespace frontend {
+namespace gameview {
+
 class Hud {
   public:
     Hud(core::World*);
@@ -32,6 +34,7 @@ class Hud {
 #endif
 };
 
+} // namespace gameview
 } // namespace frontend
 
-#endif // HORUSEYE_FRONTEND_HUD_H_
+#endif // HORUSEYE_FRONTEND_GAMEVIEW_HUD_H_

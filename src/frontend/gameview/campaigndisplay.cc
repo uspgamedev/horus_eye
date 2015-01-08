@@ -1,6 +1,7 @@
 #include "campaigndisplay.h"
 
 #include "frontend/nativebuilders.h"
+#include "frontend/gameview/hud.h"
 
 #include "game/core/world.h"
 #include "game/core/lightrendering.h"
@@ -28,7 +29,7 @@
 #include <pyramidworks/collision/collisionmanager.h>
 
 namespace frontend {
-namespace scenes {
+namespace gameview {
 
 using ugdk::system::Task;
 using ugdk::input::KeyPressedEvent;
@@ -192,5 +193,5 @@ void CampaignDisplay::LevelLoaded() {
     hud_ = ugdk::MakeUnique<Hud>(campaign_->current_level());
 }
 
-} // namespace scenes
+} // namespace gameview
 } // namespace frontend

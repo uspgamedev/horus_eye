@@ -1,15 +1,15 @@
-#ifndef HORUSEYE_FRONTEND_SCENES_CAMPAIGNDISPLAY_H_
-#define HORUSEYE_FRONTEND_SCENES_CAMPAIGNDISPLAY_H_
+#ifndef HORUSEYE_FRONTEND_GAMEVIEW_CAMPAIGNDISPLAY_H_
+#define HORUSEYE_FRONTEND_GAMEVIEW_CAMPAIGNDISPLAY_H_
 
 #include <ugdk/action/scene.h>
 
+#include "frontend/gameview.h"
 #include "game/campaigns/campaign.h"
-#include "frontend/hud.h"
 
 #include <memory>
 
 namespace frontend {
-namespace scenes {
+namespace gameview {
 
 class CampaignDisplay : public ugdk::action::Scene {
   typedef ugdk::action::Scene super;
@@ -33,7 +33,7 @@ class CampaignDisplay : public ugdk::action::Scene {
     bool started_;
 };
 
-} // namespace scenes
+} // namespace gameview
 } // namespace frontend
 
-#endif // HORUSEYE_FRONTEND_SCENES_CAMPAIGNDISPLAY_H_
+#endif // HORUSEYE_FRONTEND_GAMEVIEW_CAMPAIGNDISPLAY_H_

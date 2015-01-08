@@ -1,7 +1,7 @@
 
 #include "communication/direct.h"
 
-#include "frontend/scenes/campaigndisplay.h"
+#include "frontend/gameview/campaigndisplay.h"
 #include "frontend/settings.h"
 
 #include <ugdk/audio/module.h>
@@ -10,7 +10,7 @@ namespace communication {
 
 namespace notify {
     void CampaignLevelLoaded() {
-        frontend::scenes::CampaignDisplay::Current()->LevelLoaded();
+        frontend::gameview::CampaignDisplay::Current()->LevelLoaded();
     }
 
     void CampaignFailedToLoadLevel(const std::string&) {

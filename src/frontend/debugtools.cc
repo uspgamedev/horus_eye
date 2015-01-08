@@ -2,7 +2,7 @@
 #include "frontend/debugtools.h"
 
 #include "frontend/scenes/console.h"
-#include "frontend/scenes/campaigndisplay.h"
+#include "frontend/gameview/campaigndisplay.h"
 
 #include "game/campaigns/campaign.h"
 #include "game/sprites/worldobject.h"
@@ -27,7 +27,7 @@ class DebugTools :
 {
     public:
     void Handle(const ugdk::input::KeyPressedEvent& ev) override {
-        auto campaign_display = scenes::CampaignDisplay::Current();
+        auto campaign_display = gameview::CampaignDisplay::Current();
 
         auto current_campaign = campaigns::Campaign::CurrentCampaign();
         core::World* world = current_campaign ? current_campaign->current_level() : nullptr;

@@ -39,6 +39,7 @@ using core::World;
 using component::Controller;
 
 namespace frontend {
+namespace gameview {
 
 static std::unique_ptr<text::Label> ConvertNumberToText(int val, bool center = true) {
 #ifdef ANDROID
@@ -204,4 +205,5 @@ void Hud::Update(double delta_t) {
     }
 }
 
+} // namespace gameview
 } // namespace frontend

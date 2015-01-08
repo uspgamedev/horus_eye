@@ -1,7 +1,7 @@
 
 #include "commonmenu.h"
 #include "frontend/nativebuilders.h"
-#include "frontend/scenes/campaigndisplay.h"
+#include "frontend/gameview/campaigndisplay.h"
 
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>
@@ -36,7 +36,7 @@ std::unique_ptr<ugdk::action::Scene> PauseScene() {
     menu->AddObject(new Button(cont_position, std::move(cont_text), FinishOwner));
     menu->AddObject(new Button(exit_position, std::move(exit_text), [](const Button* btn) {
         btn->owner()->Finish();
-        scenes::CampaignDisplay::Current()->Finish();
+        gameview::CampaignDisplay::Current()->Finish();
     }));
 
     return std::move(menu);
