@@ -3,23 +3,12 @@
 #include "game/builders/scriptbuilder.h"
 #include "game/core/coordinates.h"
 #include "game/map/giantfloor.h"
-#include "game/core/lightrendering.h"
 #include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/objecthandle.h"
 #include "game/components/graphic.h"
-#include "game/components/lightemitter.h"
 #include "game/components/body.h"
 #include "game/initializer.h"
-
-#include <ugdk/graphic/opengl.h>
-#include <ugdk/debug/profiler.h>
-
-#include <ugdk/graphic/module.h>
-#include <ugdk/graphic/textureunit.h>
-#include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/primitive.h>
-#include <glm/glm.hpp>
 
 #include <algorithm>
 #include <memory>

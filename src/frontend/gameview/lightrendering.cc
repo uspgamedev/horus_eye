@@ -21,7 +21,8 @@
 #include "game/sprites/worldobject.h"
 #include "game/components/lightemitter.h"
 
-namespace core {
+namespace frontend {
+namespace gameview {
 
 using namespace ugdk;
 using namespace ugdk::graphic;
@@ -222,7 +223,7 @@ namespace {
 }
 
 
-LightRendering::LightRendering(World* world)
+LightRendering::LightRendering(core::World* world)
 : shadow_buffer_(world->size() * LIGHT_PRECISION)
 , light_buffer_(world->size() * LIGHT_PRECISION)
 , shadowcasting_actiavated_(true)
@@ -316,4 +317,5 @@ void LightRendering::ApplyShadowCasting(Canvas& canvas) {
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
     
-} // namespace core
+} // namespace frontend
+} // namespace gameview

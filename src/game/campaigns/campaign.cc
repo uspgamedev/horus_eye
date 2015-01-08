@@ -1,7 +1,6 @@
 #include "game/campaigns/campaign.h"
 
 #include "game/utils/levelloader.h"
-#include "game/core/lightrendering.h"
 #include "game/core/world.h"
 #include "game/builders/herobuilder.h"
 #include "game/context.h"

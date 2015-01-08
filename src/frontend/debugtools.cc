@@ -3,12 +3,12 @@
 
 #include "frontend/scenes/console.h"
 #include "frontend/gameview/campaigndisplay.h"
+#include "frontend/gameview/lightrendering.h"
 
 #include "game/campaigns/campaign.h"
 #include "game/sprites/worldobject.h"
 #include "game/core/world.h"
 #include "game/core/coordinates.h"
-#include "game/core/lightrendering.h"
 #include "game/components/caster.h"
 #include "game/components/damageable.h"
 

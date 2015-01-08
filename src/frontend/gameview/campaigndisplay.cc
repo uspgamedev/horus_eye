@@ -2,9 +2,9 @@
 
 #include "frontend/nativebuilders.h"
 #include "frontend/gameview/hud.h"
+#include "frontend/gameview/lightrendering.h"
 
 #include "game/core/world.h"
-#include "game/core/lightrendering.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/graphic.h"
 #include "game/map/giantfloor.h"
@@ -48,7 +48,7 @@ namespace {
 
     CampaignDisplay* g_current_ = nullptr;
 
-    void RenderSprites(const core::World& world, const core::LightRendering& light_rendering, graphic::Canvas& canvas) {
+    void RenderSprites(const core::World& world, const LightRendering& light_rendering, graphic::Canvas& canvas) {
         using namespace ugdk::graphic;
 
         TextureUnit light_unit = manager()->ReserveTextureUnit(light_rendering.light_texture());
@@ -189,7 +189,7 @@ void CampaignDisplay::End() {
 }
 
 void CampaignDisplay::LevelLoaded() {
-    light_rendering_ = ugdk::MakeUnique<core::LightRendering>(campaign_->current_level());
+    light_rendering_ = ugdk::MakeUnique<LightRendering>(campaign_->current_level());
     hud_ = ugdk::MakeUnique<Hud>(campaign_->current_level());
 }
 

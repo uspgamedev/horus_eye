@@ -13,6 +13,8 @@ SET(GAME_SRCS
     frontend/gameview/campaigndisplay.h 
     frontend/gameview/hud.cc 
     frontend/gameview/hud.h 
+    frontend/gameview/lightrendering.cc 
+    frontend/gameview/lightrendering.h 
     frontend/nativebuilders.h 
     frontend/nativebuilders/campaignselectionscene.cc 
     frontend/nativebuilders/commonmenu.cc 
@@ -122,8 +124,6 @@ SET(GAME_SRCS
     game/core/coordinates.cc 
     game/core/coordinates.h 
     game/core/gamelayer.h 
-    game/core/lightrendering.cc 
-    game/core/lightrendering.h 
     game/core/world.cc 
     game/core/world.h 
     game/initializer.cc 

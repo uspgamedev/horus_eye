@@ -24,11 +24,11 @@ class CampaignDisplay : public ugdk::action::Scene {
 
     void LevelLoaded();
 
-    core::LightRendering* light_rendering() const { return light_rendering_.get(); }
+    LightRendering* light_rendering() const { return light_rendering_.get(); }
 
   private:
     std::unique_ptr<campaigns::Campaign> campaign_;
-    std::unique_ptr<core::LightRendering> light_rendering_;
+    std::unique_ptr<LightRendering> light_rendering_;
     std::unique_ptr<Hud> hud_;
     bool started_;
 };
