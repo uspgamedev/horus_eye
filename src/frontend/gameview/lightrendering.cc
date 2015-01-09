@@ -20,6 +20,7 @@
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
 #include "game/components/lightemitter.h"
+#include "game/utils/visionstrategy.h"
 
 namespace frontend {
 namespace gameview {
@@ -96,7 +97,6 @@ namespace {
 
     void DrawQuadrilateral(const math::Vector2D& far_left, const math::Vector2D& near_left,
                            const math::Vector2D& near_right, const math::Vector2D& far_right,
-                           const math::Vector2D& O,
                            ugdk::graphic::Canvas& canvas)
     {
         VertexData data(4, sizeof(VertexXY), false, true);
@@ -132,13 +132,38 @@ namespace {
             left_point + left_vector   * near_coef_left, // near left
             right_point + right_vector  * near_coef_right, // near right
             right_point + right_vector  * far_coef_right, // far right
-            from,
             canvas);
     }
 
     bool is_inside(const geometry::GeometricShape* shape, const Vector2D& position, const Vector2D& point) {
         geometry::Circle c(0.0);
         return shape->Intersects(position, &c, point);
+    }
+
+    void GetVertices(std::vector<Vector2D>& vertices, const collision::CollisionObject* obj) {
+        if (const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
+            Vector2D wall_size(wall_rect->width(), wall_rect->height());
+            Vector2D top_left = obj->absolute_position() - wall_size * 0.5;
+            Vector2D bottom_right = obj->absolute_position() + wall_size * 0.5;
+
+            vertices.reserve(4);
+            vertices.emplace_back(top_left.x, top_left.y);
+            vertices.emplace_back(bottom_right.x, top_left.y);
+            vertices.emplace_back(bottom_right.x, bottom_right.y);
+            vertices.emplace_back(top_left.x, bottom_right.y);
+        } else {
+            puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
+        }
+    }
+
+    void GetExtremesFromPoint(std::list<int>& extremes, const math::Vector2D& origin, const collision::CollisionObject* obj, const std::vector<Vector2D>& vertices) {
+        for (size_t i = 0; i < vertices.size(); ++i) {
+            const auto& vertex = vertices[i];
+            Vector2D dir = (vertex - origin).Normalize();
+            if (!is_inside(obj->shape(), obj->absolute_position(), vertex + dir * 0.01)
+                && !is_inside(obj->shape(), obj->absolute_position(), vertex - dir * 0.01))
+                extremes.push_back(static_cast<int>(i));
+        }
     }
 
     void DrawShadows(core::World* world, sprite::WObjRawPtr hero, ugdk::graphic::Canvas& canvas) {
@@ -149,33 +174,12 @@ namespace {
         collision::CollisionObjectList walls;
         opaque_class.FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
-        canvas.PushAndCompose(VisualEffect(Color(0.0, 0.0, 0.0, 0.5)));
-
         for (const collision::CollisionObject * obj : walls) {
             std::vector<Vector2D> vertices;
-            vertices.reserve(4);
-            if (const geometry::Rect* wall_rect = dynamic_cast<const geometry::Rect*>(obj->shape())) {
-                Vector2D wall_size(wall_rect->width(), wall_rect->height());
-                Vector2D top_left = obj->absolute_position() - wall_size * 0.5;
-                Vector2D bottom_right = obj->absolute_position() + wall_size * 0.5;
-
-                vertices.emplace_back(top_left.x, top_left.y);
-                vertices.emplace_back(bottom_right.x, top_left.y);
-                vertices.emplace_back(bottom_right.x, bottom_right.y);
-                vertices.emplace_back(top_left.x, bottom_right.y);
-
-            } else {
-                puts("PAREDE COM SHAPE QUE NÃO É RECT, QUE MERDA ROLOOOOOOOOU?!?!?!"); // TODO: handle better
-            }
+            GetVertices(vertices, obj);
 
             std::list<int> extremes;
-            for (size_t i = 0; i < vertices.size(); ++i) {
-                const auto& vertex = vertices[i];
-                Vector2D dir = (vertex - hero->world_position()).Normalize();
-                if (!is_inside(obj->shape(), obj->absolute_position(), vertex + dir * 0.01)
-                    && !is_inside(obj->shape(), obj->absolute_position(), vertex - dir * 0.01))
-                    extremes.push_back(static_cast<int>(i));
-            }
+            GetExtremesFromPoint(extremes, hero->world_position(), obj, vertices);
 
             // Choose the two points that have the widest angle.
             if (!extremes.empty()) {
@@ -204,7 +208,33 @@ namespace {
             }
         }
 
-        canvas.PopVisualEffect();
+        return;
+
+        //glBlendEquation(GL_FUNC_REVERSE_SUBTRACT);
+
+        utils::VisionStrategy vision;
+        math::Vector2D origin = hero->world_position();
+        for (const collision::CollisionObject * obj : walls) {
+            std::vector<Vector2D> vertices;
+            GetVertices(vertices, obj);
+
+            std::list<int> extremes;
+            GetExtremesFromPoint(extremes, hero->world_position(), obj, vertices);
+
+            if (!extremes.empty()) {
+
+                math::Vector2D dir1 = (vertices[extremes.front()] - origin) * 0.9;
+                math::Vector2D dir2 = (vertices[extremes.back()] - origin) * 0.9;
+
+                //if (vision.IsVisible(origin, origin + dir1)
+                //    && vision.IsVisible(origin, origin + dir2)) {
+
+                    DrawQuadrilateral(vertices[0], vertices[2], vertices[3], vertices[1], canvas);
+                //}
+            }
+        }
+
+        glBlendEquation(GL_FUNC_ADD);
     }
 
     void RenderRoomLight(const map::Room* room, ugdk::graphic::Canvas& canvas) {
