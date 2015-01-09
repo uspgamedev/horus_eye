@@ -19,6 +19,7 @@
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/ui/drawable/texturedrectangle.h>
 #include <ugdk/ui/node.h>
 #include <ugdk/ui/drawable.h>
 #include <ugdk/input/events.h>
@@ -99,6 +100,13 @@ namespace {
             glDisable(GL_DEPTH_TEST);
         }
     }
+
+    void RenderRect(const ugdk::graphic::GLTexture* texture, graphic::Canvas& canvas) {
+        canvas.PushAndCompose(graphic::Geometry(math::Vector2D(200, 0), math::Vector2D(0.25, 0.25)));
+        ugdk::ui::TexturedRectangle rect(texture);
+        rect.Draw(canvas);
+        canvas.PopGeometry();
+    }
 }
 
 CampaignDisplay* CampaignDisplay::Current() {
@@ -136,6 +144,9 @@ CampaignDisplay::CampaignDisplay(campaigns::Campaign* campaign)
                 renders::DrawCollisionObject(collobject, canvas);
                 
         canvas.PopGeometry();
+
+        RenderRect(light_rendering_->light_texture(), canvas);
+
         {
             ugdk::debug::ProfileSection section("Hud");
             hud_->node()->Render(canvas);
