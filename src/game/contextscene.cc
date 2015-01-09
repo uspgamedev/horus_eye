@@ -1,7 +1,8 @@
 #include "game/context.h"
 
 #include "frontend/scenes/scrollingimagescene.h"
-#include "game/utils/settings.h"
+#include "frontend/settings.h"
+
 #include "game/campaigns/campaign.h"
 
 #include <ugdk/action/events.h>
@@ -36,7 +37,7 @@ void ShowScrollingText(const std::string& tag) {
     textbox->set_ident_style(TextBox::CENTER);
     auto scroll = ugdk::MakeUnique<frontend::scenes::ScrollingImageScene>(nullptr, std::move(textbox), 55);
     scroll->event_handler().AddListener(InfoCampaignSceneFinished);
-    if (utils::Settings::reference()->background_music())
+    if (frontend::Settings::reference()->background_music())
         scroll->set_background_music(ugdk::audio::manager()->LoadMusic("musics/action_game_theme.ogg"));
     ugdk::system::PushScene(std::move(scroll));
 }

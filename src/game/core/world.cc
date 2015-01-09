@@ -9,6 +9,7 @@
 #include <ugdk/system/engine.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/canvas.h>
+#include <ugdk/graphic/rendertarget.h>
 #include <ugdk/ui/node.h>
 #include <ugdk/text/textbox.h>
 #include <ugdk/text/module.h>
@@ -28,31 +29,22 @@
 #include "game/components/graphic.h"
 #include "game/components/body.h"
 #include "game/core/coordinates.h"
-#include "game/core/lightrendering.h"
 #include "game/map/room.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/hud.h"
 #include "game/renders/shape.h"
 #include "game/renders/profiler.h"
 #include "game/initializer.h"
+
+#include "communication/direct.h"
 
 namespace core {
 
 using namespace ugdk;
 using namespace sprite;
-using namespace utils;
 using ugdk::structure::Box;
 using std::bind;
 using namespace std::placeholders;
 using pyramidworks::collision::CollisionInstance;
-
-namespace {
-bool render_sprites = true;
-bool render_collision = false;
-bool render_visibility = false;
-bool render_profiler = false;
-std::shared_ptr<text::TextBox> profiler_text(nullptr);
-}
 
 bool RoomCompareByPositionAndPointer(map::Room* a, map::Room* b) {
     Vector2D  ap = core::FromWorldCoordinates(a->position()+a->size()/2.0),
@@ -78,18 +70,8 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
     campaign_(nullptr),
     collision_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
     visibility_manager_(Box<2>(Vector2D(-1.0, -1.0), Vector2D(size))),
-    vobj_(vobj),
-
-    // Graphic
-    hud_(nullptr)
+    vobj_(vobj)
 {
-
-    set_identifier("World");
-
-    hud_ = new utils::Hud(this);
-    this->AddTask([this](double dt) {
-        hud_->Update(dt);
-    });
     this->AddTask(bind(&World::updateRooms, this, _1));
     this->AddTask(ugdk::system::Task([this](double) {
         Vector2D result = ugdk::graphic::manager()->screen()->size()*0.5;
@@ -114,42 +96,6 @@ World::World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj& 
         }
     }, 0.6));
     
-    if (!profiler_text)
-        profiler_text.reset(new text::TextBox(
-            "Press F10 to fetch profiler data.",
-            graphic::manager()->screen()->size().x,
-            ugdk::text::manager()->current_font()));
-
-    set_render_function([this](graphic::Canvas& canvas) {
-
-        auto& shaders = ugdk::graphic::manager()->shaders();
-        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, true);
-        canvas.ChangeShaderProgram(shaders.current_shader());
-        canvas.PushAndCompose(this->camera_);
-        if(render_sprites)
-            for(const map::Room* room : active_rooms_)
-                room->Render(canvas);
-
-        shaders.ChangeFlag(ugdk::graphic::Manager::Shaders::USE_LIGHT_BUFFER, false);
-        canvas.ChangeShaderProgram(shaders.current_shader());
-
-        if(render_collision)
-            for(auto collobject : collision_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, canvas);
-        if(render_visibility)
-            for(auto collobject : visibility_manager_.active_objects())
-                renders::DrawCollisionObject(collobject, canvas);
-        
-        canvas.PopGeometry();
-        {
-            ugdk::debug::ProfileSection section("Hud");
-            this->hud_->node()->Render(canvas);
-        }
-
-        if (render_profiler)
-            profiler_text->Draw(canvas);
-    });
-
     SetupCollisionManager();
 }
 
@@ -159,25 +105,14 @@ World::~World() {
 }
 
 void World::Start(campaigns::Campaign* campaign) {
+    communication::notify::ChangeMusic(background_music_);
     campaign_ = campaign;
     (vobj_ | "Start")(this, campaign->implementation());
 }
 
 void World::End() {
-    super::End();
-    light_rendering_->Finish();
     campaign_->InformSceneFinished();
     (vobj_ | "End")(this, campaign_->implementation());
-}
-
-void World::Focus() {
-    Scene::Focus();
-    this->set_active(true);
-}
-
-void World::DeFocus() {
-    Scene::DeFocus();
-    this->set_active(false);
 }
 
 void World::SetHero(const sprite::WObjPtr& hero) {

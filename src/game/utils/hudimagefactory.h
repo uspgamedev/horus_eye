@@ -17,14 +17,7 @@ class HudImageFactory {
     static TexturedRectangle* TotemImage();
     static TexturedRectangle* TotemBottomImage();
     static TexturedRectangle* BackImage();
-    static TexturedRectangle* MummyCounterImage();
-    static TexturedRectangle* FireballIconImage();
-    static TexturedRectangle* EarthquakeIconImage();
-    static TexturedRectangle* LightningIconImage();
     static TexturedRectangle* EyeImage();
-    static TexturedRectangle* LightIconImage();
-    static TexturedRectangle* SandstormIconImage();
-    static TexturedRectangle* MeteorIconImage();
 };
 
 }

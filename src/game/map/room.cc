@@ -3,23 +3,12 @@
 #include "game/builders/scriptbuilder.h"
 #include "game/core/coordinates.h"
 #include "game/map/giantfloor.h"
-#include "game/core/lightrendering.h"
 #include "game/core/world.h"
 #include "game/sprites/worldobject.h"
 #include "game/sprites/objecthandle.h"
 #include "game/components/graphic.h"
-#include "game/components/lightemitter.h"
 #include "game/components/body.h"
 #include "game/initializer.h"
-
-#include <ugdk/graphic/opengl.h>
-#include <ugdk/debug/profiler.h>
-
-#include <ugdk/graphic/module.h>
-#include <ugdk/graphic/textureunit.h>
-#include <ugdk/graphic/canvas.h>
-#include <ugdk/graphic/primitive.h>
-#include <glm/glm.hpp>
 
 #include <algorithm>
 #include <memory>
@@ -50,57 +39,6 @@ void Room::Update(double dt) {
     flushObjectQueue();
 }
     
-void Room::Render(ugdk::graphic::Canvas& canvas) const {
-    using namespace ugdk::graphic;
-
-    ugdk::debug::ProfileSection section("Room '" + name_ + "'");
-
-    auto light_rendering = this->level()->light_rendering();
-    TextureUnit light_unit = manager()->ReserveTextureUnit(light_rendering->light_texture());
-
-    floor_->Draw(canvas, light_unit);
-
-    glEnable(GL_DEPTH_TEST);
-        
-    TextureUnit texture_unit = manager()->ReserveTextureUnit();
-
-    int shader_changes = 0;
-    int texture_changes = 0;
-    for (const auto& obj : objects_) {
-        if (const auto& graphic = obj->graphic()) {
-            const auto& primitive = graphic->primitive();
-
-            if (primitive.shader_program() != canvas.shader_program()) {
-                canvas.ChangeShaderProgram(primitive.shader_program());
-                canvas.SendUniform("drawable_texture", texture_unit);
-                canvas.SendUniform("light_texture", light_unit);
-                canvas.SendUniform("LEVEL_SIZE", this->level()->size().x, this->level()->size().y);
-                shader_changes++;
-            }
-
-            if (primitive.texture() != texture_unit.texture()) {
-                texture_unit.BindTexture(primitive.texture());
-                texture_changes++;
-            }
-
-            const Geometry& geo = canvas.current_geometry();
-            glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
-            glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
-            Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
-            Vector2D lightUV = light_rendering->CalculateUV(obj->world_position());
-            canvas.SendUniform("objectDepth", lightpos.y);
-            canvas.SendUniform("lightUV", lightUV.x, lightUV.y);
-
-            canvas.PushAndCompose(primitive.visual_effect());
-            primitive.drawfunction()(primitive, canvas);
-            canvas.PopVisualEffect();
-        }
-    }
-    //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
-    
-    glDisable(GL_DEPTH_TEST);
-}
-
 void Room::AddObject(const sprite::WObjPtr& obj) {
     if(!level_)
         handleNewObject(obj);

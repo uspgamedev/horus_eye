@@ -17,7 +17,7 @@
 
 namespace campaigns {
 
-class Campaign : public ugdk::action::Scene {
+class Campaign : public ugdk::system::TaskPlayer {
   public:
     static Campaign* CurrentCampaign();
 
@@ -30,18 +30,14 @@ class Campaign : public ugdk::action::Scene {
     bool LoadLevel(const std::string& levelname);
 
     void Start();
-    void End() override;
-
-    void Focus() override;
+    void End();
 
     void InformSceneFinished();
 
   private:
-
     core::World* current_level_;
     CampaignDescriptor descriptor_;
     ugdk::script::VirtualObj implementation_;
-    bool auto_started_;
 };
 
 } // namespace campaigns

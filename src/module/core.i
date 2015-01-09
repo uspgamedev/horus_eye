@@ -8,7 +8,6 @@
 #include <ugdk/action/scene.h>
 #include <game/campaigns/campaigndescriptor.h>
 #include <game/campaigns/campaign.h>
-#include <game/core/lightrendering.h>
 #include <game/core/world.h>
 #include <game/core/coordinates.h>
 
@@ -22,7 +21,6 @@
 
 %include <game/campaigns/campaigndescriptor.h>
 %include <game/campaigns/campaign.h>
-%include <game/core/lightrendering.h>
 %include <game/core/world.h>
 %include <game/core/coordinates.h>
 
@@ -30,7 +28,6 @@ namespace campaigns {
     export_class(Campaign)
 }
 namespace core {
-    export_class(LightRendering)
     export_class(World)
 }
 

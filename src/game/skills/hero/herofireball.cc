@@ -9,8 +9,9 @@
 #include "game/utils/hudimagefactory.h"
 #include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
-#include "game/utils/settings.h"
 #include "game/components/caster.h"
+
+#include "communication/direct.h"
 
 namespace skills {
 
@@ -24,14 +25,11 @@ static void HeroFireballUse(component::Caster* caster) {
 
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::Fireball(versor), pos, map::POSITION_ABSOLUTE);
 
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
+    communication::notify::PlaySound("samples/fire.wav");
 }
 
 Skill* HeroFireballBuild() {
-    return new CombatArt(HeroFireballUse, SkillValidFunction(), [] {
-        return std::unique_ptr<ugdk::ui::Drawable>(utils::HudImageFactory::FireballIconImage());
-    }, constants::GetInt("FIREBALL_COST"));
+    return new CombatArt(HeroFireballUse, SkillValidFunction(), "images/hud_magic_fire.png", constants::GetInt("FIREBALL_COST"));
 }
 
 } // namespace skills

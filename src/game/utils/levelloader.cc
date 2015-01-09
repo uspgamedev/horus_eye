@@ -4,7 +4,6 @@
 #include "game/core/world.h"
 #include "game/map/loader.h"
 #include "game/map/room.h"
-#include "game/utils/settings.h"
 
 #include <ugdk/debug/log.h>
 #include <ugdk/system/engine.h>
@@ -73,8 +72,8 @@ core::World* LoadLevel(const VirtualObj& level_data, const std::string& level_pa
         }
     }
 
-    if(level_data["music"] && utils::Settings::reference()->background_music())
-        world->set_background_music(ugdk::audio::manager()->LoadMusic(level_data["music"].value<std::string>()));
+    if(level_data["music"])
+        world->set_background_music(level_data["music"].value<std::string>());
 
     return world;
 }

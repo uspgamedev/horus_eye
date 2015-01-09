@@ -18,11 +18,11 @@ class DivineGift : public CombatArt {
       */
     DivineGift(SkillUseFunction use,
                SkillValidFunction valid,
-               DrawableFactory icon_factory,
+               const std::string& icon_path,
                double mana_cost,
                int block_cost,
                double range)
-      : CombatArt(use, valid, icon_factory, mana_cost, range)
+      : CombatArt(use, valid, icon_path, mana_cost, range)
       , block_cost_(block_cost) {}
 
     /// Uses the skill, decrementing the caster's mana and blocks.

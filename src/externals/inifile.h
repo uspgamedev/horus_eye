@@ -99,6 +99,9 @@ public:
             _ini.Load( input , true );
             return input;
         }
+
+        CIniMergeA operator=(const CIniMergeA&) = delete;
+        
     private:
         CIniFileA& _ini;
     };
@@ -341,6 +344,8 @@ public:
             _ini.Load( input , true );
             return input;
         }
+
+        CIniMergeW operator=(const CIniMergeW&) = delete;
     private:
         CIniFileW& _ini;
     };

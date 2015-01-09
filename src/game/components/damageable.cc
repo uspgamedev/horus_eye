@@ -4,7 +4,7 @@
 #include "game/components/body.h"
 #include "game/components/graphic.h"
 #include "game/sprites/worldobject.h"
-#include "game/utils/settings.h"
+#include "communication/direct.h"
 
 #include <ugdk/debug/log.h>
 #include <ugdk/system/engine.h>
@@ -97,8 +97,7 @@ bool Damageable::IsMercyInvincible() const {
 
 void Damageable::PlayHitSound() const {
     if(hit_sounds_.empty()) return;
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample(hit_sounds_[rand() % hit_sounds_.size()])->Play();
+    communication::notify::PlaySound(hit_sounds_[rand() % hit_sounds_.size()]);
 }
 
 

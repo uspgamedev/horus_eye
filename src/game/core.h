@@ -3,7 +3,6 @@
 
 namespace core {
 
-class LightRendering;
 class World;
 
 } // namespace core

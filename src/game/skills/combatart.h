@@ -17,10 +17,10 @@ class CombatArt : public Skill {
       */
     CombatArt(SkillUseFunction use,
               SkillValidFunction valid,
-              DrawableFactory icon_factory,
+              const std::string& icon_path,
               double mana_cost,
               double range = -1.0)
-      : Skill(use, valid, icon_factory)
+      : Skill(use, valid, icon_path)
       , mana_cost_(mana_cost)
       , range_(range) {}
     

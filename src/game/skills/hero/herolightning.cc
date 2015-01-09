@@ -1,15 +1,11 @@
-#include <ugdk/math/vector2D.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/ui/drawable/texturedrectangle.h>
-#include <ugdk/system/engine.h>
 
 #include "game/map/room.h"
-#include "game/utils/hudimagefactory.h"
 #include "game/components/caster.h"
 #include "game/builders/projectilebuilder.h"
-#include "game/utils/settings.h"
 #include "game/skills/combatart.h"
 #include "game/constants.h"
+
+#include "communication/direct.h"
 
 namespace skills {
 
@@ -23,14 +19,11 @@ static void HeroLightningUse(component::Caster* caster) {
 
     caster->owner()->current_room()->AddObject(builder::ProjectileBuilder::LightningBolt(versor), pos, map::POSITION_ABSOLUTE);
 
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
+    communication::notify::PlaySound("samples/fire.wav");
 }
 
 Skill* HeroLightningBuild() {
-    return new CombatArt(HeroLightningUse, SkillValidFunction(), [] {
-        return std::unique_ptr<ugdk::ui::Drawable>(utils::HudImageFactory::LightningIconImage());
-    }, constants::GetInt("LIGHTNING_COST"));
+    return new CombatArt(HeroLightningUse, SkillValidFunction(), "images/hud_magic_lightning.png", constants::GetInt("LIGHTNING_COST"));
 }
 
 } // namespace skills

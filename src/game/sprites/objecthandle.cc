@@ -20,7 +20,7 @@ ObjectHandle ObjectHandle::operator = (const WObjPtr& r) {
 }
 
 bool ObjectHandle::attached() const {
-    return static_cast<bool>(pointer_.lock());
+    return !pointer_.expired();
 }
 
 WorldObject* ObjectHandle::operator-> () const {

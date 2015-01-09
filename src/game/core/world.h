@@ -1,7 +1,7 @@
 #ifndef HORUSEYE_GAME_CORE_WORLD_H_
 #define HORUSEYE_GAME_CORE_WORLD_H_
 
-#include <ugdk/action/scene.h>
+#include <ugdk/system/taskplayer.h>
 #include <ugdk/graphic/geometry.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/math/integer2D.h>
@@ -24,27 +24,21 @@
 #include <queue>
 #include <unordered_map>
 
-namespace utils {
-class Hud;
-}
 using ugdk::math::Vector2D;
 
 namespace core {
 
-class World : public ugdk::action::Scene {
-  typedef ugdk::action::Scene super;
+class World : public ugdk::system::TaskPlayer {
   public:
     explicit World(const ugdk::math::Integer2D& size, const ugdk::script::VirtualObj&);
     ~World();
 
+    void set_background_music(const std::string& music) { background_music_ = music; }
     void SetHero(const sprite::WObjPtr& hero);
     void QueueRoomChange(const sprite::WObjWeakPtr&, map::Room* next_room);
 
     void Start(campaigns::Campaign*);
     void End();
-
-    void Focus();
-    void DeFocus();
 
     void AddRoom(map::Room* room);
     void ChangeFocusedRoom(const std::string& name);
@@ -59,14 +53,13 @@ class World : public ugdk::action::Scene {
     const ugdk::math::Integer2D& size() const { return size_; }
     sprite::WObjWeakPtr hero() const { return hero_;  }
     const std::vector<map::Room*>& active_rooms() const { return active_rooms_; }
+    const std::string& background_music() const { return background_music_; }
 
     pyramidworks::collision::CollisionManager* collision_manager() { return &collision_manager_; }
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
 
     // View
     const ugdk::graphic::Geometry& camera() const { return camera_; }
-    void set_light_rendering(LightRendering* lr) { light_rendering_ = lr; }
-    LightRendering* light_rendering() const { return light_rendering_; }
 
   protected:
     void SetupCollisionManager();
@@ -88,10 +81,9 @@ class World : public ugdk::action::Scene {
     std::queue<std::pair<sprite::WObjWeakPtr, map::Room*> > queued_moves_;
     sprite::WObjPtr hero_;
     ugdk::script::VirtualObj vobj_;
+    std::string background_music_;
 
     // Graphic
-    utils::Hud *hud_;
-    LightRendering* light_rendering_;
     ugdk::graphic::Geometry camera_;
 
 };  // class World

@@ -1,19 +1,16 @@
 #include <cmath>
 
-#include <ugdk/system/engine.h>
-#include <ugdk/audio/module.h>
-#include <ugdk/math/vector2D.h>
-
 #include "game/map/room.h"
 #include "game/builders/projectilebuilder.h"
 #include "game/components/damageable.h"
 #include "game/components/caster.h"
 #include "game/sprites/worldobject.h"
 #include "game/skills/combatart.h"
-#include "game/utils/settings.h"
 #include "game/builders/mummybuilder.h"
 #include "game/skills/combatart.h"
 #include "game/constants.h"
+
+#include "communication/direct.h"
 
 namespace skills {
 
@@ -40,8 +37,7 @@ static void PharaohRangedUse(component::Caster* caster) {
     room->AddObject(builder::ProjectileBuilder::MummyProjectile(offsetleft , caster->power().Get() * 0.5), pos, map::POSITION_ABSOLUTE);
     room->AddObject(builder::ProjectileBuilder::MummyProjectile(offsetright, caster->power().Get() * 0.5), pos, map::POSITION_ABSOLUTE);
     
-    if(utils::Settings::reference()->sound_effects())
-        ugdk::audio::manager()->LoadSample("samples/fire.wav")->Play();
+    communication::notify::PlaySound("samples/fire.wav");
 }
 
 static void PharaohSummonUse(component::Caster* caster) {
@@ -75,11 +71,11 @@ static void PharaohSummonUse(component::Caster* caster) {
 
 
 Skill* PharaohRangedBuild() {
-    return new CombatArt(PharaohRangedUse, RangedIsValid, DrawableFactory(), 0.0, -1.0);
+    return new CombatArt(PharaohRangedUse, RangedIsValid, "", 0.0, -1.0);
 }
 
 Skill* PharaohSummonBuild() {
-    return new CombatArt(PharaohSummonUse, SkillValidFunction(), DrawableFactory(), constants::GetInt("PHARAOH_SUMMON_MANA_COST"));
+    return new CombatArt(PharaohSummonUse, SkillValidFunction(), "", constants::GetInt("PHARAOH_SUMMON_MANA_COST"));
 }
 
 }

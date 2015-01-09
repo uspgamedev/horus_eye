@@ -1,6 +1,7 @@
 
 #include "commonmenu.h"
 #include "frontend/nativebuilders.h"
+#include "frontend/gameview/campaigndisplay.h"
 
 #include "game/campaigns/campaigndescriptor.h"
 #include "game/campaigns/campaign.h"
@@ -48,7 +49,7 @@ std::unique_ptr<ugdk::action::Scene> CampaignSelectionScene() {
             ugdk::MakeUnique<Label>(campaign_descriptor.name(), ugdk::text::manager()->GetFont("FontB")),
             [campaign_descriptor](const Button* btn) {
                 btn->owner()->Finish();
-                ugdk::system::PushScene(ugdk::MakeUnique<campaigns::Campaign>(campaign_descriptor));
+                ugdk::system::PushScene(ugdk::MakeUnique<gameview::CampaignDisplay>(new campaigns::Campaign(campaign_descriptor)));
         }));
 
         y += 50.0;

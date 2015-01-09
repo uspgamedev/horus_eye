@@ -1,5 +1,5 @@
-#ifndef HORUSEYE_GAME_CORE_LIGHTRENDERING_H_
-#define HORUSEYE_GAME_CORE_LIGHTRENDERING_H_
+#ifndef HORUSEYE_FRONTEND_GAMEVIEW_LIGHTRENDERING_H_
+#define HORUSEYE_FRONTEND_GAMEVIEW_LIGHTRENDERING_H_
 
 #include <ugdk/action/scene.h>
 
@@ -9,12 +9,15 @@
 
 #include <memory>
 
-namespace core {
+namespace frontend {
+namespace gameview {
 
-class LightRendering : public ugdk::action::Scene {
+class LightRendering {
   public:
-    LightRendering(World*);
+    LightRendering(core::World*);
     ~LightRendering();
+
+    void UpdateBuffers();
 
     void ToggleShadowcasting();
     void ToggleLightsystem();
@@ -30,9 +33,11 @@ class LightRendering : public ugdk::action::Scene {
     ugdk::graphic::RenderTexture light_buffer_;
     bool shadowcasting_actiavated_;
     bool lightsystem_activated_;
-    World* world_;
+    core::World* world_;
 };
 
-} // namespace core
+} // namespace gameview
+} // namespace frontend
 
-#endif // HORUSEYE_GAME_CORE_LIGHTRENDERING_H_
+
+#endif // HORUSEYE_FRONTEND_GAMEVIEW_LIGHTRENDERING_H_

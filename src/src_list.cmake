@@ -1,4 +1,6 @@
 SET(GAME_SRCS 
+    communication/direct.cc 
+    communication/direct.h 
     externals/inifile.cc 
     externals/inifile.h 
     externals/windows/include/dirent.h 
@@ -6,6 +8,13 @@ SET(GAME_SRCS
     frontend/debugtools.h 
     frontend/frontend.cc 
     frontend/frontend.h 
+    frontend/gameview.h 
+    frontend/gameview/campaigndisplay.cc 
+    frontend/gameview/campaigndisplay.h 
+    frontend/gameview/hud.cc 
+    frontend/gameview/hud.h 
+    frontend/gameview/lightrendering.cc 
+    frontend/gameview/lightrendering.h 
     frontend/nativebuilders.h 
     frontend/nativebuilders/campaignselectionscene.cc 
     frontend/nativebuilders/commonmenu.cc 
@@ -19,6 +28,8 @@ SET(GAME_SRCS
     frontend/scenes/imagescene.h 
     frontend/scenes/scrollingimagescene.cc 
     frontend/scenes/scrollingimagescene.h 
+    frontend/settings.cc 
+    frontend/settings.h 
     game/ai.h 
     game/ai/ai.cc 
     game/ai/ai.h 
@@ -113,8 +124,6 @@ SET(GAME_SRCS
     game/core/coordinates.cc 
     game/core/coordinates.h 
     game/core/gamelayer.h 
-    game/core/lightrendering.cc 
-    game/core/lightrendering.h 
     game/core/world.cc 
     game/core/world.h 
     game/initializer.cc 
@@ -162,16 +171,12 @@ SET(GAME_SRCS
     game/sprites/objecthandle.h 
     game/sprites/worldobject.cc 
     game/sprites/worldobject.h 
-    game/utils/hud.cc 
-    game/utils/hud.h 
     game/utils/hudimagefactory.cc 
     game/utils/hudimagefactory.h 
     game/utils/isometricanimationset.cc 
     game/utils/isometricanimationset.h 
     game/utils/levelloader.cc 
     game/utils/levelloader.h 
-    game/utils/settings.cc 
-    game/utils/settings.h 
     game/utils/visionstrategy.cc 
     game/utils/visionstrategy.h 
     module/ai/logicblockproxy.h 

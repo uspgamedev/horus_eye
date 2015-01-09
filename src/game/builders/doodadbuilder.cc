@@ -43,9 +43,9 @@ sprite::WObjPtr Door(const std::vector<std::string>& arguments) {
 
     CollisionObject* col = new CollisionObject(wobj.get(), "Wall", ugdk::MakeUnique<Rect>(constants::GetDouble("DOOR_BOUND_WIDTH"), constants::GetDouble("DOOR_BOUND_HEIGHT") ));
     col->AddCollisionLogic("Hero", [](const CollisionObject* obj) { 
-        dynamic_cast<WorldObject*>(obj->data())->current_room()->level()->Finish();
+        dynamic_cast<WorldObject*>(obj->data())->current_room()->level()->End();
     });
-    wobj->AddComponent(new Body(col, NULL));
+    wobj->AddComponent(new Body(col, nullptr));
 
     return wobj;
 }
