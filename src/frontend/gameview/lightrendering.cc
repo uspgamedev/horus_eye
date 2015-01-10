@@ -224,8 +224,8 @@ namespace {
 
 
 LightRendering::LightRendering(core::World* world)
-: shadow_buffer_(world->size() * LIGHT_PRECISION)
-, light_buffer_(world->size() * LIGHT_PRECISION)
+: shadow_buffer_(math::Integer2D(world->size() * LIGHT_PRECISION))
+, light_buffer_(math::Integer2D(world->size() * LIGHT_PRECISION))
 , shadowcasting_actiavated_(true)
 , lightsystem_activated_(true)
 , world_(world)

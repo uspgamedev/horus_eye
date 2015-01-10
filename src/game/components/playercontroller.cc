@@ -50,7 +50,7 @@ void PlayerController::Update(double dt) {
     const auto& keyboard = ugdk::input::manager()->keyboard();
     const auto& mouse = ugdk::input::manager()->mouse();
 
-    aim_destination_ = core::FromScreenCoordinates(owner_->current_room()->level(), mouse.position() + mouse_aim_offset_);
+    aim_destination_ = core::FromScreenCoordinates(owner_->current_room()->level(), math::Vector2D(mouse.position()) + mouse_aim_offset_);
 
 #ifdef ANDROID
     if (mouse.IsPressed(MouseButton::LEFT))
