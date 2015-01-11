@@ -13,6 +13,7 @@
 #include "game/map/room.h"
 #include "game/core/world.h"
 #include "game/constants.h"
+#include "frontend/gameview/lightrendering.h"
 
 namespace map {
 
@@ -20,6 +21,9 @@ using namespace ugdk::graphic;
 using ugdk::math::Vector2D;
     
 namespace {
+    struct VertexXY {
+        GLfloat x, y;
+    };
     struct VertexXYUV {
         GLfloat x, y, u, v;
     };
@@ -32,14 +36,13 @@ namespace {
 
         // VERTEX
         vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n"
+                                   "in highp vec2 inputLightUV;"
                                    "out highp vec2 lightUV;" "\n"
-                                   "uniform highp vec2 ROOM_POSITION;" "\n"
                                    "uniform highp vec2 OFFSET;" "\n"
-                                   "uniform highp vec2 LEVEL_SIZE;" "\n"
                                    );
         vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition + OFFSET,0,1);" "\n"
                                     "	UV = vertexUV;" "\n"
-                                    "   lightUV = (ROOM_POSITION + vertexUV - (vec2(1,1)) * 0.5) / LEVEL_SIZE;"
+                                    "   lightUV = inputLightUV;"
                                     );
         vertex_shader.GenerateSource();
 
@@ -62,6 +65,7 @@ namespace {
         continuous_light_shader_->AttachShader(fragment_shader);
 
         bool status = continuous_light_shader_->SetupProgram();
+        glBindAttribLocation(continuous_light_shader_->id(), 2, "inputLightUV");
         assert(status);
     }
 
@@ -70,6 +74,11 @@ namespace {
         p->y = static_cast<GLfloat>(vec.y);
         p->u = static_cast<GLfloat>(u);
         p->v = static_cast<GLfloat>(v);
+    }
+    
+    void set_vector_fields(VertexXY* p, const ugdk::math::Vector2D& vec) {
+        p->x = static_cast<GLfloat>(vec.x);
+        p->y = static_cast<GLfloat>(vec.y);
     }
 
 }
@@ -97,13 +106,23 @@ GiantFloor::GiantFloor(const Room* room)
 
 GiantFloor::~GiantFloor() {}
 
-void GiantFloor::Draw(ugdk::graphic::Canvas& canvas, const ugdk::graphic::TextureUnit& light_unit) const {
+void GiantFloor::Draw(ugdk::graphic::Canvas& canvas,
+                      const ugdk::graphic::TextureUnit& light_unit,
+                      const frontend::gameview::LightRendering& light_rendering) const {
+
+    ugdk::graphic::VertexData lightUV(4, sizeof(VertexXY), false);
+    {
+        VertexData::Mapper mapper(lightUV);
+        Vector2D room_position = Vector2D(room_->position()) - Vector2D(0.5);
+        set_vector_fields(mapper.Get<VertexXY>(0), light_rendering.CalculateUV(room_position));
+        set_vector_fields(mapper.Get<VertexXY>(1), light_rendering.CalculateUV(room_position + Vector2D(room_->size().x, 0.0)));
+        set_vector_fields(mapper.Get<VertexXY>(2), light_rendering.CalculateUV(room_position + Vector2D(0.0, room_->size().y)));
+        set_vector_fields(mapper.Get<VertexXY>(3), light_rendering.CalculateUV(room_position + room_->size()));
+    }
 
     // Use our shader
     canvas.ChangeShaderProgram(continuous_light_shader_);
     canvas.SendUniform("OFFSET", core::FromWorldCoordinates(room_->position()));
-    canvas.SendUniform("ROOM_POSITION", room_->position().x, room_->position().y);
-    canvas.SendUniform("LEVEL_SIZE", room_->level()->size().x, room_->level()->size().y);
 
     auto unit = ugdk::graphic::manager()->ReserveTextureUnit(texture_);
     canvas.SendUniform("drawable_texture", unit);
@@ -111,6 +130,7 @@ void GiantFloor::Draw(ugdk::graphic::Canvas& canvas, const ugdk::graphic::Textur
 
     canvas.SendVertexData(data_, ugdk::graphic::VertexType::VERTEX, 0, 2);
     canvas.SendVertexData(data_, ugdk::graphic::VertexType::TEXTURE, 2 * sizeof(GLfloat), 2);
+    canvas.SendVertexData(lightUV, ugdk::graphic::VertexType::COLOR, 0, 2);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 }
 

@@ -61,7 +61,7 @@ namespace {
         for (const map::Room* room : world.active_rooms()) {
             ugdk::debug::ProfileSection section("Room '" + room->name() + "'");
 
-            room->floor()->Draw(canvas, light_unit);
+            room->floor()->Draw(canvas, light_unit, light_rendering);
 
             glEnable(GL_DEPTH_TEST);
 
@@ -74,6 +74,7 @@ namespace {
                         canvas.SendUniform("drawable_texture", texture_unit);
                         canvas.SendUniform("light_texture", light_unit);
                         canvas.SendUniform("LEVEL_SIZE", world.size());
+                        canvas.SendUniform("LIGHT_TEXTURE_PRECISION", 2*light_rendering.light_precision());
                         shader_changes++;
                     }
 
@@ -102,7 +103,7 @@ namespace {
     }
 
     void RenderRect(const ugdk::graphic::GLTexture* texture, graphic::Canvas& canvas) {
-        canvas.PushAndCompose(graphic::Geometry(math::Vector2D(200, 0), math::Vector2D(0.25, 0.25)));
+        canvas.PushAndCompose(graphic::Geometry(math::Vector2D(200, 50), math::Vector2D(0.25, 0.25)));
         ugdk::ui::TexturedRectangle rect(texture);
         rect.Draw(canvas);
         canvas.PopGeometry();
@@ -202,6 +203,10 @@ void CampaignDisplay::End() {
 void CampaignDisplay::LevelLoaded() {
     light_rendering_ = ugdk::MakeUnique<LightRendering>(campaign_->current_level());
     hud_ = ugdk::MakeUnique<Hud>(campaign_->current_level());
+    campaign_->current_level()->AddTask([this](double) {
+        if (auto hero = campaign_->current_level()->hero().lock())
+            light_rendering_->set_focused_position(hero->world_position());
+    });
 }
 
 } // namespace gameview

@@ -22,8 +22,11 @@ class LightRendering {
     void ToggleShadowcasting();
     void ToggleLightsystem();
 
+    const ugdk::math::Vector2D& light_precision() const { return light_precision_; }
     const ugdk::graphic::GLTexture* light_texture() const;
     ugdk::math::Vector2D CalculateUV(const ugdk::math::Vector2D&) const;
+
+    void set_focused_position(const ugdk::math::Vector2D& pos) { focused_position_ = pos; }
 
   private:
     void ShadowCasting();
@@ -34,6 +37,8 @@ class LightRendering {
     bool shadowcasting_actiavated_;
     bool lightsystem_activated_;
     core::World* world_;
+    ugdk::math::Vector2D focused_position_;
+    ugdk::math::Vector2D light_precision_;
 };
 
 } // namespace gameview
