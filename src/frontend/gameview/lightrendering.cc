@@ -30,7 +30,8 @@ using namespace pyramidworks;
 using ugdk::math::Vector2D;
 
 namespace {
-    double LIGHT_PRECISION = 64.0;
+    double LIGHT_PRECISION = 32.0;
+    math::Vector2D DIMENSIONS(12, 12);
 
     class Line {
       public:
@@ -224,14 +225,15 @@ namespace {
 
 
 LightRendering::LightRendering(core::World* world)
-: shadow_buffer_(math::Integer2D(world->size() * LIGHT_PRECISION))
-, light_buffer_(math::Integer2D(world->size() * LIGHT_PRECISION))
+: shadow_buffer_(math::Integer2D(2 * DIMENSIONS * LIGHT_PRECISION))
+, light_buffer_(math::Integer2D(2 * DIMENSIONS * LIGHT_PRECISION))
 , shadowcasting_actiavated_(true)
 , lightsystem_activated_(true)
 , world_(world)
+, light_precision_(DIMENSIONS)
 {
-
-    Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0/world->size().x, 2.0/world->size().y));
+    //Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0 / (dimensions_.x * 2), 2.0 / (dimensions_.y * 2)));
+    Geometry project_matrix(math::Vector2D(.0, .0), math::Vector2D(1.0 / light_precision_.x, 1.0 / light_precision_.y));
     shadow_buffer_.set_projection_matrix(project_matrix);
     light_buffer_.set_projection_matrix(project_matrix);
 
@@ -253,9 +255,11 @@ void LightRendering::UpdateBuffers() {
     if (lightsystem_activated_) {
         Canvas light_canvas(&light_buffer_);
         light_canvas.Clear(Color(.0, .0, .0, 1.0));
-
+        
         glBlendFunc(GL_ONE, GL_ONE);
+        light_canvas.PushAndCompose(Geometry(-focused_position_));
         RenderLight(world_, light_canvas);
+        light_canvas.PopGeometry();
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         if (shadowcasting_actiavated_)
@@ -279,14 +283,20 @@ const GLTexture* LightRendering::light_texture() const {
     return light_buffer_.texture();
 }
 
+const GLTexture* LightRendering::shadow_texture() const {
+    return shadow_buffer_.texture();
+}
+
 ugdk::math::Vector2D LightRendering::CalculateUV(const ugdk::math::Vector2D& pos) const {
-    return pos.Divided(world_->size());
+    // The division maps visible lights to a [-1; 1] range, which we then change to a [0; 1] range.
+    return (pos - focused_position_).Divided(light_precision_) * 0.5 + math::Vector2D(0.5, 0.5);
 }
 
 void LightRendering::ShadowCasting() {
     Canvas canvas(&shadow_buffer_);
     canvas.Clear(Color(0.0, 0.0, 0.0, 0.0));
     canvas.ChangeShaderProgram(horus_shadowcasting_shader_);
+    canvas.PushAndCompose(Geometry(-focused_position_));
 
     glBlendFunc(GL_ONE, GL_ONE);
     if (sprite::WObjPtr hero = world_->hero().lock())
@@ -303,10 +313,10 @@ void LightRendering::ApplyShadowCasting(Canvas& canvas) {
     VertexData data(4, sizeof(VertexXYUV), false, true);
     {
         VertexData::Mapper mapper(data);
-        mapper.Get<VertexXYUV>(0)->set_xyuv(0.0f, 0.0f, 0.0f, 0.0f);
-        mapper.Get<VertexXYUV>(1)->set_xyuv(world_->size().x, 0.0f, 1.0f, 0.0f);
-        mapper.Get<VertexXYUV>(2)->set_xyuv(0.0f, world_->size().y, 0.0f, 1.0f);
-        mapper.Get<VertexXYUV>(3)->set_xyuv(world_->size().x, world_->size().y, 1.0f, 1.0f);
+        mapper.Get<VertexXYUV>(0)->set_xyuv(-light_precision_.x,-light_precision_.y, 0.0f, 0.0f);
+        mapper.Get<VertexXYUV>(1)->set_xyuv( light_precision_.x,-light_precision_.y, 1.0f, 0.0f);
+        mapper.Get<VertexXYUV>(2)->set_xyuv(-light_precision_.x, light_precision_.y, 0.0f, 1.0f);
+        mapper.Get<VertexXYUV>(3)->set_xyuv( light_precision_.x, light_precision_.y, 1.0f, 1.0f);
     }
     TextureUnit unit = graphic::manager()->ReserveTextureUnit(shadow_buffer_.texture());
     canvas.SendUniform("drawable_texture", unit);

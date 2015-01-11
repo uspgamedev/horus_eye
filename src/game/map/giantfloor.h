@@ -7,6 +7,7 @@
 #include <ugdk/math/integer2D.h>
 
 #include "game/map.h"
+#include "frontend/gameview.h"
 
 namespace map {
 
@@ -15,7 +16,9 @@ class GiantFloor {
     GiantFloor(const Room* room);
     ~GiantFloor();
 
-    void Draw(ugdk::graphic::Canvas&, const ugdk::graphic::TextureUnit& light_unit) const;
+    void Draw(ugdk::graphic::Canvas&,
+              const ugdk::graphic::TextureUnit& light_unit,
+              const frontend::gameview::LightRendering&) const;
 
   private:
     const Room* room_;
