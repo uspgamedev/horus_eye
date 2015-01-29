@@ -24,6 +24,7 @@ class LightRendering {
 
     const ugdk::math::Vector2D& light_precision() const { return light_precision_; }
     const ugdk::graphic::GLTexture* light_texture() const;
+    const ugdk::graphic::GLTexture* shadow_texture() const;
     ugdk::math::Vector2D CalculateUV(const ugdk::math::Vector2D&) const;
 
     void set_focused_position(const ugdk::math::Vector2D& pos) { focused_position_ = pos; }

@@ -285,10 +285,11 @@ void LightRendering::UpdateBuffers() {
     if (lightsystem_activated_) {
         Canvas light_canvas(&light_buffer_);
         light_canvas.Clear(Color(.0, .0, .0, 1.0));
-        light_canvas.PushAndCompose(Geometry(-focused_position_));
-
+        
         glBlendFunc(GL_ONE, GL_ONE);
+        light_canvas.PushAndCompose(Geometry(-focused_position_));
         RenderLight(world_, light_canvas);
+        light_canvas.PopGeometry();
 
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         if (shadowcasting_actiavated_)
@@ -312,6 +313,10 @@ const GLTexture* LightRendering::light_texture() const {
     return light_buffer_.texture();
 }
 
+const GLTexture* LightRendering::shadow_texture() const {
+    return shadow_buffer_.texture();
+}
+
 ugdk::math::Vector2D LightRendering::CalculateUV(const ugdk::math::Vector2D& pos) const {
     // The division maps visible lights to a [-1; 1] range, which we then change to a [0; 1] range.
     return (pos - focused_position_).Divided(light_precision_) * 0.5 + math::Vector2D(0.5, 0.5);
@@ -321,6 +326,7 @@ void LightRendering::ShadowCasting() {
     Canvas canvas(&shadow_buffer_);
     canvas.Clear(Color(0.0, 0.0, 0.0, 0.0));
     canvas.ChangeShaderProgram(horus_shadowcasting_shader_);
+    canvas.PushAndCompose(Geometry(-focused_position_));
 
     glBlendFunc(GL_ONE, GL_ONE);
     if (sprite::WObjPtr hero = world_->hero().lock())
@@ -337,10 +343,10 @@ void LightRendering::ApplyShadowCasting(Canvas& canvas) {
     VertexData data(4, sizeof(VertexXYUV), false, true);
     {
         VertexData::Mapper mapper(data);
-        mapper.Get<VertexXYUV>(0)->set_xyuv(0.0f, 0.0f, 0.0f, 0.0f);
-        mapper.Get<VertexXYUV>(1)->set_xyuv(light_precision_.x * 2, 0.0f, 1.0f, 0.0f);
-        mapper.Get<VertexXYUV>(2)->set_xyuv(0.0f, light_precision_.y * 2, 0.0f, 1.0f);
-        mapper.Get<VertexXYUV>(3)->set_xyuv(light_precision_.x * 2, light_precision_.y * 2, 1.0f, 1.0f);
+        mapper.Get<VertexXYUV>(0)->set_xyuv(-light_precision_.x,-light_precision_.y, 0.0f, 0.0f);
+        mapper.Get<VertexXYUV>(1)->set_xyuv( light_precision_.x,-light_precision_.y, 1.0f, 0.0f);
+        mapper.Get<VertexXYUV>(2)->set_xyuv(-light_precision_.x, light_precision_.y, 0.0f, 1.0f);
+        mapper.Get<VertexXYUV>(3)->set_xyuv( light_precision_.x, light_precision_.y, 1.0f, 1.0f);
     }
     TextureUnit unit = graphic::manager()->ReserveTextureUnit(shadow_buffer_.texture());
     canvas.SendUniform("drawable_texture", unit);
