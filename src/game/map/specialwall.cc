@@ -44,14 +44,14 @@ ShaderProgram* createWallShader() {
                                  "uniform highp vec2 LIGHT_TEXTURE_PRECISION;" "\n"
                                  "uniform highp sampler2D light_texture;" "\n");
     
-    // x = 0.0 -> left corner of the image, maps to bottom-left in-game -> lightUV.x    , lightUV.y + 1
-    // x = 0.5 -> bottom-center of the image, maps to top-left in-game  -> lightUV.x    , lightUV.y
-    // x = 1.0 -> right corner of the image, maps to top-right in-game  -> lightUV.x + 1, lightUV.y
+    // x = 0.0 ->   left corner of the image, maps to    top-left  in-game -> lightUV.x - 0.5, lightUV.y - 0.5
+    // x = 0.5 -> bottom center of the image, maps to bottom-left  in-game -> lightUV.x - 0.5, lightUV.y + 0.5
+    // x = 1.0 ->  right corner of the image, maps to bottom-right in-game -> lightUV.x + 0.5, lightUV.y + 0.5
     fragment_shader.AddLineInMain(
                             "   highp float xPos = (UV.x - uv_minmax.x) / (uv_minmax.y - uv_minmax.x);" "\n"
                             "	highp vec2 lightPosition = vec2("
-                            "       lightUV.x + max(0, xPos * 2 - 1) / LIGHT_TEXTURE_PRECISION.x," "\n"
-                            "       lightUV.y + max(0, 1 - xPos * 2) / LIGHT_TEXTURE_PRECISION.y" "\n"
+                            "       lightUV.x + (max(0, xPos * 2 - 1) - 0.5) / LIGHT_TEXTURE_PRECISION.x," "\n"
+                            "       lightUV.y + (min(1, xPos * 2) - 0.5) / LIGHT_TEXTURE_PRECISION.y" "\n"
                             "   );" "\n");
 
     fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
