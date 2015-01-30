@@ -71,8 +71,8 @@ int main(int argc, char *argv[]) {
         SCRIPT_MANAGER()->LoadModule("init_constants");
     }
     
-    ugdk::resource::manager()->add_container<utils::IsometricAnimationSet*>(new ugdk::resource::GenericContainer<utils::IsometricAnimationSet*>);
-    ugdk::resource::manager()->add_container<skills::Skill*>(new ugdk::resource::GenericContainer<skills::Skill*>);
+    ugdk::resource::manager()->CreateContainer<utils::IsometricAnimationSet*>();
+    ugdk::resource::manager()->CreateContainer<skills::Skill*>();
     skills::InitHeroSkills();
     skills::InitMummySkills();
 

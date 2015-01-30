@@ -75,7 +75,7 @@ IsometricAnimationSet* IsometricAnimationSet::LoadFromFile(const std::string& na
 }
 
 IsometricAnimationSet& IsometricAnimationSet::LoadFromResourceManager(const std::string& name) {
-    auto container = ugdk::resource::manager()->get_container<IsometricAnimationSet*>();
+    auto container = ugdk::resource::manager()->GetContainer<IsometricAnimationSet*>();
     auto result = container->Load(name, name);
     assert(result);
     return *result;

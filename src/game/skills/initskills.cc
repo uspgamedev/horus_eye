@@ -18,14 +18,14 @@ Skill* PharaohRangedBuild();
 Skill* PharaohSummonBuild();
 
 void InitHeroSkills() {
-    ugdk::resource::ResourceContainer<Skill*>& container = *ugdk::resource::manager()->get_container<skills::Skill*>();
+    ugdk::resource::ResourceContainer<Skill*>& container = *ugdk::resource::manager()->GetContainer<skills::Skill*>();
     container.Insert("magic_missile", HeroMagicMissileBuild());
     container.Insert("fireball", HeroFireballBuild());
     container.Insert("lightning", HeroLightningBuild());
     container.Insert("light", HeroLightBuild());
 }
 void InitMummySkills() {
-    ugdk::resource::ResourceContainer<Skill*>& container = *ugdk::resource::manager()->get_container<skills::Skill*>();
+    ugdk::resource::ResourceContainer<Skill*>& container = *ugdk::resource::manager()->GetContainer<skills::Skill*>();
     container.Insert("mummy_melee", MummyMeleeBuild());
     container.Insert("mummy_ranged", MummyRangedBuild());
     container.Insert("paper_melee", PaperMeleeBuild());
