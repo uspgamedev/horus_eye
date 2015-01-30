@@ -50,8 +50,8 @@ ShaderProgram* createWallShader() {
     fragment_shader.AddLineInMain(
                             "   highp float xPos = (UV.x - uv_minmax.x) / (uv_minmax.y - uv_minmax.x);" "\n"
                             "	highp vec2 lightPosition = vec2("
-                            "       lightUV.x + max(0, xPos * 2 - 1) / LEVEL_SIZE.x," "\n"
-                            "       lightUV.y + max(0, 1 - xPos * 2) / LEVEL_SIZE.y" "\n"
+                            "       lightUV.x + (max(0, xPos * 2 - 1) - 0.5) / LEVEL_SIZE.x," "\n"
+                            "       lightUV.y + (max(0, 1 - xPos * 2) - 0.5) / LEVEL_SIZE.y" "\n"
                             "   );" "\n");
 
     fragment_shader.AddLineInMain("	highp vec4 color = texture2D( drawable_texture, UV ) * effect_color;" "\n");
