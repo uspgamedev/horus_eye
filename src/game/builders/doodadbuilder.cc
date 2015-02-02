@@ -55,9 +55,8 @@ namespace {
 
 sprite::WObjPtr buildWall(const std::string& frame) {
     sprite::WObjPtr wobj = WorldObject::Create();
-    wobj->AddComponent(component::Graphic::Create([frame](ugdk::graphic::Primitive& p) {
-        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
-    }));
+
+    wobj->AddComponent(component::Graphic::Create(component::Graphic::CreateTypes::SPECIALWALL, frame));
     wobj->graphic()->set_render_offset(-Vector2D(53, 156));
     wobj->set_identifier("Wall");
 

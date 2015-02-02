@@ -22,7 +22,10 @@ namespace component {
 
 class Graphic : public Base {
   public:
-    static Graphic* Create(const std::function<void (ugdk::graphic::Primitive&)>& primitive_prepare_function);
+    enum class CreateTypes {
+        SPECIALWALL
+    };
+    static Graphic* Create(CreateTypes, const std::string& arg);
 
     static Graphic* CreateWithSpritesheet(const std::string& spritesheet_name);
     static Graphic* CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name);

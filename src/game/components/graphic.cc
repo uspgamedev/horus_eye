@@ -14,10 +14,23 @@
 #include "game/sprites/worldobject.h"
 #include "game/initializer.h"
 
+#include "game/map/specialwall.h"
+
 namespace component {
 
 using ugdk::math::Vector2D;
 using ugdk::graphic::Primitive;
+
+namespace {
+
+    void SpecialWallCreate(Primitive& p, const std::string& frame) {
+        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
+    }
+
+    std::vector<void(*)(Primitive&, const std::string&)> CreateFunctions = {
+        SpecialWallCreate
+    };
+}
 
 Graphic::Graphic()
 : primitive_(nullptr, nullptr)
@@ -92,10 +105,9 @@ namespace {
     }
 }
 
-Graphic* Graphic::Create(const std::function<void(ugdk::graphic::Primitive&)>& primitive_prepare_function) {
+Graphic* Graphic::Create(CreateTypes type, const std::string& arg) {
     Graphic* g = new Graphic;
-    Primitive& gp = g->primitive();
-    primitive_prepare_function(gp);
+    CreateFunctions[static_cast<int>(type)](g->primitive(), arg);
     SetDefaultShader(g);
     return g;
 }
