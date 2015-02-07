@@ -201,8 +201,9 @@ void CampaignDisplay::LevelLoaded() {
     light_rendering_ = ugdk::MakeUnique<LightRendering>(campaign_->current_level());
     hud_ = ugdk::MakeUnique<Hud>(campaign_->current_level());
     campaign_->current_level()->AddTask(Task([this](double) {
-        if (auto hero = campaign_->current_level()->hero().lock())
-            light_rendering_->set_focused_position(hero->world_position());
+        if (campaign_->current_level())
+            if (auto hero = campaign_->current_level()->hero().lock())
+                light_rendering_->set_focused_position(hero->world_position());
     }, 1.0));
 }
 
