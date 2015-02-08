@@ -15,6 +15,8 @@ SET(GAME_SRCS
     frontend/gameview/hud.h 
     frontend/gameview/lightrendering.cc 
     frontend/gameview/lightrendering.h 
+    frontend/gameview/objectgraphic.cc 
+    frontend/gameview/objectgraphic.h 
     frontend/nativebuilders.h 
     frontend/nativebuilders/campaignselectionscene.cc 
     frontend/nativebuilders/commonmenu.cc 
