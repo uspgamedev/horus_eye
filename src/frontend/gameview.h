@@ -5,6 +5,7 @@ namespace frontend {
 namespace gameview {
 
 class CampaignDisplay;
+class ObjectGraphic;
 class Hud;
 class LightRendering;
 

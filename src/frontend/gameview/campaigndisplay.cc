@@ -3,6 +3,7 @@
 #include "frontend/nativebuilders.h"
 #include "frontend/gameview/hud.h"
 #include "frontend/gameview/lightrendering.h"
+#include "frontend/gameview/objectgraphic.h"
 
 #include "game/core/world.h"
 #include "game/sprites/worldobject.h"
@@ -49,6 +50,8 @@ namespace {
 
     CampaignDisplay* g_current_ = nullptr;
 
+    std::vector<ObjectGraphic> object_graphics_;
+
     void RenderSprites(const core::World& world, const LightRendering& light_rendering, graphic::Canvas& canvas) {
         using namespace ugdk::graphic;
 
@@ -59,47 +62,43 @@ namespace {
         int texture_changes = 0;
 
         for (const map::Room* room : world.active_rooms()) {
-            ugdk::debug::ProfileSection section("Room '" + room->name() + "'");
-
             room->floor()->Draw(canvas, light_unit, light_rendering);
+        }
 
-            glEnable(GL_DEPTH_TEST);
+        glEnable(GL_DEPTH_TEST);
 
-            for (const auto& obj : *room) {
-                if (const auto& graphic = obj->graphic()) {
-                    const auto& primitive = graphic->primitive();
+        for (const auto& graphic : object_graphics_) {
+            const auto& primitive = graphic.primitive();
 
-                    if (primitive.shader_program() != canvas.shader_program()) {
-                        canvas.ChangeShaderProgram(primitive.shader_program());
-                        canvas.SendUniform("drawable_texture", texture_unit);
-                        canvas.SendUniform("light_texture", light_unit);
-                        canvas.SendUniform("LEVEL_SIZE", world.size());
-                        canvas.SendUniform("LIGHT_TEXTURE_PRECISION", 2*light_rendering.light_precision());
-                        shader_changes++;
-                    }
-
-                    if (primitive.texture() != texture_unit.texture()) {
-                        texture_unit.BindTexture(primitive.texture());
-                        texture_changes++;
-                    }
-
-                    const Geometry& geo = canvas.current_geometry();
-                    glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic->final_position().x, graphic->final_position().y, 0.0, 0.0);
-                    glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic->render_offset().x, graphic->render_offset().y, 0.0, 0.0);
-                    Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
-                    Vector2D lightUV = light_rendering.CalculateUV(obj->world_position());
-                    canvas.SendUniform("objectDepth", static_cast<float>(lightpos.y));
-                    canvas.SendUniform("lightUV", lightUV);
-
-                    canvas.PushAndCompose(primitive.visual_effect());
-                    primitive.drawfunction()(primitive, canvas);
-                    canvas.PopVisualEffect();
-                }
+            if (primitive.shader_program() != canvas.shader_program()) {
+                canvas.ChangeShaderProgram(primitive.shader_program());
+                canvas.SendUniform("drawable_texture", texture_unit);
+                canvas.SendUniform("light_texture", light_unit);
+                canvas.SendUniform("LEVEL_SIZE", world.size());
+                canvas.SendUniform("LIGHT_TEXTURE_PRECISION", 2*light_rendering.light_precision());
+                shader_changes++;
             }
 
-            //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
-            glDisable(GL_DEPTH_TEST);
+            if (primitive.texture() != texture_unit.texture()) {
+                texture_unit.BindTexture(primitive.texture());
+                texture_changes++;
+            }
+
+            const Geometry& geo = canvas.current_geometry();
+            glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic.final_position().x, graphic.final_position().y, 0.0, 0.0);
+            glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic.render_offset().x, graphic.render_offset().y, 0.0, 0.0);
+            Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
+            Vector2D lightUV = light_rendering.CalculateUV(graphic.world_position());
+            canvas.SendUniform("objectDepth", static_cast<float>(lightpos.y));
+            canvas.SendUniform("lightUV", lightUV);
+
+            canvas.PushAndCompose(primitive.visual_effect());
+            primitive.drawfunction()(primitive, canvas);
+            canvas.PopVisualEffect();
         }
+
+        //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
+        glDisable(GL_DEPTH_TEST);
     }
 
     void RenderRect(const ugdk::graphic::GLTexture* texture, graphic::Canvas& canvas) {

@@ -36,6 +36,7 @@ class ObjectGraphic {
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::math::Vector2D& position);
 
+    const ugdk::math::Vector2D& world_position() const { return world_position_; }
     const ugdk::math::Vector2D& render_offset() const { return render_offset_; }
     const ugdk::math::Vector2D& final_position() const { return final_position_; }
     void set_render_offset(const ugdk::math::Vector2D& render_offset);
