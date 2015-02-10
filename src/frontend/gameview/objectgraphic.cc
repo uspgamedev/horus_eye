@@ -1,5 +1,12 @@
 #include "objectgraphic.h"
 
+#include "game/core/coordinates.h"
+#include "game/components/animator.h"
+#include "game/sprites/worldobject.h"
+#include "game/initializer.h"
+
+#include "game/map/specialwall.h"
+
 #include <glm/glm.hpp>
 #include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
@@ -8,13 +15,7 @@
 #include <ugdk/graphic/primitivesetup.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/resource/module.h>
-
-#include "game/core/coordinates.h"
-#include "game/components/animator.h"
-#include "game/sprites/worldobject.h"
-#include "game/initializer.h"
-
-#include "game/map/specialwall.h"
+#include <forward_list>
 
 namespace frontend {
 namespace gameview {
@@ -31,14 +32,32 @@ namespace {
     std::vector<void(*)(Primitive&, const std::string&)> CreateFunctions = {
         SpecialWallCreate
     };
+
+    std::vector<const ObjectGraphic*> current_instances_vector_;
+    std::forward_list<std::size_t> avaiable_indices_;
+}
+
+const std::vector<const ObjectGraphic*>& CurrentInstances() {
+    return current_instances_vector_;
 }
 
 ObjectGraphic::ObjectGraphic()
 : primitive_(nullptr, nullptr)
 , layer_(core::FOREGROUND_LAYER)
-{}
+{
+    if (!avaiable_indices_.empty()) {
+        current_instances_vector_[avaiable_indices_.front()] = this;
+        avaiable_indices_.pop_front();
+    } else {
+        current_instances_vector_.push_back(this);
+    }
+}
 
-ObjectGraphic::~ObjectGraphic() {}
+ObjectGraphic::~ObjectGraphic() {
+    auto pos = std::find(current_instances_vector_.begin(), current_instances_vector_.end(), this);
+    avaiable_indices_.push_front(std::distance(current_instances_vector_.begin(), pos));
+    *pos = nullptr;
+}
     
 void ObjectGraphic::UpdateFinalPosition() {
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;

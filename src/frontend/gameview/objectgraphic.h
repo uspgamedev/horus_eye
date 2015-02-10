@@ -26,6 +26,8 @@ class ObjectGraphic {
     static ObjectGraphic* CreateWithSpritesheet(const std::string& spritesheet_name);
     static ObjectGraphic* CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name);
 
+    static const std::vector<const ObjectGraphic*>& CurrentInstances();
+
     ~ObjectGraphic();
 
     const ugdk::graphic::Primitive& primitive() const { return primitive_; }
