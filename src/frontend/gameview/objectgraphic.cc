@@ -37,7 +37,7 @@ namespace {
     std::forward_list<std::size_t> avaiable_indices_;
 }
 
-const std::vector<const ObjectGraphic*>& CurrentInstances() {
+const std::vector<const ObjectGraphic*>& ObjectGraphic::CurrentInstances() {
     return current_instances_vector_;
 }
 
@@ -119,7 +119,7 @@ namespace {
     }
 }
 
-ObjectGraphic* ObjectGraphic::Create(CreateTypes type, const std::string& arg) {
+ObjectGraphic* ObjectGraphic::Create(component::Graphic::CreateTypes type, const std::string& arg) {
     ObjectGraphic* g = new ObjectGraphic;
     CreateFunctions[static_cast<int>(type)](g->primitive_, arg);
     SetDefaultShader(g->primitive_);

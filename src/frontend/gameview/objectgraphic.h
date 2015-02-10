@@ -9,6 +9,7 @@
 #include <ugdk/graphic/primitive.h>
 #include <ugdk/graphic/visualeffect.h>
 #include <ugdk/graphic/primitivecontroller.h>
+#include "game/components/graphic.h"
 
 #include <string>
 #include <memory>
@@ -18,10 +19,7 @@ namespace gameview {
 
 class ObjectGraphic {
   public:
-    enum class CreateTypes {
-        SPECIALWALL
-    };
-    static ObjectGraphic* Create(CreateTypes, const std::string& arg);
+    static ObjectGraphic* Create(component::Graphic::CreateTypes, const std::string& arg);
 
     static ObjectGraphic* CreateWithSpritesheet(const std::string& spritesheet_name);
     static ObjectGraphic* CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name);
