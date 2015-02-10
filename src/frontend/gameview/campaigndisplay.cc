@@ -50,8 +50,6 @@ namespace {
 
     CampaignDisplay* g_current_ = nullptr;
 
-    std::vector<ObjectGraphic> object_graphics_;
-
     void RenderSprites(const core::World& world, const LightRendering& light_rendering, graphic::Canvas& canvas) {
         using namespace ugdk::graphic;
 
@@ -67,8 +65,10 @@ namespace {
 
         glEnable(GL_DEPTH_TEST);
 
-        for (const auto& graphic : object_graphics_) {
-            const auto& primitive = graphic.primitive();
+        for (const auto& graphicp : ObjectGraphic::CurrentInstances()) {
+            if (!graphicp) continue;
+            const auto& graphic = *graphicp;
+            const auto& primitive = graphicp->primitive();
 
             if (primitive.shader_program() != canvas.shader_program()) {
                 canvas.ChangeShaderProgram(primitive.shader_program());
