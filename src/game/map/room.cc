@@ -107,8 +107,8 @@ void Room::Deactivate() {
 void Room::Sort() {
     objects_.sort([](const WObjPtr& a, const WObjPtr& b) {
         auto ag = a->graphic(), bg = b->graphic();
-        if (ag && bg)
-            return ag->primitive().texture() < bg->primitive().texture();
+        //if (ag && bg)
+        //    return ag->primitive().texture() < bg->primitive().texture();
         if (ag || bg)
             return ag < bg;
         return a.get() < b.get();

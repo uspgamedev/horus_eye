@@ -11,12 +11,15 @@
 #include <ugdk/structure/types.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
-#include <ugdk/graphic/primitive.h>
-#include <ugdk/graphic/visualeffect.h>
-#include <ugdk/graphic/primitivecontroller.h>
 
 #include <string>
 #include <memory>
+
+namespace frontend {
+    namespace gameview {
+        class ObjectGraphic;
+    }
+}
 
 namespace component {
 
@@ -36,21 +39,13 @@ class Graphic : public Base {
     std::string component_name() const override { return DEFAULT_NAME(); }
     int order() const override { return orders::GRAPHIC; }
 
-    const ugdk::graphic::Primitive& primitive() const { return primitive_; }
-    ugdk::graphic::Primitive& primitive() { return primitive_; }
-
-    void set_layer(core::GameLayer layer) { layer_ = layer; }
-    core::GameLayer layer() const { return layer_; }
+    void set_layer(core::GameLayer layer);
     
     /**@arg position The graphic's position, in the game's coordinates.*/
     void SetPosition(const ugdk::math::Vector2D& position);
 
-    const ugdk::math::Vector2D& render_offset() const { return render_offset_; }
-    const ugdk::math::Vector2D& final_position() const { return final_position_; }
+    ugdk::math::Vector2D render_offset() const;
     void set_render_offset(const ugdk::math::Vector2D& render_offset);
-
-          ugdk::graphic::VisualEffect& visual_effect()       { return visual_effect_; }
-    const ugdk::graphic::VisualEffect& visual_effect() const { return visual_effect_; }
 
     double alpha() const;
     void ChangeAlpha(double alpha);
@@ -64,19 +59,11 @@ class Graphic : public Base {
     
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);
+    void ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame);
 
   private:
-    Graphic();
-    void UpdateFinalPosition();
-
-    ugdk::graphic::Primitive primitive_;
-
-    core::GameLayer layer_;
-
-    ugdk::math::Vector2D world_position_;
-    ugdk::math::Vector2D render_offset_;
-    ugdk::math::Vector2D final_position_;
-    ugdk::graphic::VisualEffect visual_effect_;
+    Graphic(frontend::gameview::ObjectGraphic*);
+    std::unique_ptr<frontend::gameview::ObjectGraphic> frontend_graphic_;
 
 };  // class BaseGraphic
 

@@ -19,11 +19,8 @@ Animator::Animator(const std::string& animation_set)
 }
     
 void Animator::Configure(Graphic* graphic) {
-    auto p = &graphic->primitive();
-    player_->set_frame_change_callback([p](const ugdk::graphic::SpriteAnimationFrame& frame) {
-        if (auto sprite = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(p->controller().get())) {
-            sprite->ChangeToAnimationFrame(frame);
-        }
+    player_->set_frame_change_callback([graphic](const ugdk::graphic::SpriteAnimationFrame& frame) {
+        graphic->ChangeToAnimationFrame(frame);
     });
     player_->Refresh();
 }
