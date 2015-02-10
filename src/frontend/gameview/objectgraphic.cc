@@ -1,14 +1,12 @@
 #include "objectgraphic.h"
 
 #include "game/core/coordinates.h"
-#include "game/components/animator.h"
 #include "game/sprites/worldobject.h"
 #include "game/initializer.h"
 
 #include "game/map/specialwall.h"
 
 #include <glm/glm.hpp>
-#include <ugdk/graphic/light.h>
 #include <ugdk/graphic/canvas.h>
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/graphic/textureatlas.h>
@@ -16,6 +14,7 @@
 #include <ugdk/math/vector2D.h>
 #include <ugdk/resource/module.h>
 #include <forward_list>
+#include <algorithm>
 
 namespace frontend {
 namespace gameview {
