@@ -60,9 +60,9 @@ ObjectGraphic::~ObjectGraphic() {
     
 void ObjectGraphic::UpdateFinalPosition() {
     final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
-    if (auto controlller = primitive_.controller().get()) {
-        controlller->ChangePosition(final_position_);
-    }
+    //if (auto controlller = primitive_.controller().get()) {
+    //    controlller->ChangePosition(final_position_);
+    //}
 }
     
 void ObjectGraphic::SetPosition(const ugdk::math::Vector2D& position) {

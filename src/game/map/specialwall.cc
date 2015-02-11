@@ -29,8 +29,9 @@ ShaderProgram* createWallShader() {
 
     // VERTEX
     vertex_shader.AddCodeBlock("out highp vec2 UV;" "\n");
+    vertex_shader.AddCodeBlock("uniform highp vec2 objectPosition;" "\n");
     vertex_shader.AddCodeBlock("uniform highp float objectDepth;" "\n");
-    vertex_shader.AddLineInMain("	gl_Position = geometry_matrix * vec4(vertexPosition,objectDepth,1);" "\n");
+    vertex_shader.AddLineInMain("	gl_Position = geometry_matrix * vec4(vertexPosition + objectPosition,objectDepth,1);" "\n");
     vertex_shader.AddLineInMain("	UV = vertexUV;" "\n");
     vertex_shader.GenerateSource();
 

@@ -89,6 +89,7 @@ namespace {
             glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic.render_offset().x, graphic.render_offset().y, 0.0, 0.0);
             Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
             Vector2D lightUV = light_rendering.CalculateUV(graphic.world_position());
+            canvas.SendUniform("objectPosition", graphic.final_position());
             canvas.SendUniform("objectDepth", static_cast<float>(lightpos.y));
             canvas.SendUniform("lightUV", lightUV);
 
