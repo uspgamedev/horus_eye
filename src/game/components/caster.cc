@@ -84,7 +84,7 @@ int Caster::LearnSkill(const skills::Skill* skill) {
 }
 
 int Caster::LearnSkill(const std::string& skill_name) {
-    return LearnSkill(ugdk::resource::manager()->GetContainer<skills::Skill*>()->Find(skill_name));
+    return LearnSkill(ugdk::resource::manager()->GetContainer<skills::Skill>()->Find(skill_name));
 }
 
 void Caster::UnlearnSkill(int id) {
