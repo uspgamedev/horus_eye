@@ -103,6 +103,11 @@ namespace {
 
         //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);
         glDisable(GL_DEPTH_TEST);
+
+        for (const auto& graphicp : ObjectGraphic::CurrentOrderedInstances()) {
+            if (!graphicp) continue;
+            render_graphic_func(*graphicp);
+        }
     }
 
     void RenderRect(const ugdk::graphic::GLTexture* texture, graphic::Canvas& canvas) {
