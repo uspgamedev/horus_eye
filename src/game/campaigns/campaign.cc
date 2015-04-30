@@ -41,6 +41,8 @@ Campaign::Campaign(const CampaignDescriptor& d)
 }
 
 Campaign::~Campaign() {
+    if (current_level_)
+        delete current_level_;
     current_campaign_ = nullptr;
 }
 
@@ -54,9 +56,11 @@ void Campaign::End() {
 }
    
 void Campaign::InformSceneFinished() {
+    auto level_to_delete = current_level_;
     current_level_ = nullptr;
-    AddTask(ugdk::system::Task([this](double) {
+    AddTask(ugdk::system::Task([this, level_to_delete](double) {
         (implementation_ | "OnSceneFinished")(this);
+        delete level_to_delete;
         return false;
     }, 0.0));
 }

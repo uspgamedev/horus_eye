@@ -6,7 +6,6 @@
 
 #include <ugdk/system/engine.h>
 #include <ugdk/resource/module.h>
-#include <ugdk/resource/genericcontainer.h>
 
 #include "initializer.h"
 #include "constants.h"
@@ -71,8 +70,8 @@ int main(int argc, char *argv[]) {
         SCRIPT_MANAGER()->LoadModule("init_constants");
     }
     
-    ugdk::resource::manager()->CreateContainer<utils::IsometricAnimationSet*>();
-    ugdk::resource::manager()->CreateContainer<skills::Skill*>();
+    ugdk::resource::manager()->CreateContainer<utils::IsometricAnimationSet>();
+    ugdk::resource::manager()->CreateContainer<skills::Skill>();
     skills::InitHeroSkills();
     skills::InitMummySkills();
 

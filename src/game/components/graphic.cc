@@ -15,63 +15,49 @@
 #include "game/initializer.h"
 
 #include "game/map/specialwall.h"
+#include "frontend/gameview/objectgraphic.h"
 
 namespace component {
 
 using ugdk::math::Vector2D;
 using ugdk::graphic::Primitive;
 
-namespace {
-
-    void SpecialWallCreate(Primitive& p, const std::string& frame) {
-        map::PreparePrimitiveSpecialWall(p, ugdk::resource::GetTextureAtlasFromTag("wall"), frame);
-    }
-
-    std::vector<void(*)(Primitive&, const std::string&)> CreateFunctions = {
-        SpecialWallCreate
-    };
-}
-
-Graphic::Graphic()
-: primitive_(nullptr, nullptr)
-, layer_(core::FOREGROUND_LAYER)
+Graphic::Graphic(frontend::gameview::ObjectGraphic* g)
+    : frontend_graphic_(g)
 {}
 
 Graphic::~Graphic() {}
-    
-void Graphic::UpdateFinalPosition() {
-    final_position_ = core::FromWorldCoordinates(world_position_) + render_offset_;
-    if (auto controlller = primitive_.controller().get()) {
-        controlller->ChangePosition(final_position_);
-    }
+
+void Graphic::set_layer(core::GameLayer layer) {
+    frontend_graphic_->set_layer(layer);
 }
-    
+        
 void Graphic::SetPosition(const ugdk::math::Vector2D& position) {
-    world_position_ = position;
-    UpdateFinalPosition();
+    frontend_graphic_->SetPosition(position);
+}
+
+ugdk::math::Vector2D Graphic::render_offset() const {
+    return frontend_graphic_->render_offset();
 }
 
 void Graphic::set_render_offset(const ugdk::math::Vector2D& render_offset) {
-    render_offset_ = render_offset;
-    UpdateFinalPosition();
+    frontend_graphic_->set_render_offset(render_offset);
 }
     
 double Graphic::alpha() const {
-    return visual_effect_.color().a;
+    return frontend_graphic_->visual_effect().color().a;
 }
 
 void Graphic::ChangeAlpha(double alpha) {
-    ugdk::Color color = visual_effect_.color();
-    color.a = alpha;
-    visual_effect_.set_color(color);
+    frontend_graphic_->ChangeAlpha(alpha);
 }
 
 bool Graphic::visible() const {
-    return visual_effect_.visible();
+    return frontend_graphic_->visible();
 }
 
 void Graphic::set_visible(bool visible) {
-    visual_effect_.set_visible(visible);
+    frontend_graphic_->set_visible(visible);
 }
 
 void Graphic::Update(double dt) {}
@@ -87,43 +73,27 @@ void Graphic::OnObjectRemoved() {
 }
     
 void Graphic::ChangeToFrame(const std::string& frame_name) {
-    auto controller = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(primitive_.controller().get());
-    if (controller)
-        controller->ChangeToAtlasFrame(frame_name);
+    frontend_graphic_->ChangeToFrame(frame_name);
 }
 
 void Graphic::ChangeToFrame(std::size_t frame_number) {
-    auto controller = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(primitive_.controller().get());
-    if (controller)
-        controller->ChangeToAtlasFrame(frame_number);
+    frontend_graphic_->ChangeToFrame(frame_number);
 }
-    
-namespace {
-    void SetDefaultShader(Graphic* g) {
-        if (!g->primitive().shader_program())
-            g->primitive().set_shader_program(get_horus_light_shader());
-    }
+
+void Graphic::ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame) {
+    frontend_graphic_->ChangeToAnimationFrame(frame);
 }
 
 Graphic* Graphic::Create(CreateTypes type, const std::string& arg) {
-    Graphic* g = new Graphic;
-    CreateFunctions[static_cast<int>(type)](g->primitive(), arg);
-    SetDefaultShader(g);
-    return g;
+    return new Graphic(frontend::gameview::ObjectGraphic::Create(type, arg));
 }
 
 Graphic* Graphic::CreateWithSpritesheet(const std::string& spritesheet_name) {
-    Graphic* g = new Graphic;
-    ugdk::graphic::PrimitiveSetup::Sprite::Prepare(g->primitive(), ugdk::resource::GetTextureAtlasFromTag(spritesheet_name));
-    g->ChangeToFrame(0);
-    SetDefaultShader(g);
-    return g;
+    return new Graphic(frontend::gameview::ObjectGraphic::CreateWithSpritesheet(spritesheet_name));
 }
 
 Graphic* Graphic::CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name) {
-    Graphic* g = Graphic::CreateWithSpritesheet(spritesheet_name);
-    g->ChangeToFrame(frame_name);
-    return g;
+    return new Graphic(frontend::gameview::ObjectGraphic::CreateWithSingleFrame(spritesheet_name, frame_name));
 }
     
 }  // namespace component
