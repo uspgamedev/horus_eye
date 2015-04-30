@@ -72,12 +72,14 @@ std::vector<const ObjectGraphic*>::const_iterator ObjectGraphic::ObjectGraphicOr
 ObjectGraphic::ObjectGraphic()
 : primitive_(nullptr, nullptr)
 , layer_(core::FOREGROUND_LAYER)
+, order_dependent_(false)
 {
     AddObjectToVector(this);
 }
 
 ObjectGraphic::~ObjectGraphic() {
-    RemoveObjectFromVector(this);
+    if (!order_dependent_)
+        RemoveObjectFromVector(this);
 }
     
 void ObjectGraphic::UpdateFinalPosition() {
@@ -113,6 +115,10 @@ bool ObjectGraphic::visible() const {
 
 void ObjectGraphic::set_visible(bool visible) {
     visual_effect_.set_visible(visible);
+}
+
+void ObjectGraphic::SetOrderDependent(bool active) {
+    // FIXME
 }
     
 void ObjectGraphic::ChangeToFrame(const std::string& frame_name) {

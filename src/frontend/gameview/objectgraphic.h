@@ -60,6 +60,8 @@ class ObjectGraphic {
     bool visible() const;
     void set_visible(bool visible);
 
+    void SetOrderDependent(bool active);
+
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);
     void ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame);
@@ -72,6 +74,7 @@ class ObjectGraphic {
 
     core::GameLayer layer_;
 
+    bool order_dependent_;
     ugdk::math::Vector2D world_position_;
     ugdk::math::Vector2D render_offset_;
     ugdk::math::Vector2D final_position_;

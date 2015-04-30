@@ -71,6 +71,10 @@ void Graphic::OnAdd(sprite::WObjRawPtr wobj) {
 void Graphic::OnObjectRemoved() {
     set_visible(false);
 }
+
+void Graphic::SetOrderDependent(bool active) {
+    frontend_graphic_->SetOrderDependent(active);
+}
     
 void Graphic::ChangeToFrame(const std::string& frame_name) {
     frontend_graphic_->ChangeToFrame(frame_name);
