@@ -34,28 +34,50 @@ namespace {
 
     std::vector<const ObjectGraphic*> current_instances_vector_;
     std::forward_list<std::size_t> avaiable_indices_;
+
+    std::vector<const ObjectGraphic*> current_ordered_vector_;
+
+    void AddObjectToVector(const ObjectGraphic* obj) {
+        if (!avaiable_indices_.empty()) {
+            current_instances_vector_[avaiable_indices_.front()] = obj;
+            avaiable_indices_.pop_front();
+        } else {
+            current_instances_vector_.push_back(obj);
+        }
+    }
+
+    void RemoveObjectFromVector(const ObjectGraphic* obj) {
+        auto pos = std::find(current_instances_vector_.begin(), current_instances_vector_.end(), obj);
+        avaiable_indices_.push_front(std::distance(current_instances_vector_.begin(), pos));
+        *pos = nullptr;
+    }
 }
 
-const std::vector<const ObjectGraphic*>& ObjectGraphic::CurrentInstances() {
-    return current_instances_vector_;
+std::vector<const ObjectGraphic*>::const_iterator ObjectGraphic::ObjectGraphicRange::begin() const {
+    return current_instances_vector_.begin();
+}
+
+std::vector<const ObjectGraphic*>::const_iterator ObjectGraphic::ObjectGraphicRange::end() const {
+    return current_instances_vector_.end();
+}
+
+std::vector<const ObjectGraphic*>::const_iterator ObjectGraphic::ObjectGraphicOrderedRange::begin() const {
+    return current_ordered_vector_.begin();
+}
+
+std::vector<const ObjectGraphic*>::const_iterator ObjectGraphic::ObjectGraphicOrderedRange::end() const {
+    return current_ordered_vector_.end();
 }
 
 ObjectGraphic::ObjectGraphic()
 : primitive_(nullptr, nullptr)
 , layer_(core::FOREGROUND_LAYER)
 {
-    if (!avaiable_indices_.empty()) {
-        current_instances_vector_[avaiable_indices_.front()] = this;
-        avaiable_indices_.pop_front();
-    } else {
-        current_instances_vector_.push_back(this);
-    }
+    AddObjectToVector(this);
 }
 
 ObjectGraphic::~ObjectGraphic() {
-    auto pos = std::find(current_instances_vector_.begin(), current_instances_vector_.end(), this);
-    avaiable_indices_.push_front(std::distance(current_instances_vector_.begin(), pos));
-    *pos = nullptr;
+    RemoveObjectFromVector(this);
 }
     
 void ObjectGraphic::UpdateFinalPosition() {

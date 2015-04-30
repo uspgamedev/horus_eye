@@ -63,19 +63,15 @@ namespace {
             room->floor()->Draw(canvas, light_unit, light_rendering);
         }
 
-        glEnable(GL_DEPTH_TEST);
-
-        for (const auto& graphicp : ObjectGraphic::CurrentInstances()) {
-            if (!graphicp) continue;
-            const auto& graphic = *graphicp;
-            const auto& primitive = graphicp->primitive();
+        auto render_graphic_func = [&](const ObjectGraphic& graphic) {
+            const auto& primitive = graphic.primitive();
 
             if (primitive.shader_program() != canvas.shader_program()) {
                 canvas.ChangeShaderProgram(primitive.shader_program());
                 canvas.SendUniform("drawable_texture", texture_unit);
                 canvas.SendUniform("light_texture", light_unit);
                 canvas.SendUniform("LEVEL_SIZE", world.size());
-                canvas.SendUniform("LIGHT_TEXTURE_PRECISION", 2*light_rendering.light_precision());
+                canvas.SendUniform("LIGHT_TEXTURE_PRECISION", 2 * light_rendering.light_precision());
                 shader_changes++;
             }
 
@@ -96,6 +92,13 @@ namespace {
             canvas.PushAndCompose(primitive.visual_effect());
             primitive.drawfunction()(primitive, canvas);
             canvas.PopVisualEffect();
+        };
+
+        glEnable(GL_DEPTH_TEST);
+
+        for (const auto& graphicp : ObjectGraphic::CurrentInstances()) {
+            if (!graphicp) continue;
+            render_graphic_func(*graphicp);
         }
 
         //printf("Room '%s' rendered with %d shader changes and %d texture changes.\n", name_.c_str(), shader_changes, texture_changes);

@@ -19,12 +19,22 @@ namespace gameview {
 
 class ObjectGraphic {
   public:
+    struct ObjectGraphicRange {
+        std::vector<const ObjectGraphic*>::const_iterator begin() const;
+        std::vector<const ObjectGraphic*>::const_iterator end() const;
+    };
+    struct ObjectGraphicOrderedRange {
+        std::vector<const ObjectGraphic*>::const_iterator begin() const;
+        std::vector<const ObjectGraphic*>::const_iterator end() const;
+    };
+
     static ObjectGraphic* Create(component::Graphic::CreateTypes, const std::string& arg);
 
     static ObjectGraphic* CreateWithSpritesheet(const std::string& spritesheet_name);
     static ObjectGraphic* CreateWithSingleFrame(const std::string& spritesheet_name, const std::string& frame_name);
 
-    static const std::vector<const ObjectGraphic*>& CurrentInstances();
+    static ObjectGraphicRange CurrentInstances() { return ObjectGraphicRange(); }
+    static ObjectGraphicOrderedRange CurrentOrderedInstances() { return ObjectGraphicOrderedRange(); }
 
     ~ObjectGraphic();
 
