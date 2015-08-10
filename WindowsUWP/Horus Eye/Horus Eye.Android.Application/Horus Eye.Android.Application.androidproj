@@ -41,7 +41,18 @@
   <ImportGroup Label="ExtensionSettings" />
   <ImportGroup Label="Shared" />
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x86'">
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <AntPackage>
       <AndroidAppLibName>$(RootNamespace)</AndroidAppLibName>
@@ -62,7 +73,6 @@
       <AndroidAppLibName>$(RootNamespace)</AndroidAppLibName>
     </AntPackage>
   </ItemDefinitionGroup>
-
   <ItemGroup>
     <Content Include="res\values\strings.xml" />
     <AntBuildXml Include="build.xml" />

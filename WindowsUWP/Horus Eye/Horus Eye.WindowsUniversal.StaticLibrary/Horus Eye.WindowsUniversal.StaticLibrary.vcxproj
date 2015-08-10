@@ -100,32 +100,32 @@
   <PropertyGroup />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
-    <OutDir>$(SolutionDir)Output\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
+    <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -218,6 +218,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\UGDK.WindowsUniversal.StaticLibrary.vcxproj">
+      <Project>{57ef1bf6-585a-4548-a997-04b458c2c63b}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
