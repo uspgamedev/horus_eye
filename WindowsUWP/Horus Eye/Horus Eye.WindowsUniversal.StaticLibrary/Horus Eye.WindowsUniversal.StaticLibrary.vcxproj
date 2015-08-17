@@ -102,37 +102,44 @@
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-core\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-2d\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-script\include;$(ProjectDir)..\..\..\externals\ugdk\externals\glm;$(ProjectDir)..\..\..\externals\ugdk\externals\libjson;$(ProjectDir)..\..\..\externals\ugdk\externals\freetype-gl;$(ProjectDir)..\..\..\externals\ugdk\externals\glew\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2\SDL\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2-mixer\SDL_mixer;$(ProjectDir)include;$(ProjectDir)..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\include;$(ProjectDir)..\..\..\src;$(ProjectDir)..\..\..\src\externals\windows\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-core\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-2d\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-script\include;$(ProjectDir)..\..\..\externals\ugdk\externals\glm;$(ProjectDir)..\..\..\externals\ugdk\externals\libjson;$(ProjectDir)..\..\..\externals\ugdk\externals\freetype-gl;$(ProjectDir)..\..\..\externals\ugdk\externals\glew\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2\SDL\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2-mixer\SDL_mixer;$(ProjectDir)include;$(ProjectDir)..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\include;$(ProjectDir)..\..\..\src;$(ProjectDir)..\..\..\src\externals\windows\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-core\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-2d\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-script\include;$(ProjectDir)..\..\..\externals\ugdk\externals\glm;$(ProjectDir)..\..\..\externals\ugdk\externals\libjson;$(ProjectDir)..\..\..\externals\ugdk\externals\freetype-gl;$(ProjectDir)..\..\..\externals\ugdk\externals\glew\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2\SDL\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2-mixer\SDL_mixer;$(ProjectDir)include;$(ProjectDir)..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\include;$(ProjectDir)..\..\..\src;$(ProjectDir)..\..\..\src\externals\windows\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-core\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-2d\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-script\include;$(ProjectDir)..\..\..\externals\ugdk\externals\glm;$(ProjectDir)..\..\..\externals\ugdk\externals\libjson;$(ProjectDir)..\..\..\externals\ugdk\externals\freetype-gl;$(ProjectDir)..\..\..\externals\ugdk\externals\glew\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2\SDL\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2-mixer\SDL_mixer;$(ProjectDir)include;$(ProjectDir)..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\include;$(ProjectDir)..\..\..\src;$(ProjectDir)..\..\..\src\externals\windows\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-core\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-2d\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-script\include;$(ProjectDir)..\..\..\externals\ugdk\externals\glm;$(ProjectDir)..\..\..\externals\ugdk\externals\libjson;$(ProjectDir)..\..\..\externals\ugdk\externals\freetype-gl;$(ProjectDir)..\..\..\externals\ugdk\externals\glew\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2\SDL\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2-mixer\SDL_mixer;$(ProjectDir)include;$(ProjectDir)..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\include;$(ProjectDir)..\..\..\src;$(ProjectDir)..\..\..\src\externals\windows\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
     <OutDir>$(SolutionDir)Output\$(ProjectName)\$(Platform)\$(Configuration)\$(MSBuildProjectName)\</OutDir>
     <IntDir>$(SolutionDir)Objs\$(ProjectName)\$(Platform)\$(Configuration)\</IntDir>
+    <IncludePath>$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-core\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-2d\include;$(ProjectDir)..\..\..\externals\ugdk\modules\ugdk-script\include;$(ProjectDir)..\..\..\externals\ugdk\externals\glm;$(ProjectDir)..\..\..\externals\ugdk\externals\libjson;$(ProjectDir)..\..\..\externals\ugdk\externals\freetype-gl;$(ProjectDir)..\..\..\externals\ugdk\externals\glew\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2\SDL\include;$(ProjectDir)..\..\..\externals\ugdk\externals\sdl2-mixer\SDL_mixer;$(ProjectDir)include;$(ProjectDir)..\..\..\externals\ugdk\WindowsUWP\UGDK\UGDK.WindowsUniversal.StaticLibrary\include;$(ProjectDir)..\..\..\src;$(ProjectDir)..\..\..\src\externals\windows\include;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -143,8 +150,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -154,9 +162,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|arm'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;%(ClCompile.PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -167,8 +176,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|arm'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE=1;%(ClCompile.PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -178,9 +188,10 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>Use</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -191,8 +202,9 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
-      <CompileAsWinRT>false</CompileAsWinRT>
       <SDLCheck>true</SDLCheck>
+      <PreprocessorDefinitions>_UNICODE;UNICODE;%(PreprocessorDefinitions);_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
+      <CompileAsWinRT>false</CompileAsWinRT>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -200,22 +212,6 @@
       <GenerateWindowsMetadata>false</GenerateWindowsMetadata>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="pch.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
-      <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
-    </ClCompile>
-  </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
