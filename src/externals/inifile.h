@@ -534,20 +534,20 @@ std::wistream& operator>>(std::wistream& input, CIniFileW& obj);
 std::wistream& operator>>(std::wistream& input, CIniMergeW merger);
 
 // Additional defines
-#ifdef _UNICODE
-#define INI_TOKEN_A INI_TOKEN_UNICODE
-#define INI_TOKEN_B INI_TOKEN_UNICODE
-#define INI_EMPTY INI_EMPTY_UNICODE
-typedef CIniMergeW CIniMerge;
-typedef CIniFileW CIniFile;
-typedef CIniSectionW CIniSection;
-typedef CIniKeyW CIniKey;
-typedef PCINIW PCINI;
-typedef PCINIKEYW PCINIKEY;
-typedef PCINISECW PCINISEC;
-typedef KeyIndexW KeyIndex;
-typedef SecIndexW SecIndex;
-#else
+//#ifdef _UNICODE
+//#define INI_TOKEN_A INI_TOKEN_UNICODE
+//#define INI_TOKEN_B INI_TOKEN_UNICODE
+//#define INI_EMPTY INI_EMPTY_UNICODE
+//typedef CIniMergeW CIniMerge;
+//typedef CIniFileW CIniFile;
+//typedef CIniSectionW CIniSection;
+//typedef CIniKeyW CIniKey;
+//typedef PCINIW PCINI;
+//typedef PCINIKEYW PCINIKEY;
+//typedef PCINISECW PCINISEC;
+//typedef KeyIndexW KeyIndex;
+//typedef SecIndexW SecIndex;
+//#else
 #define INI_TOKEN_A INI_TOKEN_ANSI
 #define INI_TOKEN_B INI_TOKEN_ANSI
 #define INI_EMPTY INI_EMPTY_ANSI
@@ -560,7 +560,7 @@ typedef PCINIKEYA PCINIKEY;
 typedef PCINISECA PCINISEC;
 typedef KeyIndexA KeyIndex;
 typedef SecIndexA SecIndex;
-#endif
+//#endif
 
 } // namespace external
 

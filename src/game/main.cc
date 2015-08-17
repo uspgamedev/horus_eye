@@ -22,9 +22,6 @@
 
 #include <string>
 #include "SDL.h"
-#ifdef main
-#undef main
-#endif
 
 extern int HORUS_MODULES_HEARTBEAT;
 

@@ -43,7 +43,7 @@ namespace frontend {
 
 namespace {
 
-#ifdef _WIN32
+#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
     std::string utf8_encode(const std::wstring &wstr) {
         if (wstr.empty()) return std::string();
         int size_needed = WideCharToMultiByte(CP_UTF8, 0, &wstr[0], (int)wstr.size(), NULL, 0, NULL, NULL);
@@ -99,7 +99,7 @@ namespace {
         externals::CIniFile source;
         {
             std::ifstream input;
-            #ifdef _WIN32
+			#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
             input.open(utf8_decode(filepath), std::ios::binary);
             #else
             input.open(filepath, std::ios::binary);
@@ -153,7 +153,7 @@ namespace {
     bool WriteDataToPath(const std::string& filepath, const SettingsData &data) {
         std::ofstream output;
 
-        #ifdef _WIN32
+		#if defined(WINAPI_FAMILY) && WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
         output.open(utf8_decode(filepath), std::ios::binary);
         #else
         output.open(filepath, std::ios::binary);
@@ -265,7 +265,8 @@ const std::string& Settings::language_name() const {
 }
 
 void Settings::SetSettingsPath() {
-#ifdef _WIN32
+#if defined(WINAPI_FAMILY) 
+#if WINAPI_FAMILY == WINAPI_FAMILY_DESKTOP_APP
     PWSTR saved_games = nullptr;
     if (SHGetKnownFolderPath(FOLDERID_SavedGames, KF_FLAG_CREATE, NULL, &saved_games) == S_OK) {
         std::wstring saved_games_full(saved_games);
@@ -275,6 +276,7 @@ void Settings::SetSettingsPath() {
         sources_.push_back(utf8_encode(saved_games_full + L"/game_settings.ini"));
     }
     CoTaskMemFree(static_cast<LPVOID>(saved_games));
+#endif
 #else
     char* home = getenv("HOME");
     if(home) {
