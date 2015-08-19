@@ -81,6 +81,7 @@
       <PrecompiledHeaderFile>..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
       <CppLanguageStandard>c++11</CppLanguageStandard>
+      <PreprocessorDefinitions>;UGDK_USING_GLES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
@@ -89,6 +90,7 @@
       <PrecompiledHeaderFile>..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
       <CppLanguageStandard>c++11</CppLanguageStandard>
+      <PreprocessorDefinitions>;UGDK_USING_GLES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x86'">
@@ -97,6 +99,7 @@
       <PrecompiledHeaderFile>..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
       <CppLanguageStandard>c++11</CppLanguageStandard>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UGDK_USING_GLES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -105,6 +108,7 @@
       <PrecompiledHeaderFile>..\Horus Eye.Shared\pch.h</PrecompiledHeaderFile>
       <ExceptionHandling>Enabled</ExceptionHandling>
       <CppLanguageStandard>c++11</CppLanguageStandard>
+      <PreprocessorDefinitions>NDEBUG;%(PreprocessorDefinitions);UGDK_USING_GLES</PreprocessorDefinitions>
     </ClCompile>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
