@@ -45,7 +45,7 @@ sprite::WObjPtr FireballExplosion() {
     sprite::WObjPtr wobj = baseExplosion("effect", "HERO_FIREBALL_WEAPON");
     wobj->graphic()->set_render_offset(-Vector2D(128, 64));
 
-    wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::Color(1.0, 0.521568, 0.082352)));
+    wobj->AddComponent(new component::LightEmitter(1.3 * constants::GetDouble("FIREBALL_EXPLOSION_RADIUS"), ugdk::structure::Color(1.0, 0.521568, 0.082352)));
 
     CollisionObject* col = new CollisionObject(nullptr, "Explosion", ugdk::MakeUnique<pyramidworks::geometry::Circle>(constants::GetDouble("FIREBALL_EXPLOSION_RADIUS")));
     wobj->AddComponent(new Body(col, nullptr));

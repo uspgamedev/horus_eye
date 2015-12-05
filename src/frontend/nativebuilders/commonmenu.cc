@@ -2,9 +2,9 @@
 
 #include <ugdk/action/animationplayer.h>
 #include <ugdk/action/scene.h>
+#include <ugdk/action/spriteanimationframe.h>
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>
-#include <ugdk/graphic/spriteanimationframe.h>
 #include <ugdk/input/keycode.h>
 #include <ugdk/structure/box.h>
 #include <ugdk/system/compatibility.h>
@@ -27,7 +27,7 @@ using ugdk::math::Vector2D;
 namespace {
     std::pair<
         ugdk::ui::Drawable*,
-        std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>
+        std::shared_ptr<ugdk::action::SpriteAnimationPlayer>
     > CreateHorusEye() {
 
         auto primitive = std::make_shared<ugdk::graphic::Primitive>(nullptr, nullptr);
@@ -65,7 +65,7 @@ AnimationPlayerHolder::AnimationPlayerHolder() : Task([this](double dt) {
 }) {}
 AnimationPlayerHolder::~AnimationPlayerHolder() {}
 
-void AnimationPlayerHolder::Add(const std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>& player) {
+void AnimationPlayerHolder::Add(const std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player) {
     players_.push_back(player);
 }
 

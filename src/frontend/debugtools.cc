@@ -47,14 +47,14 @@ class DebugTools :
         }
 
         if (world) {
-            ugdk::graphic::Geometry& modifier = const_cast<ugdk::graphic::Geometry&>(world->camera());
+            ugdk::math::Geometry& modifier = const_cast<ugdk::math::Geometry&>(world->camera());
             {
                 math::Vector2D scale(1.0);
                 if (ev.keycode == input::Keycode::NUMPAD_MULTIPLY)
                     scale = scale * 1.4 / 1.0;
                 if (ev.keycode == input::Keycode::NUMPAD_DIVIDE)
                     scale = scale * 1.0 / 1.4;
-                modifier *= graphic::Geometry(math::Vector2D(), scale);
+                modifier *= math::Geometry(math::Vector2D(), scale);
             }
         }
 

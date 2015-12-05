@@ -25,7 +25,7 @@ Vector2D FromWorldCoordinates(const Vector2D& world_coords) {
 }
 
 Vector2D FromScreenCoordinates(core::World* world, const Vector2D& screen_coords) {
-    const ugdk::graphic::Geometry& camera = world->camera();
+    const ugdk::math::Geometry& camera = world->camera();
     return FromScreenLinearCoordinates((screen_coords - camera.offset()) / camera.CalculateScale().x);
 }
     

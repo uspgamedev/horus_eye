@@ -80,7 +80,7 @@ namespace {
                 texture_changes++;
             }
 
-            const Geometry& geo = canvas.current_geometry();
+            const math::Geometry& geo = canvas.current_geometry();
             glm::vec4 position_ogl = geo.AsMat4() * glm::vec4(graphic.final_position().x, graphic.final_position().y, 0.0, 0.0);
             glm::vec4 render_off_ogl = geo.AsMat4() * glm::vec4(graphic.render_offset().x, graphic.render_offset().y, 0.0, 0.0);
             Vector2D lightpos = (Vector2D(position_ogl.x, position_ogl.y) + geo.offset() - Vector2D(render_off_ogl.x, render_off_ogl.y))* 0.5 + Vector2D(0.5, 0.5);
@@ -111,7 +111,7 @@ namespace {
     }
 
     void RenderRect(const ugdk::graphic::GLTexture* texture, graphic::Canvas& canvas) {
-        canvas.PushAndCompose(graphic::Geometry(math::Vector2D(200, 50), math::Vector2D(0.25, 0.25)));
+        canvas.PushAndCompose(math::Geometry(math::Vector2D(200, 50), math::Vector2D(0.25, 0.25)));
         ugdk::ui::TexturedRectangle rect(texture);
         rect.Draw(canvas);
         canvas.PopGeometry();

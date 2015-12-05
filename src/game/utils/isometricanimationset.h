@@ -4,7 +4,7 @@
 #include <string>
 #include <map>
 #include <ugdk/action.h>
-#include <ugdk/graphic/spritetypes.h>
+#include <ugdk/action/spritetypes.h>
 #include <ugdk/structure/types.h>
 #include "game/components/direction.h"
 
@@ -24,12 +24,12 @@ enum AnimtionType {
 
 class IsometricAnimationSet {
   public:
-    IsometricAnimationSet(ugdk::graphic::SpriteAnimationTable* animation_set);
+    IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set);
     virtual ~IsometricAnimationSet();
 
     int Get(AnimtionType type, const component::Direction& dir) const;
     
-    ugdk::graphic::SpriteAnimationTable* animation_set() { return animation_set_; }
+    ugdk::action::SpriteAnimationTable* animation_set() { return animation_set_; }
 
     // For GenericContainer.
     static IsometricAnimationSet* LoadFromFile(const std::string& name);
@@ -40,7 +40,7 @@ class IsometricAnimationSet {
     typedef std::map<component::Direction, int> AnimationDirectionCache;
     int getAnimationFromCache(const AnimationDirectionCache& cache, const component::Direction& dir) const;
 
-    ugdk::graphic::SpriteAnimationTable* animation_set_;
+    ugdk::action::SpriteAnimationTable* animation_set_;
     AnimationDirectionCache animation_cache_[NUM_ANIMATION_TYPES];
 
 };  // class IsometricAnimationSet

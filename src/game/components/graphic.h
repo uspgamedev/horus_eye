@@ -10,6 +10,7 @@
 
 #include <ugdk/structure/types.h>
 #include <ugdk/graphic.h>
+#include <ugdk/action.h>
 #include <ugdk/math/vector2D.h>
 
 #include <string>
@@ -65,7 +66,7 @@ class Graphic : public Base {
     
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);
-    void ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame);
+    void ChangeToAnimationFrame(const ugdk::action::SpriteAnimationFrame& frame);
 
   private:
     Graphic(frontend::gameview::ObjectGraphic*);

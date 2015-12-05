@@ -38,7 +38,7 @@ Console::Console()
 
     auto gmngr = graphic::manager();
     std::shared_ptr<Node> bg(new Node(ugdk::MakeUnique<TexturedRectangle>(gmngr->white_texture(), math::Vector2D(gmngr->screen()->size().x, console_height))));
-    bg->effect().set_color(Color(0x000000, 1.0));
+    bg->effect().set_color(structure::Color(0x000000, 1.0));
     node_->AddChild(bg);
 
     current_line_label_ = new text::Label("> ", font);

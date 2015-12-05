@@ -1,7 +1,7 @@
 #include "tile.h"
 
 #include <ugdk/math/vector2D.h>
-#include <ugdk/graphic/geometry.h>
+#include <ugdk/math/geometry.h>
 
 namespace map {
 

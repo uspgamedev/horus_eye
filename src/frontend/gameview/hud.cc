@@ -6,7 +6,7 @@
 #include <ugdk/resource/module.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/module.h>
-#include <ugdk/graphic/geometry.h>
+#include <ugdk/math/geometry.h>
 #include <ugdk/ui/node.h>
 #include <ugdk/ui/drawable/texturedrectangle.h>
 #include <ugdk/text/label.h>
@@ -146,7 +146,7 @@ Hud::Hud(World* world)
     mana_bar_holder->AddChild(block_bar_ = std::make_shared<Node>(std::unique_ptr<TexturedRectangle>(img_fac.ManaBarImage())));
     mana_bar_holder->AddChild(mana_bar_ = std::make_shared<Node>(std::move(mana_bar_image)));
 
-    block_bar_->effect().set_color(ugdk::Color(0.5, 0.5, 0.5, 0.75));
+    block_bar_->effect().set_color(ugdk::structure::Color(0.5, 0.5, 0.5, 0.75));
 
 
 #ifdef HORUSEYE_DEBUG_TOOLS

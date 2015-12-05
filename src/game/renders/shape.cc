@@ -106,7 +106,7 @@ void DrawShape(const geometry::GeometricShape* shape, const Vector2D& position, 
 
 void DrawCollisionObject(const collision::CollisionObject* collobject, ugdk::graphic::Canvas& canvas) {
     std::size_t hashval = std::hash<std::string>()(collobject->collision_class());
-    canvas.PushAndCompose(VisualEffect(Color(static_cast<uint32>(hashval), 0.5)));
+    canvas.PushAndCompose(structure::VisualEffect(structure::Color(static_cast<uint32>(hashval), 0.5)));
 
     DrawShape(collobject->shape(), collobject->absolute_position(), canvas);
 

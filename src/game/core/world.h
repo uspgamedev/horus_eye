@@ -2,7 +2,7 @@
 #define HORUSEYE_GAME_CORE_WORLD_H_
 
 #include <ugdk/system/taskplayer.h>
-#include <ugdk/graphic/geometry.h>
+#include <ugdk/math/geometry.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/math/integer2D.h>
 #include <ugdk/structure/intervalkdtree.h>
@@ -59,7 +59,7 @@ class World : public ugdk::system::TaskPlayer {
     pyramidworks::collision::CollisionManager* visibility_manager() { return &visibility_manager_; }
 
     // View
-    const ugdk::graphic::Geometry& camera() const { return camera_; }
+    const ugdk::math::Geometry& camera() const { return camera_; }
 
   protected:
     void SetupCollisionManager();
@@ -84,7 +84,7 @@ class World : public ugdk::system::TaskPlayer {
     std::string background_music_;
 
     // Graphic
-    ugdk::graphic::Geometry camera_;
+    ugdk::math::Geometry camera_;
 
 };  // class World
 

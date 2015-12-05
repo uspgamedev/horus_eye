@@ -5,8 +5,8 @@
 
 #include <ugdk/graphic/sprite.h>
 #include <ugdk/action/animationplayer.h>
+#include <ugdk/action/spritetypes.h>
 #include <ugdk/graphic/primitivesetup.h>
-#include <ugdk/graphic/spritetypes.h>
 #include <ugdk/graphic/primitivesetup.h>
 #include "game/utils/isometricanimationset.h"
 
@@ -15,11 +15,11 @@ namespace component {
 Animator::Animator(const std::string& animation_set) 
     :   isometric_animation_set_(utils::IsometricAnimationSet::LoadFromResourceManager(animation_set))
 {
-    player_.reset(new ugdk::graphic::SpriteAnimationPlayer(isometric_animation_set_.animation_set()));
+    player_.reset(new ugdk::action::SpriteAnimationPlayer(isometric_animation_set_.animation_set()));
 }
     
 void Animator::Configure(Graphic* graphic) {
-    player_->set_frame_change_callback([graphic](const ugdk::graphic::SpriteAnimationFrame& frame) {
+    player_->set_frame_change_callback([graphic](const ugdk::action::SpriteAnimationFrame& frame) {
         graphic->ChangeToAnimationFrame(frame);
     });
     player_->Refresh();

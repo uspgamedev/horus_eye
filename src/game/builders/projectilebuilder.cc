@@ -121,7 +121,7 @@ sprite::WObjPtr LightningBolt(const Vector2D &dir) {
                                            constants::GetDouble("LIGHTNING_DURATION"));
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(32.0, 32.0));
 
-    wobj->light()->ChangeColor(ugdk::Color(121/255.0, 229/255.0, 1.0)); // Orange
+    wobj->light()->ChangeColor(ugdk::structure::Color(121/255.0, 229/255.0, 1.0)); // Orange
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->damageable()->AddOnDieCallback(std::mem_fn(&WorldObject::Remove));
 
@@ -140,7 +140,7 @@ sprite::WObjPtr Fireball(const Vector2D &dir) {
                                            constants::GetDouble("FIREBALL_DURATION"));
     wobj->graphic()->set_render_offset(Vector2D(0.0, -58.0) - Vector2D(32.0, 32.0));
 
-    wobj->light()->ChangeColor(ugdk::Color(1.0, 0.521568, 0.082352)); // Orange
+    wobj->light()->ChangeColor(ugdk::structure::Color(1.0, 0.521568, 0.082352)); // Orange
     wobj->AddComponent(new component::Animation(utils::IDLE, Direction::FromWorldVector(dir)));
     wobj->damageable()->AddOnDieCallback(std::mem_fn(&WorldObject::Remove));
     wobj->damageable()->AddOnDieCallback(Carrier(builder::ExplosionBuilder::FireballExplosion()));

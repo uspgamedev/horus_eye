@@ -3,7 +3,7 @@
 
 #include "game/components/base.h"
 
-#include <ugdk/structure/types.h>
+#include <ugdk/structure/color.h>
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 
@@ -13,7 +13,7 @@ namespace component {
 
 class LightEmitter : public Base {
   public:
-    LightEmitter(double light_radius, ugdk::Color color = ugdk::Color(1.0, 1.0, 1.0));
+    LightEmitter(double light_radius, ugdk::structure::Color color = ugdk::structure::Color(1.0, 1.0, 1.0));
     ~LightEmitter();
 
     static std::string DEFAULT_NAME() { return "light"; }
@@ -26,7 +26,7 @@ class LightEmitter : public Base {
     double radius() const { return radius_; }
     void ChangeRadius(double radius);
 
-    void ChangeColor(const ugdk::Color& color);
+    void ChangeColor(const ugdk::structure::Color& color);
 
     virtual void Update(double dt);
 
@@ -41,7 +41,7 @@ class LightEmitter : public Base {
     double radius_;
 
     /// The light's color.
-    ugdk::Color color_;
+    ugdk::structure::Color color_;
 
     /// The light's position, in screen's coordinates.
     ugdk::math::Vector2D position_;

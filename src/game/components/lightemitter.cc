@@ -15,7 +15,7 @@ namespace component {
 
 using ugdk::math::Vector2D;
 
-LightEmitter::LightEmitter(double light_radius, ugdk::Color color)
+LightEmitter::LightEmitter(double light_radius, ugdk::structure::Color color)
     :   light_(nullptr)
     ,   radius_(light_radius)
     ,   color_(color)
@@ -50,7 +50,7 @@ void LightEmitter::ChangeRadius(double radius) {
     }
 }
 
-void LightEmitter::ChangeColor(const ugdk::Color& color) {
+void LightEmitter::ChangeColor(const ugdk::structure::Color& color) {
     color_ = color;
     if(light_)
         light_->set_color(color_);
@@ -59,7 +59,7 @@ void LightEmitter::ChangeColor(const ugdk::Color& color) {
 void LightEmitter::Update(double dt) {}
 
 void LightEmitter::Render(ugdk::graphic::Canvas& canvas) const {
-    canvas.PushAndCompose(ugdk::graphic::Geometry(position_));
+    canvas.PushAndCompose(ugdk::math::Geometry(position_));
     light_->Draw(canvas);
     canvas.PopGeometry();
 }

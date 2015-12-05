@@ -84,7 +84,7 @@ void Graphic::ChangeToFrame(std::size_t frame_number) {
     frontend_graphic_->ChangeToFrame(frame_number);
 }
 
-void Graphic::ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame) {
+void Graphic::ChangeToAnimationFrame(const ugdk::action::SpriteAnimationFrame& frame) {
     frontend_graphic_->ChangeToAnimationFrame(frame);
 }
 

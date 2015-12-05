@@ -7,7 +7,7 @@
 #include <ugdk/graphic/module.h>
 #include <ugdk/graphic/rendertarget.h>
 #include <ugdk/graphic/rendertexture.h>
-#include <ugdk/graphic/visualeffect.h>
+#include <ugdk/structure/visualeffect.h>
 #include <ugdk/graphic/vertexdata.h>
 #include <ugdk/graphic/shader.h>
 #include <ugdk/graphic/shaderprogram.h>
@@ -150,7 +150,7 @@ namespace {
         collision::CollisionObjectList walls;
         opaque_class.FindCollidingObjects(hero->world_position(), screen_rect, walls);
 
-        canvas.PushAndCompose(VisualEffect(Color(0.0, 0.0, 0.0, 0.5)));
+        canvas.PushAndCompose(structure::VisualEffect(structure::Color(0.0, 0.0, 0.0, 0.5)));
 
         for (const collision::CollisionObject * obj : walls) {
             std::vector<Vector2D> vertices;
@@ -233,7 +233,7 @@ LightRendering::LightRendering(core::World* world)
 , light_precision_(DIMENSIONS)
 {
     //Geometry project_matrix(math::Vector2D(-1.0, -1.0), math::Vector2D(2.0 / (dimensions_.x * 2), 2.0 / (dimensions_.y * 2)));
-    Geometry project_matrix(math::Vector2D(.0, .0), math::Vector2D(1.0 / light_precision_.x, 1.0 / light_precision_.y));
+    math::Geometry project_matrix(math::Vector2D(.0, .0), math::Vector2D(1.0 / light_precision_.x, 1.0 / light_precision_.y));
     shadow_buffer_.set_projection_matrix(project_matrix);
     light_buffer_.set_projection_matrix(project_matrix);
 
@@ -254,10 +254,10 @@ void LightRendering::UpdateBuffers() {
     // Lights are simply added together.
     if (lightsystem_activated_) {
         Canvas light_canvas(&light_buffer_);
-        light_canvas.Clear(Color(.0, .0, .0, 1.0));
+        light_canvas.Clear(structure::Color(.0, .0, .0, 1.0));
         
         glBlendFunc(GL_ONE, GL_ONE);
-        light_canvas.PushAndCompose(Geometry(-focused_position_));
+        light_canvas.PushAndCompose(math::Geometry(-focused_position_));
         RenderLight(world_, light_canvas);
         light_canvas.PopGeometry();
 
@@ -267,7 +267,7 @@ void LightRendering::UpdateBuffers() {
 
     } else {
         Canvas light_canvas(&light_buffer_);
-        light_canvas.Clear(Color(1.0, 1.0, 1.0, 1.0));
+        light_canvas.Clear(structure::Color(1.0, 1.0, 1.0, 1.0));
     }
 }
 
@@ -294,9 +294,9 @@ ugdk::math::Vector2D LightRendering::CalculateUV(const ugdk::math::Vector2D& pos
 
 void LightRendering::ShadowCasting() {
     Canvas canvas(&shadow_buffer_);
-    canvas.Clear(Color(0.0, 0.0, 0.0, 0.0));
+    canvas.Clear(structure::Color(0.0, 0.0, 0.0, 0.0));
     canvas.ChangeShaderProgram(horus_shadowcasting_shader_);
-    canvas.PushAndCompose(Geometry(-focused_position_));
+    canvas.PushAndCompose(math::Geometry(-focused_position_));
 
     glBlendFunc(GL_ONE, GL_ONE);
     if (sprite::WObjPtr hero = world_->hero().lock())

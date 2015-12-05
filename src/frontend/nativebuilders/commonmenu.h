@@ -6,7 +6,7 @@
 #include <ugdk/ui.h>
 #include <ugdk/ui/hookpoint.h>
 #include <ugdk/system/task.h>
-#include <ugdk/graphic.h>
+#include <ugdk/action.h>
 
 #include <memory>
 #include <list>
@@ -27,10 +27,10 @@ public:
     AnimationPlayerHolder();
     ~AnimationPlayerHolder();
 
-    void Add(const std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer>& player);
+    void Add(const std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player);
 
 private:
-    std::list< std::shared_ptr<ugdk::graphic::SpriteAnimationPlayer> > players_;
+    std::list< std::shared_ptr<ugdk::action::SpriteAnimationPlayer> > players_;
 };
 
 

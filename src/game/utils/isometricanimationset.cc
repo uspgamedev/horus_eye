@@ -44,7 +44,7 @@ std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES_CREATOR() {
 std::map<AnimtionType, std::string> ANIMATIONTYPE_NAMES = ANIMATIONTYPE_NAMES_CREATOR();
 
 
-IsometricAnimationSet::IsometricAnimationSet(ugdk::graphic::SpriteAnimationTable* animation_set)
+IsometricAnimationSet::IsometricAnimationSet(ugdk::action::SpriteAnimationTable* animation_set)
     :   animation_set_(animation_set) {
         
     assert(animation_set);

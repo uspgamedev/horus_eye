@@ -7,7 +7,7 @@
 #include <ugdk/graphic.h>
 #include <ugdk/math/vector2D.h>
 #include <ugdk/graphic/primitive.h>
-#include <ugdk/graphic/visualeffect.h>
+#include <ugdk/structure/visualeffect.h>
 #include <ugdk/graphic/primitivecontroller.h>
 #include "game/components/graphic.h"
 
@@ -51,8 +51,8 @@ class ObjectGraphic {
     const ugdk::math::Vector2D& final_position() const { return final_position_; }
     void set_render_offset(const ugdk::math::Vector2D& render_offset);
 
-          ugdk::graphic::VisualEffect& visual_effect()       { return visual_effect_; }
-    const ugdk::graphic::VisualEffect& visual_effect() const { return visual_effect_; }
+          ugdk::structure::VisualEffect& visual_effect()       { return visual_effect_; }
+    const ugdk::structure::VisualEffect& visual_effect() const { return visual_effect_; }
 
     double alpha() const;
     void ChangeAlpha(double alpha);
@@ -64,7 +64,7 @@ class ObjectGraphic {
 
     void ChangeToFrame(const std::string& frame_name);
     void ChangeToFrame(std::size_t frame_number);
-    void ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame);
+    void ChangeToAnimationFrame(const ugdk::action::SpriteAnimationFrame& frame);
 
   private:
     ObjectGraphic();
@@ -78,7 +78,7 @@ class ObjectGraphic {
     ugdk::math::Vector2D world_position_;
     ugdk::math::Vector2D render_offset_;
     ugdk::math::Vector2D final_position_;
-    ugdk::graphic::VisualEffect visual_effect_;
+    ugdk::structure::VisualEffect visual_effect_;
 
 };  // class ObjectGraphic
 

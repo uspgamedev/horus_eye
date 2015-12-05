@@ -104,7 +104,7 @@ double ObjectGraphic::alpha() const {
 }
 
 void ObjectGraphic::ChangeAlpha(double alpha) {
-    ugdk::Color color = visual_effect_.color();
+    ugdk::structure::Color color = visual_effect_.color();
     color.a = alpha;
     visual_effect_.set_color(color);
 }
@@ -133,7 +133,7 @@ void ObjectGraphic::ChangeToFrame(std::size_t frame_number) {
         controller->ChangeToAtlasFrame(frame_number);
 }
 
-void ObjectGraphic::ChangeToAnimationFrame(const ugdk::graphic::SpriteAnimationFrame& frame) {
+void ObjectGraphic::ChangeToAnimationFrame(const ugdk::action::SpriteAnimationFrame& frame) {
     auto controller = dynamic_cast<ugdk::graphic::PrimitiveControllerSprite*>(primitive_.controller().get());
     if (controller)
         controller->ChangeToAnimationFrame(frame);
