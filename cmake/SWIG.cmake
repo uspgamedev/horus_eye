@@ -12,7 +12,11 @@ file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${SRC_DIR}/module")
 set(CMAKE_SWIG_FLAGS "${CMAKE_SWIG_FLAGS}"
             "-I${horus_eye_SOURCE_DIR}/src")
 
-set(HORUS_LANGUAGES_LIST "Lua;Python")
+if(ANDROID)
+    set (HORUS_LANGUAGES_LIST "Lua")
+else()
+    set (HORUS_LANGUAGES_LIST "Lua;Python")
+endif()
 
 include (${ugdk_SOURCE_DIR}/cmake/CreateBindings.cmake)
 create_modules(HORUS_LANGUAGES_LIST HORUS_MODULE_SRC "HORUS" GENERATED_SRC)

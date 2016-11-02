@@ -24,7 +24,7 @@ if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
         -Wno-deprecated-register
     )
 endif ()
-if (MSVC) 
+if (MSVC)
     add_definitions(/D_CRT_SECURE_NO_WARNINGS /W4 /wd4100 /wd4127 /wd4201 /wd4211 /wd4250 /wd4706 /fp:fast /MP)
     # SSE2 is automatic in amd64
     IF(NOT CMAKE_SIZEOF_VOID_P EQUAL 8)
@@ -50,11 +50,6 @@ if(NOT ANDROID)
 endif()
 
 include (module/module_list.cmake)
-if(ANDROID)
-    set (HORUS_LANGUAGES_LIST "lua")
-else()
-    set (HORUS_LANGUAGES_LIST "lua;python")
-endif()
 set (GENERATED_PY_FILES)
 include (${CMAKE_SOURCE_DIR}/cmake/SWIG.cmake)
 include_directories("${ugdk_SOURCE_DIR}/src") # for SWIG
@@ -70,7 +65,7 @@ endif()
 # Copy the generated .py files to the data/scripts
 foreach(it ${GENERATED_PY_FILES} )
     get_filename_component(FILE_NAME ${it} NAME)
-    add_custom_command(TARGET horus_eye POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${it} "${horus_eye_DATA_PATH}/scripts/${FILE_NAME}" 
+    add_custom_command(TARGET horus_eye POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy ${it} "${horus_eye_DATA_PATH}/scripts/${FILE_NAME}"
     WORKING_DIRECTORY "../" COMMENT "Copying generated py scripts")
 endforeach()
 

@@ -21,21 +21,11 @@ IF(${CMAKE_SYSTEM_NAME} MATCHES "Darwin" AND UNIVERSAL)
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -mmacosx-version-min=10.5")
 ENDIF()
 
-if(ANDROID)
-    if(${ANDROID_NATIVE_API_LEVEL} LESS 9)
-        message(FATAL_ERROR "ANDROID_NATIVE_API_LEVEL must be at least 9")
-    endif()
-else()
-    macro(find_host_package)
-        find_package(${ARGN})
-    endmacro(find_host_package)
-endif()
-
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/Modules/")
 
 MESSAGE("== Horus Eye ==")
 
-find_host_package(Git)
+find_package(Git)
 if(GIT_FOUND)
     execute_process(COMMAND ${GIT_EXECUTABLE} describe --tags --dirty --always
                             WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}"
@@ -64,7 +54,7 @@ endif()
 
 # FindUGDK
 option(HORUSEYE_INTERNAL_UGDK   "Set to ON to use an internal UGDK instead of the system one." ON)
-option(HORUSEYE_FORCE_SUBMODULE "Set to ON to force git submodule update whenever cmake is ran." ON)
+option(HORUSEYE_FORCE_SUBMODULE "Set to ON to force git submodule update whenever cmake is ran." OFF)
 if(NOT HORUSEYE_INTERNAL_UGDK)
     find_package(UGDK)
     if(NOT UGDK_FOUND)
@@ -94,6 +84,4 @@ else(NOT HORUSEYE_INTERNAL_UGDK)
 endif(NOT HORUSEYE_INTERNAL_UGDK)
 
 add_subdirectory(src) # The game binary.
-
-add_ugdk_android_project(horus_eye "Horus Eye" "org.uspgamedev.horuseye")
 

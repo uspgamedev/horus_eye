@@ -61,7 +61,7 @@ void PlayerController::Update(double dt) {
     const static uint32 TAPDETECTION_TIME = 500;
 
     if (mouse.IsDown(MouseButton::LEFT) && time_since >= NO_MOVE_TIME) {
-        math::Vector2D mouse_vector = (mouse.position() - ugdk::desktop::manager()->primary_window()->size() * 0.5);
+        math::Vector2D mouse_vector = (mouse.position() * 1.0 - ugdk::desktop::manager()->primary_window()->size() * 0.5);
         dir_ = Direction::FromScreenVector(mouse_vector);
         current_direction_ = core::FromScreenLinearCoordinates(mouse_vector).Normalize();
     } else {
