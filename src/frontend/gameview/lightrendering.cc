@@ -77,7 +77,7 @@ namespace {
         Shader vertex_shader(GL_VERTEX_SHADER), fragment_shader(GL_FRAGMENT_SHADER);
 
         // VERTEX
-        vertex_shader.AddLineInMain("   highp vec4 position =  geometry_matrix * vec4(vertexPosition,0,1);" "\n");
+        vertex_shader.AddLineInMain("   highp vec4 position =  geometry_matrix * vec4(vertexPosition, 0.0, 1.0);" "\n");
         vertex_shader.AddLineInMain("   gl_Position = position;" "\n");
         vertex_shader.GenerateSource();
 

@@ -40,7 +40,7 @@ namespace {
                                    "out highp vec2 lightUV;" "\n"
                                    "uniform highp vec2 OFFSET;" "\n"
                                    );
-        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition + OFFSET,0,1);" "\n"
+        vertex_shader.AddLineInMain("	gl_Position =  geometry_matrix * vec4(vertexPosition + OFFSET, 0.0, 1.0);" "\n"
                                     "	UV = vertexUV;" "\n"
                                     "   lightUV = inputLightUV;"
                                     );

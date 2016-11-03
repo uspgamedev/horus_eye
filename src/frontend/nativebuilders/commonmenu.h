@@ -25,7 +25,7 @@ std::unique_ptr<ugdk::ui::Menu> BaseBuildMenu(ugdk::ui::HookPoint hook = ugdk::u
 class AnimationPlayerHolder : public ugdk::system::Task {
 public:
     AnimationPlayerHolder();
-    ~AnimationPlayerHolder();
+    virtual ~AnimationPlayerHolder();
 
     void Add(const std::shared_ptr<ugdk::action::SpriteAnimationPlayer>& player);
 
